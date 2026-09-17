@@ -17,13 +17,12 @@ export default function Layout({ children }) {
   ]);
 
   const navigationItems = [
-    { name: "MASZYNKI PMU", href: "/maszynki" },
+    { name: "WIZYTÓWKA & SALON", href: "/o-nas" },
+    { name: "SZKOLENIA & KALENDARZ", href: "/szkolenia" },
+    { name: "ZABIEGI", href: "/uslugi" },
     { name: "PIGMENTY & SKLEP", href: "/pigmenty" },
-    { name: "SZKOLENIA", href: "/szkolenia" },
+    { name: "MASZYNKI PMU", href: "/maszynki" },
     { name: "CERTYFIKATY", href: "/certyfikaty" },
-    { name: "USŁUGI", href: "/uslugi" },
-    { name: "PAKIETY", href: "/pakiety" },
-    { name: "O NAS", href: "/o-nas" },
     { name: "KONTAKT", href: "/kontakt" },
   ];
 
