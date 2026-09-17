@@ -40,10 +40,10 @@ const getAppParams = () => {
 		storage.removeItem('token');
 	}
 	return {
-		appId: getAppParamValue("app_id", { defaultValue: import.meta.env.VITE_BASE44_APP_ID }),
-		serverUrl: getAppParamValue("server_url", { defaultValue: import.meta.env.VITE_BASE44_BACKEND_URL }),
+		appId: getAppParamValue("app_id", { defaultValue: typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_BASE44_APP_ID : undefined }),
+		serverUrl: getAppParamValue("server_url", { defaultValue: typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_BASE44_BACKEND_URL : undefined }),
 		token: getAppParamValue("access_token", { removeFromUrl: true }),
-		fromUrl: getAppParamValue("from_url", { defaultValue: window.location.href }),
+		fromUrl: getAppParamValue("from_url", { defaultValue: isNode ? "" : window.location.href }),
 		functionsVersion: getAppParamValue("functions_version"),
 	}
 }

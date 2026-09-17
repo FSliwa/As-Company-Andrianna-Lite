@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { createPageUrl } from "@/utils";
 
 export default function Packages() {
@@ -109,7 +109,7 @@ export default function Packages() {
                   ))}
                 </div>
 
-                <Link to={createPageUrl("Booking")}>
+                <Link href="/kontakt">
                   <Button 
                     className={`w-full ${
                       pkg.popular 
@@ -134,7 +134,7 @@ export default function Packages() {
               Need something tailored to your specific needs? We can create a custom package 
               that combines any of our services at special rates.
             </p>
-            <Link to={createPageUrl("Contact")}>
+            <Link href="/kontakt">
               <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
                 Request Custom Package
               </Button>

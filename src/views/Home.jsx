@@ -10,8 +10,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { createPageUrl } from "@/utils";
-import { User } from "@/entities/User";
-import { createCheckoutSession } from "@/functions/createCheckoutSession";
 
 export default function Home() {
   // Booking form state

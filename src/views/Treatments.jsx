@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { createPageUrl } from "@/utils";
 
 export default function Treatments() {
@@ -100,7 +100,7 @@ export default function Treatments() {
                   ))}
                 </ul>
                 
-                <Link to={createPageUrl("Booking")} className="block">
+                <Link href="/kontakt" className="block">
                   <Button className="w-full mt-4 bg-black hover:bg-gray-800 text-white">
                     Book Now
                   </Button>
