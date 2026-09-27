@@ -307,6 +307,7 @@ function AboutBand() {
                     alt={s.alt}
                     ratio="3 / 4"
                     sizes="(min-width: 640px) 28vw, 90vw"
+                    priority
                   />
                 </Reveal>
               ))}
@@ -337,7 +338,7 @@ function AboutBand() {
         </div>
 
         {/* dopisek — w makiecie stoi przy zdjęciach u góry, nie jako osobny wiersz */}
-        <Reveal className="mt-10 flex items-center justify-end gap-6 lg:absolute lg:right-0 lg:top-0 lg:mt-0">
+        <Reveal className="mt-10 flex items-center justify-end gap-6 xl:absolute xl:right-0 xl:top-0 xl:mt-0">
           <div className="h-16 w-16 overflow-hidden rounded-full border border-gold/40">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -442,6 +443,7 @@ function ResultsBand() {
                   alt={card.alt}
                   ratio="4 / 3.4"
                   sizes="(min-width: 768px) 30vw, 90vw"
+                  priority
                 />
 
                 <h3 className="as-display-md mt-7 text-ink">{card.title}</h3>
