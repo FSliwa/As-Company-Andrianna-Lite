@@ -1,839 +1,706 @@
+'use client';
 
-import React, { useState } from "react";
-import { ArrowRight, Check, MapPin, Phone, Mail, Clock, CalendarIcon, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
-import { createPageUrl } from "@/utils";
+import React from 'react';
+import Link from 'next/link';
+import {
+  ArrowLink,
+  FactStrip,
+  Figure,
+  GoldArc,
+  Reveal,
+  SectionLabel,
+} from '@/components/as/Primitives';
+import { ACHIEVEMENTS, PILLARS, PRICING_PMU, PRODUCT_LINES, TRAINING_PILLARS } from '@/lib/site';
+import { ACADEMY, BROWS, LIPS, STUDIO } from '@/lib/media';
 
-export default function Home() {
-  // Booking form state
-  const [selectedService, setSelectedService] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    notes: ""
-  });
+/* ================================================================== */
+/*  01 — HERO                                                          */
+/* ================================================================== */
 
-  // Contact form state
-  const [contactData, setContactData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: ""
-  });
+/* ==================================================================
+   01 — HERO
 
-  const [isProcessing, setIsProcessing] = useState(null); // null, or item name
+   Geometria przeniesiona 1:1 z makiety (zmierzonej na oryginale
+   1320×2868 px). Wszystkie wartości to ułamki szerokości kadru treści
+   (W) przeliczone na procenty kontenera o proporcji W : 0.682W.
+   ================================================================== */
 
-  const services = [
-    { name: "Microblading", duration: "2-3 hours", price: "$350" },
-    { name: "Brow Lamination", duration: "45 minutes", price: "$85" },
-    { name: "Classic Brow Shaping", duration: "30 minutes", price: "$45" },
-    { name: "Hybrid Brows", duration: "2 hours", price: "$280" },
-    { name: "Brow Tinting", duration: "20 minutes", price: "$35" },
-    { name: "Free Consultation", duration: "30 minutes", price: "Free" }
+const HERO_RATIO = 1 / 0.682; // szerokość : wysokość kadru hero
+
+/* Ujęcie z sesji odpowiadające makiecie (dłoń pod brodą, biała tkanina). */
+const HERO_PHOTO = STUDIO[4];
+
+/* pozycje w % kontenera — x względem szerokości, y względem wysokości */
+const G = {
+  photo: { left: '33.7%', right: '33.5%', top: '12.6%', bottom: '19.0%' },
+  /* linia pisma („baseline") wyrazów — ułamek wysokości kadru */
+  beauty: { left: '0%', top: '36.3%' },
+  with: { left: '71.4%', top: '37.0%' },
+  precision: { left: '71.4%', top: '42.6%' },
+  rule: { top: '50.6%' },
+  lead: { left: '0%', top: '54.6%' },
+  thumbs: { left: '0%', top: '74.0%', width: '23.1%' },
+  facts: { top: '89.6%' },
+  badge: { right: '0%', top: '78.5%' },
+};
+
+/* Rozmiary z makiety — „precision." jest wyraźnie mniejsze niż „Beauty". */
+const TYPE = {
+  beauty: 'clamp(3.25rem, 11.1vw, 10rem)',
+  precision: 'clamp(2rem, 6.79vw, 6.1rem)',
+  with: 'clamp(1.25rem, 4.28vw, 3.85rem)',
+};
+
+function Hero() {
+  const thumbs = [
+    { image: BROWS[8], alt: 'Efekt makijażu permanentnego brwi — technika Super Natural Brows' },
+    { image: LIPS[0], alt: 'Efekt makijażu permanentnego ust — Perfect Lips' },
+    { image: BROWS[14], alt: 'Zbliżenie na wygojone brwi po zabiegu PMU' },
   ];
 
-  const timeSlots = [
-    "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-    "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
-    "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM"
-  ];
+  /* ——— Elementy współdzielone przez układ mobilny i desktopowy ——— */
 
-  const treatments = [
-    {
-      name: "Microblading",
-      duration: "2-3 hours",
-      price: "$350",
-      description: "Semi-permanent eyebrow technique using fine needles to create hair-like strokes",
-      features: ["Lasts 1-2 years", "Natural looking results", "Includes touch-up session"],
-      image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-    },
-    {
-      name: "Brow Lamination",
-      duration: "45 minutes",
-      price: "$85",
-      description: "Chemical treatment that restructures brow hairs for a fuller, more defined look",
-      features: ["Lasts 6-8 weeks", "Creates fuller appearance", "Low maintenance"],
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-    },
-    {
-      name: "Classic Brow Shaping",
-      duration: "30 minutes",
-      price: "$45",
-      description: "Professional waxing and tweezing to create your ideal brow shape",
-      features: ["Custom shape design", "Includes styling", "Aftercare products"],
-      image: "https://images.unsplash.com/photo-1559599101-f09722fb4948?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-    },
-    {
-      name: "Hybrid Brows",
-      duration: "2 hours",
-      price: "$280",
-      description: "Combination of microblading and shading for maximum fullness",
-      features: ["Best of both techniques", "Long-lasting results", "Highly customizable"],
-      image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-    },
-    {
-      name: "Brow Tinting",
-      duration: "20 minutes",
-      price: "$35",
-      description: "Semi-permanent dye to enhance and define your natural brow color",
-      features: ["Lasts 4-6 weeks", "Multiple color options", "Quick treatment"],
-      image: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-    },
-    {
-      name: "Brow Consultation",
-      duration: "30 minutes",
-      price: "Free",
-      description: "Professional assessment to determine the best treatment for your brows",
-      features: ["Expert advice", "Treatment planning", "No obligation"],
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80"
-    }
-  ];
+  const lead = (
+    <>
+      <p className="max-w-[17rem] text-[0.8125rem] leading-[1.9] text-mocha">
+        Profesjonalne produkty PMU, edukacja i doświadczenie tworzone przez praktyków.
+      </p>
+      <ArrowLink href="/o-nas" className="mt-7 w-fit">
+        Poznaj AS
+      </ArrowLink>
+    </>
+  );
 
-  const packages = [
-    {
-      name: "Starter Package",
-      price: "$120",
-      originalPrice: "$160",
-      savings: "Save $40",
-      description: "Perfect for first-time clients wanting to try our services",
-      services: [
-        "Free consultation",
-        "Classic brow shaping",
-        "Brow tinting",
-        "Aftercare kit"
-      ],
-      popular: false,
-      color: "bg-gray-50"
-    },
-    {
-      name: "Complete Transformation",
-      price: "$400",
-      originalPrice: "$485",
-      savings: "Save $85",
-      description: "Our most popular package for dramatic brow enhancement",
-      services: [
-        "Free consultation",
-        "Microblading session",
-        "Brow lamination",
-        "Touch-up session (6-8 weeks)",
-        "Premium aftercare kit",
-        "Follow-up consultation"
-      ],
-      popular: true,
-      color: "bg-sage-50"
-    },
-    {
-      name: "Maintenance Plan",
-      price: "$200",
-      originalPrice: "$240",
-      savings: "Save $40",
-      description: "Keep your brows looking perfect year-round",
-      services: [
-        "4 classic shaping sessions",
-        "2 tinting sessions",
-        "Priority booking",
-        "20% off additional services"
-      ],
-      popular: false,
-      color: "bg-gray-50"
-    }
-  ];
+  const thumbRow = (
+    <div className="flex gap-1.5">
+      {thumbs.map((t, i) => (
+        <Figure
+          key={i}
+          image={t.image}
+          alt={t.alt}
+          ratio="7 / 8"
+          className="flex-1"
+          sizes="150px"
+          priority
+        />
+      ))}
+    </div>
+  );
 
-  const scrollToBooking = () => {
-    const element = document.getElementById('booking');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const photo = (
+    <div className="relative h-full w-full">
+      {/* linie konstrukcyjne wychodzące poza kadr */}
+      <span
+        aria-hidden="true"
+        className="absolute -top-[5.5%] bottom-[-3.5%] left-0 w-px bg-gold/45"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute -top-[5.5%] bottom-[-3.5%] right-0 w-px bg-gold/45"
+      />
+      <span aria-hidden="true" className="absolute -left-[11%] -right-[11%] top-[-4%] h-px bg-gold/45" />
+      <span aria-hidden="true" className="absolute -left-[11%] -right-[11%] bottom-0 h-px bg-gold/45" />
 
-  const handleCheckout = async (itemName, itemPrice, itemDescription) => {
-    if (itemPrice.toLowerCase() === 'free') {
-      // If it's a free item, we assume it's a "Free Consultation" type of booking
-      // and just scroll to the booking section for the user to fill out details.
-      // The booking form is now specifically for free consultations.
-      scrollToBooking();
-      // No need to set selectedService because the booking form UI for service selection is removed.
-      // The user will fill out their details and submit for a free consultation.
-      return; // Exit, no Stripe checkout needed.
-    }
+      <div className="as-media h-full w-full border border-gold/50">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={HERO_PHOTO.src}
+          alt="Andriana Babushkina — założycielka AS Company i Babushkina Academy"
+          width={HERO_PHOTO.w}
+          height={HERO_PHOTO.h}
+          fetchPriority="high"
+          decoding="sync"
+          sizes="(min-width: 1024px) 34vw, 90vw"
+        />
+      </div>
+    </div>
+  );
 
-    // Handle paid items via Stripe checkout
-    setIsProcessing(itemName); // Set loading state for the specific item
-    try {
-      // Ensure user is logged in
-      await User.me();
-    } catch (error) {
-      alert("Please log in to make a booking.");
-      await User.login(); // Attempt to log in
-      setIsProcessing(null); // Reset processing state if login fails or is cancelled
-      return;
-    }
-
-    try {
-      // Convert price string ($XXX) to cents (integer)
-      const priceInCents = Math.round(parseFloat(itemPrice.replace('$', '')) * 100);
-      if (isNaN(priceInCents) || priceInCents <= 0) {
-        throw new Error("Invalid price for checkout.");
-      }
-
-      // Construct success and cancel URLs
-      const baseUrl = window.location.origin;
-      const successUrl = `${baseUrl}${createPageUrl('PaymentSuccess')}`;
-      const cancelUrl = `${baseUrl}${createPageUrl('PaymentCancel')}`;
-
-      // Create Stripe checkout session
-      const { data: session } = await createCheckoutSession({
-        name: itemName,
-        description: itemDescription,
-        priceInCents,
-        successUrl,
-        cancelUrl,
-      });
-      
-      // Redirect to Stripe checkout page
-      if (session && session.url) {
-        window.location.href = session.url;
-      } else {
-        throw new Error("Could not create a checkout session.");
-      }
-    } catch (error) {
-      console.error("Checkout error:", error);
-      alert(`Error: ${error.message || "An unknown error occurred during checkout."}`);
-    } finally {
-      setIsProcessing(null); // Always reset processing state
-    }
-  };
-
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
-    console.log("Free consultation booking submitted:", {
-      date: selectedDate,
-      time: selectedTime,
-      ...formData
-    });
-    alert("Your free consultation has been booked!");
-    // In a real app, you would send this data to a backend for booking.
-    // Reset form fields after successful submission (optional)
-    setSelectedDate(null);
-    setSelectedTime("");
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      notes: ""
-    });
-  };
-
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
-    console.log("Contact form submitted:", contactData);
-    // In a real app, you would send this data to a backend.
-    alert("Your message has been sent!");
-    setContactData({
-      name: "",
-      email: "",
-      phone: "",
-      message: ""
-    });
-  };
-
-  const handleBookingChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleContactChange = (e) => {
-    setContactData({
-      ...contactData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const badge = (
+    <div className="flex items-center gap-5">
+      <span className="h-px w-14 bg-gold/45" aria-hidden="true" />
+      <span className="relative block h-[4.5rem] w-[4.5rem] shrink-0 overflow-hidden rounded-full border border-gold/50">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={BROWS[4].src}
+          alt=""
+          width={BROWS[4].w}
+          height={BROWS[4].h}
+          loading="lazy"
+          className="h-full w-full object-cover"
+        />
+      </span>
+      <p className="as-label max-w-[7rem] leading-[2.1] text-ink/55">Profesjonalny system PMU</p>
+    </div>
+  );
 
   return (
-    <div className="relative">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          {/* Sage green geometric shapes */}
-          <div 
-            className="absolute top-20 right-0 w-96 h-96 opacity-30"
-            style={{ backgroundColor: 'var(--sage-green)' }}
+    <section className="relative -mt-20 overflow-hidden bg-cream-50 lg:-mt-24">
+      {/* ================= UKŁAD MOBILNY / TABLET ================= */}
+      <div className="as-shell pb-14 pt-24 lg:hidden">
+        <h1 className="as-display-xl text-ink">
+          <span className="block">Beauty</span>
+          <span className="block font-normal italic leading-[1.05]">with</span>
+          <span className="block">precision.</span>
+        </h1>
+
+        <div className="relative mx-auto mt-8 w-full max-w-[380px]">
+          <div style={{ aspectRatio: '7 / 10' }}>{photo}</div>
+        </div>
+
+        <div className="mt-10">{lead}</div>
+        <div className="mt-10 max-w-[20rem]">{thumbRow}</div>
+
+        <div className="mt-12 border-t border-ink/10 pt-6">
+          <FactStrip items={['Sztuka', 'Technika', 'Ludzie', 'Realne efekty']} />
+        </div>
+      </div>
+
+      {/* ================= UKŁAD DESKTOPOWY (wg makiety) ================= */}
+      <div className="as-shell hidden lg:block">
+        <div className="relative w-full" style={{ aspectRatio: HERO_RATIO }}>
+          {/* — zdjęcie — */}
+          <div
+            className="absolute"
+            style={{
+              left: G.photo.left,
+              right: G.photo.right,
+              top: G.photo.top,
+              bottom: G.photo.bottom,
+            }}
+          >
+            {photo}
+          </div>
+
+          {/* — złote linijki na wysokości linii pisma — */}
+          <span
+            aria-hidden="true"
+            className="absolute left-0 h-px bg-gold/40"
+            style={{ top: G.rule.top, width: '31%' }}
           />
-          <div 
-            className="absolute bottom-0 right-40 w-64 h-64 opacity-20"
-            style={{ backgroundColor: 'var(--sage-light)' }}
+          <span
+            aria-hidden="true"
+            className="absolute right-0 h-px bg-gold/40"
+            style={{ top: G.rule.top, width: '23%' }}
           />
-          
-          {/* Diagonal stripes */}
-          <div className="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
-            <div className="absolute inset-0 opacity-80">
-              {Array.from({ length: 50 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute bg-black transform rotate-45 w-1 h-64"
-                  style={{
-                    left: `${i * 16}px`,
-                    bottom: '-120px',
-                    transform: 'rotate(45deg)',
-                    opacity: 0.1
-                  }}
-                />
+
+          {/* — nagłówek: trzy wyrazy ustawione wg linii pisma z makiety — */}
+          <h1 className="pointer-events-none absolute inset-0 z-20 text-ink">
+            <span
+              className="as-display absolute block whitespace-nowrap leading-none"
+              style={{ left: G.beauty.left, top: G.beauty.top, fontSize: TYPE.beauty }}
+            >
+              Beauty
+            </span>
+            <span
+              className="as-display absolute block whitespace-nowrap font-normal italic leading-none"
+              style={{ left: G.with.left, top: G.with.top, fontSize: TYPE.with }}
+            >
+              with
+            </span>
+            <span
+              className="as-display absolute block whitespace-nowrap leading-none"
+              style={{ left: G.precision.left, top: G.precision.top, fontSize: TYPE.precision }}
+            >
+              precision.
+            </span>
+          </h1>
+
+          {/* — opis + CTA — */}
+          <div className="absolute z-20" style={{ left: G.lead.left, top: G.lead.top }}>
+            {lead}
+          </div>
+
+          {/* — miniatury — */}
+          <div
+            className="absolute z-20"
+            style={{ left: G.thumbs.left, top: G.thumbs.top, width: G.thumbs.width }}
+          >
+            {thumbRow}
+          </div>
+
+          {/* — sygnet „profesjonalny system PMU" — */}
+          <div
+            className="absolute z-20"
+            style={{ right: G.badge.right, top: G.badge.top }}
+          >
+            {badge}
+          </div>
+
+          {/* — dolny pasek — */}
+          <div className="absolute inset-x-0 z-20" style={{ top: G.facts.top }}>
+            <FactStrip items={['Sztuka', 'Technika', 'Ludzie', 'Realne efekty']} />
+          </div>
+
+          <a
+            href="#o-nas"
+            className="as-label group absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 text-ink/45 transition-colors hover:text-ink"
+            style={{ top: G.facts.top }}
+          >
+            Przewiń dalej
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-300 group-hover:translate-y-1"
+            >
+              &#8595;
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+/* ================================================================== */
+/*  02 — O NAS                                                         */
+/* ================================================================== */
+
+function AboutBand() {
+  const shots = [
+    { image: BROWS[9], alt: 'Efekt Super Natural Brows — porównanie przed i po wygojeniu' },
+    { image: ACADEMY[1], alt: 'Kursantki Babushkina Academy z certyfikatami po szkoleniu' },
+    { image: BROWS[11], alt: 'Zbliżenie na precyzyjnie wykonany włos maszynowy' },
+  ];
+
+  return (
+    <section id="o-nas" className="as-section relative overflow-hidden bg-espresso text-cream-50">
+      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.3} />
+
+      <div className="as-shell relative">
+        <Reveal>
+          <SectionLabel number="02" tone="light">
+            O nas
+          </SectionLabel>
+        </Reveal>
+
+        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-10">
+          {/* lewa kolumna */}
+          <div className="lg:col-span-4">
+            <Reveal>
+              <h2 className="as-display-lg as-text-balance">
+                More than
+                <br />
+                permanent
+                <br />
+                makeup.
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="as-body-invert mt-8 max-w-sm">
+                Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
+                produkty, zaawansowaną edukację i realną praktykę.
+              </p>
+            </Reveal>
+            <Reveal delay={140}>
+              <ArrowLink href="/o-nas" tone="light" className="mt-10 w-fit">
+                Poznaj nasze podejście
+              </ArrowLink>
+            </Reveal>
+          </div>
+
+          {/* trzy kadry */}
+          <div className="lg:col-span-8">
+            <div className="grid gap-4 sm:grid-cols-3">
+              {shots.map((s, i) => (
+                <Reveal key={i} delay={i * 90}>
+                  <Figure
+                    image={s.image}
+                    alt={s.alt}
+                    ratio="3 / 4"
+                    sizes="(min-width: 640px) 28vw, 90vw"
+                  />
+                </Reveal>
+              ))}
+            </div>
+
+            {/* podpisy 01 / 02 / 03 */}
+            <div className="mt-10 grid gap-10 border-t border-cream-200/15 pt-8 sm:grid-cols-3">
+              {PILLARS.map((p, i) => (
+                <Reveal key={p.number} delay={i * 90}>
+                  <Link href={p.href} className="group block">
+                    <div className="flex items-center gap-4">
+                      <span className="as-num">{p.number}</span>
+                      <span className="h-px w-8 bg-cream-200/25 transition-all duration-300 group-hover:w-12 group-hover:bg-gold-light" />
+                    </div>
+                    <h3 className="as-display-sm mt-4 italic text-cream-50">{p.title}</h3>
+                    <p className="as-body-invert mt-3 text-[0.8125rem]">{p.desc}</p>
+                    <span
+                      aria-hidden="true"
+                      className="mt-5 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
+                    >
+                      &#8594;
+                    </span>
+                  </Link>
+                </Reveal>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Content */}
-            <div className="space-y-8">
-              <div className="space-y-6">
-                <h1 className="hero-text text-6xl lg:text-7xl xl:text-8xl text-gray-600 font-light leading-none">
-                  WE CHANGE
-                </h1>
-                <h1 className="hero-text text-6xl lg:text-7xl xl:text-8xl text-gray-600 font-light leading-none">
-                  THE WORLD
-                </h1>
-                <h1 className="hero-text text-6xl lg:text-7xl xl:text-8xl text-black font-semibold leading-none">
-                  ONE EYEBROW
-                </h1>
-                <h1 className="hero-text text-6xl lg:text-7xl xl:text-8xl text-black font-semibold leading-none">
-                  AT A TIME
-                </h1>
-              </div>
+        {/* dopisek — w makiecie stoi przy zdjęciach u góry, nie jako osobny wiersz */}
+        <Reveal className="mt-10 flex items-center justify-end gap-6 lg:absolute lg:right-0 lg:top-0 lg:mt-0">
+          <div className="h-16 w-16 overflow-hidden rounded-full border border-gold/40">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LIPS[2].src}
+              alt=""
+              width={LIPS[2].w}
+              height={LIPS[2].h}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <p className="font-display text-base italic leading-[1.7] text-cream-100">
+            Narzędzia.
+            <br />
+            Wiedza.
+            <br />
+            Techniki.
+            <br />
+            Realne efekty.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
-              <div className="pt-8">
-                <Button 
-                  onClick={scrollToBooking}
-                  className="group bg-transparent border-none p-0 h-auto text-black hover:bg-transparent"
-                >
-                  <div className="flex items-center space-x-4">
-                    <span className="text-lg font-medium tracking-wide">
-                      Book an Appointment
-                    </span>
-                    <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
-                  <div className="mt-2 h-px bg-black w-full group-hover:w-1/2 transition-all duration-300" />
-                </Button>
-              </div>
-            </div>
+/* ================================================================== */
+/*  03 — EFEKTY                                                        */
+/* ================================================================== */
 
-            {/* Image */}
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
-                  alt="Professional eyebrow artistry"
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+const RESULT_CARDS = [
+  {
+    number: '01',
+    title: 'Brwi',
+    image: BROWS[12],
+    alt: 'Wygojone brwi po zabiegu Super Natural Brows',
+    desc: 'Super Natural Brows i Perfect Powder Brows — włos maszynowy oraz technika pudrowa bez przerysowanych konturów.',
+    cta: 'Zobacz zabiegi brwi',
+    href: '/uslugi',
+  },
+  {
+    number: '02',
+    title: 'Usta',
+    image: LIPS[1],
+    alt: 'Efekt Perfect Lips — usta przed i po wygojeniu',
+    desc: 'Perfect Lips — lekka satynka, która po wygojeniu wygląda naturalnie i wyrównuje koloryt.',
+    cta: 'Zobacz zabiegi ust',
+    href: '/uslugi',
+  },
+  {
+    number: '03',
+    title: 'Kreski i korekty',
+    image: BROWS[17],
+    alt: 'Perfect Eyeliners — kreska permanentna i linia zagęszczająca',
+    desc: 'Perfect Eyeliners, linia zagęszczająca, korekty oraz usuwanie laserem i removerem.',
+    cta: 'Zobacz pełen cennik',
+    href: '/uslugi#cennik',
+  },
+];
+
+function ResultsBand() {
+  return (
+    <section className="as-section relative overflow-hidden bg-cream-100">
+      <GoldArc className="-top-10 right-[-8%] h-[600px] w-[820px]" flip opacity={0.4} />
+
+      <div className="as-shell relative">
+        <Reveal>
+          <SectionLabel number="03">Efekty</SectionLabel>
+        </Reveal>
+
+        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <Reveal className="lg:col-span-7">
+            <h2 className="as-display-lg as-text-balance text-ink">
+              Everything
+              <br />
+              behind the result.
+            </h2>
+          </Reveal>
+
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-6">
+            <p className="as-body max-w-md">
+              Realne prace, realne wygojenia. Specjalizujemy się w najbardziej naturalnym efekcie —
+              bez przerysowanych konturów i bez kompromisów przy gojeniu.
+            </p>
+            <ArrowLink href="/uslugi" className="mt-8 w-fit">
+              Zobacz wszystkie zabiegi
+            </ArrowLink>
+          </Reveal>
+        </div>
+
+        <div className="mt-16 grid gap-x-6 gap-y-14 border-t border-ink/10 pt-10 md:grid-cols-3">
+          {RESULT_CARDS.map((card, i) => (
+            <Reveal key={card.number} delay={i * 100}>
+              <article className="group flex h-full flex-col">
+                <div className="mb-6 flex items-center gap-4">
+                  <span className="as-num">{card.number}</span>
+                  <span className="h-px w-10 bg-ink/15 transition-all duration-300 group-hover:w-16 group-hover:bg-gold" />
+                </div>
+
+                <Figure
+                  image={card.image}
+                  alt={card.alt}
+                  ratio="4 / 3.4"
+                  sizes="(min-width: 768px) 30vw, 90vw"
                 />
-              </div>
-              
-              {/* Overlay text box */}
-              <div 
-                className="absolute bottom-8 right-8 p-8 max-w-sm"
-                style={{ backgroundColor: 'var(--cream)' }}
+
+                <h3 className="as-display-md mt-7 text-ink">{card.title}</h3>
+                <p className="as-body mt-3 flex-1">{card.desc}</p>
+                <ArrowLink href={card.href} className="mt-7 w-fit">
+                  {card.cta}
+                </ArrowLink>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Linie produktowe — przeniesione tutaj z osobnego pasa, który był
+            w całości tekstowy i wydłużał stronę bez żadnej treści wizualnej. */}
+        <Reveal delay={80} className="mt-16 border-t border-ink/10 pt-8">
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
+            <span className="as-label text-ink/45">Produkty AS</span>
+            {PRODUCT_LINES.map((line) => (
+              <Link
+                key={line.id}
+                href={line.href}
+                className="group inline-flex items-baseline gap-3 text-ink/70 transition-colors hover:text-ink"
               >
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-light text-black leading-tight">
-                    Precision Crafted
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Every brow is unique. Our expert artists create personalized shapes that enhance your natural beauty and complement your facial structure.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-black mb-6">About BRW Bar</h2>
-            <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              We believe that great brows frame not just your face, but your confidence.
-            </p>
-          </div>
-
-          <div className="space-y-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-3xl font-light text-black mb-6">Our Story</h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  Founded in 2019, BRW Bar Inc. has been at the forefront of eyebrow artistry, 
-                  combining traditional techniques with modern innovation to create the perfect 
-                  brow for every client.
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  Our team of certified professionals is dedicated to enhancing your natural 
-                  beauty through precision, artistry, and personalized care.
-                </p>
-              </div>
-              <div className="aspect-square rounded-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80"
-                  alt="BRW Bar studio"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="aspect-square rounded-lg overflow-hidden md:order-2">
-                <img
-                  src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80"
-                  alt="Professional team"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="md:order-1">
-                <h3 className="text-3xl font-light text-black mb-6">Our Mission</h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  To provide exceptional eyebrow services that enhance natural beauty 
-                  and boost confidence through expert artistry and personalized care.
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  We are committed to using only the highest quality products and 
-                  maintaining the strictest safety standards in all our procedures.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Treatments Section */}
-      <section id="treatments" className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-black mb-6">Our Treatments</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Discover our comprehensive range of eyebrow services, each designed to enhance 
-              your natural beauty with precision and artistry.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {treatments.map((treatment, index) => (
-              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src={treatment.image}
-                    alt={treatment.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                
-                <div className="p-6 space-y-4">
-                  <div className="flex justify-between items-start">
-                    <h3 className="text-xl font-medium text-black">{treatment.name}</h3>
-                    <span className="text-lg font-semibold text-black">{treatment.price}</span>
-                  </div>
-                  
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>{treatment.duration}</span>
-                  </div>
-                  
-                  <p className="text-gray-600 leading-relaxed text-sm">
-                    {treatment.description}
-                  </p>
-                  
-                  <ul className="space-y-1">
-                    {treatment.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="text-sm text-gray-500 flex items-center">
-                        <span className="w-1 h-1 bg-black rounded-full mr-3 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <Button 
-                    onClick={() => handleCheckout(treatment.name, treatment.price, treatment.description)}
-                    disabled={isProcessing === treatment.name}
-                    className="w-full mt-4 bg-black hover:bg-gray-800 text-white"
-                  >
-                    {isProcessing === treatment.name ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      'Book Now'
-                    )}
-                  </Button>
-                </div>
-              </div>
+                <span className="as-num text-[1rem] sm:text-[1.1rem]">{line.number}</span>
+                <span className="text-sm">{line.title}</span>
+                <span
+                  aria-hidden="true"
+                  className="text-gold-dark transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  &#8594;
+                </span>
+              </Link>
             ))}
           </div>
-        </div>
-      </section>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
-      {/* Packages Section */}
-      <section id="packages" className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-black mb-6">Treatment Packages</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Save money while achieving your perfect brows with our carefully curated packages.
-            </p>
+/* ================================================================== */
+/*  05 — SZKOLENIA                                                     */
+/* ================================================================== */
+
+function TrainingBand() {
+  return (
+    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
+      <GoldArc className="top-0 left-[8%] h-[760px] w-[900px]" opacity={0.25} />
+
+      <div className="as-shell relative">
+        <Reveal>
+          <SectionLabel number="05" tone="light">
+            Szkolenia
+          </SectionLabel>
+        </Reveal>
+
+        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
+            <Reveal>
+              <h2 className="as-display-lg as-text-balance">
+                Szkolenia oparte na realnej praktyce
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="as-body-invert mt-8 max-w-sm">
+                Autorskie szkolenia AS to połączenie zaawansowanej techniki, wieloletniego
+                doświadczenia i realnej praktyki. Uczysz się od ekspertów, zdobywasz pewność siebie
+                i otrzymujesz wsparcie na każdym etapie swojej drogi.
+              </p>
+            </Reveal>
+            <Reveal delay={140}>
+              <ArrowLink href="/szkolenia" tone="light" className="mt-10 w-fit">
+                Poznaj szkolenia
+              </ArrowLink>
+            </Reveal>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {packages.map((pkg, index) => (
-              <div 
-                key={index} 
-                className={`relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 ${
-                  pkg.popular ? 'ring-2 ring-black' : ''
-                }`}
-              >
-                {pkg.popular && (
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <Badge className="bg-black text-white px-4 py-1">
-                      Most Popular
-                    </Badge>
-                  </div>
-                )}
-                
-                <div className={`${pkg.color} p-8 h-full flex flex-col`}>
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-medium text-black mb-2">{pkg.name}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                      {pkg.description}
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-center space-x-2">
-                        <span className="text-3xl font-bold text-black">{pkg.price}</span>
-                        <span className="text-lg text-gray-400 line-through">{pkg.originalPrice}</span>
-                      </div>
-                      <Badge variant="outline" className="text-green-600 border-green-600">
-                        {pkg.savings}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 space-y-4 mb-8">
-                    {pkg.services.map((service, serviceIndex) => (
-                      <div key={serviceIndex} className="flex items-start space-x-3">
-                        <Check className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700 text-sm leading-relaxed">{service}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Button 
-                    onClick={() => handleCheckout(pkg.name, pkg.price, pkg.description)}
-                    disabled={isProcessing === pkg.name}
-                    className={`w-full ${
-                      pkg.popular 
-                        ? 'bg-black hover:bg-gray-800 text-white' 
-                        : 'bg-white hover:bg-gray-50 text-black border border-gray-200'
-                    }`}
-                  >
-                    {isProcessing === pkg.name ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      'Select Package'
-                    )}
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Section for Free Consultation */}
-      <section id="booking" className="py-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-black mb-6">Book a Free Consultation</h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Not sure which service is right for you? Let's talk.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <form onSubmit={handleBookingSubmit} className="p-8 space-y-8">
-               {/* No longer need service selection UI here as this form is specifically for free consultations */}
-               
-              {/* Personal Information */}
-              <div>
-                <h3 className="text-xl font-medium text-black mb-6">Your Information</h3>
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
-                    </label>
-                    <Input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleBookingChange}
-                      className="border-gray-200 focus:border-black"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number *
-                    </label>
-                    <Input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleBookingChange}
-                      className="border-gray-200 focus:border-black"
-                      required
-                    />
-                  </div>
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <Input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleBookingChange}
-                    className="border-gray-200 focus:border-black"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Special Notes or Requests
-                  </label>
-                  <Textarea
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleBookingChange}
-                    rows={4}
-                    className="border-gray-200 focus:border-black"
-                    placeholder="Tell us about your brow goals..."
-                  />
-                </div>
-              </div>
-              
-              {/* Date & Time Selection */}
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-medium text-black mb-6">Select Date</h3>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal border-gray-200 focus:border-black"
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate}
-                        onSelect={setSelectedDate}
-                        disabled={(date) => date < new Date()}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-medium text-black mb-6">Select Time</h3>
-                  <Select value={selectedTime} onValueChange={setSelectedTime}>
-                    <SelectTrigger className="border-gray-200 focus:border-black">
-                      <SelectValue placeholder="Choose time slot" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {timeSlots.map((time) => (
-                        <SelectItem key={time} value={time}>
-                          {time}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-
-              {/* Submit Button */}
-              <div className="pt-6 border-t border-gray-100">
-                <Button 
-                  type="submit" 
-                  className="w-full bg-black hover:bg-gray-800 text-white py-3 text-lg"
-                  disabled={!selectedDate || !selectedTime}
-                >
-                  Confirm Free Consultation
-                </Button>
-                <p className="text-sm text-gray-500 text-center mt-4">
-                  You will receive a confirmation email within 24 hours
-                </p>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-black mb-6">Contact Us</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Ready to transform your brows? Get in touch with our team to schedule 
-              your consultation or ask any questions.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Contact Form */}
-            <div className="bg-gray-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-light text-black mb-8">Send us a message</h3>
-              
-              <form onSubmit={handleContactSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name
-                    </label>
-                    <Input
-                      type="text"
-                      name="name"
-                      value={contactData.name}
-                      onChange={handleContactChange}
-                      className="bg-white border-gray-200 focus:border-black"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number
-                    </label>
-                    <Input
-                      type="tel"
-                      name="phone"
-                      value={contactData.phone}
-                      onChange={handleContactChange}
-                      className="bg-white border-gray-200 focus:border-black"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
-                  <Input
-                    type="email"
-                    name="email"
-                    value={contactData.email}
-                    onChange={handleContactChange}
-                    className="bg-white border-gray-200 focus:border-black"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
-                  <Textarea
-                    name="message"
-                    value={contactData.message}
-                    onChange={handleContactChange}
-                    rows={6}
-                    className="bg-white border-gray-200 focus:border-black"
-                    placeholder="Tell us about your brow goals or any questions you have..."
-                    required
-                  />
-                </div>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full bg-black hover:bg-gray-800 text-white"
-                >
-                  Send Message
-                </Button>
-              </form>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-light text-black mb-8">Visit our studio</h3>
-                
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <MapPin className="w-6 h-6 text-black flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="font-medium text-black mb-1">Address</h4>
-                      <p className="text-gray-600 leading-relaxed">
-                        123 Beauty Lane<br />
-                        Downtown District<br />
-                        New York, NY 10001
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <Phone className="w-6 h-6 text-black flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="font-medium text-black mb-1">Phone</h4>
-                      <p className="text-gray-600">(555) 123-BROW</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <Mail className="w-6 h-6 text-black flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="font-medium text-black mb-1">Email</h4>
-                      <p className="text-gray-600">hello@brwbar.com</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <Clock className="w-6 h-6 text-black flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="font-medium text-black mb-1">Hours</h4>
-                      <div className="text-gray-600 space-y-1">
-                        <p>Monday - Friday: 9:00 AM - 7:00 PM</p>
-                        <p>Saturday: 9:00 AM - 6:00 PM</p>
-                        <p>Sunday: 10:00 AM - 5:00 PM</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Map placeholder */}
-              <div className="aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-                  alt="Studio location"
-                  className="w-full h-full object-cover"
+          {/* kolaż zdjęć kursantek */}
+          <div className="lg:col-span-8">
+            <Reveal>
+              <div className="grid gap-3">
+                <Figure
+                  image={ACADEMY[3]}
+                  alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows"
+                  ratio="16 / 8.4"
+                  sizes="(min-width: 1024px) 60vw, 90vw"
                 />
+                <div className="grid grid-cols-2 gap-3">
+                  <Figure
+                    image={ACADEMY[0]}
+                    alt="Absolwentki szkolenia PMU odbierają certyfikaty"
+                    ratio="16 / 10"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
+                  />
+                  <Figure
+                    image={ACADEMY[4]}
+                    alt="Grupa kursantek Babushkina Academy po zakończonym kursie"
+                    ratio="16 / 10"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
+                  />
+                </div>
               </div>
+            </Reveal>
+          </div>
+        </div>
+
+        <div className="mt-14 grid gap-10 border-t border-cream-200/15 pt-10 md:grid-cols-3">
+          {TRAINING_PILLARS.map((p, i) => (
+            <Reveal key={p.number} delay={i * 90}>
+              <div className="flex items-start gap-6">
+                <span className="as-num text-gold-light">{p.number}</span>
+                <div>
+                  <h3 className="as-display-sm italic text-cream-50">{p.title}</h3>
+                  <p className="as-body-invert mt-2.5 text-[0.8125rem]">{p.desc}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  06 — CENNIK (zajawka)                                              */
+/* ================================================================== */
+
+function PricingTeaser() {
+  return (
+    <section className="relative overflow-hidden bg-cream-50 py-20 lg:py-28">
+      <div className="as-shell">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
+          {/* kolumna ze zdjęciem — bez niej pas był w całości tekstowy */}
+          <Reveal className="lg:col-span-4">
+            <SectionLabel number="05">Cennik</SectionLabel>
+            <h2 className="as-display-md as-text-balance mt-7 text-ink">
+              Jasne stawki,
+              <br />
+              bez gwiazdek.
+            </h2>
+            <div className="mt-9">
+              <Figure
+                image={LIPS[0]}
+                alt="Perfect Lips — efekt makijażu permanentnego ust po wygojeniu"
+                ratio="4 / 5"
+                sizes="(min-width: 1024px) 28vw, 90vw"
+              />
+            </div>
+            <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
+              Zobacz pełen cennik
+            </ArrowLink>
+          </Reveal>
+
+          <Reveal delay={90} className="lg:col-span-8">
+            <p className="as-body max-w-lg">
+              {PRICING_PMU.subtitle}. Pełen cennik obejmuje również odświeżenia oraz usuwanie
+              laserem i removerem.
+            </p>
+            <ul className="mt-8">
+              {PRICING_PMU.items.map((item) => (
+                <li
+                  key={item.name}
+                  className="flex items-baseline gap-4 border-b border-ink/10 py-5 first:border-t"
+                >
+                  <span className="min-w-0 flex-1 text-base text-ink">{item.name}</span>
+                  <span
+                    className="hidden flex-1 translate-y-[-3px] border-b border-dotted border-ink/15 sm:block"
+                    aria-hidden="true"
+                  />
+                  <span className="whitespace-nowrap font-display text-xl text-ink">
+                    {item.price}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 max-w-xl text-xs leading-relaxed text-mocha-400">
+              {PRICING_PMU.footnote}
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  06 — OSIĄGNIĘCIA + CTA                                             */
+/* ================================================================== */
+
+function ClosingBand() {
+  return (
+    <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
+      <div className="as-shell py-20 lg:py-24">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
+          {/* kolaż — pas domykający też miał zero zdjęć */}
+          <Reveal className="lg:col-span-5">
+            <div className="grid grid-cols-2 gap-3">
+              <Figure
+                image={STUDIO[8]}
+                alt="Sesja wizerunkowa AS Company"
+                ratio="3 / 4"
+                sizes="(min-width: 1024px) 20vw, 45vw"
+              />
+              <Figure
+                image={ACADEMY[6]}
+                alt="Kursantki Babushkina Academy z certyfikatami"
+                ratio="3 / 4"
+                className="mt-10"
+                sizes="(min-width: 1024px) 20vw, 45vw"
+              />
+            </div>
+          </Reveal>
+
+          <div className="lg:col-span-7">
+            <Reveal>
+              <h2 className="as-display-lg as-text-balance">
+                Zacznijmy od <span className="italic text-gold-light">konsultacji.</span>
+              </h2>
+              <p className="as-body-invert mt-7 max-w-lg">
+                Salon i akademia w Warszawie — wolnostojący budynek z prywatnym parkingiem. Umów
+                wizytę albo zapytaj o najbliższy termin szkolenia.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-4">
+                <Link href="/kontakt" className="as-btn-gold">
+                  Umów wizytę
+                </Link>
+                <Link href="/szkolenia" className="as-btn-ghost-light">
+                  Terminy szkoleń
+                </Link>
+              </div>
+            </Reveal>
+
+            <div className="mt-12 grid gap-8 border-t border-cream-200/12 pt-10 sm:grid-cols-2">
+              {ACHIEVEMENTS.map((a, i) => (
+                <Reveal key={a.label} delay={i * 70}>
+                  <p className="as-display-sm text-gold-light">{a.value}</p>
+                  <p className="as-body-invert mt-2 max-w-[16rem] text-[0.8125rem]">{a.label}</p>
+                </Reveal>
+              ))}
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <AboutBand />
+      <ResultsBand />
+      <TrainingBand />
+      <PricingTeaser />
+      <ClosingBand />
+    </>
   );
 }

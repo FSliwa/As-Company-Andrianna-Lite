@@ -1,11 +1,11 @@
-import Home from './pages/Home';
-import About from './pages/About';
-import Treatments from './pages/Treatments';
-import Packages from './pages/Packages';
-import Contact from './pages/Contact';
-import Booking from './pages/Booking';
-import PaymentSuccess from './pages/PaymentSuccess';
-import PaymentCancel from './pages/PaymentCancel';
+import Home from './views/Home';
+import About from './views/About';
+import Treatments from './views/Treatments';
+import Packages from './views/Packages';
+import Contact from './views/Contact';
+import Booking from './views/Booking';
+import PaymentSuccess from './views/PaymentSuccess';
+import PaymentCancel from './views/PaymentCancel';
 import __Layout from './Layout.jsx';
 
 

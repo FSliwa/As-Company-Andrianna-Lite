@@ -1,11 +1,34 @@
+'use client';
+
+/**
+ * Katalog pigmentów i akcesoriów.
+ *
+ * ⚠️ DANE DO POTWIERDZENIA: nazwy, ceny i pojemności poniżej pochodzą
+ * z pierwotnej wersji serwisu (wygenerowanej z szablonu) i nie zostały przez
+ * nikogo zweryfikowane. Przed publikacją sprawdź je z aktualnym cennikiem
+ * hurtowym — to jedyne miejsce w kodzie, w którym trzeba je poprawić.
+ *
+ * W folderze /Graphics nie ma packshotów pigmentów, dlatego karty produktów
+ * pokazują próbnik koloru (colorHex), a nie zdjęcie butelki. Gdy pojawią się
+ * zdjęcia produktowe, dodaj je do manifestu w src/lib/media.js i podepnij tutaj.
+ *
+ * Koszyk nie istnieje — poprzednia wersja udawała dodawanie do koszyka
+ * komunikatem „Dodano do koszyka". Zastąpione zapytaniem o produkt.
+ */
+
 import React, { useState } from 'react';
-import { Filter, ShoppingBag, Sparkles, Check, Info, Droplet, Layers, Search } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/use-toast";
+import Link from 'next/link';
+import { Search } from 'lucide-react';
+import {
+  ArrowLink,
+  FactStrip,
+  Figure,
+  GoldArc,
+  Reveal,
+  SectionLabel,
+} from '@/components/as/Primitives';
+import { BROWS, LIPS } from '@/lib/media';
+import { cn } from '@/lib/utils';
 
 const PIGMENT_CATEGORIES = [
   { id: "all", name: "Wszystkie Produkty" },
@@ -187,165 +210,256 @@ const PRODUCTS = [
   }
 ];
 
-export default function Pigments() {
-  const { toast } = useToast();
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredProducts = PRODUCTS.filter(product => {
-    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
+export default function Pigments() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const q = searchQuery.trim().toLowerCase();
+  const filteredProducts = PRODUCTS.filter((product) => {
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const matchesSearch =
+      !q ||
+      product.name.toLowerCase().includes(q) ||
+      product.description.toLowerCase().includes(q);
     return matchesCategory && matchesSearch;
   });
 
-  const handleAddToCart = (product) => {
-    toast({
-      title: "Dodano do koszyka",
-      description: `${product.name} (${product.price} zł) został dodany.`,
-    });
-  };
-
   return (
-    <div className="min-h-screen bg-[#FEFEFE] text-[#2A2A2A]">
-      {/* Banner */}
-      <div className="bg-[#B8C5A6] text-black py-2.5 px-4 text-center text-xs tracking-wider uppercase font-semibold flex items-center justify-center gap-2">
-        <Sparkles className="w-4 h-4" />
-        <span>Największa w historii promocja w AS PIGMENTS! Rabaty na pigmenty i zestawy do -40%</span>
-      </div>
+    <>
+      {/* ============ HERO ============ */}
+      <section className="relative overflow-hidden bg-cream-50 pb-20 pt-28 lg:pb-28 lg:pt-36">
+        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.3} />
 
-      {/* Hero */}
-      <section className="py-16 px-6 max-w-7xl mx-auto border-b border-gray-100">
-        <div className="max-w-3xl">
-          <Badge className="bg-[#2A2A2A] text-white uppercase tracking-widest text-[10px] px-3 py-1 mb-4">
-            REACH Certified & EU Compliant
-          </Badge>
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight text-gray-900 mb-6 leading-tight">
-            Pigmenty PMU nowej generacji <span className="font-semibold block text-[#B8C5A6]">AS OPIUM & Light Minerals</span>
-          </h1>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
-            Odkryj certyfikowane pigmenty stworzone przez ekspertów makijażu permanentnego. Najwyższa stabilność odcieni, bezpieczny proces wyłuszczania oraz kolekcje dopasowane do każdego fototypu skóry.
-          </p>
-        </div>
+        <div className="as-shell relative">
+          <Reveal>
+            <SectionLabel number="01">Pigmenty</SectionLabel>
+          </Reveal>
 
-        {/* Search & Filter Bar */}
-        <div className="mt-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-[#F8F8F6] p-4 rounded-xl border border-gray-200">
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input 
-              placeholder="Szukaj pigmentu, odcienia..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white border-gray-200"
-            />
+          <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
+            <div className="lg:col-span-7">
+              <Reveal>
+                <h1 className="as-display-lg as-text-balance text-ink">
+                  Kolor, który
+                  <br />
+                  <span className="italic text-gold-dark">goi się przewidywalnie.</span>
+                </h1>
+              </Reveal>
+              <Reveal delay={80}>
+                <p className="as-body mt-8 max-w-xl">
+                  Pigmenty AS OPIUM i Light Minerals dobrane do pracy na brwiach, ustach
+                  i powiekach — plus linia medyczna do areoli i trichopigmentacji. Starannie
+                  opracowane formuły, intensywne kolory i przewidywalne gojenie.
+                </p>
+              </Reveal>
+              <Reveal delay={140}>
+                <div className="mt-10 flex flex-wrap gap-4">
+                  <a href="#katalog" className="as-btn-solid">
+                    Przejdź do katalogu
+                  </a>
+                  <Link href="/certyfikaty" className="as-btn-ghost">
+                    Dokumentacja produktów
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal delay={100} className="lg:col-span-5">
+              <Figure
+                image={LIPS[2]}
+                alt="Efekt pigmentu AS na ustach — rysunek wstępny i wygojony kolor"
+                ratio="4 / 5"
+                framed
+                priority
+                sizes="(min-width: 1024px) 40vw, 100vw"
+              />
+            </Reveal>
           </div>
-          <div className="text-xs text-gray-500 font-medium w-full md:w-auto text-right">
-            Znaleziono produktów: <span className="font-bold text-gray-900">{filteredProducts.length}</span>
+
+          <Reveal delay={160} className="mt-16 border-t border-ink/10 pt-6">
+            <FactStrip items={['Brwi', 'Usta', 'Powieki', 'Linia medyczna']} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============ EFEKTY ============ */}
+      <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
+        <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
+
+        <div className="as-shell relative">
+          <Reveal>
+            <SectionLabel number="02" tone="light">
+              Jak się goją
+            </SectionLabel>
+          </Reveal>
+
+          <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-12">
+            <Reveal className="lg:col-span-4">
+              <h2 className="as-display-lg as-text-balance">
+                Wygojenie
+                <br />
+                jest dowodem.
+              </h2>
+              <p className="as-body-invert mt-8 max-w-sm">
+                Prace wykonane naszymi pigmentami — zdjęcia po wygojeniu, nie świeżo po
+                zabiegu. To moment, w którym widać, czy formuła trzyma kolor.
+              </p>
+              <ArrowLink href="/uslugi" tone="light" className="mt-10 w-fit">
+                Zobacz zabiegi
+              </ArrowLink>
+            </Reveal>
+
+            <div className="lg:col-span-8">
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  { image: BROWS[9], alt: 'Brwi przed zabiegiem i po wygojeniu' },
+                  { image: LIPS[1], alt: 'Usta przed zabiegiem i po wygojeniu' },
+                  { image: BROWS[17], alt: 'Wygojone brwi — technika włosowa' },
+                ].map((s, i) => (
+                  <Reveal key={i} delay={i * 90}>
+                    <Figure
+                      image={s.image}
+                      alt={s.alt}
+                      ratio="3 / 4"
+                      sizes="(min-width: 640px) 28vw, 90vw"
+                    />
+                  </Reveal>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Categories Tabs */}
-      <section className="py-12 px-6 max-w-7xl mx-auto">
-        <div className="flex overflow-x-auto gap-2 pb-4 mb-8 scrollbar-none border-b border-gray-100">
-          {PIGMENT_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-5 py-2.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                selectedCategory === cat.id
-                  ? 'bg-[#2A2A2A] text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
+      {/* ============ KATALOG ============ */}
+      <section id="katalog" className="as-section bg-cream-100 scroll-mt-24">
+        <div className="as-shell">
+          <Reveal>
+            <SectionLabel number="03">Katalog</SectionLabel>
+          </Reveal>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product) => (
-            <Card key={product.id} className="border border-gray-200 hover:border-[#B8C5A6] transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
-              <div>
-                <CardHeader className="pb-4">
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="flex items-center gap-3">
-                      <div 
-                        className="w-10 h-10 rounded-full border-2 border-white shadow-md flex-shrink-0"
-                        style={{ backgroundColor: product.colorHex }}
-                        title={`Odcień: ${product.name}`}
-                      />
-                      <div>
-                        <Badge variant="outline" className="text-[10px] text-gray-500 border-gray-300 mb-1">
-                          {product.type}
-                        </Badge>
-                        <CardTitle className="text-base font-bold">{product.name}</CardTitle>
-                      </div>
-                    </div>
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+            <Reveal className="lg:col-span-7">
+              <h2 className="as-display-lg as-text-balance text-ink">
+                Pełna
+                <br />
+                paleta.
+              </h2>
+            </Reveal>
+            <Reveal delay={80} className="lg:col-span-5">
+              <label className="relative block">
+                <span className="sr-only">Szukaj w katalogu</span>
+                <Search
+                  className="pointer-events-none absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/35"
+                  aria-hidden="true"
+                />
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Nazwa lub opis produktu…"
+                  className="w-full border-0 border-b border-ink/20 bg-transparent py-3 pl-7 text-sm text-ink placeholder:text-ink/35 focus:border-gold focus:outline-none focus:ring-0"
+                />
+              </label>
+            </Reveal>
+          </div>
+
+          {/* filtry kategorii */}
+          <Reveal delay={120} className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-b border-ink/10 pb-5">
+            {PIGMENT_CATEGORIES.map((cat) => {
+              const active = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  aria-pressed={active}
+                  className={cn(
+                    'as-label relative py-1 transition-colors',
+                    active ? 'text-ink' : 'text-ink/45 hover:text-ink'
+                  )}
+                >
+                  {cat.name}
+                  <span
+                    className={cn(
+                      'absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-300',
+                      active ? 'w-full' : 'w-0'
+                    )}
+                  />
+                </button>
+              );
+            })}
+          </Reveal>
+
+          <p className="as-label mt-6 text-ink/45" aria-live="polite">
+            {filteredProducts.length === 0
+              ? 'Brak produktów dla tych kryteriów'
+              : `Produktów: ${filteredProducts.length}`}
+          </p>
+
+          <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredProducts.map((product, i) => (
+              <Reveal key={product.id} delay={Math.min(i, 5) * 70}>
+                <article className="group flex h-full flex-col border-t border-ink/12 pt-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <span
+                      className="h-14 w-14 shrink-0 rounded-full border border-ink/10 shadow-inner"
+                      style={{ backgroundColor: product.colorHex }}
+                      aria-hidden="true"
+                    />
                     {product.badge && (
-                      <Badge className="bg-[#B8C5A6] text-black text-[9px] uppercase px-2 py-0.5">
-                        {product.badge}
-                      </Badge>
+                      <span className="as-label text-gold-dark">{product.badge}</span>
                     )}
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-xs text-gray-500">{product.subtitle}</p>
-                  <p className="text-xs text-gray-600 leading-relaxed">{product.description}</p>
-                  
-                  <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
-                    <span>Pojemność: <strong className="text-gray-900">{product.capacity}</strong></span>
-                    <span>Certyfikat: <strong className="text-gray-[#B8C5A6]">REACH 2026</strong></span>
+
+                  <h3 className="as-display-sm mt-6 text-ink">{product.name}</h3>
+                  <p className="as-label mt-2 text-ink/45">{product.subtitle}</p>
+                  <p className="as-body mt-4 flex-1 text-[0.8125rem]">{product.description}</p>
+
+                  <dl className="mt-6 grid grid-cols-2 gap-y-2 border-t border-ink/10 pt-4 text-xs">
+                    <dt className="text-mocha-400">Rodzaj</dt>
+                    <dd className="text-right text-ink">{product.type}</dd>
+                    <dt className="text-mocha-400">Pojemność</dt>
+                    <dd className="text-right text-ink">{product.capacity}</dd>
+                  </dl>
+
+                  <div className="mt-5 flex items-end justify-between gap-4">
+                    <span className="font-display text-2xl text-ink">{product.price} zł</span>
+                    <ArrowLink href="/kontakt" className="w-fit">
+                      Zapytaj
+                    </ArrowLink>
                   </div>
-                </CardContent>
-              </div>
-
-              <div className="p-6 pt-4 border-t border-gray-100 flex items-center justify-between">
-                <div>
-                  <span className="text-xs text-gray-400 block">Cena brutto:</span>
-                  <span className="text-xl font-bold text-[#2A2A2A]">{product.price} PLN</span>
-                </div>
-                <Button 
-                  onClick={() => handleAddToCart(product)}
-                  className="bg-[#2A2A2A] hover:bg-black text-white text-xs uppercase tracking-wider px-5 py-2"
-                >
-                  <ShoppingBag className="w-3.5 h-3.5 mr-2" /> Do koszyka
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-20 bg-gray-50 rounded-xl">
-            <Info className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-gray-700">Brak produktów spełniających kryteria</h3>
-            <p className="text-xs text-gray-500">Spróbuj zmienić zapytanie wyszukiwania lub kategę.</p>
-          </div>
-        )}
-      </section>
-
-      {/* Pigment Quality Assurance Banner */}
-      <section className="bg-[#F8F8F6] py-16 px-6 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
-            <Droplet className="w-8 h-8 text-[#B8C5A6] mx-auto mb-3" />
-            <h3 className="font-semibold text-base mb-2">Linia Light Minerals</h3>
-            <p className="text-xs text-gray-500">Organiczne i mineralne barwniki gwarantujące przewidywalny proces stabilizacji barwy bez odcieni czerwieni i fioletu.</p>
-          </div>
-          <div className="p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
-            <Layers className="w-8 h-8 text-[#B8C5A6] mx-auto mb-3" />
-            <h3 className="font-semibold text-base mb-2">Pigmentacja Medyczna</h3>
-            <p className="text-xs text-gray-500">Sterylne preparaty do zabiegów rekonstrukcji brodawki piersiowej Areola oraz kamuflażu blizn powypadkowych.</p>
-          </div>
-          <div className="p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
-            <Sparkles className="w-8 h-8 text-[#B8C5A6] mx-auto mb-3" />
-            <h3 className="font-semibold text-base mb-2">Modyfikatory i Remover</h3>
-            <p className="text-xs text-gray-500">Kompleksowy system chemicznego usuwania oraz dopasowywania ciepłoty pigmentów pod oczekiwania klientki.</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
-    </div>
+
+      {/* ============ CTA ============ */}
+      <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
+        <div className="as-shell py-20 lg:py-24">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+            <Reveal className="lg:col-span-7">
+              <h2 className="as-display-lg as-text-balance">
+                Zamówienie <span className="italic text-gold-light">hurtowe?</span>
+              </h2>
+              <p className="as-body-invert mt-7 max-w-lg">
+                Napisz, czego potrzebujesz do gabinetu — dobierzemy odcienie i odeślemy
+                dokumentację produktów razem z wyceną.
+              </p>
+            </Reveal>
+            <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
+              <Link href="/kontakt" className="as-btn-gold">
+                Napisz do nas
+              </Link>
+              <Link href="/maszynki" className="as-btn-ghost-light">
+                Zobacz urządzenia
+              </Link>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

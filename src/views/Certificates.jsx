@@ -1,183 +1,236 @@
-import React, { useState } from 'react';
-import { ShieldCheck, FileText, Download, Award, CheckCircle2, Lock, Sparkles, ExternalLink } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
+'use client';
 
-const CERTIFICATES = [
+/**
+ * Dokumentacja produktowa.
+ *
+ * ⚠️ UWAGA — poprzednia wersja tej strony zawierała WYMYŚLONE numery
+ * certyfikatów („EU-REACH-2026-AS-091", „ISO-MED-992031-PL",
+ * „MSDS-AS-PIGMENTS-2026", „CE-EO-STERILE-8812") przypisane prawdziwym
+ * instytucjom (TÜV Rheinland, Główny Inspektorat Sanitarny) oraz przycisk
+ * „Pobierz Oryginał PDF", który nic nie pobierał. Zostało to usunięte:
+ * publikowanie nieistniejących numerów zgodności to ryzyko prawne dla marki
+ * i dla salonów, które powołałyby się na nie podczas kontroli Sanepidu.
+ *
+ * Strona opisuje teraz RODZAJE dokumentacji dołączanej do zamówień,
+ * bez podawania numerów. Żeby pokazać konkretne certyfikaty, wstaw tu
+ * prawdziwe skany/PDF-y i ich numery — wtedy przywrócimy podgląd i pobieranie.
+ */
+
+import React from 'react';
+import Link from 'next/link';
+import {
+  ArrowLink,
+  FactStrip,
+  Figure,
+  GoldArc,
+  Reveal,
+  SectionLabel,
+} from '@/components/as/Primitives';
+import { BROWS, LIPS, STUDIO } from '@/lib/media';
+
+/** Rodzaje dokumentacji — bez numerów, bo tych nie mamy potwierdzonych. */
+const DOCUMENT_TYPES = [
   {
-    id: "reach-2026",
-    title: "Certyfikat Zgodności REACH EU (Rozporządzenie 2020/2081)",
-    category: "Pigmenty PMU",
-    date: "Obowiązuje od 2026",
-    issuer: "Laboratorium Jakości Chemii Kosmetycznej UE",
-    description: "Potwierdzenie, że wszystkie pigmenty z serii AS OPIUM oraz Light Minerals nie zawierają substancji rakotwórczych, mutagennych oraz konserwantów zakazanych na terenie Unii Europejskiej.",
-    code: "EU-REACH-2026-AS-091"
+    number: '01',
+    title: 'Zgodność REACH',
+    scope: 'Pigmenty AS OPIUM i Light Minerals',
+    desc: 'Deklaracja zgodności z unijnym rozporządzeniem ograniczającym substancje stosowane w tuszach do tatuażu i makijażu permanentnego.',
   },
   {
-    id: "iso-13485",
-    title: "ISO 13485:2016 – System Zarządzania Jakością Wyrobów Medycznych",
-    category: "Maszynki i Akcesoria PMU",
-    date: "2025 - 2028",
-    issuer: "TÜV Rheinland Cert GmbH",
-    description: "Standard certyfikujący proces produkcyjny maszynek rotacyjnych AS HERO oraz AS PRINCESS w reżimie sterylności sprzętu medycznego.",
-    code: "ISO-MED-992031-PL"
+    number: '02',
+    title: 'Karta charakterystyki (MSDS / SDS)',
+    scope: 'Barwniki organiczne i mineralne',
+    desc: 'Dokument chemiczny opisujący skład, zagrożenia i sposób postępowania z produktem. To ten papier, o który pyta Sanepid podczas kontroli gabinetu.',
   },
   {
-    id: "msds-opium",
-    title: "Karta Charakterystyki Produktu (MSDS / SDS)",
-    category: "Baza Dokumentacji",
-    date: "Aktualizacja Q1 2026",
-    issuer: "Główny Inspektorat Sanitarny",
-    description: "Karta charakterystyki chemicznej dla barwników organicznych i mineralnych. Wymagana przy kontroli Sanepidu w salonie kosmetycznym.",
-    code: "MSDS-AS-PIGMENTS-2026"
+    number: '03',
+    title: 'Sterylność kartridży',
+    scope: 'Kartridże jednorazowe',
+    desc: 'Potwierdzenie sterylizacji i jednorazowego przeznaczenia wkładów igłowych wraz z datą ważności opakowania.',
   },
   {
-    id: "ce-sterility",
-    title: "Deklaracja Zgodności CE & Certyfikat Sterylności EO",
-    category: "Kartridże Satellite",
-    date: "2026",
-    issuer: "Gamma Sterilization Labs Ltd.",
-    description: "Gwarancja 100% sterylności kartridży poddanych procesowi sterylizacji gazem tlenkiem etylenu (EO Gas).",
-    code: "CE-EO-STERILE-8812"
-  }
+    number: '04',
+    title: 'Dokumentacja urządzeń',
+    scope: 'Maszynki AS PRINCESS i AS HERO',
+    desc: 'Deklaracja zgodności, instrukcja obsługi i warunki gwarancji urządzenia.',
+  },
+];
+
+const FOR_SALON = [
+  'Każde zamówienie hurtowe zawiera komplet dokumentacji w wersji cyfrowej.',
+  'Dokumenty wysyłamy również na żądanie — przed zakupem, do wglądu.',
+  'Na życzenie przygotowujemy komplet w wersji papierowej do segregatora gabinetowego.',
 ];
 
 export default function Certificates() {
-  const { toast } = useToast();
-  const [selectedCert, setSelectedCert] = useState(null);
-
-  const handleDownload = (cert) => {
-    toast({
-      title: "Pobieranie dokumentu",
-      description: `Dokument PDF: ${cert.title} został pobrany na Twój dysk.`,
-    });
-  };
-
   return (
-    <div className="min-h-screen bg-[#FEFEFE] text-[#2A2A2A]">
-      {/* Top Banner */}
-      <div className="bg-[#2A2A2A] text-white py-2.5 px-4 text-center text-xs tracking-wider uppercase font-medium flex items-center justify-center gap-2">
-        <ShieldCheck className="w-4 h-4 text-[#B8C5A6]" />
-        <span>Pełna Zgodność z Dyrektywą Unii Europejskiej REACH 2026 – 100% Bezpieczeństwa Zabiegowego</span>
-      </div>
+    <>
+      {/* ============ HERO ============ */}
+      <section className="relative overflow-hidden bg-cream-50 pb-20 pt-28 lg:pb-28 lg:pt-36">
+        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.3} />
 
-      {/* Hero */}
-      <section className="py-16 px-6 max-w-7xl mx-auto border-b border-gray-100">
-        <div className="max-w-3xl">
-          <Badge className="bg-[#B8C5A6] text-black uppercase tracking-widest text-[10px] px-3 py-1 mb-4">
-            Bezpieczeństwo & Sanitariat
-          </Badge>
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight text-gray-900 mb-6 leading-tight">
-            Certyfikaty Jakości i Normy Unijne <span className="font-semibold block text-[#B8C5A6]">AS COMPANY Poland</span>
-          </h1>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
-            Pobierz niezbędną dokumentację medyczną i sanitarną wymaganą podczas kontroli w Twoim salonie. Wszystkie pigmenty oraz maszynki spełniają najbardziej rygorystyczne normy bezpieczeństwa Unii Europejskiej.
-          </p>
-        </div>
-      </section>
+        <div className="as-shell relative">
+          <Reveal>
+            <SectionLabel number="01">Dokumentacja</SectionLabel>
+          </Reveal>
 
-      {/* Grid Certificates */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {CERTIFICATES.map((cert) => (
-            <Card key={cert.id} className="border border-gray-200 hover:border-[#B8C5A6] transition-all shadow-sm hover:shadow-md flex flex-col justify-between">
-              <div>
-                <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <Badge variant="outline" className="text-[10px] text-[#2A2A2A] border-[#B8C5A6]">
-                      {cert.category}
-                    </Badge>
-                    <span className="text-xs text-gray-400">{cert.date}</span>
-                  </div>
-                  <CardTitle className="text-lg font-bold">{cert.title}</CardTitle>
-                  <CardDescription className="text-xs text-gray-500">Wystawca: {cert.issuer}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-xs text-gray-600 leading-relaxed">{cert.description}</p>
-                  <div className="bg-[#F8F8F6] p-3 rounded-lg text-xs font-mono text-gray-700 flex justify-between items-center">
-                    <span>Kod rejestracyjny:</span>
-                    <strong className="text-gray-900">{cert.code}</strong>
-                  </div>
-                </CardContent>
-              </div>
+          <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
+            <div className="lg:col-span-7">
+              <Reveal>
+                <h1 className="as-display-lg as-text-balance text-ink">
+                  Papiery, które gabinet
+                  <br />
+                  <span className="italic text-gold-dark">musi mieć pod ręką.</span>
+                </h1>
+              </Reveal>
+              <Reveal delay={80}>
+                <p className="as-body mt-8 max-w-xl">
+                  Do produktów, które dystrybuujemy, dołączamy dokumentację wymaganą przy pracy
+                  z makijażem permanentnym — od deklaracji zgodności po karty charakterystyki.
+                  Poniżej opisujemy, co dokładnie dostajesz.
+                </p>
+              </Reveal>
+              <Reveal delay={140}>
+                <div className="mt-10 flex flex-wrap gap-4">
+                  <Link href="/kontakt" className="as-btn-solid">
+                    Poproś o dokumentację
+                  </Link>
+                  <Link href="/pigmenty" className="as-btn-ghost">
+                    Zobacz pigmenty
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
 
-              <div className="p-6 pt-0 flex gap-3">
-                <Button 
-                  onClick={() => setSelectedCert(cert)}
-                  variant="outline"
-                  className="flex-1 border-gray-300 text-xs uppercase tracking-wider py-5"
-                >
-                  <FileText className="w-3.5 h-3.5 mr-2" /> Podgląd Certyfikatu
-                </Button>
-                <Button 
-                  onClick={() => handleDownload(cert)}
-                  className="bg-[#2A2A2A] hover:bg-black text-white text-xs uppercase tracking-wider py-5"
-                >
-                  <Download className="w-3.5 h-3.5 mr-2" /> Pobierz PDF
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Sanepid Guarantee Section */}
-      <section className="bg-[#F8F8F6] py-16 px-6 border-t border-gray-200">
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl border border-gray-200 shadow-sm text-center">
-          <Award className="w-12 h-12 text-[#B8C5A6] mx-auto mb-4" />
-          <h2 className="text-2xl font-light mb-3">Gwarancja Spokojnej Kontroli Sanepidu</h2>
-          <p className="text-gray-600 text-sm leading-relaxed mb-6 max-w-2xl mx-auto">
-            Jako oficjalny dystrybutor marki AS PIGMENTS w Polsce, do każdego zamówienia dołączamy fizyczne lub cyfrowe karty MSDS oraz raporty analizy metali ciężkich.
-          </p>
-          <div className="flex justify-center gap-6 text-xs text-gray-600">
-            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#B8C5A6]" /> Brak Niklu i Chromu</span>
-            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#B8C5A6]" /> Raporty mikrobiologiczne</span>
-            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#B8C5A6]" /> Deklaracje REACH 2026</span>
+            <Reveal delay={100} className="lg:col-span-5">
+              <Figure
+                image={STUDIO[11]}
+                alt="Andriana Babushkina — AS Company, oficjalny dystrybutor marki w Polsce"
+                ratio="4 / 5"
+                framed
+                priority
+                sizes="(min-width: 1024px) 40vw, 100vw"
+              />
+            </Reveal>
           </div>
+
+          <Reveal delay={160} className="mt-16 border-t border-ink/10 pt-6">
+            <FactStrip items={['Pigmenty', 'Urządzenia', 'Kartridże', 'Preparaty']} />
+          </Reveal>
         </div>
       </section>
 
-      {/* Certificate Preview Dialog */}
-      <Dialog open={!!selectedCert} onOpenChange={() => setSelectedCert(null)}>
-        <DialogContent className="sm:max-w-[600px] bg-white">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-[#B8C5A6]" />
-              {selectedCert?.title}
-            </DialogTitle>
-            <DialogDescription>
-              Kod weryfikacyjny: {selectedCert?.code}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-6 space-y-4">
-            <div className="border-2 border-dashed border-[#B8C5A6] p-8 rounded-xl bg-[#F8F8F6] text-center space-y-3">
-              <Award className="w-16 h-16 text-[#B8C5A6] mx-auto" />
-              <h3 className="font-bold text-lg uppercase tracking-wider text-gray-900">Official Certificate of Compliance</h3>
-              <p className="text-xs text-gray-500 max-w-md mx-auto">{selectedCert?.description}</p>
-              <div className="text-xs font-semibold text-gray-700 pt-2 border-t border-gray-200">
-                Wystawione przez: {selectedCert?.issuer}
+      {/* ============ RODZAJE DOKUMENTÓW ============ */}
+      <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
+        <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
+
+        <div className="as-shell relative">
+          <Reveal>
+            <SectionLabel number="02" tone="light">
+              Co dostajesz
+            </SectionLabel>
+          </Reveal>
+
+          <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-5">
+              <h2 className="as-display-lg as-text-balance">
+                Cztery rodzaje
+                <br />
+                dokumentów.
+              </h2>
+              <p className="as-body-invert mt-8 max-w-sm">
+                Nie publikujemy tu numerów ani skanów — dokumenty przekazujemy bezpośrednio
+                kupującemu, razem z zamówieniem albo wcześniej, do wglądu.
+              </p>
+              <ArrowLink href="/kontakt" tone="light" className="mt-9 w-fit">
+                Napisz po komplet
+              </ArrowLink>
+            </Reveal>
+
+            <div className="lg:col-span-7">
+              <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2">
+                {DOCUMENT_TYPES.map((doc, i) => (
+                  <Reveal key={doc.number} delay={i * 80}>
+                    <div className="flex items-center gap-4">
+                      <span className="as-num text-gold-light">{doc.number}</span>
+                      <span className="h-px w-10 bg-cream-200/25" />
+                    </div>
+                    <h3 className="as-display-sm mt-4 italic text-cream-50">{doc.title}</h3>
+                    <p className="as-label mt-3 text-gold-light/80">{doc.scope}</p>
+                    <p className="as-body-invert mt-3 text-[0.8125rem]">{doc.desc}</p>
+                  </Reveal>
+                ))}
               </div>
             </div>
           </div>
-          <div className="flex justify-end gap-3">
-            <Button variant="outline" onClick={() => setSelectedCert(null)}>
-              Zamknij
-            </Button>
-            <Button 
-              onClick={() => {
-                handleDownload(selectedCert);
-                setSelectedCert(null);
-              }}
-              className="bg-[#2A2A2A] text-white"
-            >
-              Pobierz Oryginał PDF
-            </Button>
+        </div>
+      </section>
+
+      {/* ============ DLA SALONU ============ */}
+      <section className="as-section bg-cream-100">
+        <div className="as-shell">
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-6">
+              <SectionLabel number="03">Dla gabinetu</SectionLabel>
+              <h2 className="as-display-lg as-text-balance mt-8 text-ink">
+                Spokojna
+                <br />
+                kontrola.
+              </h2>
+              <ul className="mt-9 space-y-5">
+                {FOR_SALON.map((item) => (
+                  <li key={item} className="flex gap-4 border-b border-ink/10 pb-5">
+                    <span className="mt-2 h-px w-6 shrink-0 bg-gold" aria-hidden="true" />
+                    <span className="as-body">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <ArrowLink href="/kontakt" className="mt-9 w-fit">
+                Zamów komplet dokumentów
+              </ArrowLink>
+            </Reveal>
+
+            <Reveal delay={90} className="lg:col-span-6">
+              <div className="grid grid-cols-2 gap-3">
+                <Figure
+                  image={BROWS[5]}
+                  alt="Efekt pracy pigmentami AS — wygojone brwi"
+                  ratio="3 / 4"
+                  sizes="(min-width: 1024px) 24vw, 45vw"
+                />
+                <Figure
+                  image={LIPS[1]}
+                  alt="Efekt pracy pigmentami AS — usta po wygojeniu"
+                  ratio="3 / 4"
+                  className="mt-10"
+                  sizes="(min-width: 1024px) 24vw, 45vw"
+                />
+              </div>
+            </Reveal>
           </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </div>
+      </section>
+
+      {/* ============ CTA ============ */}
+      <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
+        <div className="as-shell py-20 lg:py-24">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+            <Reveal className="lg:col-span-7">
+              <h2 className="as-display-lg as-text-balance">
+                Potrzebujesz konkretnego <span className="italic text-gold-light">dokumentu?</span>
+              </h2>
+              <p className="as-body-invert mt-7 max-w-lg">
+                Napisz, o który produkt chodzi — odeślemy aktualną dokumentację dla tej partii.
+              </p>
+            </Reveal>
+            <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
+              <Link href="/kontakt" className="as-btn-gold">
+                Napisz do nas
+              </Link>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
