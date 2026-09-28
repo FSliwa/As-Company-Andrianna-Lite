@@ -86,9 +86,10 @@ function buildSrcSet(webp) {
  *  - ratio     proporcja kadru, np. "3 / 4"; nadmiar jest przycinany (object-cover)
  *  - position  object-position, np. "50% 30%" — gdzie ma być środek ciężkości
  *              przy przycinaniu; domyślnie środek
- *  - tone      "light" (domyślnie) albo "dark" — w ciemnych sekcjach zdjęcie
- *              dostaje przez CSS ciemniejszy, mniej nasycony ton, żeby siedziało
- *              w tle zamiast na nim świecić (jak w makiecie)
+ *  - tone      "dark" w sekcjach espresso/mocha (ciemniejszy, mniej nasycony),
+ *              "light" w sekcjach kremowych (odsycony, jaśniejszy, z kremową
+ *              mgłą) — w obu przypadkach po to, żeby zdjęcie siedziało w tle
+ *              zamiast na nim świecić (jak w makiecie); domyślnie bez korekty
  *  - sizes     atrybut sizes; bez niego przeglądarka zakłada 100vw i pobiera
  *              największy wariant
  */
@@ -103,14 +104,19 @@ export function Figure({
   priority = false,
   sizes = DEFAULT_SIZES,
   position,
-  tone = 'light',
+  tone = 'none',
 }) {
   if (!image) return null;
   const srcSet = buildSrcSet(image.webp);
   return (
     <div className={cn(framed && 'as-frame', className)}>
       <div
-        className={cn('as-media', zoom && 'as-media-zoom', tone === 'dark' && 'as-media-dark')}
+        className={cn(
+          'as-media',
+          zoom && 'as-media-zoom',
+          tone === 'dark' && 'as-media-dark',
+          tone === 'light' && 'as-media-light'
+        )}
         style={{ aspectRatio: ratio }}
       >
         <picture>

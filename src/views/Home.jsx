@@ -461,6 +461,7 @@ function ResultsBand() {
                   alt={card.alt}
                   ratio="5 / 4"
                   position={card.position}
+                  tone="light"
                   sizes="(min-width: 768px) 30vw, 90vw"
                   priority
                 />
@@ -622,6 +623,7 @@ function PricingTeaser() {
                 alt="Perfect Lips — efekt makijażu permanentnego ust po wygojeniu"
                 ratio="2 / 1"
                 position="50% 28%"
+                tone="light"
                 sizes="(min-width: 1024px) 28vw, 90vw"
               />
             </div>

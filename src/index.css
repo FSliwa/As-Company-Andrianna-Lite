@@ -228,6 +228,24 @@
     filter: brightness(0.8) contrast(1.05) saturate(0.9);
   }
 
+  /* Ton jasnych (kremowych) sekcji. Makra skóry są 2× bardziej nasycone
+     i ~40 pkt ciemniejsze niż zdjęcia w kremowej sekcji makiety
+     (cel: L≈166, nasycenie ≈27%; moje kadry: L 99–131, sat 47–55%).
+     Filtr ściąga nasycenie i podnosi jasność, a kremowa „mgła" (22%)
+     wtapia krawędzie kadru w tło — po tym L 140–165, sat 25–32%. */
+  .as-media-light img {
+    filter: saturate(0.72) brightness(1.12) contrast(0.92);
+  }
+
+  .as-media-light::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #f6f1e8;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
   /* ——— Numerowane pozycje 01 / 02 / 03 ——— */
   .as-num {
     @apply font-display text-2xl leading-none text-gold sm:text-[1.75rem];
