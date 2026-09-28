@@ -71,7 +71,7 @@ function Hero() {
      wycięte ze sklejek, bez szwów i watermarków. */
   const thumbs = [
     { image: BY_NAME['brows-13-p3'], alt: 'Wygojona brew po zabiegu Super Natural Brows', position: '50% 50%' },
-    { image: LIPS[3], alt: 'Wygojone usta po zabiegu Perfect Lips', position: '50% 58%' },
+    { image: BY_NAME['lips-01-p2'], alt: 'Wygojone usta po zabiegu Perfect Lips', position: '50% 66%' },
   ];
 
   /* ——— Elementy współdzielone przez układ mobilny i desktopowy ——— */
@@ -94,7 +94,7 @@ function Hero() {
           key={i}
           image={t.image}
           alt={t.alt}
-          ratio="3 / 2"
+          ratio="2 / 1"
           position={t.position}
           className="flex-1"
           sizes="180px"
@@ -284,7 +284,7 @@ function AboutBand() {
   ];
 
   return (
-    <section id="o-nas" className="as-section relative overflow-hidden bg-espresso text-cream-50">
+    <section id="o-nas" className="relative overflow-hidden bg-espresso py-12 text-cream-50 lg:py-14">
       <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.3} />
 
       <div className="as-shell relative">
@@ -294,11 +294,11 @@ function AboutBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-10">
-          {/* lewa kolumna */}
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          {/* lewa kolumna — 33%, żeby „More than" mieściło się w jednym wierszu (3 wiersze jak w makiecie) */}
           <div className="lg:col-span-4">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance">
+              <h2 className="as-display-section as-text-balance">
                 More than
                 <br />
                 permanent
@@ -307,27 +307,27 @@ function AboutBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-8 max-w-sm">
+              <p className="mt-6 max-w-[17rem] text-[0.8125rem] leading-[1.75] text-cream-200/85">
                 Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
                 produkty, zaawansowaną edukację i realną praktykę.
               </p>
             </Reveal>
             <Reveal delay={140}>
-              <ArrowLink href="/o-nas" tone="light" className="mt-10 w-fit">
+              <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
                 Poznaj nasze podejście
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* trzy kadry */}
+          {/* trzy kadry — jak w makiecie: cienka złota ramka wokół trójki, odstępy ~4 px */}
           <div className="lg:col-span-8">
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-1 border border-gold/35 p-1 sm:grid-cols-3">
               {shots.map((s, i) => (
                 <Reveal key={i} delay={i * 90}>
                   <Figure
                     image={s.image}
                     alt={s.alt}
-                    ratio="4 / 5"
+                    ratio="7 / 8"
                     position={s.position}
                     tone="dark"
                     sizes="(min-width: 640px) 28vw, 90vw"
@@ -337,20 +337,19 @@ function AboutBand() {
               ))}
             </div>
 
-            {/* podpisy 01 / 02 / 03 */}
-            <div className="mt-10 grid gap-10 border-t border-cream-200/15 pt-8 sm:grid-cols-3">
+            {/* podpisy 01 / 02 / 03 — numer i tytuł w jednej linii, drobny opis (jak w makiecie) */}
+            <div className="mt-4 grid gap-6 sm:grid-cols-3">
               {PILLARS.map((p, i) => (
                 <Reveal key={p.number} delay={i * 90}>
                   <Link href={p.href} className="group block">
-                    <div className="flex items-center gap-4">
-                      <span className="as-num">{p.number}</span>
-                      <span className="h-px w-8 bg-cream-200/25 transition-all duration-300 group-hover:w-12 group-hover:bg-gold-light" />
+                    <div className="flex items-baseline gap-3">
+                      <span className="as-num text-lg sm:text-xl">{p.number}</span>
+                      <h3 className="font-display text-xl italic text-cream-50 sm:text-2xl">{p.title}</h3>
                     </div>
-                    <h3 className="as-display-sm mt-4 italic text-cream-50">{p.title}</h3>
-                    <p className="as-body-invert mt-3 text-[0.8125rem]">{p.desc}</p>
+                    <p className="mt-2 max-w-[15rem] text-[0.75rem] leading-[1.6] text-cream-200/75">{p.desc}</p>
                     <span
                       aria-hidden="true"
-                      className="mt-5 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
+                      className="mt-2 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
                     >
                       &#8594;
                     </span>
@@ -362,11 +361,12 @@ function AboutBand() {
         </div>
 
         {/* dopisek — w makiecie stoi przy zdjęciach u góry, nie jako osobny wiersz */}
-        <Reveal className="mt-10 flex items-center justify-end gap-6 xl:absolute xl:right-0 xl:top-0 xl:mt-0">
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-gold/40" aria-hidden="true">
+        {/* right-14 = padding as-shell na lg; right-0 liczyłoby się od krawędzi paddingu i wchodziło w margines */}
+        <Reveal className="mt-8 flex items-center justify-end gap-5 lg:absolute lg:right-14 lg:top-0 lg:mt-0">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-gold/40" aria-hidden="true">
             <span className="h-2 w-2 rounded-full bg-gold" />
           </span>
-          <p className="font-display text-base italic leading-[1.7] text-cream-100">
+          <p className="font-display text-sm italic leading-[1.65] text-cream-100">
             Narzędzia.
             <br />
             Wiedza.
@@ -398,8 +398,8 @@ const RESULT_CARDS = [
   {
     number: '02',
     title: 'Usta',
-    image: BY_NAME['lips-01-p2'],
-    position: '50% 66%',
+    image: LIPS[3],
+    position: '50% 55%',
     alt: 'Wygojone usta po zabiegu Perfect Lips',
     desc: 'Perfect Lips — lekka satynka, która po wygojeniu wygląda naturalnie i wyrównuje koloryt.',
     cta: 'Zobacz zabiegi ust',
@@ -418,7 +418,7 @@ const RESULT_CARDS = [
 
 function ResultsBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-cream-100">
+    <section className="relative overflow-hidden bg-cream-100 py-12 lg:py-14">
       <GoldArc className="-top-10 right-[-8%] h-[600px] w-[820px]" flip opacity={0.4} />
 
       <div className="as-shell relative">
@@ -426,31 +426,32 @@ function ResultsBand() {
           <SectionLabel number="03">Efekty</SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance text-ink">
+            <h2 className="as-display-section as-text-balance text-ink">
               Everything
               <br />
               behind the result.
             </h2>
           </Reveal>
 
-          <Reveal delay={90} className="lg:col-span-5 lg:pt-6">
-            <p className="as-body max-w-md">
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha">
               Realne prace, realne wygojenia. Specjalizujemy się w najbardziej naturalnym efekcie —
               bez przerysowanych konturów i bez kompromisów przy gojeniu.
             </p>
-            <ArrowLink href="/uslugi" className="mt-8 w-fit">
+            <ArrowLink href="/uslugi" className="mt-6 w-fit">
               Zobacz wszystkie zabiegi
             </ArrowLink>
           </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-x-6 gap-y-14 border-t border-ink/10 pt-10 md:grid-cols-3">
+        {/* karty jak w makiecie: kolumny rozdzielone pionową złotą linią, bez border-top */}
+        <div className="mt-10 grid gap-y-10 md:grid-cols-3 md:gap-x-0">
           {RESULT_CARDS.map((card, i) => (
             <Reveal key={card.number} delay={i * 100}>
-              <article className="group flex h-full flex-col">
-                <div className="mb-6 flex items-center gap-4">
+              <article className="group flex h-full flex-col border-l border-gold/35 pl-5 md:pr-7">
+                <div className="mb-4 flex items-center gap-4">
                   <span className="as-num">{card.number}</span>
                   <span className="h-px w-10 bg-ink/15 transition-all duration-300 group-hover:w-16 group-hover:bg-gold" />
                 </div>
@@ -458,15 +459,15 @@ function ResultsBand() {
                 <Figure
                   image={card.image}
                   alt={card.alt}
-                  ratio="2 / 1"
+                  ratio="5 / 4"
                   position={card.position}
                   sizes="(min-width: 768px) 30vw, 90vw"
                   priority
                 />
 
-                <h3 className="as-display-md mt-7 text-ink">{card.title}</h3>
-                <p className="as-body mt-3 flex-1">{card.desc}</p>
-                <ArrowLink href={card.href} className="mt-7 w-fit">
+                <h3 className="mt-5 font-display text-2xl text-ink sm:text-[1.75rem]">{card.title}</h3>
+                <p className="mt-2 flex-1 text-[0.75rem] leading-[1.6] text-mocha">{card.desc}</p>
+                <ArrowLink href={card.href} className="mt-5 w-fit">
                   {card.cta}
                 </ArrowLink>
               </article>
@@ -476,7 +477,7 @@ function ResultsBand() {
 
         {/* Linie produktowe — przeniesione tutaj z osobnego pasa, który był
             w całości tekstowy i wydłużał stronę bez żadnej treści wizualnej. */}
-        <Reveal delay={80} className="mt-16 border-t border-ink/10 pt-8">
+        <Reveal delay={80} className="mt-10 border-t border-ink/10 pt-5">
           <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
             <span className="as-label text-ink/45">Produkty AS</span>
             {PRODUCT_LINES.map((line) => (
@@ -508,7 +509,7 @@ function ResultsBand() {
 
 function TrainingBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
+    <section className="relative overflow-hidden bg-mocha py-12 text-cream-50 lg:py-14">
       <GoldArc className="top-0 left-[8%] h-[760px] w-[900px]" opacity={0.25} />
 
       <div className="as-shell relative">
@@ -518,22 +519,27 @@ function TrainingBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-12">
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance">
-                Szkolenia oparte na realnej praktyce
+              {/* łamanie jak w makiecie: Szkolenia / oparte na / realnej praktyce */}
+              <h2 className="as-display-section-sm">
+                Szkolenia
+                <br />
+                oparte na
+                <br />
+                realnej praktyce
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-8 max-w-sm">
+              <p className="mt-6 max-w-[17rem] text-[0.8125rem] leading-[1.75] text-cream-200/85">
                 Autorskie szkolenia AS to połączenie zaawansowanej techniki, wieloletniego
                 doświadczenia i realnej praktyki. Uczysz się od ekspertów, zdobywasz pewność siebie
                 i otrzymujesz wsparcie na każdym etapie swojej drogi.
               </p>
             </Reveal>
             <Reveal delay={140}>
-              <ArrowLink href="/szkolenia" tone="light" className="mt-10 w-fit">
+              <ArrowLink href="/szkolenia" tone="light" className="mt-8 w-fit">
                 Poznaj szkolenia
               </ArrowLink>
             </Reveal>
@@ -542,20 +548,21 @@ function TrainingBand() {
           {/* kolaż zdjęć kursantek */}
           <div className="lg:col-span-8">
             <Reveal>
-              <div className="grid gap-3">
+              {/* kolaż jak w makiecie: duże ~2,5:1, dwa małe ~2:1, złota linia wokół, odstępy 6 px */}
+              <div className="grid gap-1.5 border border-gold/35 p-1.5">
                 <Figure
                   image={ACADEMY[3]}
                   alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows"
-                  ratio="16 / 10"
-                  position="50% 22%"
+                  ratio="5 / 2"
+                  position="50% 18%"
                   tone="dark"
                   sizes="(min-width: 1024px) 60vw, 90vw"
                 />
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-1.5">
                   <Figure
                     image={ACADEMY[5]}
                     alt="Absolwentki szkolenia PMU odbierają certyfikaty"
-                    ratio="16 / 10"
+                    ratio="2 / 1"
                     position="50% 20%"
                     tone="dark"
                     sizes="(min-width: 1024px) 30vw, 45vw"
@@ -563,7 +570,7 @@ function TrainingBand() {
                   <Figure
                     image={ACADEMY[7]}
                     alt="Grupa kursantek Babushkina Academy po zakończonym kursie"
-                    ratio="16 / 10"
+                    ratio="2 / 1"
                     position="50% 20%"
                     tone="dark"
                     sizes="(min-width: 1024px) 30vw, 45vw"
@@ -574,14 +581,14 @@ function TrainingBand() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-cream-200/15 pt-10 md:grid-cols-3">
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
           {TRAINING_PILLARS.map((p, i) => (
             <Reveal key={p.number} delay={i * 90}>
-              <div className="flex items-start gap-6">
-                <span className="as-num text-gold-light">{p.number}</span>
+              <div className="flex items-baseline gap-4">
+                <span className="as-num text-lg text-gold-light sm:text-xl">{p.number}</span>
                 <div>
-                  <h3 className="as-display-sm italic text-cream-50">{p.title}</h3>
-                  <p className="as-body-invert mt-2.5 text-[0.8125rem]">{p.desc}</p>
+                  <h3 className="font-display text-xl italic text-cream-50 sm:text-2xl">{p.title}</h3>
+                  <p className="mt-1.5 max-w-[16rem] text-[0.75rem] leading-[1.6] text-cream-200/75">{p.desc}</p>
                 </div>
               </div>
             </Reveal>
@@ -598,7 +605,7 @@ function TrainingBand() {
 
 function PricingTeaser() {
   return (
-    <section className="relative overflow-hidden bg-cream-50 py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-cream-50 py-12 lg:py-14">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           {/* kolumna ze zdjęciem — bez niej pas był w całości tekstowy */}
@@ -662,7 +669,7 @@ function PricingTeaser() {
 function ClosingBand() {
   return (
     <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-      <div className="as-shell py-20 lg:py-24">
+      <div className="as-shell py-12 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           {/* kolaż — pas domykający też miał zero zdjęć */}
           <Reveal className="lg:col-span-5">

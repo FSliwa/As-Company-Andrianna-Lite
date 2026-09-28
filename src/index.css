@@ -98,6 +98,21 @@
     font-size: clamp(1.5rem, 2.4vw, 2.125rem);
   }
 
+  /* Nagłówek sekcji jak w makiecie: ok. 5,2% szerokości kadru treści
+     (≈60 px przy 1159 px). as-display-lg było o ~30% za duże i łamało
+     „Szkolenia oparte na realnej praktyce" na cztery wiersze. */
+  .as-display-section {
+    @apply as-display;
+    font-size: clamp(2.125rem, 4.9vw, 3.75rem);
+  }
+
+  /* Wariant dla trzywierszowego nagłówka w kolumnie 33% („Szkolenia oparte
+     na realnej praktyce") — w makiecie ~50 px przy 1159 px treści. */
+  .as-display-section-sm {
+    @apply as-display;
+    font-size: clamp(1.75rem, 3.7vw, 3rem);
+  }
+
   .as-body {
     @apply text-[0.9375rem] leading-[1.75] text-mocha;
   }
