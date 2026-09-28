@@ -66,10 +66,10 @@
     @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-14;
   }
 
-  /* Rytm z makiety: pasy sa zwarte. Wczesniej 144px gory i dolu
-     dawalo strone o ~40% wyzsza niz projekt. */
+  /* Rytm z makiety (zmierzony parami sekcja–sekcja): ok. 48 px góra/dół.
+     To samo, co ma strona główna — podstrony dziedziczą automatycznie. */
   .as-section {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-12 lg:py-14;
   }
 
   /* ——— Typografia ——— */
@@ -121,6 +121,34 @@
      czyli ponizej progu WCAG AA 4,5:1. /90 daje ok. 5,1:1. */
   .as-body-invert {
     @apply text-[0.9375rem] leading-[1.75] text-cream-200/90;
+  }
+
+  /* Zajawki, opisy kart, podpisy — jak w makiecie (12–13 px), z wąskim łamem. */
+  .as-caption {
+    @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha;
+  }
+
+  .as-caption-invert {
+    @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-cream-200/85;
+  }
+
+  /* Numer + tytuł w jednej linii + drobny opis (pozycje 01/02/03 z makiety). */
+  .as-numbered-title {
+    @apply font-display text-xl italic sm:text-2xl;
+  }
+
+  .as-numbered-desc {
+    @apply mt-2 max-w-[15rem] text-[0.75rem] leading-[1.6];
+  }
+
+  /* Karta w rzędzie rozdzielonym pionową złotą linią (sekcja „Efekty"). */
+  .as-card-col {
+    @apply flex h-full flex-col border-l border-gold/35 pl-5 md:pr-7;
+  }
+
+  /* Złota linia wokół grupy zdjęć (trójka w „O nas", kolaż w „Szkolenia"). */
+  .as-photo-frame {
+    @apply border border-gold/35 p-1;
   }
 
   /* Mikro-etykiety w kapitalikach: „02 / O NAS” */

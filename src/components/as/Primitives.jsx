@@ -147,20 +147,12 @@ export function Figure({
 export function NumberedItem({ number, title, children, href, tone = 'dark', className }) {
   const isLight = tone === 'light';
   return (
-    <div className={cn('flex flex-col gap-4', className)}>
-      <div className="flex items-center gap-4">
-        <span className="as-num">{number}</span>
-        <span className={cn('h-px w-10', isLight ? 'bg-cream-200/25' : 'bg-ink/15')} />
+    <div className={cn('flex flex-col gap-2', className)}>
+      <div className="flex items-baseline gap-3">
+        <span className="as-num text-lg sm:text-xl">{number}</span>
+        <h3 className={cn('as-numbered-title', isLight ? 'text-cream-50' : 'text-ink')}>{title}</h3>
       </div>
-      <h3
-        className={cn(
-          'as-display-sm italic',
-          isLight ? 'text-cream-50' : 'text-ink'
-        )}
-      >
-        {title}
-      </h3>
-      <p className={cn('max-w-xs', isLight ? 'as-body-invert' : 'as-body')}>{children}</p>
+      <p className={cn('as-numbered-desc', isLight ? 'text-cream-200/75' : 'text-mocha')}>{children}</p>
       {href && (
         <ArrowLink href={href} tone={tone} className="mt-1 self-start border-b-0 pb-0">
           <span className="sr-only">Przejdź: {title}</span>
@@ -313,6 +305,8 @@ export function PageHero({
   lead,
   image,
   imageAlt,
+  imageTone,
+  imagePosition,
   tone = 'cream',
   children,
 }) {
@@ -320,7 +314,7 @@ export function PageHero({
   return (
     <section
       className={cn(
-        'relative overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36 lg:pb-32 lg:pt-44',
+        'relative overflow-hidden pb-12 pt-24 sm:pt-28 lg:pb-16 lg:pt-32',
         isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink'
       )}
     >
@@ -345,9 +339,9 @@ export function PageHero({
               )}
             </h1>
             {lead && (
-              <p className={cn('mt-8 max-w-xl', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>
+              <p className={cn('mt-6 max-w-xl', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>
             )}
-            {children && <div className="mt-10">{children}</div>}
+            {children && <div className="mt-8">{children}</div>}
           </div>
 
           {image && (
@@ -356,6 +350,8 @@ export function PageHero({
                 image={image}
                 alt={imageAlt || title}
                 ratio="4 / 5"
+                position={imagePosition}
+                tone={imageTone}
                 framed
                 priority
                 sizes="(min-width: 1024px) 40vw, 100vw"

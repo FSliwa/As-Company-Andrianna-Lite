@@ -78,7 +78,7 @@ function Hero() {
 
   const lead = (
     <>
-      <p className="max-w-[17rem] text-[0.8125rem] leading-[1.9] text-mocha">
+      <p className="as-caption max-w-[17rem] leading-[1.9]">
         Profesjonalne produkty PMU, edukacja i doświadczenie tworzone przez praktyków.
       </p>
       <ArrowLink href="/o-nas" className="mt-7 w-fit">
@@ -307,7 +307,7 @@ function AboutBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="mt-6 max-w-[17rem] text-[0.8125rem] leading-[1.75] text-cream-200/85">
+              <p className="as-caption-invert mt-6 max-w-[17rem]">
                 Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
                 produkty, zaawansowaną edukację i realną praktykę.
               </p>
@@ -321,7 +321,7 @@ function AboutBand() {
 
           {/* trzy kadry — jak w makiecie: cienka złota ramka wokół trójki, odstępy ~4 px */}
           <div className="lg:col-span-8">
-            <div className="grid gap-1 border border-gold/35 p-1 sm:grid-cols-3">
+            <div className="as-photo-frame grid gap-1 sm:grid-cols-3">
               {shots.map((s, i) => (
                 <Reveal key={i} delay={i * 90}>
                   <Figure
@@ -344,9 +344,9 @@ function AboutBand() {
                   <Link href={p.href} className="group block">
                     <div className="flex items-baseline gap-3">
                       <span className="as-num text-lg sm:text-xl">{p.number}</span>
-                      <h3 className="font-display text-xl italic text-cream-50 sm:text-2xl">{p.title}</h3>
+                      <h3 className="as-numbered-title text-cream-50">{p.title}</h3>
                     </div>
-                    <p className="mt-2 max-w-[15rem] text-[0.75rem] leading-[1.6] text-cream-200/75">{p.desc}</p>
+                    <p className="as-numbered-desc text-cream-200/75">{p.desc}</p>
                     <span
                       aria-hidden="true"
                       className="mt-2 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
@@ -436,7 +436,7 @@ function ResultsBand() {
           </Reveal>
 
           <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
-            <p className="max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha">
+            <p className="as-caption">
               Realne prace, realne wygojenia. Specjalizujemy się w najbardziej naturalnym efekcie —
               bez przerysowanych konturów i bez kompromisów przy gojeniu.
             </p>
@@ -450,7 +450,7 @@ function ResultsBand() {
         <div className="mt-10 grid gap-y-10 md:grid-cols-3 md:gap-x-0">
           {RESULT_CARDS.map((card, i) => (
             <Reveal key={card.number} delay={i * 100}>
-              <article className="group flex h-full flex-col border-l border-gold/35 pl-5 md:pr-7">
+              <article className="as-card-col group">
                 <div className="mb-4 flex items-center gap-4">
                   <span className="as-num">{card.number}</span>
                   <span className="h-px w-10 bg-ink/15 transition-all duration-300 group-hover:w-16 group-hover:bg-gold" />
@@ -467,7 +467,7 @@ function ResultsBand() {
                 />
 
                 <h3 className="mt-5 font-display text-2xl text-ink sm:text-[1.75rem]">{card.title}</h3>
-                <p className="mt-2 flex-1 text-[0.75rem] leading-[1.6] text-mocha">{card.desc}</p>
+                <p className="as-numbered-desc max-w-none flex-1 text-mocha">{card.desc}</p>
                 <ArrowLink href={card.href} className="mt-5 w-fit">
                   {card.cta}
                 </ArrowLink>
@@ -515,7 +515,7 @@ function TrainingBand() {
 
       <div className="as-shell relative">
         <Reveal>
-          <SectionLabel number="05" tone="light">
+          <SectionLabel number="04" tone="light">
             Szkolenia
           </SectionLabel>
         </Reveal>
@@ -533,7 +533,7 @@ function TrainingBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="mt-6 max-w-[17rem] text-[0.8125rem] leading-[1.75] text-cream-200/85">
+              <p className="as-caption-invert mt-6 max-w-[17rem]">
                 Autorskie szkolenia AS to połączenie zaawansowanej techniki, wieloletniego
                 doświadczenia i realnej praktyki. Uczysz się od ekspertów, zdobywasz pewność siebie
                 i otrzymujesz wsparcie na każdym etapie swojej drogi.
@@ -550,7 +550,7 @@ function TrainingBand() {
           <div className="lg:col-span-8">
             <Reveal>
               {/* kolaż jak w makiecie: duże ~2,5:1, dwa małe ~2:1, złota linia wokół, odstępy 6 px */}
-              <div className="grid gap-1.5 border border-gold/35 p-1.5">
+              <div className="as-photo-frame grid gap-1.5 p-1.5">
                 <Figure
                   image={ACADEMY[3]}
                   alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows"
@@ -588,8 +588,8 @@ function TrainingBand() {
               <div className="flex items-baseline gap-4">
                 <span className="as-num text-lg text-gold-light sm:text-xl">{p.number}</span>
                 <div>
-                  <h3 className="font-display text-xl italic text-cream-50 sm:text-2xl">{p.title}</h3>
-                  <p className="mt-1.5 max-w-[16rem] text-[0.75rem] leading-[1.6] text-cream-200/75">{p.desc}</p>
+                  <h3 className="as-numbered-title text-cream-50">{p.title}</h3>
+                  <p className="as-numbered-desc text-cream-200/75">{p.desc}</p>
                 </div>
               </div>
             </Reveal>
@@ -697,7 +697,7 @@ function ClosingBand() {
 
           <div className="lg:col-span-7">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance">
+              <h2 className="as-display-section as-text-balance">
                 Zacznijmy od <span className="italic text-gold-light">konsultacji.</span>
               </h2>
               <p className="as-body-invert mt-7 max-w-lg">
@@ -718,7 +718,7 @@ function ClosingBand() {
               {ACHIEVEMENTS.map((a, i) => (
                 <Reveal key={a.label} delay={i * 70}>
                   <p className="as-display-sm text-gold-light">{a.value}</p>
-                  <p className="as-body-invert mt-2 max-w-[16rem] text-[0.8125rem]">{a.label}</p>
+                  <p className="as-caption-invert mt-2 max-w-[16rem]">{a.label}</p>
                 </Reveal>
               ))}
             </div>
