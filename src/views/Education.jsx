@@ -3,23 +3,21 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import {
   ArrowLink,
-  FactStrip,
+  ClosingCta,
+  Faq,
+  Field,
   Figure,
   GoldArc,
+  NumberedItem,
   PageHero,
   Reveal,
   SectionLabel,
@@ -33,7 +31,8 @@ import {
   FOUNDER,
 } from '@/lib/site';
 import { ACADEMY, BROWS, BY_NAME, COURSE, LIPS, STUDIO } from '@/lib/media';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { cn } from '@/lib/utils';
 
 /**
  * Szkolenia (/szkolenia)
@@ -44,10 +43,21 @@ import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
  *    makr — nigdy z plików zbiorczych sklejek „przed/po" (szwy, watermarki);
  *    żaden plik nie występuje na stronie dwa razy, grupy kursantek zawsze z
  *    position u góry, a w ciemnych sekcjach zdjęcia dostają tone="dark",
+ *    w kremowych — tone="light" (poza plakatami z wtopionym tekstem),
+ *  • rytm tła przeplata się bez wyjątku: cream-50 → espresso → cream-100 → mocha
+ *    → cream-50 → espresso-900 → cream-100 → mocha → cream-100 → espresso-900
+ *    (ClosingCta); galeria kursantek jest kolażem w sekcji „Dofinansowanie",
+ *    żeby dwie jasne sekcje nie stały obok siebie,
+ *  • rytm, skala pisma i komponenty 1:1 ze stroną główną (src/views/Home.jsx):
+ *    .as-section, SectionLabel → h2 .as-display-section (mt-6) → treść (mt-6)
+ *    → CTA (mt-8); grupy zdjęć w .as-photo-frame z podpisami .as-caption(-invert),
+ *    rzędy kart w .as-card-col, pozycje 01/02/03 jako NumberedItem, kicker
+ *    kart .as-kicker, FAQ przez <Faq/>, pola formularza przez <Field/>,
+ *    ostatnia sekcja przez <ClosingCta/>,
  *  • dane programów, korzyści i harmonogram pochodzą z '@/lib/site'
  *    (COURSES, COURSE_BENEFITS, COURSE_SCHEDULE) — czyli 1:1 z grafik marki,
  *  • grafiki COURSE mają wtopiony tekst, więc występują wyłącznie jako
- *    samodzielne karty/plakaty — nigdy jako tło pod inny tekst,
+ *    samodzielne plakaty (bez tonu) — nigdy jako tło pod inny tekst,
  *  • nie ma zdjęć produktów, budynku ani recepcji, więc sekcje, które ich
  *    wymagały (metoda, dofinansowanie, programy dodatkowe), są zbudowane
  *    typograficznie,
@@ -163,6 +173,27 @@ const FUNDING = [
   { number: '03', short: 'BUR', title: 'Baza Usług Rozwojowych' },
 ];
 
+/* Cztery różne grupy kursantek — każda tylko raz na stronie; pomijamy
+   academy-05 (choinka) i academy-03 (wypalona ikonka w rogu). */
+const GALLERY = [
+  {
+    image: ACADEMY[0],
+    alt: 'Trzy kursantki z certyfikatami ukończenia szkolenia pod logo Babushkina Academy',
+  },
+  {
+    image: ACADEMY[7],
+    alt: 'Trzy absolwentki w czerni z certyfikatami Super Natural Brows na tle logo Babushkina Academy',
+  },
+  {
+    image: ACADEMY[3],
+    alt: 'Pięć absolwentek kursu z certyfikatami przed białą ścianą Babushkina Academy',
+  },
+  {
+    image: ACADEMY[5],
+    alt: 'Cztery kursantki z certyfikatami ukończenia szkolenia w Babushkina Academy',
+  },
+];
+
 const FAQ_ITEMS = [
   {
     q: 'Czy po szkoleniu zacznę pracę z klientkami?',
@@ -191,7 +222,7 @@ const METHOD_STEPS = [
   {
     number: '01',
     title: 'Przygotowanie online',
-    desc: 'Filmy instruktażowe w dostępie na zawsze, skrypt z teorią i ćwiczeniami. Paczkę z materiałami i akcesoriami wysyłamy przed rozpoczęciem części stacjonarnej.',
+    desc: 'Filmy instruktażowe w dostępie na zawsze, skrypt z teorią i ćwiczeniami. Paczkę z materiałami i akcesoriami wysyłamy przed częścią stacjonarną.',
   },
   {
     number: '02',
@@ -205,10 +236,7 @@ const METHOD_STEPS = [
   },
 ];
 
-const FIELD_CLASS =
-  'w-full border border-ink/15 bg-cream-50 px-4 py-3 text-[0.9375rem] text-ink transition-colors placeholder:text-mocha-400/70 focus:border-gold focus:outline-none';
-
-const LABEL_CLASS = 'as-label mb-2.5 block text-ink/55';
+const pad = (n) => String(n).padStart(2, '0');
 
 /* ================================================================== */
 /*  01 — HERO                                                          */
@@ -224,9 +252,12 @@ function Hero() {
       lead="Nasze programy opierają się na dużej ilości praktyki, zniwelowaniu lęku przed pracą z klientkami i efektywnym zastosowaniu wiedzy w gabinecie. Uczymy nie tylko tego, jak wykonać jakościowy zabieg, ale też jak wykonać go szybko, komfortowo, bezboleśnie i bezpiecznie."
       image={ACADEMY[1]}
       imageAlt="Grupa kursantek Babushkina Academy z certyfikatami Super Natural Brows"
+      imageTone="light"
+      imagePosition="50% 20%"
       tone="cream"
+      facts={['RIS · KFS · BUR', CONTACT.city, 'Kameralne grupy']}
     >
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap gap-4">
         <a href="#kursy" className="as-btn-solid">
           Zobacz programy
         </a>
@@ -234,10 +265,6 @@ function Hero() {
           Zapytaj o termin
         </Link>
       </div>
-      <FactStrip
-        className="mt-10 border-t border-ink/10 pt-6"
-        items={['RIS · KFS · BUR', CONTACT.venue, CONTACT.city, 'Kameralne grupy']}
-      />
     </PageHero>
   );
 }
@@ -258,10 +285,11 @@ function MethodBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
+        {/* układ jak w pasie „Szkolenia" na stronie głównej: kolumna 33% + kolaż */}
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-4">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance">
+              <h2 className="as-display-section-sm">
                 Teoria w domu.
                 <br />
                 Praktyka na
@@ -270,45 +298,45 @@ function MethodBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-8 max-w-sm">
-                Teorię i przygotowanie przerabiasz online, we własnym tempie. Podczas dni
-                stacjonarnych pracujemy wyłącznie na skórkach i żywych modelkach — dlatego wychodzisz
-                z kursu z realnie przepracowanymi zabiegami, a nie z notatkami.
+              <p className="as-caption-invert mt-6">
+                Teorię przerabiasz online, we własnym tempie. Dni stacjonarne to wyłącznie skórki i
+                żywe modelki — wychodzisz z kursu z realnie przepracowanymi zabiegami, nie z
+                notatkami.
               </p>
             </Reveal>
             <Reveal delay={140}>
-              <ArrowLink href="#kursy" tone="light" className="mt-10 w-fit">
+              <ArrowLink href="#kursy" tone="light" className="mt-8 w-fit">
                 Zobacz programy
               </ArrowLink>
             </Reveal>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-8">
             <Reveal>
-              <div className="grid gap-3">
+              <div className="as-photo-frame grid gap-1">
                 <Figure
                   image={ACADEMY[6]}
                   alt="Cztery kursantki z certyfikatami Super Natural Brows przed ścianą z logo Babushkina Academy"
-                  ratio="16 / 10"
-                  position="50% 18%"
+                  ratio="5 / 2"
+                  position="50% 20%"
                   tone="dark"
-                  sizes="(min-width: 1024px) 55vw, 90vw"
+                  sizes="(min-width: 1024px) 60vw, 90vw"
                 />
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-1">
                   <Figure
                     image={STUDIO[13]}
                     alt="Andriana Babushkina — portret z sesji wizerunkowej AS Company"
                     ratio="2 / 1"
                     position="50% 30%"
                     tone="dark"
-                    sizes="(min-width: 1024px) 27vw, 45vw"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
                   />
                   <Figure
                     image={BY_NAME['brows-13-p1']}
                     alt="Wygojony łuk brwi z pojedynczymi włoskami po pigmentacji — zbliżenie"
                     ratio="2 / 1"
                     tone="dark"
-                    sizes="(min-width: 1024px) 27vw, 45vw"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
                   />
                 </div>
               </div>
@@ -316,16 +344,12 @@ function MethodBand() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-cream-200/15 pt-10 md:grid-cols-3">
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
           {METHOD_STEPS.map((step, i) => (
             <Reveal key={step.number} delay={i * 90}>
-              <div className="flex items-start gap-6">
-                <span className="as-num text-gold-light">{step.number}</span>
-                <div>
-                  <h3 className="as-display-sm italic text-cream-50">{step.title}</h3>
-                  <p className="as-body-invert mt-2.5 text-[0.8125rem]">{step.desc}</p>
-                </div>
-              </div>
+              <NumberedItem number={step.number} title={step.title} tone="light">
+                {step.desc}
+              </NumberedItem>
             </Reveal>
           ))}
         </div>
@@ -362,7 +386,7 @@ const EFFECT_THUMBS = [
 
 function ProgramsBand({ onBook }) {
   return (
-    <section id="kursy" className="as-section relative overflow-hidden bg-cream-100">
+    <section id="kursy" className="as-section relative overflow-hidden scroll-mt-20 bg-cream-100">
       <GoldArc className="-top-12 right-[-8%] h-[640px] w-[860px]" flip opacity={0.35} />
 
       <div className="as-shell relative">
@@ -370,82 +394,91 @@ function ProgramsBand({ onBook }) {
           <SectionLabel number="03">Programy</SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance text-ink">
+            <h2 className="as-display-section as-text-balance text-ink">
               Dwie ścieżki
               <br />
               Super Natural Brows.
             </h2>
           </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pb-2">
-            <p className="as-body max-w-md">
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="as-caption">
               Program i ceny pochodzą wprost z materiałów {BRAND.academy}. Wybierz ścieżkę zależnie
               od tego, czy dopiero zaczynasz, czy chcesz przejść z pudru na maszynowy włos.
             </p>
+            <ArrowLink href="#materialy" className="mt-6 w-fit">
+              Zobacz karty programów
+            </ArrowLink>
           </Reveal>
         </div>
 
-        {/* pasek efektów techniki, której uczymy */}
-        <Reveal delay={120}>
-          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {/* pasek efektów techniki, której uczymy — czwórka w jednej złotej ramce */}
+        <Reveal delay={120} className="mt-8">
+          <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-4">
             {EFFECT_THUMBS.map((t, i) => (
               <Figure
                 key={i}
                 image={t.image}
                 alt={t.alt}
-                ratio="16 / 10"
+                ratio="2 / 1"
                 position={t.position}
+                tone="light"
                 sizes="(min-width: 640px) 22vw, 45vw"
               />
             ))}
           </div>
-          <p className="as-label mt-4 text-ink/45">Efekty techniki, której uczymy</p>
+          <p className="as-caption mt-3">Efekty techniki, której uczymy</p>
         </Reveal>
 
-        <div className="mt-20 space-y-20 lg:space-y-28">
+        {/* dwa programy — każdy jako karta z pionową złotą linią, plakat + treść */}
+        <div className="mt-10 grid gap-y-12">
           {COURSES.map((course, index) => {
             const poster = COURSE_POSTERS[course.id];
             const reversed = index % 2 === 1;
 
             return (
-              <article key={course.id} className="border-t border-ink/10 pt-12">
-                <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-                  {/* plakat programu — samodzielna karta */}
+              <article key={course.id} className="as-card-col md:pr-0">
+                <div className="mb-5 flex items-center gap-4">
+                  <span className="as-num">{pad(index + 1)}</span>
+                  <span className="h-px w-10 bg-ink/15" aria-hidden="true" />
+                </div>
+
+                <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+                  {/* plakat programu — samodzielna karta z wtopionym tekstem */}
                   {poster && (
-                    <Reveal
-                      className={`lg:col-span-4 ${reversed ? 'lg:order-2' : ''}`}
-                    >
+                    <Reveal className={cn('lg:col-span-4', reversed && 'lg:order-2')}>
                       <Figure
                         image={poster.image}
                         alt={poster.alt}
                         ratio="9 / 16"
-                        framed
                         zoom={false}
                         sizes="(min-width: 1024px) 30vw, 85vw"
                       />
                     </Reveal>
                   )}
 
-                  <div className={`lg:col-span-8 ${reversed ? 'lg:order-1' : ''}`}>
+                  <div className={cn('lg:col-span-8', reversed && 'lg:order-1')}>
                     <Reveal>
-                      <span className="as-label text-gold-dark">{course.kicker}</span>
-                      <h3 className="as-display-md mt-4 text-ink">{course.title}</h3>
-                      <p className="as-body mt-5 max-w-xl">{course.lead}</p>
+                      <span className="as-kicker">{course.kicker}</span>
+                      <h3 className="mt-3 font-display text-2xl text-ink sm:text-[1.75rem]">
+                        {course.title}
+                      </h3>
+                      <p className="as-caption mt-4 max-w-md">{course.lead}</p>
                     </Reveal>
 
                     <Reveal delay={80}>
-                      <div className="mt-9 flex flex-wrap items-baseline gap-x-10 gap-y-4 border-y border-ink/10 py-6">
+                      <div className="mt-6 flex flex-wrap items-baseline gap-x-10 gap-y-4 border-y border-ink/10 py-5">
                         <div>
-                          <span className="as-label block text-ink/45">Format</span>
-                          <span className="mt-2 block text-base text-ink">{course.format}</span>
+                          <span className="as-kicker block">Format</span>
+                          <span className="mt-2 block text-[0.8125rem] text-ink">{course.format}</span>
                         </div>
                         <div>
-                          <span className="as-label block text-ink/45">Cena</span>
-                          <span className="mt-1 block font-display text-2xl text-ink">
+                          <span className="as-kicker block">Cena</span>
+                          <span className="mt-1.5 block font-display text-xl text-ink">
                             {course.price}
                             {course.priceNote && (
-                              <span className="ml-2 align-middle text-xs uppercase tracking-wider2 text-mocha-400">
+                              <span className="as-label ml-2 align-middle text-mocha-400">
                                 {course.priceNote}
                               </span>
                             )}
@@ -455,29 +488,25 @@ function ProgramsBand({ onBook }) {
                     </Reveal>
 
                     <Reveal delay={120}>
-                      <ul className="mt-9 grid gap-x-10 gap-y-7 sm:grid-cols-2">
+                      <ul className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2">
                         {course.program.map((item, i) => (
-                          <li key={item.label} className="flex gap-4">
-                            <span className="as-num text-lg sm:text-xl">
-                              {String(i + 1).padStart(2, '0')}
-                            </span>
-                            <div>
-                              <span className="block text-[0.9375rem] leading-snug text-ink">
-                                {item.label}
-                              </span>
-                              {item.detail && (
-                                <span className="mt-1.5 block text-[0.8125rem] leading-relaxed text-mocha-400">
-                                  {item.detail}
-                                </span>
-                              )}
+                          <li key={item.label}>
+                            <div className="flex items-baseline gap-3">
+                              <span className="as-num text-lg sm:text-xl">{pad(i + 1)}</span>
+                              <h4 className="as-numbered-title text-ink">{item.label}</h4>
                             </div>
+                            {item.detail && (
+                              <p className="as-numbered-desc max-w-[19rem] text-mocha">
+                                {item.detail}
+                              </p>
+                            )}
                           </li>
                         ))}
                       </ul>
                     </Reveal>
 
                     <Reveal delay={160}>
-                      <div className="mt-10 flex flex-wrap items-center gap-4">
+                      <div className="mt-8 flex flex-wrap items-center gap-4">
                         <button
                           type="button"
                           onClick={() => onBook({ id: course.id, title: course.title })}
@@ -485,9 +514,7 @@ function ProgramsBand({ onBook }) {
                         >
                           Zgłoś się na szkolenie
                         </button>
-                        <span className="as-label text-ink/45">
-                          Terminy zjazdów ustalamy indywidualnie
-                        </span>
+                        <span className="as-kicker">Terminy zjazdów ustalamy indywidualnie</span>
                       </div>
                     </Reveal>
                   </div>
@@ -507,7 +534,10 @@ function ProgramsBand({ onBook }) {
 
 function SheetsBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
+    <section
+      id="materialy"
+      className="as-section relative overflow-hidden scroll-mt-20 bg-mocha text-cream-50"
+    >
       <GoldArc className="top-0 left-[6%] h-[740px] w-[880px]" opacity={0.25} />
 
       <div className="as-shell relative">
@@ -517,36 +547,43 @@ function SheetsBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance">Program w oryginale.</h2>
+            <h2 className="as-display-section as-text-balance">Program w oryginale.</h2>
           </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pb-2">
-            <p className="as-body-invert max-w-md">
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="as-caption-invert">
               Karty programów {BRAND.academy} — dokładnie te, które dostają kursantki. Zakres, ceny
               i harmonogram bez skrótów i bez tłumaczenia na marketingowy język.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {COURSE_SHEETS.map((sheet, i) => (
-            <Reveal key={sheet.alt} delay={i * 80}>
-              <article className="flex h-full flex-col">
-                <Figure
-                  image={sheet.image}
-                  alt={sheet.alt}
-                  ratio="9 / 16"
-                  zoom={false}
-                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                />
-                <span className="as-label mt-6 text-gold-light">{sheet.kicker}</span>
-                <h3 className="as-display-sm mt-3 italic text-cream-50">{sheet.title}</h3>
-                <p className="as-body-invert mt-2.5 text-[0.8125rem]">{sheet.desc}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+        {/* pięć plakatów w jednej złotej ramce (tekst wtopiony w grafikę — bez tonu),
+            podpisy w tej samej siatce pod ramką */}
+        <Reveal delay={120} className="mt-10">
+          <div className="as-photo-frame grid grid-cols-2 gap-1 md:grid-cols-3 lg:grid-cols-5">
+            {COURSE_SHEETS.map((sheet) => (
+              <Figure
+                key={sheet.alt}
+                image={sheet.image}
+                alt={sheet.alt}
+                ratio="9 / 16"
+                zoom={false}
+                sizes="(min-width: 1024px) 18vw, (min-width: 768px) 30vw, 45vw"
+              />
+            ))}
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-x-1 gap-y-6 px-1 md:grid-cols-3 lg:grid-cols-5">
+            {COURSE_SHEETS.map((sheet) => (
+              <div key={sheet.alt}>
+                <span className="as-kicker-invert">{sheet.kicker}</span>
+                <h3 className="as-numbered-title mt-2 text-cream-50">{sheet.title}</h3>
+                <p className="as-caption-invert mt-2">{sheet.desc}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -560,37 +597,38 @@ function BenefitsBand() {
   return (
     <section className="as-section bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
+        {/* układ jak w zajawce cennika na stronie głównej: kolumna 33% + lista */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
             <Reveal>
               <SectionLabel number="05">W cenie</SectionLabel>
-              <h2 className="as-display-lg as-text-balance mt-8 text-ink">
-                Wszystko, co dostajesz
+              <h2 className="as-display-section-sm mt-6 text-ink">
+                Wszystko,
+                <br />
+                co dostajesz
                 <br />
                 w cenie kursu.
               </h2>
-              <p className="as-body mt-7 max-w-sm">
+              <p className="as-caption mt-6">
                 Lista wspólna dla obu programów — spisana z kart szkoleniowych, bez gwiazdek i
                 dopłat ukrytych w regulaminie.
               </p>
-              <ArrowLink href="#kursy" className="mt-9 w-fit">
+              <ArrowLink href="#kursy" className="mt-8 w-fit">
                 Wróć do programów
               </ArrowLink>
             </Reveal>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-8">
             <Reveal delay={90}>
-              <ul className="grid gap-x-10 sm:grid-cols-2">
+              <ul className="grid gap-x-8 sm:grid-cols-2">
                 {COURSE_BENEFITS.map((benefit, i) => (
                   <li
                     key={benefit}
-                    className="flex gap-4 border-b border-ink/10 py-5 first:border-t sm:[&:nth-child(2)]:border-t"
+                    className="flex items-baseline gap-4 border-b border-ink/10 py-4 first:border-t sm:[&:nth-child(2)]:border-t"
                   >
-                    <span className="as-num text-lg sm:text-xl">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-[0.9375rem] leading-relaxed text-ink">{benefit}</span>
+                    <span className="as-num text-lg sm:text-xl">{pad(i + 1)}</span>
+                    <span className="text-[0.8125rem] leading-[1.75] text-ink">{benefit}</span>
                   </li>
                 ))}
               </ul>
@@ -608,46 +646,50 @@ function BenefitsBand() {
 
 function ScheduleBand() {
   return (
-    <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-      <div className="as-shell py-20 lg:py-28">
+    <section className="as-section relative overflow-hidden bg-espresso-900 text-cream-50">
+      <div className="as-shell">
         <Reveal>
           <SectionLabel number="06" tone="light">
             Harmonogram
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance">Cztery dni, godzina po godzinie.</h2>
+            <h2 className="as-display-section as-text-balance">
+              Cztery dni,
+              <br />
+              godzina po godzinie.
+            </h2>
           </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pb-2">
-            <p className="as-body-invert max-w-md">
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="as-caption-invert">
               Plan części stacjonarnej kursu podstawowego. W programie Super Natural Brows część
-              stacjonarna trwa dwa dni i przebiega według tego samego rytmu: egzamin, skórki,
-              modelki.
+              stacjonarna trwa dwa dni i przebiega w tym samym rytmie: egzamin, skórki, modelki.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-x-12 gap-y-12 border-t border-cream-200/12 pt-12 md:grid-cols-2">
+        {/* cztery dni jako rząd kart z pionową złotą linią */}
+        <div className="mt-10 grid gap-y-10 md:grid-cols-2 md:gap-x-0 lg:grid-cols-4">
           {COURSE_SCHEDULE.map((day, i) => (
             <Reveal key={day.day} delay={i * 80}>
-              <h3 className="as-display-sm italic text-cream-50">{day.day}</h3>
-              <ul className="mt-6">
-                {day.rows.map(([time, text]) => (
-                  <li
-                    key={`${day.day}-${time}-${text}`}
-                    className="flex gap-6 border-b border-cream-200/12 py-3.5"
-                  >
-                    <span className="w-14 shrink-0 font-display text-base text-gold-light">
-                      {time}
-                    </span>
-                    <span className="text-[0.8125rem] leading-relaxed text-cream-200/75">
-                      {text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <article className="as-card-col">
+                <h3 className="font-display text-2xl text-cream-50 sm:text-[1.75rem]">{day.day}</h3>
+                <ul className="mt-4">
+                  {day.rows.map(([time, text]) => (
+                    <li
+                      key={`${day.day}-${time}-${text}`}
+                      className="flex gap-4 border-b border-cream-200/12 py-3"
+                    >
+                      <span className="w-12 shrink-0 font-display text-base text-gold-light">
+                        {time}
+                      </span>
+                      <span className="text-[0.75rem] leading-[1.6] text-cream-200/75">{text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -670,191 +712,85 @@ function ExtraCoursesBand({ onBook }) {
           <SectionLabel number="07">Pozostałe programy</SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <div className="lg:col-span-7">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance text-ink">
+              <h2 className="as-display-section as-text-balance text-ink">
                 Masterclass, online
                 <br />i szkolenia 1 na 1.
               </h2>
-              <p className="as-body mt-8 max-w-lg">
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="as-caption mt-6">
                 Poza dwiema głównymi ścieżkami prowadzimy programy dla osób, które mają już swoją
-                technikę i chcą dopracować detal, przejść na nową strefę albo uczyć się w trybie
-                indywidualnym.
+                technikę i chcą dopracować detal, przejść na nową strefę albo uczyć się
+                indywidualnie.
               </p>
             </Reveal>
-
-            <div className="mt-12 border-t border-ink/10">
-              {EXTRA_COURSES.map((course, i) => (
-                <Reveal key={course.id} delay={i * 80}>
-                  <article className="border-b border-ink/10 py-10">
-                    <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
-                      <div className="flex items-center gap-5">
-                        <span className="as-num">{course.number}</span>
-                        <div>
-                          <span className="as-label block text-gold-dark">{course.kicker}</span>
-                          <h3 className="as-display-sm mt-2 text-ink">{course.title}</h3>
-                        </div>
-                      </div>
-                      <span className="font-display text-xl text-ink">{course.price}</span>
-                    </div>
-
-                    <p className="as-body mt-6 max-w-xl">{course.desc}</p>
-
-                    <dl className="mt-7 grid gap-x-10 gap-y-4 sm:grid-cols-3">
-                      {course.facts.map(([term, value]) => (
-                        <div key={`${course.id}-${term}`}>
-                          <dt className="as-label text-ink/45">{term}</dt>
-                          <dd className="mt-2 text-[0.8125rem] leading-relaxed text-mocha">
-                            {value}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
-
-                    <button
-                      type="button"
-                      onClick={() => onBook({ id: course.id, title: course.title })}
-                      className="as-arrow-dark group mt-8"
-                    >
-                      <span>Zapytaj o ten program</span>
-                      <span className="as-arrow-glyph" aria-hidden="true">
-                        &#8594;
-                      </span>
-                    </button>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
           </div>
 
           {/* jedyne zdjęcie, które faktycznie pasuje do tej sekcji: efekt Perfect Lips */}
-          <div className="lg:col-span-5">
-            <Reveal delay={120}>
-              <Figure
-                image={LIPS[3]}
-                alt="Zbliżenie na dolną część twarzy modelki — usta po pigmentacji w odcieniu czerwieni"
-                ratio="4 / 3"
-                framed
-                sizes="(min-width: 1024px) 38vw, 90vw"
-              />
-              <p className="as-body mt-8 max-w-sm text-[0.8125rem]">
-                Perfect Lips — naturalna pigmentacja ust bez konturów. Tej techniki uczymy w kursie
-                online, a wykonujemy ją także w gabinecie.
-              </p>
-              <ArrowLink href="/uslugi" className="mt-6 w-fit">
-                Zobacz zabiegi ust
-              </ArrowLink>
-            </Reveal>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/*  08 — DOFINANSOWANIE                                                */
-/* ================================================================== */
-
-function FundingBand() {
-  return (
-    <section className="relative overflow-hidden bg-mocha text-cream-50">
-      <div className="as-shell py-20 lg:py-28">
-        <Reveal>
-          <SectionLabel number="08" tone="light">
-            Dofinansowanie
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <Reveal className="lg:col-span-5">
-            <h2 className="as-display-lg as-text-balance">
-              Szkolenie
-              <br />
-              <span className="italic text-gold-light">z dofinansowaniem.</span>
-            </h2>
-          </Reveal>
-
-          <Reveal delay={90} className="lg:col-span-7">
-            <p className="as-body-invert max-w-xl">
-              Jesteśmy zarejestrowani w RIS, KFS oraz BUR. Wybierz dogodną dla Ciebie placówkę, zbierz
-              wiedzę i wymagania potrzebne do akceptacji wniosku w Urzędzie Miasta lub Pracy, a
-              następnie poproś swojego operatora o kontakt z nami — przekażemy wszystkie niezbędne
-              informacje i dokumenty.
+          <Reveal delay={120} className="lg:col-span-5">
+            <Figure
+              image={LIPS[3]}
+              alt="Zbliżenie na dolną część twarzy modelki — usta po pigmentacji w odcieniu czerwieni"
+              ratio="2 / 1"
+              position="50% 55%"
+              tone="light"
+              sizes="(min-width: 1024px) 38vw, 90vw"
+            />
+            <p className="as-caption mt-3">
+              Perfect Lips — naturalna pigmentacja ust bez konturów. Tej techniki uczymy w kursie
+              online, a wykonujemy ją także w gabinecie.
             </p>
+            <ArrowLink href="/uslugi" className="mt-4 w-fit">
+              Zobacz zabiegi ust
+            </ArrowLink>
+          </Reveal>
+        </div>
 
-            <div className="mt-12 grid gap-8 border-t border-cream-200/15 pt-10 sm:grid-cols-3">
-              {FUNDING.map((f) => (
-                <div key={f.short}>
-                  <span className="as-num text-gold-light">{f.number}</span>
-                  <h3 className="as-display-sm mt-3 italic text-cream-50">{f.short}</h3>
-                  <p className="as-body-invert mt-2 text-[0.8125rem]">{f.title}</p>
+        {/* trzy programy jako rząd kart (jak „Efekty" na stronie głównej) */}
+        <div className="mt-10 grid gap-y-10 md:grid-cols-3 md:gap-x-0">
+          {EXTRA_COURSES.map((course, i) => (
+            <Reveal key={course.id} delay={i * 100}>
+              <article className="as-card-col group">
+                <div className="mb-4 flex items-center gap-4">
+                  <span className="as-num">{course.number}</span>
+                  <span
+                    className="h-px w-10 bg-ink/15 transition-all duration-300 group-hover:w-16 group-hover:bg-gold"
+                    aria-hidden="true"
+                  />
                 </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
 
-/* ================================================================== */
-/*  09 — KURSANTKI                                                     */
-/* ================================================================== */
+                <span className="as-kicker">{course.kicker}</span>
+                <h3 className="mt-3 font-display text-2xl text-ink sm:text-[1.75rem]">
+                  {course.title}
+                </h3>
+                <span className="mt-2 block font-display text-xl text-ink">{course.price}</span>
+                <p className="as-caption mt-4 text-[0.75rem] leading-[1.6]">{course.desc}</p>
 
-/* Cztery różne grupy — każda tylko raz na stronie; pomijamy academy-05 (choinka) i academy-03 (wypalona ikonka w rogu). */
-const GALLERY = [
-  {
-    image: ACADEMY[0],
-    alt: 'Trzy kursantki z certyfikatami ukończenia szkolenia pod logo Babushkina Academy',
-  },
-  {
-    image: ACADEMY[7],
-    alt: 'Trzy absolwentki w czerni z certyfikatami Super Natural Brows na tle logo Babushkina Academy',
-  },
-  {
-    image: ACADEMY[3],
-    alt: 'Pięć absolwentek kursu z certyfikatami przed białą ścianą Babushkina Academy',
-  },
-  {
-    image: ACADEMY[5],
-    alt: 'Cztery kursantki z certyfikatami ukończenia szkolenia w Babushkina Academy',
-  },
-];
+                <dl className="mt-5 flex-1 space-y-3">
+                  {course.facts.map(([term, value]) => (
+                    <div key={`${course.id}-${term}`}>
+                      <dt className="as-kicker">{term}</dt>
+                      <dd className="mt-1 max-w-[17rem] text-[0.8125rem] leading-[1.6] text-mocha">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
 
-function GalleryBand() {
-  return (
-    <section className="as-section bg-cream-50">
-      <div className="as-shell">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
-          <Reveal className="lg:col-span-7">
-            <SectionLabel number="09">Kursantki</SectionLabel>
-            <h2 className="as-display-lg as-text-balance mt-8 text-ink">
-              Każdy kurs kończy się
-              <br />
-              certyfikatem.
-            </h2>
-          </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pb-2">
-            <p className="as-body max-w-md">
-              Zdjęcia z zakończonych szkoleń w {CONTACT.venue}. Kameralne grupy 2–4 osób, a po
-              kursie — grupa wsparcia i stały kontakt z prowadzącą.
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {GALLERY.map((shot, i) => (
-            <Reveal key={shot.alt} delay={i * 80}>
-              <Figure
-                image={shot.image}
-                alt={shot.alt}
-                ratio="3 / 4"
-                position="50% 20%"
-                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-              />
+                <button
+                  type="button"
+                  onClick={() => onBook({ id: course.id, title: course.title })}
+                  className="as-arrow-dark group mt-6 w-fit"
+                >
+                  <span>Zapytaj o ten program</span>
+                  <span className="as-arrow-glyph" aria-hidden="true">
+                    &#8594;
+                  </span>
+                </button>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -864,7 +800,75 @@ function GalleryBand() {
 }
 
 /* ================================================================== */
-/*  10 — FAQ                                                           */
+/*  08 — DOFINANSOWANIE + KURSANTKI                                    */
+/* ================================================================== */
+
+function FundingBand() {
+  return (
+    <section className="as-section bg-mocha text-cream-50">
+      <div className="as-shell">
+        <Reveal>
+          <SectionLabel number="08" tone="light">
+            Dofinansowanie
+          </SectionLabel>
+        </Reveal>
+
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
+          <Reveal className="lg:col-span-7">
+            <h2 className="as-display-section as-text-balance">
+              Szkolenie
+              <br />
+              <span className="italic text-gold-light">z dofinansowaniem.</span>
+            </h2>
+          </Reveal>
+
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="as-caption-invert max-w-sm">
+              Jesteśmy zarejestrowani w RIS, KFS oraz BUR. Wybierz dogodną dla Ciebie placówkę,
+              sprawdź wymagania potrzebne do akceptacji wniosku w Urzędzie Miasta lub Pracy i poproś
+              swojego operatora o kontakt z nami — przekażemy wszystkie niezbędne informacje i
+              dokumenty.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {FUNDING.map((f, i) => (
+            <Reveal key={f.short} delay={i * 90}>
+              <NumberedItem number={f.number} title={f.short} tone="light">
+                {f.title}
+              </NumberedItem>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* kolaż kursantek — czwórka w jednej złotej ramce (grupy kotwiczone u góry) */}
+        <Reveal delay={120} className="mt-10">
+          <div className="as-photo-frame grid grid-cols-2 gap-1 lg:grid-cols-4">
+            {GALLERY.map((shot) => (
+              <Figure
+                key={shot.alt}
+                image={shot.image}
+                alt={shot.alt}
+                ratio="5 / 4"
+                position="50% 20%"
+                tone="dark"
+                sizes="(min-width: 1024px) 22vw, 45vw"
+              />
+            ))}
+          </div>
+          <p className="as-caption-invert mt-3">
+            Każdy kurs kończy się certyfikatem. Zdjęcia z zakończonych szkoleń w {CONTACT.venue} —
+            kameralne grupy 2–4 osób, a po kursie grupa wsparcia i stały kontakt z prowadzącą.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  09 — FAQ                                                           */
 /* ================================================================== */
 
 function FaqBand() {
@@ -873,16 +877,16 @@ function FaqBand() {
       <GoldArc className="-top-10 right-[-10%] h-[600px] w-[820px]" flip opacity={0.3} />
 
       <div className="as-shell relative">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
             <Reveal>
-              <SectionLabel number="10">Pytania</SectionLabel>
-              <h2 className="as-display-lg as-text-balance mt-8 text-ink">
+              <SectionLabel number="09">Pytania</SectionLabel>
+              <h2 className="as-display-section mt-6 text-ink">
                 Zanim
                 <br />
                 się zapiszesz.
               </h2>
-              <p className="as-body mt-7 max-w-sm">
+              <p className="as-caption mt-6">
                 Organizacja, praktyka, dofinansowania i opieka po kursie — odpowiedzi na pytania,
                 które dostajemy najczęściej.
               </p>
@@ -891,18 +895,7 @@ function FaqBand() {
 
           <div className="lg:col-span-8">
             <Reveal delay={90}>
-              <Accordion type="single" collapsible className="w-full border-t border-ink/10">
-                {FAQ_ITEMS.map((item, idx) => (
-                  <AccordionItem key={item.q} value={`faq-${idx}`} className="border-ink/10">
-                    <AccordionTrigger className="gap-6 py-6 text-left font-display text-lg leading-snug text-ink hover:no-underline sm:text-xl">
-                      {item.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="as-body max-w-2xl pb-7 pr-6">
-                      {item.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <Faq items={FAQ_ITEMS} />
             </Reveal>
           </div>
         </div>
@@ -912,43 +905,20 @@ function FaqBand() {
 }
 
 /* ================================================================== */
-/*  11 — CTA                                                           */
+/*  10 — KONTAKT (pas zamykający)                                      */
 /* ================================================================== */
 
 function ClosingBand({ onBook }) {
   return (
-    <section className="relative overflow-hidden bg-espresso text-cream-50">
-      <div className="as-shell py-20 lg:py-28">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance">
-              Zacznijmy od <span className="italic text-gold-light">rozmowy.</span>
-            </h2>
-            <p className="as-body-invert mt-7 max-w-lg">
-              Napisz, na jakim jesteś etapie — dobierzemy program i ustalimy najbliższy możliwy
-              termin części stacjonarnej. Szkolenia prowadzi {FOUNDER.name}, {FOUNDER.role}.
-            </p>
-          </Reveal>
-          <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
-            <button
-              type="button"
-              onClick={() => onBook(null)}
-              className="as-btn-gold"
-            >
-              Wyślij zgłoszenie
-            </button>
-            <a
-              href={CONTACT.instagram}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="as-btn-ghost-light"
-            >
-              {CONTACT.instagramHandle}
-            </a>
-          </Reveal>
-        </div>
-      </div>
-    </section>
+    <ClosingCta
+      number="10"
+      label="Kontakt"
+      title="Zacznijmy od"
+      titleAccent="rozmowy."
+      lead={`Napisz, na jakim jesteś etapie — dobierzemy program i ustalimy najbliższy możliwy termin części stacjonarnej. Szkolenia prowadzi ${FOUNDER.name}, ${FOUNDER.role}.`}
+      primary={{ label: 'Zgłoś się', onClick: () => onBook(null) }}
+      secondary={{ href: CONTACT.instagram, label: CONTACT.instagramHandle }}
+    />
   );
 }
 
@@ -995,13 +965,12 @@ function BookingDialog({ course, onClose }) {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] gap-0 overflow-y-auto rounded-none border-ink/15 bg-cream-50 p-7 sm:max-w-[620px] sm:rounded-none sm:p-10">
-        <DialogHeader className="space-y-3 text-left">
-          <span className="as-label text-gold-dark">Zgłoszenie na szkolenie</span>
-          <DialogTitle className="as-display-md text-left font-normal text-ink">
-            {sent ? enquiryMessage(sent).title : form.course}
-          </DialogTitle>
-          <DialogDescription className="as-body text-left">
+      {/* formularz ma dwie kolumny pól — stąd szerszy panel */}
+      <DialogContent className="sm:max-w-[620px]">
+        <DialogHeader>
+          <span className="as-kicker">Zgłoszenie na szkolenie</span>
+          <DialogTitle>{sent ? enquiryMessage(sent).title : form.course}</DialogTitle>
+          <DialogDescription>
             {sent
               ? enquiryMessage(sent).body
               : 'Zostaw kontakt i kilka słów o swoim doświadczeniu. Ten formularz nie realizuje płatności — potwierdzenie terminu i rozliczenie ustalamy osobno.'}
@@ -1010,20 +979,20 @@ function BookingDialog({ course, onClose }) {
 
         {sent ? (
           <div className="mt-8">
-            <div className="border border-ink/10 bg-cream-100/70 p-6">
+            <div className="border border-ink/15 bg-cream-100/70 p-6">
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <dt className="as-label text-ink/45">Szkolenie</dt>
+                  <dt className="as-kicker">Szkolenie</dt>
                   <dd className="mt-2 text-[0.9375rem] text-ink">{form.course}</dd>
                 </div>
                 {form.term && (
                   <div>
-                    <dt className="as-label text-ink/45">Preferowany termin</dt>
+                    <dt className="as-kicker">Preferowany termin</dt>
                     <dd className="mt-2 text-[0.9375rem] text-ink">{form.term}</dd>
                   </div>
                 )}
                 <div>
-                  <dt className="as-label text-ink/45">Kontakt</dt>
+                  <dt className="as-kicker">Kontakt</dt>
                   <dd className="mt-2 text-[0.9375rem] text-ink">
                     {form.name}
                     {form.phone ? ` · ${form.phone}` : ''}
@@ -1032,12 +1001,12 @@ function BookingDialog({ course, onClose }) {
               </dl>
             </div>
 
-            <p className="as-body mt-6 text-[0.8125rem]">
+            <p className="as-caption mt-6 max-w-none">
               Miejsce w grupie rezerwujemy dopiero po rozmowie — zgłoszenie nie jest jeszcze
               opłacone ani potwierdzone. Najszybciej odpowiadamy na Instagramie.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <DialogFooter>
               <a
                 href={CONTACT.instagram}
                 target="_blank"
@@ -1049,130 +1018,97 @@ function BookingDialog({ course, onClose }) {
               <button type="button" onClick={onClose} className="as-btn-ghost">
                 Zamknij
               </button>
-            </div>
+            </DialogFooter>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-            <div>
-              <label htmlFor="e-course" className={LABEL_CLASS}>
-                Szkolenie
-              </label>
-              <select
-                id="e-course"
-                name="course"
-                value={form.course}
-                onChange={handleChange}
-                className={FIELD_CLASS}
-              >
-                {ALL_COURSE_TITLES.map((title) => (
-                  <option key={title} value={title}>
-                    {title}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Field
+              as="select"
+              id="e-course"
+              name="course"
+              label="Szkolenie"
+              value={form.course}
+              onChange={handleChange}
+            >
+              {ALL_COURSE_TITLES.map((title) => (
+                <option key={title} value={title}>
+                  {title}
+                </option>
+              ))}
+            </Field>
 
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div>
-                <label htmlFor="e-name" className={LABEL_CLASS}>
-                  Imię i nazwisko
-                </label>
-                <input
-                  id="e-name"
-                  name="name"
-                  type="text"
-                  value={form.name}
-                  onChange={handleChange}
-                  className={FIELD_CLASS}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="e-phone" className={LABEL_CLASS}>
-                  Telefon
-                </label>
-                <input
-                  id="e-phone"
-                  name="phone"
-                  type="tel"
-                  value={form.phone}
-                  onChange={handleChange}
-                  className={FIELD_CLASS}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="e-email" className={LABEL_CLASS}>
-                  E-mail
-                </label>
-                <input
-                  id="e-email"
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  className={FIELD_CLASS}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="e-city" className={LABEL_CLASS}>
-                  Miasto
-                </label>
-                <input
-                  id="e-city"
-                  name="city"
-                  type="text"
-                  value={form.city}
-                  onChange={handleChange}
-                  className={FIELD_CLASS}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="e-term" className={LABEL_CLASS}>
-                Preferowany termin części stacjonarnej
-              </label>
-              <input
-                id="e-term"
-                name="term"
+            <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+              <Field
+                id="e-name"
+                name="name"
                 type="text"
-                value={form.term}
+                label="Imię i nazwisko"
+                value={form.name}
                 onChange={handleChange}
-                className={FIELD_CLASS}
-                placeholder="np. listopad, dowolny weekend"
+                required
+              />
+              <Field
+                id="e-phone"
+                name="phone"
+                type="tel"
+                label="Telefon"
+                value={form.phone}
+                onChange={handleChange}
+                required
+              />
+              <Field
+                id="e-email"
+                name="email"
+                type="email"
+                label="E-mail"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <Field
+                id="e-city"
+                name="city"
+                type="text"
+                label="Miasto"
+                value={form.city}
+                onChange={handleChange}
               />
             </div>
 
-            <div>
-              <label htmlFor="e-experience" className={LABEL_CLASS}>
-                Twoje doświadczenie w PMU
-              </label>
-              <textarea
-                id="e-experience"
-                name="experience"
-                rows={4}
-                value={form.experience}
-                onChange={handleChange}
-                className={`${FIELD_CLASS} resize-none`}
-                placeholder="Od kiedy pracujesz, jakie techniki wykonujesz, czego chcesz się nauczyć."
-              />
-            </div>
+            <Field
+              id="e-term"
+              name="term"
+              type="text"
+              label="Preferowany termin części stacjonarnej"
+              value={form.term}
+              onChange={handleChange}
+              placeholder="np. listopad, dowolny weekend"
+            />
 
-            <p className="border-l border-gold/50 pl-4 text-xs leading-relaxed text-mocha-400">
+            <Field
+              as="textarea"
+              id="e-experience"
+              name="experience"
+              rows={4}
+              label="Twoje doświadczenie w PMU"
+              value={form.experience}
+              onChange={handleChange}
+              placeholder="Od kiedy pracujesz, jakie techniki wykonujesz, czego chcesz się nauczyć."
+            />
+
+            <p className="border-l border-gold/35 pl-5 text-xs leading-relaxed text-mocha-400">
               Wysłanie formularza nie jest płatnością ani rezerwacją miejsca. Termin, dostępność i
               sposób rozliczenia potwierdzamy w rozmowie.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2">
-              <button type="submit" className="as-btn-solid">
+            <DialogFooter>
+              <button type="submit" className="as-btn-gold">
                 Wyślij zgłoszenie
               </button>
               <button type="button" onClick={onClose} className="as-btn-ghost">
                 Anuluj
               </button>
-            </div>
+            </DialogFooter>
           </form>
         )}
       </DialogContent>
@@ -1183,7 +1119,7 @@ function BookingDialog({ course, onClose }) {
 /* ================================================================== */
 
 export default function Education() {
-  const [booking, setBooking] = useState(null); // { open, course } | null
+  const [booking, setBooking] = useState(null); // { course } | null
 
   const openBooking = (course) => setBooking({ course });
   const closeBooking = () => setBooking(null);
@@ -1198,7 +1134,6 @@ export default function Education() {
       <ScheduleBand />
       <ExtraCoursesBand onBook={openBooking} />
       <FundingBand />
-      <GalleryBand />
       <FaqBand />
       <ClosingBand onBook={openBooking} />
 

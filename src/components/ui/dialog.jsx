@@ -65,7 +65,7 @@ const DialogFooter = ({
   ...props
 }) => (
   <div
-    className={cn("mt-8 flex flex-wrap gap-4", className)}
+    className={cn("!mt-8 flex flex-wrap gap-4", className)}
     {...props} />
 )
 DialogFooter.displayName = "DialogFooter"

@@ -613,9 +613,9 @@ function PricingTeaser() {
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           {/* kolumna ze zdjęciem — bez niej pas był w całości tekstowy */}
-          <Reveal className="lg:col-span-4">
+          <Reveal className="lg:col-span-5">
             <SectionLabel number="05">Cennik</SectionLabel>
-            <h2 className="as-display-section-sm mt-6 text-ink">
+            <h2 className="as-display-section mt-6 text-ink">
               Jasne stawki,
               <br />
               bez gwiazdek.
@@ -635,7 +635,7 @@ function PricingTeaser() {
             </ArrowLink>
           </Reveal>
 
-          <Reveal delay={90} className="lg:col-span-8">
+          <Reveal delay={90} className="lg:col-span-7">
             <p className="as-body max-w-lg">
               {PRICING_PMU.subtitle}. Pełen cennik obejmuje również odświeżenia oraz usuwanie
               laserem i removerem.
@@ -669,27 +669,10 @@ function ClosingBand() {
       lead="Salon i akademia w Warszawie — wolnostojący budynek z prywatnym parkingiem. Umów wizytę albo zapytaj o najbliższy termin szkolenia."
       primary={{ href: '/kontakt', label: 'Umów wizytę' }}
       secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
-      aside={
-        /* kolaż — pas domykający też miał zero zdjęć */
-        <div className="grid grid-cols-2 gap-3">
-          <Figure
-            image={STUDIO[8]}
-            alt="Sesja wizerunkowa AS Company"
-            ratio="3 / 4"
-            tone="dark"
-            sizes="(min-width: 1024px) 20vw, 45vw"
-          />
-          <Figure
-            image={STUDIO[15]}
-            alt="Sesja wizerunkowa AS Company"
-            ratio="3 / 4"
-            position="50% 30%"
-            tone="dark"
-            className="mt-10"
-            sizes="(min-width: 1024px) 20vw, 45vw"
-          />
-        </div>
-      }
+      photos={[
+        { image: STUDIO[8], alt: 'Sesja wizerunkowa AS Company' },
+        { image: STUDIO[15], alt: 'Sesja wizerunkowa AS Company', position: '50% 30%' },
+      ]}
     >
       <div className="mt-12 grid gap-y-8 border-t border-cream-200/12 pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {ACHIEVEMENTS.map((a, i) => (

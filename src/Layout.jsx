@@ -174,7 +174,7 @@ function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-espresso-900 text-cream-50">
+    <footer className="relative overflow-hidden border-t border-cream-200/12 bg-espresso-900 text-cream-50">
       <div className="as-shell py-20 lg:py-28">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">

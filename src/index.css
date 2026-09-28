@@ -184,6 +184,11 @@
     @apply as-quote text-cream-200/85;
   }
 
+  /* Cytat wyróżniony (jeden na stronę) — skala pozycji numerowanych */
+  .as-pullquote {
+    @apply font-display text-xl italic leading-[1.5] sm:text-2xl;
+  }
+
   /* ——— Linki strzałkowe ——— */
   /* Uwaga: klasę `group` dodajemy w JSX — Tailwind nie pozwala jej użyć w @apply. */
   .as-arrow {

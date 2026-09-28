@@ -14,16 +14,23 @@
  *
  * Koszyk nie istnieje — poprzednia wersja udawała dodawanie do koszyka
  * komunikatem „Dodano do koszyka". Zastąpione zapytaniem o produkt.
+ *
+ * Układ: ten sam system co strona główna (src/views/Home.jsx) — PageHero
+ * z paskiem faktów, rytm tła jasna/ciemna (cream-50 → espresso → cream-100 →
+ * espresso-900), nagłówki .as-display-section, kolaż w .as-photo-frame,
+ * karty .as-card-col, pole szukajki <Field>, pas zamykający <ClosingCta>,
+ * numeracja etykiet ciągła 01–04.
  */
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
 import {
   ArrowLink,
-  FactStrip,
+  ClosingCta,
+  Field,
   Figure,
   GoldArc,
+  PageHero,
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
@@ -210,8 +217,125 @@ const PRODUCTS = [
   }
 ];
 
+/* ================================================================== */
+/*  01 — HERO                                                          */
+/* ================================================================== */
 
-export default function Pigments() {
+function Hero() {
+  return (
+    <PageHero
+      label="Pigmenty"
+      number="01"
+      title="Kolor, który"
+      titleAccent="goi się przewidywalnie."
+      lead="Pigmenty AS OPIUM i Light Minerals dobrane do pracy na brwiach, ustach i powiekach — plus linia medyczna do areoli i trichopigmentacji. Starannie opracowane formuły, intensywne kolory i przewidywalne gojenie."
+      /* brows-15 ma dokładnie proporcję 4:5 — w kadrze PageHero mieści się
+         w całości, bez przycinania. Makro skóry na kremie → ton „light". */
+      image={BROWS[14]}
+      imageAlt="Zbliżenie brwi po pigmentacji — rysunek pojedynczych włosków nad ciemnym okiem"
+      imageTone="light"
+      tone="cream"
+      facts={['Brwi', 'Usta', 'Powieki', 'Linia medyczna']}
+    >
+      <div className="flex flex-wrap gap-4">
+        <a href="#katalog" className="as-btn-solid">
+          Przejdź do katalogu
+        </a>
+        <Link href="/certyfikaty" className="as-btn-ghost">
+          Dokumentacja produktów
+        </Link>
+      </div>
+    </PageHero>
+  );
+}
+
+/* ================================================================== */
+/*  02 — JAK SIĘ GOJĄ                                                  */
+/* ================================================================== */
+
+function HealedBand() {
+  return (
+    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
+      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
+
+      <div className="as-shell relative">
+        <Reveal>
+          <SectionLabel number="02" tone="light">
+            Jak się goją
+          </SectionLabel>
+        </Reveal>
+
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-4">
+            <Reveal>
+              <h2 className="as-display-section as-text-balance">
+                Wygojenie
+                <br />
+                jest dowodem.
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="as-caption-invert mt-6">
+                Prace wykonane naszymi pigmentami — zdjęcia po wygojeniu, nie świeżo po
+                zabiegu. To moment, w którym widać, czy formuła trzyma kolor.
+              </p>
+            </Reveal>
+            <Reveal delay={140}>
+              <ArrowLink href="/uslugi" tone="light" className="mt-8 w-fit">
+                Zobacz zabiegi
+              </ArrowLink>
+            </Reveal>
+          </div>
+
+          {/* Kolaż jak w „Szkoleniach" na stronie głównej: jeden szeroki kadr
+              5:2 i dwa 2:1 pod nim, całość w złotej linii. Panele wycięte ze
+              sklejek (bez szwu) są poziome (1,6–2,9:1), więc w tych ramkach
+              tracą najmniej. lips-01-p2 ma wtopiony napis przy górnej krawędzi
+              — position 60% wycina go z kadru; brows-12-p2 kotwiczony do lewej,
+              żeby nie pokazywać skrawka drugiego oka przy prawej krawędzi. */}
+          <div className="lg:col-span-8">
+            <Reveal>
+              <div className="as-photo-frame grid gap-1">
+                <Figure
+                  image={BY_NAME['brows-13-p1']}
+                  alt="Pojedynczy łuk brwi po pigmentacji — zbliżenie"
+                  ratio="5 / 2"
+                  position="50% 50%"
+                  tone="dark"
+                  sizes="(min-width: 1024px) 60vw, 90vw"
+                />
+                <div className="grid grid-cols-2 gap-1">
+                  <Figure
+                    image={BY_NAME['lips-01-p2']}
+                    alt="Usta po pigmentacji — wygojony, czerwony kolor"
+                    ratio="2 / 1"
+                    position="50% 60%"
+                    tone="dark"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
+                  />
+                  <Figure
+                    image={BY_NAME['brows-12-p2']}
+                    alt="Oko z kreską na powiece i wypigmentowaną brwią"
+                    ratio="2 / 1"
+                    position="0% 50%"
+                    tone="dark"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
+                  />
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  03 — KATALOG                                                       */
+/* ================================================================== */
+
+function Catalog() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -226,261 +350,143 @@ export default function Pigments() {
   });
 
   return (
-    <>
-      {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden bg-cream-50 pb-20 pt-28 lg:pb-28 lg:pt-36">
-        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.3} />
+    <section id="katalog" className="as-section scroll-mt-24 bg-cream-100">
+      <div className="as-shell">
+        <Reveal>
+          <SectionLabel number="03">Katalog</SectionLabel>
+        </Reveal>
 
-        <div className="as-shell relative">
-          <Reveal>
-            <SectionLabel number="01">Pigmenty</SectionLabel>
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
+          <Reveal className="lg:col-span-7">
+            <h2 className="as-display-section as-text-balance text-ink">
+              Pełna
+              <br />
+              paleta.
+            </h2>
           </Reveal>
 
-          <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
-            <div className="lg:col-span-7">
-              <Reveal>
-                <h1 className="as-display-lg as-text-balance text-ink">
-                  Kolor, który
-                  <br />
-                  <span className="italic text-gold-dark">goi się przewidywalnie.</span>
-                </h1>
-              </Reveal>
-              <Reveal delay={80}>
-                <p className="as-body mt-8 max-w-xl">
-                  Pigmenty AS OPIUM i Light Minerals dobrane do pracy na brwiach, ustach
-                  i powiekach — plus linia medyczna do areoli i trichopigmentacji. Starannie
-                  opracowane formuły, intensywne kolory i przewidywalne gojenie.
-                </p>
-              </Reveal>
-              <Reveal delay={140}>
-                <div className="mt-10 flex flex-wrap gap-4">
-                  <a href="#katalog" className="as-btn-solid">
-                    Przejdź do katalogu
-                  </a>
-                  <Link href="/certyfikaty" className="as-btn-ghost">
-                    Dokumentacja produktów
-                  </Link>
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={100} className="lg:col-span-5">
-              {/* brows-15 ma dokładnie proporcję 4:5 — w kadrze mieści się w całości,
-                  bez przycinania. Jedyne makro skóry na tej stronie. */}
-              <Figure
-                image={BROWS[14]}
-                alt="Zbliżenie brwi po pigmentacji — rysunek pojedynczych włosków nad ciemnym okiem"
-                ratio="4 / 5"
-                framed
-                priority
-                sizes="(min-width: 1024px) 40vw, 100vw"
-              />
-            </Reveal>
-          </div>
-
-          <Reveal delay={160} className="mt-16 border-t border-ink/10 pt-6">
-            <FactStrip items={['Brwi', 'Usta', 'Powieki', 'Linia medyczna']} />
+          <Reveal delay={80} className="lg:col-span-5">
+            {/* szukajka na wspólnym polu formularza — ta sama linia pod polem
+                co w kontakcie i dialogach */}
+            <Field
+              as="input"
+              id="szukaj"
+              label="Szukaj"
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Nazwa lub opis produktu…"
+              autoComplete="off"
+            />
           </Reveal>
         </div>
-      </section>
 
-      {/* ============ EFEKTY ============ */}
-      <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
-        <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
-
-        <div className="as-shell relative">
-          <Reveal>
-            <SectionLabel number="02" tone="light">
-              Jak się goją
-            </SectionLabel>
-          </Reveal>
-
-          <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-12">
-            <Reveal className="lg:col-span-4">
-              <h2 className="as-display-lg as-text-balance">
-                Wygojenie
-                <br />
-                jest dowodem.
-              </h2>
-              <p className="as-body-invert mt-8 max-w-sm">
-                Prace wykonane naszymi pigmentami — zdjęcia po wygojeniu, nie świeżo po
-                zabiegu. To moment, w którym widać, czy formuła trzyma kolor.
-              </p>
-              <ArrowLink href="/uslugi" tone="light" className="mt-10 w-fit">
-                Zobacz zabiegi
-              </ArrowLink>
-            </Reveal>
-
-            <div className="lg:col-span-8">
-              {/* Panele wycięte ze sklejek (bez szwu). Wszystkie są szerokie
-                  (ok. 2–3:1), więc dostają poziomy kadr 2:1. lips-01-p2 ma
-                  wtopiony napis przy górnej krawędzi — position 60% wycina go
-                  z kadru; brows-12-p2 kotwiczony do lewej, żeby nie pokazywać
-                  skrawka drugiego oka przy prawej krawędzi. */}
-              <div className="grid gap-4 sm:grid-cols-3">
-                {[
-                  {
-                    image: BY_NAME['brows-13-p1'],
-                    alt: 'Pojedynczy łuk brwi po pigmentacji — zbliżenie',
-                    position: '50% 50%',
-                  },
-                  {
-                    image: BY_NAME['lips-01-p2'],
-                    alt: 'Usta po pigmentacji — wygojony, czerwony kolor',
-                    position: '50% 60%',
-                  },
-                  {
-                    image: BY_NAME['brows-12-p2'],
-                    alt: 'Oko z kreską na powiece i wypigmentowaną brwią',
-                    position: '0% 50%',
-                  },
-                ].map((s, i) => (
-                  <Reveal key={i} delay={i * 90}>
-                    <Figure
-                      image={s.image}
-                      alt={s.alt}
-                      ratio="2 / 1"
-                      position={s.position}
-                      tone="dark"
-                      sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 90vw"
-                    />
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ KATALOG ============ */}
-      <section id="katalog" className="as-section bg-cream-100 scroll-mt-24">
-        <div className="as-shell">
-          <Reveal>
-            <SectionLabel number="03">Katalog</SectionLabel>
-          </Reveal>
-
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
-            <Reveal className="lg:col-span-7">
-              <h2 className="as-display-lg as-text-balance text-ink">
-                Pełna
-                <br />
-                paleta.
-              </h2>
-            </Reveal>
-            <Reveal delay={80} className="lg:col-span-5">
-              <label className="relative block">
-                <span className="sr-only">Szukaj w katalogu</span>
-                <Search
-                  className="pointer-events-none absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/35"
-                  aria-hidden="true"
-                />
-                <input
-                  type="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Nazwa lub opis produktu…"
-                  className="w-full border-0 border-b border-ink/20 bg-transparent py-3 pl-7 text-sm text-ink placeholder:text-ink/35 focus:border-gold focus:outline-none focus:ring-0"
-                />
-              </label>
-            </Reveal>
-          </div>
-
-          {/* filtry kategorii */}
-          <Reveal delay={120} className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-b border-ink/10 pb-5">
-            {PIGMENT_CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat.id)}
-                  aria-pressed={active}
+        {/* filtry kategorii — rząd etykiet jak „Produkty AS" na stronie głównej */}
+        <Reveal delay={120} className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
+          <span className="as-label text-ink/45">Kategoria</span>
+          {PIGMENT_CATEGORIES.map((cat) => {
+            const active = selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                aria-pressed={active}
+                className={cn(
+                  'as-label relative py-1 transition-colors',
+                  active ? 'text-ink' : 'text-ink/45 hover:text-ink'
+                )}
+              >
+                {cat.name}
+                <span
                   className={cn(
-                    'as-label relative py-1 transition-colors',
-                    active ? 'text-ink' : 'text-ink/45 hover:text-ink'
+                    'absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-300',
+                    active ? 'w-full' : 'w-0'
                   )}
-                >
-                  {cat.name}
+                />
+              </button>
+            );
+          })}
+        </Reveal>
+
+        <p className="as-label mt-6 text-ink/45" aria-live="polite">
+          {filteredProducts.length === 0
+            ? 'Brak produktów dla tych kryteriów'
+            : `Produktów: ${filteredProducts.length}`}
+        </p>
+
+        {/* karty jak „Efekty" na stronie głównej: kolumny rozdzielone pionową
+            złotą linią, bez border-top, bez zaokrągleń i cieni */}
+        <div className="mt-8 grid gap-y-10 md:grid-cols-2 md:gap-x-0 lg:grid-cols-3">
+          {filteredProducts.map((product, i) => (
+            <Reveal key={product.id} delay={Math.min(i, 5) * 70}>
+              <article className="as-card-col group">
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  {/* próbnik koloru zamiast packshotu (brak zdjęć produktowych) */}
                   <span
-                    className={cn(
-                      'absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-300',
-                      active ? 'w-full' : 'w-0'
-                    )}
+                    className="h-12 w-12 shrink-0 rounded-full border border-ink/10"
+                    style={{ backgroundColor: product.colorHex }}
+                    aria-hidden="true"
                   />
-                </button>
-              );
-            })}
-          </Reveal>
+                  {product.badge && <span className="as-badge">{product.badge}</span>}
+                </div>
 
-          <p className="as-label mt-6 text-ink/45" aria-live="polite">
-            {filteredProducts.length === 0
-              ? 'Brak produktów dla tych kryteriów'
-              : `Produktów: ${filteredProducts.length}`}
-          </p>
+                {/* kicker (linia / przeznaczenie) nad tytułem karty */}
+                <p className="as-kicker mb-2">{product.subtitle}</p>
+                <h3 className="font-display text-2xl leading-[1.1] text-ink sm:text-[1.75rem]">
+                  {product.name}
+                </h3>
+                <p className="as-caption mt-3 flex-1">{product.description}</p>
 
-          <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredProducts.map((product, i) => (
-              <Reveal key={product.id} delay={Math.min(i, 5) * 70}>
-                <article className="group flex h-full flex-col border-t border-ink/12 pt-7">
-                  <div className="flex items-start justify-between gap-4">
-                    <span
-                      className="h-14 w-14 shrink-0 rounded-full border border-ink/10 shadow-inner"
-                      style={{ backgroundColor: product.colorHex }}
-                      aria-hidden="true"
-                    />
-                    {product.badge && (
-                      <span className="as-label text-gold-dark">{product.badge}</span>
-                    )}
-                  </div>
+                <dl className="mt-5 grid grid-cols-2 gap-y-2 border-t border-ink/10 pt-4 text-xs">
+                  <dt className="text-mocha-400">Rodzaj</dt>
+                  <dd className="text-right text-ink">{product.type}</dd>
+                  <dt className="text-mocha-400">Pojemność</dt>
+                  <dd className="text-right text-ink">{product.capacity}</dd>
+                </dl>
 
-                  <h3 className="as-display-sm mt-6 text-ink">{product.name}</h3>
-                  <p className="as-label mt-2 text-ink/45">{product.subtitle}</p>
-                  <p className="as-body mt-4 flex-1 text-[0.8125rem]">{product.description}</p>
-
-                  <dl className="mt-6 grid grid-cols-2 gap-y-2 border-t border-ink/10 pt-4 text-xs">
-                    <dt className="text-mocha-400">Rodzaj</dt>
-                    <dd className="text-right text-ink">{product.type}</dd>
-                    <dt className="text-mocha-400">Pojemność</dt>
-                    <dd className="text-right text-ink">{product.capacity}</dd>
-                  </dl>
-
-                  <div className="mt-5 flex items-end justify-between gap-4">
-                    <span className="font-display text-2xl text-ink">{product.price} zł</span>
-                    <ArrowLink href="/kontakt" className="w-fit">
-                      Zapytaj
-                    </ArrowLink>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ CTA ============ */}
-      <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-        <div className="as-shell py-20 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-            <Reveal className="lg:col-span-7">
-              <h2 className="as-display-lg as-text-balance">
-                Zamówienie <span className="italic text-gold-light">hurtowe?</span>
-              </h2>
-              <p className="as-body-invert mt-7 max-w-lg">
-                Napisz, czego potrzebujesz do gabinetu — dobierzemy odcienie i odeślemy
-                dokumentację produktów razem z wyceną.
-              </p>
+                <div className="mt-5 flex items-end justify-between gap-4">
+                  <span className="font-display text-xl text-ink">{product.price} zł</span>
+                  <ArrowLink href="/kontakt" className="w-fit">
+                    Zapytaj
+                  </ArrowLink>
+                </div>
+              </article>
             </Reveal>
-            <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
-              <Link href="/kontakt" className="as-btn-gold">
-                Napisz do nas
-              </Link>
-              <Link href="/maszynki" className="as-btn-ghost-light">
-                Zobacz urządzenia
-              </Link>
-            </Reveal>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  04 — ZAMÓWIENIA HURTOWE (CTA)                                      */
+/* ================================================================== */
+
+function ClosingBand() {
+  return (
+    <ClosingCta
+      number="04"
+      label="Zamówienia"
+      title="Zamówienie"
+      titleAccent="hurtowe?"
+      lead="Napisz, czego potrzebujesz do gabinetu — dobierzemy odcienie i odeślemy dokumentację produktów razem z wyceną."
+      primary={{ href: '/kontakt', label: 'Napisz do nas' }}
+      secondary={{ href: '/maszynki', label: 'Zobacz urządzenia' }}
+    />
+  );
+}
+
+/* ================================================================== */
+
+export default function Pigments() {
+  return (
+    <>
+      <Hero />
+      <HealedBand />
+      <Catalog />
+      <ClosingBand />
     </>
   );
 }

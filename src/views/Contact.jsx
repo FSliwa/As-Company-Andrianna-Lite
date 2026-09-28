@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import {
   ArrowLink,
-  FactStrip,
+  ClosingCta,
+  Field,
   Figure,
   GoldArc,
   PageHero,
@@ -13,7 +13,7 @@ import {
 } from '@/components/as/Primitives';
 import { BRAND, CONTACT, FOUNDER } from '@/lib/site';
 import { ACADEMY, STUDIO } from '@/lib/media';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /**
  * Kontakt (/kontakt)
@@ -23,12 +23,22 @@ import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
  *  • dane kontaktowe wyłącznie z CONTACT w '@/lib/site' — pola null
  *    (ulica, kod, telefon, e-mail) nie są renderowane,
  *  • nie ma zdjęć budynku, parkingu ani recepcji, więc sekcja „Lokalizacja”
- *    jest zbudowana typograficznie, a jedyne zdjęcie to realne ujęcie
- *    z wnętrza akademii (grupa kursantek z certyfikatami).
+ *    jest zbudowana typograficznie, a jedyne zdjęcia to realne ujęcia
+ *    z wnętrza akademii (grupy kursantek z certyfikatami).
+ *
+ * Rytm i skala jak na stronie głównej: .as-section, SectionLabel → h2
+ * (.as-display-section) → zajawka (.as-caption) → CTA; kolaż w .as-photo-frame,
+ * pozycje 01/02 z .as-numbered-title, fakty w rzędzie pod kolażem.
+ * Pola formularza to <Field>, pas zamykający to <ClosingCta>.
+ * Rytm tła: cream-50 → espresso → cream-100 → espresso-900.
  */
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
+
+/* Nazwa akademii łamana słowo po słowie — nagłówek trzywierszowy w wąskiej
+   kolumnie, jak „Szkolenia / oparte na / realnej praktyce” na stronie głównej. */
+const VENUE_WORDS = CONTACT.venue.split(' ');
 
 /* ================================================================== */
 /*  01 — HERO                                                          */
@@ -45,8 +55,9 @@ function Hero() {
       image={STUDIO[9]}
       imageAlt={`${FOUNDER.name} — ${FOUNDER.role}`}
       tone="cream"
+      facts={[CONTACT.city, CONTACT.venue, 'Zabiegi', 'Szkolenia']}
     >
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap gap-4">
         <a href="#formularz" className="as-btn-solid">
           Napisz wiadomość
         </a>
@@ -59,10 +70,6 @@ function Hero() {
           {CONTACT.instagramHandle}
         </a>
       </div>
-      <FactStrip
-        className="mt-10 border-t border-ink/10 pt-6"
-        items={[CONTACT.city, CONTACT.venue, 'Zabiegi', 'Szkolenia']}
-      />
     </PageHero>
   );
 }
@@ -70,6 +77,66 @@ function Hero() {
 /* ================================================================== */
 /*  02 — LOKALIZACJA I GODZINY                                         */
 /* ================================================================== */
+
+/* Fakty kontaktowe w jednym rzędzie pod kolażem (jak pozycje 01/02/03
+   pod kolażem „Szkolenia” na stronie głównej). Telefon i e-mail pojawią
+   się same, gdy zostaną uzupełnione w CONTACT. */
+function ContactFacts() {
+  const facts = [
+    { label: 'Miasto', value: ADDRESS_LINE },
+    CONTACT.phone && {
+      label: 'Telefon',
+      value: CONTACT.phone,
+      href: `tel:${CONTACT.phone.replace(/\s/g, '')}`,
+    },
+    CONTACT.email && {
+      label: 'E-mail',
+      value: CONTACT.email,
+      href: `mailto:${CONTACT.email}`,
+    },
+    {
+      label: 'Instagram',
+      value: CONTACT.instagramHandle,
+      href: CONTACT.instagram,
+      external: true,
+    },
+  ].filter(Boolean);
+
+  return (
+    <dl className="flex flex-wrap gap-x-14 gap-y-8">
+      {facts.map((f) => (
+        <div key={f.label} className="min-w-[9rem]">
+          <dt className="as-kicker-invert">{f.label}</dt>
+          <dd className="mt-3 text-[0.9375rem] text-cream-50">
+            {f.href ? (
+              <a
+                href={f.href}
+                target={f.external ? '_blank' : undefined}
+                rel={f.external ? 'noreferrer noopener' : undefined}
+                className="transition-colors hover:text-gold-light"
+              >
+                {f.value}
+              </a>
+            ) : (
+              f.value
+            )}
+          </dd>
+        </div>
+      ))}
+
+      <div className="min-w-[14rem]">
+        <dt className="as-kicker-invert">Godziny</dt>
+        <dd className="mt-3 space-y-1.5">
+          {CONTACT.hours.map((h) => (
+            <p key={h.day} className="text-[0.8125rem] leading-[1.6] text-cream-100">
+              <span className="text-cream-200/60">{h.day}</span> — {h.value}
+            </p>
+          ))}
+        </dd>
+      </div>
+    </dl>
+  );
+}
 
 function LocationBand() {
   return (
@@ -83,138 +150,79 @@ function LocationBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* — kolumna faktów — */}
-          <div className="lg:col-span-5">
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          {/* — nagłówek i zajawka — */}
+          <div className="lg:col-span-4">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance">
-                {CONTACT.venue}
-                <br />
+              <h2 className="as-display-section-sm">
+                {VENUE_WORDS.map((word) => (
+                  <React.Fragment key={word}>
+                    {word}
+                    <br />
+                  </React.Fragment>
+                ))}
                 <span className="italic text-gold-light">{CONTACT.city}.</span>
               </h2>
             </Reveal>
 
             <Reveal delay={80}>
-              <p className="as-body-invert mt-8 max-w-sm">{CONTACT.venueNote}.</p>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <dl className="mt-10 border-t border-cream-200/15">
-                <div className="flex items-baseline gap-6 border-b border-cream-200/15 py-5">
-                  <dt className="as-label w-28 shrink-0 text-cream-200/50">Miasto</dt>
-                  <dd className="text-base text-cream-50">{ADDRESS_LINE}</dd>
-                </div>
-
-                {CONTACT.phone && (
-                  <div className="flex items-baseline gap-6 border-b border-cream-200/15 py-5">
-                    <dt className="as-label w-28 shrink-0 text-cream-200/50">Telefon</dt>
-                    <dd>
-                      <a
-                        href={`tel:${CONTACT.phone.replace(/\s/g, '')}`}
-                        className="text-base text-cream-50 transition-colors hover:text-gold-light"
-                      >
-                        {CONTACT.phone}
-                      </a>
-                    </dd>
-                  </div>
-                )}
-
-                {CONTACT.email && (
-                  <div className="flex items-baseline gap-6 border-b border-cream-200/15 py-5">
-                    <dt className="as-label w-28 shrink-0 text-cream-200/50">E-mail</dt>
-                    <dd>
-                      <a
-                        href={`mailto:${CONTACT.email}`}
-                        className="text-base text-cream-50 transition-colors hover:text-gold-light"
-                      >
-                        {CONTACT.email}
-                      </a>
-                    </dd>
-                  </div>
-                )}
-
-                <div className="flex items-baseline gap-6 border-b border-cream-200/15 py-5">
-                  <dt className="as-label w-28 shrink-0 text-cream-200/50">Instagram</dt>
-                  <dd>
-                    <a
-                      href={CONTACT.instagram}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="text-base text-cream-50 transition-colors hover:text-gold-light"
-                    >
-                      {CONTACT.instagramHandle}
-                    </a>
-                  </dd>
-                </div>
-
-                <div className="flex items-baseline gap-6 border-b border-cream-200/15 py-5">
-                  <dt className="as-label w-28 shrink-0 text-cream-200/50">Godziny</dt>
-                  <dd className="space-y-1.5">
-                    {CONTACT.hours.map((h) => (
-                      <p key={h.day} className="text-sm text-cream-100">
-                        <span className="text-cream-200/60">{h.day}</span> — {h.value}
-                      </p>
-                    ))}
-                  </dd>
-                </div>
-              </dl>
-            </Reveal>
-
-            <Reveal delay={160}>
-              <p className="as-body-invert mt-8 max-w-sm text-[0.8125rem]">
+              <p className="as-caption-invert mt-6">{CONTACT.venueNote}.</p>
+              <p className="as-caption-invert mt-4">
                 Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz przez formularz
                 poniżej albo na Instagramie.
               </p>
+            </Reveal>
+
+            <Reveal delay={140}>
               <ArrowLink href="#formularz" tone="light" className="mt-8 w-fit">
                 Przejdź do formularza
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* — realne ujęcia z wnętrza akademii — */}
-          <div className="lg:col-span-7">
+          {/* — realne ujęcia z wnętrza akademii: kolaż w złotej linii — */}
+          <div className="lg:col-span-8">
             <Reveal delay={90}>
-              <Figure
-                image={ACADEMY[1]}
-                alt={`Grupa kursantek z certyfikatami BROWS na tle ścianki ${BRAND.academy}`}
-                ratio="16 / 10"
-                position="50% 20%"
-                tone="dark"
-                sizes="(min-width: 1024px) 55vw, 90vw"
-              />
-            </Reveal>
-
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <Reveal delay={150}>
+              <div className="as-photo-frame grid gap-1">
                 <Figure
-                  image={ACADEMY[0]}
-                  alt={`Trzy kobiety, dwie z certyfikatami BROWS, pod logo ${BRAND.academy}`}
-                  ratio="4 / 5"
+                  image={ACADEMY[1]}
+                  alt={`Grupa kursantek z certyfikatami BROWS na tle ścianki ${BRAND.academy}`}
+                  ratio="5 / 2"
                   position="50% 20%"
                   tone="dark"
-                  sizes="(min-width: 1024px) 27vw, 45vw"
+                  sizes="(min-width: 1024px) 60vw, 90vw"
                 />
-              </Reveal>
-              <Reveal delay={200}>
-                <Figure
-                  image={ACADEMY[6]}
-                  alt={`Cztery kursantki z certyfikatami Supernatural Brows pod logo ${BRAND.academy}`}
-                  ratio="4 / 5"
-                  position="50% 20%"
-                  tone="dark"
-                  sizes="(min-width: 1024px) 27vw, 45vw"
-                />
-              </Reveal>
-            </div>
-
-            <Reveal delay={240}>
-              <p className="as-body-invert mt-5 text-[0.8125rem]">
+                <div className="grid grid-cols-2 gap-1">
+                  <Figure
+                    image={ACADEMY[0]}
+                    alt={`Trzy kobiety, dwie z certyfikatami BROWS, pod logo ${BRAND.academy}`}
+                    ratio="2 / 1"
+                    position="50% 20%"
+                    tone="dark"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
+                  />
+                  <Figure
+                    image={ACADEMY[6]}
+                    alt={`Cztery kursantki z certyfikatami Supernatural Brows pod logo ${BRAND.academy}`}
+                    ratio="2 / 1"
+                    position="50% 20%"
+                    tone="dark"
+                    sizes="(min-width: 1024px) 30vw, 45vw"
+                  />
+                </div>
+              </div>
+              <p className="as-caption-invert mt-3">
                 Zdjęcia z dni szkoleniowych w akademii — to samo miejsce, w którym odbywają się
                 zabiegi.
               </p>
             </Reveal>
           </div>
         </div>
+
+        {/* — fakty: miasto / instagram / godziny (telefon i e-mail, gdy uzupełnione) — */}
+        <Reveal delay={120} className="mt-10 border-t border-cream-200/12 pt-8">
+          <ContactFacts />
+        </Reveal>
       </div>
     </section>
   );
@@ -224,16 +232,28 @@ function LocationBand() {
 /*  03 — FORMULARZ                                                     */
 /* ================================================================== */
 
-const FIELD_CLASS =
-  'w-full border border-ink/15 bg-cream-50 px-4 py-3 text-[0.9375rem] text-ink transition-colors placeholder:text-mocha-400/70 focus:border-gold focus:outline-none';
-
-const LABEL_CLASS = 'as-label mb-2.5 block text-ink/55';
-
 const TOPICS = [
   { value: 'zabieg', label: 'Zabieg PMU' },
   { value: 'szkolenie', label: 'Szkolenie' },
   { value: 'produkty', label: 'Produkty i pigmenty' },
   { value: 'inne', label: 'Inne pytanie' },
+];
+
+const QUICK_LINKS = [
+  {
+    number: '01',
+    title: 'Zabiegi',
+    desc: 'Brwi, usta, kreski, korekty i usuwanie — pełen zakres wraz z cennikiem.',
+    cta: 'Zobacz zabiegi',
+    href: '/uslugi',
+  },
+  {
+    number: '02',
+    title: 'Szkolenia',
+    desc: `Programy ${BRAND.academy} wraz z harmonogramem części stacjonarnej.`,
+    cta: 'Zobacz szkolenia',
+    href: '/szkolenia',
+  },
 ];
 
 function FormBand() {
@@ -274,16 +294,14 @@ function FormBand() {
           <SectionLabel number="03">Formularz</SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-12">
           {/* — wprowadzenie — */}
           <div className="lg:col-span-5">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance text-ink">
-                Napisz do nas.
-              </h2>
+              <h2 className="as-display-section as-text-balance text-ink">Napisz do nas.</h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body mt-8 max-w-sm">
+              <p className="as-caption mt-6">
                 Zostaw wiadomość, a odezwiemy się na podany kontakt. Najszybciej odpowiadamy na
                 Instagramie — tam też znajdziesz aktualne prace i wolne terminy.
               </p>
@@ -297,45 +315,38 @@ function FormBand() {
               </ArrowLink>
             </Reveal>
 
-            <Reveal delay={140}>
-              <div className="mt-12 grid gap-8 border-t border-ink/10 pt-8 sm:grid-cols-2 lg:grid-cols-1">
-                <div>
-                  <span className="as-num">01</span>
-                  <h3 className="as-display-sm mt-3 italic text-ink">Zabiegi</h3>
-                  <p className="as-body mt-2 text-[0.8125rem]">
-                    Brwi, usta, kreski, korekty i usuwanie — pełen zakres wraz z cennikiem.
-                  </p>
-                  <ArrowLink href="/uslugi" className="mt-4 w-fit">
-                    Zobacz zabiegi
+            {/* pozycje 01 / 02 — numer i tytuł w jednej linii, drobny opis, link */}
+            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
+              {QUICK_LINKS.map((item, i) => (
+                <Reveal key={item.number} delay={140 + i * 70}>
+                  <div className="flex items-baseline gap-3">
+                    <span className="as-num text-lg sm:text-xl">{item.number}</span>
+                    <h3 className="as-numbered-title text-ink">{item.title}</h3>
+                  </div>
+                  <p className="as-numbered-desc text-mocha">{item.desc}</p>
+                  <ArrowLink href={item.href} className="mt-3 w-fit">
+                    {item.cta}
                   </ArrowLink>
-                </div>
-                <div>
-                  <span className="as-num">02</span>
-                  <h3 className="as-display-sm mt-3 italic text-ink">Szkolenia</h3>
-                  <p className="as-body mt-2 text-[0.8125rem]">
-                    Programy {BRAND.academy} wraz z harmonogramem części stacjonarnej.
-                  </p>
-                  <ArrowLink href="/szkolenia" className="mt-4 w-fit">
-                    Zobacz szkolenia
-                  </ArrowLink>
-                </div>
-              </div>
-            </Reveal>
+                </Reveal>
+              ))}
+            </div>
           </div>
 
           {/* — formularz — */}
           <div className="lg:col-span-7">
             <Reveal delay={90}>
-              <div className="as-frame border border-ink/10 bg-cream-50/70 p-7 sm:p-10">
+              <div className="border border-ink/15 bg-cream-50 p-7 sm:p-10">
                 {sent ? (
                   <div className="py-10 text-center">
                     <span className="as-num">&#10003;</span>
-                    <h3 className="as-display-md mt-5 text-ink">Dziękujemy.</h3>
-                    <p className="as-body mx-auto mt-5 max-w-sm">
-                      {enquiryMessage(sent).body}
-                      Jeśli sprawa jest pilna, napisz bezpośrednio na Instagramie.
+                    <h3 className="mt-5 font-display text-2xl text-ink sm:text-[1.75rem]">
+                      Dziękujemy.
+                    </h3>
+                    <p className="as-caption mx-auto mt-4">
+                      {enquiryMessage(sent).body} Jeśli sprawa jest pilna, napisz bezpośrednio na
+                      Instagramie.
                     </p>
-                    <div className="mt-9 flex flex-wrap justify-center gap-4">
+                    <div className="mt-8 flex flex-wrap justify-center gap-4">
                       <a
                         href={CONTACT.instagram}
                         target="_blank"
@@ -354,93 +365,73 @@ function FormBand() {
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-7">
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <div>
-                        <label htmlFor="c-name" className={LABEL_CLASS}>
-                          Imię i nazwisko
-                        </label>
-                        <input
-                          id="c-name"
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          className={FIELD_CLASS}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="c-phone" className={LABEL_CLASS}>
-                          Telefon
-                        </label>
-                        <input
-                          id="c-phone"
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className={FIELD_CLASS}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <div>
-                        <label htmlFor="c-email" className={LABEL_CLASS}>
-                          Adres e-mail
-                        </label>
-                        <input
-                          id="c-email"
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className={FIELD_CLASS}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="c-topic" className={LABEL_CLASS}>
-                          Temat
-                        </label>
-                        <select
-                          id="c-topic"
-                          name="topic"
-                          value={formData.topic}
-                          onChange={handleChange}
-                          className={FIELD_CLASS}
-                        >
-                          {TOPICS.map((t) => (
-                            <option key={t.value} value={t.value}>
-                              {t.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="c-message" className={LABEL_CLASS}>
-                        Wiadomość
-                      </label>
-                      <textarea
-                        id="c-message"
-                        name="message"
-                        rows={7}
-                        value={formData.message}
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+                      <Field
+                        id="c-name"
+                        label="Imię i nazwisko"
+                        type="text"
+                        name="name"
+                        autoComplete="name"
+                        value={formData.name}
                         onChange={handleChange}
-                        className={FIELD_CLASS}
-                        placeholder="Napisz, czego dotyczy Twoje pytanie — zabiegu, szkolenia czy produktów."
                         required
+                      />
+                      <Field
+                        id="c-phone"
+                        label="Telefon"
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
                       />
                     </div>
 
-                    <div className="flex flex-col gap-5 border-t border-ink/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+                      <Field
+                        id="c-email"
+                        label="Adres e-mail"
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                      <Field
+                        as="select"
+                        id="c-topic"
+                        label="Temat"
+                        name="topic"
+                        value={formData.topic}
+                        onChange={handleChange}
+                      >
+                        {TOPICS.map((t) => (
+                          <option key={t.value} value={t.value}>
+                            {t.label}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+
+                    <Field
+                      as="textarea"
+                      id="c-message"
+                      label="Wiadomość"
+                      name="message"
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Napisz, czego dotyczy Twoje pytanie — zabiegu, szkolenia czy produktów."
+                      required
+                    />
+
+                    <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between">
                       <p className="max-w-xs text-xs leading-relaxed text-mocha-400">
                         Dane z formularza wykorzystujemy wyłącznie do odpowiedzi na Twoje zapytanie.
                       </p>
-                      <button type="submit" className="as-btn-solid">
+                      <button type="submit" className="as-btn-gold">
                         Wyślij zapytanie
                       </button>
                     </div>
@@ -461,41 +452,15 @@ function FormBand() {
 
 function ClosingBand() {
   return (
-    <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-      <div className="as-shell py-20 lg:py-28">
-        <Reveal>
-          <SectionLabel number="04" tone="light">
-            Zapraszamy
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance">
-              {BRAND.tagline.replace('.', '')} —{' '}
-              <span className="italic text-gold-light">zacznijmy od rozmowy.</span>
-            </h2>
-            <p className="as-body-invert mt-7 max-w-lg">
-              {CONTACT.venue} w {CONTACT.city}. {CONTACT.venueNote}.
-            </p>
-          </Reveal>
-
-          <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
-            <a
-              href={CONTACT.instagram}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="as-btn-gold"
-            >
-              Napisz na Instagramie
-            </a>
-            <Link href="/szkolenia" className="as-btn-ghost-light">
-              Terminy szkoleń
-            </Link>
-          </Reveal>
-        </div>
-      </div>
-    </section>
+    <ClosingCta
+      number="04"
+      label="Zapraszamy"
+      title={`${BRAND.tagline.replace('.', '')} —`}
+      titleAccent="zacznijmy od rozmowy."
+      lead={`${CONTACT.venue}, ${CONTACT.city}. ${CONTACT.venueNote}.`}
+      primary={{ href: CONTACT.instagram, label: 'Napisz na Instagramie', target: '_blank', rel: 'noreferrer noopener' }}
+      secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
+    />
   );
 }
 

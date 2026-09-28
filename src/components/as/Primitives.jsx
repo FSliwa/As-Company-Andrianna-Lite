@@ -504,23 +504,33 @@ export function ClosingCta({
   lead,
   primary,
   secondary,
+  photos,
   aside,
   children,
   className,
 }) {
+  const side = photos && photos.length > 0 ? <ClosingPhotos photos={photos} /> : aside;
+  const button = (btn, cls) => {
+    if (!btn) return null;
+    const { label: text, ...rest } = btn;
+    return (
+      <CtaButton {...rest} className={cls}>
+        {text}
+      </CtaButton>
+    );
+  };
   return (
     <section className={cn('as-section relative overflow-hidden bg-espresso-900 text-cream-50', className)}>
       <GoldArc className="-bottom-52 right-[-8%] h-[640px] w-[820px]" opacity={0.22} />
       <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number={number} tone="light">
-            {label}
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
-          <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
-            <h2 className="as-display-section as-text-balance">
+        {/* etykieta siedzi w kolumnie tekstu — przy wysokim kadrze obok
+            zawsze zostaje 24 px nad tytułem, a kolumna centruje się do kadru */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <Reveal className={side ? 'lg:col-span-7' : 'lg:col-span-8'}>
+            <SectionLabel number={number} tone="light">
+              {label}
+            </SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6">
               {title}
               {titleAccent && (
                 <>
@@ -532,23 +542,15 @@ export function ClosingCta({
             {lead && <p className="as-body-invert mt-6 max-w-lg">{lead}</p>}
             {(primary || secondary) && (
               <div className="mt-8 flex flex-wrap gap-4">
-                {primary && (
-                  <CtaButton href={primary.href} onClick={primary.onClick} className="as-btn-gold">
-                    {primary.label}
-                  </CtaButton>
-                )}
-                {secondary && (
-                  <CtaButton href={secondary.href} onClick={secondary.onClick} className="as-btn-ghost-light">
-                    {secondary.label}
-                  </CtaButton>
-                )}
+                {button(primary, 'as-btn-gold')}
+                {button(secondary, 'as-btn-ghost-light')}
               </div>
             )}
           </Reveal>
 
-          {aside && (
+          {side && (
             <Reveal delay={90} className="lg:col-span-5">
-              {aside}
+              {side}
             </Reveal>
           )}
         </div>
@@ -556,6 +558,40 @@ export function ClosingCta({
         {children}
       </div>
     </section>
+  );
+}
+
+/* Jedna forma kadrów w pasie zamykającym: para 3/4, druga przesunięta w dół. */
+function ClosingPhotos({ photos }) {
+  if (photos.length === 1) {
+    const ph = photos[0];
+    return (
+      <Figure
+        image={ph.image}
+        alt={ph.alt}
+        ratio="4 / 5"
+        position={ph.position}
+        tone="dark"
+        framed
+        sizes="(min-width: 1024px) 36vw, 100vw"
+      />
+    );
+  }
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      {photos.slice(0, 2).map((ph, i) => (
+        <Figure
+          key={ph.alt || i}
+          image={ph.image}
+          alt={ph.alt}
+          ratio="3 / 4"
+          position={ph.position}
+          tone="dark"
+          className={i === 1 ? 'mt-10' : undefined}
+          sizes="(min-width: 1024px) 20vw, 45vw"
+        />
+      ))}
+    </div>
   );
 }
 

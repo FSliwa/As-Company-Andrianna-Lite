@@ -4,18 +4,22 @@ import React from 'react';
 import Link from 'next/link';
 import {
   ArrowLink,
+  ClosingCta,
   FactStrip,
   Figure,
   GoldArc,
   NumberedItem,
   PageHero,
+  PriceRow,
   Reveal,
   SectionLabel,
+  Stat,
 } from '@/components/as/Primitives';
 import { ACHIEVEMENTS, BRAND, CONTACT, FOUNDER } from '@/lib/site';
 import { ACADEMY, STUDIO } from '@/lib/media';
 
-/* Wyróżnienia w tekście — dopasowane do jasnego / ciemnego pasa. */
+/* Wyróżnienia w tekście — marka pisze lekko, więc tylko font-medium,
+   dopasowane do jasnego / ciemnego pasa. */
 const EmLight = ({ children }) => (
   <strong className="font-medium text-cream-50">{children}</strong>
 );
@@ -43,11 +47,9 @@ function Hero() {
       image={STUDIO[10]}
       imageAlt={`${FOUNDER.name} — sesja wizerunkowa założycielki ${BRAND.name}`}
       tone="cream"
+      facts={['Linergistka', 'Trenerka', 'Prime Speaker', 'Sędzia międzynarodowa']}
     >
-      <FactStrip
-        items={['Linergistka', 'Trenerka', 'Prime Speaker', 'Sędzia międzynarodowa']}
-      />
-      <div className="mt-9 flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4">
         <Link href="/szkolenia" className="as-btn-solid">
           Zobacz ofertę szkoleń
         </Link>
@@ -75,11 +77,12 @@ function StoryBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-14">
-          {/* lewa kolumna — nagłówek i portrety */}
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* lewa kolumna — nagłówek, fakty, kolaż portretów */}
           <div className="lg:col-span-5">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance">
+              {/* trzy wiersze w wąskiej kolumnie — jak „Szkolenia oparte na realnej praktyce" */}
+              <h2 className="as-display-section-sm as-text-balance">
                 Od podium
                 <br />
                 Mistrzostw Świata
@@ -88,41 +91,53 @@ function StoryBand() {
               </h2>
             </Reveal>
 
-            <Reveal delay={90}>
-              <div className="mt-12 grid grid-cols-2 gap-3">
-                <Figure
-                  image={STUDIO[0]}
-                  alt={`${FOUNDER.name} — portret z sesji wizerunkowej, dłoń oparta na ramieniu`}
-                  ratio="3 / 4"
-                  position="50% 20%"
-                  tone="dark"
-                  sizes="(min-width: 1024px) 20vw, 45vw"
-                />
-                <Figure
-                  image={STUDIO[7]}
-                  alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
-                  ratio="3 / 4"
-                  position="50% 20%"
-                  tone="dark"
-                  className="mt-10"
-                  sizes="(min-width: 1024px) 20vw, 45vw"
-                />
-              </div>
-            </Reveal>
-
-            <Reveal delay={150}>
+            <Reveal delay={80}>
               <FactStrip
                 tone="light"
-                className="mt-12"
+                className="mt-6"
                 items={['Katowice', 'Warszawa', 'Szkolenia za granicą']}
               />
+            </Reveal>
+
+            <Reveal delay={140}>
+              {/* kolaż jak w „Szkoleniach" na stronie głównej: szeroki kadr u góry,
+                  dwa portrety pod nim, cienka złota linia wokół całości */}
+              <div className="as-photo-frame mt-8 grid gap-1">
+                <Figure
+                  image={STUDIO[13]}
+                  alt={`${FOUNDER.name} — uśmiechnięty portret z sesji wizerunkowej, dłoń pod brodą`}
+                  ratio="16 / 10"
+                  position="50% 40%"
+                  tone="dark"
+                  sizes="(min-width: 1024px) 36vw, 90vw"
+                />
+                <div className="grid grid-cols-2 gap-1">
+                  <Figure
+                    image={STUDIO[0]}
+                    alt={`${FOUNDER.name} — portret z sesji wizerunkowej, dłoń oparta na ramieniu`}
+                    ratio="4 / 5"
+                    position="50% 20%"
+                    tone="dark"
+                    sizes="(min-width: 1024px) 18vw, 45vw"
+                  />
+                  <Figure
+                    image={STUDIO[7]}
+                    alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
+                    ratio="4 / 5"
+                    position="50% 20%"
+                    tone="dark"
+                    sizes="(min-width: 1024px) 18vw, 45vw"
+                  />
+                </div>
+              </div>
+              <p className="as-caption-invert mt-3">{FOUNDER.signature}</p>
             </Reveal>
           </div>
 
           {/* prawa kolumna — biografia */}
           <div className="lg:col-span-7">
-            <Reveal>
-              <div className="as-body-invert space-y-5">
+            <Reveal delay={90}>
+              <div className="as-body-invert max-w-xl space-y-5">
                 <p>
                   Kilka razy wygrała podium Światowych Mistrzostw.{' '}
                   <EmLight>2 razy w kategorii włos maszynowy (1. oraz 2. miejsce)</EmLight>,{' '}
@@ -164,22 +179,6 @@ function StoryBand() {
                 </p>
               </div>
             </Reveal>
-
-            <Reveal delay={120}>
-              <Figure
-                image={STUDIO[13]}
-                alt={`${FOUNDER.name} — uśmiechnięty portret z sesji wizerunkowej, dłoń pod brodą`}
-                ratio="16 / 10"
-                position="50% 40%"
-                tone="dark"
-                className="mt-12"
-                sizes="(min-width: 1024px) 52vw, 90vw"
-              />
-            </Reveal>
-
-            <Reveal delay={170}>
-              <p className="as-label mt-5 text-cream-200/45">{FOUNDER.signature}</p>
-            </Reveal>
           </div>
         </div>
       </div>
@@ -201,57 +200,47 @@ function AchievementsBand() {
           <SectionLabel number="03">Osiągnięcia</SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance text-ink">
+            <h2 className="as-display-section as-text-balance text-ink">
               Liczby, które
               <br />
               stoją za techniką.
             </h2>
           </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pb-3">
-            <p className="as-body max-w-md">
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="as-caption">
               Międzynarodowe podium, setki przeszkolonych kursantek i dziesięć lat prowadzenia
               salonów — w Katowicach, a od trzech lat w Warszawie.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-10 border-t border-ink/10 pt-12 sm:grid-cols-2 lg:grid-cols-4">
+        {/* liczby — kolumny rozdzielone pionową złotą linią, jak karty w „Efektach" */}
+        <div className="mt-10 grid gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-0">
           {ACHIEVEMENTS.map((a, i) => (
             <Reveal key={a.label} delay={i * 80}>
-              <p className="as-display-md text-gold-dark">{a.value}</p>
-              <p className="as-body mt-3 max-w-[15rem] text-[0.8125rem]">{a.label}</p>
+              <Stat value={a.value} label={a.label} />
             </Reveal>
           ))}
         </div>
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="mt-12 grid gap-8 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-4">
-            <h3 className="as-display-sm italic text-ink">Kategorie mistrzowskie</h3>
-            <p className="as-body mt-4 max-w-xs text-[0.8125rem]">
+            <h3 className="font-display text-2xl italic text-ink sm:text-[1.75rem]">
+              Kategorie mistrzowskie
+            </h3>
+            <p className="as-caption mt-3">
               Tytuły zdobyte na Światowych Mistrzostwach makijażu permanentnego.
             </p>
           </Reveal>
 
           <Reveal delay={90} className="lg:col-span-8">
-            <ul>
+            <div>
               {TITLES.map((t) => (
-                <li
-                  key={t.category}
-                  className="flex items-baseline gap-4 border-b border-ink/10 py-5 first:border-t"
-                >
-                  <span className="min-w-0 flex-1 text-base text-ink">{t.category}</span>
-                  <span
-                    className="hidden flex-1 translate-y-[-3px] border-b border-dotted border-ink/15 sm:block"
-                    aria-hidden="true"
-                  />
-                  <span className="whitespace-nowrap font-display text-lg text-ink sm:text-xl">
-                    {t.result}
-                  </span>
-                </li>
+                <PriceRow key={t.category} name={t.category} price={t.result} />
               ))}
-            </ul>
+            </div>
           </Reveal>
         </div>
       </div>
@@ -299,18 +288,18 @@ function AcademyBand() {
           </SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
           <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance">
+            <h2 className="as-display-section as-text-balance">
               Tak wyglądają
               <br />
               nasze <span className="italic text-gold-light">szkolenia.</span>
             </h2>
           </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pb-3">
-            <p className="as-body-invert max-w-md">
-              Zdjęcia pochodzą z ostatnich dni kursów w {BRAND.academy} — momentu, w którym
-              kursantki odbierają certyfikaty. W tle widać wnętrza, w których pracujemy i szkolimy.
+          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+            <p className="as-caption-invert">
+              Zdjęcia z ostatnich dni kursów w {BRAND.academy}, gdy kursantki odbierają
+              certyfikaty. W tle — wnętrza, w których pracujemy i szkolimy.
             </p>
             <ArrowLink href="/szkolenia" tone="light" className="mt-8 w-fit">
               Poznaj programy szkoleń
@@ -318,21 +307,33 @@ function AcademyBand() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {ACADEMY_SHOTS.map((shot, i) => (
-            <Reveal key={shot.caption} delay={i * 90}>
+        {/* cztery kadry w jednej złotej ramce — jak trójka w „O nas" na stronie głównej */}
+        <Reveal className="mt-10">
+          <div className="as-photo-frame grid grid-cols-2 gap-1">
+            {ACADEMY_SHOTS.map((shot) => (
               <Figure
+                key={shot.caption}
                 image={shot.image}
                 alt={shot.alt}
-                ratio="3 / 4"
+                ratio="5 / 4"
                 position="50% 20%"
                 tone="dark"
-                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                sizes="(min-width: 1024px) 23vw, 45vw"
               />
-              <p className="as-body-invert mt-4 text-[0.8125rem]">{shot.caption}</p>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* podpisy w kolumnach zgodnych z kadrami */}
+        <Reveal delay={60}>
+          <div className="mt-3 grid grid-cols-2 gap-x-1 gap-y-4 px-1">
+            {ACADEMY_SHOTS.map((shot) => (
+              <p key={shot.caption} className="as-caption-invert pr-4">
+                {shot.caption}
+              </p>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -368,11 +369,11 @@ function VenueBand() {
           <SectionLabel number="05">Salon i akademia</SectionLabel>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-14">
           {/* tekst */}
           <div className="lg:col-span-7">
             <Reveal>
-              <h2 className="as-display-lg as-text-balance text-ink">
+              <h2 className="as-display-section as-text-balance text-ink">
                 {BRAND.academy}
                 <br />
                 <span className="italic text-gold-dark">{CONTACT.city}</span>
@@ -380,11 +381,13 @@ function VenueBand() {
             </Reveal>
 
             <Reveal delay={80}>
-              <FactStrip className="mt-8" items={[CONTACT.city, CONTACT.venueNote]} />
+              <p className="as-caption mt-6">
+                {CONTACT.city} — {CONTACT.venueNote.toLowerCase()}.
+              </p>
             </Reveal>
 
             <Reveal delay={120}>
-              <div className="as-body mt-9 space-y-5">
+              <div className="as-body mt-8 max-w-xl space-y-5">
                 <p>
                   Akademia i salon makijażu permanentnego{' '}
                   <EmDark>„{BRAND.academy}” w Warszawie</EmDark> to prestiżowe, ładnie
@@ -410,11 +413,11 @@ function VenueBand() {
             </Reveal>
 
             <Reveal delay={160}>
-              <blockquote className="mt-12 border-l border-gold/60 pl-7">
-                <p className="font-display text-xl italic leading-[1.5] text-ink sm:text-2xl">
+              <blockquote className="mt-10 max-w-xl border-l border-gold/35 pl-5">
+                <p className="as-pullquote text-ink">
                   „Proszę zrobić brwi, aby nikt nie zauważył, że były zrobione”
                 </p>
-                <footer className="as-body mt-5 max-w-xl text-[0.8125rem]">
+                <footer className="as-caption mt-4 max-w-md">
                   Życzenie, które spełniamy w 100%, specjalizując się w uzyskaniu najbardziej
                   realistycznego efektu w świecie makijażu permanentnego, wykorzystując technikę
                   włosa maszynowego „SuperNatural brows”.
@@ -426,7 +429,7 @@ function VenueBand() {
           {/* fakty o obiekcie + działalność charytatywna */}
           <div className="lg:col-span-5">
             <Reveal delay={90}>
-              <div className="flex flex-col gap-10 border-t border-ink/10 pt-10">
+              <div className="flex flex-col gap-8 lg:pt-2">
                 {VENUE_FACTS.map((fact) => (
                   <NumberedItem key={fact.number} number={fact.number} title={fact.title}>
                     {fact.desc}
@@ -436,9 +439,9 @@ function VenueBand() {
             </Reveal>
 
             <Reveal delay={150}>
-              <div className="mt-12 border-l border-gold/60 bg-cream-100 p-8">
-                <p className="as-label text-gold-dark">Działalność charytatywna</p>
-                <p className="as-body mt-4">
+              <div className="as-card-col mt-10 md:pr-0">
+                <p className="as-kicker">Działalność charytatywna</p>
+                <p className="as-caption mt-3 max-w-[22rem]">
                   Charytatywnie opiekujemy się osobami, które straciły włoski w wyniku chorób
                   onkologicznych, oraz tworzymy brwi od nowa na najbardziej wymagającym płótnie —
                   twarzach klientów, którzy nam zaufali.
@@ -458,43 +461,15 @@ function VenueBand() {
 
 function ClosingBand() {
   return (
-    <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-      <div className="as-shell py-20 lg:py-28">
-        <Reveal>
-          <SectionLabel number="06" tone="light">
-            Zaproszenie
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-lg as-text-balance">
-              Zacznijmy od <span className="italic text-gold-light">konsultacji.</span>
-            </h2>
-            <p className="as-body-invert mt-7 max-w-lg">
-              Salon i akademia w Warszawie — {CONTACT.venueNote.toLowerCase()}. Umów wizytę
-              albo zapytaj o najbliższy termin szkolenia.
-            </p>
-          </Reveal>
-
-          <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
-            <Link href="/kontakt" className="as-btn-gold">
-              Umów wizytę
-            </Link>
-            <Link href="/szkolenia" className="as-btn-ghost-light">
-              Terminy szkoleń
-            </Link>
-          </Reveal>
-        </div>
-
-        <div className="mt-14 border-t border-cream-200/12 pt-8">
-          <FactStrip
-            tone="light"
-            items={['Zabiegi PMU', 'Szkolenia', 'Pigmenty AS OPIUM', 'Maszynki AS']}
-          />
-        </div>
-      </div>
-    </section>
+    <ClosingCta
+      number="06"
+      label="Zaproszenie"
+      title="Zacznijmy od"
+      titleAccent="konsultacji."
+      lead={`Salon i akademia w Warszawie — ${CONTACT.venueNote.toLowerCase()}. Umów wizytę albo zapytaj o najbliższy termin szkolenia.`}
+      primary={{ href: '/kontakt', label: 'Umów wizytę' }}
+      secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
+    />
   );
 }
 

@@ -1,32 +1,42 @@
-// TODO: brak packshotów maszynek w /Graphics.
+// Uwaga: w /Graphics nie ma packshotów maszynek (AS HERO / AS HERO 2 /
+// AS PRINCESS), kartridży ani akcesoriów. Strona jest więc zbudowana
+// typograficznie: numerowane karty specyfikacji, tabele parametrów i złote
+// linie.
 //
-// W firmowym folderze nie ma ANI JEDNEGO zdjęcia produktowego maszynek
-// (AS HERO / AS HERO 2 / AS PRINCESS), kartridży ani akcesoriów.
-// Dlatego cała strona jest zbudowana typograficznie: duże nagłówki,
-// numerowane karty specyfikacji, tabele parametrów i złote linie.
+// Zdjęcia: w hero portret założycielki (studio-04 — kadr 4/5 z prymitywu
+// PageHero), w sekcji „Efekty” panele BY_NAME + makra BROWS/LIPS podpisane
+// jako efekt zabiegu — nigdy jako zdjęcie sprzętu. Sekcja jest ciemna
+// (bg-mocha), więc każdy kadr dostaje tone="dark"; pliki zbiorcze sklejek są
+// zakazane. Gdy pojawią się prawdziwe packshoty, można je wpiąć w sekcję 03
+// (katalog).
 //
-// Zdjęcia z /graphics (panele PANELS/BY_NAME + pojedyncze makra BROWS/LIPS)
-// pojawiają się WYŁĄCZNIE w sekcji „Efekty” i są podpisane jako efekt
-// zabiegu — nigdy jako zdjęcie sprzętu. Sekcja jest ciemna (bg-mocha),
-// więc każdy kadr dostaje tone="dark"; pliki zbiorcze sklejek są zakazane.
-// Gdy pojawią się prawdziwe packshoty, można je wpiąć w sekcję 04 (katalog).
+// Rytm tła (jasna/ciemna na przemian, bez wyjątku):
+//   01 hero (cream-50) → 02 Parametry + Prędkości (espresso)
+//   → 03 Katalog (cream-100) → 04 Efekty (mocha) → 05 Wynajem (cream-50)
+//   → 06 ClosingCta (espresso-900).
+// Układ sekcji dziedziczy rytm strony głównej (src/views/Home.jsx):
+// SectionLabel → nagłówek .as-display-section (mt-6) → zajawka .as-caption
+// → treść (mt-10) → CTA (mt-8). Karty to .as-card-col, grupa zdjęć siedzi
+// w jednej ramce .as-photo-frame.
 
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import {
   ArrowLink,
-  FactStrip,
+  ClosingCta,
+  CtaButton,
+  Field,
   Figure,
   GoldArc,
+  NumberedItem,
   PageHero,
   PriceRow,
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BRAND } from '@/lib/site';
-import { BROWS, BY_NAME, LIPS } from '@/lib/media';
+import { BROWS, BY_NAME, LIPS, STUDIO } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -37,8 +47,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 
 /* ================================================================== */
@@ -152,7 +160,7 @@ const SPEED_LEVELS = [
   { level: 7, rpm: '10 000 RPM', name: 'Tatuażowa II', desc: 'Maksymalna częstotliwość nakłuć do zaawansowanych prac medycznych i kamuflażu.' },
 ];
 
-/* Numerowane karty specyfikacji — zamiast ikonek i kafelków z cieniem. */
+/* Numerowane pozycje specyfikacji — jak 01/02/03 pod zdjęciami w makiecie. */
 const SPEC_PILLARS = [
   {
     number: '01',
@@ -177,7 +185,7 @@ const SPEC_PILLARS = [
 ];
 
 /* Zdjęcia WYŁĄCZNIE jako efekt pracy — nigdy jako zdjęcie sprzętu.
-   Cztery kadry w jednym rzędzie → jedna proporcja 16/10 dla wszystkich.
+   Cztery kadry w jednej złotej ramce → jedna proporcja 16/10 dla wszystkich.
    Panele są poziome (ok. 1.7:1 – 2.9:1), makro brows-14 jest pionowe
    i w poziomej ramce pokazuje pas brew + oko. Maks. dwa makra na stronę. */
 const EFFECT_SHOTS = [
@@ -229,13 +237,45 @@ const SPEC_ROWS = [
   { key: 'power', label: 'Zasilanie' },
 ];
 
+const RENTAL_FIELDS = [
+  { id: 'name', label: 'Imię i nazwisko', placeholder: 'np. Anna Kowalska', required: true },
+  { id: 'phone', label: 'Numer telefonu', placeholder: '+48 600 000 000', type: 'tel', required: true },
+  { id: 'email', label: 'Adres e-mail', placeholder: 'salon@example.com', type: 'email', required: true },
+  { id: 'salonName', label: 'Nazwa salonu / działalności', placeholder: 'np. Studio Beauty Katowice' },
+];
+
+const EMPTY_RENTAL_FORM = { name: '', phone: '', email: '', salonName: '' };
+
+/* ================================================================== */
+/*  Lokalne klocki                                                     */
+/* ================================================================== */
+
+/* Wartości specyfikacji bywają długie („2x Akumulator (do 4h pracy każdy)
+   / USB-C"), a PriceRow trzyma wartość w jednym wierszu — na 375 px
+   wychodziłaby poza kadr. Stąd lista definicji w tym samym rytmie linii. */
+function SpecList({ specs, className }) {
+  return (
+    <dl className={className}>
+      {SPEC_ROWS.map((row) => (
+        <div
+          key={row.key}
+          className="grid grid-cols-[5.5rem_1fr] gap-4 border-b border-ink/10 py-3 sm:grid-cols-[6.5rem_1fr]"
+        >
+          <dt className="as-kicker pt-1.5">{row.label}</dt>
+          <dd className="text-[0.8125rem] leading-[1.75] text-ink">{specs[row.key]}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 /* ================================================================== */
 
 export default function Machines() {
   const { toast } = useToast();
   const [selectedSpeed, setSelectedSpeed] = useState(SPEED_LEVELS[0]);
   const [selectedMachineForRental, setSelectedMachineForRental] = useState(null);
-  const [rentalForm, setRentalForm] = useState({ name: '', phone: '', email: '', salonName: '' });
+  const [rentalForm, setRentalForm] = useState(EMPTY_RENTAL_FORM);
 
   // W projekcie nie ma koszyka ani sklepu — zapytanie idzie tą samą drogą
   // co pozostałe formularze (patrz src/lib/enquiry.js).
@@ -250,6 +290,8 @@ export default function Machines() {
     const msg = enquiryMessage(status);
     toast({ title: msg.title, description: msg.body });
   };
+
+  const openRental = (machine = MACHINES_DATA[2]) => setSelectedMachineForRental(machine);
 
   const handleRentalSubmit = (e) => {
     e.preventDefault();
@@ -266,13 +308,13 @@ export default function Machines() {
     const msg = enquiryMessage(status);
     toast({ title: msg.title, description: msg.body });
     setSelectedMachineForRental(null);
-    setRentalForm({ name: '', phone: '', email: '', salonName: '' });
+    setRentalForm(EMPTY_RENTAL_FORM);
   };
 
   return (
     <>
       {/* ============================================================ */}
-      {/*  01 — HERO (typograficzny, bez zdjęcia — brak packshotów)    */}
+      {/*  01 — HERO (cream-50)                                        */}
       {/* ============================================================ */}
 
       <PageHero
@@ -281,36 +323,24 @@ export default function Machines() {
         title="Maszynki PMU"
         titleAccent="AS HERO & AS PRINCESS"
         lead="Zaprojektowane z myślą o najwyższym komforcie pracy linergistek. Lekka konstrukcja ze stopu lotniczego aluminium, 7 trybów prędkości, zmienny skok i wymienne akumulatory zapewniają bezkompromisową precyzję."
+        image={STUDIO[3]}
+        imageAlt="Andriana Babushkina — założycielka AS Company"
+        imagePosition="50% 12%"
+        facts={['7 prędkości', 'Skok 2.1 – 3.0 mm', '107 g', '24 miesiące gwarancji']}
         tone="cream"
       >
         <div className="flex flex-wrap gap-4">
-          <a href="#katalog" className="as-btn-solid">
+          <CtaButton href="#katalog" className="as-btn-solid">
             Przeglądaj modele
-          </a>
-          <button
-            type="button"
-            onClick={() => setSelectedMachineForRental(MACHINES_DATA[2])}
-            className="as-btn-ghost"
-          >
+          </CtaButton>
+          <CtaButton onClick={() => openRental()} className="as-btn-ghost">
             Wynajem 369 zł / mc
-          </button>
+          </CtaButton>
         </div>
-
-        <div className="mt-10 flex flex-col gap-3 border-t border-gold/35 pt-6 sm:flex-row sm:items-baseline sm:gap-6">
-          <span className="as-label shrink-0 text-gold-dark">Oferta specjalna</span>
-          <p className="as-body text-[0.8125rem]">
-            Zamów maszynkę AS PRINCESS lub skorzystaj z modelu wynajmu za 369 zł miesięcznie.
-          </p>
-        </div>
-
-        <FactStrip
-          className="mt-10"
-          items={['7 prędkości', 'Skok 2.1 – 3.0 mm', '107 g', '24 miesiące gwarancji']}
-        />
       </PageHero>
 
       {/* ============================================================ */}
-      {/*  02 — PARAMETRY (numerowane karty specyfikacji)              */}
+      {/*  02 — PARAMETRY + PRĘDKOŚCI (espresso)                       */}
       {/* ============================================================ */}
 
       <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
@@ -323,172 +353,163 @@ export default function Machines() {
             </SectionLabel>
           </Reveal>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+          <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
             <Reveal className="lg:col-span-7">
-              <h2 className="as-display-lg as-text-balance">
+              <h2 className="as-display-section as-text-balance">
                 Zaawansowane
                 <br />
                 parametry techniczne.
               </h2>
             </Reveal>
-            <Reveal delay={90} className="lg:col-span-5 lg:pb-3">
-              <p className="as-body-invert max-w-md">
+            <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+              <p className="as-caption-invert">
                 Przełom w dziedzinie makijażu permanentnego — zoptymalizowane pod kątem pigmentów
                 mineralnych i hybrydowych.
               </p>
             </Reveal>
           </div>
 
-          <div className="mt-16 grid border-t border-cream-200/15 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-y-10 md:grid-cols-2 md:gap-x-0 lg:grid-cols-4">
             {SPEC_PILLARS.map((pillar, i) => (
               <Reveal key={pillar.number} delay={i * 90}>
-                <div className="flex h-full flex-col border-b border-cream-200/15 py-10 lg:border-b-0 lg:border-r lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0">
-                  <div className="flex items-center gap-4">
-                    <span className="as-num text-gold-light">{pillar.number}</span>
-                    <span className="h-px w-8 bg-cream-200/25" />
-                  </div>
-                  <h3 className="as-display-sm mt-5 italic text-cream-50">{pillar.title}</h3>
-                  <p className="as-body-invert mt-3 text-[0.8125rem]">{pillar.desc}</p>
+                <div className="as-card-col">
+                  <NumberedItem number={pillar.number} title={pillar.title} tone="light">
+                    {pillar.desc}
+                  </NumberedItem>
                 </div>
               </Reveal>
             ))}
           </div>
+
+          {/* — drugi blok: interaktywny przewodnik po prędkościach — */}
+          <div className="mt-14 border-t border-cream-200/15 pt-10">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
+              <Reveal className="lg:col-span-7">
+                <h3 className="font-display text-2xl text-cream-50 sm:text-[1.75rem]">
+                  Wybierz prędkość i technikę pracy.
+                </h3>
+              </Reveal>
+              <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+                <p className="as-caption-invert">
+                  Kliknij poszczególne poziomy obrotów RPM, aby poznać dedykowane zastosowanie i
+                  zalecaną technikę pigmentacji.
+                </p>
+              </Reveal>
+            </div>
+
+            <Reveal delay={80}>
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+                {SPEED_LEVELS.map((speed) => {
+                  const active = selectedSpeed.level === speed.level;
+                  return (
+                    <button
+                      key={speed.level}
+                      type="button"
+                      onClick={() => setSelectedSpeed(speed)}
+                      aria-pressed={active}
+                      className={cn(
+                        /* 7 pozycji w 2 i 4 kolumnach zostawiało pustą ósmą komórkę —
+                           ostatnia rozciąga się na dwie kolumny do progu lg */
+                        'flex flex-col items-start gap-3 border px-5 py-6 text-left transition-colors duration-300 last:col-span-2 lg:last:col-span-1',
+                        active
+                          ? 'border-gold bg-gold text-espresso-900'
+                          : 'border-cream-200/30 text-cream-50 hover:border-gold-light'
+                      )}
+                    >
+                      <span className={cn('as-num', active ? 'text-espresso-900' : 'text-gold-light')}>
+                        {String(speed.level).padStart(2, '0')}
+                      </span>
+                      <span className={cn('as-label', active ? 'text-espresso-900/75' : 'text-cream-200/70')}>
+                        {speed.rpm}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-12">
+                <div className="as-card-col lg:col-span-7">
+                  <div className="flex items-center gap-4">
+                    <span className="as-label text-gold-light">{selectedSpeed.rpm}</span>
+                    <span className="h-px w-10 bg-cream-200/20" aria-hidden="true" />
+                    <span className="as-kicker-invert">
+                      Poziom {String(selectedSpeed.level).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h4 className="mt-5 font-display text-2xl text-cream-50 sm:text-[1.75rem]">
+                    {selectedSpeed.name}
+                  </h4>
+                  <p className="as-caption-invert mt-2">{selectedSpeed.desc}</p>
+                </div>
+
+                <div className="lg:col-span-5">
+                  <p className="as-kicker-invert">Parametry poziomu</p>
+                  <div className="mt-2">
+                    <PriceRow name="Obroty" price={selectedSpeed.rpm} tone="light" />
+                    <PriceRow name="Technika" price={selectedSpeed.name} tone="light" />
+                    <PriceRow
+                      name="Rekomendowana igła"
+                      note="Dobór zależny od skóry i techniki"
+                      price="1RL 0.25 / 3RL 0.18"
+                      tone="light"
+                    />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/*  03 — PRĘDKOŚCI (interaktywny przewodnik)                    */}
+      {/*  03 — KATALOG (cream-100; karty .as-card-col + tabela)       */}
       {/* ============================================================ */}
 
-      <section className="as-section relative overflow-hidden bg-cream-100">
+      <section id="katalog" className="as-section relative scroll-mt-28 overflow-hidden bg-cream-100">
         <GoldArc className="-top-10 right-[-8%] h-[600px] w-[820px]" flip opacity={0.35} />
 
         <div className="as-shell relative">
           <Reveal>
-            <SectionLabel number="03">Prędkości</SectionLabel>
+            <SectionLabel number="03">Katalog</SectionLabel>
           </Reveal>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
             <Reveal className="lg:col-span-7">
-              <h2 className="as-display-lg as-text-balance text-ink">
-                Wybierz prędkość
-                <br />i technikę pracy.
+              <h2 className="as-display-section as-text-balance text-ink">
+                Katalog
+                <br />
+                urządzeń PMU.
               </h2>
             </Reveal>
-            <Reveal delay={90} className="lg:col-span-5 lg:pt-6">
-              <p className="as-body max-w-md">
-                Kliknij poszczególne poziomy obrotów RPM, aby poznać dedykowane zastosowanie i
-                zalecaną technikę pigmentacji.
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={80}>
-            <div className="mt-14 grid grid-cols-2 gap-px border border-ink/12 bg-ink/12 sm:grid-cols-4 lg:grid-cols-7">
-              {SPEED_LEVELS.map((speed) => {
-                const active = selectedSpeed.level === speed.level;
-                return (
-                  <button
-                    key={speed.level}
-                    type="button"
-                    onClick={() => setSelectedSpeed(speed)}
-                    aria-pressed={active}
-                    className={cn(
-                      'flex flex-col items-start gap-3 px-5 py-6 text-left transition-colors duration-300',
-                      active
-                        ? 'bg-espresso text-cream-50'
-                        : 'bg-cream-50 text-ink hover:bg-cream-200/60'
-                    )}
-                  >
-                    <span className={cn('as-num', active ? 'text-gold-light' : 'text-gold')}>
-                      {String(speed.level).padStart(2, '0')}
-                    </span>
-                    <span
-                      className={cn(
-                        'as-label',
-                        active ? 'text-cream-200/75' : 'text-ink/55'
-                      )}
-                    >
-                      {speed.rpm}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mt-10 grid gap-10 border-t border-ink/12 pt-10 lg:grid-cols-12 lg:gap-16">
-              <div className="lg:col-span-7">
-                <div className="flex items-center gap-4">
-                  <span className="as-label text-gold-dark">{selectedSpeed.rpm}</span>
-                  <span className="h-px w-12 bg-ink/15" />
-                  <span className="as-label text-ink/45">
-                    Poziom {String(selectedSpeed.level).padStart(2, '0')}
-                  </span>
-                </div>
-                <h3 className="as-display-md mt-5 text-ink">{selectedSpeed.name}</h3>
-                <p className="as-body mt-4 max-w-xl">{selectedSpeed.desc}</p>
-              </div>
-
-              <div className="lg:col-span-5">
-                <p className="as-label mb-2 text-ink/45">Parametry poziomu</p>
-                <PriceRow name="Obroty" price={selectedSpeed.rpm} />
-                <PriceRow name="Technika" price={selectedSpeed.name} />
-                <PriceRow
-                  name="Rekomendowana igła"
-                  note="Dobór zależny od skóry i techniki"
-                  price="1RL 0.25 / 3RL 0.18"
-                />
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/*  04 — KATALOG (karty typograficzne + tabela parametrów)      */}
-      {/* ============================================================ */}
-
-      <section id="katalog" className="as-section scroll-mt-28 bg-cream-50">
-        <div className="as-shell">
-          <Reveal>
-            <SectionLabel number="04">Katalog</SectionLabel>
-          </Reveal>
-
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
-            <Reveal className="lg:col-span-7">
-              <h2 className="as-display-lg as-text-balance text-ink">Katalog urządzeń PMU</h2>
-            </Reveal>
-            <Reveal delay={90} className="lg:col-span-5 lg:pb-3">
-              <p className="as-body max-w-md">
+            <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+              <p className="as-caption">
                 Wszystkie maszynki objęte są 24-miesięczną gwarancją producenta oraz wsparciem
                 technicznym.
               </p>
             </Reveal>
           </div>
 
-          <div className="mt-16 grid gap-x-16 gap-y-px border-t border-ink/12 md:grid-cols-2">
+          <div className="mt-10 grid gap-y-10 md:grid-cols-2 md:gap-x-0">
             {MACHINES_DATA.map((machine, i) => (
               <Reveal key={machine.id} delay={(i % 2) * 90}>
-                <article className="flex h-full flex-col border-b border-ink/12 py-12">
+                <article className="as-card-col">
                   <div className="flex items-start justify-between gap-6">
                     <div className="flex items-center gap-4">
                       <span className="as-num">{machine.number}</span>
-                      <span className="h-px w-10 bg-ink/15" />
+                      <span className="h-px w-10 bg-ink/15" aria-hidden="true" />
                     </div>
-                    {machine.badge && (
-                      <span className="as-label border border-gold/45 px-3 py-1.5 text-gold-dark">
-                        {machine.badge}
-                      </span>
-                    )}
+                    {machine.badge && <span className="as-badge">{machine.badge}</span>}
                   </div>
 
-                  <h3 className="as-display-md mt-6 text-ink">{machine.name}</h3>
-                  <p className="as-label mt-3 text-ink/45">{machine.subtitle}</p>
+                  <p className="as-kicker mt-5">{machine.subtitle}</p>
+                  <h3 className="mt-2 font-display text-2xl text-ink sm:text-[1.75rem]">
+                    {machine.name}
+                  </h3>
 
-                  <div className="mt-6 flex items-baseline gap-4">
-                    <span className="font-display text-3xl text-ink">{machine.price} zł</span>
+                  <div className="mt-4 flex items-baseline gap-4">
+                    <span className="font-display text-xl text-ink">{machine.price} zł</span>
                     {machine.originalPrice && (
                       <span className="text-sm text-mocha-400 line-through">
                         {machine.originalPrice} zł
@@ -496,41 +517,31 @@ export default function Machines() {
                     )}
                   </div>
 
-                  <p className="as-body mt-6">{machine.description}</p>
+                  <p className="as-caption mt-4">{machine.description}</p>
 
-                  <p className="as-label mt-9 text-ink/45">Cechy kluczowe</p>
-                  <ul className="mt-4 space-y-3">
+                  <p className="as-kicker mt-8">Cechy kluczowe</p>
+                  <ul className="mt-3 space-y-2.5">
                     {machine.features.map((feat) => (
                       <li key={feat} className="flex gap-4">
-                        <span aria-hidden="true" className="mt-2.5 h-px w-4 shrink-0 bg-gold" />
-                        <span className="as-body text-[0.8125rem]">{feat}</span>
+                        <span aria-hidden="true" className="as-dash" />
+                        <span className="as-caption max-w-none">{feat}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div className="mt-9 flex-1">
-                    <p className="as-label mb-2 text-ink/45">Specyfikacja</p>
-                    {SPEC_ROWS.map((row) => (
-                      <PriceRow key={row.key} name={row.label} price={machine.specs[row.key]} />
-                    ))}
+                  <div className="mt-8 flex-1">
+                    <p className="as-kicker">Specyfikacja</p>
+                    <SpecList specs={machine.specs} className="mt-2" />
                   </div>
 
-                  <div className="mt-9 flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() => handleAskAbout(machine)}
-                      className="as-btn-solid"
-                    >
+                  <div className="mt-8 flex flex-wrap gap-4">
+                    <CtaButton onClick={() => handleAskAbout(machine)} className="as-btn-solid">
                       Zapytaj o dostępność
-                    </button>
+                    </CtaButton>
                     {machine.name.includes('PRINCESS') && (
-                      <button
-                        type="button"
-                        onClick={() => setSelectedMachineForRental(machine)}
-                        className="as-btn-ghost"
-                      >
+                      <CtaButton onClick={() => openRental(machine)} className="as-btn-ghost">
                         Wynajmij 369 zł / mc
-                      </button>
+                      </CtaButton>
                     )}
                   </div>
                 </article>
@@ -540,10 +551,17 @@ export default function Machines() {
 
           {/* — tabela porównawcza parametrów — */}
           <Reveal delay={90}>
-            <div className="mt-20">
+            <div className="mt-12">
               <SectionLabel>Zestawienie parametrów</SectionLabel>
 
-              <div className="as-noscrollbar mt-8 overflow-x-auto">
+              <p className="as-label mt-6 text-ink/45 md:hidden">Przewiń w bok &#8594;</p>
+
+              {/* na wąskim ekranie tabela przewija się w bok; cienki pasek zostaje
+                  widoczny, żeby było wiadomo, że jest co przewijać */}
+              <div
+                className="mt-3 overflow-x-auto pb-3 md:mt-6"
+                style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(184,151,104,0.6) transparent' }}
+              >
                 <table className="w-full min-w-[720px] border-collapse text-left">
                   <thead>
                     <tr className="border-y border-ink/15">
@@ -567,16 +585,17 @@ export default function Machines() {
                           <span className="block font-display text-lg text-ink">
                             {machine.name}
                           </span>
-                          <span className="as-label mt-1.5 block text-ink/40">
-                            {machine.number}
-                          </span>
+                          <span className="as-kicker mt-1.5 block">{machine.number}</span>
                         </th>
                         {SPEC_ROWS.map((row) => (
-                          <td key={row.key} className="py-5 pr-6 text-[0.8125rem] leading-relaxed text-mocha">
+                          <td
+                            key={row.key}
+                            className="py-5 pr-6 text-[0.8125rem] leading-[1.75] text-mocha"
+                          >
                             {machine.specs[row.key]}
                           </td>
                         ))}
-                        <td className="whitespace-nowrap py-5 text-right font-display text-lg text-ink">
+                        <td className="whitespace-nowrap py-5 text-right font-display text-xl text-ink">
                           {machine.price} zł
                         </td>
                       </tr>
@@ -590,7 +609,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  05 — EFEKTY (jedyna sekcja ze zdjęciami — efekt, nie sprzęt)*/}
+      {/*  04 — EFEKTY (mocha; jedyna sekcja ze zdjęciami efektów)     */}
       {/* ============================================================ */}
 
       <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
@@ -598,23 +617,22 @@ export default function Machines() {
 
         <div className="as-shell relative">
           <Reveal>
-            <SectionLabel number="05" tone="light">
+            <SectionLabel number="04" tone="light">
               Efekty
             </SectionLabel>
           </Reveal>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+          <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
             <Reveal className="lg:col-span-7">
-              <h2 className="as-display-lg as-text-balance">
+              <h2 className="as-display-section as-text-balance">
                 Sprzęt poznaje się
                 <br />
                 po <span className="italic text-gold-light">efekcie.</span>
               </h2>
             </Reveal>
-            <Reveal delay={90} className="lg:col-span-5 lg:pb-3">
-              <p className="as-body-invert max-w-md">
+            <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
+              <p className="as-caption-invert">
                 Poniżej efekty zabiegów PMU — włos maszynowy, technika pudrowa i praca na ustach.
-                To rezultaty, do których prowadzą opisane wyżej prędkości i skok igły.
               </p>
               <ArrowLink href="/uslugi" tone="light" className="mt-8 w-fit">
                 Zobacz wszystkie zabiegi
@@ -622,51 +640,59 @@ export default function Machines() {
             </Reveal>
           </div>
 
-          <div className="mt-16 grid gap-6 border-t border-cream-200/15 pt-12 sm:grid-cols-2 lg:grid-cols-4">
-            {EFFECT_SHOTS.map((shot, i) => (
-              <Reveal key={shot.caption} delay={i * 90}>
-                <figure>
-                  <Figure
-                    image={shot.image}
-                    alt={shot.alt}
-                    ratio={shot.ratio}
-                    position={shot.position}
-                    tone="dark"
-                    sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-                  />
-                  <figcaption className="as-label mt-4 text-cream-200/70">
-                    {shot.caption}
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
+          {/* cztery kadry w jednej złotej ramce — jak trójka w „O nas" na stronie głównej */}
+          <Reveal delay={80} className="mt-10">
+            <div className="as-photo-frame grid gap-1 sm:grid-cols-2 lg:grid-cols-4">
+              {EFFECT_SHOTS.map((shot) => (
+                <Figure
+                  key={shot.caption}
+                  image={shot.image}
+                  alt={shot.alt}
+                  ratio={shot.ratio}
+                  position={shot.position}
+                  tone="dark"
+                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                />
+              ))}
+            </div>
+            {/* podpisy pod ramką — ta sama siatka co kadry */}
+            <div className="mt-3 grid gap-x-1 gap-y-1 px-1 sm:grid-cols-2 lg:grid-cols-4">
+              {EFFECT_SHOTS.map((shot) => (
+                <p key={shot.caption} className="as-caption-invert">
+                  {shot.caption}
+                </p>
+              ))}
+            </div>
+          </Reveal>
 
           <Reveal delay={120}>
-            <p className="mt-10 max-w-2xl text-xs leading-relaxed text-cream-200/50">
-              Zdjęcia przedstawiają efekty zabiegów makijażu permanentnego, a nie zdjęcia
-              urządzeń.
+            <p className="mt-6 max-w-xl text-xs leading-relaxed text-cream-200/65">
+              To rezultaty, do których prowadzą opisane wyżej prędkości i skok igły. Zdjęcia
+              przedstawiają efekty zabiegów makijażu permanentnego, a nie zdjęcia urządzeń.
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/*  06 — WYNAJEM                                                */}
+      {/*  05 — WYNAJEM (cream-50)                                     */}
       {/* ============================================================ */}
 
       <section className="as-section bg-cream-50">
         <div className="as-shell">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <Reveal>
+            <SectionLabel number="05">Wynajem</SectionLabel>
+          </Reveal>
+
+          <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-6">
               <Reveal>
-                <SectionLabel number="06">Wynajem</SectionLabel>
-                <h2 className="as-display-lg as-text-balance mt-8 text-ink">
+                <h2 className="as-display-section as-text-balance text-ink">
                   Program wynajmu
                   <br />
                   dla salonów.
                 </h2>
-                <p className="as-body mt-7 max-w-md">
+                <p className="as-caption mt-6">
                   Rozwijaj swój salon bez zamrażania kapitału. Wynajmij bezprzewodową maszynkę{' '}
                   <span className="text-ink">AS PRINCESS</span> na dogodnych warunkach ze stałą
                   opłatą <span className="text-ink">369 zł miesięcznie</span>.
@@ -674,38 +700,40 @@ export default function Machines() {
               </Reveal>
 
               <Reveal delay={90}>
-                <ul className="mt-9 space-y-4">
+                <ul className="mt-6 space-y-2.5">
                   {RENTAL_POINTS.map((point) => (
                     <li key={point} className="flex gap-4">
-                      <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-gold" />
-                      <span className="as-body text-[0.8125rem]">{point}</span>
+                      <span aria-hidden="true" className="as-dash" />
+                      <span className="as-caption">{point}</span>
                     </li>
                   ))}
                 </ul>
 
-                <button
-                  type="button"
-                  onClick={() => setSelectedMachineForRental(MACHINES_DATA[2])}
-                  className="as-btn-gold mt-10"
-                >
-                  Wyślij zapytanie o wynajem
-                </button>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <CtaButton onClick={() => openRental()} className="as-btn-gold">
+                    Wyślij zapytanie o wynajem
+                  </CtaButton>
+                </div>
               </Reveal>
             </div>
 
             <div className="lg:col-span-6">
               <Reveal delay={120}>
-                <p className="as-label text-ink/45">Model subskrypcyjny B2B</p>
-                <p className="as-display-sm mt-4 text-ink">Kalkulator korzyści</p>
-                <div className="mt-8">
-                  {RENTAL_MATH.map((row) => (
-                    <PriceRow key={row.name} name={row.name} note={row.note} price={row.price} />
-                  ))}
+                <div className="as-card-col">
+                  <p className="as-kicker">Model subskrypcyjny B2B</p>
+                  <h3 className="mt-3 font-display text-2xl text-ink sm:text-[1.75rem]">
+                    Kalkulator korzyści
+                  </h3>
+                  <div className="mt-6">
+                    {RENTAL_MATH.map((row) => (
+                      <PriceRow key={row.name} name={row.name} note={row.note} price={row.price} />
+                    ))}
+                  </div>
+                  <p className="mt-6 max-w-lg text-xs leading-relaxed text-mocha-400">
+                    Wyliczenie poglądowe dla 10 zabiegów miesięcznie. Szczegóły umowy ustalamy
+                    indywidualnie po wysłaniu zapytania.
+                  </p>
                 </div>
-                <p className="mt-6 max-w-lg text-xs leading-relaxed text-mocha-400">
-                  Wyliczenie poglądowe dla 10 zabiegów miesięcznie. Szczegóły umowy ustalamy
-                  indywidualnie po wysłaniu zapytania.
-                </p>
               </Reveal>
             </div>
           </div>
@@ -713,37 +741,18 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  07 — CTA                                                    */}
+      {/*  06 — KONTAKT (espresso-900; wspólny pas zamykający)         */}
       {/* ============================================================ */}
 
-      <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-        <div className="as-shell py-20 lg:py-28">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-            <Reveal className="lg:col-span-7">
-              <SectionLabel number="07" tone="light">
-                Kontakt
-              </SectionLabel>
-              <h2 className="as-display-lg as-text-balance mt-8">
-                Przetestuj maszynę <span className="italic text-gold-light">na żywo.</span>
-              </h2>
-              <p className="as-body-invert mt-7 max-w-lg">
-                Maszynę AS Princess można przetestować na miejscu podczas szkolenia w{' '}
-                {BRAND.academy}. Napisz do nas, jeśli chcesz porównać modele przed zakupem albo zapytać o
-                wynajem.
-              </p>
-            </Reveal>
-
-            <Reveal delay={90} className="flex flex-wrap gap-4 lg:col-span-5 lg:justify-end">
-              <Link href="/kontakt" className="as-btn-gold">
-                Zapytaj o maszynkę
-              </Link>
-              <Link href="/szkolenia" className="as-btn-ghost-light">
-                Terminy szkoleń
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      <ClosingCta
+        number="06"
+        label="Kontakt"
+        title="Przetestuj maszynę"
+        titleAccent="na żywo."
+        lead={`Maszynę AS Princess można przetestować na miejscu podczas szkolenia w ${BRAND.academy}. Napisz do nas, jeśli chcesz porównać modele przed zakupem albo zapytać o wynajem.`}
+        primary={{ href: '/kontakt', label: 'Zapytaj o maszynkę' }}
+        secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
+      />
 
       {/* ============================================================ */}
       {/*  Formularz wynajmu                                           */}
@@ -751,84 +760,46 @@ export default function Machines() {
 
       <Dialog
         open={!!selectedMachineForRental}
-        onOpenChange={() => setSelectedMachineForRental(null)}
+        onOpenChange={(open) => {
+          if (!open) setSelectedMachineForRental(null);
+        }}
       >
-        <DialogContent className="border-ink/12 bg-cream-50 sm:max-w-[520px]">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="as-display-sm text-left text-ink">
-              Wniosek o wynajem maszynki PMU
-            </DialogTitle>
-            <DialogDescription className="as-body text-left text-[0.8125rem]">
+            <DialogTitle>Wniosek o wynajem maszynki PMU</DialogTitle>
+            <DialogDescription>
               Wypełnij krótki formularz, aby zarezerwować model {selectedMachineForRental?.name} w
               opcji 369 zł / mc.
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleRentalSubmit} className="space-y-5 py-2">
-            <div>
-              <Label htmlFor="name" className="as-label text-ink/55">
-                Imię i nazwisko
-              </Label>
-              <Input
-                id="name"
-                required
-                placeholder="np. Anna Kowalska"
-                value={rentalForm.name}
-                onChange={(e) => setRentalForm({ ...rentalForm, name: e.target.value })}
-                className="mt-2 border-ink/15 bg-cream"
-              />
-            </div>
-            <div>
-              <Label htmlFor="phone" className="as-label text-ink/55">
-                Numer telefonu
-              </Label>
-              <Input
-                id="phone"
-                required
-                type="tel"
-                placeholder="+48 600 000 000"
-                value={rentalForm.phone}
-                onChange={(e) => setRentalForm({ ...rentalForm, phone: e.target.value })}
-                className="mt-2 border-ink/15 bg-cream"
-              />
-            </div>
-            <div>
-              <Label htmlFor="email" className="as-label text-ink/55">
-                Adres e-mail
-              </Label>
-              <Input
-                id="email"
-                required
-                type="email"
-                placeholder="salon@example.com"
-                value={rentalForm.email}
-                onChange={(e) => setRentalForm({ ...rentalForm, email: e.target.value })}
-                className="mt-2 border-ink/15 bg-cream"
-              />
-            </div>
-            <div>
-              <Label htmlFor="salonName" className="as-label text-ink/55">
-                Nazwa salonu / działalności
-              </Label>
-              <Input
-                id="salonName"
-                placeholder="np. Studio Beauty Katowice"
-                value={rentalForm.salonName}
-                onChange={(e) => setRentalForm({ ...rentalForm, salonName: e.target.value })}
-                className="mt-2 border-ink/15 bg-cream"
-              />
+          <form onSubmit={handleRentalSubmit} className="mt-8">
+            <div className="space-y-6">
+              {RENTAL_FIELDS.map((field) => (
+                <Field
+                  key={field.id}
+                  as="input"
+                  id={`rental-${field.id}`}
+                  label={field.label}
+                  type={field.type}
+                  required={field.required}
+                  placeholder={field.placeholder}
+                  value={rentalForm[field.id]}
+                  onChange={(e) => setRentalForm({ ...rentalForm, [field.id]: e.target.value })}
+                />
+              ))}
             </div>
 
-            <DialogFooter className="gap-3 pt-2 sm:gap-3">
+            <DialogFooter>
+              <button type="submit" className="as-btn-gold">
+                Wyślij wniosek
+              </button>
               <button
                 type="button"
                 onClick={() => setSelectedMachineForRental(null)}
                 className="as-btn-ghost"
               >
                 Anuluj
-              </button>
-              <button type="submit" className="as-btn-solid">
-                Wyślij wniosek
               </button>
             </DialogFooter>
           </form>
