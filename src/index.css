@@ -156,6 +156,34 @@
     @apply font-sans text-[0.625rem] font-medium uppercase tracking-label;
   }
 
+  /* Kicker nad tytułem karty (kategoria, poziom) — stonowany, złoto zostaje
+     dla numerów i etykiet sekcji. Badge („Bestseller”, „Nowość”) — goły, złoty. */
+  .as-kicker {
+    @apply as-label text-ink/45;
+  }
+
+  .as-kicker-invert {
+    @apply as-label text-cream-200/55;
+  }
+
+  .as-badge {
+    @apply as-label text-gold-dark;
+  }
+
+  /* Złota kreska-punktor w listach (zamiast kropki) — jedna szerokość w serwisie. */
+  .as-dash {
+    @apply mt-[0.7rem] h-px w-6 shrink-0 bg-gold;
+  }
+
+  /* Krótki cytat w karcie (opinia, motto) */
+  .as-quote {
+    @apply font-display text-[0.9375rem] italic leading-[1.7];
+  }
+
+  .as-quote-invert {
+    @apply as-quote text-cream-200/85;
+  }
+
   /* ——— Linki strzałkowe ——— */
   /* Uwaga: klasę `group` dodajemy w JSX — Tailwind nie pozwala jej użyć w @apply. */
   .as-arrow {
@@ -176,8 +204,10 @@
   }
 
   /* ——— Przyciski ——— */
+  /* border-transparent: warianty pełne mają tę samą wysokość co ghost (51 px),
+     więc para przycisków w jednej linii zawsze jest równa. */
   .as-btn {
-    @apply inline-flex items-center justify-center gap-2.5 whitespace-nowrap px-8 py-4 text-[0.6875rem] font-medium uppercase tracking-wider2 transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2.5 whitespace-nowrap border border-transparent px-8 py-4 text-[0.6875rem] font-medium uppercase tracking-wider2 transition-all duration-300;
   }
 
   .as-btn-solid {

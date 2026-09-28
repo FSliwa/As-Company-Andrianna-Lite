@@ -7,7 +7,14 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 /* ------------------------------------------------------------------ */
 /*  Etykieta sekcji:  „02  /  O NAS  ———————”                          */
@@ -307,6 +314,7 @@ export function PageHero({
   imageAlt,
   imageTone,
   imagePosition,
+  facts,
   tone = 'cream',
   children,
 }) {
@@ -334,7 +342,9 @@ export function PageHero({
               {titleAccent && (
                 <>
                   {' '}
-                  <span className="italic text-gold-dark">{titleAccent}</span>
+                  <span className={cn('italic', isDark ? 'text-gold-light' : 'text-gold-dark')}>
+                    {titleAccent}
+                  </span>
                 </>
               )}
             </h1>
@@ -342,6 +352,14 @@ export function PageHero({
               <p className={cn('mt-6 max-w-xl', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>
             )}
             {children && <div className="mt-8">{children}</div>}
+            {/* pasek faktów — jedno miejsce i jeden odstęp na każdej podstronie */}
+            {facts && facts.length > 0 && (
+              <FactStrip
+                items={facts}
+                tone={isDark ? 'light' : 'dark'}
+                className={cn('mt-10 border-t pt-6', isDark ? 'border-cream-200/15' : 'border-ink/10')}
+              />
+            )}
           </div>
 
           {image && (
@@ -373,7 +391,7 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
   return (
     <div
       className={cn(
-        'flex items-baseline gap-4 border-b py-5',
+        'flex items-baseline gap-4 border-b py-5 first:border-t',
         isLight ? 'border-cream-200/15' : 'border-ink/10'
       )}
     >
@@ -419,14 +437,188 @@ export function FactStrip({ items, tone = 'dark', className }) {
     <ul className={cn('flex flex-wrap items-center gap-x-5 gap-y-3', className)}>
       {items.map((item, i) => (
         <li key={item} className="flex items-center gap-5">
-          {i > 0 && (
-            <span className={cn('as-label', isLight ? 'text-cream-200/30' : 'text-ink/25')}>/</span>
-          )}
           <span className={cn('as-label', isLight ? 'text-cream-200/70' : 'text-ink/55')}>
             {item}
           </span>
+          {i < items.length - 1 && (
+            <span className={cn('as-label', isLight ? 'text-cream-200/30' : 'text-ink/25')}>/</span>
+          )}
         </li>
       ))}
     </ul>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Przycisk CTA — link wewnętrzny, zewnętrzny/kotwica albo <button>   */
+/* ------------------------------------------------------------------ */
+
+export function CtaButton({ href, onClick, children, className = 'as-btn-solid', ...rest }) {
+  if (onClick || !href) {
+    return (
+      <button type="button" onClick={onClick} className={className} {...rest}>
+        {children}
+      </button>
+    );
+  }
+  const plain = /^(https?:|mailto:|tel:|#)/.test(href);
+  if (plain) {
+    return (
+      <a href={href} className={className} {...rest}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={className} {...rest}>
+      {children}
+    </Link>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Liczba osiągnięcia: „5 000+” + podpis                              */
+/* ------------------------------------------------------------------ */
+
+export function Stat({ value, label, tone = 'dark', className }) {
+  const isLight = tone === 'light';
+  return (
+    <div className={cn('as-card-col', className)}>
+      <p className={cn('as-display-md', isLight ? 'text-gold-light' : 'text-gold-dark')}>{value}</p>
+      <p className={cn('mt-2', isLight ? 'as-caption-invert' : 'as-caption')}>{label}</p>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Pas zamykający stronę — jeden na każdej trasie, ten sam układ      */
+/*  tło espresso-900, etykieta z numerem, h2 w skali sekcji,           */
+/*  lead as-body-invert, para gold + ghost-light, opcjonalnie kadr(y). */
+/* ------------------------------------------------------------------ */
+
+export function ClosingCta({
+  number,
+  label = 'Kontakt',
+  title,
+  titleAccent,
+  lead,
+  primary,
+  secondary,
+  aside,
+  children,
+  className,
+}) {
+  return (
+    <section className={cn('as-section relative overflow-hidden bg-espresso-900 text-cream-50', className)}>
+      <GoldArc className="-bottom-52 right-[-8%] h-[640px] w-[820px]" opacity={0.22} />
+      <div className="as-shell relative">
+        <Reveal>
+          <SectionLabel number={number} tone="light">
+            {label}
+          </SectionLabel>
+        </Reveal>
+
+        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+          <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
+            <h2 className="as-display-section as-text-balance">
+              {title}
+              {titleAccent && (
+                <>
+                  {' '}
+                  <span className="italic text-gold-light">{titleAccent}</span>
+                </>
+              )}
+            </h2>
+            {lead && <p className="as-body-invert mt-6 max-w-lg">{lead}</p>}
+            {(primary || secondary) && (
+              <div className="mt-8 flex flex-wrap gap-4">
+                {primary && (
+                  <CtaButton href={primary.href} onClick={primary.onClick} className="as-btn-gold">
+                    {primary.label}
+                  </CtaButton>
+                )}
+                {secondary && (
+                  <CtaButton href={secondary.href} onClick={secondary.onClick} className="as-btn-ghost-light">
+                    {secondary.label}
+                  </CtaButton>
+                )}
+              </div>
+            )}
+          </Reveal>
+
+          {aside && (
+            <Reveal delay={90} className="lg:col-span-5">
+              {aside}
+            </Reveal>
+          )}
+        </div>
+
+        {children}
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Pole formularza: etykieta w kapitalikach + linia pod polem         */
+/*  (input / textarea / select). Jedna klasa dla całego serwisu.       */
+/* ------------------------------------------------------------------ */
+
+export const FIELD_CLASS =
+  'block h-12 w-full rounded-none border-0 border-b border-ink/15 bg-transparent px-0 text-[0.9375rem] text-ink shadow-none outline-none transition-colors placeholder:text-mocha-400/70 focus:border-gold-dark focus-visible:ring-0';
+
+export function Field({ as = 'input', label, id, hint, className, wrapperClassName, children, ...rest }) {
+  const Tag = as;
+  const control = (
+    <Tag
+      id={id}
+      className={cn(
+        FIELD_CLASS,
+        as === 'textarea' && 'h-auto min-h-[7.5rem] resize-y py-3',
+        as === 'select' && 'cursor-pointer appearance-none pr-8',
+        className
+      )}
+      {...rest}
+    >
+      {as === 'select' ? children : undefined}
+    </Tag>
+  );
+  return (
+    <div className={wrapperClassName}>
+      {label && (
+        <label htmlFor={id} className="as-label mb-1 block text-ink/55">
+          {label}
+        </label>
+      )}
+      {as === 'select' ? (
+        <div className="relative">
+          {control}
+          <ChevronDown
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/50"
+          />
+        </div>
+      ) : (
+        control
+      )}
+      {hint && <p className="mt-2 text-xs leading-relaxed text-mocha-400">{hint}</p>}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  FAQ — jeden akordeon dla całego serwisu                            */
+/* ------------------------------------------------------------------ */
+
+export function Faq({ items, className }) {
+  return (
+    <Accordion type="single" collapsible className={cn('w-full border-t border-ink/10', className)}>
+      {items.map((item, i) => (
+        <AccordionItem key={item.q || i} value={`faq-${i}`}>
+          <AccordionTrigger>{item.q}</AccordionTrigger>
+          <AccordionContent>{item.a}</AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 }

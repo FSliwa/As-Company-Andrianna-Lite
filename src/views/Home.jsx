@@ -4,11 +4,14 @@ import React from 'react';
 import Link from 'next/link';
 import {
   ArrowLink,
+  ClosingCta,
   FactStrip,
   Figure,
   GoldArc,
+  PriceRow,
   Reveal,
   SectionLabel,
+  Stat,
 } from '@/components/as/Primitives';
 import { ACHIEVEMENTS, PILLARS, PRICING_PMU, PRODUCT_LINES, TRAINING_PILLARS } from '@/lib/site';
 import { ACADEMY, BY_NAME, LIPS, STUDIO } from '@/lib/media';
@@ -279,7 +282,7 @@ function AboutBand() {
      ucinać głów. */
   const shots = [
     { image: BY_NAME['brows-12-p3'], alt: 'Wygojony łuk brwi — włos maszynowy', position: '50% 50%' },
-    { image: ACADEMY[2], alt: 'Kursantki Babushkina Academy z certyfikatami po szkoleniu', position: '50% 18%' },
+    { image: ACADEMY[2], alt: 'Kursantki Babushkina Academy z certyfikatami po szkoleniu', position: '50% 20%' },
     { image: STUDIO[12], alt: 'Andriana Babushkina — założycielka AS Company', position: '50% 20%' },
   ];
 
@@ -550,16 +553,16 @@ function TrainingBand() {
           <div className="lg:col-span-8">
             <Reveal>
               {/* kolaż jak w makiecie: duże ~2,5:1, dwa małe ~2:1, złota linia wokół, odstępy 6 px */}
-              <div className="as-photo-frame grid gap-1.5 p-1.5">
+              <div className="as-photo-frame grid gap-1">
                 <Figure
                   image={ACADEMY[3]}
                   alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows"
                   ratio="5 / 2"
-                  position="50% 18%"
+                  position="50% 20%"
                   tone="dark"
                   sizes="(min-width: 1024px) 60vw, 90vw"
                 />
-                <div className="grid grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-2 gap-1">
                   <Figure
                     image={ACADEMY[5]}
                     alt="Absolwentki szkolenia PMU odbierają certyfikaty"
@@ -612,7 +615,7 @@ function PricingTeaser() {
           {/* kolumna ze zdjęciem — bez niej pas był w całości tekstowy */}
           <Reveal className="lg:col-span-4">
             <SectionLabel number="05">Cennik</SectionLabel>
-            <h2 className="as-display-md as-text-balance mt-7 text-ink">
+            <h2 className="as-display-section-sm mt-6 text-ink">
               Jasne stawki,
               <br />
               bez gwiazdek.
@@ -637,23 +640,11 @@ function PricingTeaser() {
               {PRICING_PMU.subtitle}. Pełen cennik obejmuje również odświeżenia oraz usuwanie
               laserem i removerem.
             </p>
-            <ul className="mt-8">
+            <div className="mt-8">
               {PRICING_PMU.items.map((item) => (
-                <li
-                  key={item.name}
-                  className="flex items-baseline gap-4 border-b border-ink/10 py-5 first:border-t"
-                >
-                  <span className="min-w-0 flex-1 text-base text-ink">{item.name}</span>
-                  <span
-                    className="hidden flex-1 translate-y-[-3px] border-b border-dotted border-ink/15 sm:block"
-                    aria-hidden="true"
-                  />
-                  <span className="whitespace-nowrap font-display text-xl text-ink">
-                    {item.price}
-                  </span>
-                </li>
+                <PriceRow key={item.name} name={item.name} price={item.price} />
               ))}
-            </ul>
+            </div>
             <p className="mt-6 max-w-xl text-xs leading-relaxed text-mocha-400">
               {PRICING_PMU.footnote}
             </p>
@@ -670,62 +661,44 @@ function PricingTeaser() {
 
 function ClosingBand() {
   return (
-    <section className="relative overflow-hidden bg-espresso-900 text-cream-50">
-      <div className="as-shell py-12 lg:py-16">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-          {/* kolaż — pas domykający też miał zero zdjęć */}
-          <Reveal className="lg:col-span-5">
-            <div className="grid grid-cols-2 gap-3">
-              <Figure
-                image={STUDIO[8]}
-                alt="Sesja wizerunkowa AS Company"
-                ratio="3 / 4"
-                tone="dark"
-                sizes="(min-width: 1024px) 20vw, 45vw"
-              />
-              <Figure
-                image={STUDIO[15]}
-                alt="Sesja wizerunkowa AS Company"
-                ratio="3 / 4"
-                position="50% 30%"
-                tone="dark"
-                className="mt-10"
-                sizes="(min-width: 1024px) 20vw, 45vw"
-              />
-            </div>
-          </Reveal>
-
-          <div className="lg:col-span-7">
-            <Reveal>
-              <h2 className="as-display-section as-text-balance">
-                Zacznijmy od <span className="italic text-gold-light">konsultacji.</span>
-              </h2>
-              <p className="as-body-invert mt-7 max-w-lg">
-                Salon i akademia w Warszawie — wolnostojący budynek z prywatnym parkingiem. Umów
-                wizytę albo zapytaj o najbliższy termin szkolenia.
-              </p>
-              <div className="mt-9 flex flex-wrap gap-4">
-                <Link href="/kontakt" className="as-btn-gold">
-                  Umów wizytę
-                </Link>
-                <Link href="/szkolenia" className="as-btn-ghost-light">
-                  Terminy szkoleń
-                </Link>
-              </div>
-            </Reveal>
-
-            <div className="mt-12 grid gap-8 border-t border-cream-200/12 pt-10 sm:grid-cols-2">
-              {ACHIEVEMENTS.map((a, i) => (
-                <Reveal key={a.label} delay={i * 70}>
-                  <p className="as-display-sm text-gold-light">{a.value}</p>
-                  <p className="as-caption-invert mt-2 max-w-[16rem]">{a.label}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+    <ClosingCta
+      number="06"
+      label="Kontakt"
+      title="Zacznijmy od"
+      titleAccent="konsultacji."
+      lead="Salon i akademia w Warszawie — wolnostojący budynek z prywatnym parkingiem. Umów wizytę albo zapytaj o najbliższy termin szkolenia."
+      primary={{ href: '/kontakt', label: 'Umów wizytę' }}
+      secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
+      aside={
+        /* kolaż — pas domykający też miał zero zdjęć */
+        <div className="grid grid-cols-2 gap-3">
+          <Figure
+            image={STUDIO[8]}
+            alt="Sesja wizerunkowa AS Company"
+            ratio="3 / 4"
+            tone="dark"
+            sizes="(min-width: 1024px) 20vw, 45vw"
+          />
+          <Figure
+            image={STUDIO[15]}
+            alt="Sesja wizerunkowa AS Company"
+            ratio="3 / 4"
+            position="50% 30%"
+            tone="dark"
+            className="mt-10"
+            sizes="(min-width: 1024px) 20vw, 45vw"
+          />
         </div>
+      }
+    >
+      <div className="mt-12 grid gap-y-8 border-t border-cream-200/12 pt-10 sm:grid-cols-2 lg:grid-cols-4">
+        {ACHIEVEMENTS.map((a, i) => (
+          <Reveal key={a.label} delay={i * 70}>
+            <Stat value={a.value} label={a.label} tone="light" />
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </ClosingCta>
   );
 }
 
