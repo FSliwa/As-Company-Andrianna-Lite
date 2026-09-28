@@ -5,8 +5,10 @@
 // Dlatego cała strona jest zbudowana typograficznie: duże nagłówki,
 // numerowane karty specyfikacji, tabele parametrów i złote linie.
 //
-// Zdjęcia z /graphics (BROWS, LIPS) pojawiają się WYŁĄCZNIE w sekcji
-// „Efekty” i są podpisane jako efekt zabiegu — nigdy jako zdjęcie sprzętu.
+// Zdjęcia z /graphics (panele PANELS/BY_NAME + pojedyncze makra BROWS/LIPS)
+// pojawiają się WYŁĄCZNIE w sekcji „Efekty” i są podpisane jako efekt
+// zabiegu — nigdy jako zdjęcie sprzętu. Sekcja jest ciemna (bg-mocha),
+// więc każdy kadr dostaje tone="dark"; pliki zbiorcze sklejek są zakazane.
 // Gdy pojawią się prawdziwe packshoty, można je wpiąć w sekcję 04 (katalog).
 
 'use client';
@@ -24,7 +26,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BRAND } from '@/lib/site';
-import { BROWS, LIPS } from '@/lib/media';
+import { BROWS, BY_NAME, LIPS } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -174,31 +176,36 @@ const SPEC_PILLARS = [
   },
 ];
 
-/* Zdjęcia WYŁĄCZNIE jako efekt pracy — nigdy jako zdjęcie sprzętu. */
+/* Zdjęcia WYŁĄCZNIE jako efekt pracy — nigdy jako zdjęcie sprzętu.
+   Cztery kadry w jednym rzędzie → jedna proporcja 16/10 dla wszystkich.
+   Panele są poziome (ok. 1.7:1 – 2.9:1), makro brows-14 jest pionowe
+   i w poziomej ramce pokazuje pas brew + oko. Maks. dwa makra na stronę. */
 const EFFECT_SHOTS = [
   {
-    image: BROWS[2],
+    image: BY_NAME['brows-02-p3'],
     caption: 'Brwi — efekt po wygojeniu',
-    alt: 'Efekt zabiegu makijażu permanentnego brwi po wygojeniu',
-    ratio: '4 / 3',
+    alt: 'Para oczu z brwiami po pigmentacji metodą włoskową, twarz na wprost, opaska na włosach',
+    ratio: '16 / 10',
+  },
+  {
+    image: BY_NAME['brows-13-p1'],
+    caption: 'Brwi — zbliżenie na efekt pracy',
+    alt: 'Zbliżenie na pojedynczy łuk brwi z naniesionymi włoskami po pigmentacji',
+    ratio: '16 / 10',
   },
   {
     image: BROWS[13],
-    caption: 'Brwi — zbliżenie na efekt pracy',
-    alt: 'Zbliżenie na efekt makijażu permanentnego brwi',
-    ratio: '3 / 4',
-  },
-  {
-    image: BROWS[6],
     caption: 'Brwi — kształt i domknięcie konturu',
-    alt: 'Efekt pigmentacji brwi — kształt i kontur po zabiegu',
-    ratio: '4 / 3',
+    alt: 'Makro oka z brwią po pigmentacji — czytelny kształt łuku i domknięty ogon brwi',
+    ratio: '16 / 10',
+    position: '50% 48%',
   },
   {
     image: LIPS[3],
     caption: 'Usta — efekt Perfect Lips',
-    alt: 'Efekt zabiegu makijażu permanentnego ust Perfect Lips',
-    ratio: '4 / 3',
+    alt: 'Usta w kolorze czerwieni po makijażu permanentnym, ujęcie dolnej części twarzy',
+    ratio: '16 / 10',
+    position: '50% 55%',
   },
 ];
 
@@ -623,6 +630,8 @@ export default function Machines() {
                     image={shot.image}
                     alt={shot.alt}
                     ratio={shot.ratio}
+                    position={shot.position}
+                    tone="dark"
                     sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
                   />
                   <figcaption className="as-label mt-4 text-cream-200/70">

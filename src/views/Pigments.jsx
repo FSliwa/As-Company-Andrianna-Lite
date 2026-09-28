@@ -27,7 +27,7 @@ import {
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BROWS, LIPS } from '@/lib/media';
+import { BROWS, BY_NAME } from '@/lib/media';
 import { cn } from '@/lib/utils';
 
 const PIGMENT_CATEGORIES = [
@@ -265,9 +265,11 @@ export default function Pigments() {
             </div>
 
             <Reveal delay={100} className="lg:col-span-5">
+              {/* brows-15 ma dokładnie proporcję 4:5 — w kadrze mieści się w całości,
+                  bez przycinania. Jedyne makro skóry na tej stronie. */}
               <Figure
-                image={LIPS[2]}
-                alt="Efekt pigmentu AS na ustach — rysunek wstępny i wygojony kolor"
+                image={BROWS[14]}
+                alt="Zbliżenie brwi po pigmentacji — rysunek pojedynczych włosków nad ciemnym okiem"
                 ratio="4 / 5"
                 framed
                 priority
@@ -310,18 +312,37 @@ export default function Pigments() {
             </Reveal>
 
             <div className="lg:col-span-8">
+              {/* Panele wycięte ze sklejek (bez szwu). Wszystkie są szerokie
+                  (ok. 2–3:1), więc dostają poziomy kadr 2:1. lips-01-p2 ma
+                  wtopiony napis przy górnej krawędzi — position 60% wycina go
+                  z kadru; brows-12-p2 kotwiczony do lewej, żeby nie pokazywać
+                  skrawka drugiego oka przy prawej krawędzi. */}
               <div className="grid gap-4 sm:grid-cols-3">
                 {[
-                  { image: BROWS[9], alt: 'Brwi przed zabiegiem i po wygojeniu' },
-                  { image: LIPS[1], alt: 'Usta przed zabiegiem i po wygojeniu' },
-                  { image: BROWS[17], alt: 'Wygojone brwi — technika włosowa' },
+                  {
+                    image: BY_NAME['brows-13-p1'],
+                    alt: 'Pojedynczy łuk brwi po pigmentacji — zbliżenie',
+                    position: '50% 50%',
+                  },
+                  {
+                    image: BY_NAME['lips-01-p2'],
+                    alt: 'Usta po pigmentacji — wygojony, czerwony kolor',
+                    position: '50% 60%',
+                  },
+                  {
+                    image: BY_NAME['brows-12-p2'],
+                    alt: 'Oko z kreską na powiece i wypigmentowaną brwią',
+                    position: '0% 50%',
+                  },
                 ].map((s, i) => (
                   <Reveal key={i} delay={i * 90}>
                     <Figure
                       image={s.image}
                       alt={s.alt}
-                      ratio="3 / 4"
-                      sizes="(min-width: 640px) 28vw, 90vw"
+                      ratio="2 / 1"
+                      position={s.position}
+                      tone="dark"
+                      sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 90vw"
                     />
                   </Reveal>
                 ))}

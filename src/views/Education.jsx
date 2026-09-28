@@ -32,7 +32,7 @@ import {
   COURSE_SCHEDULE,
   FOUNDER,
 } from '@/lib/site';
-import { ACADEMY, BROWS, COURSE, LIPS } from '@/lib/media';
+import { ACADEMY, BROWS, BY_NAME, COURSE, LIPS, STUDIO } from '@/lib/media';
 import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /**
@@ -40,6 +40,10 @@ import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
  *
  * Zasady:
  *  • zdjęcia wyłącznie z '@/lib/media' (folder /Graphics) — zero zewnętrznych URL-i,
+ *  • efekty brwi wyłącznie z czystych paneli (BY_NAME['…-pN']) albo pojedynczych
+ *    makr — nigdy z plików zbiorczych sklejek „przed/po" (szwy, watermarki);
+ *    żaden plik nie występuje na stronie dwa razy, grupy kursantek zawsze z
+ *    position u góry, a w ciemnych sekcjach zdjęcia dostają tone="dark",
  *  • dane programów, korzyści i harmonogram pochodzą z '@/lib/site'
  *    (COURSES, COURSE_BENEFITS, COURSE_SCHEDULE) — czyli 1:1 z grafik marki,
  *  • grafiki COURSE mają wtopiony tekst, więc występują wyłącznie jako
@@ -283,22 +287,27 @@ function MethodBand() {
             <Reveal>
               <div className="grid gap-3">
                 <Figure
-                  image={ACADEMY[2]}
-                  alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows we wnętrzu akademii"
-                  ratio="16 / 9.6"
+                  image={ACADEMY[6]}
+                  alt="Cztery kursantki z certyfikatami Super Natural Brows przed ścianą z logo Babushkina Academy"
+                  ratio="16 / 10"
+                  position="50% 18%"
+                  tone="dark"
                   sizes="(min-width: 1024px) 55vw, 90vw"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <Figure
-                    image={ACADEMY[0]}
-                    alt="Absolwentki szkolenia PMU z certyfikatami w Babushkina Academy"
-                    ratio="16 / 11"
+                    image={STUDIO[13]}
+                    alt="Andriana Babushkina — portret z sesji wizerunkowej AS Company"
+                    ratio="2 / 1"
+                    position="50% 30%"
+                    tone="dark"
                     sizes="(min-width: 1024px) 27vw, 45vw"
                   />
                   <Figure
-                    image={ACADEMY[7]}
-                    alt="Kursantki z dyplomami Supernatural Brows po zakończonym szkoleniu"
-                    ratio="16 / 11"
+                    image={BY_NAME['brows-13-p1']}
+                    alt="Wygojony łuk brwi z pojedynczymi włoskami po pigmentacji — zbliżenie"
+                    ratio="2 / 1"
+                    tone="dark"
                     sizes="(min-width: 1024px) 27vw, 45vw"
                   />
                 </div>
@@ -329,11 +338,26 @@ function MethodBand() {
 /*  03 — PROGRAMY AUTORSKIE                                            */
 /* ================================================================== */
 
+/* Pasek efektów: jedno pojedyncze makro + trzy czyste panele (bez sklejek „przed/po"). */
 const EFFECT_THUMBS = [
-  { image: BROWS[1], alt: 'Zbliżenie na wygojone brwi po zabiegu makijażu permanentnego' },
-  { image: BROWS[7], alt: 'Efekt pigmentacji brwi — porównanie przed i po zabiegu' },
-  { image: BROWS[12], alt: 'Brwi wykonane maszynowym włosem — zbliżenie po zabiegu' },
-  { image: BROWS[16], alt: 'Efekt techniki pudrowej — zbliżenie na wygojone brwi' },
+  {
+    image: BROWS[16],
+    alt: 'Twarz modelki na wprost — obie brwi po pigmentacji włosem maszynowym',
+    position: '50% 45%',
+  },
+  {
+    image: BY_NAME['brows-02-p3'],
+    alt: 'Oczy i brwi modelki z opaską na włosach po zabiegu pigmentacji',
+  },
+  {
+    image: BY_NAME['brows-12-p1'],
+    alt: 'Para oczu z brwiami po pigmentacji — wygojone, pojedyncze włoski',
+  },
+  {
+    image: BY_NAME['brows-01-p2'],
+    alt: 'Oko i brew po pigmentacji — naturalne, wygojone włoski',
+    position: '20% 50%',
+  },
 ];
 
 function ProgramsBand({ onBook }) {
@@ -370,7 +394,8 @@ function ProgramsBand({ onBook }) {
                 key={i}
                 image={t.image}
                 alt={t.alt}
-                ratio="1 / 1"
+                ratio="16 / 10"
+                position={t.position}
                 sizes="(min-width: 640px) 22vw, 45vw"
               />
             ))}
@@ -708,7 +733,7 @@ function ExtraCoursesBand({ onBook }) {
             <Reveal delay={120}>
               <Figure
                 image={LIPS[3]}
-                alt="Efekt zabiegu Perfect Lips — zbliżenie na usta po pigmentacji"
+                alt="Zbliżenie na dolną część twarzy modelki — usta po pigmentacji w odcieniu czerwieni"
                 ratio="4 / 3"
                 framed
                 sizes="(min-width: 1024px) 38vw, 90vw"
@@ -779,22 +804,23 @@ function FundingBand() {
 /*  09 — KURSANTKI                                                     */
 /* ================================================================== */
 
+/* Cztery różne grupy — każda tylko raz na stronie; pomijamy academy-05 (choinka) i academy-03 (wypalona ikonka w rogu). */
 const GALLERY = [
   {
     image: ACADEMY[0],
-    alt: 'Kursantki z certyfikatami Super Natural Brows przed ścianą Babushkina Academy',
-  },
-  {
-    image: ACADEMY[2],
-    alt: 'Pięć kursantek z certyfikatami po zakończonym szkoleniu w Babushkina Academy',
-  },
-  {
-    image: ACADEMY[5],
-    alt: 'Absolwentki szkolenia PMU z certyfikatami we wnętrzu akademii',
+    alt: 'Trzy kursantki z certyfikatami ukończenia szkolenia pod logo Babushkina Academy',
   },
   {
     image: ACADEMY[7],
-    alt: 'Kursantki z dyplomami Supernatural Brows w Babushkina Academy',
+    alt: 'Trzy absolwentki w czerni z certyfikatami Super Natural Brows na tle logo Babushkina Academy',
+  },
+  {
+    image: ACADEMY[3],
+    alt: 'Pięć absolwentek kursu z certyfikatami przed białą ścianą Babushkina Academy',
+  },
+  {
+    image: ACADEMY[5],
+    alt: 'Cztery kursantki z certyfikatami ukończenia szkolenia w Babushkina Academy',
   },
 ];
 
@@ -826,6 +852,7 @@ function GalleryBand() {
                 image={shot.image}
                 alt={shot.alt}
                 ratio="3 / 4"
+                position="50% 20%"
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
               />
             </Reveal>

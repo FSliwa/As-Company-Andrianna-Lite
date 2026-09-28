@@ -11,7 +11,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { ACHIEVEMENTS, PILLARS, PRICING_PMU, PRODUCT_LINES, TRAINING_PILLARS } from '@/lib/site';
-import { ACADEMY, BROWS, LIPS, STUDIO } from '@/lib/media';
+import { ACADEMY, BY_NAME, LIPS, STUDIO } from '@/lib/media';
 
 /* ================================================================== */
 /*  01 — HERO                                                          */
@@ -45,17 +45,33 @@ const G = {
 };
 
 /* Rozmiary z makiety — „precision." jest wyraźnie mniejsze niż „Beauty". */
+/* Rozmiary w jednostkach kontenera (cqw = 1% szerokości kadru hero),
+   nie okna. Kadr hero ma stałą proporcję i mieści się w wysokości okna
+   (patrz HERO_BOX), więc typografia skaluje się razem z całą kompozycją
+   — pierwszy ekran jest zawsze kompletny, od 2065×590 po 1440×900.
+   Wartości zmierzone: „Beauty" 160 px przy kadrze 1313 px = 12,2 cqw itd. */
 const TYPE = {
-  beauty: 'clamp(3.25rem, 11.1vw, 10rem)',
-  precision: 'clamp(2rem, 6.79vw, 6.1rem)',
-  with: 'clamp(1.25rem, 4.28vw, 3.85rem)',
+  beauty: 'clamp(2.5rem, 12.2cqw, 14rem)',
+  precision: 'clamp(1.5rem, 7.46cqw, 8.6rem)',
+  with: 'clamp(1rem, 4.72cqw, 5.4rem)',
+};
+
+/* Kadr hero: szerokość = min(cały kadr treści, wysokość okna × proporcja).
+   Dzięki temu przy niskim oknie kompozycja maleje zamiast się ucinać.
+   6rem = wysokość nagłówka na lg. */
+const HERO_BOX = {
+  width: `min(100%, calc((100svh - 6rem) * ${HERO_RATIO}))`,
+  aspectRatio: HERO_RATIO,
+  containerType: 'inline-size',
+  marginInline: 'auto',
 };
 
 function Hero() {
+  /* Dwie szerokie miniatury jak w makiecie (brew + usta) — czyste panele
+     wycięte ze sklejek, bez szwów i watermarków. */
   const thumbs = [
-    { image: BROWS[8], alt: 'Efekt makijażu permanentnego brwi — technika Super Natural Brows' },
-    { image: LIPS[0], alt: 'Efekt makijażu permanentnego ust — Perfect Lips' },
-    { image: BROWS[14], alt: 'Zbliżenie na wygojone brwi po zabiegu PMU' },
+    { image: BY_NAME['brows-13-p3'], alt: 'Wygojona brew po zabiegu Super Natural Brows', position: '50% 50%' },
+    { image: LIPS[3], alt: 'Wygojone usta po zabiegu Perfect Lips', position: '50% 58%' },
   ];
 
   /* ——— Elementy współdzielone przez układ mobilny i desktopowy ——— */
@@ -78,9 +94,10 @@ function Hero() {
           key={i}
           image={t.image}
           alt={t.alt}
-          ratio="7 / 8"
+          ratio="3 / 2"
+          position={t.position}
           className="flex-1"
-          sizes="150px"
+          sizes="180px"
           priority
         />
       ))}
@@ -102,16 +119,23 @@ function Hero() {
       <span aria-hidden="true" className="absolute -left-[11%] -right-[11%] bottom-0 h-px bg-gold/45" />
 
       <div className="as-media h-full w-full border border-gold/50">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={HERO_PHOTO.src}
-          alt="Andriana Babushkina — założycielka AS Company i Babushkina Academy"
-          width={HERO_PHOTO.w}
-          height={HERO_PHOTO.h}
-          fetchPriority="high"
-          decoding="sync"
-          sizes="(min-width: 1024px) 34vw, 90vw"
-        />
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={Object.entries(HERO_PHOTO.webp).map(([w, src]) => `${src} ${w}w`).join(', ')}
+            sizes="(min-width: 1024px) 34vw, 90vw"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={HERO_PHOTO.src}
+            alt="Andriana Babushkina — założycielka AS Company i Babushkina Academy"
+            width={HERO_PHOTO.w}
+            height={HERO_PHOTO.h}
+            fetchPriority="high"
+            decoding="sync"
+            sizes="(min-width: 1024px) 34vw, 90vw"
+          />
+        </picture>
       </div>
     </div>
   );
@@ -119,16 +143,10 @@ function Hero() {
   const badge = (
     <div className="flex items-center gap-5">
       <span className="h-px w-14 bg-gold/45" aria-hidden="true" />
-      <span className="relative block h-[4.5rem] w-[4.5rem] shrink-0 overflow-hidden rounded-full border border-gold/50">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={BROWS[4].src}
-          alt=""
-          width={BROWS[4].w}
-          height={BROWS[4].h}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+      {/* W makiecie w kółku jest złoty pen — takiego zdjęcia nie ma w folderze.
+          Makro skóry przy 70 px to nieczytelna plama, więc monogram. */}
+      <span className="relative grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-full border border-gold/50">
+        <span className="font-display text-xl italic text-gold-dark">AS</span>
       </span>
       <p className="as-label max-w-[7rem] leading-[2.1] text-ink/55">Profesjonalny system PMU</p>
     </div>
@@ -158,7 +176,7 @@ function Hero() {
 
       {/* ================= UKŁAD DESKTOPOWY (wg makiety) ================= */}
       <div className="as-shell hidden lg:block">
-        <div className="relative w-full" style={{ aspectRatio: HERO_RATIO }}>
+        <div className="relative" style={HERO_BOX}>
           {/* — zdjęcie — */}
           <div
             className="absolute"
@@ -234,7 +252,7 @@ function Hero() {
 
           <a
             href="#o-nas"
-            className="as-label group absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 text-ink/45 transition-colors hover:text-ink"
+            className="as-label group absolute left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-3 text-ink/45 transition-colors hover:text-ink @[960px]:flex"
             style={{ top: G.facts.top }}
           >
             Przewiń dalej
@@ -255,10 +273,14 @@ function Hero() {
 /* ================================================================== */
 
 function AboutBand() {
+  /* Trzy różne plany (makro / grupa / portret) zamiast trzech makr skóry.
+     Panel brows-12-p3 to szeroki pasek — w kadrze 4/5 zostaje sam łuk brwi,
+     bez szwu i bez tekstu. Zdjęcie grupowe kotwiczone u góry, żeby nie
+     ucinać głów. */
   const shots = [
-    { image: BROWS[9], alt: 'Efekt Super Natural Brows — porównanie przed i po wygojeniu' },
-    { image: ACADEMY[1], alt: 'Kursantki Babushkina Academy z certyfikatami po szkoleniu' },
-    { image: BROWS[11], alt: 'Zbliżenie na precyzyjnie wykonany włos maszynowy' },
+    { image: BY_NAME['brows-12-p3'], alt: 'Wygojony łuk brwi — włos maszynowy', position: '50% 50%' },
+    { image: ACADEMY[2], alt: 'Kursantki Babushkina Academy z certyfikatami po szkoleniu', position: '50% 18%' },
+    { image: STUDIO[12], alt: 'Andriana Babushkina — założycielka AS Company', position: '50% 20%' },
   ];
 
   return (
@@ -305,7 +327,9 @@ function AboutBand() {
                   <Figure
                     image={s.image}
                     alt={s.alt}
-                    ratio="3 / 4"
+                    ratio="4 / 5"
+                    position={s.position}
+                    tone="dark"
                     sizes="(min-width: 640px) 28vw, 90vw"
                     priority
                   />
@@ -339,17 +363,9 @@ function AboutBand() {
 
         {/* dopisek — w makiecie stoi przy zdjęciach u góry, nie jako osobny wiersz */}
         <Reveal className="mt-10 flex items-center justify-end gap-6 xl:absolute xl:right-0 xl:top-0 xl:mt-0">
-          <div className="h-16 w-16 overflow-hidden rounded-full border border-gold/40">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={LIPS[2].src}
-              alt=""
-              width={LIPS[2].w}
-              height={LIPS[2].h}
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-gold/40" aria-hidden="true">
+            <span className="h-2 w-2 rounded-full bg-gold" />
+          </span>
           <p className="font-display text-base italic leading-[1.7] text-cream-100">
             Narzędzia.
             <br />
@@ -373,7 +389,7 @@ const RESULT_CARDS = [
   {
     number: '01',
     title: 'Brwi',
-    image: BROWS[12],
+    image: BY_NAME['brows-01-p1'],
     alt: 'Wygojone brwi po zabiegu Super Natural Brows',
     desc: 'Super Natural Brows i Perfect Powder Brows — włos maszynowy oraz technika pudrowa bez przerysowanych konturów.',
     cta: 'Zobacz zabiegi brwi',
@@ -382,8 +398,9 @@ const RESULT_CARDS = [
   {
     number: '02',
     title: 'Usta',
-    image: LIPS[1],
-    alt: 'Efekt Perfect Lips — usta przed i po wygojeniu',
+    image: BY_NAME['lips-01-p2'],
+    position: '50% 66%',
+    alt: 'Wygojone usta po zabiegu Perfect Lips',
     desc: 'Perfect Lips — lekka satynka, która po wygojeniu wygląda naturalnie i wyrównuje koloryt.',
     cta: 'Zobacz zabiegi ust',
     href: '/uslugi',
@@ -391,7 +408,7 @@ const RESULT_CARDS = [
   {
     number: '03',
     title: 'Kreski i korekty',
-    image: BROWS[17],
+    image: BY_NAME['brows-18-p1'],
     alt: 'Perfect Eyeliners — kreska permanentna i linia zagęszczająca',
     desc: 'Perfect Eyeliners, linia zagęszczająca, korekty oraz usuwanie laserem i removerem.',
     cta: 'Zobacz pełen cennik',
@@ -441,7 +458,8 @@ function ResultsBand() {
                 <Figure
                   image={card.image}
                   alt={card.alt}
-                  ratio="4 / 3.4"
+                  ratio="2 / 1"
+                  position={card.position}
                   sizes="(min-width: 768px) 30vw, 90vw"
                   priority
                 />
@@ -528,20 +546,26 @@ function TrainingBand() {
                 <Figure
                   image={ACADEMY[3]}
                   alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows"
-                  ratio="16 / 8.4"
+                  ratio="16 / 10"
+                  position="50% 22%"
+                  tone="dark"
                   sizes="(min-width: 1024px) 60vw, 90vw"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <Figure
-                    image={ACADEMY[0]}
+                    image={ACADEMY[5]}
                     alt="Absolwentki szkolenia PMU odbierają certyfikaty"
                     ratio="16 / 10"
+                    position="50% 20%"
+                    tone="dark"
                     sizes="(min-width: 1024px) 30vw, 45vw"
                   />
                   <Figure
-                    image={ACADEMY[4]}
+                    image={ACADEMY[7]}
                     alt="Grupa kursantek Babushkina Academy po zakończonym kursie"
                     ratio="16 / 10"
+                    position="50% 20%"
+                    tone="dark"
                     sizes="(min-width: 1024px) 30vw, 45vw"
                   />
                 </div>
@@ -587,9 +611,10 @@ function PricingTeaser() {
             </h2>
             <div className="mt-9">
               <Figure
-                image={LIPS[0]}
+                image={BY_NAME['lips-01-p1']}
                 alt="Perfect Lips — efekt makijażu permanentnego ust po wygojeniu"
-                ratio="4 / 5"
+                ratio="2 / 1"
+                position="50% 28%"
                 sizes="(min-width: 1024px) 28vw, 90vw"
               />
             </div>
@@ -646,12 +671,15 @@ function ClosingBand() {
                 image={STUDIO[8]}
                 alt="Sesja wizerunkowa AS Company"
                 ratio="3 / 4"
+                tone="dark"
                 sizes="(min-width: 1024px) 20vw, 45vw"
               />
               <Figure
-                image={ACADEMY[6]}
-                alt="Kursantki Babushkina Academy z certyfikatami"
+                image={STUDIO[15]}
+                alt="Sesja wizerunkowa AS Company"
                 ratio="3 / 4"
+                position="50% 30%"
+                tone="dark"
                 className="mt-10"
                 sizes="(min-width: 1024px) 20vw, 45vw"
               />

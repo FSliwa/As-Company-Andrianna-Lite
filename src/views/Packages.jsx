@@ -26,7 +26,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { PRICING_PMU, PRICING_REFRESH, PRICING_REMOVAL } from '@/lib/site';
-import { BROWS, LIPS } from '@/lib/media';
+import { BY_NAME, STUDIO } from '@/lib/media';
 
 /** Kolejne kroki — każdy z ceną wprost z cennika. */
 const PATH = [
@@ -102,9 +102,10 @@ export default function Packages() {
 
             <Reveal delay={100} className="lg:col-span-5">
               <Figure
-                image={BROWS[9]}
-                alt="Brwi przed zabiegiem i po wygojeniu — efekt techniki Super Natural Brows"
+                image={STUDIO[11]}
+                alt="Andriana Babushkina — portret z sesji wizerunkowej"
                 ratio="4 / 5"
+                position="50% 20%"
                 framed
                 priority
                 sizes="(min-width: 1024px) 40vw, 100vw"
@@ -236,9 +237,31 @@ export default function Packages() {
 
             <Reveal delay={90} className="lg:col-span-7">
               <div className="grid grid-cols-3 gap-3">
-                <Figure image={BROWS[12]} alt="Wygojone brwi" ratio="3 / 4" sizes="18vw" />
-                <Figure image={LIPS[1]} alt="Wygojone usta" ratio="3 / 4" className="mt-8" sizes="18vw" />
-                <Figure image={BROWS[17]} alt="Brwi — porównanie przed i po" ratio="3 / 4" sizes="18vw" />
+                <Figure
+                  image={BY_NAME['brows-01-p2']}
+                  alt="Brwi po makijażu permanentnym — para oczu w zbliżeniu"
+                  ratio="2 / 1"
+                  position="25% 50%"
+                  tone="dark"
+                  sizes="(min-width: 1024px) 17vw, 30vw"
+                />
+                <Figure
+                  image={BY_NAME['lips-01-p1']}
+                  alt="Usta po makijażu permanentnym w jasnym różu"
+                  ratio="2 / 1"
+                  position="50% 25%"
+                  tone="dark"
+                  className="mt-8"
+                  sizes="(min-width: 1024px) 17vw, 30vw"
+                />
+                <Figure
+                  image={BY_NAME['brows-02-p3']}
+                  alt="Oko z cienką kreską i brew po zabiegu — opaska na włosach"
+                  ratio="2 / 1"
+                  position="50% 75%"
+                  tone="dark"
+                  sizes="(min-width: 1024px) 17vw, 30vw"
+                />
               </div>
             </Reveal>
           </div>

@@ -70,6 +70,28 @@ export function ArrowLink({ href = '#', children, tone = 'dark', className, ...r
 /*  Kadr ze zdjęciem — zawsze z /graphics, zawsze z wymiarami          */
 /* ------------------------------------------------------------------ */
 
+const DEFAULT_SIZES = '(min-width: 1024px) 33vw, 100vw';
+
+/** Z mapy { szerokość: ścieżka } buduje srcSet dla <source type="image/webp">. */
+function buildSrcSet(webp) {
+  if (!webp) return undefined;
+  const entries = Object.entries(webp);
+  if (!entries.length) return undefined;
+  return entries.map(([w, src]) => `${src} ${w}w`).join(', ');
+}
+
+/**
+ * Props:
+ *  - image     wpis z src/lib/media.js ({ src, w, h, webp })
+ *  - ratio     proporcja kadru, np. "3 / 4"; nadmiar jest przycinany (object-cover)
+ *  - position  object-position, np. "50% 30%" — gdzie ma być środek ciężkości
+ *              przy przycinaniu; domyślnie środek
+ *  - tone      "light" (domyślnie) albo "dark" — w ciemnych sekcjach zdjęcie
+ *              dostaje przez CSS ciemniejszy, mniej nasycony ton, żeby siedziało
+ *              w tle zamiast na nim świecić (jak w makiecie)
+ *  - sizes     atrybut sizes; bez niego przeglądarka zakłada 100vw i pobiera
+ *              największy wariant
+ */
 export function Figure({
   image,
   alt,
@@ -79,24 +101,34 @@ export function Figure({
   framed = false,
   zoom = true,
   priority = false,
-  sizes,
+  sizes = DEFAULT_SIZES,
+  position,
+  tone = 'light',
 }) {
   if (!image) return null;
+  const srcSet = buildSrcSet(image.webp);
   return (
     <div className={cn(framed && 'as-frame', className)}>
-      <div className={cn('as-media', zoom && 'as-media-zoom')} style={{ aspectRatio: ratio }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={image.src}
-          alt={alt}
-          width={image.w}
-          height={image.h}
-          sizes={sizes}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding={priority ? 'sync' : 'async'}
-          fetchPriority={priority ? 'high' : undefined}
-          className={imgClassName}
-        />
+      <div
+        className={cn('as-media', zoom && 'as-media-zoom', tone === 'dark' && 'as-media-dark')}
+        style={{ aspectRatio: ratio }}
+      >
+        <picture>
+          {srcSet && <source type="image/webp" srcSet={srcSet} sizes={sizes} />}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={image.src}
+            alt={alt}
+            width={image.w}
+            height={image.h}
+            sizes={sizes}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding={priority ? 'sync' : 'async'}
+            fetchPriority={priority ? 'high' : undefined}
+            className={imgClassName}
+            style={position ? { objectPosition: position } : undefined}
+          />
+        </picture>
       </div>
     </div>
   );

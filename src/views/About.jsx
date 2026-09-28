@@ -92,14 +92,18 @@ function StoryBand() {
               <div className="mt-12 grid grid-cols-2 gap-3">
                 <Figure
                   image={STUDIO[0]}
-                  alt={`${FOUNDER.name} — portret z sesji wizerunkowej`}
+                  alt={`${FOUNDER.name} — portret z sesji wizerunkowej, dłoń oparta na ramieniu`}
                   ratio="3 / 4"
+                  position="50% 20%"
+                  tone="dark"
                   sizes="(min-width: 1024px) 20vw, 45vw"
                 />
                 <Figure
                   image={STUDIO[7]}
-                  alt={`${FOUNDER.name} — ujęcie z sesji wizerunkowej marki`}
+                  alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
                   ratio="3 / 4"
+                  position="50% 20%"
+                  tone="dark"
                   className="mt-10"
                   sizes="(min-width: 1024px) 20vw, 45vw"
                 />
@@ -164,8 +168,10 @@ function StoryBand() {
             <Reveal delay={120}>
               <Figure
                 image={STUDIO[13]}
-                alt={`${FOUNDER.name} — ujęcie z sesji wizerunkowej ${BRAND.academy}`}
+                alt={`${FOUNDER.name} — uśmiechnięty portret z sesji wizerunkowej, dłoń pod brodą`}
                 ratio="16 / 10"
+                position="50% 40%"
+                tone="dark"
                 className="mt-12"
                 sizes="(min-width: 1024px) 52vw, 90vw"
               />
@@ -257,25 +263,26 @@ function AchievementsBand() {
 /*  04 — AKADEMIA (zdjęcia ze szkoleń)                                 */
 /* ================================================================== */
 
+/* Zdjęcia grupowe są pionowe — kotwiczymy kadr u góry, żeby nie ucinać głów. */
 const ACADEMY_SHOTS = [
   {
     image: ACADEMY[0],
-    alt: 'Kursantki Babushkina Academy z certyfikatami Brows po zakończonym szkoleniu',
+    alt: 'Trzy kursantki z certyfikatami Super Natural Brows pod logo Babushkina Academy',
     caption: 'Ostatni dzień szkolenia — wręczenie certyfikatów',
   },
   {
-    image: ACADEMY[2],
-    alt: 'Grupa szkoleniowa w akademii makijażu permanentnego w Warszawie',
-    caption: 'Grupa kursowa w sali szkoleniowej akademii',
-  },
-  {
-    image: ACADEMY[4],
-    alt: 'Absolwentki kursu PMU z certyfikatami Babushkina Academy',
-    caption: 'Absolwentki kursu włosa maszynowego',
+    image: ACADEMY[1],
+    alt: 'Kilkunastoosobowa grupa kursantek z certyfikatami Super Natural Brows przed banerem Babushkina Academy',
+    caption: 'Duża grupa kursowa z certyfikatami',
   },
   {
     image: ACADEMY[6],
-    alt: 'Kursantki z certyfikatami przed ścianą z logo Babushkina Academy',
+    alt: 'Cztery absolwentki z certyfikatami Supernatural Brows przy ścianie z logo Babushkina Academy',
+    caption: 'Absolwentki kursu Super Natural Brows',
+  },
+  {
+    image: ACADEMY[3],
+    alt: 'Pięć kursantek z certyfikatami Super Natural Brows przy ścianie z logo Babushkina Academy',
     caption: 'Zdjęcie grupowe przy ścianie akademii',
   },
 ];
@@ -318,6 +325,8 @@ function AcademyBand() {
                 image={shot.image}
                 alt={shot.alt}
                 ratio="3 / 4"
+                position="50% 20%"
+                tone="dark"
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
               />
               <p className="as-body-invert mt-4 text-[0.8125rem]">{shot.caption}</p>

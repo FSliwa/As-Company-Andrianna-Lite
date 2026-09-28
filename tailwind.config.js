@@ -89,7 +89,10 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		maxWidth: {
-  			shell: '1440px',
+  			/* 1440 zamykało układ w wyspie pośrodku szerokich ekranów;
+  			   makieta była projektowana na ~1320, ale kompozycja jest
+  			   procentowa i skaluje się — pozwalamy jej rosnąć do 1800. */
+  			shell: '1800px',
   		},
   		keyframes: {
   			'accordion-down': {

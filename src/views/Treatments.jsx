@@ -5,6 +5,10 @@
  *
  * Zasady:
  *  • Wszystkie zdjęcia pochodzą wyłącznie z firmowego folderu (import z '@/lib/media').
+ *  • Ze sklejek „przed/po" używamy WYŁĄCZNIE wyciętych paneli (BY_NAME['…-pN']),
+ *    nigdy plików zbiorczych — panele są poziome, więc dostają poziome ramki.
+ *    Makra skóry (BROWS[n]) najwyżej dwa na stronę, tylko w dużych kadrach.
+ *  • W ciemnych sekcjach kadry dostają tone="dark", portrety — position u góry.
  *  • Nie podpisujemy zdjęcia jako czegoś, czym nie jest — sekcje, dla których nie ma
  *    realnego materiału (kreska permanentna, korekta, odświeżenie, usuwanie),
  *    zbudowane są typograficznie, bez „podstawionych” kadrów.
@@ -43,7 +47,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { CONTACT, PRICING_PMU, PRICING_REFRESH, PRICING_REMOVAL } from '@/lib/site';
-import { ACADEMY, BROWS, LIPS, STUDIO } from '@/lib/media';
+import { BROWS, BY_NAME, STUDIO } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
@@ -73,8 +77,18 @@ const MAIN_TREATMENTS = [
     quote:
       'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę aby ktoś wiedział że mam zrobione brwi, mają wyglądać jak moje”',
     shots: [
-      { image: BROWS[0], alt: 'Wygojony makijaż permanentny brwi — praca studia', ratio: '4 / 5' },
-      { image: BROWS[3], alt: 'Zbliżenie na pojedyncze włoski w makijażu permanentnym brwi', ratio: '4 / 3' },
+      {
+        image: BROWS[8],
+        alt: 'Zbliżenie na oko i brew po makijażu permanentnym — pojedyncze, naturalnie ułożone włoski',
+        ratio: '4 / 5',
+        position: '50% 40%',
+      },
+      {
+        image: BY_NAME['brows-13-p1'],
+        alt: 'Pojedynczy łuk brwi po makijażu permanentnym — zbliżenie na włoski',
+        ratio: '5 / 2',
+        position: '50% 50%',
+      },
     ],
   },
   {
@@ -88,8 +102,18 @@ const MAIN_TREATMENTS = [
       'Efekt delikatnie podmalowanych brwi cieniem, z podkreślonym kształtem, ale nadal w delikatnej, transparentnej wersji bez przesady.',
     quote: 'Idealne przejścia tonalne (Ombre/Powder) dopasowane do karnacji.',
     shots: [
-      { image: BROWS[8], alt: 'Makijaż permanentny brwi — efekt po zabiegu', ratio: '4 / 5' },
-      { image: BROWS[10], alt: 'Zbliżenie na wygojone brwi po pigmentacji', ratio: '4 / 3' },
+      {
+        image: BROWS[14],
+        alt: 'Oko i brew klientki po makijażu permanentnym — miękko wycieniowany, wyrazisty łuk',
+        ratio: '4 / 5',
+        position: '50% 50%',
+      },
+      {
+        image: BY_NAME['brows-12-p2'],
+        alt: 'Para oczu z wycieniowanymi, podkreślonymi brwiami po makijażu permanentnym',
+        ratio: '2 / 1',
+        position: '50% 50%',
+      },
     ],
   },
   {
@@ -103,8 +127,18 @@ const MAIN_TREATMENTS = [
       'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
     quote: 'Dobieramy kolory do natury, wyrównujemy koloryt i nadajemy świeżości.',
     shots: [
-      { image: LIPS[1], alt: 'Makijaż permanentny ust — efekt Perfect Lips', ratio: '4 / 5' },
-      { image: LIPS[3], alt: 'Zbliżenie na usta po zabiegu pigmentacji', ratio: '4 / 3' },
+      {
+        image: BY_NAME['lips-01-p2'],
+        alt: 'Wygojone usta po makijażu permanentnym — równomierny, ciepły czerwony kolor',
+        ratio: '2 / 1',
+        position: '50% 55%',
+      },
+      {
+        image: BY_NAME['lips-01-p1'],
+        alt: 'Usta po makijażu permanentnym w jasnym, naturalnym odcieniu',
+        ratio: '2 / 1',
+        position: '50% 45%',
+      },
     ],
   },
 ];
@@ -164,19 +198,45 @@ const SUPPORT_TREATMENTS = [
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Galeria efektów — wyłącznie realne kadry z folderu                 */
+/*  Galeria efektów — wyłącznie czyste panele „po" (bez szwów/napisów)  */
+/*  Panele są poziome (2:1–3:1), więc rząd górny ma ramkę 2/1,          */
+/*  a rząd szeroki 3/1; position dosuwa kadr od wypalonych napisów.     */
 /* ------------------------------------------------------------------ */
 
 const GALLERY_PORTRAIT = [
-  { image: BROWS[5], alt: 'Efekt makijażu permanentnego brwi — kadr po zabiegu' },
-  { image: BROWS[7], alt: 'Wygojone brwi po pigmentacji — zbliżenie' },
-  { image: BROWS[13], alt: 'Makijaż permanentny brwi — realny efekt pracy studia' },
-  { image: LIPS[0], alt: 'Makijaż permanentny ust — realny efekt pracy studia' },
+  {
+    image: BY_NAME['brows-01-p2'],
+    alt: 'Para oczu z naturalnie zagęszczonymi brwiami po makijażu permanentnym',
+    position: '50% 50%',
+  },
+  {
+    image: BY_NAME['brows-02-p1'],
+    alt: 'Oczy klientki z opaską na włosach — brwi po makijażu permanentnym',
+    position: '50% 70%',
+  },
+  {
+    image: BY_NAME['brows-01-p1'],
+    alt: 'Para oczu z brwiami po makijażu permanentnym — zbliżenie',
+    position: '50% 50%',
+  },
+  {
+    image: BY_NAME['brows-02-p3'],
+    alt: 'Oczy klientki z opaską na włosach, twarz prosto — brwi po makijażu permanentnym',
+    position: '50% 70%',
+  },
 ];
 
 const GALLERY_WIDE = [
-  { image: BROWS[2], alt: 'Zbliżenie na wygojony makijaż permanentny brwi' },
-  { image: LIPS[4], alt: 'Zbliżenie na wygojony makijaż permanentny ust' },
+  {
+    image: BY_NAME['brows-12-p1'],
+    alt: 'Para oczu z brwiami po makijażu permanentnym — szeroki kadr',
+    position: '50% 50%',
+  },
+  {
+    image: BY_NAME['lips-03-p3'],
+    alt: 'Usta po makijażu permanentnym — kadr po zabiegu',
+    position: '50% 100%',
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -270,6 +330,8 @@ function TreatmentsBand({ onBook }) {
                     image={t.shots[0].image}
                     alt={t.shots[0].alt}
                     ratio={t.shots[0].ratio}
+                    position={t.shots[0].position}
+                    tone="dark"
                     framed
                     sizes="(min-width: 1024px) 38vw, 90vw"
                   />
@@ -279,6 +341,8 @@ function TreatmentsBand({ onBook }) {
                         image={t.shots[1].image}
                         alt={t.shots[1].alt}
                         ratio={t.shots[1].ratio}
+                        position={t.shots[1].position}
+                        tone="dark"
                         sizes="(min-width: 1024px) 24vw, 60vw"
                       />
                     </div>
@@ -440,7 +504,8 @@ function GalleryBand() {
               <Figure
                 image={g.image}
                 alt={g.alt}
-                ratio="3 / 4"
+                ratio="2 / 1"
+                position={g.position}
                 sizes="(min-width: 1024px) 22vw, 45vw"
               />
             </Reveal>
@@ -453,7 +518,8 @@ function GalleryBand() {
               <Figure
                 image={g.image}
                 alt={g.alt}
-                ratio="3 / 2"
+                ratio="3 / 1"
+                position={g.position}
                 sizes="(min-width: 1024px) 46vw, 92vw"
               />
             </Reveal>
@@ -631,9 +697,11 @@ function ClosingBand() {
 
           <Reveal delay={90} className="lg:col-span-6">
             <Figure
-              image={ACADEMY[5]}
-              alt="Kursantki Babushkina Academy z certyfikatami we wnętrzu akademii"
+              image={STUDIO[1]}
+              alt="Andriana Babushkina — portret z sesji wizerunkowej AS Company"
               ratio="4 / 3"
+              position="50% 20%"
+              tone="dark"
               framed
               sizes="(min-width: 1024px) 46vw, 92vw"
             />

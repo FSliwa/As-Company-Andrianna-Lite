@@ -175,9 +175,11 @@ function LocationBand() {
           <div className="lg:col-span-7">
             <Reveal delay={90}>
               <Figure
-                image={ACADEMY[5]}
-                alt={`Kursantki ${BRAND.academy} z certyfikatami — wnętrze akademii`}
+                image={ACADEMY[1]}
+                alt={`Grupa kursantek z certyfikatami BROWS na tle ścianki ${BRAND.academy}`}
                 ratio="16 / 10"
+                position="50% 20%"
+                tone="dark"
                 sizes="(min-width: 1024px) 55vw, 90vw"
               />
             </Reveal>
@@ -185,17 +187,21 @@ function LocationBand() {
             <div className="mt-3 grid grid-cols-2 gap-3">
               <Reveal delay={150}>
                 <Figure
-                  image={ACADEMY[2]}
-                  alt="Grupa kursantek po szkoleniu PMU — sala szkoleniowa akademii"
+                  image={ACADEMY[0]}
+                  alt={`Trzy kobiety, dwie z certyfikatami BROWS, pod logo ${BRAND.academy}`}
                   ratio="4 / 5"
+                  position="50% 20%"
+                  tone="dark"
                   sizes="(min-width: 1024px) 27vw, 45vw"
                 />
               </Reveal>
               <Reveal delay={200}>
                 <Figure
-                  image={ACADEMY[7]}
-                  alt="Absolwentki szkolenia z certyfikatami Babushkina Academy"
+                  image={ACADEMY[6]}
+                  alt={`Cztery kursantki z certyfikatami Supernatural Brows pod logo ${BRAND.academy}`}
                   ratio="4 / 5"
+                  position="50% 20%"
+                  tone="dark"
                   sizes="(min-width: 1024px) 27vw, 45vw"
                 />
               </Reveal>

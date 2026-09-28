@@ -26,7 +26,7 @@ import {
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BROWS, LIPS, STUDIO } from '@/lib/media';
+import { BROWS, STUDIO } from '@/lib/media';
 
 /** Rodzaje dokumentacji — bez numerów, bo tych nie mamy potwierdzonych. */
 const DOCUMENT_TYPES = [
@@ -105,8 +105,9 @@ export default function Certificates() {
             <Reveal delay={100} className="lg:col-span-5">
               <Figure
                 image={STUDIO[11]}
-                alt="Andriana Babushkina — AS Company, oficjalny dystrybutor marki w Polsce"
+                alt="Andriana Babushkina — portret z sesji wizerunkowej AS Company"
                 ratio="4 / 5"
+                position="50% 20%"
                 framed
                 priority
                 sizes="(min-width: 1024px) 40vw, 100vw"
@@ -193,15 +194,16 @@ export default function Certificates() {
             <Reveal delay={90} className="lg:col-span-6">
               <div className="grid grid-cols-2 gap-3">
                 <Figure
-                  image={BROWS[5]}
-                  alt="Efekt pracy pigmentami AS — wygojone brwi"
+                  image={BROWS[7]}
+                  alt="Zbliżenie brwi po makijażu permanentnym — jasne włoski, zielone oko"
                   ratio="3 / 4"
                   sizes="(min-width: 1024px) 24vw, 45vw"
                 />
                 <Figure
-                  image={LIPS[1]}
-                  alt="Efekt pracy pigmentami AS — usta po wygojeniu"
+                  image={BROWS[14]}
+                  alt="Zbliżenie brwi po makijażu permanentnym — ciemne włoski, brązowe oko"
                   ratio="3 / 4"
+                  position="50% 45%"
                   className="mt-10"
                   sizes="(min-width: 1024px) 24vw, 45vw"
                 />
