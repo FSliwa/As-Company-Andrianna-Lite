@@ -12,9 +12,14 @@
  * Pełny cennik (PMU / Refresh / Usuwanie) żyje WYŁĄCZNIE na /uslugi#cennik –
  * tu są tylko linki, bez duplikatu tabel.
  *
- * Konsultacja nie ma ceny: ani cennik (site.js, grafiki cennik-*.jpg), ani
- * inne materiały klienta nie podają jej kosztu. Dopisać dopiero po
- * potwierdzeniu przez klienta (audyt TRESC-3).
+ * D6 (Z13/Z15): „konsultacja” jako osobny krok nie ma źródła (brief zna tylko
+ * rysunek wstępny dopasowany do architektury twarzy – część zabiegu), więc
+ * ścieżka ma trzy kroki: zabieg → korekta (w razie potrzeby, od miesiąca do
+ * 3 miesięcy – brief) → odświeżenie (raz na 1–3 lata – brief). Z12: bez tezy
+ * „to nie jedna wizyta” – korekta najczęściej nie jest obowiązkowa (FAQ briefu).
+ * D5: przy cenie odświeżenia warunek z grafiki („dla klientek, którym
+ * wykonałyśmy makijaż permanentny”), nie „stałe klientki”.
+ * Sama podstrona nie ma odpowiednika w briefie – pytanie do klientki (Z13).
  *
  * Rytm tła: 01 hero band (cream-100) → 02 kroki (cream-50) → 03 Statement
  * (portret ROLES.statementPackages w ramce, cream-75) → 04 cennik (cream-100,
@@ -27,68 +32,72 @@ import Link from 'next/link';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel, Statement } from '@/components/as/Primitives';
 import { BOOKING_URL, FOUNDER, PRICING_PMU, PRICING_REFRESH } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
+import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
-/*  Ceny – wyłącznie z cennika (site.js), wyszukiwane po nazwie        */
+/*  Ceny – wyłącznie z cennika (site.js); PMU po stałym `id` (D2 zmienia */
+/*  tylko nazwy widoczne), refresh po nazwie pozycji                    */
 /* ------------------------------------------------------------------ */
 
 const pick = (list, name) => list.items.find((item) => item.name === name) || { name, price: '' };
+const pickId = (list, id) => list.items.find((item) => item.id === id) || { id, name: '', price: '' };
 
 /** Twarda spacja przed „zł” – cena nie łamie się na końcu wiersza. */
 const zl = (price) => String(price || '').replace(/\s+zł$/, '\u00a0zł');
 
-const SNB = pick(PRICING_PMU, 'Super Natural Brows');
-const EYELINERS = pick(PRICING_PMU, 'Perfect Eyeliners');
-const CORRECTION = pick(PRICING_PMU, 'Korekta do 3 miesięcy');
+const SNB = pickId(PRICING_PMU, 'super-natural-brows');
+const EYES = pickId(PRICING_PMU, 'perfect-eyeliners'); // D2: „Perfect Eyes” (dawniej „Perfect Eyeliners”)
+const CORRECTION = pickId(PRICING_PMU, 'korekta');
 const REFRESH_18M = pick(PRICING_REFRESH, 'Odświeżenie do 1,5 roku');
 const REFRESH_3Y = pick(PRICING_REFRESH, 'Odświeżenie do 3 lat');
 const REFRESH_AFTER_3Y = pick(PRICING_REFRESH, 'Odświeżenie po 3 latach');
 
-/** Zabiegi w tej samej cenie co Super Natural Brows (dziś: SNB, Powder Brows, Lips). */
+/** Zabiegi w tej samej cenie co Super Natural Brows (dziś: SNB, Perfect Brows, Perfect Lips). */
 const SAME_PRICE_TREATMENTS = PRICING_PMU.items
-  .filter((item) => item.price === SNB.price && !item.name.startsWith('Korekta'))
+  .filter((item) => item.price === SNB.price && item.id !== 'korekta')
   .map((item) => item.name);
 
 const joinOr = (names) =>
   names.length > 1 ? `${names.slice(0, -1).join(', ')} lub ${names[names.length - 1]}` : names[0];
 
-/* Rząd Stat w hero – wartości z cennika, podpisy z nazw pozycji */
+/* Warunek z grafiki cennika odświeżenia (D5), małą literą do wtrąceń. */
+const REFRESH_CONDITION = PRICING_REFRESH.condition.replace(/^D/, 'd');
+
+/* Rząd Stat w hero – wartości z cennika. Podpisy: 1700 zł to zabieg brwi lub ust
+   (Perfect Eyes kosztuje 1500 zł – krok 01), korekta z terminem z briefu (D5),
+   odświeżenie z warunkiem z grafiki (D5). */
 const HERO_STATS = [
-  { value: zl(SNB.price), label: 'zabieg' },
-  { value: zl(CORRECTION.price), label: CORRECTION.name.toLowerCase() },
-  { value: zl(REFRESH_18M.price), label: REFRESH_18M.name.toLowerCase() },
+  { value: zl(SNB.price), label: 'zabieg brwi lub ust' },
+  { value: zl(CORRECTION.price), label: 'korekta po 1–3 miesiącach' },
+  { value: zl(REFRESH_18M.price), label: `${REFRESH_18M.name.toLowerCase()}, ${REFRESH_CONDITION}` },
 ];
 
-/** Kolejne kroki – cena wprost z cennika; bez ceny, gdy cennik jej nie podaje. */
+/** Kolejne kroki – cena wprost z cennika. */
 const PATH = [
   {
     number: '01',
-    title: 'Konsultacja',
-    when: 'Przed zabiegiem',
-    /* brak ceny w cenniku – nie wpisujemy (patrz komentarz na górze pliku) */
-    price: null,
-    desc: 'Dobieramy kształt i kolor do rysów twarzy oraz oceniamy skórę. Ustalamy, czy potrzebna będzie obowiązkowa korekta.',
-  },
-  {
-    number: '02',
     title: 'Zabieg',
     when: 'Dzień zero',
     price: zl(SNB.price),
-    desc: `${joinOr(SAME_PRICE_TREATMENTS)}. ${EYELINERS.name} – ${zl(EYELINERS.price)}.`,
+    /* rysunek wstępny – brief (FAQ): „Bez niego nie ruszymy” */
+    desc: `Zaczynamy od rysunku wstępnego dopasowanego do architektury twarzy. ${joinOr(SAME_PRICE_TREATMENTS)}; ${EYES.name} – ${zl(EYES.price)}.`,
+  },
+  {
+    number: '02',
+    title: 'Korekta',
+    /* D5: „Robi się po miesiącu do 3 od pierwotnego zabiegu” (brief) */
+    when: 'Po 1–3 miesiącach',
+    price: zl(CORRECTION.price),
+    /* brief: po co korekta; grafika cennika: kiedy obowiązkowa */
+    desc: 'W razie potrzeby lub na życzenie klientki – by uzupełnić ubytki albo wzmocnić efekt. Obowiązkowa przy skórze tłustej, porowatej, z resztkami starego makijażu permanentnego oraz po usuwaniu.',
   },
   {
     number: '03',
-    title: 'Korekta',
-    when: 'Do 3 miesięcy',
-    price: zl(CORRECTION.price),
-    desc: 'Na życzenie klientki. Obowiązkowa przy skórze tłustej, porowatej, z resztkami starego makijażu permanentnego oraz po usuwaniu.',
-  },
-  {
-    number: '04',
     title: 'Odświeżenie',
-    when: 'Do 1,5 roku',
-    price: zl(REFRESH_18M.price),
-    desc: `Dla stałych klientek. Do 3 lat – ${zl(REFRESH_3Y.price)}, po 3 latach – ${zl(REFRESH_AFTER_3Y.price)}, niezależnie od strefy pigmentacji.`,
+    /* Z18: „kiedy” = rytm z briefu („raz na 1–3 lata”); progi cenowe z grafiki – w opisie */
+    when: 'Raz na 1–3 lata',
+    price: `od\u00a0${zl(REFRESH_18M.price)}`,
+    desc: `${PRICING_REFRESH.condition}. Do 1,5 roku – ${zl(REFRESH_18M.price)}, do 3 lat – ${zl(REFRESH_3Y.price)}, po 3 latach – ${zl(REFRESH_AFTER_3Y.price)}, niezależnie od strefy pigmentacji.`,
   },
 ];
 
@@ -102,9 +111,10 @@ function Hero() {
       variant="band"
       number="01"
       label="Ścieżka zabiegowa"
-      title="Od konsultacji"
+      title="Od zabiegu"
       titleAccent="do odświeżenia."
-      lead={'Makijaż permanentny to nie jedna wizyta, tylko kilka kroków rozłożonych w\u00a0czasie.'}
+      /* Z12: bez „to nie jedna wizyta, tylko kilka kroków” – terminy z briefu */
+      lead={'Zabieg, w razie potrzeby korekta po 1–3 miesiącach i\u00a0odświeżenie raz na 1–3 lata.'}
       stats={HERO_STATS}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -120,7 +130,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 – CZTERY KROKI (cream-50)                                       */
+/*  02 – TRZY KROKI (cream-50)                                         */
 /* ================================================================== */
 
 function StepsBand() {
@@ -130,14 +140,23 @@ function StepsBand() {
         <Reveal className="max-w-3xl">
           <SectionLabel number="02">Krok po kroku</SectionLabel>
           <h2 className="as-display-section as-text-balance mt-6 text-ink">
-            Cztery kroki, każdy w{'\u00a0'}swoim czasie.
+            Trzy kroki, każdy w{'\u00a0'}swoim czasie.
           </h2>
         </Reveal>
 
-        {/* cztery komórki redakcyjne: hairline u góry, numer, tytuł, kiedy, opis, cena */}
-        <ol className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+        {/* trzy komórki redakcyjne: hairline u góry, numer, tytuł, kiedy, opis, cena;
+            sm: 2 + 1 (ostatnia na całą szerokość łamu), lg: trzy kolumny */}
+        <ol className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
           {PATH.map((step, i) => (
-            <Reveal as="li" key={step.number} delay={i * 80} className="as-cell flex flex-col">
+            <Reveal
+              as="li"
+              key={step.number}
+              delay={i * 80}
+              className={cn(
+                'as-cell flex flex-col',
+                i === PATH.length - 1 && PATH.length % 2 === 1 && 'sm:col-span-2 lg:col-span-1'
+              )}
+            >
               <p className="as-kicker">{step.number}</p>
               <h3 className="as-title mt-3 text-ink">{step.title}</h3>
               <p className="as-kicker mt-3">{step.when}</p>
@@ -164,8 +183,9 @@ function StatementBand() {
       alt={`${FOUNDER.name} – portret z sesji wizerunkowej marki`}
       number="03"
       label="Rozłożone w czasie"
-      title="Nie jedna wizyta,"
-      titleAccent="tylko kilka kroków."
+      /* Z12: zamiast „Nie jedna wizyta, tylko kilka kroków” – rytm z briefu (odświeżenie raz na 1–3 lata) */
+      title="Zabieg dziś,"
+      titleAccent="odświeżenie za 1–3 lata."
     />
   );
 }
@@ -208,8 +228,9 @@ function ClosingBand() {
       number="05"
       label="Kontakt"
       title="Pierwszy krok:"
-      titleAccent="konsultacja."
-      lead="Konsultacja jest pierwszym krokiem każdego zabiegu."
+      /* D6 (Z15): zamiast „konsultacji” – rysunek wstępny (brief, FAQ) */
+      titleAccent="rysunek wstępny."
+      lead="Dopasowujemy go do architektury twarzy i Twoich uwag – bez niego nie zaczynamy."
       primary={{ href: BOOKING_URL, label: 'Umów wizytę' }}
       secondary={{ href: '/uslugi', label: 'Zobacz zabiegi' }}
     />

@@ -6,7 +6,7 @@
  * `children` = przycisk „Zarezerwuj wizytę” + komunikaty i klauzula.
  */
 
-import { getTreatment } from '@/lib/booking/config';
+import { getTreatment, shownDurationMin } from '@/lib/booking/config';
 import { cn } from '@/lib/utils';
 import { formatDateLong, formatDuration, timeRange } from './format';
 
@@ -34,11 +34,14 @@ export function BookingSummary({ treatment, date, time, children }) {
           {date ? formatDateLong(date) : 'Nie wybrano'}
         </Row>
         <Row label="Godzina" empty={!time}>
-          {time ? timeRange(time, t ? t.durationMin : 0, date) : 'Nie wybrano'}
+          {/* D6: koniec wizyty tylko przy czasie potwierdzonym źródłem; inaczej sama godzina rozpoczęcia */}
+          {time ? timeRange(time, shownDurationMin(t) || 0, date) : 'Nie wybrano'}
         </Row>
-        <Row label="Czas" empty={!t}>
-          {t ? formatDuration(t.durationMin) : '–'}
-        </Row>
+        {(!t || shownDurationMin(t)) && (
+          <Row label="Czas" empty={!t}>
+            {t ? formatDuration(shownDurationMin(t)) : '–'}
+          </Row>
+        )}
         <Row label="Cena" empty={!t || !t.price}>
           {t && t.price ? (
             <>

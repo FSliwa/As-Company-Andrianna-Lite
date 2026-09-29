@@ -13,7 +13,7 @@ export function generateMetadata() {
     route: 'book',
     title: 'Book a visit',
     description:
-      'Online booking at Babushkina Academy, Warsaw – choose a permanent makeup treatment for brows, lips or eyeliner, and the day and time of your visit.',
+      'Online booking at Babushkina Academy, Warsaw – choose a permanent makeup treatment for brows, lips or the lash line, and the day and time of your visit.',
     noindex: !isBookingEnabled(),
   });
 }

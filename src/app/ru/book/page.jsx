@@ -13,7 +13,7 @@ export function generateMetadata() {
     route: 'book',
     title: 'Записаться',
     description:
-      'Онлайн-запись в Babushkina Academy, Варшава – выберите процедуру перманентного макияжа бровей, губ или стрелок, день и время визита.',
+      'Онлайн-запись в Babushkina Academy, Варшава – выберите процедуру перманентного макияжа бровей, губ или межресничной линии, день и время визита.',
     noindex: !isBookingEnabled(),
   });
 }

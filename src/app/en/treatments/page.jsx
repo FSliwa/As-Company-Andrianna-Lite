@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'treatments',
   title: 'Permanent makeup for brows and lips – treatments and prices',
   description:
-    'Super Natural Brows, Perfect Powder Brows, Perfect Lips and Perfect Eyeliners in Warsaw: prices, touch-ups, refreshes and permanent makeup removal.',
+    'Super Natural Brows, Perfect Brows, Perfect Lips and Perfect Eyes (lash line) in Warsaw: prices, touch-ups, refreshes and permanent makeup removal.',
 });
 
 export default function Page() {
