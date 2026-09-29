@@ -1,5 +1,5 @@
 /**
- * Czyste funkcje strefy czasowej (bez zależności) — testowalne `node --test`.
+ * Czyste funkcje strefy czasowej (bez zależności) – testowalne `node --test`.
  *
  * Daty lokalne salonu to napisy 'YYYY-MM-DD', godziny 'HH:MM'. Konwersja
  * czas lokalny → UTC używa offsetu z Intl.DateTimeFormat (`timeZoneName:
@@ -198,7 +198,7 @@ export function todayInZone(now, timeZone) {
  * @param {string} timeStr 'HH:MM'
  * @param {string} timeZone np. 'Europe/Warsaw'
  * @param {{ disambiguation?: 'earlier' | 'later' | 'reject' }} [options]
- *   dla godzin „podwójnych” (cofnięcie zegara): 'earlier' (domyślnie — pierwsze
+ *   dla godzin „podwójnych” (cofnięcie zegara): 'earlier' (domyślnie – pierwsze
  *   wystąpienie, jeszcze czas letni), 'later' albo 'reject' (null).
  * @returns {Date | null} null dla złego formatu lub godziny nieistniejącej (dziura DST).
  */
@@ -208,7 +208,7 @@ export function zonedToUtc(dateStr, timeStr, timeZone, options = {}) {
   const minutes = parseTime(timeStr);
   if (!p || minutes === null) return null;
 
-  // Czas lokalny „udający” UTC — od niego odejmujemy kandydackie offsety.
+  // Czas lokalny „udający” UTC – od niego odejmujemy kandydackie offsety.
   const wall = Date.UTC(p.y, p.m - 1, p.d, Math.floor(minutes / 60), minutes % 60);
 
   // Offsety strefy dobę przed i dobę po obejmują obie strony ewentualnej zmiany czasu.
@@ -223,7 +223,7 @@ export function zonedToUtc(dateStr, timeStr, timeZone, options = {}) {
   }
   const unique = [...new Set(candidates)].sort((a, b) => a - b);
 
-  if (unique.length === 0) return null; // dziura — godzina nie istnieje
+  if (unique.length === 0) return null; // dziura – godzina nie istnieje
   if (unique.length > 1) {
     if (disambiguation === 'reject') return null;
     return new Date(disambiguation === 'later' ? unique[unique.length - 1] : unique[0]);

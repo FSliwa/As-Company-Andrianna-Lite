@@ -3,7 +3,7 @@
  *
  * Treść dokumentów leży w src/content/legal/<dokument>.<język>.json i używa
  * znaczników {company}, {nip}, {email}… Wartości biorą się WYŁĄCZNIE z site.js
- * (LEGAL, CONTACT, SITE_URL) — niczego tu nie wpisujemy na sztywno. Dopóki
+ * (LEGAL, CONTACT, SITE_URL) – niczego tu nie wpisujemy na sztywno. Dopóki
  * brakuje danych rejestrowych, dokumenty są projektem: strony pokazują pas
  * „Projekt dokumentu”, braki jako „[do uzupełnienia: …]” i mają noindex.
  */
@@ -15,7 +15,7 @@ export const LEGAL_VALUES = {
   address: LEGAL.address,
   nip: LEGAL.nip,
   register: LEGAL.register,
-  // e-mail w sprawach danych: osobny, a jeśli go nie ma — ogólny adres kontaktowy
+  // e-mail w sprawach danych: osobny, a jeśli go nie ma – ogólny adres kontaktowy
   privacyEmail: LEGAL.privacyEmail || CONTACT.email,
   email: CONTACT.email,
   phone: CONTACT.phone,

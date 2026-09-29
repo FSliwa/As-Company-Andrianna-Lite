@@ -1,11 +1,11 @@
 'use client';
 
 /**
- * ZABIEGI — /uslugi  („Numer 01")
+ * ZABIEGI – /uslugi  („Numer 01")
  *
  * Każda sekcja to rozkładówka: SectionLabel → H2 .as-display-section → treść →
  * jedno wezwanie. Portret wyłącznie przez ROLES, makra wyłącznie przez MACROS
- * (src/lib/roles.js) — na tej trasie dokładnie cztery makra, wszystkie w pasie
+ * (src/lib/roles.js) – na tej trasie dokładnie cztery makra, wszystkie w pasie
  * efektów. Ceny zawsze z cennika marki (PRICING_* w src/lib/site.js).
  *
  * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
@@ -19,16 +19,16 @@
  * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
  * z przyciskiem „Więcej” (aria-expanded), który rozwija pełny opis, cytat
  * techniki i notę ceny; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
- * zwinięte w <Faq> (< lg) — od lg stoją w pełni.
+ * zwinięte w <Faq> (< lg) – od lg stoją w pełni.
  * Tablet (md): wiersz techniki w dwóch kolumnach (numerał + tytuł | opis + meta),
  * nagłówek 04 w dwóch kolumnach, kroki wizyty 2 + 1 (trzeci na całą szerokość).
  * Desktop (≥ lg) bez zmian.
  *
  * „Umów wizytę” prowadzi do rezerwacji online (/umow-wizyte, Kalendarz Google);
  * w wierszu techniki z już wybranym zabiegiem. Rezerwacja nie pyta o zdrowie
- * (art. 9 RODO) — wywiad zdrowotny należy do konsultacji. Obietnice zdrowotne
+ * (art. 9 RODO) – wywiad zdrowotny należy do konsultacji. Obietnice zdrowotne
  * w brzmieniu zgodnym z FAQ tej strony, bez gwarancji.
- * ClosingCta ma tło cream-90 — stopka (cream-100) go domyka.
+ * ClosingCta ma tło cream-90 – stopka (cream-100) go domyka.
  */
 
 import React from 'react';
@@ -59,7 +59,7 @@ import { MACROS, ROLES } from '@/lib/roles';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
-/*  Ceny — zawsze z cennika marki                                      */
+/*  Ceny – zawsze z cennika marki                                      */
 /* ------------------------------------------------------------------ */
 
 /* Zapis tekstów z cennika (site.js) na tej trasie: twarda spacja w tysiącach
@@ -81,16 +81,16 @@ const priceOf = (table, name) => {
   return row ? fmt(row.price) : '';
 };
 
-/* Fakty w hero — z ACHIEVEMENTS (5× podium MŚ; salony „Katowice i Warszawa")
+/* Fakty w hero – z ACHIEVEMENTS (5× podium MŚ; salony „Katowice i Warszawa")
    i CONTACT.city. Krótkie: FactStrip stoi w jednej linii i przy 375 px musi
    zmieścić się w łamie (≤ 335 px, zmierzone 301 px).
    Autorstwo Super Natural Brows stoi w wierszu 01 indeksu. */
-const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `Salon — ${CONTACT.city}`];
+const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `Salon – ${CONTACT.city}`];
 
 /* ------------------------------------------------------------------ */
-/*  02 — cztery techniki (indeks typograficzny, bez zdjęć)             */
+/*  02 – cztery techniki (indeks typograficzny, bez zdjęć)             */
 /*  Nazwy jak w cenniku PMU; opisy, cytaty i czasy z poprzedniej        */
-/*  wersji strony. Cytaty 03/04 powtarzały opis — usunięte.             */
+/*  wersji strony. Cytaty 03/04 powtarzały opis – usunięte.             */
 /* ------------------------------------------------------------------ */
 
 const TECHNIQUES = [
@@ -104,7 +104,7 @@ const TECHNIQUES = [
     description:
       'Efekt zadbanych, gęstych, dopasowanych brwi z delikatnym pogrubieniem oraz wyrównaniem kształtu.',
     quote:
-      'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę, aby ktoś wiedział, że mam zrobione brwi — mają wyglądać jak moje”.',
+      'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę, aby ktoś wiedział, że mam zrobione brwi – mają wyglądać jak moje”.',
   },
   {
     id: 'perfect-brows',
@@ -135,19 +135,19 @@ const TECHNIQUES = [
     duration: '1–1,5 godziny',
     price: priceOf(PRICING_PMU, 'Perfect Eyeliners'),
     description:
-      'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki — bez kreski, bez ogonka i bez cienia na powiece.',
+      'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki – bez kreski, bez ogonka i bez cienia na powiece.',
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/*  03 — efekty (makra z białej listy) i przebieg wizyty               */
+/*  03 – efekty (makra z białej listy) i przebieg wizyty               */
 /* ------------------------------------------------------------------ */
 
 const RESULTS = [
-  { macro: MACROS.brows15, alt: 'Brwi po makijażu permanentnym — zbliżenie' },
-  { macro: MACROS.brows08, alt: 'Brew i oko po makijażu permanentnym — zbliżenie' },
-  { macro: MACROS.brows17, alt: 'Łuk brwi po makijażu permanentnym — zbliżenie' },
-  { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym — zbliżenie' },
+  { macro: MACROS.brows15, alt: 'Brwi po makijażu permanentnym – zbliżenie' },
+  { macro: MACROS.brows08, alt: 'Brew i oko po makijażu permanentnym – zbliżenie' },
+  { macro: MACROS.brows17, alt: 'Łuk brwi po makijażu permanentnym – zbliżenie' },
+  { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym – zbliżenie' },
 ].map(({ macro, alt }) => ({ image: macro.image, position: macro.position, alt }));
 
 const VISIT_STEPS = [
@@ -163,15 +163,15 @@ const VISIT_STEPS = [
   },
   {
     number: '03',
-    title: `Korekta do 3 miesięcy — ${priceOf(PRICING_PMU, 'Korekta do 3 miesięcy')}`,
+    title: `Korekta do 3 miesięcy – ${priceOf(PRICING_PMU, 'Korekta do 3 miesięcy')}`,
     desc: PRICING_PMU.footnote,
-    /* ta sama nota stoi pod cennikiem PMU (#cennik) — na telefonie tylko tam */
+    /* ta sama nota stoi pod cennikiem PMU (#cennik) – na telefonie tylko tam */
     descFromSm: true,
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/*  04 — odświeżenie i usuwanie (bez materiału zdjęciowego)            */
+/*  04 – odświeżenie i usuwanie (bez materiału zdjęciowego)            */
 /* ------------------------------------------------------------------ */
 
 const AFTERCARE = [
@@ -182,7 +182,7 @@ const AFTERCARE = [
     name: 'Odświeżenie makijażu permanentnego',
     duration: '1,5 godziny',
     price: `od${NBSP}${fmt(PRICING_REFRESH.items[0].price)}`,
-    priceNote: 'Stawka zależy od czasu, jaki minął od ostatniego zabiegu — pełne widełki w cenniku.',
+    priceNote: 'Stawka zależy od czasu, jaki minął od ostatniego zabiegu – pełne widełki w cenniku.',
     description:
       'Zabieg, który wykonujemy raz na 1–3 lata, aby odnowić efekt, uzupełnić kolor oraz dodać gęstości, grubości i intensywności.',
   },
@@ -193,34 +193,34 @@ const AFTERCARE = [
     name: 'Usuwanie laserem lub removerem',
     duration: '30–45 minut',
     price: priceOf(PRICING_REMOVAL, 'Usuwanie PMU brwi'),
-    priceNote: 'Brwi lub usta. Kreski, tatuaże i stawka dla naszych klientek — w cenniku.',
+    priceNote: 'Brwi lub usta. Kreski, tatuaże i stawka dla naszych klientek – w cenniku.',
     description:
-      'Usuwamy stary, nieudany makijaż permanentny przed nową pigmentacją. Metodę — laser albo remover — dobieramy indywidualnie, tak aby jak najszybciej i najbezpieczniej pozbyć się niechcianego pigmentu.',
+      'Usuwamy stary, nieudany makijaż permanentny przed nową pigmentacją. Metodę – laser albo remover – dobieramy indywidualnie, tak aby jak najszybciej i najbezpieczniej pozbyć się niechcianego pigmentu.',
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/*  06 — FAQ: treść klienta po korekcie językowej. Absoluty złagodzone  */
-/*  (bez „w żadnym przypadku”, „nie ma żadnych blizn”) — brzmienie do   */
+/*  06 – FAQ: treść klienta po korekcie językowej. Absoluty złagodzone  */
+/*  (bez „w żadnym przypadku”, „nie ma żadnych blizn”) – brzmienie do   */
 /*  akceptacji klienta. Lead w hero jest z tym FAQ zgodny.             */
 /* ------------------------------------------------------------------ */
 
 const FAQ_ITEMS = [
   {
     q: 'Czy włos maszynowy się nie rozpływa?',
-    a: 'Włos maszynowy to technika tak samo płytka, delikatna i nietraumatyczna jak puder. To nie metoda piórkowa: nie nacinamy skóry i nie wbijamy pigmentu głęboko. Włoski pigmentujemy precyzyjnie, nasycając je warstwami pudru — delikatnie, z umiarem i wyczuciem. Dzięki temu włos maszynowy nie rozpływa się z czasem.',
+    a: 'Włos maszynowy to technika tak samo płytka, delikatna i nietraumatyczna jak puder. To nie metoda piórkowa: nie nacinamy skóry i nie wbijamy pigmentu głęboko. Włoski pigmentujemy precyzyjnie, nasycając je warstwami pudru – delikatnie, z umiarem i wyczuciem. Dzięki temu włos maszynowy nie rozpływa się z czasem.',
   },
   {
     q: 'Czy kolor z czasem nie zrobi się czerwony lub szary?',
-    a: 'Pracujemy na sprawdzonych pigmentach i technikach, których zachowanie z czasem jest przewidywalne — pokazujemy to na zdjęciach i filmach na naszym Instagramie. Skóra i hormony każdego człowieka rządzą się jednak swoimi prawami i na to nie mamy wpływu. Rzadko, ale zdarza się, że kolor pigmentu się wychłodzi — wtedy proponujemy bezpłatną inwersję koloru w cieplejszy odcień.',
+    a: 'Pracujemy na sprawdzonych pigmentach i technikach, których zachowanie z czasem jest przewidywalne – pokazujemy to na zdjęciach i filmach na naszym Instagramie. Skóra i hormony każdego człowieka rządzą się jednak swoimi prawami i na to nie mamy wpływu. Rzadko, ale zdarza się, że kolor pigmentu się wychłodzi – wtedy proponujemy bezpłatną inwersję koloru w cieplejszy odcień.',
   },
   {
     q: 'Czy będzie rysunek wstępny przed pigmentacją?',
-    a: 'Oczywiście, że tak — bez niego nie zaczynamy. Rysunek wstępny dopasujemy do Twojej architektury twarzy, a kiedy będziesz go sprawdzać, możemy wprowadzić zmiany zgodnie z Twoimi uwagami i życzeniami.',
+    a: 'Oczywiście, że tak – bez niego nie zaczynamy. Rysunek wstępny dopasujemy do Twojej architektury twarzy, a kiedy będziesz go sprawdzać, możemy wprowadzić zmiany zgodnie z Twoimi uwagami i życzeniami.',
   },
   {
     q: 'Czy zabieg jest bolesny?',
-    a: 'W 90% przypadków zabieg jest bezbolesny, a większość klientek przysypia podczas pigmentacji. Wrażliwe klientki mogą odczuwać drapanie skóry przy pierwszym przejściu maszynką — zaraz po nim nakładamy żel chłodzący, który łagodzi nieprzyjemne odczucia, więc przez większą część zabiegu można się zrelaksować.',
+    a: 'W 90% przypadków zabieg jest bezbolesny, a większość klientek przysypia podczas pigmentacji. Wrażliwe klientki mogą odczuwać drapanie skóry przy pierwszym przejściu maszynką – zaraz po nim nakładamy żel chłodzący, który łagodzi nieprzyjemne odczucia, więc przez większą część zabiegu można się zrelaksować.',
   },
   {
     q: 'Czy korekta jest obowiązkowa?',
@@ -232,7 +232,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Czy usuwanie uszkodzi moje włoski na brwiach?',
-    a: 'Zwykle nie — często widzimy wręcz odwrotną reakcję: po usuwaniu włoski zaczynają aktywniej odrastać, bo skóra pozbywa się nadmiaru pigmentu i włoski mają miejsce na porost. Czasem po zabiegu włoski bieleją, ale to reakcja tymczasowa i wkrótce wracają do swojego koloru. Jeśli nie chcesz czekać, już 2–3 dni po usuwaniu można zrobić hennę lub farbkę.',
+    a: 'Zwykle nie – często widzimy wręcz odwrotną reakcję: po usuwaniu włoski zaczynają aktywniej odrastać, bo skóra pozbywa się nadmiaru pigmentu i włoski mają miejsce na porost. Czasem po zabiegu włoski bieleją, ale to reakcja tymczasowa i wkrótce wracają do swojego koloru. Jeśli nie chcesz czekać, już 2–3 dni po usuwaniu można zrobić hennę lub farbkę.',
   },
   {
     q: 'Czy usuwanie jest bardzo bolesne?',
@@ -240,18 +240,18 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Czy po usuwaniu będą blizny?',
-    a: 'Stan Twojej skóry jest dla nas najważniejszy — zależy nam, aby była dobrze przygotowana do nowej pigmentacji. Przy prawidłowej technice usuwanie laserem i removerem jest bezpieczne dla skóry, a my dbamy o to, by nie powstawały blizny ani poparzenia. Jeśli jednak poprzedni makijaż permanentny wykonano bardzo głęboko i traumatycznie, blizny mogą istnieć już przed usuwaniem i pozbycie się koloru ich nie usunie. Wtedy łączymy techniki usuwania, aby jednocześnie usuwać pigment i dbać o skórę.',
+    a: 'Stan Twojej skóry jest dla nas najważniejszy – zależy nam, aby była dobrze przygotowana do nowej pigmentacji. Przy prawidłowej technice usuwanie laserem i removerem jest bezpieczne dla skóry, a my dbamy o to, by nie powstawały blizny ani poparzenia. Jeśli jednak poprzedni makijaż permanentny wykonano bardzo głęboko i traumatycznie, blizny mogą istnieć już przed usuwaniem i pozbycie się koloru ich nie usunie. Wtedy łączymy techniki usuwania, aby jednocześnie usuwać pigment i dbać o skórę.',
   },
 ];
 
 /* ================================================================== */
-/*  02 — TECHNIKI (cream-50)                                           */
+/*  02 – TECHNIKI (cream-50)                                           */
 /* ================================================================== */
 
 /* Telefon (< sm): opis przycięty do dwóch linii i przycisk „Więcej”
    (aria-expanded), który rozwija pełny opis oraz to, co od sm stoi zawsze
    (cytat techniki, nota ceny). Od sm przycisk jest ukryty, a treść stoi
-   w pełni — jak dotąd. Przycisk znika, gdy nie ma czego rozwinąć: opis mieści
+   w pełni – jak dotąd. Przycisk znika, gdy nie ma czego rozwinąć: opis mieści
    się w dwóch liniach i nic poza nim nie jest schowane (pomiar po montażu
    i przy każdej zmianie szerokości). */
 function useMobileMore(hasHidden) {
@@ -295,7 +295,7 @@ function MoreButton({ more, controls, name, className }) {
       )}
     >
       {more.open ? 'Zwiń' : 'Więcej'}
-      <span className="sr-only"> — {name}</span>
+      <span className="sr-only"> – {name}</span>
       <ChevronDown
         aria-hidden="true"
         className={cn('h-3.5 w-3.5 text-gold-dark transition-transform duration-300', more.open && 'rotate-180')}
@@ -304,7 +304,7 @@ function MoreButton({ more, controls, name, className }) {
   );
 }
 
-/* Wiersz indeksu — geometria IndexRow (numerał 64 | tytuł 28 | opis | cena
+/* Wiersz indeksu – geometria IndexRow (numerał 64 | tytuł 28 | opis | cena
    + link), rozpisana na 4 kolumny wyrównane do góry, żeby opis stał obok
    tytułu, a nie pod nim (budżet wysokości trasy).
    Lokalnie, bo IndexRow nie ma przycinania opisu na telefonie; „Umów wizytę”
@@ -348,7 +348,7 @@ function TechniqueRow({ t, last }) {
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
         </p>
         <ArrowLink href={bookingHref(t.id)} className="w-fit">
-          Umów wizytę<span className="sr-only"> — {t.name}</span>
+          Umów wizytę<span className="sr-only"> – {t.name}</span>
         </ArrowLink>
       </div>
     </article>
@@ -379,7 +379,7 @@ function TechniquesBand() {
 }
 
 /* ================================================================== */
-/*  03 — EFEKTY I WIZYTA (cream-75)                                    */
+/*  03 – EFEKTY I WIZYTA (cream-75)                                    */
 /* ================================================================== */
 
 function ResultsBand() {
@@ -410,11 +410,11 @@ function ResultsBand() {
             items={RESULTS}
             cols={4}
             ratio="1 / 1"
-            caption="Brwi i usta — prace z naszego gabinetu."
+            caption="Brwi i usta – prace z naszego gabinetu."
           />
         </Reveal>
 
-        {/* przebieg wizyty — trzy kroki pod stykówką; tablet: 2 + 1 (ostatni
+        {/* przebieg wizyty – trzy kroki pod stykówką; tablet: 2 + 1 (ostatni
             na całą szerokość łamu), desktop: trzy kolumny */}
         <div className="mt-8 grid gap-6 sm:mt-12 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {VISIT_STEPS.map((s, i) => (
@@ -439,7 +439,7 @@ function ResultsBand() {
 }
 
 /* ================================================================== */
-/*  04 — ODŚWIEŻENIE I USUWANIE (cream-50)                             */
+/*  04 – ODŚWIEŻENIE I USUWANIE (cream-50)                             */
 /* ================================================================== */
 
 /* Karta zabiegu 04. Telefon: opis 2 linie + „Więcej”; nota ceny dopiero
@@ -492,7 +492,7 @@ function AftercareBand() {
                   skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
                   makijażu permanentnego.
                 </p>
-                {/* telefon: cennik to następna sekcja — link od sm */}
+                {/* telefon: cennik to następna sekcja – link od sm */}
                 <ArrowLink href="#cennik" className="mt-8 hidden w-fit sm:inline-flex md:mt-6 lg:mt-8">
                   Zobacz cennik
                 </ArrowLink>
@@ -514,11 +514,11 @@ function AftercareBand() {
 }
 
 /* ================================================================== */
-/*  05 — CENNIK (cream-100) — jedyny pełny cennik w serwisie           */
+/*  05 – CENNIK (cream-100) – jedyny pełny cennik w serwisie           */
 /* ================================================================== */
 
 /* PriceRow rysuje górną linię przy pierwszym wierszu (first:border-t),
-   więc wrapper nie dostaje własnego border-t — inaczej byłaby podwójna linia.
+   więc wrapper nie dostaje własnego border-t – inaczej byłaby podwójna linia.
    Noty, które powtarzają podtytuł tabeli („Laser / remover") albo są wspólne
    dla wszystkich pozycji („Niezależnie od strefy pigmentacji"), pokazujemy raz. */
 function PriceRows({ table }) {
@@ -552,10 +552,10 @@ function PriceBlock({ table }) {
 }
 
 /* Telefon: cennik PMU zostaje otwarty, a tabele uzupełniające (refresh,
-   siedem stawek usuwania) są zwinięte w akordeon — ten sam <Faq> co w pytaniach.
+   siedem stawek usuwania) są zwinięte w akordeon – ten sam <Faq> co w pytaniach.
    Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie. */
 const faqOf = (table) => ({
-  q: `${table.title} — ${fmt(table.subtitle).toLowerCase()}`,
+  q: `${table.title} – ${fmt(table.subtitle).toLowerCase()}`,
   a: <PriceRows table={table} />,
 });
 const MOBILE_PRICE_FAQ = [faqOf(PRICING_REFRESH), faqOf(PRICING_REMOVAL)];
@@ -588,7 +588,7 @@ function PricingBand() {
                 <PriceBlock table={PRICING_REFRESH} />
               </div>
               <p className="as-caption max-w-[30rem]">
-                Charytatywna rekonstrukcja dla osób po chorobach onkologicznych — darmowa konsultacja.
+                Charytatywna rekonstrukcja dla osób po chorobach onkologicznych – darmowa konsultacja.
               </p>
             </Reveal>
           </div>
@@ -606,11 +606,11 @@ function PricingBand() {
 }
 
 /* ================================================================== */
-/*  06 — PYTANIA (cream-50)                                            */
+/*  06 – PYTANIA (cream-50)                                            */
 /* ================================================================== */
 
 /* Telefon (< sm): pierwsze cztery pytania, reszta za przyciskiem „Pokaż
-   wszystkie pytania” — po rozwinięciu fokus przechodzi na pierwsze odsłonięte
+   wszystkie pytania” – po rozwinięciu fokus przechodzi na pierwsze odsłonięte
    pytanie, a przycisk znika. Od sm lista stoi w pełni, jak dotąd.
    Klasa ukrywająca musi odpowiadać FAQ_MOBILE (literał dla Tailwinda). */
 const FAQ_MOBILE = 4;
@@ -638,7 +638,7 @@ function FaqBand() {
               Zanim usiądziesz w&nbsp;fotelu.
             </h2>
             <p className="as-body mt-6 hidden sm:block">
-              Odpowiedzi na wątpliwości, które najczęściej słyszymy przed zabiegiem — o technikę,
+              Odpowiedzi na wątpliwości, które najczęściej słyszymy przed zabiegiem – o technikę,
               kolor, ból i usuwanie.
             </p>
           </Reveal>
@@ -693,10 +693,10 @@ export default function Treatments() {
         number="01"
         title="Zabiegi makijażu"
         titleAccent="permanentnego."
-        lead="Specjalizujemy się w uzyskaniu jak najbardziej realistycznego, subtelnego efektu — bez przerysowanych konturów i z minimalnym dyskomfortem."
+        lead="Specjalizujemy się w uzyskaniu jak najbardziej realistycznego, subtelnego efektu – bez przerysowanych konturów i z minimalnym dyskomfortem."
         image={ROLES.heroTreatments.image}
         imagePosition={ROLES.heroTreatments.position}
-        imageAlt={`${FOUNDER.name} — ${FOUNDER.signature}`}
+        imageAlt={`${FOUNDER.name} – ${FOUNDER.signature}`}
         tone="cream"
         imageSide="left"
         facts={HERO_FACTS}
@@ -722,7 +722,7 @@ export default function Treatments() {
         label="Wizyta"
         title="Zacznijmy od"
         titleAccent="konsultacji."
-        lead={`${CONTACT.venue} — ${CONTACT.city}. Napisz, co chcesz zmienić, a dobierzemy technikę i termin.`}
+        lead={`${CONTACT.venue} – ${CONTACT.city}. Napisz, co chcesz zmienić, a dobierzemy technikę i termin.`}
         primary={{ href: BOOKING_URL, label: 'Umów wizytę' }}
         secondary={{ href: '#cennik', label: 'Zobacz cennik' }}
       />

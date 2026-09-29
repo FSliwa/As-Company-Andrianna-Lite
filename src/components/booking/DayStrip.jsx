@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * 02 Dzień — pasek dni od pierwszego możliwego terminu do dziś + 60 dni.
+ * 02 Dzień – pasek dni od pierwszego możliwego terminu do dziś + 60 dni.
  * Natywne radio (strzałki pomijają dni wyłączone), przewijany w bok; przyciski
  * ←/→ przewijają o szerokość paska. Dni zamknięte i bez wolnych godzin są
  * wyszarzone i wyłączone (poza aktualnie wybranym).
@@ -67,7 +67,7 @@ export function useStripScroll() {
   return { ref: setNode, node, canPrev: edges.prev, canNext: edges.next, page, centerOn, update };
 }
 
-/* Obrys fokusu zawsze w kolorze ink — globalny :focus-visible bierze currentColor,
+/* Obrys fokusu zawsze w kolorze ink – globalny :focus-visible bierze currentColor,
    a przycisk nieaktywny ma tekst ink/30 (kontrast obrysu ~1,9:1). */
 const ARROW_BTN =
   'grid h-11 w-11 place-items-center border text-lg leading-none transition-colors focus-visible:outline-ink disabled:cursor-default disabled:border-ink/10 disabled:text-ink/30';
@@ -130,7 +130,7 @@ export function DayStrip({ id, days, counts, value, onChange, onEnter, strip, bu
                   disabled={disabled}
                   onChange={() => onChange(date)}
                   onKeyDown={(e) => {
-                    // Enter: na niewybranym dniu — wybiera go; na wybranym — przejście do godzin.
+                    // Enter: na niewybranym dniu – wybiera go; na wybranym – przejście do godzin.
                     if (e.key === 'Enter') {
                       e.preventDefault();
                       if (checked) onEnter?.();
@@ -151,7 +151,7 @@ export function DayStrip({ id, days, counts, value, onChange, onEnter, strip, bu
                 </span>
                 <span className="sr-only">
                   {formatDateLong(date)}
-                  {closed ? ' — salon nieczynny' : count === 0 ? ' — brak wolnych godzin' : ''}
+                  {closed ? ' – salon nieczynny' : count === 0 ? ' – brak wolnych godzin' : ''}
                 </span>
               </label>
             </li>

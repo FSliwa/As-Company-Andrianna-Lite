@@ -1,7 +1,7 @@
 /** Nakładka EN na src/content/common/pl.js (te same klucze). */
 const common = {
   skipLink: 'Skip to content',
-  homeAria: 'AS COMPANY POLAND — home page',
+  homeAria: 'AS COMPANY POLAND – home page',
   mainNavAria: 'Main navigation',
   book: 'Book a visit',
   menuOpen: 'Open menu',
@@ -30,7 +30,7 @@ const common = {
     label: 'Not found',
     title: 'This page',
     accent: 'does not exist.',
-    body: 'The address may have changed or the page may have been moved. Start from the home page or write to us — we will help you find what you are looking for.',
+    body: 'The address may have changed or the page may have been moved. Start from the home page or write to us – we will help you find what you are looking for.',
     home: 'Home page',
     contact: 'Contact',
   },

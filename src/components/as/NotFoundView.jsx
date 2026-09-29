@@ -1,6 +1,6 @@
 'use client';
 
-/* Strona 404 w języku marki — ta sama typografia, jeden komunikat, dwa wyjścia.
+/* Strona 404 w języku marki – ta sama typografia, jeden komunikat, dwa wyjścia.
    Teksty: src/content/common (notFound), język z adresu (/en/…, /ru/…, reszta = pl). */
 import Link from '@/components/as/LocaleLink';
 import { useContent } from '@/i18n/client';

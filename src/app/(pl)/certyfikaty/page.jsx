@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Dokumentacja produktów',
   description:
-    'Jakie dokumenty udostępniamy do produktów PMU — deklaracje zgodności, karty charakterystyki i dokumentacja urządzeń.',
+    'Jakie dokumenty udostępniamy do produktów PMU – deklaracje zgodności, karty charakterystyki i dokumentacja urządzeń.',
   path: '/certyfikaty',
 });
 

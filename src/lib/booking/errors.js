@@ -1,6 +1,6 @@
 /**
  * Własne klasy błędów rezerwacji. Komunikaty NIE zawierają danych osobowych,
- * identyfikatora kalendarza ani fragmentów odpowiedzi Google — tylko kod,
+ * identyfikatora kalendarza ani fragmentów odpowiedzi Google – tylko kod,
  * status HTTP i ewentualny `reason` z API (np. 'notFound', 'rateLimitExceeded').
  */
 
@@ -89,7 +89,7 @@ export class BookingPausedError extends BookingError {
   }
 }
 
-/** Bezpieczny opis błędu do logów — bez danych osobowych i treści odpowiedzi. */
+/** Bezpieczny opis błędu do logów – bez danych osobowych i treści odpowiedzi. */
 export function describeError(err) {
   if (!err || typeof err !== 'object') return { name: 'Unknown' };
   const out = { name: err.name || 'Error' };

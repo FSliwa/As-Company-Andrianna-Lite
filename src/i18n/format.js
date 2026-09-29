@@ -1,6 +1,6 @@
 /**
  * Formatowanie zależne od języka (liczby mnogie, kwoty, daty).
- * Czyste funkcje — działają na serwerze i w przeglądarce.
+ * Czyste funkcje – działają na serwerze i w przeglądarce.
  */
 
 import { LOCALE_META } from './config.js';
@@ -9,7 +9,7 @@ const intl = (locale) => (LOCALE_META[locale] || LOCALE_META.pl).intl;
 
 /**
  * Forma liczby mnogiej z Intl.PluralRules.
- * forms: { one, few, many, other } — pl i ru używają one/few/many, en one/other.
+ * forms: { one, few, many, other } – pl i ru używają one/few/many, en one/other.
  * plural('ru', 21, { one: 'оттенок', few: 'оттенка', many: 'оттенков' }) → 'оттенок'
  */
 export function plural(locale, n, forms) {
@@ -19,7 +19,7 @@ export function plural(locale, n, forms) {
 
 /**
  * Kwota w złotych: PL „1700 zł” (jak w cennikach klienta), EN „1,700 PLN”, RU „1 700 PLN”.
- * value — liczba złotych (nie groszy).
+ * value – liczba złotych (nie groszy).
  */
 export function formatPLN(value, locale = 'pl') {
   if (locale === 'pl') return `${value} zł`;
@@ -37,7 +37,7 @@ const PRICE_WORDS = {
 };
 
 const SP = '[ \\u00a0\\u202f]'; // spacja, twarda spacja, wąska twarda spacja (źródło RegExp)
-/* „1700”, „7 000”, „15 000”, „36,90” — tysiące rozdzielone spacją, grosze po przecinku */
+/* „1700”, „7 000”, „15 000”, „36,90” – tysiące rozdzielone spacją, grosze po przecinku */
 const AMOUNT = String.raw`(\d{1,3}(?:${SP}\d{3})+|\d+)(?:,(\d{1,2}))?`;
 /* Jedna pozycja: [6 ml] [od|do|>|<] KWOTA zł [netto|brutto] [/ mc] */
 const SEGMENT_RE = new RegExp(
@@ -56,7 +56,7 @@ function warnUnknown(value) {
   if (warned.has(value)) return;
   warned.add(value);
   // eslint-disable-next-line no-console
-  console.warn(`[i18n] localizePriceString: nieznany zapis ceny „${value}” — zostaje po polsku`);
+  console.warn(`[i18n] localizePriceString: nieznany zapis ceny „${value}” – zostaje po polsku`);
 }
 
 function localizeAmount(intPart, fraction, locale) {
@@ -67,7 +67,7 @@ function localizeAmount(intPart, fraction, locale) {
 
 /**
  * Polski zapis ceny z danych (site.js, widoki) → zapis w danym języku.
- * Liczba jest zawsze brana z tekstu polskiego — nigdy przepisywana ręcznie.
+ * Liczba jest zawsze brana z tekstu polskiego – nigdy przepisywana ręcznie.
  *   '1700 zł'            → en '1,700 PLN'          ru '1 700 PLN'
  *   'od 850 zł'          → en 'from 850 PLN'       ru 'от 850 PLN'
  *   '7 000 zł netto'     → en '7,000 PLN net'      ru '7 000 PLN нетто'
@@ -82,7 +82,7 @@ export function localizePriceString(value, locale) {
   if (typeof value !== 'string' || !locale || locale === 'pl' || !PRICE_WORDS[locale]) return value;
   const words = PRICE_WORDS[locale];
   const trimmed = value.trim();
-  if (!trimmed || /^\d+$/.test(trimmed)) return value; // sama liczba (np. „10”) — bez waluty, bez zmian
+  if (!trimmed || /^\d+$/.test(trimmed)) return value; // sama liczba (np. „10”) – bez waluty, bez zmian
   const segments = trimmed.split(LIST_SEP_RE);
   const out = [];
   for (const segment of segments) {

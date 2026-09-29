@@ -6,9 +6,9 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   locale: 'ru',
   route: 'about',
-  title: 'О нас — Andriana Babushkina',
+  title: 'О нас – Andriana Babushkina',
   description:
-    'Andriana Babushkina — мастер перманентного макияжа, международный тренер и судья, автор техники Super Natural Brows. Студия и Babushkina Academy в Варшаве.',
+    'Andriana Babushkina – мастер перманентного макияжа, международный тренер и судья, автор техники Super Natural Brows. Студия и Babushkina Academy в Варшаве.',
 });
 
 export default function Page() {

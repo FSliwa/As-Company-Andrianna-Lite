@@ -6,7 +6,7 @@ import { JsonLd, coursesJsonLd, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   locale: 'ru',
   route: 'training',
-  title: 'Обучение ПМ — Super Natural Brows',
+  title: 'Обучение ПМ – Super Natural Brows',
   description:
     'Обучение Super Natural Brows и базовый курс перманентного макияжа в Babushkina Academy: программа, формат, цены нетто и расписание.',
 });

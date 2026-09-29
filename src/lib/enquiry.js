@@ -1,7 +1,7 @@
 /**
  * Wysyłka zgłoszeń z formularzy.
  *
- * W projekcie NIE MA backendu przyjmującego formularze — nie ma endpointu,
+ * W projekcie NIE MA backendu przyjmującego formularze – nie ma endpointu,
  * nie ma skonfigurowanego dostawcy poczty. Wcześniej formularze pokazywały
  * komunikat „wysłano" i po cichu gubiły dane kontaktowe klientek.
  *
@@ -11,7 +11,7 @@
  * podpięty, i kieruje na kanał, który realnie działa (Instagram).
  *
  * Gdy pojawi się prawdziwy endpoint, wystarczy podmienić treść
- * `sendEnquiry` na fetch('/api/...') — reszta kodu się nie zmienia.
+ * `sendEnquiry` na fetch('/api/...') – reszta kodu się nie zmienia.
  */
 
 import { CONTACT } from '@/lib/site';
@@ -46,16 +46,16 @@ export function sendEnquiry({ subject, fields }) {
   return { status: ENQUIRY_STATUS.MAIL_OPENED, mailto };
 }
 
-/** Komunikat po wysłaniu — zawsze zgodny z tym, co faktycznie się stało. */
+/** Komunikat po wysłaniu – zawsze zgodny z tym, co faktycznie się stało. */
 export function enquiryMessage(status) {
   if (status === ENQUIRY_STATUS.MAIL_OPENED) {
     return {
       title: 'Otworzyliśmy Twój program pocztowy',
-      body: 'Wiadomość jest gotowa — wystarczy ją wysłać. Odpowiemy najszybciej, jak się da.',
+      body: 'Wiadomość jest gotowa – wystarczy ją wysłać. Odpowiemy najszybciej, jak się da.',
     };
   }
   return {
     title: 'Formularz nie jest jeszcze podpięty',
-    body: `Twoje dane nie zostały nigdzie wysłane. Napisz do nas na Instagramie (${CONTACT.instagramHandle}) — odpowiadamy tam na bieżąco.`,
+    body: `Twoje dane nie zostały nigdzie wysłane. Napisz do nas na Instagramie (${CONTACT.instagramHandle}) – odpowiadamy tam na bieżąco.`,
   };
 }

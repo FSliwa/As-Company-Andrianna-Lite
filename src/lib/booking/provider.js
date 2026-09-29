@@ -2,12 +2,12 @@
  * Wybór dostawcy kalendarza wg zmiennych środowiskowych.
  *
  *   BOOKING_PROVIDER=google  + GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_CALENDAR_ID
- *   BOOKING_PROVIDER=memory  — tylko dev/test; w production ignorowany (rezerwacja wyłączona)
- *   brak BOOKING_PROVIDER    — google, jeśli są wszystkie trzy zmienne GOOGLE_*; inaczej wyłączone
- *   BOOKING_PROVIDER=off     — wyłączone
+ *   BOOKING_PROVIDER=memory  – tylko dev/test; w production ignorowany (rezerwacja wyłączona)
+ *   brak BOOKING_PROVIDER    – google, jeśli są wszystkie trzy zmienne GOOGLE_*; inaczej wyłączone
+ *   BOOKING_PROVIDER=off     – wyłączone
  *
  * `null` = rezerwacja online wyłączona (API → 503 { error: 'disabled' }).
- * Instancje trzymamy w globalThis, bo Next.js w dev pakuje każdą trasę osobno —
+ * Instancje trzymamy w globalThis, bo Next.js w dev pakuje każdą trasę osobno –
  * inaczej GET i POST widziałyby dwa różne kalendarze w pamięci.
  */
 
@@ -36,7 +36,7 @@ function hasGoogleVars(env) {
   return Boolean(v.clientEmail && v.privateKey.trim() && v.calendarId);
 }
 
-/** 'google' | 'memory' | null — bez tworzenia klienta. */
+/** 'google' | 'memory' | null – bez tworzenia klienta. */
 export function resolveProviderName(env = process.env) {
   const explicit = (env.BOOKING_PROVIDER || '').trim().toLowerCase();
   if (explicit === 'google') return hasGoogleVars(env) ? 'google' : null;
@@ -52,7 +52,7 @@ export function isBookingEnabled(env = process.env) {
 
 /**
  * Dostawca albo null. Może rzucić CalendarConfigError, gdy zmienne Google są
- * obecne, ale nieprawidłowe (np. uszkodzony klucz) — handler zwraca wtedy 502.
+ * obecne, ale nieprawidłowe (np. uszkodzony klucz) – handler zwraca wtedy 502.
  */
 export function getBookingProvider(env = process.env) {
   const s = store();
@@ -60,7 +60,7 @@ export function getBookingProvider(env = process.env) {
 
   if (explicit === 'memory' && env.NODE_ENV === 'production' && !s.warned) {
     s.warned = true;
-    console.warn('[booking] BOOKING_PROVIDER=memory is ignored in production — online booking disabled');
+    console.warn('[booking] BOOKING_PROVIDER=memory is ignored in production – online booking disabled');
   }
 
   const name = resolveProviderName(env);

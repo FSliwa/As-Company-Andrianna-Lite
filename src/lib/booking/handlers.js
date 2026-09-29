@@ -1,5 +1,5 @@
 /**
- * Logika HTTP tras /api/booking — oddzielona od plików route.js, żeby dało się
+ * Logika HTTP tras /api/booking – oddzielona od plików route.js, żeby dało się
  * ją testować `node --test` (standardowe Request/Response, bez next/server).
  *
  * Kody odpowiedzi:
@@ -8,7 +8,7 @@
  *        | 413 too_large | 415 unsupported_media_type | 429 rate_limited | 502 calendar / captcha
  *        | 503 disabled / paused | 500 server
  *
- * W logach wyłącznie nazwa/rodzaj błędu i status — nigdy dane osobowe, IP ani klucz.
+ * W logach wyłącznie nazwa/rodzaj błędu i status – nigdy dane osobowe, IP ani klucz.
  */
 
 import { bookingSecret, checkFormToken, turnstileKeys, verifyTurnstile } from './abuse.js';
@@ -68,7 +68,7 @@ export function allowedHosts(request, env = process.env) {
 
 /**
  * Origin (albo Referer) musi wskazywać ten sam host. Dla POST nagłówek jest
- * wymagany (przeglądarki zawsze go wysyłają), dla GET — tylko gdy obecny.
+ * wymagany (przeglądarki zawsze go wysyłają), dla GET – tylko gdy obecny.
  */
 export function isAllowedOrigin(request, { required, env = process.env }) {
   if ((request.headers.get('sec-fetch-site') || '').toLowerCase() === 'cross-site') return false;
@@ -87,7 +87,7 @@ export function isAllowedOrigin(request, { required, env = process.env }) {
 
 /* ---------------- body ---------------- */
 
-/** Czyta body z limitem bajtów (strumieniowo — nie wczytuje całego nadmiarowego body). */
+/** Czyta body z limitem bajtów (strumieniowo – nie wczytuje całego nadmiarowego body). */
 export async function readBodyLimited(request, maxBytes) {
   const declared = Number(request.headers.get('content-length'));
   if (Number.isFinite(declared) && declared > maxBytes) return { ok: false };
@@ -241,7 +241,7 @@ export async function handleBookingPost(request, deps = {}) {
   }
   if (!body || typeof body !== 'object' || Array.isArray(body)) return json({ error: 'invalid' }, 400);
 
-  // Honeypot: pole „website” jest niewidoczne dla ludzi — wypełnione = bot.
+  // Honeypot: pole „website” jest niewidoczne dla ludzi – wypełnione = bot.
   if (body.website !== undefined && body.website !== null && (typeof body.website !== 'string' || body.website.trim() !== '')) {
     return json({ error: 'invalid' }, 400);
   }
@@ -251,8 +251,8 @@ export async function handleBookingPost(request, deps = {}) {
   const input = parsed.data;
 
   // Znacznik formularza podpisany przez serwer przy renderze strony: wysłanie szybciej niż
-  // minFormFillMs = bot; bez ważnego znacznika (skrypt, który nie otworzył strony) — odmowa.
-  // Liczymy wyłącznie zegarem serwera — zły zegar przeglądarki nie ma znaczenia.
+  // minFormFillMs = bot; bez ważnego znacznika (skrypt, który nie otworzył strony) – odmowa.
+  // Liczymy wyłącznie zegarem serwera – zły zegar przeglądarki nie ma znaczenia.
   const form = checkFormToken(input.formToken, {
     now: nowDate.getTime(),
     secret,
@@ -262,7 +262,7 @@ export async function handleBookingPost(request, deps = {}) {
   if (form === 'too_fast') return json({ error: 'too_fast' }, 400);
   if (form !== 'ok') return json({ error: 'form_expired' }, 400);
 
-  // Cloudflare Turnstile (gdy skonfigurowany) — jedyna bariera dla skryptu z losowymi danymi.
+  // Cloudflare Turnstile (gdy skonfigurowany) – jedyna bariera dla skryptu z losowymi danymi.
   if (turnstile) {
     const verdict = await verifyCaptcha(input.turnstileToken, { secretKey: turnstile.secretKey });
     if (!verdict.ok) {

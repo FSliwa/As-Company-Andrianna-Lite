@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'contact',
   title: 'Contact',
   description:
-    'Babushkina Academy, Warsaw — book a permanent makeup visit or ask about PMU training dates.',
+    'Babushkina Academy, Warsaw – book a permanent makeup visit or ask about PMU training dates.',
 });
 
 export default function Page() {

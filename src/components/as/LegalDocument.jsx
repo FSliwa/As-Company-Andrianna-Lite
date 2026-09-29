@@ -3,7 +3,7 @@
  * Komponent serwerowy: treść z src/content/legal/*.json, dane firmy z site.js
  * (src/lib/legal.js). Układ redakcyjny: spis treści w lewej kolumnie (sticky od lg),
  * tekst w wąskiej kolumnie do czytania. Braki danych są widoczne jako oznaczenia,
- * a nad dokumentem stoi pas „Projekt dokumentu” — nie udajemy obowiązującego tekstu.
+ * a nad dokumentem stoi pas „Projekt dokumentu” – nie udajemy obowiązującego tekstu.
  */
 
 import LocaleLink from '@/components/as/LocaleLink';

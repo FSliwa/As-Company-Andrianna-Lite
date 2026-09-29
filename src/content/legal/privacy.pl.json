@@ -2,7 +2,7 @@
   "slug": "polityka-prywatnosci",
   "title": "Polityka prywatności",
   "updated": "2026-09-29",
-  "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce — Polityka cookies ({siteUrl}/polityka-cookies).",
+  "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce – Polityka cookies ({siteUrl}/polityka-cookies).",
   "sections": [
     {
       "id": "w-skrocie",
@@ -62,7 +62,7 @@
             "odpowiedź na wiadomość i dalsza korespondencja: nasz prawnie uzasadniony interes, czyli możliwość odpowiadania na kierowane do nas pytania (art. 6 ust. 1 lit. f RODO);",
             "przygotowanie oferty oraz ustalenie terminu szkolenia, wynajmu lub zakupu, gdy o to prosisz: działania na Twoje żądanie przed zawarciem umowy (art. 6 ust. 1 lit. b RODO);",
             "wykonanie umowy, jeśli ją zawrzemy, na przykład udział w szkoleniu, wynajem maszynki lub zakup pigmentów (art. 6 ust. 1 lit. b RODO);",
-            "rozliczenie dofinansowania szkolenia (np. KFS, BUR), jeśli z niego korzystasz: wykonanie umowy (art. 6 ust. 1 lit. b RODO), a gdy obowiązek przekazania lub przechowania danych wynika z przepisów — wypełnienie obowiązku prawnego (art. 6 ust. 1 lit. c RODO);",
+            "rozliczenie dofinansowania szkolenia (np. KFS, BUR), jeśli z niego korzystasz: wykonanie umowy (art. 6 ust. 1 lit. b RODO), a gdy obowiązek przekazania lub przechowania danych wynika z przepisów – wypełnienie obowiązku prawnego (art. 6 ust. 1 lit. c RODO);",
             "rozpatrzenie reklamacji (punkt 12 Regulaminu): obowiązki wynikające z przepisów, w szczególności Kodeksu cywilnego i ustawy o prawach konsumenta (art. 6 ust. 1 lit. c RODO), a w sprawach nieobjętych takim obowiązkiem nasz prawnie uzasadniony interes, czyli rzetelne rozpatrzenie zgłoszenia (art. 6 ust. 1 lit. f RODO);",
             "wystawienie i przechowywanie dokumentów księgowych: obowiązek wynikający z przepisów podatkowych i o rachunkowości (art. 6 ust. 1 lit. c RODO);",
             "ustalenie, dochodzenie lub obrona roszczeń: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -345,7 +345,7 @@
     },
     {
       "what": "Hosting Vercel: plan, umowa powierzenia, region",
-      "proposal": "Używać planu Pro, który obejmuje użytek komercyjny i Data Processing Addendum Vercela. Funkcje serwerowe (API rezerwacji) ustawić w regionie UE, np. fra1 (Frankfurt) — vercel.json nie ustawia dziś regionu, więc funkcje działałyby w domyślnym regionie w USA. Jeśli serwis trafi na innego dostawcę hostingu, zmienić pkt 7, 10 i 11.",
+      "proposal": "Używać planu Pro, który obejmuje użytek komercyjny i Data Processing Addendum Vercela. Funkcje serwerowe (API rezerwacji) ustawić w regionie UE, np. fra1 (Frankfurt) – vercel.json nie ustawia dziś regionu, więc funkcje działałyby w domyślnym regionie w USA. Jeśli serwis trafi na innego dostawcę hostingu, zmienić pkt 7, 10 i 11.",
       "why": "Plan Hobby jest przeznaczony wyłącznie do użytku niekomercyjnego. Region w UE ogranicza przekazywanie danych z formularza rezerwacji do USA, choć sieć brzegowa i logi Vercela nadal mogą obejmować USA. Hosting jest dziś planowany, a nie potwierdzony."
     },
     {

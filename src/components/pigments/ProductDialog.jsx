@@ -3,7 +3,7 @@
 /**
  * „Szczegóły” odcienia albo zestawu: pełny opis ze sklepu (czysty tekst),
  * strefy, pojemności z cenami (z datą cen), stan magazynowy i dodanie do
- * zamówienia. Potwierdzenie „Dodano…” stoi nad przyciskami — przy długim
+ * zamówienia. Potwierdzenie „Dodano…” stoi nad przyciskami – przy długim
  * opisie nie wypada poza dolną krawędź przewijanego panelu.
  * Jeden dialog na stronę (sterowany `productId`), nie jeden na komórkę.
  */
@@ -66,8 +66,8 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
           <Swatch color={product.color} className="h-10 w-full" />
           <p className="as-caption mt-2 max-w-none">
             {product.color
-              ? 'Odcień poglądowy — kolor na ekranie różni się od pigmentu.'
-              : 'Bez próbki — tego odcienia nie da się wiarygodnie pokazać na ekranie.'}
+              ? 'Odcień poglądowy – kolor na ekranie różni się od pigmentu.'
+              : 'Bez próbki – tego odcienia nie da się wiarygodnie pokazać na ekranie.'}
           </p>
         </div>
       )}
@@ -100,7 +100,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
         )}
         <p className="as-caption mt-3 max-w-none">
           {stale
-            ? `Ceny z ${SYNCED} mogą być nieaktualne — potwierdzimy je w odpowiedzi na zapytanie.`
+            ? `Ceny z ${SYNCED} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
             : `Cena z ${SYNCED}.`}
         </p>
         {!product.inStock && <p className="as-badge mt-3">Brak w magazynie</p>}

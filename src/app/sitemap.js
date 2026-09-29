@@ -3,8 +3,8 @@ import { LEGAL_COMPLETE } from '@/lib/legal';
 import { PUBLIC_LOCALES } from '@/i18n/config';
 import { ROUTES, languageAlternates, localePath } from '@/i18n/routes';
 
-/** sitemap.xml — publiczne trasy w trzech językach (pl, /en, /ru) z hreflang; data = data buildu. */
-// Rezerwacja (/umow-wizyte, /en/book, /ru/book) tylko przy włączonej rezerwacji online —
+/** sitemap.xml – publiczne trasy w trzech językach (pl, /en, /ru) z hreflang; data = data buildu. */
+// Rezerwacja (/umow-wizyte, /en/book, /ru/book) tylko przy włączonej rezerwacji online –
 // inaczej to strona z komunikatem. Dokumenty prawne dopiero, gdy przestaną być projektem (pełne LEGAL).
 const KEYS = [
   'home',
@@ -29,7 +29,7 @@ export default function sitemap() {
     const canonical = ROUTES[key];
     const alt = languageAlternates(canonical);
     const languages = alt ? Object.fromEntries(Object.entries(alt).map(([lang, path]) => [lang, absolute(path)])) : null;
-    // tylko języki publiczne (PUBLIC_LOCALES) — /en i /ru dołączą po przetłumaczeniu treści
+    // tylko języki publiczne (PUBLIC_LOCALES) – /en i /ru dołączą po przetłumaczeniu treści
     return PUBLIC_LOCALES.map((locale) => ({
       url: absolute(localePath(canonical, locale)),
       lastModified,

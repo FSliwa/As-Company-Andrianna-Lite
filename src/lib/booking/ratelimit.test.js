@@ -76,7 +76,7 @@ describe('clientKey', () => {
   });
 });
 
-describe('createRateLimiter — przepełnienie', () => {
+describe('createRateLimiter – przepełnienie', () => {
   test('po przekroczeniu maxKeys zablokowany (aktywny) klucz dalej jest zablokowany', () => {
     const rl = createRateLimiter({ limit: 1, windowMs: 600_000, maxKeys: 100 });
     assert.equal(rl.check('attacker', 0).ok, true);

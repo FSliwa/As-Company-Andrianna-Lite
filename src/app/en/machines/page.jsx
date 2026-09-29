@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'machines',
   title: 'AS HERO and AS PRINCESS PMU machines',
   description:
-    'AS HERO and AS PRINCESS permanent makeup machines — models, specifications, purchase in the AS shop and rental for studios.',
+    'AS HERO and AS PRINCESS permanent makeup machines – models, specifications, purchase in the AS shop and rental for studios.',
 });
 
 export default function Page() {

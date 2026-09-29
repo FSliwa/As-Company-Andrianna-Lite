@@ -1,7 +1,7 @@
 /**
  * Wspólne elementy stron 404 w trzech gałęziach (src/app/(pl)|en|ru/not-found.jsx):
  * metadane w danym języku. Canonical na stronę główną języka, bez hreflang
- * (nadpisuje `alternates` z root layoutu) — 404 nie ma wersji językowych.
+ * (nadpisuje `alternates` z root layoutu) – 404 nie ma wersji językowych.
  */
 import common from '@/content/common';
 import { pick } from './merge';

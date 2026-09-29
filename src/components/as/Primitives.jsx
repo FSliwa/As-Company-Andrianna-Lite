@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/accordion';
 
 /* ------------------------------------------------------------------ */
-/*  Etykieta sekcji:  „02  /  O NAS  ———————”                          */
+/*  Etykieta sekcji:  „02  /  O NAS  –––––––”                          */
 /* ------------------------------------------------------------------ */
 
 export function SectionLabel({ number, children, tone = 'dark', line = true, className }) {
@@ -65,7 +65,7 @@ export function ArrowLink({ href = '#', children, tone = 'dark', className, onCl
     </>
   );
 
-  /* akcja (np. otwarcie dialogu) — ten sam wygląd, semantyka przycisku */
+  /* akcja (np. otwarcie dialogu) – ten sam wygląd, semantyka przycisku */
   if (onClick) {
     return (
       <button type="button" onClick={onClick} className={classes} {...rest}>
@@ -90,7 +90,7 @@ export function ArrowLink({ href = '#', children, tone = 'dark', className, onCl
 }
 
 /* ------------------------------------------------------------------ */
-/*  Kadr ze zdjęciem — zawsze z /graphics, zawsze z wymiarami          */
+/*  Kadr ze zdjęciem – zawsze z /graphics, zawsze z wymiarami          */
 /* ------------------------------------------------------------------ */
 
 const DEFAULT_SIZES = '(min-width: 1024px) 33vw, 100vw';
@@ -107,15 +107,15 @@ function buildSrcSet(webp) {
  * Props:
  *  - image     wpis z src/lib/media.js ({ src, w, h, webp })
  *  - ratio     proporcja kadru, np. "3 / 4"; nadmiar jest przycinany (object-cover)
- *  - position  object-position, np. "50% 30%" — gdzie ma być środek ciężkości
+ *  - position  object-position, np. "50% 30%" – gdzie ma być środek ciężkości
  *              przy przycinaniu; domyślnie środek
  *  - tone      "dark" (w Lite = ton jasny; zostaje dla zgodności),
  *              "light" w sekcjach kremowych (odsycony, jaśniejszy, z kremową
- *              mgłą) — w obu przypadkach po to, żeby zdjęcie siedziało w tle
+ *              mgłą) – w obu przypadkach po to, żeby zdjęcie siedziało w tle
  *              zamiast na nim świecić (jak w makiecie); domyślnie bez korekty
  *  - sizes     atrybut sizes; bez niego przeglądarka zakłada 100vw i pobiera
  *              największy wariant
- *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) —
+ *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) –
  *              dla pasów pełnej szerokości (Statement)
  */
 export function Figure({
@@ -217,7 +217,7 @@ export function GoldArc({ className, flip = false, opacity = 0.35 }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Krzyżyki narożne — subtelna „siatka konstrukcyjna” z makiety       */
+/*  Krzyżyki narożne – subtelna „siatka konstrukcyjna” z makiety       */
 /* ------------------------------------------------------------------ */
 
 export function CrossMarks({ className, tone = 'dark' }) {
@@ -242,14 +242,14 @@ export function CrossMarks({ className, tone = 'dark' }) {
 /*  Pojawianie się przy przewijaniu                                     */
 /* ------------------------------------------------------------------ */
 
-/* Na serwerze nie ma useLayoutEffect — podmieniamy, żeby nie sypać ostrzeżeniami. */
+/* Na serwerze nie ma useLayoutEffect – podmieniamy, żeby nie sypać ostrzeżeniami. */
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 /**
  * Pojawianie się przy przewijaniu.
  *
  * WAŻNE: treść startuje WIDOCZNA. Ukrywamy ją dopiero w useLayoutEffect,
- * czyli już po stronie przeglądarki i jeszcze przed pierwszym malowaniem —
+ * czyli już po stronie przeglądarki i jeszcze przed pierwszym malowaniem –
  * dzięki temu nie ma mignięcia, a jednocześnie:
  *   • HTML z serwera zawiera treść bez opacity:0 (czytelny dla wyszukiwarek
  *     i dla kogoś z wyłączonym JS),
@@ -276,7 +276,7 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
       return r.top < window.innerHeight * 1.3 && r.bottom > -window.innerHeight * 0.25;
     };
 
-    // Element jest już w kadrze — zostaw widoczny, nie ma czego animować.
+    // Element jest już w kadrze – zostaw widoczny, nie ma czego animować.
     if (isNear()) return;
 
     setHidden(true);
@@ -324,7 +324,7 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Nagłówek podstrony — wspólny dla wszystkich stron poza główną      */
+/*  Nagłówek podstrony – wspólny dla wszystkich stron poza główną      */
 /* ------------------------------------------------------------------ */
 
 export function PageHero({
@@ -344,8 +344,8 @@ export function PageHero({
   tone = 'cream',
   children,
 }) {
-  /* variant: 'cover' (domyślny, gdy jest zdjęcie) — portret 2:3 po prawej, tekst
-     wyśrodkowany w pionie; 'band' — jasny pas (cream-100) bez zdjęcia, H1 na całą
+  /* variant: 'cover' (domyślny, gdy jest zdjęcie) – portret 2:3 po prawej, tekst
+     wyśrodkowany w pionie; 'band' – jasny pas (cream-100) bez zdjęcia, H1 na całą
      szerokość łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty).
      Lite: oba warianty na kremie; `tone` inny niż 'cream' zostaje tylko dla zgodności. */
   const kind = variant || (image ? 'cover' : 'band');
@@ -484,7 +484,7 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pasek zaufania — drobne fakty rozdzielone ukośnikiem               */
+/*  Pasek zaufania – drobne fakty rozdzielone ukośnikiem               */
 /* ------------------------------------------------------------------ */
 
 export function FactStrip({ items, tone = 'dark', className }) {
@@ -508,7 +508,7 @@ export function FactStrip({ items, tone = 'dark', className }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Przycisk CTA — link wewnętrzny, zewnętrzny/kotwica albo <button>   */
+/*  Przycisk CTA – link wewnętrzny, zewnętrzny/kotwica albo <button>   */
 /* ------------------------------------------------------------------ */
 
 export function CtaButton({ href, onClick, children, className = 'as-btn-solid', ...rest }) {
@@ -561,7 +561,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas zamykający stronę — jeden na każdej trasie, ten sam układ      */
+/*  Pas zamykający stronę – jeden na każdej trasie, ten sam układ      */
 /*  Lite: tło cream-90 ze złotą linią i łukiem, etykieta z numerem,    */
 /*  h2 w skali sekcji, lead as-body, para solid + ghost.               */
 /* ------------------------------------------------------------------ */
@@ -578,9 +578,9 @@ export function ClosingCta({
   children,
   className,
 }) {
-  /* Pas zamykający: jasny (cream-90), stopka pod nim w cream-100. Bez portretów —
+  /* Pas zamykający: jasny (cream-90), stopka pod nim w cream-100. Bez portretów –
      założycielka nie może występować w każdym zakończeniu strony.
-     Etykieta domyślna („Kontakt”) — w języku strony. */
+     Etykieta domyślna („Kontakt”) – w języku strony. */
   const t = useContent(common);
   const button = (btn, cls) => {
     if (!btn) return null;
@@ -721,7 +721,7 @@ export function Field({ as = 'input', label, id, hint, required, className, wrap
 
 /* ------------------------------------------------------------------ */
 /*  Klauzula informacyjna RODO pod formularzem (art. 13).              */
-/*  Renderuje się dopiero, gdy klient uzupełni LEGAL w site.js —       */
+/*  Renderuje się dopiero, gdy klient uzupełni LEGAL w site.js –       */
 /*  bez danych administratora nie udajemy klauzuli.                    */
 /* ------------------------------------------------------------------ */
 
@@ -741,14 +741,14 @@ export function FormNotice({ tone = 'dark', className }) {
   );
 }
 
-/* Legenda pól wymaganych — gdy klauzula jeszcze się nie renderuje. */
+/* Legenda pól wymaganych – gdy klauzula jeszcze się nie renderuje. */
 export function RequiredLegend({ className }) {
   const t = useContent(common);
   return <p className={cn('text-[0.8125rem] text-mocha', className)}>{t.requiredLegend}</p>;
 }
 
 /* ------------------------------------------------------------------ */
-/*  FAQ — jeden akordeon dla całego serwisu                            */
+/*  FAQ – jeden akordeon dla całego serwisu                            */
 /* ------------------------------------------------------------------ */
 
 export function Faq({ items, className }) {
@@ -765,9 +765,9 @@ export function Faq({ items, className }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas „statement" — jeden duży portret w złotej ramce i jedno        */
+/*  Pas „statement" – jeden duży portret w złotej ramce i jedno        */
 /*  zdanie. Moment strony; jeden na trasę. Lite: jasny papier          */
-/*  (cream-75) zamiast ciemnego spadu — tekst nigdy nie leży na twarzy. */
+/*  (cream-75) zamiast ciemnego spadu – tekst nigdy nie leży na twarzy. */
 /* ------------------------------------------------------------------ */
 
 export function Statement({
@@ -836,12 +836,12 @@ export function Statement({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pasek efektów — makra brwi/ust w kontrolowanej formie: małe,       */
+/*  Pasek efektów – makra brwi/ust w kontrolowanej formie: małe,       */
 /*  jednolite kadry, hairline, bez mgiełki. Jedyne miejsce dla makr.   */
 /* ------------------------------------------------------------------ */
 
 export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, caption, className }) {
-  /* tone = ton SEKCJI, w której stoi pasek: 'light' (krem — w Lite zawsze) albo 'dark' */
+  /* tone = ton SEKCJI, w której stoi pasek: 'light' (krem – w Lite zawsze) albo 'dark' */
   const onDark = tone === 'dark';
   const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
   return (

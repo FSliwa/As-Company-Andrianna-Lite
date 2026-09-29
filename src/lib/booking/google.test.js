@@ -18,7 +18,7 @@ import {
   normalizePrivateKey,
 } from './google.js';
 
-// Klucz generowany w teście — żadnych prawdziwych sekretów w repozytorium.
+// Klucz generowany w teście – żadnych prawdziwych sekretów w repozytorium.
 const { privateKey: PRIVATE_PEM, publicKey: PUBLIC_KEY } = crypto.generateKeyPairSync('rsa', {
   modulusLength: 2048,
   privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
@@ -85,7 +85,7 @@ describe('normalizePrivateKey', () => {
   });
 });
 
-describe('createJwt — RS256', () => {
+describe('createJwt – RS256', () => {
   const nowSec = 1_790_000_000;
   const jwt = createJwt({ clientEmail: EMAIL, privateKey: ENV_STYLE_KEY, nowSec });
   const { header, payload, signingInput, signature } = decodeJwt(jwt);
@@ -119,7 +119,7 @@ describe('createJwt — RS256', () => {
   });
 });
 
-describe('createGoogleCalendar — konfiguracja', () => {
+describe('createGoogleCalendar – konfiguracja', () => {
   test('brak e-maila / kalendarza / klucza → CalendarConfigError', () => {
     assert.throws(() => createGoogleCalendar({ clientEmail: '', privateKey: ENV_STYLE_KEY, calendarId: CALENDAR }), CalendarConfigError);
     assert.throws(() => createGoogleCalendar({ clientEmail: EMAIL, privateKey: ENV_STYLE_KEY, calendarId: '' }), CalendarConfigError);
@@ -138,7 +138,7 @@ describe('createGoogleCalendar — konfiguracja', () => {
   });
 });
 
-describe('createGoogleCalendar — token', () => {
+describe('createGoogleCalendar – token', () => {
   test('wymiana JWT na token: POST form-urlencoded, grant jwt-bearer, ważny podpis', async () => {
     const fetchImpl = fakeFetch((call) => (isToken(call) ? tokenOk() : jsonResponse(200, { calendars: { [CALENDAR]: { busy: [] } } })));
     const cal = createGoogleCalendar({ clientEmail: EMAIL, privateKey: ENV_STYLE_KEY, calendarId: CALENDAR, fetchImpl });
@@ -232,7 +232,7 @@ describe('createGoogleCalendar — token', () => {
   });
 });
 
-describe('createGoogleCalendar — timeouty i błędy', () => {
+describe('createGoogleCalendar – timeouty i błędy', () => {
   test('każde żądanie ma AbortSignal i cache: no-store', async () => {
     const fetchImpl = fakeFetch((call) => (isToken(call) ? tokenOk() : jsonResponse(200, { items: [] })));
     const cal = createGoogleCalendar({ clientEmail: EMAIL, privateKey: ENV_STYLE_KEY, calendarId: CALENDAR, fetchImpl });
@@ -252,7 +252,7 @@ describe('createGoogleCalendar — timeouty i błędy', () => {
         })
     );
     const cal = createGoogleCalendar({ clientEmail: EMAIL, privateKey: ENV_STYLE_KEY, calendarId: CALENDAR, fetchImpl, timeoutMs: 30 });
-    // Timer AbortSignal.timeout jest „unref” — w serwerze pętlę trzyma przy życiu nasłuchujący
+    // Timer AbortSignal.timeout jest „unref” – w serwerze pętlę trzyma przy życiu nasłuchujący
     // socket, w teście trzeba ją podtrzymać ręcznie.
     const keepAlive = setInterval(() => {}, 1000);
     try {
@@ -297,7 +297,7 @@ describe('createGoogleCalendar — timeouty i błędy', () => {
   });
 });
 
-describe('createGoogleCalendar — wywołania REST', () => {
+describe('createGoogleCalendar – wywołania REST', () => {
   test('freeBusy: treść żądania i wynik', async () => {
     const busy = [{ start: '2026-10-26T09:00:00Z', end: '2026-10-26T10:00:00Z' }];
     const fetchImpl = fakeFetch((call) => (isToken(call) ? tokenOk() : jsonResponse(200, { calendars: { [CALENDAR]: { busy } } })));

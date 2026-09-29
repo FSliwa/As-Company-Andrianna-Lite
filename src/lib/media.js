@@ -1,6 +1,6 @@
-// Manifest grafik — WSZYSTKIE zdjęcia pochodzą z firmowego folderu /Graphics.
-// Generowany przez scripts/przygotuj-grafiki.py — nie edytuj ręcznie.
-// Każda pozycja: { src (JPEG), w, h, webp: { szerokość: ścieżka } } — Figure buduje z tego srcSet.
+// Manifest grafik – WSZYSTKIE zdjęcia pochodzą z firmowego folderu /Graphics.
+// Generowany przez scripts/przygotuj-grafiki.py – nie edytuj ręcznie.
+// Każda pozycja: { src (JPEG), w, h, webp: { szerokość: ścieżka } } – Figure buduje z tego srcSet.
 
 /** Sesja wizerunkowa (16 ujęć) */
 export const STUDIO = [
@@ -45,7 +45,7 @@ export const COURSE = [
   { src: '/graphics/course-07.jpg', w: 586, h: 1040, webp: { '480': '/graphics/course-07-480.webp', '586': '/graphics/course-07.webp' } },
 ];
 
-/** Efekty PMU brwi — pliki zbiorcze (18) */
+/** Efekty PMU brwi – pliki zbiorcze (18) */
 export const BROWS = [
   { src: '/graphics/brows-01.jpg', w: 1536, h: 1920, webp: { '480': '/graphics/brows-01-480.webp', '960': '/graphics/brows-01-960.webp', '1440': '/graphics/brows-01-1440.webp', '1536': '/graphics/brows-01.webp' } },
   { src: '/graphics/brows-02.jpg', w: 884, h: 1920, webp: { '480': '/graphics/brows-02-480.webp', '884': '/graphics/brows-02.webp' } },
@@ -67,7 +67,7 @@ export const BROWS = [
   { src: '/graphics/brows-18.jpg', w: 1536, h: 1920, webp: { '480': '/graphics/brows-18-480.webp', '960': '/graphics/brows-18-960.webp', '1440': '/graphics/brows-18-1440.webp', '1536': '/graphics/brows-18.webp' } },
 ];
 
-/** Efekty PMU ust — pliki zbiorcze (5) */
+/** Efekty PMU ust – pliki zbiorcze (5) */
 export const LIPS = [
   { src: '/graphics/lips-01.jpg', w: 1206, h: 1497, webp: { '480': '/graphics/lips-01-480.webp', '960': '/graphics/lips-01-960.webp', '1206': '/graphics/lips-01.webp' } },
   { src: '/graphics/lips-02.jpg', w: 1204, h: 1515, webp: { '480': '/graphics/lips-02-480.webp', '960': '/graphics/lips-02-960.webp', '1204': '/graphics/lips-02.webp' } },
@@ -84,8 +84,8 @@ export const CENNIK = {
 };
 
 /**
- * PANELE — pojedyncze kadry wycięte ze sklejek „przed/po".
- * Pliki zbiorcze to kolaże z szwami i watermarkami — w widokach używaj paneli.
+ * PANELE – pojedyncze kadry wycięte ze sklejek „przed/po".
+ * Pliki zbiorcze to kolaże z szwami i watermarkami – w widokach używaj paneli.
  */
 export const PANELS = {
   'brows-01-p1': { src: '/graphics/brows-01-p1.jpg', w: 1638, h: 687, webp: { '480': '/graphics/brows-01-p1-480.webp', '960': '/graphics/brows-01-p1-960.webp', '1440': '/graphics/brows-01-p1-1440.webp', '1638': '/graphics/brows-01-p1.webp' } },

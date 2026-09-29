@@ -4,7 +4,7 @@
  * Komórka odcienia i wiersz zestawu w katalogu /pigmenty.
  *
  * Obie w React.memo: dostają stabilne `onAdd` / `onDetails` (useCallback)
- * i liczbę sztuk TEGO produktu w zamówieniu — zmiana listy renderuje
+ * i liczbę sztuk TEGO produktu w zamówieniu – zmiana listy renderuje
  * od nowa tylko komórkę, której dotyczy, a nie całą siatkę.
  * Bez zdjęć ze sklepu: kolor to odcień poglądowy z danych (pasek 8 px).
  */
@@ -49,7 +49,7 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
         {product.name}
       </h3>
 
-      {/* próbka: pasek 8 px pod nazwą; bez koloru — kreskowanie i podpis */}
+      {/* próbka: pasek 8 px pod nazwą; bez koloru – kreskowanie i podpis */}
       <div className="mt-4 flex items-center gap-3">
         <Swatch color={product.color} className="h-2 flex-1" />
         {!product.color && <span className="as-label shrink-0 text-ink/65">bez próbki</span>}
@@ -59,7 +59,7 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
         <p className="mt-4 line-clamp-2 text-[0.9375rem] leading-[1.6] text-ink/75">{product.shortDesc}</p>
       )}
 
-      {/* akcje: [pojemność] [Dodaj] [Szczegóły] — zawijają się, gdy komórka jest wąska */}
+      {/* akcje: [pojemność] [Dodaj] [Szczegóły] – zawijają się, gdy komórka jest wąska */}
       {/* blok akcji wyrównany do dołu komórki; „W zamówieniu” rośnie w górę,
           więc ceny i przyciski w rzędzie siatki zostają na jednej linii */}
       <div className="mt-auto pt-5">
@@ -94,7 +94,7 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
 export const ProductCell = memo(ProductCellBase);
 
 /* ================================================================== */
-/*  Zestaw — wiersz cennika. Bez próbki (na zdjęciu sklepu jest pudełko);  */
+/*  Zestaw – wiersz cennika. Bez próbki (na zdjęciu sklepu jest pudełko);  */
 /*  nazwa otwiera „Szczegóły” ze składem zestawu.                          */
 /* ================================================================== */
 
@@ -120,7 +120,7 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
             className="relative text-left underline decoration-ink/30 underline-offset-4 transition-colors before:absolute before:-inset-y-2.5 before:inset-x-0 before:content-[''] hover:decoration-ink"
           >
             {product.name}
-            <span className="sr-only"> — skład zestawu</span>
+            <span className="sr-only"> – skład zestawu</span>
           </button>
         </h4>
         {qty > 0 && (

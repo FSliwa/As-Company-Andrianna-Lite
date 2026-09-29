@@ -1,5 +1,5 @@
 /**
- * Generator pliku .ics (RFC 5545) — „Dodaj do kalendarza” po rezerwacji.
+ * Generator pliku .ics (RFC 5545) – „Dodaj do kalendarza” po rezerwacji.
  * Czysty moduł: działa w przeglądarce i w Node. Czasy zapisujemy w UTC (…Z),
  * więc plik jest poprawny w każdej strefie bez sekcji VTIMEZONE.
  */
@@ -95,7 +95,7 @@ export function buildIcs({ uid, start, end, summary, description, location, url,
 
 /**
  * Plik .ics dla potwierdzonej wizyty (dane z odpowiedzi 201 POST /api/booking).
- * Bez danych osobowych klientki — tylko zabieg, termin i miejsce.
+ * Bez danych osobowych klientki – tylko zabieg, termin i miejsce.
  * @param {{ bookingId: string, treatment: string, start: string, end: string }} booking
  */
 export function buildBookingIcs({ bookingId, treatment, start, end }, { now } = {}) {
@@ -105,7 +105,7 @@ export function buildBookingIcs({ bookingId, treatment, start, end }, { now } = 
     uid: `${bookingId}@${siteHost()}`,
     start,
     end,
-    summary: `${name} — AS COMPANY`,
+    summary: `${name} – AS COMPANY`,
     description: 'Wizyta zarezerwowana na stronie AS COMPANY. W razie zmian salon skontaktuje się z Tobą.',
     location: SALON_LOCATION || undefined,
     url: SITE_URL,

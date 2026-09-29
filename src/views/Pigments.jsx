@@ -1,17 +1,17 @@
 'use client';
 
 /**
- * PIGMENTY — /pigmenty  („Numer 01")
+ * PIGMENTY – /pigmenty  („Numer 01")
  *
  * Pełny katalog pigmentów NA TEJ STRONIE, bez przekierowań do zewnętrznego
  * sklepu (prośba klienta, 29.09.2026). Zakup = lista „Twoje zamówienie”
  * wysyłana jako ZAPYTANIE (na tym etapie nic się nie kupuje ani nie płaci).
  *
- * Dane: WYŁĄCZNIE src/data/pigments.json — kopia publicznego Store API
+ * Dane: WYŁĄCZNIE src/data/pigments.json – kopia publicznego Store API
  * sklepu klienta, odświeżana skryptem `node scripts/sync-pigments.mjs`.
  * Każda nazwa, cena, pojemność, stan magazynowy i opis pochodzi z danych;
  * liczby w hero i nagłówkach są z nich wyliczane. Pokazujemy tylko cenę
- * bieżącą — bez cen przekreślonych i bez słowa „promocja” (brak najniższej
+ * bieżącą – bez cen przekreślonych i bez słowa „promocja” (brak najniższej
  * ceny z 30 dni, Omnibus). Ceny starsze niż PRICE_MAX_AGE_DAYS → „cena do
  * potwierdzenia” (src/lib/pigments.js).
  *
@@ -20,15 +20,15 @@
  * i „bez próbki”.
  *
  * Układ (rytm tła):
- *   01 PageHero band (cream-100) — liczby z danych, „Przeglądaj katalog” + „Jak zamówić”
- *   02 Katalog #katalog (cream-50) — filtry (chip kolekcji z paskiem jej odcieni),
+ *   01 PageHero band (cream-100) – liczby z danych, „Przeglądaj katalog” + „Jak zamówić”
+ *   02 Katalog #katalog (cream-50) – filtry (chip kolekcji z paskiem jej odcieni),
  *      licznik (aria-live), siatka odcieni (pełne rzędy: 6 do xl, 8 od xl
  *      + „Pokaż wszystkie”), zestawy jako cennik, adnotacje
- *   03 Jak zamówić #zamowienie (cream-100, hairline) — 3 kroki + dokumentacja na prośbę
- *   04 ClosingCta — „Twoje zamówienie” (otwiera listę) + kontakt
+ *   03 Jak zamówić #zamowienie (cream-100, hairline) – 3 kroki + dokumentacja na prośbę
+ *   04 ClosingCta – „Twoje zamówienie” (otwiera listę) + kontakt
  *   + pływający przycisk listy i dwa dialogi (szczegóły, zamówienie)
  *
- * Dawna sekcja „Kolekcje” (komórki z paletą) dublowała filtr kolekcji —
+ * Dawna sekcja „Kolekcje” (komórki z paletą) dublowała filtr kolekcji –
  * paleta przeszła na chip filtra, a strona mieści się w limicie długości.
  */
 
@@ -75,10 +75,10 @@ const COLLECTIONS = allCollections().filter((c) => c.count > 0);
 const STATS = catalogStats();
 const SYNCED = formatSyncedDate();
 
-/* Pierwsze odcienie widoczne od razu — zawsze PEŁNE rzędy siatki:
+/* Pierwsze odcienie widoczne od razu – zawsze PEŁNE rzędy siatki:
    2 kolumny (telefon) → 3 rzędy, 3 kolumny (md) → 2 rzędy = 6 odcieni;
    4 kolumny (xl) → 2 rzędy = 8. Siódmy i ósmy są w DOM, ale poniżej xl
-   ukryte klasą (bez mierzenia w JS — ten sam HTML na serwerze i w przeglądarce).
+   ukryte klasą (bez mierzenia w JS – ten sam HTML na serwerze i w przeglądarce).
    Reszta po „Pokaż wszystkie”; wyszukiwanie pokazuje zawsze wszystkie trafienia. */
 const PAGE_NARROW = 6;
 const PAGE_WIDE = 8;
@@ -87,7 +87,7 @@ const WIDE_MQ = '(min-width: 1280px)';
 const shadesWord = (n) => plural(n, 'odcień', 'odcienie', 'odcieni');
 const setsWord = (n) => plural(n, 'zestaw', 'zestawy', 'zestawów');
 
-/* Kolory odcieni kolekcji (bez zestawów i bez `null`) — pasek na chipie filtra. */
+/* Kolory odcieni kolekcji (bez zestawów i bez `null`) – pasek na chipie filtra. */
 const PALETTES = Object.fromEntries(
   COLLECTIONS.map((c) => [
     c.id,
@@ -113,19 +113,19 @@ const HERO_STATS = [
 ];
 
 /* Krok 02 mówi o kanale, który naprawdę działa (jak BOOKING_STEPS na /kontakt). */
-const NOT_A_PURCHASE = 'To zapytanie — na tym etapie nic nie kupujesz ani nie płacisz.';
+const NOT_A_PURCHASE = 'To zapytanie – na tym etapie nic nie kupujesz ani nie płacisz.';
 const STEPS = [
   {
     number: '01',
     title: 'Wybierz odcienie',
-    text: 'Dodaj pigmenty do listy „Twoje zamówienie”. Przy odcieniach w kilku pojemnościach wybierz butelkę — ilość zmienisz na liście.',
+    text: 'Dodaj pigmenty do listy „Twoje zamówienie”. Przy odcieniach w kilku pojemnościach wybierz butelkę – ilość zmienisz na liście.',
   },
   {
     number: '02',
     title: 'Wyślij zapytanie',
     text: FORM_LIVE
       ? `Podaj imię i telefon lub e-mail, a potem wyślij listę. ${NOT_A_PURCHASE}`
-      : `Skopiuj listę i wyślij ją na Instagramie — ${CONTACT.instagramHandle}. ${NOT_A_PURCHASE}`,
+      : `Skopiuj listę i wyślij ją na Instagramie – ${CONTACT.instagramHandle}. ${NOT_A_PURCHASE}`,
   },
   {
     number: '03',
@@ -138,7 +138,7 @@ const CLOSING_LEAD = `${
   FORM_LIVE
     ? 'Wyślij listę jako zapytanie'
     : `Skopiuj listę i wyślij ją na Instagramie (${CONTACT.instagramHandle})`
-} — potwierdzimy dostępność, łączną kwotę oraz sposób dostawy i płatności. Nie wiesz, od którego odcienia zacząć? Napisz, do jakiej techniki i strefy szukasz pigmentu.`;
+} – potwierdzimy dostępność, łączną kwotę oraz sposób dostawy i płatności. Nie wiesz, od którego odcienia zacząć? Napisz, do jakiej techniki i strefy szukasz pigmentu.`;
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
@@ -146,7 +146,7 @@ const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ================================================================== */
-/*  01 — HERO (pas typograficzny, cream-100)                           */
+/*  01 – HERO (pas typograficzny, cream-100)                           */
 /* ================================================================== */
 
 function Hero() {
@@ -157,7 +157,7 @@ function Hero() {
       number="01"
       title="Pigmenty"
       titleAccent="AS COMPANY."
-      lead="Pigmenty do brwi, ust i kresek, modyfikatory oraz odcienie do areoli, kamuflażu i trychopigmentacji — AS OPIUM, Light Minerals, AS Classic i kolejne kolekcje. Wybierz odcienie i wyślij zapytanie."
+      lead="Pigmenty do brwi, ust i kresek, modyfikatory oraz odcienie do areoli, kamuflażu i trychopigmentacji – AS OPIUM, Light Minerals, AS Classic i kolejne kolekcje. Wybierz odcienie i wyślij zapytanie."
       stats={HERO_STATS}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -173,7 +173,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — KATALOG                                                       */
+/*  02 – KATALOG                                                       */
 /* ================================================================== */
 
 function Catalog({
@@ -229,7 +229,7 @@ function Catalog({
     setZone(null);
     setQuery('');
     setExpanded(false);
-    /* przycisk, który to wywołał, znika — fokus na „Wszystkie” w rzędzie kolekcji */
+    /* przycisk, który to wywołał, znika – fokus na „Wszystkie” w rzędzie kolekcji */
     requestAnimationFrame(() => filtersRef.current?.querySelector('[role="group"] button')?.focus());
   };
 
@@ -257,7 +257,7 @@ function Catalog({
           </Reveal>
           <Reveal delay={80} className="lg:col-span-5">
             <p className="as-body">
-              Wybierz kolekcję i strefę — pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
+              Wybierz kolekcję i strefę – pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
               pigmenty trafiają na listę „Twoje zamówienie”, którą wysyłasz jako zapytanie.
             </p>
           </Reveal>
@@ -334,7 +334,7 @@ function Catalog({
               </p>
               <ArrowLink
                 onClick={() => {
-                  /* fokus na pierwszym NOWO pokazanym odcieniu — zależy od szerokości */
+                  /* fokus na pierwszym NOWO pokazanym odcieniu – zależy od szerokości */
                   focusIndex.current = window.matchMedia?.(WIDE_MQ).matches ? PAGE_WIDE : PAGE_NARROW;
                   setExpanded(true);
                 }}
@@ -349,7 +349,7 @@ function Catalog({
             <div className="mt-14">
               <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                 <h3 className="as-title text-ink">Zestawy</h3>
-                <p className="as-caption max-w-none">Skład zestawu — po kliknięciu nazwy.</p>
+                <p className="as-caption max-w-none">Skład zestawu – po kliknięciu nazwy.</p>
               </div>
               <div className="mt-6 grid gap-x-10 lg:grid-cols-2 xl:grid-cols-3">
                 {sets.map((p) => (
@@ -370,10 +370,10 @@ function Catalog({
         </div>
 
         <div className="mt-10 space-y-1 border-t border-ink/15 pt-5">
-          <p className="as-caption max-w-none">Kolory próbek są poglądowe — odcień na ekranie różni się od pigmentu.</p>
+          <p className="as-caption max-w-none">Kolory próbek są poglądowe – odcień na ekranie różni się od pigmentu.</p>
           <p className="as-caption max-w-none">
             {stale
-              ? `Ceny z ${SYNCED} mogą być nieaktualne — potwierdzimy je w odpowiedzi na zapytanie.`
+              ? `Ceny z ${SYNCED} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
               : `Ceny aktualne na ${SYNCED}, bez kosztów dostawy.`}
           </p>
         </div>
@@ -383,7 +383,7 @@ function Catalog({
 }
 
 /* ================================================================== */
-/*  03 — JAK ZAMÓWIĆ                                                   */
+/*  03 – JAK ZAMÓWIĆ                                                   */
 /* ================================================================== */
 
 function HowToOrder() {
@@ -398,7 +398,7 @@ function HowToOrder() {
             </Reveal>
             <Reveal delay={80}>
               <p className="as-body mt-6">
-                Zamówienie to zapytanie o listę odcieni — odpowiadamy z dostępnością i łączną kwotą.
+                Zamówienie to zapytanie o listę odcieni – odpowiadamy z dostępnością i łączną kwotą.
                 Dokumentację produktów udostępniamy na prośbę.
               </p>
               <ArrowLink href="/certyfikaty" className="mt-8 w-fit">
@@ -426,7 +426,7 @@ function HowToOrder() {
 
 /**
  * @param {{ pricesStale?: boolean }} props
- *   `pricesStale` — ceny przeterminowane w chwili renderu na serwerze (build);
+ *   `pricesStale` – ceny przeterminowane w chwili renderu na serwerze (build);
  *   przeglądarka sprawdza to ponownie po zamontowaniu (strona statyczna może
  *   być oglądana długo po buildzie).
  */
@@ -448,12 +448,12 @@ export default function Pigments({ pricesStale = false }) {
   const [announce, setAnnounce] = useState('');
 
   const headingRef = useRef(null);
-  /* element, który otworzył dialog — po zamknięciu fokus wraca na niego */
+  /* element, który otworzył dialog – po zamknięciu fokus wraca na niego */
   const returnFocus = useRef(null);
   /* przejście dialog → dialog / dialog → katalog: bez powrotu fokusu */
   const skipReturn = useRef(false);
 
-  /* ?kolekcja=as-opium&strefa=usta — wstępny filtr (link z innej strony).
+  /* ?kolekcja=as-opium&strefa=usta – wstępny filtr (link z innej strony).
      window.location zamiast useSearchParams: trasa zostaje statyczna. */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -495,7 +495,7 @@ export default function Pigments({ pricesStale = false }) {
       add(id, label);
       const p = productById(id);
       const text = `Dodano do zamówienia: ${p?.name ?? ''}${label ? `, ${formatCapacity(label)}` : ''}.`;
-      /* zmiana znaku na końcu — ten sam komunikat ogłasza się ponownie */
+      /* zmiana znaku na końcu – ten sam komunikat ogłasza się ponownie */
       setAnnounce((prev) => (prev === text ? `${text}\u00a0` : text));
     },
     [add]

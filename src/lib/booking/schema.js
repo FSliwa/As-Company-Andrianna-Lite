@@ -1,5 +1,5 @@
 /**
- * Walidacja wejścia (zod) — wspólna dla API i (opcjonalnie) formularza w przeglądarce.
+ * Walidacja wejścia (zod) – wspólna dla API i (opcjonalnie) formularza w przeglądarce.
  * Bez importów serwerowych: config → site.js, slots/time są czyste.
  */
 
@@ -24,10 +24,10 @@ export const PHONE_RE = /^\+?\d[\d -]*$/;
 
 // Znaki sterujące (poza \n i \t w uwagach) nie mają prawa trafić do kalendarza.
 const CONTROL_RE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u2028\u2029]/g;
-// Znaki niewidoczne i sterujące kierunkiem tekstu (bidi, zero-width, BOM) — pozwalają
+// Znaki niewidoczne i sterujące kierunkiem tekstu (bidi, zero-width, BOM) – pozwalają
 // ukryć albo odwrócić fragment tekstu w kalendarzu (np. „‮exe.gpj”).
 const INVISIBLE_RE = /[\u00AD\u061C\u180E\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF]/g;
-/** Adres URL w uwagach — Kalendarz Google zamienia go w klikalny link (phishing). */
+/** Adres URL w uwagach – Kalendarz Google zamienia go w klikalny link (phishing). */
 export const URL_RE = /(?:[a-z][a-z0-9+.-]*:\/\/|www\.)\S/i;
 
 function singleLine(value) {
@@ -57,7 +57,7 @@ const dateSchema = z.string({ required_error: 'Wybierz dzień' }).refine(isValid
 const monthSchema = z.string().refine((m) => parseMonth(m) !== null, 'Nieprawidłowy miesiąc');
 const timeSchema = z.string({ required_error: 'Wybierz godzinę' }).refine((t) => parseTime(t) !== null, 'Nieprawidłowa godzina');
 
-/** GET /api/booking/slots — dokładnie jedno z: date | month. */
+/** GET /api/booking/slots – dokładnie jedno z: date | month. */
 export const slotsQuerySchema = z
   .object({ treatment: treatmentSchema, date: dateSchema.optional(), month: monthSchema.optional() })
   .refine((q) => Boolean(q.date) !== Boolean(q.month), { message: 'Podaj date albo month', path: ['date'] });
@@ -107,13 +107,13 @@ export const bookingSchema = z
           z
             .string()
             .max(FIELD_LIMITS.noteMax, 'Uwagi mogą mieć maks. 500 znaków')
-            .refine((n) => !URL_RE.test(n), 'Usuń link z uwag — zdjęcia i inspiracje pokażesz nam na Instagramie')
+            .refine((n) => !URL_RE.test(n), 'Usuń link z uwag – zdjęcia i inspiracje pokażesz nam na Instagramie')
         )
     ),
     website: z.string().max(500).nullable().optional(),
     /** Podpisany znacznik formularza z renderu /umow-wizyte (abuse.js › issueFormToken). */
     formToken: z.string({ required_error: 'Odśwież formularz' }).max(100),
-    /** UUID jednej próby rezerwacji terminu — ponowienie po błędzie nie tworzy drugiego wpisu. */
+    /** UUID jednej próby rezerwacji terminu – ponowienie po błędzie nie tworzy drugiego wpisu. */
     requestId: z.string().regex(UUID_RE).optional(),
     /** Token Cloudflare Turnstile (gdy włączony). */
     turnstileToken: z.string().max(2048).optional(),
@@ -124,7 +124,7 @@ export const bookingSchema = z
     }
   });
 
-/** Nazwy pól z błędami (bez wartości) — do odpowiedzi 400. */
+/** Nazwy pól z błędami (bez wartości) – do odpowiedzi 400. */
 export function issueFields(error) {
   const fields = new Set();
   for (const issue of error.issues) fields.add(issue.path.length ? String(issue.path[0]) : '_');

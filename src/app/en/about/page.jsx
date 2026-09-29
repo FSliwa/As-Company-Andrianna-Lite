@@ -6,9 +6,9 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   locale: 'en',
   route: 'about',
-  title: 'About us — Andriana Babushkina',
+  title: 'About us – Andriana Babushkina',
   description:
-    'Andriana Babushkina — PMU artist, international trainer and judge, creator of the Super Natural Brows technique. Studio and Babushkina Academy in Warsaw.',
+    'Andriana Babushkina – PMU artist, international trainer and judge, creator of the Super Natural Brows technique. Studio and Babushkina Academy in Warsaw.',
 });
 
 export default function Page() {

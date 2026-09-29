@@ -1,5 +1,5 @@
 /**
- * Formatowanie dat i godzin rezerwacji po polsku — deterministycznie (bez Intl
+ * Formatowanie dat i godzin rezerwacji po polsku – deterministycznie (bez Intl
  * z lokalną strefą przeglądarki): daty to napisy 'YYYY-MM-DD' w czasie salonu.
  */
 
@@ -48,7 +48,7 @@ export function formatDateLong(dateStr, { year = false } = {}) {
 
 /**
  * '14:30' + 120 min → '14:30–16:30'. Z datą koniec liczony w czasie rzeczywistym strefy
- * salonu (jak na serwerze) — w noc zmiany czasu 01:30 + 60 min = 03:30, nie 02:30.
+ * salonu (jak na serwerze) – w noc zmiany czasu 01:30 + 60 min = 03:30, nie 02:30.
  */
 export function timeRange(time, durationMin, date = null, timeZone = BOOKING_CONFIG.timeZone) {
   const start = parseTime(time);

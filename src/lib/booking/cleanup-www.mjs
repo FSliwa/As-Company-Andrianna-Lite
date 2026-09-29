@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Masowe usuwanie wpisów ze strony www z Kalendarza Google (np. po zalaniu kalendarza
- * przez skrypt). Domyślnie TYLKO WYŚWIETLA listę — usuwa dopiero z flagą --delete.
+ * przez skrypt). Domyślnie TYLKO WYŚWIETLA listę – usuwa dopiero z flagą --delete.
  *
  * Użycie (w katalogu projektu, z tymi samymi zmiennymi co strona):
  *   node --env-file=.env.local src/lib/booking/cleanup-www.mjs --since 2026-10-05T12:00
@@ -9,11 +9,11 @@
  *
  *   --since  (wymagane) utworzone od tej chwili (czas polski, albo ISO z offsetem / Z)
  *   --until  utworzone do tej chwili (domyślnie teraz)
- *   --delete naprawdę usuń (bez tej flagi — tylko podgląd)
+ *   --delete naprawdę usuń (bez tej flagi – tylko podgląd)
  *
  * Wybiera wyłącznie wydarzenia z extendedProperties.private.source = 'www' (zapis ze strony),
  * których termin jeszcze się nie skończył. Wpisów dodanych ręcznie nie dotyka.
- * Nie wypisuje danych osobowych — tylko termin, zabieg i identyfikatory.
+ * Nie wypisuje danych osobowych – tylko termin, zabieg i identyfikatory.
  */
 
 import { BOOKING_CONFIG } from './config.js';

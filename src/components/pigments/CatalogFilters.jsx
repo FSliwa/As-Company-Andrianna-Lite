@@ -4,11 +4,11 @@
  * Filtry katalogu: kolekcja i strefa (przyciski aria-pressed w grupach)
  * oraz wyszukiwarka po nazwie odcienia.
  *
- * Chip kolekcji ma u dołu pasek jej odcieni (poglądowo, bez zestawów) —
+ * Chip kolekcji ma u dołu pasek jej odcieni (poglądowo, bez zestawów) –
  * paleta kolekcji stoi tam, gdzie się ją wybiera.
  *
  * Poniżej lg rzędy przewijają się w bok (telefon, tablet: gest), a krawędź
- * z ukrytą treścią wygasza maska — tylko gdy po tej stronie naprawdę coś
+ * z ukrytą treścią wygasza maska – tylko gdy po tej stronie naprawdę coś
  * jest. Od lg rzędy się zawijają: bez ukrytych chipów i bez przewijania
  * w bok, którego mysz bez gładzika nie obsłuży.
  */
@@ -51,13 +51,13 @@ function useEdgeFade() {
   const measure = useCallback(() => {
     const el = ref.current;
     if (!el) return;
-    /* od lg rząd się zawija (scrollWidth = clientWidth) — maska sama znika */
+    /* od lg rząd się zawija (scrollWidth = clientWidth) – maska sama znika */
     const max = el.scrollWidth - el.clientWidth;
     const next = { left: el.scrollLeft > 2, right: max - el.scrollLeft > 2 };
     setEdges((prev) => (prev.left === next.left && prev.right === next.right ? prev : next));
   }, []);
 
-  /* liczba chipów zmienia się z filtrem (strefy) — mierz po każdym renderze;
+  /* liczba chipów zmienia się z filtrem (strefy) – mierz po każdym renderze;
      setEdges bez zmiany zwraca poprzedni obiekt, więc nie ma pętli */
   useEffect(() => {
     measure();
@@ -100,7 +100,7 @@ function Row({ label, children, scroll = false, fadeRef, fadeStyle }) {
         className={cn(
           'flex gap-2',
           scroll
-            /* py-1.5: przewijany rząd przycina też w pionie — zostaw miejsce na obwódkę fokusu;
+            /* py-1.5: przewijany rząd przycina też w pionie – zostaw miejsce na obwódkę fokusu;
                od lg: zawijanie, bez przewijania i bez przycinania */
             ? 'as-noscrollbar -mx-5 -my-1.5 overflow-x-auto px-5 py-1.5 sm:-mx-8 sm:px-8 lg:m-0 lg:flex-wrap lg:overflow-visible lg:p-0'
             : 'flex-wrap'

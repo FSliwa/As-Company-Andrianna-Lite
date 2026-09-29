@@ -5,12 +5,12 @@
  *
  * Na telefonie i tablecie Layout pokazuje po hero własny pasek CTA (56 px,
  * #as-sticky, aria-hidden="false" gdy widoczny). Przycisk obserwuje ten
- * atrybut i wtedy stoi NAD paskiem — nic nie zasłania. Od lg paska nie ma.
+ * atrybut i wtedy stoi NAD paskiem – nic nie zasłania. Od lg paska nie ma.
  *
  * z-30: nad treścią, ale POD pełnoekranowym menu (#as-menu, z-40) i pod
  * dialogami (z-50). Chowa się, gdy w kadrze jest pas zamykający
- * ([data-sticky-hide] — ma własny przycisk „Twoje zamówienie (n)”) albo
- * stopka — nie zasłania jej i nie dubluje przycisku.
+ * ([data-sticky-hide] – ma własny przycisk „Twoje zamówienie (n)”) albo
+ * stopka – nie zasłania jej i nie dubluje przycisku.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -46,7 +46,7 @@ function useEndOfPageInView() {
   const [inView, setInView] = useState(false);
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return undefined;
-    /* tylko elementy strony — dialogi (też data-sticky-hide) są w portalu poza <main> */
+    /* tylko elementy strony – dialogi (też data-sticky-hide) są w portalu poza <main> */
     const targets = Array.from(document.querySelectorAll('main [data-sticky-hide], footer'));
     if (!targets.length) return undefined;
     const visible = new Set();
@@ -78,7 +78,7 @@ export default function OrderFab({ count, onOpen }) {
       style={{ bottom: lifted ? LIFTED : RESTING }}
       className={cn(
         'fixed right-4 z-30 inline-flex h-12 items-center gap-3 border border-gold/45 bg-espresso-900 pl-5 pr-2 text-cream-50 transition-[bottom,background-color,opacity,visibility,transform] duration-300 ease-as hover:bg-espresso-600 focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_#FBF8F3,0_0_0_4px_#241B14] motion-reduce:transition-none sm:right-8 lg:right-10',
-        /* visibility: hidden — poza kolejnością Tab i drzewem dostępności */
+        /* visibility: hidden – poza kolejnością Tab i drzewem dostępności */
         hidden && 'invisible pointer-events-none translate-y-3 opacity-0'
       )}
     >

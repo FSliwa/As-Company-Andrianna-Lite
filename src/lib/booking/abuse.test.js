@@ -51,7 +51,7 @@ function book(provider, data = {}, opts = {}) {
   return createBooking({ provider, input: { ...input, ...data }, now: NOW, secret: SECRET, log: quiet, ...opts });
 }
 
-describe('abuse.js — skróty kontaktu, id wydarzenia, sekret', () => {
+describe('abuse.js – skróty kontaktu, id wydarzenia, sekret', () => {
   test('telefon: same cyfry, bez 48 / 0048; e-mail: małe litery, bez +dopisku', () => {
     for (const p of ['+48 600 700 800', '600-700-800', '0048600700800', '48600700800', '600 700 800']) {
       assert.equal(normalizePhoneForHash(p), '600700800', p);
@@ -82,7 +82,7 @@ describe('abuse.js — skróty kontaktu, id wydarzenia, sekret', () => {
   });
 });
 
-describe('abuse.js — znacznik formularza', () => {
+describe('abuse.js – znacznik formularza', () => {
   const opts = { secret: SECRET, minAgeMs: 3000, maxAgeMs: 24 * 3600 * 1000 };
   const t0 = 1_790_000_000_000;
   const token = issueFormToken({ now: t0, secret: SECRET });
@@ -103,7 +103,7 @@ describe('abuse.js — znacznik formularza', () => {
   });
 });
 
-describe('abuse.js — Cloudflare Turnstile', () => {
+describe('abuse.js – Cloudflare Turnstile', () => {
   const fake = (res) => {
     const calls = [];
     const fn = async (url, init) => {
@@ -137,13 +137,13 @@ describe('abuse.js — Cloudflare Turnstile', () => {
   });
 });
 
-describe('S1 — limit na kontakt i bezpiecznik', () => {
+describe('S1 – limit na kontakt i bezpiecznik', () => {
   test('ten sam telefon ALBO e-mail: 2 przyszłe wizyty przechodzą, trzecia → BookingLimitError', async () => {
     const cal = memory();
     await book(cal, { time: '10:00' });
     await book(cal, { time: '14:00', email: 'inny@example.com' }); // ten sam telefon, inny e-mail
     await assert.rejects(book(cal, { date: '2026-10-27', time: '10:00', phone: '600-700-800', email: 'trzeci@example.com' }), BookingLimitError);
-    // Inna osoba — bez limitu.
+    // Inna osoba – bez limitu.
     await book(cal, { date: '2026-10-27', time: '10:00', phone: '511 222 333', email: 'beata@example.com', name: 'Beata Nowak' });
     assert.equal(cal.snapshot().length, 3);
 
@@ -221,7 +221,7 @@ describe('S1 — limit na kontakt i bezpiecznik', () => {
     assert.deepEqual(await paused.json(), { error: 'paused' });
   });
 
-  test('handler: Turnstile — brak/zły token 400 captcha, niedostępny 502, poprawny 201', async () => {
+  test('handler: Turnstile – brak/zły token 400 captcha, niedostępny 502, poprawny 201', async () => {
     const { issueFormToken: issue } = await import('./abuse.js');
     const cal = memory();
     const seen = [];
@@ -262,7 +262,7 @@ describe('S1 — limit na kontakt i bezpiecznik', () => {
   });
 });
 
-describe('S4 — zapis idempotentny', () => {
+describe('S4 – zapis idempotentny', () => {
   const REQ = '0b8f5a52-5d2c-4c1e-9d59-3b0a3f5c1e2a';
 
   test('id wydarzenia = HMAC(requestId); bookingId = requestId', async () => {
@@ -362,7 +362,7 @@ describe('S4 — zapis idempotentny', () => {
   });
 });
 
-describe('S6 — mikro-cache zajętości dla GET', () => {
+describe('S6 – mikro-cache zajętości dla GET', () => {
   function counting(provider) {
     const calls = { freeBusy: 0, listEvents: 0 };
     return {
@@ -378,7 +378,7 @@ describe('S6 — mikro-cache zajętości dla GET', () => {
       },
     };
   }
-  test('identyczne i równoległe zapytania → jedno wywołanie; po invalidate — świeże', async () => {
+  test('identyczne i równoległe zapytania → jedno wywołanie; po invalidate – świeże', async () => {
     const cal = counting(memory());
     const args = { provider: cal, date: '2026-10-26', treatmentId: 'korekta', now: NOW };
     await Promise.all([getDaySlots(args), getDaySlots(args), getDaySlots(args)]);
@@ -418,7 +418,7 @@ describe('S6 — mikro-cache zajętości dla GET', () => {
   });
 });
 
-describe('T1 — urodziny, miejsce pracy i odrzucone zaproszenia nie blokują', () => {
+describe('T1 – urodziny, miejsce pracy i odrzucone zaproszenia nie blokują', () => {
   let cal;
   beforeEach(() => {
     cal = memory();

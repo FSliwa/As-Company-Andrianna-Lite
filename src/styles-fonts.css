@@ -1,4 +1,4 @@
-/* Fonty hostowane z /public/fonts (OFL, licencje obok plików) — zero żądań do
+/* Fonty hostowane z /public/fonts (OFL, licencje obok plików) – zero żądań do
    obcych domen; krytyczne pliki mają <link rel="preload"> w src/i18n/RootShell.jsx
    (wersja rosyjska dodatkowo cyrylicę). Bodoni Moda z osią optical size (wysoki
    kontrast w dużych rozmiarach). */
@@ -71,7 +71,7 @@
    'Bodoni Moda Variable' dostaje dla zakresu cyrylicy pliki Playfair Display
    (didone o podobnym kontraście; @fontsource-variable/playfair-display 5.3.0,
    LICENSE-playfair-display.txt). Przeglądarka składa rodzinę z zakresów
-   unicode-range: łacinka z Bodoni, cyrylica z Playfair — bez zmian w CSS
+   unicode-range: łacinka z Bodoni, cyrylica z Playfair – bez zmian w CSS
    komponentów. Pliki pobierają się tylko wtedy, gdy na stronie jest cyrylica. */
 @font-face {
   font-family: 'Bodoni Moda Variable';

@@ -2,8 +2,8 @@
 
 /**
  * Wspólny interfejs wszystkich wersji językowych: nagłówek, menu, stopka, pasek CTA.
- * Teksty — src/content/common (useContent), dane nawigacji — useSite(), linki
- * wewnętrzne — LocaleLink (polska ścieżka → adres bieżącego języka), język z adresu.
+ * Teksty – src/content/common (useContent), dane nawigacji – useSite(), linki
+ * wewnętrzne – LocaleLink (polska ścieżka → adres bieżącego języka), język z adresu.
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -36,7 +36,7 @@ function Header({ menuOpen, setMenuOpen }) {
   const { canonical, locale } = usePathInfo();
   const t = useContent(common);
   const { CONTACT, NAV_ALL, NAV_MAIN } = useSite();
-  /* EN/RU: dłuższe etykiety („О НАС”, „ПРОЦЕДУРЫ”) — pozycja menu nie łamie się,
+  /* EN/RU: dłuższe etykiety („О НАС”, „ПРОЦЕДУРЫ”) – pozycja menu nie łamie się,
      a między lg i xl odstęp jest ciaśniejszy, żeby zmieścił się przełącznik języka.
      Wersja polska bez zmian. */
   const longLabels = locale !== 'pl';
@@ -127,7 +127,7 @@ function Header({ menuOpen, setMenuOpen }) {
           </nav>
 
           <div className="flex items-center gap-4 sm:gap-5">
-            {/* przełącznik języka od lg — po nawigacji, przed pigułką; niżej w menu i stopce */}
+            {/* przełącznik języka od lg – po nawigacji, przed pigułką; niżej w menu i stopce */}
             <LanguageSwitcher tone="dark" className="hidden lg:flex" />
             <Link
               href={bookingHref}
@@ -154,7 +154,7 @@ function Header({ menuOpen, setMenuOpen }) {
         </div>
       </header>
 
-      {/* Pełnoekranowe menu (telefon, tablet) — dialog */}
+      {/* Pełnoekranowe menu (telefon, tablet) – dialog */}
       <div
         id="as-menu"
         role="dialog"
@@ -239,7 +239,7 @@ function Footer({ year }) {
       <div className="as-shell py-12 lg:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
-            {/* bez logo w stopce — znak marki jest w nagłówku, stopkę otwiera hasło */}
+            {/* bez logo w stopce – znak marki jest w nagłówku, stopkę otwiera hasło */}
             <p className="font-display text-2xl italic text-ink">{BRAND.tagline}</p>
             <p className="as-caption mt-3 hidden sm:block">{BRAND.claim}</p>
 
@@ -312,7 +312,7 @@ function Footer({ year }) {
           </p>
         </div>
 
-        {/* Dokumenty zawsze (do czasu danych firmy jako projekt); dane firmy — po uzupełnieniu LEGAL w site.js */}
+        {/* Dokumenty zawsze (do czasu danych firmy jako projekt); dane firmy – po uzupełnieniu LEGAL w site.js */}
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 text-[0.8125rem] text-ink/75 lg:mt-10">
           {LEGAL.company && (
             <span className="basis-full sm:basis-auto">
@@ -345,7 +345,7 @@ function Footer({ year }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Mobilny pasek CTA — po przewinięciu hero, ukryty przy pasie        */
+/*  Mobilny pasek CTA – po przewinięciu hero, ukryty przy pasie        */
 /*  zamykającym, formularzach i stopce (nie zasłania „Wyślij").        */
 /* ------------------------------------------------------------------ */
 

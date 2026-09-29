@@ -64,7 +64,7 @@ const ToastAction = React.forwardRef(({ className, ...props }, ref) => (
 ));
 ToastAction.displayName = "ToastAction";
 
-/* Przycisk bez tekstu — nazwa dostępna „Zamknij” w języku strony (src/content/common). */
+/* Przycisk bez tekstu – nazwa dostępna „Zamknij” w języku strony (src/content/common). */
 const ToastClose = React.forwardRef(({ className, ...props }, ref) => {
   const t = useContent(common);
   return (

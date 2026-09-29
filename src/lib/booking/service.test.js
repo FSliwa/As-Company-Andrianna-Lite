@@ -40,7 +40,7 @@ const input = {
 };
 
 describe('fetchBusy', () => {
-  test('łączy freeBusy i listEvents — całodniowe „Dostępny” też blokuje', async () => {
+  test('łączy freeBusy i listEvents – całodniowe „Dostępny” też blokuje', async () => {
     const cal = memory();
     await cal.insertEvent({ start: { date: '2026-10-27' }, end: { date: '2026-10-28' }, transparency: 'transparent' });
     await cal.insertEvent({ start: { dateTime: at('2026-10-26', '12:00') }, end: { dateTime: at('2026-10-26', '13:00') } });
@@ -99,7 +99,7 @@ describe('buildCalendarEvent', () => {
       start: new Date(at('2026-10-26', '12:00')),
       end: new Date(at('2026-10-26', '13:00')),
     });
-    assert.equal(event.summary, 'Wizyta: Korekta do 3 miesięcy — Anna Kowalska');
+    assert.equal(event.summary, 'Wizyta: Korekta do 3 miesięcy – Anna Kowalska');
     assert.equal('attendees' in event, false);
     assert.deepEqual(event.start, { dateTime: '2026-10-26T12:00:00+01:00', timeZone: TZ });
     assert.deepEqual(event.end, { dateTime: '2026-10-26T13:00:00+01:00', timeZone: TZ });

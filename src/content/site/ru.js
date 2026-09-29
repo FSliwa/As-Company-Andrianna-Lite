@@ -1,11 +1,11 @@
 /**
- * Rosyjskie teksty danych z src/lib/site.js — TYLKO teksty, w tej samej strukturze
+ * Rosyjskie teksty danych z src/lib/site.js – TYLKO teksty, w tej samej strukturze
  * (listy po indeksie; `undefined` / pusta pozycja = zostaje wartość polska).
- * Ceny, liczby, id i href zostają w site.js i NIE są tu powtarzane — pola `price`
+ * Ceny, liczby, id i href zostają w site.js i NIE są tu powtarzane – pola `price`
  * zamienia automatycznie localizePriceString (src/i18n/format.js) w getSite().
  * Nazwy własne (techniki, produkty, Babushkina Academy) bez tłumaczenia.
- * Wiersze harmonogramu: [, 'tekst'] — pierwsza pozycja (godzina) zostaje z site.js.
- * Typografia: «…», тире —, „вы” małą literą, formy żeńskie (ученицы, клиентки).
+ * Wiersze harmonogramu: [, 'tekst'] – pierwsza pozycja (godzina) zostaje z site.js.
+ * Typografia: «…», тире –, „вы” małą literą, formy żeńskie (ученицы, клиентки).
  */
 const site = {
   BRAND: {
@@ -39,7 +39,7 @@ const site = {
     { label: 'I и II места на чемпионатах мира' },
     { label: 'Учениц, обученных технике волосков за последний год' },
     { label: 'Учениц в зарубежной базе' },
-    { value: '10 лет', label: 'Руководства студиями — Катовице и Варшава' },
+    { value: '10 лет', label: 'Руководства студиями – Катовице и Варшава' },
   ],
   PRICING_PMU: {
     title: 'Цены на ПМ',
@@ -96,7 +96,7 @@ const site = {
       ],
     },
     {
-      title: 'Super Natural Brows — базовый курс',
+      title: 'Super Natural Brows – базовый курс',
       kicker: 'С нуля до первых клиенток',
       priceNote: 'нетто',
       format: '16 дней онлайн + 4 дня очно',
@@ -110,7 +110,7 @@ const site = {
         {
           label: '4 дня очной практики',
           detail:
-            'Перед практической частью мы проверяем домашние задания и сдаём теоретический экзамен, затем — интенсивная практика на искусственной коже и моделях.',
+            'Перед практической частью мы проверяем домашние задания и сдаём теоретический экзамен, затем – интенсивная практика на искусственной коже и моделях.',
         },
         { label: '2 демонстрационные модели', detail: '1 онлайн + 1 вживую.' },
         { label: '4 модели для практики', detail: 'С разными типами кожи и расположением волосков.' },
@@ -120,11 +120,11 @@ const site = {
     },
   ],
   COURSE_BENEFITS: [
-    'Система обучения, понятная каждой, — не нужно уметь рисовать, чтобы освоить мою технику',
+    'Система обучения, понятная каждой, – не нужно уметь рисовать, чтобы освоить мою технику',
     'Обучение красивой фотосъёмке и маркетинг',
     'Цена процедуры и её влияние на клиенток',
     'Улучшение постановки руки и красивое пудровое движение',
-    'Возможность дальнейшего развития на мастер-классе «Эффект ламинирования» и воркшопах — только для моих учениц',
+    'Возможность дальнейшего развития на мастер-классе «Эффект ламинирования» и воркшопах – только для моих учениц',
     'Пожизненное сопровождение и группа поддержки',
     'Возможность купить необходимые продукты для ПМ на месте и протестировать машинку AS Princess',
     'Обед, напитки и закуски включены',

@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * Dokumentacja produktowa — „Numer 01".
+ * Dokumentacja produktowa – „Numer 01".
  *
- * ⚠️ UWAGA — poprzednia wersja tej strony zawierała WYMYŚLONE numery
+ * ⚠️ UWAGA – poprzednia wersja tej strony zawierała WYMYŚLONE numery
  * certyfikatów („EU-REACH-2026-AS-091", „ISO-MED-992031-PL",
  * „MSDS-AS-PIGMENTS-2026", „CE-EO-STERILE-8812") przypisane prawdziwym
  * instytucjom (TÜV Rheinland, Główny Inspektorat Sanitarny) oraz przycisk
@@ -13,9 +13,9 @@
  *
  * Strona opisuje RODZAJE dokumentacji dołączanej do zamówień, bez podawania
  * numerów. Żeby pokazać konkretne certyfikaty, wstaw tu prawdziwe skany/PDF-y
- * i ich numery — wtedy dodamy wiersze „nazwa dokumentu | Pobierz".
+ * i ich numery – wtedy dodamy wiersze „nazwa dokumentu | Pobierz".
  *
- * Trasa bez packshotów, więc cała jest typograficzna — bez portretów i makr.
+ * Trasa bez packshotów, więc cała jest typograficzna – bez portretów i makr.
  * Rytm tła: 01 pas cream-100 (PageHero band) → 02 cream-50 → hairline →
  * 03 cream-100 → 04 ClosingCta (cream-90) → stopka (cream-100).
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść → max 1 ArrowLink.
@@ -25,7 +25,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
 
-/** Rodzaje dokumentacji — bez numerów, bo tych nie mamy potwierdzonych. */
+/** Rodzaje dokumentacji – bez numerów, bo tych nie mamy potwierdzonych. */
 const DOCUMENT_TYPES = [
   {
     number: '01',
@@ -55,11 +55,11 @@ const DOCUMENT_TYPES = [
 
 const FOR_SALON = [
   'Każde zamówienie hurtowe zawiera komplet dokumentacji w wersji cyfrowej.',
-  'Dokumenty wysyłamy również na żądanie — przed zakupem, do wglądu.',
+  'Dokumenty wysyłamy również na żądanie – przed zakupem, do wglądu.',
   'Na życzenie przygotowujemy komplet w wersji papierowej do segregatora gabinetowego.',
 ];
 
-/* Rząd Stat w pasie hero — wyłącznie fakty z treści powyżej (nic spoza strony). */
+/* Rząd Stat w pasie hero – wyłącznie fakty z treści powyżej (nic spoza strony). */
 const HERO_STATS = [
   { value: String(DOCUMENT_TYPES.length), label: 'rodzaje dokumentów dołączanych do produktów' },
   { value: 'REACH', label: 'deklaracja zgodności z rozporządzeniem UE' },
@@ -67,7 +67,7 @@ const HERO_STATS = [
 ];
 
 /* ================================================================== */
-/*  01 — NAGŁÓWEK (pas cream-100, bez zdjęcia)                         */
+/*  01 – NAGŁÓWEK (pas cream-100, bez zdjęcia)                         */
 /* ================================================================== */
 
 function Hero() {
@@ -78,7 +78,7 @@ function Hero() {
       label="Dokumentacja"
       title="Papiery, które gabinet"
       titleAccent="musi mieć pod ręką."
-      lead="Do produktów, które dystrybuujemy, dołączamy dokumentację wymaganą przy pracy z makijażem permanentnym — od deklaracji zgodności po karty charakterystyki. Poniżej opisujemy, co dokładnie dostajesz."
+      lead="Do produktów, które dystrybuujemy, dołączamy dokumentację wymaganą przy pracy z makijażem permanentnym – od deklaracji zgodności po karty charakterystyki. Poniżej opisujemy, co dokładnie dostajesz."
       stats={HERO_STATS}
     >
       {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
@@ -95,7 +95,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — RODZAJE DOKUMENTÓW (cream-50)                                 */
+/*  02 – RODZAJE DOKUMENTÓW (cream-50)                                 */
 /* ================================================================== */
 
 function DocumentsBand() {
@@ -114,7 +114,7 @@ function DocumentsBand() {
             </Reveal>
             <Reveal delay={80}>
               <p className="as-body mt-6 max-w-[24rem]">
-                Nie publikujemy tu numerów ani skanów — dokumenty przekazujemy bezpośrednio
+                Nie publikujemy tu numerów ani skanów – dokumenty przekazujemy bezpośrednio
                 kupującemu, razem z zamówieniem albo wcześniej, do wglądu.
               </p>
             </Reveal>
@@ -139,7 +139,7 @@ function DocumentsBand() {
 }
 
 /* ================================================================== */
-/*  03 — DLA GABINETU (cream-100, hairline od sekcji 02)               */
+/*  03 – DLA GABINETU (cream-100, hairline od sekcji 02)               */
 /* ================================================================== */
 
 function SalonBand() {
@@ -180,7 +180,7 @@ function SalonBand() {
 }
 
 /* ================================================================== */
-/*  04 — KONTAKT (pas zamykający)                                      */
+/*  04 – KONTAKT (pas zamykający)                                      */
 /* ================================================================== */
 
 function ClosingBand() {
@@ -190,7 +190,7 @@ function ClosingBand() {
       label="Kontakt"
       title="Potrzebujesz konkretnego"
       titleAccent="dokumentu?"
-      lead="Napisz, o który produkt chodzi — odeślemy aktualną dokumentację dla tej partii."
+      lead="Napisz, o który produkt chodzi – odeślemy aktualną dokumentację dla tej partii."
       primary={{ href: '/kontakt', label: 'Napisz do nas' }}
       secondary={{ href: '/maszynki', label: 'Zobacz maszynki' }}
     />
