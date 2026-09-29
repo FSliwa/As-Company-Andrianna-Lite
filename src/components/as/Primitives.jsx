@@ -382,7 +382,7 @@ export function PageHero({
   if (kind === 'band') {
     return (
       <section className="relative overflow-hidden border-b border-gold/25 bg-cream-100 text-ink">
-        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.45} />
+        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.35} />
         <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
           <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
@@ -562,7 +562,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
 
 /* ------------------------------------------------------------------ */
 /*  Pas zamykający stronę – jeden na każdej trasie, ten sam układ      */
-/*  Lite: tło cream-90 ze złotą linią i łukiem, etykieta z numerem,    */
+/*  Lite: tło cream-90 ze złotą linią, etykieta z numerem,             */
 /*  h2 w skali sekcji, lead as-body, para solid + ghost.               */
 /* ------------------------------------------------------------------ */
 
@@ -578,7 +578,7 @@ export function ClosingCta({
   children,
   className,
 }) {
-  /* Pas zamykający: jasny (cream-90), stopka pod nim w cream-100. Bez portretów –
+  /* Pas zamykający: jasny (cream-90), stopka pod nim w cream-200. Bez portretów –
      założycielka nie może występować w każdym zakończeniu strony.
      Etykieta domyślna („Kontakt”) – w języku strony. */
   const t = useContent(common);
@@ -596,7 +596,6 @@ export function ClosingCta({
       data-sticky-hide
       className={cn('relative overflow-hidden border-t border-gold/25 bg-cream-90 text-ink', className)}
     >
-      <GoldArc className="-bottom-48 right-[-12%] h-[520px] w-[780px]" flip opacity={0.45} />
       <div className="as-shell relative py-16 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
           <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
@@ -787,7 +786,6 @@ export function Statement({
   const right = align === 'right';
   return (
     <section className={cn('as-section relative overflow-hidden border-y border-gold/25 bg-cream-75 text-ink', className)}>
-      <GoldArc className="-top-40 left-[-10%] h-[620px] w-[860px]" flip={right} opacity={0.45} />
       <div className="as-shell relative grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
         <Reveal
           className={cn(

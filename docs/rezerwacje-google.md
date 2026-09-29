@@ -209,7 +209,7 @@ Najczęstsze błędy:
 
 Tak samo: w panelu hostingu (sekcja zwykle nazywa się *Environment variables* / *Zmienne środowiskowe*) dodaj te same nazwy i wartości, a potem wdroż stronę ponownie. Jeśli panel nie przyjmuje wartości w wielu liniach, wklej klucz w jednej linii z `\n`.
 
-**Dodatkowo, poza Vercelem — wymagane:**
+**Dodatkowo, poza Vercelem – wymagane:**
 
 1. **`BOOKING_CLIENT_IP_HEADER`** wskazuje nagłówek, w którym serwer pośredniczący przekazuje prawdziwy adres klientki. Przykłady: `cf-connecting-ip` za Cloudflare, `x-real-ip` za nginx z `proxy_set_header X-Real-IP $remote_addr;`. Bez tej zmiennej limit prób „na adres IP” da się obejść podrobionym nagłówkiem. W logach pojawi się wtedy jednorazowe ostrzeżenie `BOOKING_CLIENT_IP_HEADER is not set`. Na Vercelu nie trzeba nic ustawiać, bo Vercel sam nadpisuje te nagłówki.
 2. **Reguła limitu na brzegu** dla `POST /api/booking`, np. w Cloudflare: *Security → WAF → Rate limiting rules*, najwyżej 5 żądań na 10 minut z jednego IP. Limit w samej aplikacji jest tylko „na ile się da”, bo każda instancja serwera liczy osobno.
@@ -242,7 +242,7 @@ https://adres-strony.pl/api/booking/slots?month=2026-10&treatment=korekta
 1. Otwórz **`/umow-wizyte`** na stronie.
 2. Wybierz zabieg, dzień (najwcześniej **za 24 godziny**) i godzinę.
 3. Dane:
-   - **Imię:** `Test Rezerwacji`. Dozwolone są tylko litery, spacje, łącznik i apostrof, więc bez cyfr i myślników „—”,
+   - **Imię:** `Test Rezerwacji`. Dozwolone są tylko litery, spacje, łącznik i apostrof, więc bez cyfr i myślników „–”,
    - **Telefon i e-mail:** własne,
    - **Uwagi:** `TEST – do usunięcia`.
 4. Kliknij **„Zarezerwuj wizytę”**. Nie spiesz się: formularz wysłany szybciej niż 3 sekundy od otwarcia jest traktowany jak robot.
@@ -251,7 +251,7 @@ https://adres-strony.pl/api/booking/slots?month=2026-10&treatment=korekta
 ### 6c. Sprawdzenie w kalendarzu i usunięcie
 
 1. Otwórz **Kalendarz Google** salonu na wybrany dzień.
-   Powinno tam być wydarzenie **„Wizyta: {zabieg} — Test Rezerwacji”** z telefonem, e-mailem i uwagami w opisie.
+   Powinno tam być wydarzenie **„Wizyta: {zabieg} – Test Rezerwacji”** z telefonem, e-mailem i uwagami w opisie.
 2. Wróć na `/umow-wizyte`, odśwież stronę i wybierz ten sam zabieg i dzień. **Zarezerwowanej godziny już nie ma** (sąsiednich może też nie być, bo zabieg trwa dłużej niż 30 minut i ma bufor 15 minut).
 3. **Usuń wydarzenie testowe:** kliknij je w kalendarzu → ikona **kosza** (*Usuń wydarzenie*).
 4. Odśwież `/umow-wizyte`. Godzina znów jest wolna.
@@ -298,7 +298,7 @@ Kody odpowiedzi API: `503 disabled` / `paused` (bezpiecznik) · `502 calendar` /
 
 ### Tak wygląda wizyta zapisana ze strony
 
-- **Tytuł:** `Wizyta: Perfect Lips — Anna`
+- **Tytuł:** `Wizyta: Perfect Lips – Anna`
 - **Czas:** od wybranej godziny przez **czas zabiegu** (np. 120 min). Bufor 15 minut nie jest osobnym wydarzeniem, strona po prostu trzyma ten czas wolny.
 - **Miejsce:** nazwa i adres salonu (pełny adres pojawi się, gdy zostanie uzupełniony w `src/lib/site.js`).
 - **Opis:**
@@ -382,7 +382,7 @@ Zabieg **razem z 15-minutowym buforem** musi się skończyć najpóźniej o godz
 | Perfect Eyeliners | 90 min | 10:00 | 16:00 |
 | Odświeżenie (Refresh) | 90 min | 10:00 | 16:00 |
 | Korekta do 3 miesięcy | 60 min | 10:00 | 16:30 |
-| Usuwanie — laser / remover | 45 min | 10:00 | 17:00 |
+| Usuwanie – laser / remover | 45 min | 10:00 | 17:00 |
 
 ### Czasy zabiegów
 

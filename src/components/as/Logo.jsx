@@ -33,7 +33,9 @@ export default function Logo({ size = 'md', className, priority = false }) {
         width={160}
         height={159}
         alt="AS COMPANY POLAND"
-        className="h-full w-full object-contain"
+        /* Lite: złoty gradient na kremie traci rysunek (napis POLAND ~1,5:1) – lekkie
+           przyciemnienie tego samego pliku marki daje ok. 2,7:1, bez nowej grafiki. */
+        className="h-full w-full object-contain [filter:brightness(0.78)_saturate(1.1)]"
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : undefined}

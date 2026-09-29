@@ -235,7 +235,7 @@ function Footer({ year }) {
   const { BRAND, CONTACT, LEGAL, NAV_ALL } = useSite();
 
   return (
-    <footer className="relative overflow-hidden border-t border-gold/30 bg-cream-100 text-ink">
+    <footer className="relative overflow-hidden border-t border-gold/30 bg-cream-200 text-ink">
       <div className="as-shell py-12 lg:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
@@ -284,7 +284,7 @@ function Footer({ year }) {
           <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
             {NAV_ALL.map((group) => (
               <div key={group.title}>
-                <p className="as-label text-gold-deep">{group.title}</p>
+                <p className="as-label text-ink/65">{group.title}</p>
                 <ul className="mt-4">
                   {group.links.map((link) => (
                     <li key={link.label}>
@@ -389,21 +389,21 @@ function StickyBar({ menuOpen }) {
       id="as-sticky"
       aria-hidden={!show}
       className={cn(
-        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-gold/30 bg-cream-50/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm transition-[transform,opacity] duration-300 lg:hidden',
+        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-gold/30 bg-cream-50 pb-[env(safe-area-inset-bottom)] transition-[transform,opacity] duration-300 lg:hidden',
         show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-full opacity-0'
       )}
     >
       <Link
         href={bookingHref}
         tabIndex={show ? 0 : -1}
-        className="as-label flex h-14 items-center justify-center bg-ink text-cream-50"
+        className="as-label flex h-14 items-center justify-center bg-ink text-cream-50 focus-visible:outline-offset-[-6px]"
       >
         {t.book}
       </Link>
       <Link
         href="/szkolenia"
         tabIndex={show ? 0 : -1}
-        className="as-label flex h-14 items-center justify-center text-ink"
+        className="as-label m-1.5 flex h-11 items-center justify-center border border-ink/25 text-ink"
       >
         {t.stickyTraining}
       </Link>
