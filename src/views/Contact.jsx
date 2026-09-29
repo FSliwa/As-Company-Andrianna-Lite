@@ -3,13 +3,15 @@
 /**
  * Kontakt (/kontakt) — „Numer 01".
  *
- * 01 Kontakt (cream-50)   — hero = formularz w pierwszym ekranie, bez portretu:
- *                           lewa 5/12: H1, lead, lokalizacja (CONTACT.venueNote),
- *                           kanały i tryb umawiania (CONTACT.hours);
- *                           prawa 6/12: formularz na <Field> (panel cream-100).
+ * 01 Kontakt (cream-50)   — hero = formularz w pierwszym ekranie, bez portretu.
+ *                           Od md dwie kolumny — lewa 5/12: H1, lead, lokalizacja
+ *                           (CONTACT.venueNote), kanały i tryb umawiania (CONTACT.hours);
+ *                           prawa: formularz na <Field> (panel cream-100; md 7/12,
+ *                           lg 6/12 z pustą kolumną odstępu).
  *                           Na telefonie formularz stoi zaraz pod leadem, a dane
  *                           lokalizacji pod formularzem.
- * 02 Wizyta (cream-100)   — trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce.
+ * 02 Wizyta (cream-100)   — trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce;
+ *                           od md portret obok kroków, na telefonie pod nimi.
  * → stopka. Formularz jest CTA tej strony, więc nie ma pasa zamykającego (ClosingCta);
  *   jasna sekcja 02 oddziela też formularz od ciemnej stopki.
  *
@@ -174,9 +176,10 @@ function EnquiryForm() {
   const message = sent ? enquiryMessage(sent) : null;
 
   return (
-    /* lg: panel wypełnia wysokość obu rzędów siatki; przy wyższej kolumnie
-       po lewej rośnie pole wiadomości, nie odstępy. */
-    <div className="border border-ink/15 bg-cream-100 p-7 sm:p-10 lg:flex lg:h-full lg:flex-col">
+    /* od md: panel wypełnia wysokość obu rzędów siatki; przy wyższej kolumnie
+       po lewej rośnie pole wiadomości, nie odstępy. Na tablecie (md–lg) panel
+       ma 7/12 szerokości, więc padding i siatka pól są ciaśniejsze. */
+    <div className="border border-ink/15 bg-cream-100 p-7 sm:p-10 md:flex md:h-full md:flex-col md:p-8 lg:p-10">
       {message ? (
         <div role="status" aria-live="polite">
           <h2 className="as-title text-ink">{message.title}</h2>
@@ -202,12 +205,14 @@ function EnquiryForm() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 lg:flex lg:flex-1 lg:flex-col"
+          className="space-y-6 md:flex md:flex-1 md:flex-col"
           aria-label="Formularz kontaktowy"
         >
-          {/* items-end: gdy „Telefon (opcjonalnie)” łamie się w wąskiej kolumnie
+          {/* Pary pól: sm 2 kolumny; md–lg (panel ~400 px na tablecie) jedna, żeby
+              e-mail i „Telefon (opcjonalnie)” miały pełną szerokość; lg znowu 2.
+              items-end: gdy „Telefon (opcjonalnie)” łamie się w wąskiej kolumnie
               (lg ~1024 px), linie pól i tak stoją na jednej wysokości */}
-          <div className="grid gap-6 sm:grid-cols-2 sm:items-end sm:gap-x-8">
+          <div className="grid gap-6 sm:grid-cols-2 sm:items-end sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
             <Field
               id="c-name"
               label="Imię i nazwisko"
@@ -229,7 +234,7 @@ function EnquiryForm() {
             />
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+          <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
             <Field
               id="c-email"
               label="Adres e-mail"
@@ -262,8 +267,8 @@ function EnquiryForm() {
             label="Wiadomość"
             name="message"
             rows={4}
-            wrapperClassName="lg:flex lg:flex-1 lg:flex-col"
-            className="lg:flex-1"
+            wrapperClassName="md:flex md:flex-1 md:flex-col"
+            className="md:flex-1"
             value={formData.message}
             onChange={handleChange}
             placeholder="Napisz, czego dotyczy Twoje pytanie — zabiegu, szkolenia czy produktów."
@@ -285,14 +290,14 @@ function EnquiryForm() {
 
 function Hero() {
   /* Trzy komórki siatki: wstęp (lewa, rząd 1), formularz (prawa, rzędy 1–2),
-     lokalizacja (lewa, rząd 2). Na lg drugi rząd = 1fr, więc lokalizacja stoi
+     lokalizacja (lewa, rząd 2). Od md drugi rząd = 1fr, więc lokalizacja stoi
      tuż pod leadem niezależnie od wysokości formularza; na telefonie kolejność
      DOM daje: wstęp → formularz → lokalizacja. */
   return (
     <section className="bg-cream-50">
       <div className="as-shell pb-14 pt-24 lg:pb-20 lg:pt-28">
-        <div className="grid gap-12 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-0">
-          <Reveal className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
+        <div className="grid gap-12 md:grid-cols-12 md:grid-rows-[auto_1fr] md:gap-x-8 md:gap-y-0">
+          <Reveal className="md:col-span-5 md:col-start-1 md:row-start-1">
             <SectionLabel number="01">Kontakt</SectionLabel>
             <h1 className="as-display-lg as-text-balance mt-6 text-ink">
               Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
@@ -305,14 +310,14 @@ function Hero() {
 
           <div
             id="formularz"
-            className="scroll-mt-24 lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:scroll-mt-32"
+            className="scroll-mt-24 md:col-span-7 md:col-start-6 md:row-span-2 md:row-start-1 lg:col-span-6 lg:col-start-7 lg:scroll-mt-32"
           >
-            <Reveal delay={80} className="lg:h-full">
+            <Reveal delay={80} className="md:h-full">
               <EnquiryForm />
             </Reveal>
           </div>
 
-          <Reveal delay={120} className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12">
+          <Reveal delay={120} className="md:col-span-5 md:col-start-1 md:row-start-2 md:mt-12">
             <LocationDetails />
           </Reveal>
         </div>
@@ -344,9 +349,10 @@ function VisitBand() {
   return (
     <section className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
-          {/* — etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze) — */}
-          <div className="lg:col-span-5 lg:col-start-8 lg:row-start-1">
+        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
+          {/* — etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze;
+                od md stoją po prawej, obok portretu) — */}
+          <div className="md:col-span-6 md:col-start-7 md:row-start-1 lg:col-span-5 lg:col-start-8">
             <Reveal>
               <SectionLabel number="02">Wizyta</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">Jak umówić wizytę.</h2>
@@ -372,7 +378,7 @@ function VisitBand() {
           {/* — jeden kadr: portret z sesji marki, w złotej ramce — */}
           <Reveal
             delay={90}
-            className="mx-auto w-full max-w-[26rem] lg:col-span-5 lg:col-start-2 lg:row-start-1 lg:max-w-none"
+            className="mx-auto w-full max-w-[26rem] md:col-span-5 md:col-start-1 md:row-start-1 md:max-w-none lg:col-start-2"
           >
             <Figure
               image={portrait?.image}
@@ -381,7 +387,7 @@ function VisitBand() {
               position={portrait?.position}
               framed
               zoom={false}
-              sizes="(min-width: 1024px) 34vw, 92vw"
+              sizes="(min-width: 1024px) 34vw, (min-width: 768px) 40vw, 92vw"
             />
           </Reveal>
         </div>

@@ -10,7 +10,8 @@
  * Rytm tła (max 2 ciemne pasy, nigdy dwa ciemne obok siebie):
  *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z karty AS PRINCESS)
  *   02 Katalog #katalog (cream-50) — model = wiersz pełnej szerokości,
- *      w wierszu parametry z karty produktu + link do sklepu
+ *      w wierszu parametry z karty produktu + link do sklepu; na telefonie
+ *      parametry zwinięte w „Parametry”, od md widoczne od razu
  *   03 Parametry (espresso) — 7 prędkości AS PRINCESS + skok i wysuw igły
  *   04 Wynajem (cream-100) — warunki ze sklepu, wniosek w dialogu (Field)
  *   05 ClosingCta (espresso-900, jeden blok ze stopką)
@@ -19,7 +20,7 @@
  * w sekcjach akcje to ArrowLink (z onClick, gdy otwierają dialog).
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ArrowLink,
   ClosingCta,
@@ -202,14 +203,40 @@ const isRentable = (machine) => machine.id === PRINCESS.id;
 /* ================================================================== */
 
 /* Wiersz katalogu — rozwinięcie IndexRow o parametry i drugą akcję (wynajem).
-   Numerał 64 | model + „Opis i cechy” | parametry (2 kol. na lg, 3 na xl) |
-   cena + akcje. Rozwijany opis stoi w kolumnie modelu, żeby zwinięty wiersz
-   miał wysokość samych parametrów. */
+   Rozwijany opis stoi w kolumnie modelu, żeby zwinięty wiersz miał wysokość
+   samych parametrów.
+     < md   numerał 56 | model + „Opis i cechy” + „Parametry” (zwinięte) + cena
+            i akcje — telefon widzi od razu nazwę, podtytuł, cenę i akcje.
+     md     numerał | model, pod nim cena i akcje | parametry (2 kolumny).
+     lg+    numerał | model | parametry (2 kol., 3 na xl) | cena + akcje.
+   Parametry siedzą w jednym <details>: poniżej md działa jak akordeon, od md
+   summary znika, a treść jest widoczna mimo zamkniętego <details>
+   (::details-content) — bez migania przed hydracją i bez dublowania siatki.
+   Przeglądarki bez ::details-content (Safari < 18.4, Firefox < 143) dostają
+   otwarcie skryptem po wejściu w md. */
+const MD_UP = '(min-width: 768px)';
+
 function MachineRow({ machine, onRent, last }) {
+  const specsRef = useRef(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia(MD_UP);
+    const sync = () => {
+      if (mq.matches && specsRef.current) specsRef.current.open = true;
+    };
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
   return (
     <article
       className={cn(
-        'grid gap-5 border-t border-ink/15 py-7 sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-x-6 lg:grid-cols-[5rem_minmax(0,5fr)_minmax(0,6fr)_12rem] lg:gap-x-6 lg:gap-y-8 xl:grid-cols-[6rem_minmax(0,4fr)_minmax(0,7fr)_12rem] xl:gap-x-8',
+        'grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-5 border-t border-ink/15 py-7',
+        'sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-x-6',
+        'md:grid-cols-[3.5rem_minmax(0,5fr)_minmax(0,7fr)] md:grid-rows-[auto_1fr] md:gap-y-6',
+        'lg:grid-cols-[5rem_minmax(0,5fr)_minmax(0,6fr)_12rem] lg:grid-rows-none lg:gap-x-6 lg:gap-y-8',
+        'xl:grid-cols-[6rem_minmax(0,4fr)_minmax(0,7fr)_12rem] xl:gap-x-8',
         last && 'border-b'
       )}
     >
@@ -248,23 +275,41 @@ function MachineRow({ machine, onRent, last }) {
         </details>
       </div>
 
-      <dl className="grid grid-cols-2 content-start gap-x-6 gap-y-5 self-start sm:col-start-2 lg:col-start-auto xl:grid-cols-3">
-        {machine.specs.map((spec) => (
-          <div key={spec.label} className={spec.span}>
-            <dt className="as-label text-ink/55">{spec.label}</dt>
-            <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink">
-              {spec.text ?? (
-                <>
-                  <span className="whitespace-nowrap">{spec.v}</span> {spec.u}
-                </>
-              )}
-              {spec.n && <span className="block text-ink/60">{spec.n}</span>}
-            </dd>
-          </div>
-        ))}
-      </dl>
+      {/* Parametry — na telefonie -mt-4 dosuwa „Parametry” do „Opis i cechy”
+          (ten sam odstęp co podtytuł → „Opis i cechy”). Na md prawa kolumna
+          przez oba rzędy (model | parametry, pod modelem cena i akcje); 7fr,
+          żeby „6 000–10 000 obr./min” mieściło się w jednej linii przy 768 px. */}
+      <details
+        ref={specsRef}
+        className="group/specs col-start-2 -mt-4 self-start md:col-start-3 md:mt-0 md:row-span-2 md:[&::details-content]:[content-visibility:visible] lg:col-start-auto lg:row-auto"
+      >
+        <summary className="as-label inline-flex min-h-[44px] cursor-pointer list-none items-end gap-3 border-b border-ink/20 pb-1.5 text-ink/70 transition-colors hover:text-ink md:hidden [&::-webkit-details-marker]:hidden">
+          Parametry
+          <span
+            aria-hidden="true"
+            className="text-gold-deep transition-transform duration-300 group-open/specs:rotate-45"
+          >
+            +
+          </span>
+        </summary>
+        <dl className="mt-5 grid grid-cols-2 content-start gap-x-4 gap-y-5 sm:gap-x-6 md:mt-0 xl:grid-cols-3">
+          {machine.specs.map((spec) => (
+            <div key={spec.label} className={spec.span}>
+              <dt className="as-label text-ink/55">{spec.label}</dt>
+              <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink">
+                {spec.text ?? (
+                  <>
+                    <span className="whitespace-nowrap">{spec.v}</span> {spec.u}
+                  </>
+                )}
+                {spec.n && <span className="block text-ink/60">{spec.n}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </details>
 
-      <div className="flex flex-col items-start gap-4 sm:col-start-2 lg:col-start-auto lg:items-end lg:text-right">
+      <div className="col-start-2 flex flex-col items-start gap-4 lg:col-start-auto lg:items-end lg:text-right">
         <p className="whitespace-nowrap font-display text-[1.375rem] leading-[1.2] text-ink">
           {zl(machine.price)}
         </p>

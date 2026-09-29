@@ -20,9 +20,14 @@
  *
  * Formularz zgłoszenia NIE realizuje płatności — zbiera dane i informuje, że
  * termin i rozliczenie potwierdzamy w rozmowie.
+ *
+ * Telefon (< md): program każdego kursu, korzyści i pliki do pobrania pokazują
+ * początek listy, resztę chowa rozwinięcie (MobileMore) — nic nie jest usuwane.
+ * Od md wszystko otwarte; desktop (≥ lg) bez zmian.
  */
 
 import React, { useRef, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -48,6 +53,7 @@ import { ACHIEVEMENTS, BRAND, CONTACT, COURSES, COURSE_SCHEDULE, FOUNDER } from 
 import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Dane pomocnicze                                                    */
@@ -134,6 +140,57 @@ const FAQ_ITEMS = [
 
 const pad = (n) => String(n).padStart(2, '0');
 
+/* Odmiana liczebnika: 1 pozycja · 2–4 pozycje (poza 12–14) · 5+ pozycji. */
+const plural = (n, one, few, many) => {
+  if (n === 1) return one;
+  const d = n % 10;
+  const dd = n % 100;
+  return d >= 2 && d <= 4 && (dd < 12 || dd > 14) ? few : many;
+};
+
+/* Ile pozycji widać na telefonie (< sm) przed rozwinięciem. */
+const PROGRAM_PREVIEW = 3;
+const BENEFITS_PREVIEW = 3;
+const DOWNLOADS_COUNT = DOWNLOADS.reduce((n, d) => n + d.items.length, 0);
+
+/* Pozycja zwiniętej listy: < sm widać `n` pierwszych; w dwóch kolumnach (sm–md)
+   liczba zaokrąglona w górę do parzystej, żeby ostatni rząd nie urywał się w pół. */
+const collapsedClass = (i, n) => {
+  if (i >= n + (n % 2)) return 'max-md:hidden';
+  if (i >= n) return 'max-sm:hidden';
+  return undefined;
+};
+
+/* Rozwinięcie tylko na telefonie (< md). Od md lista jest zawsze otwarta,
+   a przycisk znika — decydują same klasy responsywne (max-md:hidden), więc
+   SSR i desktop renderują dokładnie to samo co dotąd, bez skoku po hydratacji.
+   (<details> nie da się otworzyć samym CSS od md — wymagałby JS po starcie.) */
+function MobileMore({ open, onToggle, controls, label, openLabel, className }) {
+  return (
+    <button
+      type="button"
+      aria-expanded={open}
+      aria-controls={controls}
+      onClick={onToggle}
+      className={cn(
+        'group flex min-h-[48px] w-full items-center justify-between gap-6 border-y border-ink/15 py-3 text-left md:hidden',
+        className
+      )}
+    >
+      <span className="as-label text-ink transition-colors group-hover:text-gold-deep">
+        {open ? openLabel : label}
+      </span>
+      <ChevronDown
+        aria-hidden="true"
+        className={cn(
+          'h-4 w-4 shrink-0 text-gold-deep transition-transform duration-300 motion-reduce:transition-none',
+          open && 'rotate-180'
+        )}
+      />
+    </button>
+  );
+}
+
 /* ================================================================== */
 /*  01 — HERO                                                          */
 /* ================================================================== */
@@ -177,8 +234,9 @@ function PathsBand() {
           <h2 className="as-display-section as-text-balance mt-6 text-ink">Trzy ścieżki, jedna metoda.</h2>
         </Reveal>
 
-        {/* < md: jedna kolumna; md: 2 + 1 (trzecia komórka na całą szerokość); lg: trzy kolumny */}
-        <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+        {/* < md: jedna kolumna; md: 2 + 1 (trzecia komórka na całą szerokość, w środku
+            dwie kolumny wyrównane do tych nad nią); lg: trzy kolumny */}
+        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {MAIN_PATHS.map(({ number, name, course }, i) => (
             <Reveal key={course.id} delay={i * 80} className="as-cell">
               <p className="as-kicker">
@@ -195,12 +253,17 @@ function PathsBand() {
           ))}
 
           {/* Trzecia ścieżka wyłącznie z kart kursów (course-03 / course-05) — bez ceny. */}
-          <Reveal delay={160} className="as-cell md:col-span-2 lg:col-span-1">
-            <p className="as-kicker">03 · Dalszy rozwój</p>
-            <h3 className="as-title mt-3 text-ink">{MASTER_CLASS}</h3>
-            <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">Tylko dla kursantek</p>
-            <p className="as-kicker mt-3">Master Class · Warsztaty</p>
-            <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">
+          <Reveal
+            delay={160}
+            className="as-cell md:col-span-2 md:grid md:grid-cols-2 md:gap-x-8 lg:col-span-1 lg:block"
+          >
+            <div>
+              <p className="as-kicker">03 · Dalszy rozwój</p>
+              <h3 className="as-title mt-3 text-ink">{MASTER_CLASS}</h3>
+              <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">Tylko dla kursantek</p>
+              <p className="as-kicker mt-3">Master Class · Warsztaty</p>
+            </div>
+            <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75 md:mt-0 lg:mt-4">
               Kolejny krok po kursie podstawowym lub Super Natural Brows: rozwój w technice na Master
               Classie i Warsztatach, dostępnych tylko dla kursantek {BRAND.academy}.
             </p>
@@ -228,6 +291,62 @@ function PathsBand() {
 /*  (linki ze stopki) — id na <article> każdego programu.              */
 /* ================================================================== */
 
+/* < md: tytuł, linia ceny/formatu i PROGRAM_PREVIEW pierwszych pozycji (sm–md: 4,
+   pełne dwa rzędy); reszta za „Pełny program (N pozycji)". Od md cały program
+   otwarty, jak dotąd. */
+function ProgramArticle({ number, name, course, onBook }) {
+  const [open, setOpen] = useState(false);
+  const listId = `program-lista-${course.id}`;
+  const total = course.program.length;
+
+  return (
+    <article
+      id={`program-${course.id}`}
+      className="mt-10 scroll-mt-28 border-t border-ink/15 pt-6 md:mt-12 lg:mt-14"
+    >
+      <Reveal className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between md:gap-8">
+        <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+          <span className="as-kicker">{number}</span>
+          <h3 className="as-title text-ink">{name}</h3>
+          <p className="as-kicker">
+            {priceLabel(course)} · {course.format}
+          </p>
+        </div>
+        <ArrowLink
+          onClick={(e) => onBook({ id: course.id, title: course.title }, e)}
+          className="w-fit shrink-0"
+        >
+          Zapytaj o termin<span className="sr-only"> — {name}</span>
+        </ArrowLink>
+      </Reveal>
+
+      <Reveal delay={80}>
+        <dl id={listId} className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 md:mt-8 md:gap-y-8 lg:grid-cols-3">
+          {course.program.map((item, i) => (
+            <div
+              key={item.label}
+              className={cn('border-t border-ink/10 pt-4', !open && collapsedClass(i, PROGRAM_PREVIEW))}
+            >
+              <dt className="as-numbered-title text-ink">{item.label}</dt>
+              {item.detail && <dd className="as-numbered-desc text-mocha">{item.detail}</dd>}
+            </div>
+          ))}
+        </dl>
+        {total > PROGRAM_PREVIEW && (
+          <MobileMore
+            open={open}
+            onToggle={() => setOpen((v) => !v)}
+            controls={listId}
+            label={`Pełny program (${total} ${plural(total, 'pozycja', 'pozycje', 'pozycji')})`}
+            openLabel="Zwiń program"
+            className="mt-6"
+          />
+        )}
+      </Reveal>
+    </article>
+  );
+}
+
 function ProgramBand({ onBook }) {
   return (
     <section id="program" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-50">
@@ -245,39 +364,8 @@ function ProgramBand({ onBook }) {
           </Reveal>
         </div>
 
-        {MAIN_PATHS.map(({ number, name, course }) => (
-          <article
-            key={course.id}
-            id={`program-${course.id}`}
-            className="mt-12 scroll-mt-28 border-t border-ink/15 pt-6 lg:mt-14"
-          >
-            <Reveal className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between md:gap-8">
-              <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-                <span className="as-kicker">{number}</span>
-                <h3 className="as-title text-ink">{name}</h3>
-                <p className="as-kicker">
-                  {priceLabel(course)} · {course.format}
-                </p>
-              </div>
-              <ArrowLink
-                onClick={(e) => onBook({ id: course.id, title: course.title }, e)}
-                className="w-fit shrink-0"
-              >
-                Zapytaj o termin<span className="sr-only"> — {name}</span>
-              </ArrowLink>
-            </Reveal>
-
-            <Reveal delay={80}>
-              <dl className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-                {course.program.map((item) => (
-                  <div key={item.label} className="border-t border-ink/10 pt-4">
-                    <dt className="as-numbered-title text-ink">{item.label}</dt>
-                    {item.detail && <dd className="as-numbered-desc text-mocha">{item.detail}</dd>}
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
-          </article>
+        {MAIN_PATHS.map((path) => (
+          <ProgramArticle key={path.course.id} {...path} onBook={onBook} />
         ))}
       </div>
     </section>
@@ -288,8 +376,10 @@ function ProgramBand({ onBook }) {
 /*  04 — ABSOLWENTKI (espresso, jedyny ciemny pas)                     */
 /* ================================================================== */
 
-/* Stykówka: trzy równe kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
-   < sm: pierwszy kadr na całą szerokość + dwa pod nim — wszystkie nadal 4:5.
+/* Stykówka: trzy kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
+   < sm: mozaika — pierwszy kadr na 2/3 szerokości i dwa rzędy, dwa pozostałe
+   jeden nad drugim obok (2 × 4:5 + przerwa ≈ wysokość dużego); wszystkie nadal 4:5.
+   Od sm: trzy równe kadry w rzędzie.
    Opisy tylko tego, co widać w kadrze (liczba osób i certyfikatów). */
 const GRADUATE_TILES = [
   {
@@ -338,7 +428,7 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-3">
+              <div className="as-photo-frame grid grid-cols-3 gap-1">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
@@ -348,11 +438,11 @@ function GraduatesBand() {
                     position={group.position}
                     tone="dark"
                     zoom={false}
-                    className={i === 0 ? 'col-span-2 sm:col-span-1' : undefined}
+                    className={i === 0 ? 'col-span-2 row-span-2 sm:col-span-1 sm:row-span-1' : undefined}
                     sizes={
                       i === 0
-                        ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 92vw'
-                        : '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 46vw'
+                        ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 62vw'
+                        : '(min-width: 1024px) 18vw, 31vw'
                     }
                   />
                 ))}
@@ -387,20 +477,28 @@ const SCHEDULE_ITEMS = COURSE_SCHEDULE.map((day) => ({
 }));
 
 function IncludedBand() {
+  const [allBenefits, setAllBenefits] = useState(false);
   return (
     <section className="as-section bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-10 md:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <Reveal>
               <SectionLabel number="05">Korzyści</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">Co dostajesz na kursie.</h2>
             </Reveal>
             <Reveal delay={80}>
-              {/* jedna kolumna < sm, dwie od sm; punkt tylko z karty SNB oznaczony etykietą */}
-              <ol className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+              {/* jedna kolumna < sm, dwie od sm; punkt tylko z karty SNB oznaczony etykietą.
+                  < md: BENEFITS_PREVIEW pierwszych (sm–md: 4), reszta za rozwinięciem. */}
+              <ol id="korzysci-lista" className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
                 {BENEFITS.map((benefit, i) => (
-                  <li key={benefit.text} className="flex items-baseline gap-4 border-t border-ink/10 py-3.5">
+                  <li
+                    key={benefit.text}
+                    className={cn(
+                      'flex items-baseline gap-4 border-t border-ink/10 py-3.5',
+                      !allBenefits && collapsedClass(i, BENEFITS_PREVIEW)
+                    )}
+                  >
                     <span className="as-num w-8 shrink-0 text-lg text-gold-deep sm:text-xl">{pad(i + 1)}</span>
                     <span className="text-[0.9375rem] leading-[1.65] text-ink/80">
                       {benefit.text}
@@ -411,17 +509,27 @@ function IncludedBand() {
                   </li>
                 ))}
               </ol>
+              <MobileMore
+                open={allBenefits}
+                onToggle={() => setAllBenefits((v) => !v)}
+                controls="korzysci-lista"
+                label={`Wszystkie korzyści (${BENEFITS.length})`}
+                openLabel="Zwiń korzyści"
+              />
             </Reveal>
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9">
-            <Reveal delay={120}>
-              <p className="as-kicker">Harmonogram · kurs podstawowy</p>
-              <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">
-                Cztery dni stacjonarne, godzina po godzinie. W Super Natural Brows część stacjonarna
-                trwa dwa dni: egzamin teoretyczny, praktyka na skórkach, pokaz i praktyka na modelkach.
-              </p>
-              <Faq items={SCHEDULE_ITEMS} className="mt-6" />
+            {/* md: opis obok akordeonu; lg: wąska kolumna, jedno pod drugim */}
+            <Reveal delay={120} className="md:grid md:grid-cols-2 md:gap-x-8 lg:block">
+              <div>
+                <p className="as-kicker">Harmonogram · kurs podstawowy</p>
+                <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">
+                  Cztery dni stacjonarne, godzina po godzinie. W Super Natural Brows część stacjonarna
+                  trwa dwa dni: egzamin teoretyczny, praktyka na skórkach, pokaz i praktyka na modelkach.
+                </p>
+              </div>
+              <Faq items={SCHEDULE_ITEMS} className="mt-6 md:mt-0 lg:mt-6" />
             </Reveal>
           </div>
         </div>
@@ -435,10 +543,11 @@ function IncludedBand() {
 /* ================================================================== */
 
 function QuestionsBand() {
+  const [filesOpen, setFilesOpen] = useState(false);
   return (
     <section id="pytania" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-10 md:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <Reveal>
               <SectionLabel number="06">Pytania</SectionLabel>
@@ -455,7 +564,22 @@ function QuestionsBand() {
               <p className="as-caption mt-3 max-w-none">
                 Oryginalne karty programów {BRAND.academy} w formacie JPG — otwierają się w nowej karcie.
               </p>
-              <div className="mt-6 space-y-6">
+              {/* < md: lista plików za rozwinięciem; md: dwie grupy obok siebie; lg: wąska kolumna */}
+              <MobileMore
+                open={filesOpen}
+                onToggle={() => setFilesOpen((v) => !v)}
+                controls="karty-do-pobrania"
+                label={`Pokaż ${DOWNLOADS_COUNT} ${plural(DOWNLOADS_COUNT, 'plik', 'pliki', 'plików')} JPG`}
+                openLabel="Zwiń listę plików"
+                className="mt-6"
+              />
+              <div
+                id="karty-do-pobrania"
+                className={cn(
+                  'mt-6 grid gap-6 md:grid-cols-2 md:gap-x-8 lg:grid-cols-1',
+                  !filesOpen && 'max-md:hidden'
+                )}
+              >
                 {DOWNLOADS.map((d) => (
                   <div key={d.group} className="border-t border-ink/15 pt-4">
                     <p className="as-label text-ink/70">{d.group}</p>

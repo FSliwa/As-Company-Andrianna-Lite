@@ -16,8 +16,13 @@
  * Korekta do 3 miesięcy występuje jako krok 03 wizyty (pas espresso), więc
  * sekcja 04 obejmuje tylko zabiegi, których nie ma w indeksie ani w krokach.
  *
- * Telefon: cytaty technik i wstępy sekcji 04/06 ukryte (< sm); tabele refresh
- * i usuwania zwinięte w <Faq> (< lg) — od lg stoją w pełni.
+ * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
+ * z przyciskiem „Więcej” (aria-expanded), który rozwija pełny opis, cytat
+ * techniki i notę ceny; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
+ * zwinięte w <Faq> (< lg) — od lg stoją w pełni.
+ * Tablet (md): wiersz techniki w dwóch kolumnach (numerał + tytuł | opis + meta),
+ * nagłówek 04 w dwóch kolumnach, kroki wizyty 2 + 1 (trzeci na całą szerokość).
+ * Desktop (≥ lg) bez zmian.
  *
  * „Umów wizytę” prowadzi do rezerwacji online (/umow-wizyte, Kalendarz Google);
  * w wierszu techniki z już wybranym zabiegiem. Rezerwacja nie pyta o zdrowie
@@ -27,6 +32,7 @@
  */
 
 import React from 'react';
+import { ChevronDown } from 'lucide-react';
 import {
   ArrowLink,
   ClosingCta,
@@ -159,6 +165,8 @@ const VISIT_STEPS = [
     number: '03',
     title: `Korekta do 3 miesięcy — ${priceOf(PRICING_PMU, 'Korekta do 3 miesięcy')}`,
     desc: PRICING_PMU.footnote,
+    /* ta sama nota stoi pod cennikiem PMU (#cennik) — na telefonie tylko tam */
+    descFromSm: true,
   },
 ];
 
@@ -240,35 +248,103 @@ const FAQ_ITEMS = [
 /*  02 — TECHNIKI (cream-50)                                           */
 /* ================================================================== */
 
+/* Telefon (< sm): opis przycięty do dwóch linii i przycisk „Więcej”
+   (aria-expanded), który rozwija pełny opis oraz to, co od sm stoi zawsze
+   (cytat techniki, nota ceny). Od sm przycisk jest ukryty, a treść stoi
+   w pełni — jak dotąd. Przycisk znika, gdy nie ma czego rozwinąć: opis mieści
+   się w dwóch liniach i nic poza nim nie jest schowane (pomiar po montażu
+   i przy każdej zmianie szerokości). */
+function useMobileMore(hasHidden) {
+  const [open, setOpen] = React.useState(false);
+  const [clamped, setClamped] = React.useState(true);
+  const textRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const el = textRef.current;
+    if (hasHidden || open || !el || typeof ResizeObserver === 'undefined') return undefined;
+    const measure = () => setClamped(el.scrollHeight - el.clientHeight > 1);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [hasHidden, open]);
+
+  return {
+    open,
+    toggle: () => setOpen((v) => !v),
+    textRef,
+    clampClass: open ? null : 'line-clamp-2 sm:line-clamp-none',
+    hiddenClass: open ? 'block' : 'hidden sm:block',
+    showButton: hasHidden || open || clamped,
+  };
+}
+
+/* Tekstowy przełącznik w stylu .as-label; pole dotyku powiększone
+   pseudo-elementem (≥ 44 px wysokości) bez zmiany rytmu wiersza. */
+function MoreButton({ more, controls, name, className }) {
+  if (!more.showButton) return null;
+  return (
+    <button
+      type="button"
+      onClick={more.toggle}
+      aria-expanded={more.open}
+      aria-controls={controls}
+      className={cn(
+        "as-label relative inline-flex items-center gap-1.5 leading-none text-ink/70 transition-colors after:absolute after:-inset-x-2 after:-inset-y-4 after:content-[''] hover:text-gold-dark sm:hidden",
+        className
+      )}
+    >
+      {more.open ? 'Zwiń' : 'Więcej'}
+      <span className="sr-only"> — {name}</span>
+      <ChevronDown
+        aria-hidden="true"
+        className={cn('h-3.5 w-3.5 text-gold-dark transition-transform duration-300', more.open && 'rotate-180')}
+      />
+    </button>
+  );
+}
+
 /* Wiersz indeksu — geometria IndexRow (numerał 64 | tytuł 28 | opis | cena
    + link), rozpisana na 4 kolumny wyrównane do góry, żeby opis stał obok
    tytułu, a nie pod nim (budżet wysokości trasy).
-   Lokalnie, bo IndexRow przyjmuje tylko `href`, a tu link otwiera dialog
-   zapytania o termin — ArrowLink z onClick (semantyka <button>); przycisk
-   trafia do onBook, żeby po zamknięciu dialogu wrócił na niego fokus.
-   Telefon: numerał obok tytułu, opis i meta na pełną szerokość; blok meta
-   zawsze w kolumnie (czas + cena → „Umów wizytę"), cytat dopiero od sm. */
+   Lokalnie, bo IndexRow nie ma przycinania opisu na telefonie; „Umów wizytę”
+   prowadzi do rezerwacji z już wybranym zabiegiem.
+   Telefon: numerał obok tytułu, opis (2 linie + „Więcej”) na pełną szerokość,
+   meta w jednym rzędzie (czas + cena | „Umów wizytę”), cytat po rozwinięciu.
+   Tablet (md): numerał + tytuł w lewej kolumnie, opis i meta w prawej.
+   Desktop (lg): cztery kolumny jak dotąd, meta w kolumnie do prawej. */
 function TechniqueRow({ t, last }) {
+  const more = useMobileMore(Boolean(t.quote));
+  const bodyId = `${t.id}-opis`;
   return (
     <article
       id={t.id}
       className={cn(
-        'grid scroll-mt-28 grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-4 border-t border-ink/15 py-8 sm:grid-cols-[5rem_minmax(0,1fr)] lg:grid-cols-[6rem_20rem_minmax(0,1fr)_auto] lg:items-start lg:gap-8',
+        'grid scroll-mt-28 grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-ink/15 py-5',
+        'sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-y-4 sm:py-8',
+        'md:grid-cols-[4.5rem_minmax(0,5fr)_minmax(0,7fr)] md:items-start md:gap-x-6',
+        'lg:grid-cols-[6rem_20rem_minmax(0,1fr)_auto] lg:gap-8',
         last && 'border-b'
       )}
     >
-      <span className="as-display-md leading-none text-gold-dark">{t.number}</span>
-      <div>
+      <span className="as-display-md leading-none text-gold-dark md:row-span-2 lg:row-span-1">{t.number}</span>
+      <div className="md:row-span-2 lg:row-span-1">
         <h3 className="as-title text-ink">{t.name}</h3>
         <p className="as-kicker mt-2">{t.kind}</p>
       </div>
-      <div className="col-span-2 sm:col-span-1 sm:col-start-2 lg:col-start-auto">
-        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{t.description}</p>
-        {t.quote && <p className="as-quote mt-3 hidden max-w-[34rem] text-mocha sm:block">{t.quote}</p>}
+      <div id={bodyId} className="col-span-2 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-1">
+        <p
+          ref={more.textRef}
+          className={cn('max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
+        >
+          {t.description}
+        </p>
+        {t.quote && <p className={cn('as-quote mt-3 max-w-[34rem] text-mocha', more.hiddenClass)}>{t.quote}</p>}
+        <MoreButton more={more} controls={bodyId} name={t.name} className="mt-1.5" />
       </div>
-      <div className="col-span-2 flex flex-col items-start gap-3 sm:col-span-1 sm:col-start-2 lg:col-start-auto lg:items-end lg:gap-4">
+      <div className="col-span-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-2 lg:col-start-4 lg:row-start-1 lg:flex-col lg:flex-nowrap lg:items-end lg:justify-start lg:gap-4">
         <p className="whitespace-nowrap">
-          <span className="as-label mr-4 text-ink/70">{t.duration}</span>
+          <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
         </p>
         <ArrowLink href={bookingHref(t.id)} className="w-fit">
@@ -290,7 +366,7 @@ function TechniquesBand() {
           </h2>
         </Reveal>
 
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10">
           {TECHNIQUES.map((t, i) => (
             <Reveal key={t.id} delay={i * 60}>
               <TechniqueRow t={t} last={i === TECHNIQUES.length - 1} />
@@ -339,10 +415,19 @@ function ResultsBand() {
           />
         </Reveal>
 
-        {/* przebieg wizyty — trzy kroki pod stykówką */}
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        {/* przebieg wizyty — trzy kroki pod stykówką; tablet: 2 + 1 (ostatni
+            na całą szerokość łamu), desktop: trzy kolumny */}
+        <div className="mt-8 grid gap-6 sm:mt-12 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {VISIT_STEPS.map((s, i) => (
-            <Reveal key={s.number} delay={i * 80} className="as-cell-invert">
+            <Reveal
+              key={s.number}
+              delay={i * 80}
+              className={cn(
+                'as-cell-invert',
+                i === VISIT_STEPS.length - 1 && VISIT_STEPS.length % 2 === 1 && 'md:col-span-2 lg:col-span-1',
+                s.descFromSm && 'max-sm:[&_.as-numbered-desc]:hidden'
+              )}
+            >
               <NumberedItem number={s.number} title={s.title} tone="light">
                 {s.desc}
               </NumberedItem>
@@ -358,41 +443,68 @@ function ResultsBand() {
 /*  04 — ODŚWIEŻENIE I USUWANIE (cream-50)                             */
 /* ================================================================== */
 
+/* Karta zabiegu 04. Telefon: opis 2 linie + „Więcej”; nota ceny dopiero
+   po rozwinięciu. Od sm pełna treść. */
+function AftercareCard({ t }) {
+  const more = useMobileMore(true);
+  const descId = `${t.id}-opis`;
+  const noteId = `${t.id}-nota`;
+  return (
+    <article id={t.id} className="as-cell scroll-mt-28">
+      <p className="as-kicker">
+        {t.number} · {t.tag}
+      </p>
+      <h3 className="as-title mt-3 text-ink">{t.name}</h3>
+      <p
+        id={descId}
+        ref={more.textRef}
+        className={cn('mt-3 text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
+      >
+        {t.description}
+      </p>
+      <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
+      <p className="mt-5 font-display text-[1.375rem] leading-none text-ink sm:mt-6">
+        {t.price}
+        <span className="as-label ml-4 align-middle text-ink/70">{t.duration}</span>
+      </p>
+      <p id={noteId} className={cn('as-caption mt-3', more.hiddenClass)}>
+        {t.priceNote}
+      </p>
+    </article>
+  );
+}
+
 function AftercareBand() {
   return (
     <section className="as-section bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* tablet: etykieta nad całością, pod nią tytuł | wstęp + link obok
+              siebie (wyrównane do góry); desktop: jedna kolumna jak dotąd */}
           <Reveal className="lg:col-span-5">
             <SectionLabel number="04">Odświeżenie i usuwanie</SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">
-              Odnowić albo zacząć od&nbsp;nowa.
-            </h2>
-            <p className="as-body mt-6 hidden sm:block">
-              Zabiegi uzupełniające prowadzimy w tym samym standardzie co pigmentację: zaczynamy od oceny
-              skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
-              makijażu permanentnego.
-            </p>
-            <ArrowLink href="#cennik" className="mt-8 w-fit">
-              Zobacz cennik
-            </ArrowLink>
+            <div className="md:mt-6 md:grid md:grid-cols-2 md:items-start md:gap-8 lg:mt-0 lg:block">
+              <h2 className="as-display-section as-text-balance mt-6 text-ink md:mt-0 lg:mt-6">
+                Odnowić albo zacząć od&nbsp;nowa.
+              </h2>
+              <div>
+                <p className="as-body mt-6 hidden sm:block md:mt-0 lg:mt-6">
+                  Zabiegi uzupełniające prowadzimy w tym samym standardzie co pigmentację: zaczynamy od oceny
+                  skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
+                  makijażu permanentnego.
+                </p>
+                {/* telefon: cennik to następna sekcja — link od sm */}
+                <ArrowLink href="#cennik" className="mt-8 hidden w-fit sm:inline-flex md:mt-6 lg:mt-8">
+                  Zobacz cennik
+                </ArrowLink>
+              </div>
+            </div>
           </Reveal>
 
           <div className="grid gap-10 md:grid-cols-2 md:gap-8 lg:col-span-6 lg:col-start-7 lg:self-end">
             {AFTERCARE.map((t, i) => (
               <Reveal key={t.id} delay={i * 80}>
-                <article id={t.id} className="as-cell scroll-mt-28">
-                  <p className="as-kicker">
-                    {t.number} · {t.tag}
-                  </p>
-                  <h3 className="as-title mt-3 text-ink">{t.name}</h3>
-                  <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">{t.description}</p>
-                  <p className="mt-6 font-display text-[1.375rem] leading-none text-ink">
-                    {t.price}
-                    <span className="as-label ml-4 align-middle text-ink/70">{t.duration}</span>
-                  </p>
-                  <p className="as-caption mt-3">{t.priceNote}</p>
-                </article>
+                <AftercareCard t={t} />
               </Reveal>
             ))}
           </div>
@@ -468,7 +580,7 @@ function PricingBand() {
             </p>
           </Reveal>
 
-          <div className="space-y-10 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+          <div className="space-y-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:space-y-10">
             <Reveal>
               <PriceBlock table={PRICING_PMU} />
             </Reveal>
@@ -498,7 +610,25 @@ function PricingBand() {
 /*  06 — PYTANIA (cream-50)                                            */
 /* ================================================================== */
 
+/* Telefon (< sm): pierwsze cztery pytania, reszta za przyciskiem „Pokaż
+   wszystkie pytania” — po rozwinięciu fokus przechodzi na pierwsze odsłonięte
+   pytanie, a przycisk znika. Od sm lista stoi w pełni, jak dotąd.
+   Klasa ukrywająca musi odpowiadać FAQ_MOBILE (literał dla Tailwinda). */
+const FAQ_MOBILE = 4;
+const FAQ_MOBILE_CLASS = 'max-sm:[&>*:nth-child(n+5)]:hidden';
+
 function FaqBand() {
+  const [all, setAll] = React.useState(false);
+  const listRef = React.useRef(null);
+  const focusNext = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!all || !focusNext.current || !listRef.current) return;
+    focusNext.current = false;
+    const triggers = listRef.current.querySelectorAll('h3 > button');
+    if (triggers[FAQ_MOBILE]) triggers[FAQ_MOBILE].focus();
+  }, [all]);
+
   return (
     <section className="as-section border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
@@ -514,7 +644,23 @@ function FaqBand() {
             </p>
           </Reveal>
           <Reveal delay={80} className="lg:col-span-8 lg:col-start-5">
-            <Faq items={FAQ_ITEMS} />
+            <div ref={listRef} id="pytania-lista">
+              <Faq items={FAQ_ITEMS} className={cn(!all && FAQ_MOBILE_CLASS)} />
+            </div>
+            {!all && FAQ_ITEMS.length > FAQ_MOBILE && (
+              <button
+                type="button"
+                onClick={() => {
+                  focusNext.current = true;
+                  setAll(true);
+                }}
+                aria-controls="pytania-lista"
+                className="as-label relative mt-6 inline-flex items-center gap-1.5 text-ink/70 transition-colors after:absolute after:-inset-x-2 after:-inset-y-4 after:content-[''] hover:text-gold-dark sm:hidden"
+              >
+                Pokaż wszystkie pytania ({FAQ_ITEMS.length})
+                <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-gold-dark" />
+              </button>
+            )}
           </Reveal>
         </div>
       </div>
