@@ -4,7 +4,8 @@
  * Strona główna — „Numer 01".
  *
  * Każda sekcja to rozkładówka: jeden kadr, jedno duże zdanie w Bodoni, jeden
- * link. Rytm tła: krem → espresso → cream-100 → krem → mocha → krem → stopka.
+ * link. Rytm tła (Lite, tony z makiety): cream-50 → cream-90 → cream-100 → cream-50
+ * → cream-75 → cream-50 → stopka cream-100. Bez ciemnych pasów.
  * Portrety wyłącznie przez ROLES, grupy przez GROUPS, makra przez MACROS
  * (src/lib/roles.js) — każdy plik ma w serwisie jedno miejsce.
  */
@@ -224,23 +225,23 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — O NAS (espresso)                                              */
+/*  02 — O NAS (cream-90 — ton pasa „O nas” z makiety)                */
 /* ================================================================== */
 
 function AboutBand() {
   return (
-    <section id="o-nas" className="as-section relative overflow-hidden bg-espresso text-cream-50">
-      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
+    <section id="o-nas" className="as-section relative overflow-hidden bg-cream-90 text-ink">
+      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.45} />
 
       <div className="as-shell relative">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           {/* kolumna 1 — zdanie */}
           <div className="md:col-span-6 lg:col-span-4">
             <Reveal>
-              <SectionLabel number="02" tone="light">
+              <SectionLabel number="02">
                 O nas
               </SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
                 Więcej niż
                 <br />
                 makijaż
@@ -249,11 +250,11 @@ function AboutBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-6">
+              <p className="as-body mt-6">
                 Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
                 produkty, zaawansowaną edukację i realną praktykę.
               </p>
-              <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
+              <ArrowLink href="/o-nas" className="mt-8 w-fit">
                 Poznaj nasze podejście
               </ArrowLink>
             </Reveal>
@@ -268,11 +269,10 @@ function AboutBand() {
                   alt={`${FOUNDER.name} — ${FOUNDER.role}`}
                   ratio="3 / 4"
                   position={ROLES.aboutHome.position}
-                  tone="dark"
                   sizes="(min-width: 1024px) 28vw, 320px"
                 />
               </div>
-              <p className="mt-4 text-right font-display text-base italic text-cream-100/85">
+              <p className="mt-4 text-right font-display text-base italic text-ink/75">
                 Narzędzia. Wiedza. Techniki. Realne efekty.
               </p>
             </div>
@@ -282,18 +282,18 @@ function AboutBand() {
           <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6 lg:col-span-4 lg:block">
             {PILLARS.map((p, i) => (
               <Reveal key={p.number} delay={i * 80}>
-                <Link href={p.href} className="as-cell-invert group block pb-6">
+                <Link href={p.href} className="as-cell group block pb-6">
                   <div className="flex items-baseline gap-3">
                     <span className="as-num text-lg sm:text-xl">{p.number}</span>
-                    <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
+                    <h3 className="as-numbered-title text-ink">{p.title}</h3>
                     <span
                       aria-hidden="true"
-                      className="ml-auto text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
+                      className="ml-auto text-gold-dark transition-transform duration-300 group-hover:translate-x-1.5"
                     >
                       &#8594;
                     </span>
                   </div>
-                  <p className="as-numbered-desc text-cream-200/85">{p.desc}</p>
+                  <p className="as-numbered-desc text-mocha">{p.desc}</p>
                 </Link>
               </Reveal>
             ))}
@@ -301,10 +301,10 @@ function AboutBand() {
         </div>
 
         {/* liczby — najmocniejszy dowód marki, w pierwszych dwóch ekranach */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-cream-200/15 pt-10 md:grid-cols-4 lg:mt-16">
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-ink/10 pt-10 md:grid-cols-4 lg:mt-16">
           {ACHIEVEMENTS.map((a, i) => (
             <Reveal key={a.label} delay={i * 60}>
-              <Stat value={a.value} label={a.label} tone="light" />
+              <Stat value={a.value} label={a.label} />
             </Reveal>
           ))}
         </div>
@@ -418,15 +418,15 @@ function TreatmentsBand() {
 
 function TrainingBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
+    <section className="as-section relative overflow-hidden bg-cream-75 text-ink">
       <div className="as-shell relative">
         <div className="grid gap-10 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <Reveal>
-              <SectionLabel number="05" tone="light">
+              <SectionLabel number="05">
                 Szkolenia
               </SectionLabel>
-              <h2 className="as-display-section mt-6 text-cream-100">
+              <h2 className="as-display-section mt-6 text-ink">
                 Szkolenia
                 <br />
                 oparte na
@@ -435,12 +435,12 @@ function TrainingBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-6 max-w-[26rem]">
+              <p className="as-body mt-6 max-w-[26rem]">
                 Autorskie szkolenia AS to połączenie zaawansowanej techniki, wieloletniego
                 doświadczenia i realnej praktyki. Uczysz się od ekspertów i dostajesz wsparcie na
                 każdym etapie swojej drogi.
               </p>
-              <ArrowLink href="/szkolenia" tone="light" className="mt-8 w-fit">
+              <ArrowLink href="/szkolenia" className="mt-8 w-fit">
                 Poznaj szkolenia
               </ArrowLink>
             </Reveal>
@@ -455,7 +455,7 @@ function TrainingBand() {
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami — ${BRAND.academy}`}
                   ratio="3 / 2"
                   position={GROUPS.trainingHome.position}
-                  tone="dark"
+                  tone="light"
                   zoom={false}
                   sizes="(min-width: 1024px) 44vw, (min-width: 768px) 55vw, 92vw"
                 />
@@ -464,7 +464,7 @@ function TrainingBand() {
 
             <Reveal delay={80} className="mt-8">
               {COURSES.map((c) => (
-                <PriceRow key={c.id} name={c.title} note={c.format} price={`${c.price} ${c.priceNote}`} tone="light" />
+                <PriceRow key={c.id} name={c.title} note={c.format} price={`${c.price} ${c.priceNote}`} />
               ))}
             </Reveal>
           </div>
@@ -474,10 +474,10 @@ function TrainingBand() {
           {TRAINING_PILLARS.map((p, i) => (
             <Reveal key={p.number} delay={i * 80}>
               <div className="flex items-baseline gap-3">
-                <span className="as-num text-lg text-gold-light sm:text-xl">{p.number}</span>
-                <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
+                <span className="as-num text-lg sm:text-xl">{p.number}</span>
+                <h3 className="as-numbered-title text-ink">{p.title}</h3>
               </div>
-              <p className="as-numbered-desc text-cream-200/90">{p.desc}</p>
+              <p className="as-numbered-desc text-mocha">{p.desc}</p>
             </Reveal>
           ))}
         </div>

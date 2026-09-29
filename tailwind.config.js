@@ -10,9 +10,14 @@ module.exports = {
   		},
   		colors: {
   			/* ——— Paleta marki AS COMPANY (wyprowadzona z makiety) ——— */
+  			/* Wersja Lite: cała strona na jasnym papierze, jak w makiecie. Tony pasów
+  			   zmierzone z makiety: hero #FAF7F0 (≈ 50), „Szkolenia" #F7F0E6 (75),
+  			   „O nas" #F5EEE4 (90), „Produkty" #F3EBE0 (100). */
   			cream: {
   				DEFAULT: '#F6F1E8',
   				50: '#FBF8F3',
+  				75: '#F7F0E6',
+  				90: '#F5EEE4',
   				100: '#F3EBE0',
   				200: '#EBE1D2',
   				300: '#DED2BF',

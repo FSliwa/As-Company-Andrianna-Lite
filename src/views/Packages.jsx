@@ -16,10 +16,10 @@
  * inne materiały klienta nie podają jej kosztu. Dopisać dopiero po
  * potwierdzeniu przez klienta (audyt TRESC-3).
  *
- * Rytm tła: 01 hero band (espresso) → 02 kroki (cream-50) → 03 Statement
- * (portret ROLES.statementPackages, espresso-900) → 04 cennik (cream-100,
+ * Rytm tła: 01 hero band (cream-100) → 02 kroki (cream-50) → 03 Statement
+ * (portret ROLES.statementPackages w ramce, cream-75) → 04 cennik (cream-100,
  * jasny oddech — Statement nie może stykać się z ClosingCta) → 05 ClosingCta
- * + stopka (espresso-900, jeden blok).
+ * + stopka (cream-90 → cream-100).
  */
 
 import React from 'react';
@@ -93,7 +93,7 @@ const PATH = [
 ];
 
 /* ================================================================== */
-/*  01 — HERO (band, espresso, bez zdjęcia)                            */
+/*  01 — HERO (band, cream-100, bez zdjęcia)                           */
 /* ================================================================== */
 
 function Hero() {
@@ -108,10 +108,10 @@ function Hero() {
       stats={HERO_STATS}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <Link href={BOOKING_URL} className="as-btn-invert">
+        <Link href={BOOKING_URL} className="as-btn-solid">
           Umów wizytę
         </Link>
-        <ArrowLink href="/uslugi#cennik" tone="light" className="w-fit">
+        <ArrowLink href="/uslugi#cennik" className="w-fit">
           Zobacz cennik
         </ArrowLink>
       </div>

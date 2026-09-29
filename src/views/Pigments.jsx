@@ -19,7 +19,7 @@
  * i „bez próbki”.
  *
  * Układ (rytm tła):
- *   01 PageHero band (espresso) — liczby z danych, „Przeglądaj katalog” + „Jak zamówić”
+ *   01 PageHero band (cream-100) — liczby z danych, „Przeglądaj katalog” + „Jak zamówić”
  *   02 Kolekcje #kolekcje (cream-50) — .as-cell z paskiem odcieni; klik filtruje katalog
  *   03 Katalog #katalog (cream-100, hairline) — filtry, licznik (aria-live), siatka
  *      odcieni (pierwsze 12 + „Pokaż wszystkie”), zestawy jako cennik, adnotacje
@@ -127,7 +127,7 @@ const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ================================================================== */
-/*  01 — HERO (pas typograficzny, espresso)                            */
+/*  01 — HERO (pas typograficzny, cream-100)                           */
 /* ================================================================== */
 
 function Hero() {
@@ -142,10 +142,10 @@ function Hero() {
       stats={HERO_STATS}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <CtaButton href="#katalog" className="as-btn-invert">
+        <CtaButton href="#katalog" className="as-btn-solid">
           Przeglądaj katalog
         </CtaButton>
-        <ArrowLink href="#zamowienie" tone="light" className="w-fit">
+        <ArrowLink href="#zamowienie" className="w-fit">
           Jak zamówić
         </ArrowLink>
       </div>

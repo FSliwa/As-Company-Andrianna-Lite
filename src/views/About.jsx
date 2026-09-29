@@ -3,7 +3,7 @@
 /**
  * /o-nas — „Numer 01".
  *
- * Rozkładówki: okładka (studio-11) → Droga zawodowa na espresso (jeden portret
+ * Rozkładówki: okładka (studio-01) → Droga zawodowa na cream-90 (jeden portret
  * studio-08 + biografia z inicjałem) → Liczby (cream-50) → Cytat (cream-100)
  * → Metoda (cream-50, typograficznie; link do /uslugi) → ClosingCta.
  * Portrety wyłącznie przez ROLES (src/lib/roles.js); zdjęcia grupowe są na
@@ -27,7 +27,7 @@ import { ACHIEVEMENTS, BOOKING_URL, BRAND, FOUNDER } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
 
 /* Wyróżnienia w biografii — marka pisze lekko, więc tylko font-medium. */
-const Em = ({ children }) => <strong className="font-medium text-cream-50">{children}</strong>;
+const Em = ({ children }) => <strong className="font-medium text-ink">{children}</strong>;
 
 /* Tytuły zdobyte na Mistrzostwach Świata — treść z dotychczasowej strony. */
 const TITLES = [
@@ -87,7 +87,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — DROGA ZAWODOWA (espresso)                                     */
+/*  02 — DROGA ZAWODOWA (cream-90)                                     */
 /*  Jeden portret 4:5 po lewej (przyklejony przy przewijaniu), po      */
 /*  prawej etykieta, H2 i biografia z inicjałem — jedyny taki detal    */
 /*  w serwisie. Na telefonie: etykieta → H2 → portret → tekst.         */
@@ -95,14 +95,14 @@ function Hero() {
 
 function StoryBand() {
   return (
-    <section className="as-section bg-espresso text-cream-50">
+    <section className="as-section bg-cream-90 text-ink">
       <div className="as-shell">
         <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 md:gap-y-10">
           <Reveal className="md:col-span-7 md:col-start-6 md:row-start-1 lg:col-span-6 lg:col-start-7">
-            <SectionLabel number="02" tone="light">
+            <SectionLabel number="02">
               Droga zawodowa
             </SectionLabel>
-            <h2 className="as-display-section mt-6 text-cream-100">
+            <h2 className="as-display-section mt-6 text-ink">
               Od podium
               <br />
               Mistrzostw Świata
@@ -114,25 +114,24 @@ function StoryBand() {
           <div className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
             <Reveal className="md:sticky md:top-28">
               <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
-                {/* ciasna ramka jak portret na espresso na stronie głównej */}
+                {/* ciasna ramka jak portret w sekcji „O nas” na stronie głównej */}
                 <div className="as-photo-frame">
                   <Figure
                     image={ROLES.storyAbout.image}
                     alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
                     ratio="4 / 5"
                     position={ROLES.storyAbout.position}
-                    tone="dark"
                     zoom={false}
                     sizes="(min-width: 1024px) 36vw, (min-width: 768px) 40vw, 90vw"
                   />
                 </div>
-                <figcaption className="as-caption-invert mt-3">{FOUNDER.signature}</figcaption>
+                <figcaption className="as-caption mt-3">{FOUNDER.signature}</figcaption>
               </figure>
             </Reveal>
           </div>
 
           <Reveal delay={80} className="md:col-span-7 md:col-start-6 md:row-start-2 lg:col-span-6 lg:col-start-7">
-            <div className="as-body-invert space-y-5">
+            <div className="as-body space-y-5">
               <p className="as-dropcap">
                 Kilkakrotnie stanęła na podium Mistrzostw Świata: w kategorii{' '}
                 <Em>włos maszynowy (1. i 2. miejsce)</Em>, w kategorii{' '}

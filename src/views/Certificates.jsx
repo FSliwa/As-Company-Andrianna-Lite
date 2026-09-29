@@ -16,8 +16,8 @@
  * i ich numery — wtedy dodamy wiersze „nazwa dokumentu | Pobierz".
  *
  * Trasa bez packshotów, więc cała jest typograficzna — bez portretów i makr.
- * Rytm tła: 01 pas espresso (PageHero band) → 02 cream-50 → hairline →
- * 03 cream-100 → 04 ClosingCta (espresso-900, jeden blok ze stopką).
+ * Rytm tła: 01 pas cream-100 (PageHero band) → 02 cream-50 → hairline →
+ * 03 cream-100 → 04 ClosingCta (cream-90) → stopka (cream-100).
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść → max 1 ArrowLink.
  */
 
@@ -67,7 +67,7 @@ const HERO_STATS = [
 ];
 
 /* ================================================================== */
-/*  01 — NAGŁÓWEK (pas espresso, bez zdjęcia)                          */
+/*  01 — NAGŁÓWEK (pas cream-100, bez zdjęcia)                         */
 /* ================================================================== */
 
 function Hero() {
@@ -83,10 +83,10 @@ function Hero() {
     >
       {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <Link href="/kontakt" className="as-btn-invert">
+        <Link href="/kontakt" className="as-btn-solid">
           Poproś o dokumentację
         </Link>
-        <ArrowLink href="/pigmenty" tone="light" className="w-fit">
+        <ArrowLink href="/pigmenty" className="w-fit">
           Zobacz pigmenty
         </ArrowLink>
       </div>

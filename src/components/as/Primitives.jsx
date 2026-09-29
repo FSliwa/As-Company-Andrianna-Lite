@@ -105,7 +105,7 @@ function buildSrcSet(webp) {
  *  - ratio     proporcja kadru, np. "3 / 4"; nadmiar jest przycinany (object-cover)
  *  - position  object-position, np. "50% 30%" — gdzie ma być środek ciężkości
  *              przy przycinaniu; domyślnie środek
- *  - tone      "dark" w sekcjach espresso/mocha (ciemniejszy, mniej nasycony),
+ *  - tone      "dark" (w Lite = ton jasny; zostaje dla zgodności),
  *              "light" w sekcjach kremowych (odsycony, jaśniejszy, z kremową
  *              mgłą) — w obu przypadkach po to, żeby zdjęcie siedziało w tle
  *              zamiast na nim świecić (jak w makiecie); domyślnie bez korekty
@@ -338,10 +338,11 @@ export function PageHero({
   children,
 }) {
   /* variant: 'cover' (domyślny, gdy jest zdjęcie) — portret 2:3 po prawej, tekst
-     wyśrodkowany w pionie; 'band' — pas espresso bez zdjęcia, H1 na całą szerokość
-     łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty). */
+     wyśrodkowany w pionie; 'band' — jasny pas (cream-100) bez zdjęcia, H1 na całą
+     szerokość łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty).
+     Lite: oba warianty na kremie; `tone` inny niż 'cream' zostaje tylko dla zgodności. */
   const kind = variant || (image ? 'cover' : 'band');
-  const isDark = kind === 'band' || tone !== 'cream';
+  const isDark = tone !== 'cream';
 
   const heading = (
     <>
@@ -373,14 +374,14 @@ export function PageHero({
 
   if (kind === 'band') {
     return (
-      <section className="relative overflow-hidden bg-espresso text-cream-50">
-        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.28} />
+      <section className="relative overflow-hidden border-b border-gold/25 bg-cream-100 text-ink">
+        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.45} />
         <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
           <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
             <div className="mt-10 grid grid-cols-3 gap-3 max-[359px]:grid-cols-1 max-[359px]:gap-5 sm:gap-8 lg:mt-16">
               {stats.map((st) => (
-                <Stat key={st.label} value={st.value} label={st.label} tone="light" compact />
+                <Stat key={st.label} value={st.value} label={st.label} compact />
               ))}
             </div>
           )}
@@ -553,8 +554,8 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
 
 /* ------------------------------------------------------------------ */
 /*  Pas zamykający stronę — jeden na każdej trasie, ten sam układ      */
-/*  tło espresso-900, etykieta z numerem, h2 w skali sekcji,           */
-/*  lead as-body-invert, para gold + ghost-light, opcjonalnie kadr(y). */
+/*  Lite: tło cream-90 ze złotą linią i łukiem, etykieta z numerem,    */
+/*  h2 w skali sekcji, lead as-body, para solid + ghost.               */
 /* ------------------------------------------------------------------ */
 
 export function ClosingCta({
@@ -569,7 +570,7 @@ export function ClosingCta({
   children,
   className,
 }) {
-  /* Pas zamykający = jeden blok ze stopką (espresso-900). Bez portretów —
+  /* Pas zamykający: jasny (cream-90), stopka pod nim w cream-100. Bez portretów —
      założycielka nie może występować w każdym zakończeniu strony. */
   const button = (btn, cls) => {
     if (!btn) return null;
@@ -581,27 +582,29 @@ export function ClosingCta({
     );
   };
   return (
-    <section data-sticky-hide className={cn('relative overflow-hidden bg-espresso text-cream-50', className)}>
+    <section
+      data-sticky-hide
+      className={cn('relative overflow-hidden border-t border-gold/25 bg-cream-90 text-ink', className)}
+    >
+      <GoldArc className="-bottom-48 right-[-12%] h-[520px] w-[780px]" flip opacity={0.45} />
       <div className="as-shell relative py-16 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
           <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
-            <SectionLabel number={number} tone="light">
-              {label}
-            </SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+            <SectionLabel number={number}>{label}</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
               {title}
               {titleAccent && (
                 <>
                   {' '}
-                  <span className="italic text-gold-light">{titleAccent}</span>
+                  <span className="italic text-gold-dark">{titleAccent}</span>
                 </>
               )}
             </h2>
-            {lead && <p className="as-body-invert mt-6">{lead}</p>}
+            {lead && <p className="as-body mt-6">{lead}</p>}
             {(primary || secondary) && (
               <div className="mt-8 flex flex-wrap gap-4">
-                {button(primary, 'as-btn-invert')}
-                {button(secondary, 'as-btn-ghost-light')}
+                {button(primary, 'as-btn-solid')}
+                {button(secondary, 'as-btn-ghost')}
               </div>
             )}
           </Reveal>
@@ -750,8 +753,9 @@ export function Faq({ items, className }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas „statement" — jeden wielki portret na całą szerokość i jedno   */
-/*  zdanie. Moment strony; jeden na trasę.                             */
+/*  Pas „statement" — jeden duży portret w złotej ramce i jedno        */
+/*  zdanie. Moment strony; jeden na trasę. Lite: jasny papier          */
+/*  (cream-75) zamiast ciemnego spadu — tekst nigdy nie leży na twarzy. */
 /* ------------------------------------------------------------------ */
 
 export function Statement({
@@ -767,67 +771,53 @@ export function Statement({
   align = 'left',
   className,
 }) {
+  /* align = strona TEKSTU; portret stoi po przeciwnej. Na telefonie portret nad tekstem. */
   const right = align === 'right';
   return (
-    <section
-      className={cn(
-        'relative flex min-h-[80svh] items-end overflow-hidden bg-espresso-900 text-cream-50 lg:min-h-[70svh]',
-        className
-      )}
-    >
-      {/* od lg portret zajmuje połowę pasa (kadr ≈ 1:1 — cała głowa i dłonie, bez powiększania
-          pliku 2:3 do pasa 2:1), a lewą krawędź wygasza maska; poniżej lg pełny spad */}
-      <Figure
-        image={image}
-        alt={alt}
-        position={position}
-        tone="dark"
-        zoom={false}
-        fill
-        className={cn(
-          right
-            ? 'lg:right-auto lg:w-[52%] lg:max-w-[50rem] lg:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%)] lg:[mask-image:linear-gradient(to_left,transparent,#000_28%)]'
-            : 'lg:left-auto lg:w-[52%] lg:max-w-[50rem] lg:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%)] lg:[mask-image:linear-gradient(to_right,transparent,#000_28%)]'
-        )}
-        sizes="(min-width: 1540px) 800px, (min-width: 1024px) 52vw, 100vw"
-      />
-      {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej */}
-      <div
-        aria-hidden="true"
-        className={cn(
-          'absolute inset-0 hidden lg:block',
-          right
-            ? 'bg-gradient-to-l from-espresso-900/85 via-espresso-900/40 to-transparent'
-            : 'bg-gradient-to-r from-espresso-900/85 via-espresso-900/40 to-transparent'
-        )}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-espresso-900/90 via-espresso-900/55 to-transparent lg:h-40 lg:from-espresso-900/70 lg:via-transparent"
-      />
-      <div className="as-shell relative w-full pb-16 pt-40 lg:pb-24 lg:pt-56">
-        <Reveal className={cn('max-w-xl lg:max-w-[44%]', right && 'ml-auto')}>
-          {label && (
-            <SectionLabel number={number} tone="light">
-              {label}
-            </SectionLabel>
+    <section className={cn('as-section relative overflow-hidden border-y border-gold/25 bg-cream-75 text-ink', className)}>
+      <GoldArc className="-top-40 left-[-10%] h-[620px] w-[860px]" flip={right} opacity={0.45} />
+      <div className="as-shell relative grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
+        <Reveal
+          className={cn(
+            'min-w-0 md:row-start-1 md:col-span-7 lg:col-span-6',
+            right ? 'md:col-start-6 lg:col-start-7' : 'md:col-start-1'
           )}
-          <h2 className="as-display-lg as-text-balance mt-6">
+        >
+          {label && <SectionLabel number={number}>{label}</SectionLabel>}
+          <h2 className="as-display-lg as-text-balance mt-6 text-ink">
             {title}
             {titleAccent && (
               <>
                 {' '}
-                <span className="italic text-gold-light">{titleAccent}</span>
+                <span className="italic text-gold-dark">{titleAccent}</span>
               </>
             )}
           </h2>
-          {lead && <p className="as-body-invert mt-6 max-w-md">{lead}</p>}
+          {lead && <p className="as-body mt-6 max-w-md">{lead}</p>}
           {cta && (
-            <ArrowLink href={cta.href} tone="light" className="mt-8 w-fit">
+            <ArrowLink href={cta.href} className="mt-8 w-fit">
               {cta.label}
             </ArrowLink>
           )}
         </Reveal>
+        <div
+          className={cn(
+            'order-first min-w-0 md:order-none md:row-start-1 md:col-span-5 lg:col-span-4',
+            right ? 'md:col-start-1 lg:col-start-2' : 'md:col-start-8 lg:col-start-8'
+          )}
+        >
+          <div className="mx-auto max-w-[20rem] sm:max-w-[24rem] md:max-w-none">
+            <Figure
+              image={image}
+              alt={alt}
+              ratio="4 / 5"
+              position={position}
+              framed
+              zoom={false}
+              sizes="(min-width: 1440px) 432px, (min-width: 1024px) 30vw, (min-width: 768px) 38vw, 90vw"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -838,8 +828,8 @@ export function Statement({
 /*  jednolite kadry, hairline, bez mgiełki. Jedyne miejsce dla makr.   */
 /* ------------------------------------------------------------------ */
 
-export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, caption, className }) {
-  /* tone = ton SEKCJI, w której stoi pasek: 'dark' (espresso/mocha) albo 'light' (krem) */
+export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, caption, className }) {
+  /* tone = ton SEKCJI, w której stoi pasek: 'light' (krem — w Lite zawsze) albo 'dark' */
   const onDark = tone === 'dark';
   const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
   return (

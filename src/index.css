@@ -57,8 +57,8 @@
   }
 
   /* Delikatny, złoty focus zamiast domyślnego niebieskiego */
-  /* Fokus w kolorze tekstu elementu: ciemny na kremie, jasny na espresso —
-     zawsze ≥ 3:1 (złoty #B89768 dawał na kremie 2,3–2,6:1). */
+  /* Fokus w kolorze tekstu elementu (ciemny na kremie) — zawsze ≥ 3:1
+     (złoty #B89768 dawał na kremie 2,3–2,6:1). */
   :focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 3px;
@@ -127,8 +127,10 @@
     @apply max-w-[36rem] text-[1.0625rem] leading-[1.6] text-ink/80;
   }
 
+  /* Lite: nie ma ciemnych pasów — warianty „-invert" są aliasami jasnych,
+     żeby żaden element nie został kremowy na kremie. */
   .as-body-invert {
-    @apply max-w-[36rem] text-[1.0625rem] leading-[1.6] text-cream-200/90;
+    @apply as-body;
   }
 
   /* Podpisy pod zdjęciami, opisy pozycji 01/02/03, noty cennika */
@@ -137,7 +139,7 @@
   }
 
   .as-caption-invert {
-    @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-cream-200/85;
+    @apply as-caption;
   }
 
   /* Numer + tytuł w jednej linii + drobny opis (pozycje 01/02/03 z makiety). */
@@ -162,7 +164,7 @@
   }
 
   .as-cell-invert {
-    @apply border-t border-cream-200/15 pt-6;
+    @apply as-cell;
   }
 
   /* Złota linia wokół grupy zdjęć (stykówka). */
@@ -181,7 +183,7 @@
   }
 
   .as-kicker-invert {
-    @apply as-label text-cream-200/70;
+    @apply as-kicker;
   }
 
   .as-badge {
@@ -199,7 +201,7 @@
   }
 
   .as-quote-invert {
-    @apply as-quote text-cream-200/85;
+    @apply as-quote text-ink/80;
   }
 
   /* Cytat wyróżniony — jeden na stronę */
@@ -214,7 +216,7 @@
     font-size: 4.2em;
     line-height: 0.8;
     margin: 0.3rem 0.75rem 0 0;
-    color: #d8c3a0;
+    color: #b89768;
   }
 
   /* ——— Linki strzałkowe ——— */
@@ -235,7 +237,7 @@
   }
 
   .as-arrow-light {
-    @apply as-arrow border-cream-200/35 text-cream-50 hover:border-gold-light hover:text-gold-light;
+    @apply as-arrow-dark;
   }
 
   .as-arrow svg,
@@ -254,14 +256,14 @@
     @apply as-btn bg-ink text-cream-50 hover:bg-espresso-600;
   }
 
-  /* Przycisk główny na ciemnym tle — kremowy. Złoto nigdy jako wypełnienie. */
+  /* Lite: jedyny pełny przycisk to ink na kremie. Złoto nigdy jako wypełnienie.
+     „invert" i „gold" zostają jako aliasy dla starszych użyć. */
   .as-btn-invert {
-    @apply as-btn bg-cream-100 text-ink hover:bg-cream-50;
+    @apply as-btn-solid;
   }
 
-  /* Wycofany — alias, żeby stare użycia dostały kremowy przycisk. */
   .as-btn-gold {
-    @apply as-btn-invert;
+    @apply as-btn-solid;
   }
 
   .as-btn-ghost {
@@ -269,7 +271,7 @@
   }
 
   .as-btn-ghost-light {
-    @apply as-btn border border-cream-200/30 text-cream-50 hover:border-gold-light hover:bg-gold-light hover:text-espresso-900;
+    @apply as-btn-ghost;
   }
 
   /* ——— Ramki i linie ——— */
@@ -278,7 +280,7 @@
   }
 
   .as-hair-light {
-    @apply h-px w-full bg-cream-200/20;
+    @apply as-hair;
   }
 
   /* Cienka złota ramka wokół kadru — jak w makiecie */
@@ -331,10 +333,9 @@
     transform: scale(1.03);
   }
 
-  /* Ton ciemnych sekcji: lekkie przygaszenie, bez sepii (sepia brudziła skórę
-     i szarzyła białą ścianę akademii). Nastrój robi tło pasa, nie filtr na twarzach. */
+  /* Lite: bez ciemnych pasów nie ma przygaszania — „dark" = ton jasny. */
   .as-media-dark img {
-    filter: brightness(0.9) saturate(0.88) contrast(1.04);
+    filter: saturate(0.85) brightness(1.02);
   }
 
   /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) — tylko lekkie
@@ -344,10 +345,10 @@
   }
 
   /* ——— Numerowane pozycje 01 / 02 / 03 ——— */
-  /* Numerały 01/02/03 — ≥ 24 px (tekst duży, próg 3:1): na kremie gold-dark
-     3,7:1; na ciemnym tle nadpisywane text-gold-light w widokach. */
+  /* Numerały 01/02/03 — gold-deep (4,5–5,0:1 na cream-100 … cream-50): w Lite
+     prawie wszystkie stoją na kremie, a wariant 20 px nie jest „tekstem dużym". */
   .as-num {
-    @apply font-display text-2xl leading-none text-gold-dark sm:text-[1.75rem];
+    @apply font-display text-2xl leading-none text-gold-deep sm:text-[1.75rem];
   }
 }
 

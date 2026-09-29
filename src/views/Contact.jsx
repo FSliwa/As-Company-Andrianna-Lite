@@ -347,7 +347,7 @@ const BOOKING_STEPS = [
 function VisitBand() {
   const portrait = ROLES.contactSection;
   return (
-    <section className="as-section border-t border-ink/10 bg-cream-100">
+    <section className="as-section border-t border-ink/10 bg-cream-90">
       <div className="as-shell">
         <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
           {/* — etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze;

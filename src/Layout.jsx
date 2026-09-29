@@ -48,8 +48,6 @@ function Header({ menuOpen, setMenuOpen }) {
     };
   }, [menuOpen, setMenuOpen]);
 
-  const dark = menuOpen;
-
   return (
     <>
       <a
@@ -61,8 +59,8 @@ function Header({ menuOpen, setMenuOpen }) {
       <header
         className={cn(
           'sticky top-0 z-50 transition-colors duration-300',
-          dark
-            ? 'border-b border-cream-200/10 bg-espresso'
+          menuOpen
+            ? 'border-b border-ink/10 bg-cream-50'
             : scrolled
               ? 'border-b border-ink/10 bg-cream-50'
               : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
@@ -100,12 +98,7 @@ function Header({ menuOpen, setMenuOpen }) {
           <div className="flex items-center gap-4 sm:gap-5">
             <Link
               href={BOOKING_URL}
-              className={cn(
-                'hidden items-center gap-2 rounded-full border px-6 py-2.5 text-[0.75rem] transition-colors sm:inline-flex',
-                dark
-                  ? 'border-cream-200/30 text-cream-100 hover:bg-cream-100 hover:text-ink'
-                  : 'border-ink/25 hover:border-ink hover:bg-ink hover:text-cream-50'
-              )}
+              className="hidden items-center gap-2 rounded-full border border-ink/25 px-6 py-2.5 text-[0.75rem] transition-colors hover:border-ink hover:bg-ink hover:text-cream-50 sm:inline-flex"
             >
               Umów wizytę
               <span aria-hidden="true" className="text-[0.7rem]">
@@ -120,10 +113,7 @@ function Header({ menuOpen, setMenuOpen }) {
               aria-expanded={menuOpen}
               aria-controls="as-menu"
               aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-              className={cn(
-                'grid h-11 w-11 place-items-center transition-colors lg:hidden',
-                dark ? 'text-cream-100 hover:text-gold-light' : 'text-ink hover:text-gold-dark'
-              )}
+              className="grid h-11 w-11 place-items-center text-ink transition-colors hover:text-gold-dark lg:hidden"
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -139,7 +129,7 @@ function Header({ menuOpen, setMenuOpen }) {
         aria-label="Menu"
         hidden={!menuOpen}
         className={cn(
-          'fixed inset-0 z-40 overflow-y-auto bg-espresso text-cream-50 transition-opacity duration-300',
+          'fixed inset-0 z-40 overflow-y-auto bg-cream-50 text-ink transition-opacity duration-300',
           menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
       >
@@ -151,9 +141,9 @@ function Header({ menuOpen, setMenuOpen }) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="group flex items-baseline gap-6 py-2 transition-colors hover:text-gold-light"
+                      className="group flex items-baseline gap-6 py-2 transition-colors hover:text-gold-dark"
                     >
-                      <span className="as-label w-6 text-gold-light">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="as-label w-6 text-gold-deep">{String(i + 1).padStart(2, '0')}</span>
                       <span className="as-display-md">{item.label}</span>
                     </Link>
                   </li>
@@ -164,13 +154,13 @@ function Header({ menuOpen, setMenuOpen }) {
             <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-6">
               {NAV_ALL.map((group) => (
                 <div key={group.title}>
-                  <p className="as-label text-gold-light">{group.title}</p>
+                  <p className="as-label text-gold-deep">{group.title}</p>
                   <ul className="mt-4">
                     {group.links.map((link) => (
                       <li key={link.label}>
                         <Link
                           href={link.href}
-                          className="block py-1.5 text-[0.875rem] text-cream-200/80 transition-colors hover:text-cream-50"
+                          className="block py-1.5 text-[0.875rem] text-ink/75 transition-colors hover:text-ink"
                         >
                           {link.label}
                         </Link>
@@ -182,15 +172,15 @@ function Header({ menuOpen, setMenuOpen }) {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-cream-200/15 pt-8">
-            <p className="as-label text-cream-200/75">
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-gold/30 pt-8">
+            <p className="as-label text-ink/65">
               {CONTACT.venue} · {CONTACT.city}
             </p>
             <a
               href={CONTACT.instagram}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex min-h-[44px] items-center gap-2 text-[0.875rem] text-cream-200/80 transition-colors hover:text-cream-50"
+              className="inline-flex min-h-[44px] items-center gap-2 text-[0.875rem] text-ink/75 transition-colors hover:text-ink"
             >
               <Instagram className="h-4 w-4" aria-hidden="true" />
               {CONTACT.instagramHandle}
@@ -209,37 +199,37 @@ function Header({ menuOpen, setMenuOpen }) {
 function Footer({ year }) {
 
   return (
-    <footer className="relative overflow-hidden border-t border-cream-200/12 bg-espresso-900 text-cream-50">
+    <footer className="relative overflow-hidden border-t border-gold/30 bg-cream-100 text-ink">
       <div className="as-shell py-12 lg:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
             <Logo size="lg" className="h-16 w-16 sm:h-24 sm:w-24 lg:h-28 lg:w-28" />
-            <p className="mt-6 font-display text-2xl italic text-cream-100 lg:mt-8">{BRAND.tagline}</p>
-            <p className="as-caption-invert mt-3 hidden sm:block">{BRAND.claim}</p>
+            <p className="mt-6 font-display text-2xl italic text-ink lg:mt-8">{BRAND.tagline}</p>
+            <p className="as-caption mt-3 hidden sm:block">{BRAND.claim}</p>
 
             <dl className="mt-6 max-w-sm lg:mt-10">
-              <div className="flex items-baseline justify-between gap-6 border-t border-cream-200/12 py-3">
-                <dt className="as-label text-cream-200/70">{CONTACT.venue}</dt>
-                <dd className="text-[0.875rem] text-cream-100">
+              <div className="flex items-baseline justify-between gap-6 border-t border-ink/10 py-3">
+                <dt className="as-label text-ink/65">{CONTACT.venue}</dt>
+                <dd className="text-[0.875rem] text-ink">
                   {[CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ')}
                 </dd>
               </div>
               {CONTACT.hours.map((h) => (
-                <div key={h.day} className="flex items-baseline justify-between gap-6 border-t border-cream-200/12 py-3">
-                  <dt className="as-label text-cream-200/70">{h.day}</dt>
-                  <dd className="text-[0.875rem] text-cream-100">{h.value}</dd>
+                <div key={h.day} className="flex items-baseline justify-between gap-6 border-t border-ink/10 py-3">
+                  <dt className="as-label text-ink/65">{h.day}</dt>
+                  <dd className="text-[0.875rem] text-ink">{h.value}</dd>
                 </div>
               ))}
             </dl>
 
             <div className="mt-4 flex flex-wrap items-center gap-6 lg:mt-8">
               {CONTACT.phone && (
-                <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="text-[0.875rem] text-cream-100 hover:text-gold-light">
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="text-[0.875rem] text-ink hover:text-gold-deep">
                   {CONTACT.phone}
                 </a>
               )}
               {CONTACT.email && (
-                <a href={`mailto:${CONTACT.email}`} className="text-[0.875rem] text-cream-100 hover:text-gold-light">
+                <a href={`mailto:${CONTACT.email}`} className="text-[0.875rem] text-ink hover:text-gold-deep">
                   {CONTACT.email}
                 </a>
               )}
@@ -247,7 +237,7 @@ function Footer({ year }) {
                 href={CONTACT.instagram}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex min-h-[44px] items-center gap-2 text-[0.875rem] text-cream-200/80 transition-colors hover:text-gold-light"
+                className="inline-flex min-h-[44px] items-center gap-2 text-[0.875rem] text-ink/75 transition-colors hover:text-gold-deep"
               >
                 <Instagram className="h-4 w-4" aria-hidden="true" />
                 {CONTACT.instagramHandle}
@@ -258,13 +248,13 @@ function Footer({ year }) {
           <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
             {NAV_ALL.map((group) => (
               <div key={group.title}>
-                <p className="as-label text-gold-light">{group.title}</p>
+                <p className="as-label text-gold-deep">{group.title}</p>
                 <ul className="mt-4">
                   {group.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="block py-1.5 text-[0.875rem] text-cream-200/80 transition-colors hover:text-cream-50"
+                        className="block py-1.5 text-[0.875rem] text-ink/75 transition-colors hover:text-ink"
                       >
                         {link.label}
                       </Link>
@@ -276,9 +266,9 @@ function Footer({ year }) {
           </div>
         </div>
 
-        <div className="mt-10 hidden border-t border-cream-200/12 pt-8 sm:block lg:mt-16 lg:pt-10">
+        <div className="mt-10 hidden border-t border-gold/30 pt-8 sm:block lg:mt-16 lg:pt-10">
           <p
-            className="as-display select-none text-cream-200/[0.08]"
+            className="as-display select-none text-gold/[0.22]"
             style={{ fontSize: 'clamp(2.5rem, 12vw, 11rem)', lineHeight: 0.85 }}
             aria-hidden="true"
           >
@@ -287,19 +277,19 @@ function Footer({ year }) {
         </div>
 
         <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:mt-10">
-          <p className="as-label text-cream-200/70">
+          <p className="as-label text-ink/65">
             © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
           </p>
           {/* Dane firmy i polityka prywatności — pojawią się, gdy klient uzupełni LEGAL w site.js */}
           {(LEGAL.company || LEGAL.privacyPolicy) && (
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.8125rem] text-cream-200/80">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.8125rem] text-ink/75">
               {LEGAL.company && (
                 <span>
                   {[LEGAL.company, LEGAL.address, LEGAL.nip && `NIP ${LEGAL.nip}`, LEGAL.register].filter(Boolean).join(' · ')}
                 </span>
               )}
               {LEGAL.privacyPolicy && (
-                <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-cream-50">
+                <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
                   Polityka prywatności
                 </Link>
               )}
@@ -352,21 +342,21 @@ function StickyBar({ menuOpen }) {
       id="as-sticky"
       aria-hidden={!show}
       className={cn(
-        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-cream-200/15 bg-espresso-900 pb-[env(safe-area-inset-bottom)] transition-[transform,opacity] duration-300 lg:hidden',
+        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-gold/30 bg-cream-50/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm transition-[transform,opacity] duration-300 lg:hidden',
         show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-full opacity-0'
       )}
     >
       <Link
         href={BOOKING_URL}
         tabIndex={show ? 0 : -1}
-        className="as-label flex h-14 items-center justify-center text-cream-100"
+        className="as-label flex h-14 items-center justify-center bg-ink text-cream-50"
       >
         Umów wizytę
       </Link>
       <Link
         href="/szkolenia"
         tabIndex={show ? 0 : -1}
-        className="as-label flex h-14 items-center justify-center border-l border-cream-200/15 text-cream-100"
+        className="as-label flex h-14 items-center justify-center text-ink"
       >
         Szkolenia
       </Link>

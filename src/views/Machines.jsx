@@ -7,14 +7,14 @@
  * kartridży ani akcesoriów, więc trasa jest w 100% typograficzna — świadoma
  * decyzja do czasu sesji packshotowej, nie brak. Zero portretów, zero makr.
  *
- * Rytm tła (max 2 ciemne pasy, nigdy dwa ciemne obok siebie):
- *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z karty AS PRINCESS)
+ * Rytm tła (Lite — same jasne tony, sąsiednie różnią się tonem):
+ *   01 PageHero band (cream-100, bez zdjęcia, 3 Stat z karty AS PRINCESS)
  *   02 Katalog #katalog (cream-50) — model = wiersz pełnej szerokości,
  *      w wierszu parametry z karty produktu + link do sklepu; na telefonie
  *      parametry zwinięte w „Parametry”, od md widoczne od razu
- *   03 Parametry (espresso) — 7 prędkości AS PRINCESS + skok i wysuw igły
+ *   03 Parametry (cream-75) — 7 prędkości AS PRINCESS + skok i wysuw igły
  *   04 Wynajem (cream-100) — warunki ze sklepu, wniosek w dialogu (Field)
- *   05 ClosingCta (espresso-900, jeden blok ze stopką)
+ *   05 ClosingCta (cream-90) + stopka (cream-100)
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść.
  * Prostokątne przyciski tylko w hero (jeden), ClosingCta i formularzu;
  * w sekcjach akcje to ArrowLink (z onClick, gdy otwierają dialog).
@@ -295,14 +295,14 @@ function MachineRow({ machine, onRent, last }) {
         <dl className="mt-5 grid grid-cols-2 content-start gap-x-4 gap-y-5 sm:gap-x-6 md:mt-0 xl:grid-cols-3">
           {machine.specs.map((spec) => (
             <div key={spec.label} className={spec.span}>
-              <dt className="as-label text-ink/55">{spec.label}</dt>
+              <dt className="as-label text-ink/65">{spec.label}</dt>
               <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink">
                 {spec.text ?? (
                   <>
                     <span className="whitespace-nowrap">{spec.v}</span> {spec.u}
                   </>
                 )}
-                {spec.n && <span className="block text-ink/60">{spec.n}</span>}
+                {spec.n && <span className="block text-ink/70">{spec.n}</span>}
               </dd>
             </div>
           ))}
@@ -363,7 +363,7 @@ export default function Machines() {
   return (
     <>
       {/* ============================================================ */}
-      {/*  01 — HERO: pas typograficzny (espresso, bez zdjęcia)        */}
+      {/*  01 — HERO: pas typograficzny (cream-100, bez zdjęcia)       */}
       {/* ============================================================ */}
 
       <PageHero
@@ -377,10 +377,10 @@ export default function Machines() {
         stats={HERO_STATS}
       >
         <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-          <CtaButton href="#katalog" className="as-btn-invert">
+          <CtaButton href="#katalog" className="as-btn-solid">
             Przeglądaj modele
           </CtaButton>
-          <ArrowLink onClick={() => openRental()} tone="light" className="w-fit">
+          <ArrowLink onClick={() => openRental()} className="w-fit">
             Wynajmij {RENTAL_PRICE}
           </ArrowLink>
         </div>
@@ -419,24 +419,24 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  03 — PARAMETRY AS PRINCESS (espresso) — jedyny ciemny pas    */}
+      {/*  03 — PARAMETRY AS PRINCESS (cream-75)                        */}
       {/* ============================================================ */}
 
-      <section className="as-section bg-espresso text-cream-50">
+      <section className="as-section bg-cream-75 text-ink">
         <div className="as-shell">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-8">
             <Reveal className="lg:col-span-7">
-              <SectionLabel number="03" tone="light">
+              <SectionLabel number="03">
                 Prędkości
               </SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
                 Siedem prędkości,
                 <br />
                 siedem stopni skoku.
               </h2>
             </Reveal>
             <Reveal delay={80} className="lg:col-span-5">
-              <p className="as-body-invert">
+              <p className="as-body">
                 AS&nbsp;PRINCESS według karty produktu: od prędkości pikselowej (6&nbsp;000&nbsp;obr./min)
                 do tatuażowej (10&nbsp;000&nbsp;obr./min).
               </p>
@@ -452,11 +452,11 @@ export default function Machines() {
               {SPEED_LEVELS.map((speed) => (
                 <li
                   key={speed.level}
-                  className="flex flex-col items-start gap-2 border border-cream-200/25 px-4 py-4 last:col-span-2 sm:px-5 lg:last:col-span-1"
+                  className="flex flex-col items-start gap-2 border border-ink/15 px-4 py-4 last:col-span-2 sm:px-5 lg:last:col-span-1"
                 >
-                  <span className="as-num text-gold-light">{pad(speed.level)}</span>
-                  <span className="text-base text-cream-50">{speed.name}</span>
-                  <span className="as-caption-invert">
+                  <span className="as-num">{pad(speed.level)}</span>
+                  <span className="text-base text-ink">{speed.name}</span>
+                  <span className="as-caption">
                     <span className="whitespace-nowrap">{fmt(speed.rpm)}</span> obr./min
                   </span>
                 </li>
@@ -466,7 +466,7 @@ export default function Machines() {
 
           {/* — skok i wysuw igły — */}
           <div className="mt-10 grid gap-6 lg:grid-cols-12 lg:gap-8">
-            <p className="as-caption-invert lg:col-span-5">
+            <p className="as-caption lg:col-span-5">
               Nazwy prędkości to ogólne wytyczne — ostateczny dobór prędkości, skoku i&nbsp;igły zależy
               od techniki i&nbsp;skóry.
             </p>
@@ -475,13 +475,11 @@ export default function Machines() {
                 name="Skok igły"
                 note={`7 stopni: ${STROKE_STEPS}`}
                 price={'2,1–3,0\u00a0mm'}
-                tone="light"
               />
               <PriceRow
                 name="Wysuw igły"
                 note="Pod rzadsze i gęstsze pigmenty"
                 price={'0–3,2\u00a0mm'}
-                tone="light"
               />
             </div>
           </div>
@@ -549,7 +547,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  05 — KONTAKT (espresso-900; wspólny pas zamykający)          */}
+      {/*  05 — KONTAKT (cream-90; wspólny pas zamykający)              */}
       {/* ============================================================ */}
 
       <ClosingCta

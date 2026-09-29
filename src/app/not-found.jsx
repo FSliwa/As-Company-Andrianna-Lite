@@ -11,7 +11,7 @@ export default function NotFound() {
     <section className="as-section bg-cream-50">
       <div className="as-shell flex min-h-[60svh] flex-col justify-center py-16">
         <p className="as-label text-ink/70">
-          <span className="text-gold-dark">404</span> <span className="text-ink/30">/</span> Nie znaleziono
+          <span className="text-gold-deep">404</span> <span className="text-ink/30">/</span> Nie znaleziono
         </p>
         <h1 className="as-display-lg mt-6 max-w-3xl text-ink">
           Tej strony <span className="italic text-gold-dark">nie ma.</span>

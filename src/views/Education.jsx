@@ -5,8 +5,8 @@
  *
  * Każda sekcja to rozkładówka: SectionLabel → H2 .as-display-section → treść
  * → jedno wezwanie. Rytm tła: cream-50 (hero) → cream-100 → cream-50 →
- * espresso (jedyny ciemny pas) → cream-50 → cream-100 → espresso-900
- * (ClosingCta + stopka). Sąsiednie jasne sekcje dzieli hairline.
+ * cream-90 → cream-50 → cream-100 → cream-90
+ * (ClosingCta) → stopka cream-100. Sąsiednie jasne sekcje dzieli hairline.
  *
  * Zdjęcia: portret wyłącznie przez ROLES, grupy wyłącznie przez GROUPS
  * (src/lib/roles.js). Makra na tej trasie: 0. Plakaty COURSE nie są pokazywane
@@ -373,7 +373,7 @@ function ProgramBand({ onBook }) {
 }
 
 /* ================================================================== */
-/*  04 — ABSOLWENTKI (espresso, jedyny ciemny pas)                     */
+/*  04 — ABSOLWENTKI (cream-90)                                        */
 /* ================================================================== */
 
 /* Stykówka: trzy kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
@@ -398,27 +398,26 @@ const GRADUATE_TILES = [
 
 function GraduatesBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
+    <section className="as-section relative overflow-hidden bg-cream-90 text-ink">
       <div className="as-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
           <div className="lg:col-span-5">
             <Reveal>
-              <SectionLabel number="04" tone="light">
+              <SectionLabel number="04">
                 Absolwentki
               </SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
                 Każdy kurs kończy się certyfikatem.
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-6">
+              <p className="as-body mt-6">
                 Kameralne grupy 2–4 osób, a po kursie grupa wsparcia i stały kontakt z prowadzącą.
               </p>
               <ArrowLink
                 href={CONTACT.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                tone="light"
                 className="mt-8 w-fit"
               >
                 Relacje kursantek na Instagramie
@@ -436,7 +435,7 @@ function GraduatesBand() {
                     alt={alt}
                     ratio="4 / 5"
                     position={group.position}
-                    tone="dark"
+                    tone="light"
                     zoom={false}
                     className={['col-span-2 sm:col-span-1 sm:order-2', 'sm:order-1', 'sm:order-3'][i]}
                     sizes={
@@ -447,7 +446,7 @@ function GraduatesBand() {
                   />
                 ))}
               </div>
-              <figcaption className="as-caption-invert mt-3 max-w-none">
+              <figcaption className="as-caption mt-3 max-w-none">
                 Absolwentki Super Natural Brows, {BRAND.academy}, {CONTACT.city}
               </figcaption>
             </figure>

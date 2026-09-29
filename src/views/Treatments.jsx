@@ -9,11 +9,11 @@
  * efektów. Ceny zawsze z cennika marki (PRICING_* w src/lib/site.js).
  *
  * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
- * i wizyta (espresso — jedyny ciemny pas) → 04 odświeżenie i usuwanie (cream-50)
+ * i wizyta (cream-75) → 04 odświeżenie i usuwanie (cream-50)
  * → 05 cennik #cennik (cream-100, hairline) → 06 pytania (cream-50, hairline)
- * → 07 ClosingCta (espresso) + stopka (espresso-900).
+ * → 07 ClosingCta (cream-90) + stopka (cream-100).
  *
- * Korekta do 3 miesięcy występuje jako krok 03 wizyty (pas espresso), więc
+ * Korekta do 3 miesięcy występuje jako krok 03 wizyty (pas 03), więc
  * sekcja 04 obejmuje tylko zabiegi, których nie ma w indeksie ani w krokach.
  *
  * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
@@ -28,7 +28,7 @@
  * w wierszu techniki z już wybranym zabiegiem. Rezerwacja nie pyta o zdrowie
  * (art. 9 RODO) — wywiad zdrowotny należy do konsultacji. Obietnice zdrowotne
  * w brzmieniu zgodnym z FAQ tej strony, bez gwarancji.
- * ClosingCta ma tło espresso — ciemniejsza stopka (espresso-900) go domyka.
+ * ClosingCta ma tło cream-90 — stopka (cream-100) go domyka.
  */
 
 import React from 'react';
@@ -379,26 +379,26 @@ function TechniquesBand() {
 }
 
 /* ================================================================== */
-/*  03 — EFEKTY I WIZYTA (espresso — jedyny ciemny pas)                */
+/*  03 — EFEKTY I WIZYTA (cream-75)                                    */
 /* ================================================================== */
 
 function ResultsBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
-      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
+    <section className="as-section relative overflow-hidden bg-cream-75 text-ink">
+      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.45} />
 
       <div className="as-shell relative">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <Reveal>
-            <SectionLabel number="03" tone="light">
+            <SectionLabel number="03">
               Efekty i wizyta
             </SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Realne efekty, nie renderowane.
             </h2>
           </Reveal>
           <Reveal delay={80} className="shrink-0">
-            <ArrowLink href={CONTACT.instagram} tone="light" className="w-fit" target="_blank" rel="noreferrer">
+            <ArrowLink href={CONTACT.instagram} className="w-fit" target="_blank" rel="noreferrer">
               Więcej prac na Instagramie
             </ArrowLink>
           </Reveal>
@@ -408,7 +408,6 @@ function ResultsBand() {
         <Reveal delay={80} className="mt-10">
           <ResultStrip
             items={RESULTS}
-            tone="dark"
             cols={4}
             ratio="1 / 1"
             caption="Brwi i usta — prace z naszego gabinetu."
@@ -423,12 +422,12 @@ function ResultsBand() {
               key={s.number}
               delay={i * 80}
               className={cn(
-                'as-cell-invert',
+                'as-cell',
                 i === VISIT_STEPS.length - 1 && VISIT_STEPS.length % 2 === 1 && 'md:col-span-2 lg:col-span-1',
                 s.descFromSm && 'max-sm:[&_.as-numbered-desc]:hidden'
               )}
             >
-              <NumberedItem number={s.number} title={s.title} tone="light">
+              <NumberedItem number={s.number} title={s.title}>
                 {s.desc}
               </NumberedItem>
             </Reveal>
