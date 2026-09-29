@@ -21,7 +21,8 @@
  *    i zdjęcie szkolenia przy treści o wizycie w salonie,
  *  • dane kontaktowe wyłącznie z CONTACT (src/lib/site.js) – pola null
  *    (ulica, kod, telefon, e-mail) nie są renderowane, nie ma placeholderów,
- *  • CONTACT.venueNote (budynek, parking) występuje w serwisie tylko tutaj,
+ *  • opis lokalu: CONTACT.venueNote (budynek, parking) + „prestiżowe, starannie wykończone
+ *    studio” z briefu („Salon”, D7); pełny tekst o salonie jest na /o-nas (SALON),
  *  • formularz nie udaje wysyłki – status i komunikat pochodzą z src/lib/enquiry.js;
  *    dopóki CONTACT.email jest puste, treść strony nie odsyła do formularza,
  *    tylko do Instagramu (kanał, który realnie działa).
@@ -76,8 +77,12 @@ const CHANNELS = [
   },
 ].filter(Boolean);
 
+/* Tematy zapytań. „Stary makijaż permanentny” – ścieżka z briefu (FAQ: przy starym PMU
+   prosimy o zdjęcie i oceniamy, czy wystarczy cover, czy potrzebne jest usuwanie);
+   wartości istniejących tematów bez zmian (?temat=produkty z /maszynki i /pigmenty). */
 const TOPICS = [
   { value: 'zabieg', label: 'Zabieg PMU' },
+  { value: 'stary-pmu', label: 'Stary PMU – cover lub usuwanie' },
   { value: 'szkolenie', label: 'Szkolenie' },
   { value: 'produkty', label: 'Produkty i pigmenty' },
   { value: 'inne', label: 'Inne pytanie' },
@@ -104,12 +109,12 @@ function LocationDetails() {
     <div className="max-w-[28rem]">
       <p className="as-title text-ink">{CONTACT.venue}</p>
       <p className="mt-1 text-[0.9375rem] text-ink/80">{ADDRESS_LINE}</p>
+      {/* D7: opis miejsca z briefu („Salon”: prestiżowe, ładnie wykończone studio w wolnostojącym
+          budynku z prywatnym parkingiem). D6: usunięte „adres ustalamy indywidualnie” –
+          procedura bez źródła (BIO-16, INNE-15); adres pojawi się sam po uzupełnieniu CONTACT. */}
       <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/70">
-        {CONTACT.venueNote}.
-        {!CONTACT.street &&
-          (FORM_LIVE
-            ? ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie – napisz przez formularz albo na Instagramie.'
-            : ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie – napisz do nas na Instagramie.')}
+        Prestiżowe, starannie wykończone studio –{' '}
+        {CONTACT.venueNote.charAt(0).toLowerCase() + CONTACT.venueNote.slice(1)}.
       </p>
 
       <dl className="mt-8 border-b border-ink/15">
@@ -161,13 +166,15 @@ function EnquiryForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    /* w wiadomości czytelna etykieta tematu, nie wartość techniczna („stary-pmu”) */
+    const topicLabel = TOPICS.find((t) => t.value === formData.topic)?.label || formData.topic;
     const { status } = sendEnquiry({
-      subject: `Zapytanie ze strony – ${formData.topic}`,
+      subject: `Zapytanie ze strony – ${topicLabel}`,
       fields: [
         ['Imię i nazwisko', formData.name],
         ['E-mail', formData.email],
         ['Telefon', formData.phone],
-        ['Temat', formData.topic],
+        ['Temat', topicLabel],
         ['Wiadomość', formData.message],
       ],
     });
@@ -331,18 +338,26 @@ function Hero() {
 /*  02 – WIZYTA (cream-100): trzy kroki wizyty + portret 4:5           */
 /* ================================================================== */
 
-/* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi).
-   Krok 01 wskazuje formularz dopiero wtedy, gdy formularz faktycznie wysyła. */
+/* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi) i briefu (FAQ).
+   Krok 01 wskazuje formularz dopiero wtedy, gdy formularz faktycznie wysyła; zdanie
+   o zdjęciu starego makijażu – brief (FAQ „czy można robić nowy zabieg na starym…”).
+   Krok 03: zamiast „Konsultacji” (bez źródła – INNE-11, BIO-14) rysunek wstępny z briefu. */
 const BOOKING_STEPS = [
   {
     number: '01',
     title: 'Wiadomość',
-    desc: FORM_LIVE
-      ? 'Napisz przez formularz na tej stronie albo na Instagramie.'
-      : `Napisz na Instagramie – ${CONTACT.instagramHandle}.`,
+    desc: `${
+      FORM_LIVE
+        ? 'Napisz przez formularz na tej stronie albo na Instagramie.'
+        : `Napisz na Instagramie – ${CONTACT.instagramHandle}.`
+    } Przy starym makijażu permanentnym dołącz zdjęcie brwi lub ust.`,
   },
   { number: '02', title: 'Termin', desc: 'Wrócimy z konkretną odpowiedzią i wolnym terminem.' },
-  { number: '03', title: 'Konsultacja', desc: 'Architektura twarzy i rysunek wstępny przed zabiegiem.' },
+  {
+    number: '03',
+    title: 'Rysunek wstępny',
+    desc: 'Przed pigmentacją dopasowujemy go do architektury twarzy i poprawiamy według Twoich uwag.',
+  },
 ];
 
 function VisitBand() {

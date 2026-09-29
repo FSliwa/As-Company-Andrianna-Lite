@@ -11,10 +11,17 @@
  * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
  * i wizyta (espresso – jedyny ciemny pas) → 04 odświeżenie i usuwanie (cream-50)
  * → 05 cennik #cennik (cream-100, hairline) → 06 pytania (cream-50, hairline)
- * → 07 ClosingCta (espresso) + stopka (espresso-900).
+ * → 07 cennik do pobrania (cream-100, hairline; D8 – miniatury grafik cennika)
+ * → 08 ClosingCta (espresso) + stopka (espresso-900).
  *
- * Korekta do 3 miesięcy występuje jako krok 03 wizyty (pas espresso), więc
- * sekcja 04 obejmuje tylko zabiegi, których nie ma w indeksie ani w krokach.
+ * Korekta (od miesiąca do 3 miesięcy od zabiegu – brief, D5) występuje jako
+ * krok 03 wizyty (pas espresso), więc sekcja 04 obejmuje tylko zabiegi, których
+ * nie ma w indeksie ani w krokach.
+ *
+ * Treści wg decyzji D2/D3/D5/D6/D8 (komentarze przy miejscach): nazwy technik
+ * wg briefu, obietnice zdrowotne nie mocniejsze niż dotąd, ceny z warunkami
+ * z grafik cennika, czasy zabiegów tylko ze źródła (SNB 1,5–2 h – czas Andriany),
+ * bez „konsultacji” jako osobnej usługi (źródła znają tylko rysunek wstępny).
  *
  * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
  * z przyciskiem „Więcej” (aria-expanded), który rozwija pełny opis, cytat
@@ -26,18 +33,20 @@
  *
  * „Umów wizytę” prowadzi do rezerwacji online (/umow-wizyte, Kalendarz Google);
  * w wierszu techniki z już wybranym zabiegiem. Rezerwacja nie pyta o zdrowie
- * (art. 9 RODO) – wywiad zdrowotny należy do konsultacji. Obietnice zdrowotne
+ * (art. 9 RODO) – o zdrowiu rozmawiamy w salonie. Obietnice zdrowotne
  * w brzmieniu zgodnym z FAQ tej strony, bez gwarancji.
  * ClosingCta ma tło espresso – ciemniejsza stopka (espresso-900) go domyka.
  */
 
 import React from 'react';
+import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import {
   ArrowLink,
   ClosingCta,
   CtaButton,
   Faq,
+  Figure,
   GoldArc,
   NumberedItem,
   PageHero,
@@ -54,7 +63,9 @@ import {
   PRICING_PMU,
   PRICING_REFRESH,
   PRICING_REMOVAL,
+  SALON,
 } from '@/lib/site';
+import { CENNIK } from '@/lib/media';
 import { MACROS, ROLES } from '@/lib/roles';
 import { cn } from '@/lib/utils';
 
@@ -63,7 +74,8 @@ import { cn } from '@/lib/utils';
 /* ------------------------------------------------------------------ */
 
 /* Zapis tekstów z cennika (site.js) na tej trasie: twarda spacja w tysiącach
-   i przed „zł”, „> 500 zł” → „od 500 zł”, głos „my” zamiast „moich klientek”.
+   i przed „zł”, „> 500 zł” → „powyżej 500 zł” (Z24: grafika ma „>500 zł”, a „od”
+   obejmowałoby też 500), głos „my” zamiast „moich klientek”.
    Źródło w site.js zostaje nietknięte; gdy tam się zmieni, reguły są no-op.
    Docelowo jedna wspólna funkcja dla serwisu (TRESC-13/15). */
 const NBSP = '\u00a0';
@@ -71,7 +83,7 @@ const fmt = (text) =>
   typeof text !== 'string'
     ? text
     : text
-        .replace(/^>\s*/, `od${NBSP}`)
+        .replace(/^>\s*/, `powyżej${NBSP}`)
         .replace(/(\d)(\d{3})(?!\d)/g, `$1${NBSP}$2`)
         .replace(/ zł/g, `${NBSP}zł`)
         .replace(/moich klientek/g, 'naszych klientek');
@@ -81,6 +93,10 @@ const priceOf = (table, name) => {
   return row ? fmt(row.price) : '';
 };
 
+/* Pozycja cennika PMU po stałym `id` (site.js) – nazwy widoczne mogą się zmieniać (D2). */
+const pmuItem = (id) => PRICING_PMU.items.find((item) => item.id === id) || {};
+const pmuPrice = (id) => fmt(pmuItem(id).price || '');
+
 /* Fakty w hero – z ACHIEVEMENTS (5× podium MŚ; salony „Katowice i Warszawa")
    i CONTACT.city. Krótkie: FactStrip stoi w jednej linii i przy 375 px musi
    zmieścić się w łamie (≤ 335 px, zmierzone 301 px).
@@ -89,8 +105,13 @@ const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `Salon – ${CONTACT.
 
 /* ------------------------------------------------------------------ */
 /*  02 – cztery techniki (indeks typograficzny, bez zdjęć)             */
-/*  Nazwy jak w cenniku PMU; opisy, cytaty i czasy z poprzedniej        */
-/*  wersji strony. Cytaty 03/04 powtarzały opis – usunięte.             */
+/*  D2: nazwy widoczne wg briefu („Perfect Brows”, „Perfect Eyes”);     */
+/*  id wierszy i rezerwacji bez zmian (linki ?zabieg=). Opisy z briefu. */
+/*  D6: czas tylko przy SNB – jedyny czas w źródłach (brief: Andriana   */
+/*  wykonuje włos maszynowy w 1,5–2 godziny); pozostałe czasy (z dawnej */
+/*  wersji strony, bez źródła) usunięte do potwierdzenia przez klientkę. */
+/*  D8: zdjęć prac obok technik nie dodajemy – układ indeksu technik    */
+/*  czeka na decyzję użytkownika (materiał: raport).                    */
 /* ------------------------------------------------------------------ */
 
 const TECHNIQUES = [
@@ -99,8 +120,9 @@ const TECHNIQUES = [
     number: '01',
     name: 'Super Natural Brows',
     kind: 'Włos maszynowy · autorska technika Andriany',
+    /* D6: czas ze źródła – zabieg wykonywany przez Andrianę (brief „Opis”) */
     duration: '1,5–2 godziny',
-    price: priceOf(PRICING_PMU, 'Super Natural Brows'),
+    price: pmuPrice('super-natural-brows'),
     description:
       'Efekt zadbanych, gęstych, dopasowanych brwi z delikatnym pogrubieniem oraz wyrównaniem kształtu.',
     quote:
@@ -109,31 +131,31 @@ const TECHNIQUES = [
   {
     id: 'perfect-brows',
     number: '02',
-    name: 'Perfect Powder Brows',
+    name: 'Perfect Brows', // D2: nazwa wg briefu („Pudrowa technika „Perfect brows””)
     kind: 'Technika pudrowa · efekt cienia',
-    duration: '1,5–2 godziny',
-    price: priceOf(PRICING_PMU, 'Perfect Powder Brows'),
+    price: pmuPrice('perfect-powder-brows'), // D2: id stałe, nazwa w cenniku site.js wg briefu
     description:
       'Efekt delikatnie podmalowanych brwi cieniem, z podkreślonym kształtem, ale nadal w delikatnej, transparentnej wersji bez przesady.',
-    quote: 'Idealne przejścia tonalne (Ombre/Powder) dopasowane do karnacji.',
+    /* Z16: cytat „Ombre/Powder” (dawna strona, bez źródła) usunięty – zdanie z briefu („Salon”)
+       o technice pudrowej. „Combo” z tego zdania zostaje w tekście o salonie (/o-nas): ceny
+       combo źródła nie podają, więc nie stawiamy go przy wierszu z ceną (D10, pytanie do klientki). */
+    quote: 'Dla osób, które chcą mocniej podkreślić kształt brwi, ale nadal w naturalnej wersji.',
   },
   {
     id: 'perfect-lips',
     number: '03',
     name: 'Perfect Lips',
     kind: 'Usta permanentne · subtelność i świeżość',
-    duration: '2 godziny',
-    price: priceOf(PRICING_PMU, 'Perfect Lips'),
+    price: pmuPrice('perfect-lips'),
     description:
       'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
   },
   {
     id: 'perfect-eyes',
     number: '04',
-    name: 'Perfect Eyeliners',
-    kind: 'Pigmentacja linii · zagęszczenie rzęs',
-    duration: '1–1,5 godziny',
-    price: priceOf(PRICING_PMU, 'Perfect Eyeliners'),
+    name: 'Perfect Eyes', // D2: nazwa wg briefu („Pigmentacja linii „Perfect eyes””)
+    kind: 'Pigmentacja linii rzęs · efekt zagęszczenia', // D2: „linia rzęs”, nie „kreska”
+    price: pmuPrice('perfect-eyeliners'), // D2: id stałe (dawniej „Perfect Eyeliners”)
     description:
       'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki – bez kreski, bez ogonka i bez cienia na powiece.',
   },
@@ -150,23 +172,28 @@ const RESULTS = [
   { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym – zbliżenie' },
 ].map(({ macro, alt }) => ({ image: macro.image, position: macro.position, alt }));
 
+/* D6 (Z15): źródła nie znają „konsultacji” jako osobnej usługi – krok 01 to rysunek
+   wstępny (brief, FAQ). Zdanie „Zabieg trwa od 1 do 2 godzin” bez źródła – usunięte;
+   w jego miejscu zdanie z FAQ briefu (żel chłodzący; brzmienie złagodzone jak w FAQ – D3).
+   D5 (Z10): korekta od miesiąca do 3 miesięcy od zabiegu i jej opis z briefu – widoczne
+   także na telefonie (warunki z grafiki stoją pod cennikiem PMU). */
+const KOREKTA = pmuItem('korekta');
+
 const VISIT_STEPS = [
   {
     number: '01',
-    title: 'Konsultacja i dobór techniki',
-    desc: 'Architektura twarzy i rysunek wstępny. Kolor dobieramy do karnacji, a kształt do Twoich rysów.',
+    title: 'Rysunek wstępny',
+    desc: 'Dopasowujemy go do architektury twarzy – bez niego nie zaczynamy. Kiedy go sprawdzasz, wprowadzamy zmiany zgodnie z Twoimi uwagami i życzeniami.',
   },
   {
     number: '02',
     title: 'Zabieg',
-    desc: 'Zaczynamy dopiero, gdy zaakceptujesz rysunek wstępny. Zabieg trwa od 1 do 2 godzin, zależnie od techniki.',
+    desc: 'Zaczynamy dopiero, gdy zaakceptujesz rysunek wstępny. Po pierwszym przejściu maszynką nakładamy żel chłodzący, który łagodzi nieprzyjemne odczucia.',
   },
   {
     number: '03',
-    title: `Korekta do 3 miesięcy – ${priceOf(PRICING_PMU, 'Korekta do 3 miesięcy')}`,
-    desc: PRICING_PMU.footnote,
-    /* ta sama nota stoi pod cennikiem PMU (#cennik) – na telefonie tylko tam */
-    descFromSm: true,
+    title: `Korekta – ${fmt(KOREKTA.price || '')}`,
+    desc: `${KOREKTA.timing}. Uzupełniamy ubytki – najczęściej zależne od skóry, jej regeneracji lub stanu hormonalnego – albo wzmacniamy efekt, pogrubiamy brwi i zagęszczamy włoski.`,
   },
 ];
 
@@ -174,14 +201,28 @@ const VISIT_STEPS = [
 /*  04 – odświeżenie i usuwanie (bez materiału zdjęciowego)            */
 /* ------------------------------------------------------------------ */
 
+/* D5: przy cenie odświeżenia warunek z grafiki („dla klientek, którym wykonałyśmy
+   makijaż permanentny”) – `condition` stoi zawsze, także na telefonie. Usuwanie: cena dla
+   wszystkich = najniższa stawka bez `forOwnClients` („od 200 zł”), a 100 zł osobno,
+   z warunkiem. D6: czasy wizyt („1,5 godziny”, „30–45 minut”) bez źródła – usunięte
+   (brief zna tylko „samo usuwanie trwa około minuty” – FAQ). */
+const amount = (price) => Number(String(price).replace(/[^\d]/g, ''));
+const REMOVAL_FROM = Math.min(
+  ...PRICING_REMOVAL.items
+    .filter((item) => !item.forOwnClients)
+    .map((item) => amount(item.price))
+    .filter((n) => n > 0)
+);
+const REMOVAL_OWN = PRICING_REMOVAL.items.find((item) => item.forOwnClients);
+
 const AFTERCARE = [
   {
     id: 'odswiezenie',
     number: '01',
     tag: 'Po 1–3 latach',
     name: 'Odświeżenie makijażu permanentnego',
-    duration: '1,5 godziny',
     price: `od${NBSP}${fmt(PRICING_REFRESH.items[0].price)}`,
+    condition: `${PRICING_REFRESH.condition}.`,
     priceNote: 'Stawka zależy od czasu, jaki minął od ostatniego zabiegu – pełne widełki w cenniku.',
     description:
       'Zabieg, który wykonujemy raz na 1–3 lata, aby odnowić efekt, uzupełnić kolor oraz dodać gęstości, grubości i intensywności.',
@@ -191,9 +232,11 @@ const AFTERCARE = [
     number: '02',
     tag: 'Przed nową pigmentacją',
     name: 'Usuwanie laserem lub removerem',
-    duration: '30–45 minut',
-    price: priceOf(PRICING_REMOVAL, 'Usuwanie PMU brwi'),
-    priceNote: 'Brwi lub usta. Kreski, tatuaże i stawka dla naszych klientek – w cenniku.',
+    price: `od${NBSP}${fmt(`${REMOVAL_FROM} zł`)}`,
+    condition: REMOVAL_OWN
+      ? `${fmt(REMOVAL_OWN.price)} – ${fmt(REMOVAL_OWN.name).replace(/^Usuwanie/, 'usuwanie')}.`
+      : null,
+    priceNote: `Brwi lub usta – ${priceOf(PRICING_REMOVAL, 'Usuwanie PMU brwi')}. Końcówki kresek i tatuaże – w cenniku.`,
     description:
       'Usuwamy stary, nieudany makijaż permanentny przed nową pigmentacją. Metodę – laser albo remover – dobieramy indywidualnie, tak aby jak najszybciej i najbezpieczniej pozbyć się niechcianego pigmentu.',
   },
@@ -201,8 +244,10 @@ const AFTERCARE = [
 
 /* ------------------------------------------------------------------ */
 /*  06 – FAQ: treść klienta po korekcie językowej. Absoluty złagodzone  */
-/*  (bez „w żadnym przypadku”, „nie ma żadnych blizn”) – brzmienie do   */
-/*  akceptacji klienta. Lead w hero jest z tym FAQ zgodny.             */
+/*  (bez „w żadnym przypadku”, „nie ma żadnych blizn”) – D3: wersja     */
+/*  złagodzona zostaje; brzmienie do akceptacji klientki. Lead w hero   */
+/*  jest z tym FAQ zgodny. Korekta: dopisane przypadki obowiązkowe      */
+/*  z grafiki cennika i termin z briefu (Z10/Z11) – oba źródła naraz.   */
 /* ------------------------------------------------------------------ */
 
 const FAQ_ITEMS = [
@@ -224,7 +269,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Czy korekta jest obowiązkowa?',
-    a: 'Najczęściej nie, ale wiele zależy od Twojej skóry, procesu regeneracji, stanu hormonalnego oraz Twoich oczekiwań po wygojeniu. Gdy trzeba uzupełnić ubytki, poprawić kształt, pogrubić lub zagęścić brwi, dodać intensywności czy delikatnie zmienić kolor, korekta będzie najlepszym rozwiązaniem.',
+    a: 'Najczęściej nie, ale wiele zależy od Twojej skóry, procesu regeneracji, stanu hormonalnego oraz Twoich oczekiwań po wygojeniu. Gdy trzeba uzupełnić ubytki, poprawić kształt, pogrubić lub zagęścić brwi, dodać intensywności czy delikatnie zmienić kolor, korekta będzie najlepszym rozwiązaniem. Obowiązkowa jest przy pracy na skórze tłustej, porowatej, z resztkami starego makijażu permanentnego oraz po usuwaniu. Wykonujemy ją od miesiąca do 3 miesięcy od zabiegu.',
   },
   {
     q: 'Czy można robić nowy zabieg na starym makijażu permanentnym?',
@@ -344,7 +389,8 @@ function TechniqueRow({ t, last }) {
       </div>
       <div className="col-span-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-2 lg:col-start-4 lg:row-start-1 lg:flex-col lg:flex-nowrap lg:items-end lg:justify-start lg:gap-4">
         <p className="whitespace-nowrap">
-          <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>
+          {/* D6: czas tylko przy technice ze źródłem czasu (SNB) */}
+          {t.duration && <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>}
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
         </p>
         <ArrowLink href={bookingHref(t.id)} className="w-fit">
@@ -411,7 +457,9 @@ function ResultsBand() {
             tone="dark"
             cols={4}
             ratio="1 / 1"
-            caption="Brwi i usta – prace z naszego gabinetu."
+            /* D10: źródła nie mówią, czyje to prace ani gdzie je wykonano (część ma znak
+               akademii) – podpis bez „naszego gabinetu”. */
+            caption="Brwi i usta po makijażu permanentnym."
           />
         </Reveal>
 
@@ -465,9 +513,11 @@ function AftercareCard({ t }) {
       <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
       <p className="mt-5 font-display text-[1.375rem] leading-none text-ink sm:mt-6">
         {t.price}
-        <span className="as-label ml-4 align-middle text-ink/70">{t.duration}</span>
+        {t.duration && <span className="as-label ml-4 align-middle text-ink/70">{t.duration}</span>}
       </p>
-      <p id={noteId} className={cn('as-caption mt-3', more.hiddenClass)}>
+      {/* D5: warunek ceny stoi zawsze – także na telefonie, bez „Więcej” */}
+      {t.condition && <p className="as-caption mt-3">{t.condition}</p>}
+      <p id={noteId} className={cn('as-caption', t.condition ? 'mt-1' : 'mt-3', more.hiddenClass)}>
         {t.priceNote}
       </p>
     </article>
@@ -570,13 +620,17 @@ function PricingBand() {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
           <Reveal className="lg:col-start-1 lg:row-start-1">
             <SectionLabel number="05">Cennik</SectionLabel>
+            {/* „bez gwiazdek” obiecywało brak zastrzeżeń, a cennik ma warunki (dla naszych
+                klientek, wycena indywidualna) – stoją jawnie przy pozycjach */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Jasne stawki,
               <br />
-              bez gwiazdek.
+              jasne warunki.
             </h2>
+            {/* D6 (Z15): „konsultacja w cenie” bez źródła – zostaje to, co podaje brief (FAQ) */}
             <p className="as-body mt-6">
-              Wszystkie zabiegi zawierają konsultację, architekturę twarzy oraz rysunek wstępny.
+              Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury twarzy – bez niego nie
+              zaczynamy.
             </p>
           </Reveal>
 
@@ -588,8 +642,13 @@ function PricingBand() {
               <div className="mb-6 hidden lg:block">
                 <PriceBlock table={PRICING_REFRESH} />
               </div>
+              {/* D6 (Z14): „darmowa konsultacja” bez źródła → zdanie z briefu („Salon”) + „Napisz do nas” */}
               <p className="as-caption max-w-[30rem]">
-                Charytatywna rekonstrukcja dla osób po chorobach onkologicznych – darmowa konsultacja.
+                {SALON.charity}{' '}
+                <Link href="/kontakt" className="underline underline-offset-2 transition-colors hover:text-ink">
+                  Napisz do nas
+                </Link>
+                .
               </p>
             </Reveal>
           </div>
@@ -669,6 +728,85 @@ function FaqBand() {
 }
 
 /* ================================================================== */
+/*  07 – CENNIK DO POBRANIA (cream-100, hairline)                      */
+/* ================================================================== */
+
+/* D8: brief – „Na dole podstrony usług dodajemy obrazek z cennikiem”. Kompromis z zasadą 7
+   designu: grafiki cennika nie jako duże obrazy w treści, tylko rząd miniatur (≤ 160 px)
+   z linkiem do pełnej grafiki w nowej karcie. Tabele w #cennik zostają wersją dostępną
+   (czytniki, wyszukiwarki). Grafiki bez tonu – tekst na nich ma być czytelny.
+   Alt opisuje treść grafiki dosłownie (nazwy z grafiki: Perfect Powder Brows, Perfect
+   Eyeliners) – pod miniaturami nota o nazwach z briefu (D2). */
+const PRICE_SHEETS = [
+  {
+    key: 'pmu',
+    table: PRICING_PMU,
+    part: '1/3',
+    alt: 'Grafika „Cennik PMU” (1/3): Super Natural Brows, Perfect Powder Brows i Perfect Lips – po 1700 zł, Perfect Eyeliners – 1500 zł, korekta do 3 miesięcy – 500 zł',
+  },
+  {
+    key: 'refresh',
+    table: PRICING_REFRESH,
+    part: '2/3',
+    alt: 'Grafika „Cennik Refresh” (2/3), odświeżenie dla moich klientek: do 1,5 roku – 850 zł, do 3 lat – 1000 zł, po 3 latach – 1200 zł',
+  },
+  {
+    key: 'usuwanie',
+    table: PRICING_REMOVAL,
+    part: '3/3',
+    alt: 'Grafika „Cennik Usuwanie” (3/3), laser lub remover: PMU brwi – 400 zł, PMU ust – 400 zł, końcówki kresek – 200 zł, brwi dla moich klientek – 100 zł, mały tatuaż – 250 zł, średni – 400 zł, duży – powyżej 500 zł (wycena indywidualna)',
+  },
+];
+
+function PriceSheetsBand() {
+  return (
+    <section id="cennik-do-pobrania" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-4">
+            <SectionLabel number="07">Do pobrania</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">Cennik do&nbsp;pobrania.</h2>
+            <p className="as-body mt-6">Grafiki cennika salonu w pełnym rozmiarze otwierają się w nowej karcie.</p>
+          </Reveal>
+          <Reveal delay={80} className="lg:col-span-8 lg:col-start-5 lg:self-end">
+            <ul className="grid max-w-[33rem] grid-cols-3 gap-3 sm:gap-6">
+              {PRICE_SHEETS.map((sheet) => (
+                <li key={sheet.key} className="min-w-0 max-w-[160px]">
+                  <a
+                    href={CENNIK[sheet.key].src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block"
+                  >
+                    <Figure
+                      image={CENNIK[sheet.key]}
+                      alt={sheet.alt}
+                      ratio="9 / 16"
+                      zoom={false}
+                      sizes="160px"
+                      className="as-photo-frame"
+                    />
+                    <span className="as-caption mt-2 block transition-colors group-hover:text-ink">
+                      {sheet.table.title} · {sheet.part}
+                      <span className="sr-only"> (otwiera się w nowej karcie)</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {/* D2: nazwy na stronie wg briefu, na grafice – dawne; nota, żeby nie wyglądało na dwa zabiegi */}
+            <p className="as-caption mt-6 max-w-[33rem]">
+              Na grafice cennika Perfect Brows i Perfect Eyes występują pod nazwami Perfect Powder Brows
+              i Perfect Eyeliners.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
 
 /* Id zabiegów na /uslugi → id w konfiguracji rezerwacji (src/lib/booking/config.js).
    „Umów wizytę” w wierszu otwiera /umow-wizyte z już wybranym zabiegiem. */
@@ -717,12 +855,14 @@ export default function Treatments() {
       <AftercareBand />
       <PricingBand />
       <FaqBand />
+      <PriceSheetsBand />
 
+      {/* D6 (Z15): bez „konsultacji” jako osobnej usługi – zaproszenie do rozmowy */}
       <ClosingCta
-        number="07"
+        number="08"
         label="Wizyta"
         title="Zacznijmy od"
-        titleAccent="konsultacji."
+        titleAccent="rozmowy."
         lead={`${CONTACT.venue} – ${CONTACT.city}. Napisz, co chcesz zmienić, a dobierzemy technikę i termin.`}
         primary={{ href: BOOKING_URL, label: 'Umów wizytę' }}
         secondary={{ href: '#cennik', label: 'Zobacz cennik' }}

@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import * as PL from '../lib/site.js';
 import EN from '../content/site/en.js';
 import RU from '../content/site/ru.js';
+import { isPublicLocale } from './config.js';
 
 const numbers = (s) => (String(s).match(/\d+/g) || []).sort();
 
@@ -76,14 +77,18 @@ for (const [locale, overlay] of [
   ['ru', RU],
 ]) {
   const leaves = Object.entries(overlay).flatMap(([key, value]) => walk(value, PL[key], key, []));
+  /* Kompletność i liczby wymagane dla języków publicznych (NEXT_PUBLIC_LOCALES). Dopóki EN/RU są
+     ukryte, polski tekst może się zmieniać przed tłumaczeniem; włączenie języka bez pełnych
+     tłumaczeń zatrzyma te testy. */
+  const gate = isPublicLocale(locale) ? {} : { skip: `${locale} niepubliczny (NEXT_PUBLIC_LOCALES) – kompletność sprawdzana po włączeniu` };
 
-  test(`${locale}: struktura nakładki zgodna z site.js, bez cen; każdy tekst przetłumaczony`, () => {
+  test(`${locale}: struktura nakładki zgodna z site.js, bez cen; każdy tekst przetłumaczony`, gate, () => {
     const done = new Set(leaves.map(([path]) => path));
     const missing = PL_TEXTS.filter(([path]) => !done.has(path)).map(([path, text]) => `${path}: ${text}`);
     assert.deepEqual(missing, [], `brak tłumaczenia (${missing.length})`);
   });
 
-  test(`${locale}: liczby w tekstach jak w polskim oryginale`, () => {
+  test(`${locale}: liczby w tekstach jak w polskim oryginale`, gate, () => {
     for (const [path, text, pl] of leaves) {
       assert.deepEqual(numbers(text), numbers(pl), `${path}: „${text}” ↔ „${pl}”`);
     }

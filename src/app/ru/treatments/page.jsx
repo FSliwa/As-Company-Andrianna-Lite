@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'treatments',
   title: 'Перманентный макияж бровей и губ – процедуры и цены',
   description:
-    'Super Natural Brows, Perfect Powder Brows, Perfect Lips и Perfect Eyeliners в Варшаве: цены, коррекции, обновления и удаление перманентного макияжа.',
+    'Super Natural Brows, Perfect Brows, Perfect Lips и Perfect Eyes (межресничная линия) в Варшаве: цены, коррекции, обновления и удаление перманентного макияжа.',
 });
 
 export default function Page() {
