@@ -1,7 +1,8 @@
 import { LEGAL, SITE_URL } from '@/lib/site';
 
 /** sitemap.xml — publiczne trasy; data = data buildu. */
-const ROUTES = ['', '/o-nas', '/uslugi', '/umow-wizyte', '/pakiety', '/kontakt', '/szkolenia', '/maszynki', '/pigmenty', '/certyfikaty'];
+// '/umow-wizyte' wraca tu razem ze stroną rezerwacji (jeszcze nie w repozytorium).
+const ROUTES = ['', '/o-nas', '/uslugi', '/pakiety', '/kontakt', '/szkolenia', '/maszynki', '/pigmenty', '/certyfikaty'];
 
 export default function sitemap() {
   const lastModified = new Date();
