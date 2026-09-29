@@ -1,0 +1,228 @@
+/**
+ * Katalog pigmentów — czyste funkcje nad src/data/pigments.json.
+ *
+ * Dane pochodzą WYŁĄCZNIE z publicznego Store API sklepu klienta (WooCommerce,
+ * kategoria „Pigmenty”) i są odświeżane skryptem:
+ *
+ *   node scripts/sync-pigments.mjs
+ *
+ * Nie dopisujemy tu niczego ręcznie. Ceny są w groszach (PLN), `price` to cena
+ * BIEŻĄCA ze sklepu. `regularPrice` jest w danych tylko do wiedzy — strona jej
+ * NIE pokazuje (brak najniższej ceny z 30 dni, Omnibus), więc tu nie ma do niej
+ * formatera.
+ *
+ * `color` to odcień POGLĄDOWY wyznaczony z miniatury produktu (analiza lokalna;
+ * zdjęć sklepu nie publikujemy) — `null`, gdy nie dało się go wiarygodnie ustalić
+ * (zestawy, biały pigment). `colorMeta` w JSON służy tylko synchronizacji.
+ *
+ * Kształt produktu:
+ *   { id, sourceId, name, fullName, collection, series, isSet, zones[],
+ *     variants: [{ label, price, regularPrice, inStock, sourceId }],
+ *     shortDesc, description, inStock, onSale, color, syncedAt }
+ */
+
+import data from '@/data/pigments.json';
+
+const NBSP = ' ';
+
+/* ---------------- dane ---------------- */
+
+/** Strefy użyte w katalogu, w stałej kolejności: [{ id, name }]. */
+export const ZONES = data.zones;
+
+/** Data synchronizacji z API sklepu (ISO). */
+export const SYNCED_AT = data.syncedAt;
+
+/** Kolekcje: [{ id, name, count, shades, sets, zones[] }] (opis tylko, gdy sklep go ma). */
+export function collections(catalog = data) {
+  return catalog.collections;
+}
+
+export function collectionById(id, catalog = data) {
+  return catalog.collections.find((c) => c.id === id) ?? null;
+}
+
+/** Wszystkie produkty (odcienie + zestawy), posortowane: kolekcja → odcienie → zestawy. */
+export function products(catalog = data) {
+  return catalog.products;
+}
+
+/** Produkt po `id` (slug ze sklepu) albo po `sourceId`. */
+export function productById(id, catalog = data) {
+  return catalog.products.find((p) => p.id === id || p.sourceId === id) ?? null;
+}
+
+export function zoneLabel(id, catalog = data) {
+  return catalog.zones.find((z) => z.id === id)?.name ?? id;
+}
+
+export function collectionLabel(id, catalog = data) {
+  return collectionById(id, catalog)?.name ?? id;
+}
+
+/* ---------------- filtry ---------------- */
+
+/**
+ * Filtr listy produktów.
+ * @param {Array} list
+ * @param {{ collection?: string|null, zone?: string|null, sets?: 'include'|'exclude'|'only' }} [opts]
+ *   `collection`/`zone` puste (null, '', 'all') = bez filtra.
+ */
+export function filterProducts(list, { collection = null, zone = null, sets = 'include' } = {}) {
+  const any = (v) => v === null || v === undefined || v === '' || v === 'all';
+  return list.filter(
+    (p) =>
+      (any(collection) || p.collection === collection) &&
+      (any(zone) || p.zones.includes(zone)) &&
+      (sets === 'include' || (sets === 'only' ? p.isSet : !p.isSet))
+  );
+}
+
+export const byCollection = (list, collection) => filterProducts(list, { collection });
+export const byZone = (list, zone) => filterProducts(list, { zone });
+
+/** Strefy obecne w danej liście (np. po wybraniu kolekcji), w kolejności ZONES. */
+export function zonesIn(list, catalog = data) {
+  const present = new Set(list.flatMap((p) => p.zones));
+  return catalog.zones.filter((z) => present.has(z.id));
+}
+
+/** Liczba produktów w strefie (opcjonalnie w obrębie kolekcji). */
+export function countBy(list, { collection = null, zone = null, sets = 'include' } = {}) {
+  return filterProducts(list, { collection, zone, sets }).length;
+}
+
+/* ---------------- ceny ---------------- */
+
+/**
+ * Grosze → „149 zł” (twarda spacja przed „zł”), „149,50 zł” gdy są grosze.
+ * Bez separatora tysięcy — jak w sklepie („1800 zł”). Nieliczba → ''.
+ */
+export function formatPrice(grosze) {
+  const n = Number(grosze);
+  if (!Number.isFinite(n)) return '';
+  const sign = n < 0 ? '-' : '';
+  const abs = Math.round(Math.abs(n));
+  const zl = Math.floor(abs / 100);
+  const gr = abs % 100;
+  return `${sign}${zl}${gr ? `,${String(gr).padStart(2, '0')}` : ''}${NBSP}zł`;
+}
+
+/** „6 ml” z twardą spacją (etykiety w danych mają zwykłą). */
+export function formatCapacity(label) {
+  return label ? String(label).replace(/\s+/g, NBSP) : '';
+}
+
+/**
+ * Cena do karty / wiersza:
+ *   jeden wariant           → „149 zł”
+ *   kilka wariantów         → „6 ml 149 zł · 15 ml 219 zł”
+ * Warianty bez etykiety pojemności pokazują samą cenę.
+ */
+export function priceLabel(variants) {
+  if (!Array.isArray(variants) || variants.length === 0) return '';
+  if (variants.length === 1) return formatPrice(variants[0].price);
+  return variants
+    .map((v) => (v.label ? `${formatCapacity(v.label)}${NBSP}${formatPrice(v.price)}` : formatPrice(v.price)))
+    .join(' · ');
+}
+
+/** Najniższa cena bieżąca (grosze) albo null. */
+export function minPrice(variants) {
+  const prices = (variants || []).map((v) => Number(v.price)).filter(Number.isFinite);
+  return prices.length ? Math.min(...prices) : null;
+}
+
+/** „od 149 zł” przy kilku różnych cenach, inaczej „149 zł”. */
+export function priceFromLabel(variants) {
+  const prices = new Set((variants || []).map((v) => Number(v.price)));
+  const min = minPrice(variants);
+  if (min === null) return '';
+  return prices.size > 1 ? `od${NBSP}${formatPrice(min)}` : formatPrice(min);
+}
+
+/** Pojemności produktu: „6 ml” / „6 ml · 15 ml” / '' (zestawy, brak danych). */
+export function capacityLabel(variants) {
+  return (variants || [])
+    .map((v) => v.label)
+    .filter(Boolean)
+    .map(formatCapacity)
+    .join(' · ');
+}
+
+/** Wariant po etykiecie pojemności (albo pierwszy, gdy etykiety brak). */
+export function findVariant(product, label = null) {
+  if (!product?.variants?.length) return null;
+  if (label === null || label === undefined) return product.variants[0];
+  return product.variants.find((v) => v.label === label) ?? null;
+}
+
+/* ---------------- zamówienie (zapytanie, bez płatności) ---------------- */
+
+/**
+ * Podsumowanie listy „Twoje zamówienie”.
+ * @param {Array<{ productId: string|number, label?: string|null, qty: number }>} entries
+ * @returns {{ lines: Array<{ product, variant, qty, total: number, text: string }>, total: number, count: number }}
+ *   `text` np. „Japanese Garden (AS OPIUM), 6 ml × 2 — 298 zł”. Pozycje nieznane są pomijane.
+ */
+export function orderSummary(entries, catalog = data) {
+  const lines = [];
+  for (const e of entries || []) {
+    const product = productById(e.productId, catalog);
+    const variant = findVariant(product, e.label ?? null);
+    const qty = Math.max(1, Math.floor(Number(e.qty) || 1));
+    if (!product || !variant) continue;
+    const total = variant.price * qty;
+    const what = [
+      `${product.name} (${collectionLabel(product.collection, catalog)})`,
+      variant.label ? formatCapacity(variant.label) : null,
+    ]
+      .filter(Boolean)
+      .join(', ');
+    lines.push({ product, variant, qty, total, text: `${what} × ${qty} — ${formatPrice(total)}` });
+  }
+  return {
+    lines,
+    total: lines.reduce((sum, l) => sum + l.total, 0),
+    count: lines.reduce((sum, l) => sum + l.qty, 0),
+  };
+}
+
+/* ---------------- statystyki ---------------- */
+
+/**
+ * Liczby do nagłówka/hero — wszystkie wyliczone z danych:
+ *   shades       – liczba odcieni (bez zestawów)
+ *   sets         – liczba zestawów
+ *   collections  – liczba kolekcji z produktami
+ *   capacities   – pojemności pojedynczych odcieni, rosnąco (np. ['6 ml', '12 ml', '15 ml'])
+ *   syncedAt     – data synchronizacji (ISO)
+ */
+export function stats(catalog = data) {
+  const shades = catalog.products.filter((p) => !p.isSet);
+  const ml = (label) => Number(String(label).replace(',', '.').replace(/\s*ml$/, ''));
+  const capacities = [...new Set(shades.flatMap((p) => p.variants.map((v) => v.label)).filter(Boolean))].sort(
+    (a, b) => ml(a) - ml(b)
+  );
+  return {
+    shades: shades.length,
+    sets: catalog.products.length - shades.length,
+    collections: catalog.collections.filter((c) => c.count > 0).length,
+    capacities,
+    syncedAt: catalog.syncedAt,
+  };
+}
+
+/** Data synchronizacji jako „29.09.2026” (strefa Europe/Warsaw — ten sam wynik na serwerze i w przeglądarce). */
+export function formatSyncedDate(iso = data.syncedAt) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  const parts = new Intl.DateTimeFormat('pl-PL', {
+    timeZone: 'Europe/Warsaw',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).formatToParts(d);
+  const get = (t) => parts.find((p) => p.type === t)?.value ?? '';
+  return `${get('day')}.${get('month')}.${get('year')}`;
+}

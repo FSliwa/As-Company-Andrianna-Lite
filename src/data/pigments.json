@@ -1,0 +1,4058 @@
+{
+  "source": "https://as-loveliness.eu/wp-json/wc/store/v1/products?category=158 (kategoria sklepu „Pigmenty”)",
+  "syncedAt": "2026-09-29T14:38:28.728Z",
+  "currency": "PLN",
+  "priceNote": "Ceny w groszach; `price` = cena bieżąca ze sklepu (prices.price). `regularPrice` tylko do wiedzy — strona jej nie pokazuje (brak najniższej ceny z 30 dni).",
+  "zones": [
+    {
+      "id": "brwi",
+      "name": "Brwi"
+    },
+    {
+      "id": "usta",
+      "name": "Usta"
+    },
+    {
+      "id": "kreski",
+      "name": "Kreski"
+    },
+    {
+      "id": "modyfikatory",
+      "name": "Modyfikatory i korektory"
+    },
+    {
+      "id": "areola",
+      "name": "Areola"
+    },
+    {
+      "id": "camouflage",
+      "name": "Camouflage"
+    },
+    {
+      "id": "skora-glowy",
+      "name": "Skóra głowy"
+    }
+  ],
+  "collections": [
+    {
+      "id": "as-opium",
+      "name": "AS OPIUM",
+      "count": 32,
+      "shades": 28,
+      "sets": 4,
+      "zones": [
+        "brwi",
+        "usta",
+        "kreski",
+        "modyfikatory"
+      ]
+    },
+    {
+      "id": "as-opium-light-minerals",
+      "name": "AS OPIUM Light Minerals",
+      "count": 13,
+      "shades": 12,
+      "sets": 1,
+      "zones": [
+        "brwi",
+        "kreski",
+        "modyfikatory"
+      ]
+    },
+    {
+      "id": "as-classic",
+      "name": "AS Classic",
+      "count": 30,
+      "shades": 27,
+      "sets": 3,
+      "zones": [
+        "brwi",
+        "usta",
+        "kreski",
+        "modyfikatory"
+      ]
+    },
+    {
+      "id": "paradise",
+      "name": "Paradise",
+      "count": 7,
+      "shades": 6,
+      "sets": 1,
+      "zones": [
+        "usta"
+      ]
+    },
+    {
+      "id": "harley-quinn",
+      "name": "Harley Quinn",
+      "count": 7,
+      "shades": 6,
+      "sets": 1,
+      "zones": [
+        "usta"
+      ]
+    },
+    {
+      "id": "hairstrokes",
+      "name": "Hairstrokes",
+      "count": 7,
+      "shades": 7,
+      "sets": 0,
+      "zones": [
+        "brwi"
+      ]
+    },
+    {
+      "id": "areola-camouflage",
+      "name": "Areola/Camouflage",
+      "count": 13,
+      "shades": 12,
+      "sets": 1,
+      "zones": [
+        "areola",
+        "camouflage"
+      ]
+    },
+    {
+      "id": "trichopigmentation",
+      "name": "Trichopigmentation",
+      "count": 4,
+      "shades": 4,
+      "sets": 0,
+      "zones": [
+        "skora-glowy"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "as-opium-pigments-brazil",
+      "sourceId": 2491,
+      "name": "Brazil",
+      "fullName": "AS Opium Pigments Brazil",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3258
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 3257
+        }
+      ],
+      "shortDesc": "Miękki, spokojny kolor, średniobrązowy pigment.",
+      "description": "Miękki, spokojny kolor, średniobrązowy pigment na cieplej bazie\n\nMoże być stosowany w czystej postaci.\n\nPasuje do typów urody: wiosna, lato.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Soil, Pecan\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#372318",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-horse",
+      "sourceId": 2494,
+      "name": "Horse",
+      "fullName": "AS Opium Pigments Horse",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3255
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 3254
+        }
+      ],
+      "shortDesc": "Kolor średniobrązowy.",
+      "description": "Średniobrązowy kolor na neutralnej bazie\n\nMoże być stosowany w czystej postaci na cieplej skórze.\n\nPasuje do typów urody: wiosna, jesień.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Whiskey, Pecan\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#332614",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-pecan",
+      "sourceId": 2502,
+      "name": "Pecan",
+      "fullName": "AS Opium Pigments Pecan",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3248
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 3247
+        }
+      ],
+      "shortDesc": "Orzechowy, spokojny kolor.",
+      "description": "Orzechowy, spokojny kolor na neutralnej bazie. Uniwersalny odcień.\n\nMoże być stosowany w czystej postaci.\n\nPasuje do typów urody: lato, wiosna, jesień, zima.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Brazil, Soil\n\nData ważności pigmentu od daty produkcji: 4 lat\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#2d1e16",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-soil",
+      "sourceId": 2489,
+      "name": "Soil",
+      "fullName": "AS Opium Pigments Soil",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3261
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 3260
+        }
+      ],
+      "shortDesc": "Głęboki, ciemny brązowy",
+      "description": "Głęboki, ciemny brązowy na chłodnej bazie\n\nNie stosować w postaci czystej na bladej skórze z trądzikiem różowatym.\n\nPasuje do typów urody: jesień, zima.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Brazil, Wood\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#2f1d19",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-whiskey",
+      "sourceId": 2496,
+      "name": "Whiskey",
+      "fullName": "AS Opium Pigments Whiskey",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3252
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 3251
+        }
+      ],
+      "shortDesc": "Jasny kolor słodowy.",
+      "description": "Jasny kolor słodowy na ciepłej bazie. Może być stosowany w czystej postaci.\n\nPasuje do typów urody: wiosna, lato.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Horse\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#382613",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-wood",
+      "sourceId": 5231,
+      "name": "Wood",
+      "fullName": "AS Opium Pigments Wood",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5233
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5232
+        }
+      ],
+      "shortDesc": "Ciemny, brązowy kolor",
+      "description": "Ciemny, brązowy kolor na chłodnej bazie\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Brazil, Modyfikator – Brick\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#241913",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-almonds",
+      "sourceId": 2539,
+      "name": "Almonds",
+      "fullName": "AS Opium Pigments Almonds",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3200
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3199
+        }
+      ],
+      "shortDesc": "Brązowy, orzechowy kolor",
+      "description": "Brązowo-orzechowy kolor na ciepłej bazie. Pasuje do cery chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z neutralnymi oraz chłodnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Naomi, Sindy, Carrot, Guava, Papaya\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#ac6462",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-blood",
+      "sourceId": 2533,
+      "name": "Blood",
+      "fullName": "AS Opium Pigments Blood",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3221
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 3220
+        }
+      ],
+      "shortDesc": "Krwistoróżowy kolor",
+      "description": "Krwistoróżowy kolor na neutralnej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi oraz neutralnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Red Royal\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#921115",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-carrot",
+      "sourceId": 2513,
+      "name": "Carrot",
+      "fullName": "AS Opium Pigments Carrot",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3213
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3212
+        }
+      ],
+      "shortDesc": "Marchwiowy kolor",
+      "description": "Marchwiowy kolor na neutralnej bazie. Odpowiedni dla cery chłodnej i ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z chłodnymi kolorami.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Naomi, Japanese Garden, Sindy,Toffee, Almonds\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a74b53",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-chilli-peppers",
+      "sourceId": 2529,
+      "name": "Chilli Peppers",
+      "fullName": "AS Opium Pigments Chilli Peppers",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3227
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3226
+        }
+      ],
+      "shortDesc": "Klasyczny, czerwony kolor",
+      "description": "Klasyczna czerwień na ciepłej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi oraz chłodnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek:Ferrari, Dark Scarlet, Papaya.\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#cc0909",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-dark-scarlet",
+      "sourceId": 2510,
+      "name": "Dark Scarlet",
+      "fullName": "AS Opium Pigments Dark Scarlet",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3241
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3240
+        }
+      ],
+      "shortDesc": "Karmazynowoczerwony, ciemny kolor",
+      "description": "Karmazynowoczerwony, ciemny kolor na chłodnej bazie. Odpowiedni dla cery ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi, neutralnymi kolorami.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Red Royal, Cherry, Japanese Garden\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9b0f1c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-ferrari",
+      "sourceId": 2506,
+      "name": "Ferrari",
+      "fullName": "AS Opium Pigments Ferrari",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": false,
+          "sourceId": 3246
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3245
+        }
+      ],
+      "shortDesc": "Intensywny, czerwony kolor",
+      "description": "Intensywny, czerwony kolor na chłodnej bazie. Odpowiedni dla cery ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi, neutralnymi kolorami.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Red Royal, Toffee\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c42033",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-geisha",
+      "sourceId": 2537,
+      "name": "Geisha",
+      "fullName": "AS Opium Pigments Geisha",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3203
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3202
+        }
+      ],
+      "shortDesc": "Brązowo-czerwony kolor",
+      "description": "Brązowo-czerwony kolor na zimnej bazie. Pasuje do cery ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z chłodnymi oraz ciepłymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Pure Magenta, Papaya, Guava\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c2383b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-guava",
+      "sourceId": 2519,
+      "name": "Guava",
+      "fullName": "AS Opium Pigments Guava",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3231
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3230
+        }
+      ],
+      "shortDesc": "Przydymiony, różowy kolor",
+      "description": "Przydymiony róż, na chłodnej bazie. Pasuje do cery ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z neutralnymi, ciepłymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Naomi, Carrot, Raspberry, Cherry\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#b4536c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-japanese-garden",
+      "sourceId": 2543,
+      "name": "Japanese Garden",
+      "fullName": "AS Opium Pigments Japanese Garden",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3196
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3195
+        }
+      ],
+      "shortDesc": "Brudny róż, stonowany kolor",
+      "description": "Brudny róż, stonowany, na neutralnej bazie. Pasuje do cery chłodnej i ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z chłodnymi, ciepłymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Carrot, Naomi, Dark Scarlet, Plum Desert\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#bd7487",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-lychee",
+      "sourceId": 2517,
+      "name": "Lychee",
+      "fullName": "AS Opium Pigments Lychee",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 9900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3237
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3236
+        }
+      ],
+      "shortDesc": "Delikatny, różowy kolor",
+      "description": "Delikatny różowy kolor. Neutralna baza. Pasuje do cery chłodnej i ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z chłodnymi, ciepłymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Japanese Garden, Sindy, Pink Peach\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#e1819d",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-naomi",
+      "sourceId": 2523,
+      "name": "Naomi",
+      "fullName": "AS Opium Pigments Naomi",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3207
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3206
+        }
+      ],
+      "shortDesc": "Karmelowy, stonowany kolor",
+      "description": "Karmelowy, stonowany kolor na neutralnej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi i chłodnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Japanese Garden, Carrot\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#7c3c30",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-papaya",
+      "sourceId": 2531,
+      "name": "Papaya",
+      "fullName": "AS Opium Pigments Papaya",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3224
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3223
+        }
+      ],
+      "shortDesc": "Śliwkowy kolor",
+      "description": "Śliwkowy kolor na zimnej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi oraz neutralnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Plum Desert, Japanese Garden, Sindy, Cherry\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#b85071",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-pink-peach",
+      "sourceId": 2527,
+      "name": "Pink Peach",
+      "fullName": "AS Opium Pigments Pink Peach",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3229
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3228
+        }
+      ],
+      "shortDesc": "Różowo-brzoskwiniowy kolor",
+      "description": "Różowo-brzoskwiniowy kolor na neutralnej bazie. Pasuje do cery ciepłej i chłodnej. Najlepiej używać w połączeniu z neutralnymi oraz chłodnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Guava, Papaya\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c86877",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-pure-magenta",
+      "sourceId": 2515,
+      "name": "Pure Magenta",
+      "fullName": "AS Opium Pigments Pure Magenta",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3239
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3238
+        }
+      ],
+      "shortDesc": "Krwistoróżowy kolor",
+      "description": "Jagodowy róż na ciepłej bazie. Pasuje do cery chłodnej i ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z neutralnymi oraz ciepłymi kolorami.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Japanese Garden, Lychee, Sindy, Pink Peach\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a44255",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-red-royal",
+      "sourceId": 2508,
+      "name": "Red Royal",
+      "fullName": "AS Opium Pigments Red Royal",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3234
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3233
+        }
+      ],
+      "shortDesc": "Karmazynowo-czerwony kolor",
+      "description": "Karmazynowoczerwony kolor na ciepłej bazie. Odpowiedni dla cery ciepłej i zimnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi, chłodnymi, neutralnymi kolorami.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Guava, Ferrari\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9d211a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-salmon",
+      "sourceId": 2525,
+      "name": "Salmon",
+      "fullName": "AS Opium Pigments Salmon",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3205
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3204
+        }
+      ],
+      "shortDesc": "Jasny, koralowy kolor",
+      "description": "Jaskrawy, koralowy kolor na neutralnej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z neutralnymi, chłodnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Guava, Papaya, Sindy\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#cf4a51",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-sindy",
+      "sourceId": 2504,
+      "name": "Sindy",
+      "fullName": "AS Opium Pigments Sindy",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3243
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3242
+        }
+      ],
+      "shortDesc": "Brązowo – różowy, wyciszony kolor",
+      "description": "Brązoworóżowy, spokojny kolor na chłodnej bazie. Odpowiedni dla cery chłodnej i ciepłej. Można stosować samodzielnie.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Japanese Garden, Carrot, Salmon, Papaya, Naomi\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#944550",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-skin",
+      "sourceId": 2535,
+      "name": "Skin",
+      "fullName": "AS Opium Pigments Skin",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3218
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3217
+        }
+      ],
+      "shortDesc": "Cielisto-beżowy kolor",
+      "description": "Cielisto-beżowy kolor na neutralnej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z chłodnymi oraz neutralnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Japanese Garden, Lychee, Guava\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c57b80",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-toffee",
+      "sourceId": 2521,
+      "name": "Toffee",
+      "fullName": "AS Opium Pigments Toffee",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3210
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3209
+        }
+      ],
+      "shortDesc": "Brązoworóżowy, rumiany kolor",
+      "description": "Brązoworóżowy kolor na neutralnej bazie. Pasuje do cery ciepłej i chłodnej. Można stosować samodzielnie. Najlepiej używać w połączeniu z neutralnymi, chłodnymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Pure Magenta, Lychee, Guava, Almonds\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a95447",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-devil",
+      "sourceId": 2498,
+      "name": "Devil",
+      "fullName": "AS Opium Pigments Devil",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3250
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 3249
+        }
+      ],
+      "shortDesc": "Pigment do kresek na neutralnej bazie",
+      "description": "Pigment do kresek na neutralnej bazie. Pasuje do typów urody: wiosna,lato,jesień,zima.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#1f1c1b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "ultra-black-6-ml-pigment-do-kresek",
+      "sourceId": 11155,
+      "name": "Ultra Black",
+      "fullName": "ULTRA BLACK 6 ml – pigment do kresek",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 19000,
+          "regularPrice": 25000,
+          "inStock": true,
+          "sourceId": 11155
+        }
+      ],
+      "shortDesc": "PREMIUM pigment do kresek",
+      "description": "PREMIUM pigment do kresek na cieplej bazie\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#141414",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-pigments-brick",
+      "sourceId": 5226,
+      "name": "Brick",
+      "fullName": "AS Opium Pigments Brick",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": false,
+          "sourceId": 5228
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5227
+        }
+      ],
+      "shortDesc": "Modyfikator do ocieplenia innych pigmentów",
+      "description": "Idealny do ocieplenia innych pigmentów i stworzenia ładnych, ciepłych miksów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a03d1d",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "base-set-opium-colors",
+      "sourceId": 4581,
+      "name": "Base Set – Opium Colors (Hybrid + Organic)",
+      "fullName": "Base Set – Opium Colors (HYBRID + ORGANIC)",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "brwi",
+        "usta",
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 180000,
+          "regularPrice": 180000,
+          "inStock": true,
+          "sourceId": 4581
+        }
+      ],
+      "shortDesc": null,
+      "description": "W skład Base Set z kolekcji AS Opium wchodzi 10 topowych, podstawowych pigmentów o pojemności 6 ml.\n\nPigmenty do ust\n\n• L1-SINDY ORGANIC\n• L2-JAPANESE GARDEN\n• L3-LYCHEE\n• L7-NAOMI\n• L13-PAPAYA\n\nPigmenty do brwi\n\n• B2-BRAZIL\n• B3-HORSE\n• B4-WHISKEY\n• B6-WOOD\n\nPigment do kresek\n\n• E1-DEVIL",
+      "inStock": true,
+      "onSale": false,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "eyebrow-set-opium-colors-hybrid",
+      "sourceId": 9318,
+      "name": "Eyebrow Set – Opium Colors (Hybrid)",
+      "fullName": "EYEBROW SET – OPIUM COLORS (HYBRID)",
+      "collection": "as-opium",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": false,
+          "sourceId": 9318
+        }
+      ],
+      "shortDesc": null,
+      "description": "OPIUM COLORS EYEBROW SET 6 ml\n\n• SOIL\n• BRAZIL\n• HORSE\n• WHISKEY\n• PECAN\n• WOOD",
+      "inStock": false,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "lip-set-opium-colors-hybrid-organic",
+      "sourceId": 9313,
+      "name": "Lip Set – Opium Colors (Hybrid + Organic)",
+      "fullName": "LIP SET – OPIUM COLORS (HYBRID + ORGANIC)",
+      "collection": "as-opium",
+      "series": "COLORS",
+      "isSet": true,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": false,
+          "sourceId": 9313
+        }
+      ],
+      "shortDesc": null,
+      "description": "OPIUM COLORS SET FOR LIPS 6 ml\n\n• SINDY\n• JAPANESE GARDEN\n• GUAVA\n• NAOMI\n• PAPAYA\n• PURE MAGENTA",
+      "inStock": false,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "lip-set-opium-colors-organic",
+      "sourceId": 9315,
+      "name": "Lip Set – Opium Colors (Organic)",
+      "fullName": "LIP SET – OPIUM COLORS (ORGANIC)",
+      "collection": "as-opium",
+      "series": "ORGANIC",
+      "isSet": true,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": true,
+          "sourceId": 9315
+        }
+      ],
+      "shortDesc": null,
+      "description": "OPIUM COLORS LIPS SET 6 ml\n\n• SINDY\n• FERRARI\n• RED ROYAL\n• DARK SCARLET\n• CARROT\n• PURE MAGENTA",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-light-minerals-pigments-black-brown",
+      "sourceId": 5944,
+      "name": "Black Brown",
+      "fullName": "AS Opium Light Minerals Pigments Black Brown",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5945
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5946
+        }
+      ],
+      "shortDesc": "Głęboki, brązowy kolor",
+      "description": "Brązowy kolor, przypominający tabliczkę ciemnej czekolady na chłodnej bazie.\n\nMożna stosować w najczystszej postaci, ale ostrożnie!\n\nOdpowiedni dla ciemnych brunetek\n\nBaza: czerwono-czarna\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: M4, M5, M2\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#382c1d",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-light-minerals-pigments-blonde",
+      "sourceId": 5936,
+      "name": "Blonde",
+      "fullName": "AS Opium Light Minerals Pigments Blonde",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5937
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": false,
+          "sourceId": 5938
+        }
+      ],
+      "shortDesc": "Neutralny, pszeniczny kolor",
+      "description": "Jasny, pszeniczny kolor na neutralnej bazie.\n\nMożna stosować w najczystszej postaci.\n\nOdpowiedni dla jasnowłosych, siwych lub ciemnych blondynek\n\nBaza: żółta, żółto-zielona\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: M1, M2\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9d7f48",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-light-minerals-pigments-brown-haired",
+      "sourceId": 5940,
+      "name": "Brown Haired",
+      "fullName": "AS Opium Light Minerals Pigments Brown Haired",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5941
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5942
+        }
+      ],
+      "shortDesc": "Najcieplejszy, brązowy kolor",
+      "description": "Najcieplejszy brązowy kolor, przypominający tabliczkę mlecznej czekolady na ciepłej bazie.\n\nMożna stosować w najczystszej postaci.\n\nOdpowiedni dla rudych, osób o jasnych włosach i lubiących ciepłe odcienie\n\nBaza: czerwona\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: M6, M5, M2\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#492f1a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-light-minerals-pigments-dark-blonde",
+      "sourceId": 5926,
+      "name": "Dark Blonde",
+      "fullName": "AS Opium Light Minerals Pigments Dark Blonde",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5931
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5930
+        }
+      ],
+      "shortDesc": "Kolor naturalnego, ciemnego blondu",
+      "description": "Uniwersalny jasny kolor na neutralnej bazie.\n\nOdpowiedni dla odpowiedni dla jasnowłosych, ciemnych blondynek\n\nBaza: żółto-zielona z czerwonym odcieniem.\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: M5, M2\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#3e2e14",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-light-minerals-pigments-dark-brown",
+      "sourceId": 5948,
+      "name": "Dark Brown",
+      "fullName": "AS Opium Light Minerals Pigments Dark Brown",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5949
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5950
+        }
+      ],
+      "shortDesc": "Neutralny, brązowy kolor",
+      "description": "Brązowy, uniwersalny kolor na neutralnej bazie.\n\nMożna stosować w najczystszej postaci.\n\nOdpowiedni dla ciemnego blondu i brunetek\n\nBaza: czerwono-zielona\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: M4, M5\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#47381d",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-opium-light-minerals-pigments-dark-brown-haired",
+      "sourceId": 5932,
+      "name": "Dark Brown Haired",
+      "fullName": "AS Opium Light Minerals Pigments Dark Brown Haired",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 5933
+        },
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 5934
+        }
+      ],
+      "shortDesc": "Uniwersalny, naturalny kolor",
+      "description": "Uniwersalny brązowy kolor, zbliżony do ciepłych odcieni na neutralnej bazie.\n\nOdpowiedni dla idealny dla blondynek lub kobiet o jasnych włosach, które preferują neutralny odcień\n\nBaza: czerwono-czerwona\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: M1, M3, M5\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#362711",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "e1-black-6-ml-opium-light",
+      "sourceId": 11648,
+      "name": "E1 Black",
+      "fullName": "E1 BLACK, 6 ml (OPIUM LIGHT)",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11648
+        }
+      ],
+      "shortDesc": "Czarny pigment do kreski",
+      "description": "Klasyczna czerń z dodatkiem ciepłego pigmentu, pozwalająca uzyskać neutralny odcień bez chłodnych tonów. Można stosować bez korektora.\n\nPłynna konsystencja pozwala na szybkie wchłanianie się w skórę, skracając czas zabiegu.\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: E2, E3\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#020202",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "e2-light-brown-6-ml-opium-light",
+      "sourceId": 11649,
+      "name": "E2 Light Brown",
+      "fullName": "E2 LIGHT BROWN, 6 ml (OPIUM LIGHT)",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11649
+        }
+      ],
+      "shortDesc": "Jasny brąz",
+      "description": "Neutralny brązowy kolor do technik cieniowania, idealny do przejść tonalnych w połączeniu z czernią. Idealny do cieniowania tęczówki i sprawdza się szczególnie dobrze u blondynek.\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: E1, E5\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#5c4f42",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "e3-warm-brown-6-ml-opium-light",
+      "sourceId": 11650,
+      "name": "E3 Warm Brown",
+      "fullName": "E3 WARM BROWN, 6 ml (OPIUM LIGHT)",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11650
+        }
+      ],
+      "shortDesc": "Ciepły brąz",
+      "description": "Najcieplejszy odcień bazowy w palecie – wielofunkcyjny kolor, który świetnie nadaje się zarówno do ocieplania innych pigmentów, jak i do samodzielnego stosowania.\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: E1\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#322018",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "e4-yellow-golden-6-ml-opium-light",
+      "sourceId": 11651,
+      "name": "E4 Yellow Golden",
+      "fullName": "E4 YELLOW GOLDEN, 6 ml (OPIUM LIGHT)",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11651
+        }
+      ],
+      "shortDesc": "Złoty kolor",
+      "description": "Czyste złoto dla Twoich prac. Ten pigment tworzy najdelikatniejsze przejścia między jasnymi i ciemnymi odcieniami w technikach cieniowania i pięknie podkreśla tęczówkę, gdy zostanie nałożony na środek powieki.\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: E1\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#956b31",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "e5-dark-brown-6-ml-opium-light",
+      "sourceId": 11655,
+      "name": "E5 Dark Brown",
+      "fullName": "E5 DARK BROWN, 6 ml (OPIUM LIGHT)",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11655
+        }
+      ],
+      "shortDesc": "Brązowy pigment",
+      "description": "Brązowy pigment – najciemniejszy w palecie. Idealny do technik klasycznych i cieniowania, może zastąpić czerń dla uzyskania bardziej naturalnych rezultatów. Idealny do podkreślenia przestrzeni między rzęsami i zewnętrznego kącika oka.\n\n• Pigment mineralny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: E1\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#352316",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h1-brown",
+      "sourceId": 10302,
+      "name": "C1 Orange / Mineral",
+      "fullName": "C1 ORANGE / MINERAL, 6ml (OPIUM LIGHT)",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10302
+        }
+      ],
+      "shortDesc": "Korektor mineralny do niebiesko-szarych brwi.",
+      "description": "Korektor mineralny do niebiesko-szarych brwi.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a8490e",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "set-minerals-opium-light-do-brwi",
+      "sourceId": 5772,
+      "name": "Set Minerals Opium Light do brwi",
+      "fullName": "Set MINERALS OPIUM LIGHT do brwi",
+      "collection": "as-opium-light-minerals",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": true,
+          "sourceId": 5772
+        }
+      ],
+      "shortDesc": null,
+      "description": "Pigmenty do makijażu permanentnego firmy AS COMPANY.\n\nOpium Colors – ulepszona wersja, nowe kolory!\n\nNowa, opatentowana paleta pigmentów premium do PMU\n\nMinerals (paleta mineralna do brwi) o ulepszonej i głębokiej formule.\n\n• Nowa seria Opium Colors Light przenosi pigmentację na zupełnie nowy poziom.\n• Podstawą tworzenia pigmentów są najwyższej jakości surowce, najmniejsze cząsteczki; unikalna technologia opracowana na podstawie specjalnej receptury naszej firmy pozwoli Ci pracować z łatwością i uzyskać piękne prace przy 100% wygojeniu.\n• Kolory opium light to wyjątkowe pigmenty, które nie mają sobie równych!\n• Najbardziej zaawansowany produkt w produkcji pigmentów do makijażu permanentnego.",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-base",
+      "sourceId": 2620,
+      "name": "Base",
+      "fullName": "AS Classic Pigments Base",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3191
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3190
+        }
+      ],
+      "shortDesc": "Neutralny brązowy kolor",
+      "description": "Optymalny, neutralny, średni brąz na neutralnej bazie. Pasuje do wszystkich typów urody: wiosna, lato, jesień, zima. Można wykorzystywać samodzielnie przy ciepłych typach urody i dodawać modyfikator dla chłodnych typów urody. Również idealnie sprawdza się w mieszankach z innymi kolorami.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Brown Haired, Blond Brown\n\nData ważności pigmentu od daty produkcji: 4 lat\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#3c2923",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-black-brown",
+      "sourceId": 2625,
+      "name": "Black Brown",
+      "fullName": "AS Classic Pigments Black Brown",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3169
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3168
+        }
+      ],
+      "shortDesc": "Czarno-brązowy kolor",
+      "description": "Czarno-brązowy kolor na chłodenj bazie, dla posiadaczy ciemnych (czarnych) włosów\n\nPiękny, nasycony kolor, można go mieszać z innymi kolorami. Sprawdza się u jesieni i zimy dla uzyskania wyraźnych efektów.\n\nPrzy dodaniu do Black Brown pigmentu Brown Haired kolor zrobi się cieplejszy, przy dodaniu Base-jaśniejszy, Dark Brown-kolor będzie bardziej neutralny. Zaleca się dodanie modyfikatora Orange.\n\nTakże nadaje się do pracy na powiekach\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Brown Haired, Base, Dark Brown\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#352b27",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-blond-brown",
+      "sourceId": 2622,
+      "name": "Blond Brown",
+      "fullName": "AS Classic Pigments Blond Brown",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3188
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3187
+        }
+      ],
+      "shortDesc": "Neutralny blond kolor",
+      "description": "Neutralny jasny brąz na neutralnej bazie, można pracować nim samodzielnie lub mieszać z innymi kolorami.\n\nPasuje dla typów urody: wiosna, lato.\n\nNie wymaga dodania modyfikatora, goi się neutralnym jasnym brązem.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Base\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#725c45",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-brown-haired",
+      "sourceId": 2630,
+      "name": "Brown Haired",
+      "fullName": "AS Classic Pigments Brown Haired",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3184
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3183
+        }
+      ],
+      "shortDesc": "Najcieplejszy brązowy kolor",
+      "description": "Ciepły brązowy kolor na cieplej bazie, pasuje do wszystkich typów urody:wiosna, lato, jesień, zima.\n\nMożna samodzielnie stosować na zimnych i ciepłych typach urody, lub dodawać inne pigmenty dla uzyskania ładnych miksów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Base, Deep Brown\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#3b241c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-dark-brown",
+      "sourceId": 2623,
+      "name": "Dark Brown",
+      "fullName": "AS Classic Pigments Dark Brown",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3186
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3185
+        }
+      ],
+      "shortDesc": "Ciemno – brązowy kolor",
+      "description": "Ciemny, chłodny brąz sprawdza się u jesieni i zimy. Wymaga dodania modyfikatora. Idealnie łączy się w mieszance z Brown Haired dla cieplejszego odcienia, z Base dla jaśniejszego.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Brown Haired, Base\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#2c1f19",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-deep-brown",
+      "sourceId": 2624,
+      "name": "Deep Brown",
+      "fullName": "AS Classic Pigments Deep Brown",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3194
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3193
+        }
+      ],
+      "shortDesc": "Średni, neutralny brązowy kolor",
+      "description": "Bogaty, głęboki odcień na neutralnej bazie.\n\nUwydatnia się w neutralnych lub ciepłych odcieniach na ciepłej skórze, neutralnie na zimnej skórze.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek:Base\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#302722",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-amaranth",
+      "sourceId": 2662,
+      "name": "Amaranth",
+      "fullName": "AS Classic Pigments Amaranth",
+      "collection": "as-classic",
+      "series": "CONCENTRATE",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3048
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3047
+        }
+      ],
+      "shortDesc": "Głęboko, bordowo-czerwony kolor",
+      "description": "Głębok0, bordowo-czerwony kolor na neutralnej bazie. Koncentrat – dzięki wysokiej koncentracji barwnika koloryzującego dwukrotnie szybciej wprowadza się do skóry.\n\nUlubiony kolor starszych pań.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Juicy Peach, Nude, Coral\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#bb3a52",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-apple-flirt",
+      "sourceId": 2661,
+      "name": "Apple Flirt",
+      "fullName": "AS Classic Pigments Apple Flirt",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3139
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3138
+        }
+      ],
+      "shortDesc": "Intensywny różowo-czerwony kolor",
+      "description": "Różowo-czerwony kolor na neutralnej bazie.\n\nIdealny zarówno dla blondynek, jak i jasnych brunetek\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Nude, Red Ruby, Bubble Gum\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#d15366",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-bloody-mary",
+      "sourceId": 2666,
+      "name": "Bloody Mary",
+      "fullName": "AS Classic Pigments Bloody Mary",
+      "collection": "as-classic",
+      "series": "CONCENTRATE",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3129
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3128
+        }
+      ],
+      "shortDesc": "Najciemniejszy czerwony kolor",
+      "description": "Najciemniejszy czerwony odcień na neutralnej bazie. Koncentrat – dzięki wysokiej koncentracji barwnika koloryzującego dwukrotnie szybciej wprowadza się do skóry.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Pink Paradise, Juicy Peach\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a61920",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-bubble-gum",
+      "sourceId": 2643,
+      "name": "Bubble Gum",
+      "fullName": "AS Classic Pigments Bubble Gum",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 9900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3164
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3163
+        }
+      ],
+      "shortDesc": "Transparentny, różowy kolor",
+      "description": "Delikatny, półprzezroczysty różowy kolor na neutralnej bazie. Nadaje się do różnych technik.\n\nIdealny dla jasnowłosych klientek.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Juicy Peach, Bubble Gum, Nude\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#e48897",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-cherry",
+      "sourceId": 2664,
+      "name": "Cherry",
+      "fullName": "AS Classic Pigments Cherry",
+      "collection": "as-classic",
+      "series": "CONCENTRATE",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3136
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3135
+        }
+      ],
+      "shortDesc": "Wiśniowy, jagodowy, ciemny kolor",
+      "description": "Wiśniowy, jagodowy, ciemny kolor na chłodnej bazie. Koncentrat – dzięki wysokiej koncentracji barwnika koloryzującego dwukrotnie szybciej wprowadza się do skóry.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Naomi, Japanese Garden, Raspberry,\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9f3757",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-coral",
+      "sourceId": 2665,
+      "name": "Coral",
+      "fullName": "AS Classic Pigments Coral",
+      "collection": "as-classic",
+      "series": "CONCENTRATE",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3131
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3130
+        }
+      ],
+      "shortDesc": "Jasny, różowo-pomarańczowy kolor",
+      "description": "Jasny, różowo-pomarańczowy kolor na cieplej bazie. Koncentrat – dzięki wysokiej koncentracji barwnika koloryzującego dwukrotnie szybciej wprowadza się do skóry.\n\nIdealny dla dziewczyn o ciemnych włosach, kobiet brązowowłosych z zielonymi oczami i piegami (wiosna, jesień).\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Amaranth,\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#b1353b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-juicy-peach",
+      "sourceId": 2660,
+      "name": "Juicy Peach",
+      "fullName": "AS Classic Pigments Juicy Peach",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 14900,
+          "inStock": true,
+          "sourceId": 3141
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 21900,
+          "inStock": true,
+          "sourceId": 3140
+        }
+      ],
+      "shortDesc": "Delikatny, brzoskwiniowy, ciepły kolor.",
+      "description": "Delikatny, brzoskwiniowy, ciepły kolor na cieplej bazie.\n\nNadaje się do wszelkiego rodzaju technik, łatwo się układa. Idealny zarówno dla blondynki jak i jasnej brunetki.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": false,
+      "color": "#da6f5c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-nude",
+      "sourceId": 2651,
+      "name": "Nude",
+      "fullName": "AS Classic Pigments Nude",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3145
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3144
+        }
+      ],
+      "shortDesc": "Naturalny kolor ust",
+      "description": "Naturalny kolor ust na neutralnej bazie. Idealny do wyrównania koloru naturalnego koloru ust. Nadaje się do różnych typów technik.\n\nIdealny zarówno dla blondynek, jak i jasnych brunetek.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Juicy Peach, Plum Dessert, Apple Flirt\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#ba797d",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-nut-pie",
+      "sourceId": 2652,
+      "name": "Nut Pie",
+      "fullName": "AS Classic Pigments Nut Pie",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 9900,
+          "regularPrice": 20000,
+          "inStock": true,
+          "sourceId": 3157
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 30000,
+          "inStock": true,
+          "sourceId": 3156
+        }
+      ],
+      "shortDesc": "Ciepły, brązowy kolor",
+      "description": "Ciepły, brązowy kolor na cieplej bazie. Optymalny kolor dla każdej kombinacji odcieni skóry. Nadaje się do każdego koloru włosów.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Nude, Juicy Peach, Apple Flirt\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#cc7851",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-pink-paradise",
+      "sourceId": 2653,
+      "name": "Pink Paradise",
+      "fullName": "AS Classic Pigments Pink Paradise",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3152
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3151
+        }
+      ],
+      "shortDesc": "Głęboki, ale lekki różowy kolor",
+      "description": "Głęboki, ale delikatny różowy kolor na neutralnej bazie.\n\nNadaje się do różnych technik. Idealny zarówno dla blondynek, jak i jasnych brunetek.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Juicy Peach, Nude, Pure Magenta\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#d26d82",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-plum-dessert",
+      "sourceId": 2654,
+      "name": "Plum Dessert",
+      "fullName": "AS Classic Pigments Plum Dessert",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": false,
+          "sourceId": 3143
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3142
+        }
+      ],
+      "shortDesc": "Delikatny różowy kolor",
+      "description": "Delikatny, chłodny, różowy kolor na chlodnej bazie. Nadaje się do różnych technik.\n\nIdealny dla jasnowłosych dziewczyn, ciemnych brunetek\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Juicy Peach, Pink Paradise, Watermelon Ice, Raspberry, Cherry\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięc",
+      "inStock": false,
+      "onSale": true,
+      "color": "#a6486c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-raspberry",
+      "sourceId": 2667,
+      "name": "Raspberry",
+      "fullName": "AS Classic Pigments Raspberry",
+      "collection": "as-classic",
+      "series": "CONCENTRATE",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11737
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3126
+        }
+      ],
+      "shortDesc": "Malinowy, różowy kolor",
+      "description": "Różowy, malinowy kolor na chłodnej bazie. Koncentrat – dzięki wysokiej koncentracji barwnika koloryzującego dwukrotnie szybciej wprowadza się do skóry.\n\nIdealny dla posiadaczy niebieskich i brązowych oczu (wiosna,lato,jesień).\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Juicy Peach, Bubble Gum, Nude, Sindy, Harley, Plum Dessert\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a53c60",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-red-queen",
+      "sourceId": 2644,
+      "name": "Red Queen",
+      "fullName": "AS Classic Pigments Red Queen",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3154
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3153
+        }
+      ],
+      "shortDesc": "Czerwono-różowy kolor",
+      "description": "Сzerwono-różowy kolor na neutralnej bazie\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięc",
+      "inStock": true,
+      "onSale": true,
+      "color": "#b62f2d",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-red-ruby",
+      "sourceId": 2650,
+      "name": "Red Ruby",
+      "fullName": "AS Classic Pigments Red Ruby",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3160
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3159
+        }
+      ],
+      "shortDesc": "Perfekcyjny czerwony kolor",
+      "description": "Czerwony kolor na cieplej bazie. Nadaje się do różnych technik, delikatnie się układa.\n\nIdealny dla ciemnej brunetki.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Nude, Pink Paradise\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#be312f",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-watermelon-ice",
+      "sourceId": 2642,
+      "name": "Watermelon Ice",
+      "fullName": "AS Classic Pigments Watermelon Ice",
+      "collection": "as-classic",
+      "series": "CLASSIC",
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 9900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3162
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3161
+        }
+      ],
+      "shortDesc": "Intensywny, różano-czerwony kolor",
+      "description": "Bogaty różowo-czerwony pigment na chłodnej bazie. Nadaje się do różnych technik.\n\nIdealny zarówno dla blondynek, jak i jasnych brunetek.\n\n• Pigment hybrydowy\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Nude, Bubble Gum, Juicy peach\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c5495e",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-black-diamond",
+      "sourceId": 2631,
+      "name": "Black Diamond",
+      "fullName": "AS Classic Pigments Black Diamond",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 20000,
+          "inStock": true,
+          "sourceId": 3182
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3181
+        }
+      ],
+      "shortDesc": "Głęboki czarny kolor",
+      "description": "Głęboki czarny kolor do powiek na neutralnej bazie. Jest używany w czystej postaci.\n\nNadaje się zarówno do technik liniowych, jak i cieniowania.\n\nDobrze wstrząsnąć przed użyciem.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#160e0c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-deep-black",
+      "sourceId": 2634,
+      "name": "Deep Black",
+      "fullName": "AS Classic Pigments Deep Black",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "kreski"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3173
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3172
+        }
+      ],
+      "shortDesc": "Czarny kolor",
+      "description": "Czarny pigment do powiek na neutralnej bazie\n\nNadaje się zarówno do technik liniowych, jak i cieniowania. Niezależny pigment.\n\nDobrze wstrząsnąć przed użyciem.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#121212",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-for-blue-gray-eyebrows",
+      "sourceId": 2633,
+      "name": "For Blue Gray Eyebrows",
+      "fullName": "AS Classic Pigments For Blue Gray Eyebrows",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3176
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3175
+        }
+      ],
+      "shortDesc": "Modyfikator dla niebiesko-szarych brwi. Pomarańczowy modyfikator dla ocieplenia niepożądanego odcienia makijażu permanentnego brwi.",
+      "description": "Modyfikator dla niebiesko-szarych brwi. Pomarańczowy modyfikator dla ocieplenia niepożądanego odcienia makijażu permanentnego brwi.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#51302b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-for-purple-eyebrows",
+      "sourceId": 2640,
+      "name": "For Purple Eyebrows",
+      "fullName": "AS Classic Pigments For Purple Eyebrows",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 20000,
+          "inStock": true,
+          "sourceId": 3171
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 30000,
+          "inStock": false,
+          "sourceId": 3170
+        }
+      ],
+      "shortDesc": "Żółty modyfikator do skorygowania niepożądanego odcienia makijażu permanentnego o charakterystycznym fioletowym kolorze.",
+      "description": "Żółty modyfikator do skorygowania niepożądanego odcienia makijażu permanentnego o charakterystycznym fioletowym kolorze.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#817143",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-for-red-eyebrows",
+      "sourceId": 2632,
+      "name": "For Red Eyebrows",
+      "fullName": "AS Classic Pigments For Red Eyebrows",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3179
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": false,
+          "sourceId": 3178
+        }
+      ],
+      "shortDesc": "Modyfikator w zielonym kolorze do skorygowania niepożądanego odcienia makijażu permanentnego o charakterystycznej różowoczerwonej barwie.",
+      "description": "Modyfikator w zielonym kolorze do skorygowania niepożądanego odcienia makijażu permanentnego o charakterystycznej różowoczerwonej barwie.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#443c28",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "as-classic-pigments-orange",
+      "sourceId": 2641,
+      "name": "Orange",
+      "fullName": "AS Classic Pigments Orange",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 3167
+        },
+        {
+          "label": "12 ml",
+          "price": 21900,
+          "regularPrice": 33000,
+          "inStock": true,
+          "sourceId": 3166
+        }
+      ],
+      "shortDesc": "Uniwersalny modyfikator",
+      "description": "Uniwersalny modyfikator na 3 strefy! Idealny do ocieplenia innych pigmentów i stworzenia ładnych, ciepłych miksów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#ad4739",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "base-set-as-pigments-hybrid",
+      "sourceId": 9307,
+      "name": "Base Set – AS Pigments (Hybrid)",
+      "fullName": "Base Set – AS PIGMENTS (HYBRID)",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "brwi",
+        "usta",
+        "modyfikatory"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 180000,
+          "regularPrice": 180000,
+          "inStock": true,
+          "sourceId": 9307
+        }
+      ],
+      "shortDesc": null,
+      "description": "W skład Base Set z kolekcji AS PIGMENTS wchodzi 10 topowych, podstawowych pigmentów o pojemności 6 ml.\n\n4 Pigmenty do ust\n\n• Coral\n• Pink paradise\n• Red Queen\n• Juicy peach\n\n5 Pigmentów do brwi\n\n• Brown haired\n• Dark brown\n• Deep brown\n• Base\n• Black brown\n\nCorrector do PMU\n\n• Corrector for blue-gray eyebrows",
+      "inStock": true,
+      "onSale": false,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "eyebrow-set-as-pigments-hybrid",
+      "sourceId": 9311,
+      "name": "Eyebrow Set – AS Pigments (Hybrid)",
+      "fullName": "EYEBROW SET – AS PIGMENTS (HYBRID)",
+      "collection": "as-classic",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": true,
+          "sourceId": 9311
+        }
+      ],
+      "shortDesc": null,
+      "description": "AS PIGMENTS HYBRID SET FOR EYEBROWS 6 ml\n\n• DEEP BROWN\n• DARK BROWN\n• BROWN HAIRED\n• BLOND BROWN\n• BLACK BROWN\n• BASE",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "concentrate-set-as-pigments-hybrid",
+      "sourceId": 9309,
+      "name": "Concentrate Set – AS Pigments (Hybrid)",
+      "fullName": "CONCENTRATE SET – AS PIGMENTS (HYBRID)",
+      "collection": "as-classic",
+      "series": "CONCENTRATE",
+      "isSet": true,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": true,
+          "sourceId": 9309
+        }
+      ],
+      "shortDesc": null,
+      "description": "AS PIGMENTS CONCENTRATE SET FOR LIPS 6 ml\n\n• RASPBERRY\n• CHERRY\n• CORAL\n• AMARANTH\n• BARBIE\n• BLOODY MARY",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "deva-maria-6-ml-paradise",
+      "sourceId": 9525,
+      "name": "Deva Maria",
+      "fullName": "DEVA MARIA, 6 ml (PARADISE)",
+      "collection": "paradise",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 9525
+        }
+      ],
+      "shortDesc": "Brudny róż – wyrafinowany i stonowany odcień",
+      "description": "Brudny róż na neutlanej bazie. Nadaje się do różnych technik, łatwo się aplikuje. Idealny dla blondynek i jasnobrązowych włosów, doskonale prezentuje się na brunetkach.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Maria Magdalena, Mona Liza\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#83434f",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "gabrielle-6-ml-paradise",
+      "sourceId": 9531,
+      "name": "Gabrielle",
+      "fullName": "GABRIELLE, 6 ml (PARADISE)",
+      "collection": "paradise",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 9531
+        }
+      ],
+      "shortDesc": "Delikatny róż z brązowymi tonami",
+      "description": "Delikatny róż z brązowymi tonami na neutralnej bazie. Nadaje się do różnych technik, gładko się nakłada. Idealny do włosów blond i jasnobrązowych, tworzy ciekawy look na ciemnych brunetkach.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Lilith, Deva MariaDelikatny róż z brązowymi tonami\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a55f6b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "lilith-6-ml-paradise",
+      "sourceId": 9533,
+      "name": "Lilith",
+      "fullName": "LILITH, 6 ml (PARADISE)",
+      "collection": "paradise",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 9533
+        }
+      ],
+      "shortDesc": "Przygaszony pomarańcz z subtelnymi brązowymi tonami",
+      "description": "Przygaszony pomarańcz z subtelnymi brązowymi tonami na ciepłej bazie. Nadaje się do różnych technik, łatwo się aplikuje. Idealny dla blondynek i jasnobrązowych osób, doskonale prezentuje się na brunetkach.\n\nMoże być stosowany jako ocieplajaca baza pod chłodne usta\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n\nPrzykłady mieszanek: Deva Maria, Maria Magdalena\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9d4849",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "madonna-6-ml-paradise",
+      "sourceId": 9535,
+      "name": "Madonna",
+      "fullName": "MADONNA, 6 ml (PARADISE)",
+      "collection": "paradise",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 9535
+        }
+      ],
+      "shortDesc": "Soczysty, chłodny odcień czerwieni",
+      "description": "Chłodny odcień czerwieni na chłodnej bazie. Głęboki, żywy odcień przyciąga uwagę i tworzy niesamowity akcent. Nadaje się do różnych technik, łatwo się rozprowadza. Idealny dla wyrazistych brunetek.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Maria Magdalena, Deva Maria, Gabriella\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a1101f",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "maria-magdalena-6-ml-paradise-2",
+      "sourceId": 9538,
+      "name": "Maria Magdalena",
+      "fullName": "MARIA MAGDALENA, 6 ml (PARADISE)",
+      "collection": "paradise",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 9538
+        }
+      ],
+      "shortDesc": "Chłodny różowy kolor",
+      "description": "Chłodny różowy kolor na chłodnej bazie . Posiada lekki, niemal zwiewny, czerwony odcień. Nadaje się do różnych technik, gładko się nakłada.Idealny do jasnobrązowych włosów i wyrazistych brunetek\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Lilith, Mona Lisa, Deva Maria i Gabrielle\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#7e3045",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "maria-magdalena-6-ml-paradise",
+      "sourceId": 9527,
+      "name": "Mona Liza",
+      "fullName": "MONA LIZA, 6 ml (PARADISE)",
+      "collection": "paradise",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 9527
+        }
+      ],
+      "shortDesc": "Naturalny brązowo-różowy kolor",
+      "description": "Naturalny brązowo-różowy kolor na ciepłej bazie. Nadaje się do różnych technik, łatwo się aplikuje. Idealny dla blondynek i jasnobrązowych włosów, naturalnie pięknie prezentuje się na brunetkach.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Deva Maria, Maria Magdalena\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#905054",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "set-paradise-do-ust",
+      "sourceId": 8160,
+      "name": "Set Paradise do ust",
+      "fullName": "Set PARADISE do ust",
+      "collection": "paradise",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 140000,
+          "inStock": true,
+          "sourceId": 8160
+        }
+      ],
+      "shortDesc": null,
+      "description": "PARADISE SET\n\nZestaw hybrydowy opracowany przez Alinę Shakhovą\n\nPigmenty wykonane są z najwyższej jakości surowców francuskiej firmy Sensient i po wygojeniu zostaje od 60% do 90%. Zestaw zawiera 6 przepięknych odcieni do ust, przy czym pojemność każdego pigmentu wynosi 6 ml.\n\nMADONNA\n\nHybrydowy pigment w bogatym, zimnym czerwonym kolorze — prawdziwe ucieleśnienie elegancji i siły. Ma głęboki, żywy odcień, który przyciąga uwagę i tworzy uderzający akcent. Nadaje się do różnych technik. Idealny dla ciemnych brunetek. Można go mieszać z dowolnymi pigmentami z tej linii, aby uzyskać różowawy odcień.\n\nMARIA MAGDALENA\n\nHybrydowy pigment w chłodnym różowym kolorze — ucieleśnienie wyrafinowania i romantyzmu. Z lekkim, niemal zwiewnym odcieniem czerwieni. Nadaje się do różnych technik. Idealny dla jasnobrązowych dziewczyn i ciemnych brunetek. Można mieszać z pigmentami Lilith, Mona Liza, Deva Maria, Gabrielle, aby uzyskać bardziej brązowo-chłodny odcień.\n\nGABRIELLE\n\nHybrydowy pigment na neutralnej bazie. Delikatny różowy kolor z brązowym odcieniem — wykwintna harmonia łącząca miękkość i ciepło, z delikatnymi różowymi tonami płynnie przechodzącymi w ciepłe brązowe niuanse. Nadaje się do różnych technik. Idealny dla jasnowłosych i brązowowłosych dziewczyn; wygląda ciekawie na ciemych brunetkach. Można go stosować w mieszance z dowolnymi innymi pigmentami z linii, z wyjątkiem Madonny, aby uzyskać jeszcze delikatniejszy odcień.\n\nLILITH\n\nHybrydowy pigment w stonowanym pomarańczowym kolorze z lekkim brązowym odcieniem — ten ciepły i przytulny pigment kojarzy się z jesiennym słońcem i złotymi liśćmi. Nadaje się do różnych technik. Idealny dla jasnowłosych i brązowowłosych dziewczyn; świetnie wygląda na brunetkach. Może być stosowany jako ocieplacz do chłodnych ust. Można go mieszać ze wszystkimi pigmentami z tej linii, aby uzyskać cieplejszy odcień.\n\nDEVA MARIA\n\nHybrydowy pigment na neutralnej bazie. Brudny różowy kolor — elegancki i stonowany odcień, który łączy w sobie miękkość i charakter. Nadaje się do różnych technik. Idealny dla jasnowłosych i brązowowłosych dziewczyn; świetnie wygląda na brunetkach. Można mieszać z dowolnymi innymi pigmentami z tej linii, aby uzyskać ciemniejszy odcień.\n\nMONA LIZA\n\nHybrydowy pigment na neutralnej bazie, w naturalnym brązowo-różowym kolorze — wykwintny i ciepły odcień, który łączy miękkość bladego różu z głębią brązu. Nadaje się do różnych technik. Idealny dla jasnowłosych i brązowowłosych dziewczyn; wygląda naturalnie na brunetkach. Można go stosować ze wszystkimi innymi pigmentami, aby tworzyć bardziej złożone odcienie.",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "crazy-harley-quinn-6-ml",
+      "sourceId": 7082,
+      "name": "Crazy",
+      "fullName": "CRAZY (HARLEY QUINN) 6ml",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 7082
+        }
+      ],
+      "shortDesc": "Czerwonobrązowy kolor",
+      "description": "Czerwonobrązowy kolor z neutralną bazą.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Gotham, Ferrari, Dark Scarlet\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a04459",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "doll-harley-quinn-6ml",
+      "sourceId": 7092,
+      "name": "Doll",
+      "fullName": "DOLL (HARLEY QUINN) 6ml",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 7092
+        }
+      ],
+      "shortDesc": "Pudrowy róż",
+      "description": "Pudrowy róż na chłodnej bazie.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Gotham, Naomi, Pudding\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#b9516f",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "gotham-harley-quinn-6ml",
+      "sourceId": 7094,
+      "name": "Gotham",
+      "fullName": "GOTHAM (HARLEY QUINN) 6ml",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 7094
+        }
+      ],
+      "shortDesc": "Brązowo-fioletowy kolor",
+      "description": "Brązowo-fioletowy kolor na chłodnej bazie.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Joker, Plum Dessert, Doll\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a96277",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "harley-harley-quinn-6ml-kopia",
+      "sourceId": 7096,
+      "name": "Harley",
+      "fullName": "HARLEY (HARLEY QUINN) 6ml",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 7096
+        }
+      ],
+      "shortDesc": "Brązowy kolor na neutralnej bazie.",
+      "description": "Brązowo-fioletowy kolor na chłodnej bazie.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Plum Dessert\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9c6162",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "joker-harley-quinn-6ml",
+      "sourceId": 7098,
+      "name": "Joker",
+      "fullName": "JOKER (HARLEY QUINN) 6ml",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 7098
+        }
+      ],
+      "shortDesc": "Czerwonobrązowy kolor",
+      "description": "Czerwonobrązowy kolor na neutralnej bazie.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Gotham, Plum Dessert, Doll\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a43748",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "pudding-harley-quinn-6ml",
+      "sourceId": 7100,
+      "name": "Pudding",
+      "fullName": "PUDDING (HARLEY QUINN) 6ml",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 7100
+        }
+      ],
+      "shortDesc": "Różowo-brzoskwiniowy kolor",
+      "description": "Różowo-brzoskwiniowy kolor na ciepłej bazie.\n\nNadaje się do każdego rodzaju skóry i można go stosować do każdej techniki.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Doll, Naomi, Joker\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#d26b78",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "set-harley-quinn-do-ust",
+      "sourceId": 6319,
+      "name": "Set Harley Quinn do ust",
+      "fullName": "Set Harley Quinn do ust",
+      "collection": "harley-quinn",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "usta"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": true,
+          "sourceId": 6319
+        }
+      ],
+      "shortDesc": "Zestaw pigmentów HARLEY QUINN",
+      "description": "Zestaw składa się z 6 niesamowicie żywych, bogatych i złożonych odcieni, które nie mają sobie równych na rynku. Produkcja tej linii trwała ponad sześć miesięcy. Pigmenty łatwo się wprowadzają, dobrze kryją i są doskonale trwałe.\n\nUnikatowe pigmenty, niespotykane na rynku, pochodzą od firmy AS COMPANY.\n\nPo wygojeniu zostaje: 60% do 90%\n\nCRAZY (RED-BROWN NEUTRAL) – Kolor czerwono-brązowy z neutralną bazą. Pigment hybrydowy. Odpowiedni dla wszystkich typów skóry i technik.\n\nMożna łączyć: można stosować samodzielnie lub mieszać z dowolnym pigmentem z palety do ust, aby tworzyć nowe kolory.\n\nPrzykład mieszanki:\n\n• CRAZY + HARLEY 50% / 50%\n• CRAZY + PUDDING 80% / 20%\n• CRAZY + DOLL 30% / 70%\n\nDOLL (PINK COLD) – Pudrowy róż z chłodną bazą. Hybrydowy pigment. Nadaje się do każdego rodzaju skóry i technik.\n\nMożna łączyć: można stosować samodzielnie lub mieszać z dowolnym pigmentem z palety do ust, aby tworzyć nowe kolory.\n\nPrzykład mieszanki:\n\n• DOLL + PUDDING 50% / 50%\n• DOLL + CRAZY 70% / 30%\n• DOLL + HARLEY 80% / 20%\n\nGOTHAM (PINK- RED COLD) – Brązowo-fioletowy kolor z chłodną bazą. Hybrydowy pigment. Odpowiedni dla wszystkich typów skóry i technik.\n\nMożna łączyć: można stosować samodzielnie lub mieszać z dowolnym pigmentem z palety do ust, aby tworzyć nowe kolory.\n\nPrzykład mieszanki:\n\n• GOTHAM + HARLEY 40% / 60%\n• GOTHAM + PUDDING 70% / 30%\n• GOTHAM + CRAZY 60% / 40%\n\nHARLEY (BROWN COLD) – Brązowy kolor z neutralną bazą. Hybrydowy pigment. Odpowiedni dla wszystkich typów skóry i technik.\n\nMożna łączyć: można stosować samodzielnie lub mieszać z dowolnym pigmentem z palety do ust, aby tworzyć nowe kolory.\n\nPrzykład mieszanki:\n\n• HARLEY + GOTHAM 60% / 40%\n• HARLEY + JOKER 90% / 10%\n• HARLEY + PUDDING 80% / 20%\n• HARLEY + CRAZY 50% / 5\n\nJOKER (RED-BROWN NEUTRAL) – Kolor czerwono-brązowy z neutralną bazą. Pigment hybrydowy. Odpowiedni dla wszystkich typów skóry i technik.\n\nMożna łączyć: można stosować samodzielnie lub mieszać z dowolnym pigmentem z palety do ust, aby tworzyć nowe kolory.\n\nPrzykład mieszanki:\n\n• JOKER + HARLEY 40% / 60%\n• JOKER + PUDDING 60% / 40%\n• JOKER + GOTHAM 80% / 20%\n\nPUDDING (PEACHY WARM) – Różowo-brzoskwiniowy kolor z ciepłą bazą. Hybrydowy pigment. Odpowiedni dla każdego rodzaju skóry i techniki.\n\nMożna łączyć: można stosować samodzielnie lub mieszać z dowolnym pigmentem z palety do ust, aby tworzyć nowe kolory.\n\nPrzykład mieszanki:\n\n• PUDDING + JOKER 80% / 20%\n• PUDDING + CRAZY 50% / 50%\n• PUDDING + DOLL 40% / 60%",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h1-brown-2",
+      "sourceId": 10349,
+      "name": "H1 Brown",
+      "fullName": "HAIRSTROKES H1 – BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10349
+        }
+      ],
+      "shortDesc": "Brązowy kolor",
+      "description": "Brązowy na ciepłej bazie.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H2, H5\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#2f130b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h2-warm-brown",
+      "sourceId": 10305,
+      "name": "H2 Warm Brown",
+      "fullName": "HAIRSTROKES H2 – WARM BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10305
+        }
+      ],
+      "shortDesc": "Ciepły brąz",
+      "description": "Ciepły brąz o ciepłej bazie\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H1,H6,H7\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#4d271a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h3-light-brown",
+      "sourceId": 10307,
+      "name": "H3 Light Brown",
+      "fullName": "HAIRSTROKES H3 – LIGHT BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10307
+        }
+      ],
+      "shortDesc": "Jasnobrązowy kolor",
+      "description": "Jasnobrązowy o neutralnej bazie\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H1, H6\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#523420",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h4-warm-light-brown",
+      "sourceId": 10309,
+      "name": "H4 Warm Light Brown",
+      "fullName": "HAIRSTROKES H4 – WARM LIGHT BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10309
+        }
+      ],
+      "shortDesc": "Jasnobrązowy kolor",
+      "description": "Jasnobrązowy o ciepłej bazie. Można stosować w czystej postaci lub w popularnych mieszankach\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H1,H2,H7\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#422417",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h5-neutral-brown",
+      "sourceId": 10311,
+      "name": "H5 Neutral Brown",
+      "fullName": "HAIRSTROKES H5 – NEUTRAL BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10311
+        }
+      ],
+      "shortDesc": "Brązowy kolor",
+      "description": "Brązowy o chłodnej bazie. Można stosować w czystej postaci lub w popularnych mieszankach\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H2, H7\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#2e1b0a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "hairstrokes-h6-dark-brown",
+      "sourceId": 10313,
+      "name": "H6 Dark Brown",
+      "fullName": "HAIRSTROKES H6 – DARK BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10313
+        }
+      ],
+      "shortDesc": "Ciemny brąz",
+      "description": "Ciemny brąz o chłodnej bazie\n\nW przypadku stosowania w czystej postaci, należy zachować ostrożność — pigment ten ma chłodny odczień należy go ocieplić pomarańczowym korektorem.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H2,H3\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#120502",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes",
+      "sourceId": 10315,
+      "name": "H7 Dark Warm Brown",
+      "fullName": "HAIRSTROKES H7 – DARK WARM BROWN",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 10315
+        }
+      ],
+      "shortDesc": "Ciemny brąz",
+      "description": "Ciemny brąz o neutralnej bazie. Można stosować w czystej postaci lub w mieszankach\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: H2, H4\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#2e180f",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "t4-dark-brown-15-ml-trichopigmentation",
+      "sourceId": 11549,
+      "name": "#1 Caramel",
+      "fullName": "#1 CARAMEL, 6 ml (AREOLA)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11549
+        }
+      ],
+      "shortDesc": "Naturalny odcień otoczki",
+      "description": "Bazowy odcień do pigmentacji otoczki brodawki sutkowej.Pasuje rózwnież do kamuflażu blizn/rozstępów/bielactwa\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#8e451c",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "2-dark-brick-6-ml-areola",
+      "sourceId": 11583,
+      "name": "#2 Dark Brick",
+      "fullName": "#2 DARK BRICK, 6 ml (AREOLA)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11583
+        }
+      ],
+      "shortDesc": "Ciemniejszy odcień otoczki",
+      "description": "Idealna baza do tworzenia naturalnego odcienia otoczki w połączeniu z odcieniami #1 Caramel i #3 Muted Brown.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#915c6a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "2-dark-brick-6-ml-areola-kopia",
+      "sourceId": 11584,
+      "name": "#3 Muted Brown",
+      "fullName": "#3 MUTED BROWN, 6 ml (AREOLA)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11584
+        }
+      ],
+      "shortDesc": "Najjasnieszy odcień w linii otoczki",
+      "description": "Najjaśniejszy odcień w linii otoczki. W czystej postaci idealnie nadaje się do jasnych otoczek.\n\nAby rozjaśnić ton, można dodać kilka kropli bieli. Zalecamy wypróbowanie połączenia odcieni, mieszając je z Caramel #1 i Dark Brick #2 w różnych proporcjach.\n\nAby zmniejszyć stężenie, zaleca się dodanie 2-3 kropli rozcieńczalnika.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#914c49",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "4-rich-brown-6-ml-areola",
+      "sourceId": 11586,
+      "name": "#4 Rich Brown",
+      "fullName": "#4 RICH BROWN, 6 ml (AREOLA)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11586
+        }
+      ],
+      "shortDesc": "Odpowiedni do jasnej karnacji",
+      "description": "Odpowiedni dla jasnych karnacji typu 1 i 2 według skali Fitzpatricka. Aby rozjaśnić ton, dodaj kilka kropli białego tonu. Aby uzyskać półtony, wymieszaj w różnych proporcjach z dowolnym tonem z palety.\n\nNadaje się również do łączenia z innymi tonami z zestawu kamuflażowego. Zalecamy dodanie 1-3 kropli rozcieńczalnika do technik kamuflażowych.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#541f08",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "5-deep-chocolate-6-ml-areola",
+      "sourceId": 11587,
+      "name": "#5 Deep Chocolate",
+      "fullName": "#5 DEEP CHOCOLATE, 6 ml (AREOLA)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11587
+        }
+      ],
+      "shortDesc": "Idealny do ciemnych otoczek",
+      "description": "Idealnie nadaje się do tonowania otoczek brodawek sutkowych w czystej postaci, szczególnie w przypadku ciemnych otoczek o typie cery 5 według skali Fitzpatricka.\n\nZalecamy dodawanie tego toniku w niewielkich ilościach, aby przyciemnić główny ton pigmentu, a także stworzyć cienie w obrysie otoczki podczas renowacji.\n\nAby zmniejszyć stężenie, zalecamy dodanie 2-3 kropli rozcieńczalnika.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#170404",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "6-brown-dark-6-ml-areola",
+      "sourceId": 11588,
+      "name": "#6 Brown Dark",
+      "fullName": "#6 BROWN DARK, 6 ml (AREOLA)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11588
+        }
+      ],
+      "shortDesc": "Najciemnieszy kolor",
+      "description": "Najciemnieszy kolor w palecie, idealnie nadający się do tonowania otoczek w czystej postaci w przypadku ciemnych otoczek o typie skóry 5 i 6 według skali Fitzpatricka.\n\nTen odcień idealnie nadaje się do oddania cieni w projekcie otoczki podczas renowacji od podstaw. W tej technice rysunku objętościowego nie zapomnij użyć białego odcienia, aby podkreślić objętość obrazu.\n\nAby zmniejszyć intensywność, zalecamy dodanie 2-3 kropli rozcieńczalnika.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#331003",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "1-neutral-beige-6-ml-camouflage",
+      "sourceId": 11589,
+      "name": "#1 Neutral Beige",
+      "fullName": "#1 NEUTRAL BEIGE, 6 ml (CAMOUFLAGE)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "camouflage"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11589
+        }
+      ],
+      "shortDesc": "Naturalny kolor do jasnej karnacji",
+      "description": "Idealny dla typów skóry Fitzpatrick 1-2. Niezbędna baza do tworzenia niestandardowych, jasnych odcieni skóry i kamuflażu.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c39e8a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "2-grey-pink-6-ml-camouflage",
+      "sourceId": 11591,
+      "name": "#2 Grey Pink",
+      "fullName": "#2 GREY PINK, 6 ml (CAMOUFLAGE)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "camouflage"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11591
+        }
+      ],
+      "shortDesc": "Chłodny kolor dla cery typu 2",
+      "description": "Idealny dla chłodnych odcieni skóry typu 2 według skali Fitzpatricka. Można mieszać z odcieniami nr 2 i nr 3 z dowolnego odcienia z palety.\n\nZaleca się dodanie 1-3 kropli rozcieńczalnika do technik kamuflażowych.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#9d7965",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "3-beige-yellow-6-ml-camouflage",
+      "sourceId": 11592,
+      "name": "#3 Beige Yellow",
+      "fullName": "#3 BEIGE YELLOW, 6 ml (CAMOUFLAGE)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "camouflage"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11592
+        }
+      ],
+      "shortDesc": "Idealny kolor dla cery typu 3",
+      "description": "Idealnie nadaje się do cery typu 3 według skali Fitzpatricka. Odpowiedni dla opalonej skóry i karnacji azjatyckiej. Zalecamy dodanie 1-3 kropli rozcieńczalnika do technik kamuflażowych.\n\nTen odcień jest również polecany do tonowania otoczek, na przykład w połączeniu z odcieniami #1 Caramel i #3 Muted Brown.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#a47c46",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "4-cool-beige-pink-6-ml-camouflage",
+      "sourceId": 11593,
+      "name": "#4 Cool Beige Pink",
+      "fullName": "#4 COOL BEIGE PINK, 6 ml (CAMOUFLAGE)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "camouflage"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11593
+        }
+      ],
+      "shortDesc": "Chłodny beżowy róż",
+      "description": "Chłodny beżowy róż\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#b08f7a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "5-warm-chocolate-6-ml-camouflage",
+      "sourceId": 11594,
+      "name": "#5 Warm Chocolate",
+      "fullName": "#5 WARM CHOCOLATE, 6 ml (CAMOUFLAGE)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "camouflage"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11594
+        }
+      ],
+      "shortDesc": "Najciemnieszy odcień z tej serii",
+      "description": "Najciemnieszy odcień z tej serii.Ten odcień nadaje się do kamuflażowych technik tonowania opalonej skóry. W czystej postaci jest odpowiedni dla typów skóry 4 i 5 w skali Fitzpatricka. Aby przyciemnić dowolny odcień z palety kamuflażowej, można go dodać, aby uzyskać niuanse. Idealnie komponuje się z kamuflażowym odcieniem Beige Yellow #3.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#41180a",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "6-super-white-6-ml-camouflage",
+      "sourceId": 11595,
+      "name": "#6 Super White",
+      "fullName": "#6 SUPER WHITE, 6 ml (CAMOUFLAGE)",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "camouflage"
+      ],
+      "variants": [
+        {
+          "label": "6 ml",
+          "price": 14900,
+          "regularPrice": 22000,
+          "inStock": true,
+          "sourceId": 11595
+        }
+      ],
+      "shortDesc": "Biały pigment",
+      "description": "Stosowany do kamuflowania otoczek piersi i blizn. Można go dodać w celu złagodzenia koloru. Nie stosować w czystej postaci w celu uzyskania krycia! W innych przypadkach należy zachować ostrożność!\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "set-areola",
+      "sourceId": 8181,
+      "name": "Set Areola",
+      "fullName": "Set AREOLA",
+      "collection": "areola-camouflage",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "areola"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 85000,
+          "regularPrice": 120000,
+          "inStock": true,
+          "sourceId": 8181
+        }
+      ],
+      "shortDesc": null,
+      "description": "Linia AREOLA\n\nOpracowano we współpracy z AS COMPANY™ i Anastasią Spiridonową\n\nSeria składa się z sześciu różnych odcieni odpowiednich dla każdego rodzaju skóry, zarówno jako samodzielne pigmenty, jak i w połączeniu ze sobą.\n\n#1 Caramel\n\nGłówny odcień do tonowania okolicy otoczki. W czystej postaci jest idealny dla klientów z typem skóry Fitzpatrick 3. Można go mieszać z Dark Brick #2 i Muted Brown #3, aby uzyskać karmelowo-różowe odcienie. Mieszanie w różnych proporcjach da odcień idealnie pasujący do odcienia otoczki klientki. Nadaje się również do kamuflowania blizn, rozstępów i bielactwa po dodaniu do neutralnej beżowej bazy. Aby zmniejszyć stężenie, zalecamy dodanie rozcieńczalnika (2-3 krople).\n\n#2 Dark Brick\n\nTen odcień idealnie nadaje się do cery typu Fitzpatrick 2-3. Polecamy połączenie z Caramel #1 i Muted Brown #3; ta kombinacja nadaje się do tonowania otoczek brodawek sutkowych o typie cery 3. Aby zmniejszyć stężenie, zalecamy dodanie rozcieńczalnika (2-3 krople).\n\n#3 Muted Brown\n\nNajjaśniejszy odcień w linii otoczki. W czystej postaci jest idealny do jasnych otoczek skóry Fitzpatrick typu 1. Aby jeszcze bardziej rozjaśnić odcień, możesz dodać kilka kropli białego pigmentu. Zalecamy wypróbowanie kombinacji poprzez mieszanie z Caramel #1 i Dark Brick #2 w różnych proporcjach. Aby zmniejszyć stężenie, zalecamy dodanie rozcieńczalnika (2-3 krople).\n\n#4 Rich Dark\n\nIdealny do tonowania otoczek w czystej postaci w przypadku ciemnych otoczek skóry Fitzpatrick typu 4. Ten ton można również dodawać w małych ilościach, aby przyciemnić główny ton pigmentu i stworzyć cienie w projekcie otoczki podczas renowacji od podstaw. Aby zmniejszyć stężenie, zalecamy dodanie rozcieńczalnika (2-3 krople).\n\n#5 Deep Chocolate\n\nIdealny do tonowania otoczek w czystej postaci w przypadku ciemnych otoczek skóry Fitzpatrick typu 5. Zalecamy dodawanie tego tonu w małych ilościach, aby przyciemnić główny ton pigmentu i stworzyć cienie w projekcie otoczki podczas renowacji od podstaw. Aby zmniejszyć stężenie, zalecamy dodanie rozcieńczalnika (2-3 krople).\n\n#6 Brown Dark\n\nNajbardziej nasycony odcień w palecie, idealny do tonowania otoczek w czystej postaci w przypadku ciemnych otoczek o typie skóry Fitzpatricka 5 i 6. Ten odcień jest idealny do tworzenia cieni w projekcie otoczki podczas renowacji od podstaw; pamiętaj, aby użyć białego pigmentu, aby podkreślić objętość obrazu podczas stosowania tej techniki.\n\nZalety:\n\n• Linia ta pomaga ukryć wszelkie niedoskonałości skóry w okolicy otoczki brodawki sutkowej – blizny pooperacyjne, brak dopasowania rozmiaru, ułożenia, kształtu i koloru.\n• Poprawia efekt estetyczny po zabiegu mammoplastyki.\n• Zabieg można wykonać po całkowitym wygojeniu się skóry po zabiegu, za zgodą chirurga, zazwyczaj nie wcześniej niż trzy miesiące po zabiegu.",
+      "inStock": true,
+      "onSale": true,
+      "color": null,
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "t1-black-15-ml-trichopigmentation",
+      "sourceId": 11523,
+      "name": "T1 Black",
+      "fullName": "T1 BLACK, 15 ml (TRICHOPIGMENTATION)",
+      "collection": "trichopigmentation",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "skora-glowy"
+      ],
+      "variants": [
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 11523
+        }
+      ],
+      "shortDesc": "Czarny kolor z ciepłym odcieniem",
+      "description": "Czarny kolor z ciepłym odcieniem, dając idealny, neutralny odcień\n\nIdealny zarówno dla mężczyzn, jak i kobiet o czystych czarnych włosach (bez dodatkowych tonów). Skuteczny w technikach puentylizmu, cienia i włoskowania\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#282828",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "t1-black-15-ml-trichopigmentation-kopia",
+      "sourceId": 11547,
+      "name": "T2 Orange",
+      "fullName": "T2 ORANGE, 15 ml (TRICHOPIGMENTATION)",
+      "collection": "trichopigmentation",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "skora-glowy"
+      ],
+      "variants": [
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 11547
+        }
+      ],
+      "shortDesc": "Korektor dla ocieplenie pigmentow z tej serii.",
+      "description": "Korektor dla ocieplenie pigmentów z tej serii.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#c13e0b",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "t3-light-brown-15-ml-trichopigmentation",
+      "sourceId": 11548,
+      "name": "T3 Light Brown",
+      "fullName": "T3 LIGHT BROWN, 15 ml (TRICHOPIGMENTATION)",
+      "collection": "trichopigmentation",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "skora-glowy"
+      ],
+      "variants": [
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 11548
+        }
+      ],
+      "shortDesc": "Czerwono-żółty kolor",
+      "description": "Czerwono-żółty kolor i idealnie nadaje się dla mężczyzn o ciemnych włosach i ciepłym odcieniu włosów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#573831",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    },
+    {
+      "id": "t4-dark-brown-15-ml-trichopigmentation-2",
+      "sourceId": 11596,
+      "name": "T4 Dark Brown",
+      "fullName": "T4 DARK BROWN, 15 ml (TRICHOPIGMENTATION)",
+      "collection": "trichopigmentation",
+      "series": null,
+      "isSet": false,
+      "zones": [
+        "skora-glowy"
+      ],
+      "variants": [
+        {
+          "label": "15 ml",
+          "price": 21900,
+          "regularPrice": 36000,
+          "inStock": true,
+          "sourceId": 11596
+        }
+      ],
+      "shortDesc": "Baza czerwono-czarna",
+      "description": "Ten hybrydowy pigment na czerwono-czarnej bazie doskonale sprawdzi się u mężczyzn o ciemnych włosach oraz kobiet o chłodnym odcieniu włosów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
+      "inStock": true,
+      "onSale": true,
+      "color": "#3f3730",
+      "syncedAt": "2026-09-29T14:38:28.728Z"
+    }
+  ],
+  "colorMeta": {
+    "2489": {
+      "from": "B1-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2491": {
+      "from": "B2-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2494": {
+      "from": "B3-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2496": {
+      "from": "B4-2-650x650.jpg",
+      "method": "smear"
+    },
+    "2498": {
+      "from": "E1-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2502": {
+      "from": "B5-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2504": {
+      "from": "L1-2-650x650.jpg",
+      "method": "smear"
+    },
+    "2506": {
+      "from": "L6-1-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2508": {
+      "from": "L8-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2510": {
+      "from": "L10-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2513": {
+      "from": "L15-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2515": {
+      "from": "L18-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2517": {
+      "from": "L3-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2519": {
+      "from": "L4-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2521": {
+      "from": "L5-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2523": {
+      "from": "L7-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2525": {
+      "from": "L9-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2527": {
+      "from": "L11-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2529": {
+      "from": "L12-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2531": {
+      "from": "L13-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2533": {
+      "from": "L14-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2535": {
+      "from": "L16-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2537": {
+      "from": "L17-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2539": {
+      "from": "L19-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2543": {
+      "from": "L2-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2620": {
+      "from": "BASE-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2622": {
+      "from": "BLOND-BROWN-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2623": {
+      "from": "DARK-BROWN-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2624": {
+      "from": "IMG_9381-650x650.jpeg",
+      "method": "smear"
+    },
+    "2625": {
+      "from": "BLACK-BROWN-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2630": {
+      "from": "BROWN-HAIRED-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2631": {
+      "from": "BLACK-DIAMOND-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2632": {
+      "from": "FOR-RED-650x650.jpg",
+      "method": "smear"
+    },
+    "2633": {
+      "from": "FOR-BLUE-650x650.jpg",
+      "method": "smear"
+    },
+    "2634": {
+      "from": "DEEP-BLACK-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2640": {
+      "from": "FOR-PURPLE-650x650.jpg",
+      "method": "smear"
+    },
+    "2641": {
+      "from": "ORANGE-650x650.jpg",
+      "method": "smear"
+    },
+    "2642": {
+      "from": "WATERMELON-ICE-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2643": {
+      "from": "BUBBLE-GUM-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2644": {
+      "from": "RED-QUEEN-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2650": {
+      "from": "RED-RUBY-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2651": {
+      "from": "NUDE-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2652": {
+      "from": "NUT-PIE-650x650.jpg",
+      "method": "smear"
+    },
+    "2653": {
+      "from": "PINK-PARADISE-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2654": {
+      "from": "PLUM-DESSERT-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2660": {
+      "from": "JUICY-PEACH-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2661": {
+      "from": "APPLE-FLIRT-1-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2662": {
+      "from": "AMARANTH-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2664": {
+      "from": "CHERRY-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2665": {
+      "from": "CORAL-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2666": {
+      "from": "BLOODY-MARY-1-650x650.jpg",
+      "method": "smear"
+    },
+    "2667": {
+      "from": "RASPBERRY-1-650x650.jpg",
+      "method": "smear"
+    },
+    "4581": {
+      "from": "photo_5256253175705046121_y-650x650.jpg",
+      "method": "none-set"
+    },
+    "5226": {
+      "from": "C1-1-650x650.jpg",
+      "method": "smear"
+    },
+    "5231": {
+      "from": "B6-1-650x650.jpg",
+      "method": "smear"
+    },
+    "5772": {
+      "from": "Zrzut-ekranu-2024-09-16-o-14.58.37-e1726493411433-650x635.png",
+      "method": "none-set"
+    },
+    "5926": {
+      "from": "WhatsApp-Image-2026-05-13-at-16.50.27-1-650x640.jpeg",
+      "method": "smear"
+    },
+    "5932": {
+      "from": "WhatsApp-Image-2026-05-13-at-16.36.52-650x650.jpeg",
+      "method": "smear"
+    },
+    "5936": {
+      "from": "WhatsApp-Image-2026-05-13-at-16.36.52-1-1-650x650.jpeg",
+      "method": "smear"
+    },
+    "5940": {
+      "from": "WhatsApp-Image-2026-05-13-at-16.36.52-2-650x650.jpeg",
+      "method": "smear"
+    },
+    "5944": {
+      "from": "WhatsApp-Image-2026-05-13-at-16.36.52-3-650x650.jpeg",
+      "method": "smear"
+    },
+    "5948": {
+      "from": "WhatsApp-Image-2026-05-13-at-16.50.27-650x655.jpeg",
+      "method": "smear"
+    },
+    "6319": {
+      "from": "IMG_6009-650x650.png",
+      "method": "none-set"
+    },
+    "7082": {
+      "from": "CRAZY-650x650.jpg",
+      "method": "smear"
+    },
+    "7092": {
+      "from": "DOLL-650x650.jpg",
+      "method": "smear"
+    },
+    "7094": {
+      "from": "GOTHAM-650x650.jpg",
+      "method": "smear"
+    },
+    "7096": {
+      "from": "HARLEY-650x650.jpg",
+      "method": "smear"
+    },
+    "7098": {
+      "from": "JOKER-650x650.jpg",
+      "method": "smear"
+    },
+    "7100": {
+      "from": "PUDDING-650x650.jpg",
+      "method": "smear"
+    },
+    "8160": {
+      "from": "IMG_9508-650x570.jpg",
+      "method": "none-set"
+    },
+    "8181": {
+      "from": "IMG_2074-2-650x605.jpg",
+      "method": "none-set"
+    },
+    "9307": {
+      "from": "photo_5256253175705046126_y-650x650.jpg",
+      "method": "none-set"
+    },
+    "9309": {
+      "from": "photo_5256253175705046130_x-650x650.jpg",
+      "method": "none-set"
+    },
+    "9311": {
+      "from": "photo_5256253175705046132_y-650x650.jpg",
+      "method": "none-set"
+    },
+    "9313": {
+      "from": "photo_5256253175705046138_y-650x650.jpg",
+      "method": "none-set"
+    },
+    "9315": {
+      "from": "photo_5256253175705046139_y-650x650.jpg",
+      "method": "none-set"
+    },
+    "9318": {
+      "from": "photo_5256253175705046133_y-650x650.jpg",
+      "method": "none-set"
+    },
+    "9525": {
+      "from": "photo_5301058764163189822_y-650x650.jpg",
+      "method": "smear"
+    },
+    "9527": {
+      "from": "photo_5301058764163189823_y-650x650.jpg",
+      "method": "smear"
+    },
+    "9531": {
+      "from": "photo_5301058764163189821_y-650x650.jpg",
+      "method": "smear"
+    },
+    "9533": {
+      "from": "photo_5301058764163189820_y-650x650.jpg",
+      "method": "smear"
+    },
+    "9535": {
+      "from": "photo_5301058764163189819_y-650x650.jpg",
+      "method": "smear"
+    },
+    "9538": {
+      "from": "photo_5301058764163189824_y-650x650.jpg",
+      "method": "smear"
+    },
+    "10302": {
+      "from": "IMG_6859-650x650.jpeg",
+      "method": "smear"
+    },
+    "10305": {
+      "from": "IMG_6805-650x650.jpeg",
+      "method": "smear"
+    },
+    "10307": {
+      "from": "IMG_6806-650x650.jpeg",
+      "method": "smear"
+    },
+    "10309": {
+      "from": "IMG_6808-650x650.jpeg",
+      "method": "smear"
+    },
+    "10311": {
+      "from": "IMG_6809-650x650.jpeg",
+      "method": "smear"
+    },
+    "10313": {
+      "from": "IMG_6810-650x650.jpeg",
+      "method": "smear"
+    },
+    "10315": {
+      "from": "IMG_6807-650x650.jpeg",
+      "method": "smear"
+    },
+    "10349": {
+      "from": "IMG_6811-1-650x650.jpeg",
+      "method": "smear"
+    },
+    "11155": {
+      "from": "IMG_8816-650x650.jpeg",
+      "method": "smear"
+    },
+    "11523": {
+      "from": "IMG_9431-650x650.jpeg",
+      "method": "smear"
+    },
+    "11547": {
+      "from": "IMG_9432-650x650.jpeg",
+      "method": "smear"
+    },
+    "11548": {
+      "from": "IMG_9433-650x650.jpeg",
+      "method": "smear"
+    },
+    "11549": {
+      "from": "IMG_9419-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11583": {
+      "from": "IMG_9421-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11584": {
+      "from": "IMG_9424-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11586": {
+      "from": "IMG_9426-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11587": {
+      "from": "IMG_9427-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11588": {
+      "from": "IMG_9429-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11589": {
+      "from": "IMG_9420-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11591": {
+      "from": "IMG_9422-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11592": {
+      "from": "IMG_9423-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11593": {
+      "from": "IMG_9425-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11594": {
+      "from": "IMG_9428-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11595": {
+      "from": "IMG_9430-650x650.jpeg",
+      "method": "none-unreliable"
+    },
+    "11596": {
+      "from": "IMG_9434-650x650.jpeg",
+      "method": "smear"
+    },
+    "11648": {
+      "from": "IMG_9435-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11649": {
+      "from": "IMG_9436-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11650": {
+      "from": "IMG_9437-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11651": {
+      "from": "IMG_9438-650x650.jpeg",
+      "method": "bottle"
+    },
+    "11655": {
+      "from": "IMG_9439-650x650.jpeg",
+      "method": "bottle"
+    }
+  }
+}
