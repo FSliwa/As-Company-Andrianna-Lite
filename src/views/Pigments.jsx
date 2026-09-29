@@ -157,6 +157,8 @@ function Hero() {
       number="01"
       title="Pigmenty"
       titleAccent="AS COMPANY."
+      /* D2 („linia rzęs” zamiast „kresek”) dotyczy zabiegu Perfect Eyes; tu „kreski” to kategoria
+         pigmentów ze sklepu (strefa „Kreski” w danych i w filtrze) — zostaje (raport INNE-03). */
       lead="Pigmenty do brwi, ust i kresek, modyfikatory oraz odcienie do areoli, kamuflażu i trychopigmentacji — AS OPIUM, Light Minerals, AS Classic i kolejne kolekcje. Wybierz odcienie i wyślij zapytanie."
       stats={HERO_STATS}
     >
@@ -397,9 +399,11 @@ function HowToOrder() {
               <h2 className="as-display-section as-text-balance mt-6 text-ink">Jak zamówić.</h2>
             </Reveal>
             <Reveal delay={80}>
+              {/* D9/D10 (INNE-01): z dokumentów tylko to, co ma źródło — karty charakterystyki
+                  pigmentów (sklep klientki, /certyfikaty), udostępniane na prośbę. */}
               <p className="as-body mt-6">
                 Zamówienie to zapytanie o listę odcieni — odpowiadamy z dostępnością i łączną kwotą.
-                Dokumentację produktów udostępniamy na prośbę.
+                Karty charakterystyki pigmentów udostępniamy na prośbę.
               </p>
               <ArrowLink href="/certyfikaty" className="mt-8 w-fit">
                 Dokumentacja produktów

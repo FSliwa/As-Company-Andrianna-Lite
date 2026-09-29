@@ -151,7 +151,8 @@ export function DayStrip({ id, days, counts, value, onChange, onEnter, strip, bu
                 </span>
                 <span className="sr-only">
                   {formatDateLong(date)}
-                  {closed ? ' — salon nieczynny' : count === 0 ? ' — brak wolnych godzin' : ''}
+                  {/* D6: godziny pracy salonu bez źródła — nie ogłaszamy „salon nieczynny” */}
+                  {closed ? ' — brak terminów online' : count === 0 ? ' — brak wolnych godzin' : ''}
                 </span>
               </label>
             </li>

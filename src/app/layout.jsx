@@ -14,9 +14,10 @@ export const metadata = {
     default: 'Makijaż permanentny Warszawa i szkolenia PMU | AS COMPANY',
     template: '%s | AS COMPANY LOVELINESS',
   },
+  /* D2: „linia rzęs” zamiast „kresek” (Perfect Eyes — bez kreski, bez ogonka); D9: „AS COMPANY” zamiast „AS PMU”. */
   ...pageMeta({
     description:
-      'Makijaż permanentny brwi, ust i kresek w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS PMU.',
+      'Makijaż permanentny brwi, ust i linii rzęs w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS COMPANY.',
     path: '/',
   }),
 };

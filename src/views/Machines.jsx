@@ -10,7 +10,8 @@
  * Rytm tła (max 2 ciemne pasy, nigdy dwa ciemne obok siebie):
  *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z karty AS PRINCESS)
  *   02 Katalog #katalog (cream-50) — model = wiersz pełnej szerokości,
- *      w wierszu parametry z karty produktu + link do sklepu; na telefonie
+ *      w wierszu parametry z karty produktu + „Zapytaj o dostępność” (/kontakt;
+ *      bez linków do sklepu — prośba klientki); na telefonie
  *      parametry zwinięte w „Parametry”, od md widoczne od razu
  *   03 Parametry (espresso) — 7 prędkości AS PRINCESS + skok i wysuw igły
  *   04 Wynajem (cream-100) — warunki ze sklepu, wniosek w dialogu (Field)
@@ -144,7 +145,12 @@ const MACHINES_DATA = [
 
 const PRINCESS = MACHINES_DATA.find((m) => m.id === 'as-princess');
 
-/* Prędkości AS PRINCESS — nazwy i obroty 1:1 z karty produktu. */
+/* Prędkości AS PRINCESS — nazwy i obroty 1:1 z listy na stronie maszynki w sklepie
+   klientki (as-loveliness.eu/maszynka/, sprawdzone 29.09.2026: „1 – pikselowa 6000 …
+   7 – tatuażowa 10000”). Raport INNE-14: karty produktów WooCommerce mają zdanie
+   „Od pikselowej prędkości 1 (6000RPM) do liniowej 7 (10000RPM)”, sprzeczne z tą listą
+   (7 = tatuażowa, „liniowa” = 4). D10: zostaje lista (pełne źródło), rozbieżność
+   zgłoszona klientce do potwierdzenia. */
 const SPEED_LEVELS = [
   { level: 1, rpm: 6000, name: 'Pikselowa' },
   { level: 2, rpm: 6500, name: 'Pudrowa' },
@@ -436,8 +442,10 @@ export default function Machines() {
               </h2>
             </Reveal>
             <Reveal delay={80} className="lg:col-span-5">
+              {/* INNE-14: bez „według karty produktu” — karta produktu nazywa prędkość 7 „liniową”,
+                  nazwy poniżej są z listy prędkości na stronie maszynki (zob. SPEED_LEVELS). */}
               <p className="as-body-invert">
-                AS&nbsp;PRINCESS według karty produktu: od prędkości pikselowej (6&nbsp;000&nbsp;obr./min)
+                AS&nbsp;PRINCESS: od prędkości pikselowej (6&nbsp;000&nbsp;obr./min)
                 do tatuażowej (10&nbsp;000&nbsp;obr./min).
               </p>
             </Reveal>
@@ -505,11 +513,14 @@ export default function Machines() {
                 </h2>
               </Reveal>
               <Reveal delay={80}>
+                {/* INNE-18/D9: bez „w sklepie” — strona nie linkuje do sklepu (prośba klientki),
+                    wynajem zamawia się przez zapytanie; zdanie wg karty wynajmu: „Po dokonaniu
+                    zakupu, wysyłamy umowę wynajmu”. */}
                 <p className="as-body mt-6">
                   Maszynkę <span className="whitespace-nowrap text-ink">AS PRINCESS</span> wynajmiesz
                   w&nbsp;abonamencie miesięcznym:{' '}
                   <span className="text-ink">{zl(RENTAL_MONTHLY)} brutto (300&nbsp;zł netto)</span>.
-                  Umowę wynajmu wysyłamy po złożeniu zamówienia w&nbsp;sklepie.
+                  Umowę wynajmu wysyłamy po złożeniu zamówienia.
                 </p>
                 <ul className="mt-6 space-y-2.5">
                   {RENTAL_POINTS.map((point) => (
@@ -538,9 +549,11 @@ export default function Machines() {
                     <PriceRow key={row.name} name={row.name} note={row.note} price={row.price} />
                   ))}
                 </div>
+                {/* D9: „AS COMPANY” zamiast „sklepu AS LOVELINESS” (INNE-12) — nazwa marki,
+                    bez odsyłania do sklepu, do którego strona nie linkuje. */}
                 <p className="as-caption mt-5 max-w-[30rem]">
                   Wyliczenie poglądowe przy 10 zabiegach w&nbsp;miesiącu; zwrotnej kaucji nie
-                  wliczamy. Ceny według sklepu AS LOVELINESS.
+                  wliczamy. Ceny według kart produktów AS&nbsp;COMPANY.
                 </p>
               </Reveal>
             </div>

@@ -11,9 +11,18 @@
  * publikowanie nieistniejących numerów zgodności to ryzyko prawne dla marki
  * i dla salonów, które powołałyby się na nie podczas kontroli Sanepidu.
  *
- * Strona opisuje RODZAJE dokumentacji dołączanej do zamówień, bez podawania
- * numerów. Żeby pokazać konkretne certyfikaty, wstaw tu prawdziwe skany/PDF-y
- * i ich numery — wtedy dodamy wiersze „nazwa dokumentu | Pobierz".
+ * D9/D10 (raport zgodności INNE-01, INNE-02): strona mówi WYŁĄCZNIE o tym, co ma
+ * źródło — karty charakterystyki pigmentów. Sklep klientki (as-loveliness.eu/certyfikaty/,
+ * „Certyfikaty do pobrania”, stan 29.09.2026) publikuje 6 PDF-ów: AS CLASSIC, AS OPIUM,
+ * AS OPIUM LIGHT MINERALS, Harley Quinn, PARADISE, TRICHO. Każdy to „KARTA
+ * CHARAKTERYSTYKI zgodnie z rozporządzeniem (WE) nr 1907/2006” (REACH).
+ * Usunięte jako bez źródła: „deklaracja zgodności” z rozporządzeniem o tuszach
+ * (SDS-y go nie wymieniają), sterylność kartridży, dokumentacja i gwarancja maszynek,
+ * „komplet dokumentów do każdego zamówienia hurtowego”, wersja papierowa,
+ * dokumenty „dla tej partii”, „papier, o który pyta Sanepid” i „nie publikujemy
+ * skanów” (sklep je publikuje). Dostęp: „na prośbę” — bez linków do PDF-ów w sklepie
+ * (prośba klientki: bez przekierowań do zewnętrznego sklepu; decyzja o linkach
+ * lub plikach na tej stronie — pytanie do klientki).
  *
  * Trasa bez packshotów, więc cała jest typograficzna — bez portretów i makr.
  * Rytm tła: 01 pas espresso (PageHero band) → 02 cream-50 → hairline →
@@ -25,45 +34,34 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
 
-/** Rodzaje dokumentacji — bez numerów, bo tych nie mamy potwierdzonych. */
-const DOCUMENT_TYPES = [
-  {
-    number: '01',
-    title: 'Zgodność REACH',
-    scope: 'Pigmenty AS OPIUM i Light Minerals',
-    desc: 'Deklaracja zgodności z unijnym rozporządzeniem ograniczającym substancje stosowane w tuszach do tatuażu i makijażu permanentnego.',
-  },
-  {
-    number: '02',
-    title: 'Karta charakterystyki (MSDS / SDS)',
-    scope: 'Barwniki organiczne i mineralne',
-    desc: 'Dokument chemiczny opisujący skład, zagrożenia i sposób postępowania z produktem. To ten papier, o który pyta Sanepid podczas kontroli gabinetu.',
-  },
-  {
-    number: '03',
-    title: 'Sterylność kartridży',
-    scope: 'Kartridże jednorazowe',
-    desc: 'Potwierdzenie sterylizacji i jednorazowego przeznaczenia wkładów igłowych wraz z datą ważności opakowania.',
-  },
-  {
-    number: '04',
-    title: 'Dokumentacja urządzeń',
-    scope: 'Maszynki AS PRINCESS i AS HERO',
-    desc: 'Deklaracja zgodności, instrukcja obsługi i warunki gwarancji urządzenia.',
-  },
+/* Kolekcje z kartą charakterystyki — lista 1:1 ze sklepu klientki (6 PDF-ów, zob. nagłówek).
+   Nazwy jak w katalogu /pigmenty (w sklepie „TRICHO” = kolekcja Trichopigmentation).
+   D9: bez rozszerzania na linie, których dokumenty nie obejmują — Hairstrokes
+   i Areola/Camouflage w sklepie nie mają PDF-u, więc ich tu nie wymieniamy. */
+const SDS_COLLECTIONS = [
+  'AS OPIUM',
+  'AS OPIUM Light Minerals',
+  'AS Classic',
+  'Paradise',
+  'Harley Quinn',
+  'Trichopigmentation',
 ];
 
-const FOR_SALON = [
-  'Każde zamówienie hurtowe zawiera komplet dokumentacji w wersji cyfrowej.',
-  'Dokumenty wysyłamy również na żądanie — przed zakupem, do wglądu.',
-  'Na życzenie przygotowujemy komplet w wersji papierowej do segregatora gabinetowego.',
+const SDS_LABEL = 'Karta charakterystyki (SDS)';
+
+/* Zamiast „komplet dokumentów do zamówienia hurtowego / wersja papierowa” (bez źródła):
+   jedyna obietnica to udostępnienie na prośbę (D10). */
+const ON_REQUEST = [
+  'Karty charakterystyki udostępniamy na prośbę — napisz, której kolekcji dotyczy pytanie.',
+  'Możesz o nie poprosić także przed zakupem, do wglądu.',
+  'Pytasz o kolekcję spoza listy? Napisz — sprawdzimy, jakie dokumenty są dostępne.',
 ];
 
-/* Rząd Stat w pasie hero — wyłącznie fakty z treści powyżej (nic spoza strony). */
+/* Rząd Stat w pasie hero — wyłącznie fakty z treści poniżej (nic spoza strony). */
 const HERO_STATS = [
-  { value: String(DOCUMENT_TYPES.length), label: 'rodzaje dokumentów dołączanych do produktów' },
-  { value: 'REACH', label: 'deklaracja zgodności z rozporządzeniem UE' },
-  { value: 'SDS', label: 'karta charakterystyki, o którą pyta Sanepid' },
+  { value: String(SDS_COLLECTIONS.length), label: 'kolekcji pigmentów z kartą charakterystyki' },
+  { value: 'SDS', label: 'karta charakterystyki — na prośbę' },
+  { value: 'REACH', label: 'rozporządzenie (WE) nr\u00a01907/2006' },
 ];
 
 /* ================================================================== */
@@ -76,14 +74,16 @@ function Hero() {
       variant="band"
       number="01"
       label="Dokumentacja"
-      title="Papiery, które gabinet"
-      titleAccent="musi mieć pod ręką."
-      lead="Do produktów, które dystrybuujemy, dołączamy dokumentację wymaganą przy pracy z makijażem permanentnym — od deklaracji zgodności po karty charakterystyki. Poniżej opisujemy, co dokładnie dostajesz."
+      title="Karty charakterystyki"
+      titleAccent="pigmentów."
+      /* D9: REACH tylko w zakresie dokumentów ze sklepu (karty wg rozporządzenia 1907/2006);
+         „dokumentacja wymagana przy pracy z PMU” i „deklaracje zgodności” — bez źródła, usunięte. */
+      lead={'Karty charakterystyki sześciu kolekcji pigmentów AS\u00a0COMPANY, sporządzone zgodnie z\u00a0rozporządzeniem REACH. Udostępniamy je na prośbę.'}
       stats={HERO_STATS}
     >
       {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <Link href="/kontakt" className="as-btn-invert">
+        <Link href="/kontakt?temat=produkty" className="as-btn-invert">
           Poproś o dokumentację
         </Link>
         <ArrowLink href="/pigmenty" tone="light" className="w-fit">
@@ -95,7 +95,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — RODZAJE DOKUMENTÓW (cream-50)                                 */
+/*  02 — KARTY CHARAKTERYSTYKI (cream-50)                              */
 /* ================================================================== */
 
 function DocumentsBand() {
@@ -105,30 +105,30 @@ function DocumentsBand() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Reveal>
-              <SectionLabel number="02">Co dostajesz</SectionLabel>
+              <SectionLabel number="02">Co udostępniamy</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                Cztery rodzaje
+                Sześć kolekcji,
                 <br />
-                dokumentów.
+                sześć kart.
               </h2>
             </Reveal>
             <Reveal delay={80}>
+              {/* D9: „pigmenty zgodne z rozporządzeniem REACH” — zawężone do kolekcji z listy obok */}
               <p className="as-body mt-6 max-w-[24rem]">
-                Nie publikujemy tu numerów ani skanów — dokumenty przekazujemy bezpośrednio
-                kupującemu, razem z zamówieniem albo wcześniej, do wglądu.
+                Pigmenty zgodne z rozporządzeniem REACH: do każdej kolekcji z tej listy mamy kartę
+                charakterystyki sporządzoną według rozporządzenia (WE) nr&nbsp;1907/2006.
               </p>
             </Reveal>
           </div>
 
-          {/* 01–04 jako komórki dokumentów (ten sam układ co /pigmenty 04):
-              hairline u góry → numer (.as-kicker) → tytuł (.as-title) → zakres (.as-kicker) → opis 15 px */}
+          {/* 01–06 jako komórki dokumentów (ten sam układ co /pigmenty 04):
+              hairline u góry → numer (.as-kicker) → kolekcja (.as-title) → rodzaj dokumentu (.as-kicker) */}
           <ol className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
-            {DOCUMENT_TYPES.map((doc, i) => (
-              <Reveal as="li" key={doc.number} delay={(i % 2) * 90} className="as-cell">
-                <p className="as-kicker">{doc.number}</p>
-                <h3 className="as-title as-text-balance mt-3 text-ink">{doc.title}</h3>
-                <p className="as-kicker mt-3">{doc.scope}</p>
-                <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">{doc.desc}</p>
+            {SDS_COLLECTIONS.map((name, i) => (
+              <Reveal as="li" key={name} delay={(i % 2) * 90} className="as-cell">
+                <p className="as-kicker">{String(i + 1).padStart(2, '0')}</p>
+                <h3 className="as-title as-text-balance mt-3 text-ink">{name}</h3>
+                <p className="as-kicker mt-3">{SDS_LABEL}</p>
               </Reveal>
             ))}
           </ol>
@@ -139,27 +139,27 @@ function DocumentsBand() {
 }
 
 /* ================================================================== */
-/*  03 — DLA GABINETU (cream-100, hairline od sekcji 02)               */
+/*  03 — NA PROŚBĘ (cream-100, hairline od sekcji 02)                  */
 /* ================================================================== */
 
-function SalonBand() {
+function OnRequestBand() {
   return (
     <section className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         {/* mobile: nagłówek → lista → link; lg: link wraca pod nagłówek w lewej kolumnie */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-4">
-            <SectionLabel number="03">Dla gabinetu</SectionLabel>
+            <SectionLabel number="03">Jak otrzymać</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
-              Spokojna
+              Dokumenty
               <br />
-              kontrola.
+              na prośbę.
             </h2>
           </Reveal>
 
           <Reveal delay={80} className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
             <ul className="border-t border-ink/10">
-              {FOR_SALON.map((item) => (
+              {ON_REQUEST.map((item) => (
                 <li key={item} className="flex gap-5 border-b border-ink/10 py-5">
                   <span aria-hidden="true" className="as-dash" />
                   <span className="as-body">{item}</span>
@@ -169,8 +169,8 @@ function SalonBand() {
           </Reveal>
 
           <Reveal delay={140} className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start">
-            <ArrowLink href="/kontakt" className="w-fit">
-              Zamów komplet dokumentów
+            <ArrowLink href="/kontakt?temat=produkty" className="w-fit">
+              Poproś o kartę charakterystyki
             </ArrowLink>
           </Reveal>
         </div>
@@ -188,10 +188,11 @@ function ClosingBand() {
     <ClosingCta
       number="04"
       label="Kontakt"
-      title="Potrzebujesz konkretnego"
-      titleAccent="dokumentu?"
-      lead="Napisz, o który produkt chodzi — odeślemy aktualną dokumentację dla tej partii."
-      primary={{ href: '/kontakt', label: 'Napisz do nas' }}
+      title="Potrzebujesz karty"
+      titleAccent="charakterystyki?"
+      /* D10: bez „dokumentacji dla tej partii” — brak źródła */
+      lead="Napisz, o którą kolekcję pigmentów chodzi — odeślemy jej kartę charakterystyki."
+      primary={{ href: '/kontakt?temat=produkty', label: 'Napisz do nas' }}
       secondary={{ href: '/maszynki', label: 'Zobacz maszynki' }}
     />
   );
@@ -204,7 +205,7 @@ export default function Certificates() {
     <>
       <Hero />
       <DocumentsBand />
-      <SalonBand />
+      <OnRequestBand />
       <ClosingBand />
     </>
   );

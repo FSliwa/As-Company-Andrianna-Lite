@@ -31,6 +31,7 @@ import {
   PILLARS,
   PRICING_PMU,
   PRODUCT_LINES,
+  TRAINING_INTRO,
   TRAINING_PILLARS,
 } from '@/lib/site';
 import { GROUPS, ROLES } from '@/lib/roles';
@@ -76,13 +77,24 @@ const HERO_BOX = {
   marginInline: 'auto',
 };
 
-/* Fakty wyłącznie z ACHIEVEMENTS / BRAND (src/lib/site.js) */
+/* Fakty z briefu i ACHIEVEMENTS (src/lib/site.js), spójne z /o-nas („Opis”: „wykonała tysiące
+   pigmentacji”, „przeszkoliła setki kursantek”). D7: zamiast „100+ kursantek w roku” (brzmiało
+   jak średnia roczna — BIO-06) i wyliczonej sumy „10 lat salonów” (BIO-03) — sformułowania
+   briefu; 100+ z włosa w ostatnim roku i lata salonów (7 + 3) z pełnym opisem są
+   w statystykach sekcji 02. Długość paska jak dotąd (≈ 710 px): mieści się w jednej linii
+   także przy niskim oknie laptopa (kadr hero zależy od wysokości ekranu). */
 const HERO_FACTS = [
   `${ACHIEVEMENTS[0].value} podium Mistrzostw Świata`,
-  `${ACHIEVEMENTS[1].value} kursantek w roku`,
-  `${ACHIEVEMENTS[3].value} salonów`,
+  'Setki kursantek',
+  'Tysiące pigmentacji',
   BRAND.city,
 ];
+
+/* D7: cztery role z briefu po polsku („Linergista, Trener, Prelegent oraz Sędzia”) zamiast
+   angielskiego FOUNDER.role bez źródła (BIO-12). Pełne brzmienie (FOUNDER.rolePl) jest w alt
+   portretu i na /o-nas; w kolofonie skrót mieszczący się w dwóch liniach jak dotąd (przy
+   1280 × 600 trzecia linia dotykała paska faktów — pomiar). */
+const ROLE_SHORT = 'Linergistka, trenerka, prelegentka i\u00a0sędzia';
 
 /* Wejście tytułu: trzy wyrazy, 0 / 150 / 300 ms (wyłączone przy reduced-motion) */
 const riseIn = (delay) => ({
@@ -93,8 +105,9 @@ function Hero() {
   const lead = (
     <>
       <p className="as-caption max-w-[17rem] leading-[1.9]">{BRAND.claim}</p>
+      {/* D9: bez skrótu „AS” (makieta: „Discover AS”) — /o-nas opowiada o Andrianie i salonie */}
       <ArrowLink href="/o-nas" className="mt-7 w-fit">
-        Poznaj AS
+        Poznaj nas
       </ArrowLink>
     </>
   );
@@ -103,7 +116,7 @@ function Hero() {
   const colophon = (
     <div className="border-t border-gold/40 pt-4">
       <p className="as-label text-ink">{FOUNDER.name}</p>
-      <p className="as-label mt-2 text-ink/65">{FOUNDER.role}</p>
+      <p className="as-label mt-2 text-ink/65">{ROLE_SHORT}</p>
     </div>
   );
 
@@ -125,7 +138,8 @@ function Hero() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={HERO_PHOTO.src}
-            alt={`${FOUNDER.name} — założycielka AS Company i ${BRAND.academy}`}
+            /* bez „założycielki AS Company” — brak źródła (BIO-18, SRC-20); brief: prowadzi salon i akademię */
+            alt={`${FOUNDER.name} — prowadzi salon i akademię ${BRAND.academy} w Warszawie`}
             width={HERO_PHOTO.w}
             height={HERO_PHOTO.h}
             fetchPriority="high"
@@ -265,7 +279,7 @@ function AboutBand() {
               <div className="as-photo-frame">
                 <Figure
                   image={ROLES.aboutHome.image}
-                  alt={`${FOUNDER.name} — ${FOUNDER.role}`}
+                  alt={`${FOUNDER.name} — ${FOUNDER.rolePl}`}
                   ratio="3 / 4"
                   position={ROLES.aboutHome.position}
                   tone="dark"
@@ -329,9 +343,12 @@ function ProductsBand() {
               <br />
               za efektem.
             </h2>
+            {/* INNE-13: zdanie z makiety (sekcja „Produkty”) zamiast „dokumentacji tworzonej przez
+                praktyków” i „sami używamy w gabinecie” — bez źródła */}
             <p className="as-body mt-6">
-              Pigmenty, urządzenia i dokumentacja tworzone przez praktyków dla praktyków — to, czego
-              sami używamy w gabinecie i na szkoleniach.
+              Profesjonalne produkty stworzone przez praktyków dla praktyków. Łączymy najwyższą
+              jakość, innowacyjne technologie i realne doświadczenie, aby wspierać Cię na każdym
+              etapie pracy.
             </p>
           </Reveal>
 
@@ -373,9 +390,11 @@ function TreatmentsBand() {
               <br />
               precyzyjna technika.
             </h2>
+            {/* Z15/BIO-14: „zabiegi zawierają konsultację” — bez źródła; brief (FAQ) potwierdza
+                rysunek wstępny dopasowany do architektury twarzy i poprawki według uwag klientki */}
             <p className="as-body mt-6">
-              Wszystkie zabiegi zawierają konsultację, architekturę twarzy oraz rysunek wstępny.
-              Kolor dobieramy do karnacji, a kształt do Twoich rysów.
+              Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury Twojej
+              twarzy i wprowadzamy w nim zmiany według Twoich uwag. Kolor dobieramy do karnacji.
             </p>
           </Reveal>
 
@@ -397,8 +416,10 @@ function TreatmentsBand() {
 
           <div className="md:col-span-7 md:col-start-6 md:row-start-2 lg:col-span-6 lg:col-start-7">
             <Reveal delay={80}>
+              {/* D2: nazwy technik wg briefu (Perfect Brows, Perfect Eyes) — pod nazwą technika
+                  z cennika (PRICING_PMU.items[].technique), żeby nowe nazwy były czytelne */}
               {PRICING_PMU.items.map((item) => (
-                <PriceRow key={item.name} name={item.name} note={item.note} price={item.price} />
+                <PriceRow key={item.id || item.name} name={item.name} note={item.note || item.technique} price={item.price} />
               ))}
             </Reveal>
             <p className="as-caption mt-6 max-w-[36rem]">{PRICING_PMU.footnote}</p>
@@ -415,6 +436,11 @@ function TreatmentsBand() {
 /* ================================================================== */
 /*  05 — SZKOLENIA (mocha)                                             */
 /* ================================================================== */
+
+/* D4: na stronie głównej maks. 3 kursy w cenniku (COURSES[].home), reszta linkiem. */
+const HOME_COURSES = COURSES.filter((c) => c.home);
+const OTHER_COURSES = COURSES.filter((c) => !c.home);
+const lowerFirst = (t) => t.charAt(0).toLowerCase() + t.slice(1);
 
 function TrainingBand() {
   return (
@@ -435,10 +461,12 @@ function TrainingBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
+              {/* Tekst makiety; D9: szkolenia pod nazwą akademii (brief, wszystkie plakaty kursów:
+                  „Babushkina Academy”) zamiast „AS”. D4: zdanie o poziomach z briefu (TRAINING_INTRO) */}
               <p className="as-body-invert mt-6 max-w-[26rem]">
-                Autorskie szkolenia AS to połączenie zaawansowanej techniki, wieloletniego
-                doświadczenia i realnej praktyki. Uczysz się od ekspertów i dostajesz wsparcie na
-                każdym etapie swojej drogi.
+                Autorskie szkolenia {BRAND.academy} to połączenie zaawansowanej techniki,
+                wieloletniego doświadczenia i realnej praktyki. {TRAINING_INTRO.levels} Uczysz się od
+                ekspertów i dostajesz wsparcie na każdym etapie swojej drogi.
               </p>
               <ArrowLink href="/szkolenia" tone="light" className="mt-8 w-fit">
                 Poznaj szkolenia
@@ -463,9 +491,37 @@ function TrainingBand() {
             </Reveal>
 
             <Reveal delay={80} className="mt-8">
-              {COURSES.map((c) => (
-                <PriceRow key={c.id} name={c.title} note={c.format} price={`${c.price} ${c.priceNote}`} tone="light" />
+              {/* D4: maks. 3 pozycje (COURSES[].home); pełna nazwa z briefu odróżnia kurs dla
+                  linergistek od kursu od podstaw (osoba początkująca nie weźmie tańszego za start);
+                  przy kursach z requiresContact — informacja z briefu o wstępnym kontakcie */}
+              {HOME_COURSES.map((c) => (
+                <PriceRow
+                  key={c.id}
+                  name={c.fullTitle || c.title}
+                  note={[c.format, c.requiresContact && 'rezerwacja po wstępnym kontakcie'].filter(Boolean).join(' · ')}
+                  price={[c.price, c.priceNote].filter(Boolean).join(' ')}
+                  tone="light"
+                />
               ))}
+              {/* D4: pozostałe kursy z briefu — linkiem do ich programów na /szkolenia */}
+              {OTHER_COURSES.length > 0 && (
+                <p className="as-caption-invert mt-6 max-w-[36rem]">
+                  Pozostałe kursy:{' '}
+                  {OTHER_COURSES.map((c, i) => (
+                    <React.Fragment key={c.id}>
+                      {i > 0 && (i === OTHER_COURSES.length - 1 ? ' i ' : ', ')}
+                      <Link
+                        href={`/szkolenia#program-${c.id}`}
+                        className="text-cream-50 underline decoration-cream-200/40 underline-offset-4 transition-colors hover:decoration-cream-50"
+                      >
+                        {lowerFirst(c.fullTitle || c.title)}
+                      </Link>
+                      {c.price && ` (${c.price})`}
+                    </React.Fragment>
+                  ))}
+                  .
+                </p>
+              )}
             </Reveal>
           </div>
         </div>
@@ -497,12 +553,12 @@ function InvitationBand() {
         <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
           <Reveal className="md:col-span-5">
             <SectionLabel number="06">Kontakt</SectionLabel>
+            {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” — bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
-              Zacznijmy od <span className="italic text-gold-dark">konsultacji.</span>
+              Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
             </h2>
             <p className="as-body mt-6">
-              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia —
-              konsultacja jest pierwszym krokiem każdego zabiegu.
+              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
               <Link href={BOOKING_URL} className="as-btn-solid">
@@ -517,7 +573,7 @@ function InvitationBand() {
           <Reveal delay={90} className="md:col-span-7 lg:col-span-6 lg:col-start-7">
             <Figure
               image={ROLES.closingHome.image}
-              alt={`${FOUNDER.name} — sesja wizerunkowa ${BRAND.name}`}
+              alt={`${FOUNDER.name} — portret z sesji wizerunkowej`}
               ratio="3 / 2"
               position={ROLES.closingHome.position}
               framed

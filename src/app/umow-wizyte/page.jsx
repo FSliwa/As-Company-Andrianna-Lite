@@ -17,7 +17,8 @@ export function generateMetadata() {
   return pageMeta({
     title: 'Umów wizytę',
     description:
-      'Rezerwacja online w Babushkina Academy, Warszawa — wybierz zabieg makijażu permanentnego brwi, ust lub kresek, dzień i godzinę wizyty.',
+      // D2: „linia rzęs” zamiast „kresek” (Perfect Eyes)
+      'Rezerwacja online w Babushkina Academy, Warszawa — wybierz zabieg makijażu permanentnego brwi, ust lub linii rzęs, dzień i godzinę wizyty.',
     path: '/umow-wizyte',
     noindex: !isBookingEnabled(),
   });

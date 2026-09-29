@@ -52,7 +52,8 @@ export function siteJsonLd() {
         '@type': 'Person',
         '@id': `${SITE_URL}/#founder`,
         name: FOUNDER.name,
-        jobTitle: FOUNDER.role,
+        // D7: rola po polsku wg briefu (serwis pl-PL)
+        jobTitle: FOUNDER.rolePl,
         description: FOUNDER.signature,
         sameAs: [CONTACT.instagram],
         worksFor: { '@id': `${SITE_URL}/#organization` },
@@ -69,24 +70,50 @@ export function siteJsonLd() {
   };
 }
 
+/**
+ * Kursy (D4): wszystkie pozycje COURSES — także nowe z briefu. Wyłącznie pola ze źródeł:
+ *  - offers tylko przy kursie z ceną („Szyty na miarę” nie ma ceny → bez offers),
+ *  - VAT: valueAddedTaxIncluded: false tylko tam, gdzie plakat podaje „netto”
+ *    (dawne `category: 'netto'` nie było dla wyszukiwarek informacją o podatku),
+ *  - courseMode z pola `mode` ('blended' | 'online'); brak trybu w źródle → bez courseMode.
+ */
 export function coursesJsonLd() {
   const price = (p) => String(p).replace(/[^0-9]/g, '');
   return {
     '@context': 'https://schema.org',
     '@graph': COURSES.map((c) => ({
       '@type': 'Course',
-      name: c.title,
+      name: c.fullTitle || c.title,
       description: c.lead,
       inLanguage: 'pl-PL',
       provider: { '@id': `${SITE_URL}/#organization` },
-      offers: {
-        '@type': 'Offer',
-        price: price(c.price),
-        priceCurrency: 'PLN',
-        category: 'netto',
-        url: `${SITE_URL}/szkolenia`,
+      ...(c.level ? { educationalLevel: c.level } : {}),
+      ...(c.requirements ? { coursePrerequisites: c.requirements } : {}),
+      ...(c.price
+        ? {
+            offers: {
+              '@type': 'Offer',
+              price: price(c.price),
+              priceCurrency: 'PLN',
+              ...(c.priceNote === 'netto'
+                ? {
+                    priceSpecification: {
+                      '@type': 'PriceSpecification',
+                      price: price(c.price),
+                      priceCurrency: 'PLN',
+                      valueAddedTaxIncluded: false,
+                    },
+                  }
+                : {}),
+              url: `${SITE_URL}/szkolenia#program-${c.id}`,
+            },
+          }
+        : {}),
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        ...(c.mode ? { courseMode: c.mode } : {}),
+        description: c.format,
       },
-      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'blended', description: c.format },
     })),
   };
 }

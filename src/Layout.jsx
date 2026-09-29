@@ -69,6 +69,8 @@ function Header({ menuOpen, setMenuOpen }) {
         )}
       >
         <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24">
+          {/* D9: „AS COMPANY POLAND” to napis w logo (plik marki z makiety i sklepu) — nazwa
+              dostępna opisuje logo, więc zostaje; w tekstach strony: AS COMPANY / AS COMPANY LOVELINESS. */}
           <Link href="/" className="shrink-0" aria-label="AS COMPANY POLAND — strona główna">
             <Logo priority />
           </Link>

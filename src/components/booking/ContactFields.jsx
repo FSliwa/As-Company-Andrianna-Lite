@@ -87,7 +87,8 @@ export function ContactFields({ values, errors, onChange, onBlur }) {
           describedBy="b-note-hint"
         />
         <p id="b-note-hint" className="mt-2 text-[0.8125rem] leading-relaxed text-mocha">
-          Np. czy to pierwszy zabieg, czy odświeżenie. Nie wpisuj informacji o zdrowiu — omówimy je na konsultacji.
+          {/* D6 (Z15): bez „konsultacji” jako osobnej usługi (brak źródła) */}
+          Np. czy to pierwszy zabieg, czy odświeżenie. Nie wpisuj informacji o zdrowiu — omówimy je w salonie.
         </p>
       </div>
 

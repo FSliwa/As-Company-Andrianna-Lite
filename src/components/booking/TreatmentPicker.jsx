@@ -3,10 +3,11 @@
 /**
  * 01 Zabieg — natywne <input type="radio"> (Tab wchodzi do grupy, strzałki
  * zmieniają wybór) stylowane jako wiersze-karty: nazwa as-title, cena i czas
- * z konfiguracji (ceny pochodzą z cenników site.js).
+ * z konfiguracji (ceny pochodzą z cenników site.js). Czas tylko potwierdzony
+ * źródłem (D6: shownDurationMin) — robocze czasy blokady nie są pokazywane jako fakt.
  */
 
-import { TREATMENTS } from '@/lib/booking/config';
+import { TREATMENTS, shownDurationMin } from '@/lib/booking/config';
 import { cn } from '@/lib/utils';
 import { formatDuration } from './format';
 
@@ -61,11 +62,15 @@ export function TreatmentPicker({ value, onChange, onEnter, invalid }) {
               <span className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between sm:gap-6">
                 <span className="block min-w-0">
                   <span className="as-title block text-ink">{t.name}</span>
+                  {/* D2: podpis techniki z briefu, np. „Pigmentacja linii rzęs” przy Perfect Eyes */}
+                  {t.hint && <span className="mt-1 block text-[0.8125rem] leading-relaxed text-mocha">{t.hint}</span>}
                   {t.priceNote && <span className="mt-1 block text-[0.8125rem] leading-relaxed text-mocha">{t.priceNote}</span>}
                 </span>
                 <span className="mt-2 flex items-baseline gap-4 sm:mt-0 sm:shrink-0 sm:flex-col sm:items-end sm:gap-1">
                   {t.price && <span className="whitespace-nowrap font-display text-xl text-ink">{t.price}</span>}
-                  <span className="as-label whitespace-nowrap text-ink/65">{formatDuration(t.durationMin)}</span>
+                  {shownDurationMin(t) && (
+                    <span className="as-label whitespace-nowrap text-ink/65">{formatDuration(shownDurationMin(t))}</span>
+                  )}
                 </span>
               </span>
             </label>
