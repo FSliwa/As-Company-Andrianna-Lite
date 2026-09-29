@@ -150,7 +150,7 @@ function Hero() {
       <div className="as-shell pb-14 pt-28 lg:hidden">
         <div className="md:grid md:grid-cols-12 md:items-center md:gap-8">
           <div className="md:col-span-6">
-            <p aria-hidden="true" className="as-display-xl text-ink md:text-[5.25rem]">
+            <p aria-hidden="true" className="as-display-xl text-ink md:text-[4.5rem]">
               <span className="block">Beauty</span>
               <span className="block font-normal italic leading-[1.05]">with</span>
               <span className="block">precision.</span>
@@ -233,9 +233,9 @@ function AboutBand() {
       <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
 
       <div className="as-shell relative">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           {/* kolumna 1 — zdanie */}
-          <div className="lg:col-span-4">
+          <div className="md:col-span-6 lg:col-span-4">
             <Reveal>
               <SectionLabel number="02" tone="light">
                 O nas
@@ -260,8 +260,8 @@ function AboutBand() {
           </div>
 
           {/* kolumna 2 — jeden portret, inna poza niż w hero */}
-          <Reveal delay={60} className="lg:col-span-4">
-            <div className="mx-auto max-w-[20rem] lg:max-w-none">
+          <Reveal delay={60} className="md:col-span-6 lg:col-span-4">
+            <div className="mx-auto max-w-[16rem] sm:max-w-[20rem] md:max-w-none">
               <div className="as-photo-frame">
                 <Figure
                   image={ROLES.aboutHome.image}
@@ -278,8 +278,8 @@ function AboutBand() {
             </div>
           </Reveal>
 
-          {/* kolumna 3 — 01 / 02 / 03 jako komórki */}
-          <div className="lg:col-span-4">
+          {/* kolumna 3 — 01 / 02 / 03 jako komórki (tablet: trzy obok siebie pod spodem) */}
+          <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6 lg:col-span-4 lg:block">
             {PILLARS.map((p, i) => (
               <Reveal key={p.number} delay={i * 80}>
                 <Link href={p.href} className="as-cell-invert group block pb-6">
@@ -321,8 +321,8 @@ function ProductsBand() {
   return (
     <section className="as-section bg-cream-100">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="lg:col-span-4">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+          <Reveal className="md:col-span-5 lg:col-span-4">
             <SectionLabel number="03">Produkty</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Wszystko, co stoi
@@ -335,7 +335,7 @@ function ProductsBand() {
             </p>
           </Reveal>
 
-          <div className="lg:col-span-7 lg:col-start-6">
+          <div className="md:col-span-7 md:col-start-6">
             {PRODUCT_LINES.map((line, i) => (
               <Reveal key={line.id} delay={i * 80}>
                 <IndexRow
@@ -365,8 +365,8 @@ function TreatmentsBand() {
     <section className="as-section bg-cream-50">
       <div className="as-shell">
         {/* telefon: nagłówek → portret → cennik; od lg: portret po lewej na całą wysokość */}
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10">
-          <Reveal className="lg:col-span-6 lg:col-start-7 lg:row-start-1">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 md:gap-y-10">
+          <Reveal className="md:col-span-7 md:col-start-6 md:row-start-1 lg:col-span-6 lg:col-start-7">
             <SectionLabel number="04">Zabiegi</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Naturalny efekt,
@@ -379,8 +379,8 @@ function TreatmentsBand() {
             </p>
           </Reveal>
 
-          <Reveal delay={60} className="lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:self-start">
-            <figure className="mx-auto max-w-[20rem] sm:max-w-[24rem] lg:max-w-none">
+          <Reveal delay={60} className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start">
+            <figure className="mx-auto max-w-[16rem] sm:max-w-[22rem] md:max-w-none">
               <Figure
                 image={portrait.image}
                 alt={`${FOUNDER.name} — ${FOUNDER.signature}`}
@@ -395,7 +395,7 @@ function TreatmentsBand() {
             </figure>
           </Reveal>
 
-          <div className="lg:col-span-6 lg:col-start-7 lg:row-start-2">
+          <div className="md:col-span-7 md:col-start-6 md:row-start-2 lg:col-span-6 lg:col-start-7">
             <Reveal delay={80}>
               {PRICING_PMU.items.map((item) => (
                 <PriceRow key={item.name} name={item.name} note={item.note} price={item.price} />
@@ -420,8 +420,8 @@ function TrainingBand() {
   return (
     <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
       <div className="as-shell relative">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-5">
             <Reveal>
               <SectionLabel number="05" tone="light">
                 Szkolenia
@@ -446,7 +446,7 @@ function TrainingBand() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="md:col-span-7">
             <Reveal>
               <div className="as-photo-frame">
                 <Figure
@@ -493,8 +493,8 @@ function InvitationBand() {
   return (
     <section data-sticky-hide className="as-section bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
-          <Reveal className="lg:col-span-5">
+        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
+          <Reveal className="md:col-span-5">
             <SectionLabel number="06">Kontakt</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zacznijmy od <span className="italic text-gold-dark">konsultacji.</span>
@@ -513,7 +513,7 @@ function InvitationBand() {
             </div>
           </Reveal>
 
-          <Reveal delay={90} className="lg:col-span-6 lg:col-start-7">
+          <Reveal delay={90} className="md:col-span-7 lg:col-span-6 lg:col-start-7">
             <Figure
               image={ROLES.closingHome.image}
               alt={`${FOUNDER.name} — sesja wizerunkowa ${BRAND.name}`}

@@ -213,7 +213,7 @@ function Footer({ year }) {
       <div className="as-shell py-12 lg:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
-            <Logo size="lg" />
+            <Logo size="lg" className="h-16 w-16 sm:h-24 sm:w-24 lg:h-28 lg:w-28" />
             <p className="mt-6 font-display text-2xl italic text-cream-100 lg:mt-8">{BRAND.tagline}</p>
             <p className="as-caption-invert mt-3 hidden sm:block">{BRAND.claim}</p>
 
@@ -276,7 +276,7 @@ function Footer({ year }) {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-cream-200/12 pt-8 lg:mt-16 lg:pt-10">
+        <div className="mt-10 hidden border-t border-cream-200/12 pt-8 sm:block lg:mt-16 lg:pt-10">
           <p
             className="as-display select-none text-cream-200/[0.08]"
             style={{ fontSize: 'clamp(2.5rem, 12vw, 11rem)', lineHeight: 0.85 }}

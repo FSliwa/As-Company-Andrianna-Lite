@@ -378,7 +378,7 @@ export function PageHero({
         <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
           <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
-            <div className="mt-10 grid grid-cols-3 gap-3 sm:gap-8 lg:mt-16">
+            <div className="mt-10 grid grid-cols-3 gap-3 max-[359px]:grid-cols-1 max-[359px]:gap-5 sm:gap-8 lg:mt-16">
               {stats.map((st) => (
                 <Stat key={st.label} value={st.value} label={st.label} tone="light" compact />
               ))}
@@ -410,7 +410,7 @@ export function PageHero({
                 imageSide === 'left' ? 'md:col-span-5 md:col-start-1 lg:col-span-4 lg:col-start-2' : 'md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-8'
               )}
             >
-              <div className="mx-auto max-w-[22rem] md:max-w-none">
+              <div className="mx-auto max-w-[17rem] sm:max-w-[22rem] md:max-w-none">
                 <Figure
                   image={image}
                   alt={imageAlt || title}
@@ -536,13 +536,17 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
     <div className={cn(compact ? 'border-l border-gold/35 pl-3 sm:pl-5' : 'as-card-col', className)}>
       <p
         className={cn(
-          compact ? 'as-display text-[1.625rem] leading-none sm:text-[2.5rem] lg:text-[4rem]' : 'as-display-md leading-none',
+          compact
+            ? 'as-display text-[clamp(1.25rem,5.4vw,1.625rem)] leading-none [overflow-wrap:anywhere] sm:text-[2.25rem] lg:text-[clamp(2.5rem,4.4vw,4rem)]'
+            : 'as-display-md leading-none',
           isLight ? 'text-cream-100' : 'text-ink'
         )}
       >
         {value}
       </p>
-      <p className={cn('mt-3', isLight ? 'as-caption-invert' : 'as-caption')}>{label}</p>
+      <p className={cn('mt-3 hyphens-auto break-words', isLight ? 'as-caption-invert' : 'as-caption')} lang="pl">
+        {label}
+      </p>
     </div>
   );
 }

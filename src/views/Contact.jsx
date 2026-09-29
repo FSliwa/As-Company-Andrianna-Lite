@@ -54,7 +54,7 @@ const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
 
 
-/* Kanały: Instagram i sklep zawsze; telefon i e-mail pojawią się same, gdy
+/* Kanały: Instagram zawsze; telefon i e-mail pojawią się same, gdy
    zostaną uzupełnione w CONTACT (do tego czasu nie ma pola ani placeholdera). */
 const CHANNELS = [
   CONTACT.phone && {

@@ -97,8 +97,8 @@ function StoryBand() {
   return (
     <section className="as-section bg-espresso text-cream-50">
       <div className="as-shell">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10">
-          <Reveal className="lg:col-span-6 lg:col-start-7 lg:row-start-1">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 md:gap-y-10">
+          <Reveal className="md:col-span-7 md:col-start-6 md:row-start-1 lg:col-span-6 lg:col-start-7">
             <SectionLabel number="02" tone="light">
               Droga zawodowa
             </SectionLabel>
@@ -111,9 +111,9 @@ function StoryBand() {
             </h2>
           </Reveal>
 
-          <div className="lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1">
-            <Reveal className="lg:sticky lg:top-28">
-              <figure className="mx-auto max-w-[26rem] lg:max-w-none">
+          <div className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
+            <Reveal className="md:sticky md:top-28">
+              <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
                 <Figure
                   image={ROLES.storyAbout.image}
                   alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
@@ -128,7 +128,7 @@ function StoryBand() {
             </Reveal>
           </div>
 
-          <Reveal delay={80} className="lg:col-span-6 lg:col-start-7 lg:row-start-2">
+          <Reveal delay={80} className="md:col-span-7 md:col-start-6 md:row-start-2 lg:col-span-6 lg:col-start-7">
             <div className="as-body-invert space-y-5">
               <p className="as-dropcap">
                 Kilkakrotnie stanęła na podium Mistrzostw Świata: w kategorii{' '}
