@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* kroje pisma (ładowane w src/app/layout.jsx z Google Fonts) */
+    /* kroje pisma (pliki w public/fonts, @font-face w src/styles-fonts.css; cyrylica z Playfair Display) */
     --font-display: 'Bodoni Moda Variable', 'Bodoni Moda', 'Didot', 'Playfair Display', Georgia, serif;
     --font-sans: 'Jost Variable', 'Jost', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
@@ -396,5 +396,12 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+
+/* Baner cookies nad mobilnym paskiem CTA, gdy pasek jest widoczny (bez sprzęgania komponentów w JS). */
+@media (max-width: 1023px) {
+  html:has(#as-sticky[aria-hidden='false']) [data-consent-banner] {
+    bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.75rem);
   }
 }

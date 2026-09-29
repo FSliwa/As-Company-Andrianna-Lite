@@ -35,12 +35,13 @@ import { ArrowLink, Field, FormNotice } from '@/components/as/Primitives';
 import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { collectionLabel, formatCapacity, formatPrice, formatSyncedDate } from '@/lib/pigments';
 import { CONTACT, LEGAL } from '@/lib/site';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
 /* Formularz zbiera dane osobowe tylko wtedy, gdy naprawdę je dostarczy
    (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO. */
-const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
+const NOTICE_READY = LEGAL_COMPLETE;
 export const FORM_LIVE = Boolean(CONTACT.email) && NOTICE_READY;
 
 const SYNCED = formatSyncedDate();

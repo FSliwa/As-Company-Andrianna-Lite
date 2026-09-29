@@ -3,13 +3,17 @@
 /**
  * Wspólne elementy systemu wizualnego AS COMPANY.
  * Wszystkie podstrony budujemy z tych klocków, żeby styl był spójny.
+ * Wersje językowe: linki wewnętrzne przez LocaleLink (polska ścieżka → adres
+ * bieżącego języka), napisy własne prymitywów z src/content/common.
  */
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/as/LocaleLink';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LEGAL } from '@/lib/site';
+import { useContent, useLocale, useSite } from '@/i18n/client';
+import common from '@/content/common';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import {
   Accordion,
   AccordionContent,
@@ -169,6 +173,7 @@ export function Figure({
 
 export function NumberedItem({ number, title, children, href, tone = 'dark', className }) {
   const isLight = tone === 'light';
+  const t = useContent(common);
   return (
     <div className={cn('flex flex-col gap-2', className)}>
       <div className="flex items-baseline gap-3">
@@ -178,7 +183,9 @@ export function NumberedItem({ number, title, children, href, tone = 'dark', cla
       <p className={cn('as-numbered-desc', isLight ? 'text-cream-200/75' : 'text-mocha')}>{children}</p>
       {href && (
         <ArrowLink href={href} tone={tone} className="mt-1 self-start border-b-0 pb-0">
-          <span className="sr-only">Przejdź: {title}</span>
+          <span className="sr-only">
+            {t.goTo} {title}
+          </span>
         </ArrowLink>
       )}
     </div>
@@ -533,6 +540,7 @@ export function CtaButton({ href, onClick, children, className = 'as-btn-solid',
 
 export function Stat({ value, label, tone = 'dark', compact = false, className }) {
   const isLight = tone === 'light';
+  const locale = useLocale();
   return (
     <div className={cn(compact ? 'border-l border-gold/35 pl-3 sm:pl-5' : 'as-card-col', className)}>
       <p
@@ -545,7 +553,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
       >
         {value}
       </p>
-      <p className={cn('mt-3 hyphens-auto break-words', isLight ? 'as-caption-invert' : 'as-caption')} lang="pl">
+      <p className={cn('mt-3 hyphens-auto break-words', isLight ? 'as-caption-invert' : 'as-caption')} lang={locale}>
         {label}
       </p>
     </div>
@@ -560,7 +568,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
 
 export function ClosingCta({
   number,
-  label = 'Kontakt',
+  label,
   title,
   titleAccent,
   lead,
@@ -571,7 +579,9 @@ export function ClosingCta({
   className,
 }) {
   /* Pas zamykający: jasny (cream-90), stopka pod nim w cream-100. Bez portretów —
-     założycielka nie może występować w każdym zakończeniu strony. */
+     założycielka nie może występować w każdym zakończeniu strony.
+     Etykieta domyślna („Kontakt”) — w języku strony. */
+  const t = useContent(common);
   const button = (btn, cls) => {
     if (!btn) return null;
     const { label: text, ...rest } = btn;
@@ -590,7 +600,7 @@ export function ClosingCta({
       <div className="as-shell relative py-16 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
           <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
-            <SectionLabel number={number}>{label}</SectionLabel>
+            <SectionLabel number={number}>{label === undefined ? t.closingLabel : label}</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               {title}
               {titleAccent && (
@@ -716,23 +726,25 @@ export function Field({ as = 'input', label, id, hint, required, className, wrap
 /* ------------------------------------------------------------------ */
 
 export function FormNotice({ tone = 'dark', className }) {
-  if (!LEGAL.company || !LEGAL.privacyPolicy) return null;
+  const t = useContent(common);
+  const { LEGAL } = useSite();
+  if (!LEGAL_COMPLETE) return null;
   const onDark = tone === 'light';
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed', onDark ? 'text-cream-100/80' : 'text-mocha', className)}>
-      Administratorem danych jest {LEGAL.company}. Dane z formularza przetwarzamy wyłącznie po to, by
-      odpowiedzieć na zapytanie.{' '}
+      {t.noticeController} {LEGAL.company}. {t.noticePurpose}{' '}
       <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
-        Polityka prywatności
+        {t.privacy}
       </Link>
-      . Pola oznaczone * są wymagane.
+      . {t.requiredLegend}
     </p>
   );
 }
 
 /* Legenda pól wymaganych — gdy klauzula jeszcze się nie renderuje. */
 export function RequiredLegend({ className }) {
-  return <p className={cn('text-[0.8125rem] text-mocha', className)}>Pola oznaczone * są wymagane.</p>;
+  const t = useContent(common);
+  return <p className={cn('text-[0.8125rem] text-mocha', className)}>{t.requiredLegend}</p>;
 }
 
 /* ------------------------------------------------------------------ */

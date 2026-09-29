@@ -1,0 +1,392 @@
+{
+  "slug": "polityka-prywatnosci",
+  "title": "Polityka prywatności",
+  "updated": "2026-09-29",
+  "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce — Polityka cookies ({siteUrl}/polityka-cookies).",
+  "sections": [
+    {
+      "id": "w-skrocie",
+      "heading": "1. Najważniejsze w skrócie",
+      "blocks": [
+        {
+          "list": [
+            "Nie używamy narzędzi analitycznych, reklamowych ani pikseli śledzących i nie ustawiamy własnych plików cookie.",
+            "Formularze kontaktowe nie wysyłają danych na nasz serwer. Przygotowują wiadomość, którą sam wysyłasz ze swojej poczty albo na Instagramie.",
+            "Rezerwacja online zapisuje termin wraz z Twoimi danymi kontaktowymi w Kalendarzu Google salonu. Serwis nie wysyła automatycznie SMS-ów ani e-maili.",
+            "W formularzach nie pytamy o zdrowie. Omawiamy je podczas konsultacji w salonie.",
+            "Nie sprzedajemy danych, nie profilujemy i nie prowadzimy newslettera.",
+            "W każdej chwili możesz zapytać, jakie Twoje dane mamy, poprawić je albo poprosić o ich usunięcie."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "administrator",
+      "heading": "2. Administrator danych",
+      "blocks": [
+        {
+          "p": "Administratorem Twoich danych osobowych jest {company}, {address}, NIP {nip}, {register}. Prowadzimy salon makijażu permanentnego i akademię szkoleniową działające w Warszawie pod markami AS COMPANY LOVELINESS i Babushkina Academy. W tej polityce piszemy o sobie „my”."
+        }
+      ]
+    },
+    {
+      "id": "kontakt-w-sprawie-danych",
+      "heading": "3. Kontakt w sprawie danych osobowych",
+      "blocks": [
+        {
+          "p": "We wszystkich sprawach dotyczących danych osobowych napisz na adres {privacyEmail} albo listownie na adres {address}. Możesz też skorzystać z ogólnych danych kontaktowych: {email}, tel. {phone}."
+        },
+        {
+          "p": "Nie wyznaczyliśmy inspektora ochrony danych. Przy skali i charakterze naszej działalności przepisy tego nie wymagają (art. 37 RODO)."
+        }
+      ]
+    },
+    {
+      "id": "kontakt-i-zapytania",
+      "heading": "4. Formularze kontaktowe, e-mail i Instagram",
+      "blocks": [
+        {
+          "p": "W serwisie są cztery formularze: kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki oraz zapytanie o pigmenty (lista wybranych odcieni). Żaden z nich nie wysyła danych na nasz serwer. Po kliknięciu przycisku przeglądarka składa z wypełnionych pól gotową wiadomość i otwiera Twój program pocztowy z naszym adresem {email}. Dane trafiają do nas dopiero wtedy, gdy sam wyślesz tę wiadomość. Możesz też napisać do nas na Instagramie, a listę pigmentów skopiować przyciskiem w oknie zamówienia i wkleić do wiadomości. Wiadomość przesyła Twój dostawca poczty albo Instagram, na swoich zasadach."
+        },
+        {
+          "p": "Zależnie od formularza wiadomość zawiera imię albo imię i nazwisko, telefon i e-mail, a ponadto: w formularzu kontaktowym temat i treść wiadomości; w zapytaniu o szkolenie wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym; w zapytaniu o wynajem nazwę salonu i wybrane urządzenie; w zapytaniu o pigmenty nazwę salonu, listę odcieni z orientacyjną sumą i uwagi. Te same zasady dotyczą danych, które przekażesz nam, pisząc bezpośrednio e-mailem, dzwoniąc lub pisząc na Instagramie."
+        },
+        {
+          "p": "Prosimy, nie przesyłaj w wiadomościach informacji o swoim zdrowiu. Omówimy je podczas konsultacji w salonie."
+        },
+        {
+          "p": "Cele i podstawy prawne:"
+        },
+        {
+          "list": [
+            "odpowiedź na wiadomość i dalsza korespondencja: nasz prawnie uzasadniony interes, czyli możliwość odpowiadania na kierowane do nas pytania (art. 6 ust. 1 lit. f RODO);",
+            "przygotowanie oferty oraz ustalenie terminu szkolenia, wynajmu lub zakupu, gdy o to prosisz: działania na Twoje żądanie przed zawarciem umowy (art. 6 ust. 1 lit. b RODO);",
+            "wykonanie umowy, jeśli ją zawrzemy, na przykład udział w szkoleniu, wynajem maszynki lub zakup pigmentów (art. 6 ust. 1 lit. b RODO);",
+            "rozliczenie dofinansowania szkolenia (np. KFS, BUR), jeśli z niego korzystasz: wykonanie umowy (art. 6 ust. 1 lit. b RODO), a gdy obowiązek przekazania lub przechowania danych wynika z przepisów — wypełnienie obowiązku prawnego (art. 6 ust. 1 lit. c RODO);",
+            "rozpatrzenie reklamacji (punkt 12 Regulaminu): obowiązki wynikające z przepisów, w szczególności Kodeksu cywilnego i ustawy o prawach konsumenta (art. 6 ust. 1 lit. c RODO), a w sprawach nieobjętych takim obowiązkiem nasz prawnie uzasadniony interes, czyli rzetelne rozpatrzenie zgłoszenia (art. 6 ust. 1 lit. f RODO);",
+            "wystawienie i przechowywanie dokumentów księgowych: obowiązek wynikający z przepisów podatkowych i o rachunkowości (art. 6 ust. 1 lit. c RODO);",
+            "ustalenie, dochodzenie lub obrona roszczeń: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rezerwacja-online",
+      "heading": "5. Rezerwacja wizyty online",
+      "blocks": [
+        {
+          "p": "Na stronie „Umów wizytę” możesz zarezerwować termin zabiegu. Podajesz imię i nazwisko, numer telefonu i adres e-mail, a jeśli chcesz, także krótkie uwagi. Wybierasz zabieg, dzień i godzinę. Każdy zabieg zaczyna się od konsultacji w salonie. Formularz nie pyta o stan zdrowia i prosimy, by nie wpisywać takich informacji w uwagach. Zasady rezerwacji, zmiany i odwołania wizyty opisują punkty 9 i 10 Regulaminu."
+        },
+        {
+          "p": "Po wysłaniu formularza nasz serwer zapisuje rezerwację jako wydarzenie w Kalendarzu Google salonu. Tytuł wydarzenia zawiera nazwę zabiegu oraz Twoje imię i nazwisko, a opis: czas trwania i cenę zabiegu z cennika, Twój telefon i e-mail, uwagi oraz numer rezerwacji. Termin wydarzenia to data i godzina wizyty. Serwis nie wysyła zaproszeń z kalendarza ani automatycznych SMS-ów i e-maili. Potwierdzenie widzisz na ekranie i możesz pobrać plik .ics (powstaje w Twojej przeglądarce), żeby dodać wizytę do własnego kalendarza. Jeśli trzeba będzie zmienić termin, skontaktujemy się z Tobą sami, telefonicznie lub e-mailem."
+        },
+        {
+          "p": "Kiedy pokazujemy wolne terminy, serwer pobiera z kalendarza tylko godziny zajętości i techniczne oznaczenia wydarzeń. Nie pobiera tytułów ani opisów, więc nie widzi imion, telefonów ani adresów e-mail innych osób. Przy zapisie porównuje jedynie skróty kontaktu opisane w punkcie 6."
+        },
+        {
+          "p": "Cele i podstawy prawne:"
+        },
+        {
+          "list": [
+            "rezerwacja terminu, kontakt w sprawie wizyty (potwierdzenie, zmiana lub odwołanie terminu) i wykonanie zabiegu: działania na Twoje żądanie przed zawarciem umowy oraz wykonanie umowy (art. 6 ust. 1 lit. b RODO);",
+            "ochrona formularza przed nadużyciami, opisana w punkcie 6: nasz prawnie uzasadniony interes, czyli bezpieczeństwo serwisu i dostępność terminów dla prawdziwych klientów (art. 6 ust. 1 lit. f RODO);",
+            "odnotowanie wizyty, na którą ktoś nie przyszedł i jej nie odwołał, oraz stosowanie zasady z punktu 10 Regulaminu (po dwóch takich nieobecnościach w ciągu 12 miesięcy kolejne wizyty umawiamy tylko telefonicznie, a nie przez rezerwację online), a także anulowanie rezerwacji dokonanych wbrew Regulaminowi: nasz prawnie uzasadniony interes, czyli ochrona kalendarza i terminów innych klientów (art. 6 ust. 1 lit. f RODO);",
+            "ustalenie, dochodzenie lub obrona roszczeń: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
+          ]
+        },
+        {
+          "p": "Jeśli rezerwujesz wizytę dla innej osoby (punkt 9 Regulaminu), jej imię i nazwisko, telefon i e-mail otrzymujemy od Ciebie. Przetwarzamy je w tych samych celach, na tych samych podstawach i przez ten sam czas co dane z pozostałych rezerwacji. Przekaż tej osobie informacje z tej polityki, zanim podasz nam jej dane. Rezerwacji online może dokonać wyłącznie osoba pełnoletnia i tylko dla osoby pełnoletniej."
+        },
+        {
+          "p": "Informacje o zdrowiu, zgodę na zabieg i dokumentację zabiegu zbieramy dopiero w salonie. O zasadach ich przetwarzania poinformujemy Cię na miejscu."
+        }
+      ]
+    },
+    {
+      "id": "ochrona-przed-naduzyciami",
+      "heading": "6. Ochrona formularza rezerwacji przed nadużyciami",
+      "blocks": [
+        {
+          "p": "Formularz rezerwacji ma kilka zabezpieczeń, żeby automatyczne skrypty nie blokowały terminów:"
+        },
+        {
+          "list": [
+            "Skróty kontaktu. W ukrytych polach wydarzenia, poza tytułem i opisem, zapisujemy jednokierunkowe skróty kryptograficzne Twojego numeru telefonu i adresu e-mail oraz skrót całej treści zgłoszenia. Bez tajnego klucza, który ma tylko nasz serwer, nie da się z nich odczytać numeru, adresu ani treści. Pozwalają sprawdzić, czy ta sama osoba nie ma już zbyt wielu przyszłych rezerwacji online (limit podaje punkt 9 Regulaminu), oraz rozpoznać ponowne wysłanie tego samego formularza, na przykład po błędzie połączenia, tak aby nie powstał drugi wpis. Skróty nadal są danymi osobowymi (w formie spseudonimizowanej), dlatego chronimy je tak samo jak pozostałe dane i usuwamy razem z rezerwacją.",
+            "Limit prób z jednego adresu IP. Serwer liczy, ile razy w krótkim czasie z danego adresu IP wysłano formularz lub sprawdzano terminy (w przypadku adresów IPv6 liczy się sieć, do której adres należy). Licznik działa wyłącznie w pamięci operacyjnej serwera. Adresów IP nie zapisujemy w kalendarzu ani w logach naszej aplikacji (logi hostingu opisujemy w punkcie 7), a licznik znika sam, najpóźniej po ponownym uruchomieniu serwera.",
+            "Czas wypełniania i pole-pułapka. Serwer sprawdza, ile czasu minęło od wyświetlenia formularza do jego wysłania, a formularz zawiera niewidoczne pole, które wypełniają tylko automaty. Te zabezpieczenia nie zbierają dodatkowych informacji o Tobie.",
+            "Cloudflare Turnstile, jeśli jest włączony. Na stronie rezerwacji może działać usługa Turnstile firmy Cloudflare, Inc., która odróżnia ludzi od automatów bez przepisywania kodów z obrazków. Strona wczytuje wtedy, zaraz po otwarciu, skrypt z serwera challenges.cloudflare.com, a Cloudflare analizuje techniczne dane o połączeniu, przeglądarce i urządzeniu, w tym adres IP, i może zapisać w przeglądarce pliki cookies lub inne dane techniczne potrzebne do weryfikacji. Nasz serwer przekazuje Cloudflare tylko jednorazowy kod weryfikacji, bez danych z formularza. Turnstile nie działa na innych podstronach."
+          ]
+        },
+        {
+          "p": "Podstawą tych działań jest nasz prawnie uzasadniony interes: bezpieczeństwo serwisu i ochrona kalendarza przed fałszywymi rezerwacjami (art. 6 ust. 1 lit. f RODO)."
+        }
+      ]
+    },
+    {
+      "id": "hosting-i-logi",
+      "heading": "7. Hosting i logi serwera",
+      "blocks": [
+        {
+          "p": "Serwis działa na serwerach Vercel Inc. Przy każdym wyświetleniu strony serwery hostingu przetwarzają techniczne dane żądania: adres IP, datę i godzinę, adres żądanej podstrony oraz informacje o przeglądarce i systemie (tzw. user-agent), a część z nich zapisują w logach. Bez tych danych nie da się dostarczyć strony do Twojej przeglądarki."
+        },
+        {
+          "p": "Logi wykorzystujemy wyłącznie do zapewnienia działania i bezpieczeństwa serwisu, w tym ochrony przed atakami, oraz do wyjaśniania błędów. Nie tworzymy z nich statystyk odwiedzin i nie łączymy ich z innymi danymi. Podstawą jest nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
+        },
+        {
+          "p": "Czcionki są przechowywane na naszym serwerze, a na stronie nie ma treści osadzonych z innych serwisów, takich jak filmy, mapy czy posty z Instagrama. Samo przeglądanie strony nie przekazuje więc Twojego adresu IP innym firmom. Jedynym wyjątkiem jest Cloudflare na stronie rezerwacji, jeśli włączymy Turnstile."
+        }
+      ]
+    },
+    {
+      "id": "instagram",
+      "heading": "8. Instagram",
+      "blocks": [
+        {
+          "p": "W serwisie są zwykłe odnośniki do naszego profilu na Instagramie ({instagram}). Nie osadzamy na stronie wtyczek ani treści Meta, więc dopóki nie klikniesz odnośnika, Meta nie otrzymuje z naszej strony żadnych danych. Po przejściu na Instagram obowiązuje polityka prywatności Meta Platforms Ireland Limited, która przetwarza Twoje dane jako odrębny administrator."
+        },
+        {
+          "p": "Jeśli napiszesz do nas na Instagramie, widzimy Twoją nazwę profilu i treść wiadomości. Przetwarzamy je tak jak pozostałą korespondencję (punkt 4)."
+        }
+      ]
+    },
+    {
+      "id": "przegladarka",
+      "heading": "9. Informacje zapisywane w Twojej przeglądarce",
+      "blocks": [
+        {
+          "p": "Serwis nie ustawia własnych plików cookie. W pamięci Twojej przeglądarki (localStorage) zapisujemy tylko informacje potrzebne do działania funkcji, z których sam korzystasz:"
+        },
+        {
+          "list": [
+            "listę pigmentów, którą tworzysz w katalogu (klucz „as-order-v1”): oznaczenia wybranych odcieni, pojemności i ilości, bez danych kontaktowych; wpis znika, gdy wyczyścisz listę albo usuniesz z niej wszystkie pozycje;",
+            "Twoją decyzję w banerze cookies (klucz „as-consent-v1”), żeby nie pokazywać go przy każdej wizycie; pamiętamy ją przez 12 miesięcy."
+          ]
+        },
+        {
+          "p": "Te informacje zostają na Twoim urządzeniu i nie są do nas przesyłane. Jeżeli na stronie rezerwacji działa Cloudflare Turnstile, może on zapisać w przeglądarce pliki cookies lub inne dane techniczne (punkt 6). Szczegóły, w tym sposób usunięcia tych informacji, znajdziesz w Polityce cookies ({siteUrl}/polityka-cookies)."
+        }
+      ]
+    },
+    {
+      "id": "odbiorcy",
+      "heading": "10. Komu przekazujemy dane",
+      "blocks": [
+        {
+          "p": "Dostęp do Twoich danych mają osoby, które u nas pracują lub z nami współpracują przy wizytach, szkoleniach i zamówieniach, wyłącznie na podstawie naszego upoważnienia i w potrzebnym zakresie. Korzystamy też z usług firm, które przetwarzają dane w naszym imieniu (podmioty przetwarzające) na podstawie umów powierzenia:"
+        },
+        {
+          "list": [
+            "Vercel Inc. (USA): hosting serwisu i obsługa formularza rezerwacji;",
+            "Google Ireland Limited i Google LLC (USA): Kalendarz Google, w którym zapisujemy rezerwacje;",
+            "dostawca naszej poczty elektronicznej: przechowywanie korespondencji wysłanej na adres {email};",
+            "Cloudflare, Inc. (USA): ochrona formularza rezerwacji (Turnstile), tylko jeśli jest włączona;",
+            "biuro rachunkowe: dokumenty księgowe, jeśli zawrzemy umowę."
+          ]
+        },
+        {
+          "p": "Jeżeli korzystasz z dofinansowania szkolenia (np. KFS, BUR, RIS), przekażemy instytucji lub operatorowi programu dane wymagane jego zasadami. Dane możemy też udostępnić organom publicznym, gdy wymaga tego prawo. Nie sprzedajemy danych i nie przekazujemy ich nikomu w celach marketingowych."
+        }
+      ]
+    },
+    {
+      "id": "przekazywanie-poza-eog",
+      "heading": "11. Przekazywanie danych poza Europejski Obszar Gospodarczy",
+      "blocks": [
+        {
+          "p": "Vercel, Google i Cloudflare to firmy z USA lub należące do grup z USA, dlatego Twoje dane mogą być przetwarzane w Stanach Zjednoczonych. Podstawą przekazania jest decyzja Komisji Europejskiej z 10 lipca 2023 r. stwierdzająca odpowiedni stopień ochrony danych w ramach programu EU-U.S. Data Privacy Framework (art. 45 RODO), w odniesieniu do firm certyfikowanych w tym programie. Dodatkowym zabezpieczeniem są standardowe klauzule umowne przyjęte przez Komisję Europejską (art. 46 ust. 2 lit. c RODO), zawarte w umowach powierzenia tych dostawców. Kopię zabezpieczeń możesz otrzymać, pisząc na adres {privacyEmail}."
+        }
+      ]
+    },
+    {
+      "id": "okresy-przechowywania",
+      "heading": "12. Jak długo przechowujemy dane",
+      "blocks": [
+        {
+          "list": [
+            "korespondencja (formularze, e-mail, Instagram): przez czas potrzebny do obsługi sprawy, a potem 12 miesięcy od ostatniej wiadomości, chyba że zawrzemy umowę;",
+            "rezerwacje w Kalendarzu Google, razem ze skrótami kontaktu i ewentualną informacją o nieodwołanej nieobecności: 12 miesięcy od terminu wizyty, po czym usuwamy z wydarzenia dane osobowe albo całe wydarzenie;",
+            "dane związane z zawartą umową i z reklamacjami: przez czas wykonywania umowy lub rozpatrywania reklamacji, a potem do upływu terminów przedawnienia roszczeń, co do zasady 6 lat, a w przypadku roszczeń związanych z prowadzeniem działalności gospodarczej 3 lata (termin kończy się z końcem roku kalendarzowego);",
+            "dokumentacja szkolenia z dofinansowaniem: przez okres, którego wymagają zasady programu i umowa z instytucją finansującą;",
+            "dokumenty księgowe: 5 lat, licząc od końca roku kalendarzowego, w którym upłynął termin płatności podatku;",
+            "wnioski dotyczące Twoich praw i nasze odpowiedzi: 3 lata od zakończenia sprawy;",
+            "logi serwera: do 30 dni;",
+            "licznik prób z adresu IP: wyłącznie w pamięci serwera, najdłużej do jego ponownego uruchomienia (sam limit obejmuje najwyżej ostatnie 10 minut);",
+            "informacje w Twojej przeglądarce: lista pigmentów do czasu, aż ją wyczyścisz, a zapis decyzji z banera 12 miesięcy; wcześniej usuniesz je, czyszcząc dane witryny (szczegóły w Polityce cookies)."
+          ]
+        },
+        {
+          "p": "Usunięte wydarzenia Kalendarz Google przechowuje jeszcze do 30 dni w koszu, chyba że opróżnimy go wcześniej. Jeżeli przetwarzamy dane na podstawie prawnie uzasadnionego interesu, przestajemy to robić wcześniej, gdy skutecznie wniesiesz sprzeciw. Dane potrzebne w toczącym się sporze możemy przechowywać do jego zakończenia."
+        }
+      ]
+    },
+    {
+      "id": "twoje-prawa",
+      "heading": "13. Twoje prawa",
+      "blocks": [
+        {
+          "p": "Masz prawo do:"
+        },
+        {
+          "list": [
+            "dostępu do swoich danych i otrzymania ich kopii (art. 15 RODO);",
+            "sprostowania nieprawidłowych danych lub uzupełnienia niekompletnych (art. 16 RODO);",
+            "usunięcia danych (art. 17 RODO);",
+            "ograniczenia przetwarzania (art. 18 RODO);",
+            "przeniesienia danych przetwarzanych w sposób zautomatyzowany w celu zawarcia lub wykonania umowy, na przykład danych z rezerwacji online (art. 20 RODO);",
+            "sprzeciwu wobec przetwarzania opartego na naszym prawnie uzasadnionym interesie, z przyczyn związanych z Twoją szczególną sytuacją (art. 21 RODO)."
+          ]
+        },
+        {
+          "p": "W serwisie nie opieramy przetwarzania danych na Twojej zgodzie, więc nie ma zgody do wycofania. Jeśli w przyszłości o nią poprosimy, będzie można ją wycofać w każdej chwili, bez wpływu na zgodność z prawem przetwarzania przed jej wycofaniem."
+        },
+        {
+          "p": "Aby skorzystać z tych praw, napisz na adres {privacyEmail}. Odpowiemy bez zbędnej zwłoki, najpóźniej w ciągu miesiąca. W wyjątkowo złożonych sprawach termin może się wydłużyć o kolejne dwa miesiące, o czym Cię poinformujemy. Jeśli będziemy mieć wątpliwość, czy wniosek pochodzi od Ciebie, możemy poprosić o dodatkowe potwierdzenie, na przykład z adresu e-mail lub numeru telefonu podanego przy rezerwacji. Obsługa wniosków jest bezpłatna. Tylko przy żądaniach ewidentnie nieuzasadnionych lub nadmiernych, zwłaszcza powtarzających się, możemy pobrać rozsądną opłatę albo odmówić (art. 12 ust. 5 RODO)."
+        },
+        {
+          "p": "Wniosek i naszą odpowiedź przechowujemy przez 3 lata, aby móc wykazać, że przestrzegamy przepisów. Podstawą jest nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
+        }
+      ]
+    },
+    {
+      "id": "skarga-do-uodo",
+      "heading": "14. Skarga do Prezesa UODO",
+      "blocks": [
+        {
+          "p": "Jeśli uważasz, że przetwarzamy Twoje dane niezgodnie z prawem, możesz złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych, ul. Stawki 2, 00-193 Warszawa, uodo.gov.pl (art. 77 RODO). Zachęcamy, żeby najpierw napisać do nas. Postaramy się szybko wyjaśnić sprawę."
+        }
+      ]
+    },
+    {
+      "id": "dobrowolnosc",
+      "heading": "15. Czy musisz podać dane",
+      "blocks": [
+        {
+          "p": "Podanie danych jest dobrowolne, ale bez niektórych z nich nie spełnimy Twojej prośby:"
+        },
+        {
+          "list": [
+            "bez danych kontaktowych nie odpowiemy na zapytanie;",
+            "bez imienia i nazwiska, telefonu i e-maila nie przyjmiemy rezerwacji online, ale możesz umówić się z nami telefonicznie, e-mailem lub na Instagramie;",
+            "jeśli zawieramy umowę, dane są potrzebne do jej zawarcia, a dane do dokumentów księgowych i do rozliczenia dofinansowania szkolenia są wymagane przepisami lub zasadami programu."
+          ]
+        },
+        {
+          "p": "Adres IP i informacje o przeglądarce przesyła automatycznie każda przeglądarka. Bez nich nie da się wyświetlić strony."
+        }
+      ]
+    },
+    {
+      "id": "profilowanie",
+      "heading": "16. Profilowanie i decyzje automatyczne",
+      "blocks": [
+        {
+          "p": "Nie profilujemy i nie podejmujemy wobec Ciebie decyzji opartych wyłącznie na automatycznym przetwarzaniu, które wywoływałyby skutki prawne lub w podobny sposób istotnie na Ciebie wpływały (art. 22 RODO). Automatyczne zabezpieczenia formularza rezerwacji (punkt 6) mogą odrzucić zgłoszenie, które wygląda na nadużycie albo przekracza limit rezerwacji online. Wtedy umów się z nami telefonicznie, e-mailem lub na Instagramie."
+        }
+      ]
+    },
+    {
+      "id": "zmiany",
+      "heading": "17. Zmiany polityki",
+      "blocks": [
+        {
+          "p": "Aktualizujemy politykę, gdy zmienia się sposób działania serwisu, na przykład gdy dodajemy nowe narzędzie, albo gdy zmieniają się przepisy. Aktualna wersja jest zawsze dostępna pod tym adresem, a na jej początku podajemy datę ostatniej zmiany. O istotnych zmianach poinformujemy dodatkowo na stronie."
+        },
+        {
+          "p": "Polityka dotyczy całego serwisu, także podstron w języku angielskim i rosyjskim. Jeżeli udostępnimy jej tłumaczenia, w razie rozbieżności rozstrzyga wersja polska."
+        }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "what": "Dane administratora i kontaktowe (w src/lib/site.js: LEGAL.company, address, nip, register, privacyEmail; CONTACT.email, phone; adres serwisu NEXT_PUBLIC_SITE_URL)",
+      "proposal": "Uzupełnić dokładnie według wpisu w CEIDG lub KRS. Adres do spraw danych (privacyEmail) może być tym samym adresem co kontaktowy, jeśli ktoś go regularnie czyta.",
+      "why": "Bez tych danych polityka nie spełnia art. 13 ust. 1 lit. a RODO ani art. 5 ustawy o świadczeniu usług drogą elektroniczną. Formularze otwierają pocztę dopiero po ustawieniu adresu kontaktowego."
+    },
+    {
+      "what": "Inspektor ochrony danych (IOD)",
+      "proposal": "Nie wyznaczać. W polityce zostaje zdanie, że IOD nie wyznaczono.",
+      "why": "Mały salon i akademia nie monitorują osób na dużą skalę i nie przetwarzają na dużą skalę danych szczególnych kategorii, więc art. 37 RODO nie wymaga IOD. Trzeba to potwierdzić, zanim dokument zostanie opublikowany."
+    },
+    {
+      "what": "Okres przechowywania korespondencji (formularze przez e-mail, Instagram, telefon)",
+      "proposal": "Czas obsługi sprawy plus 12 miesięcy od ostatniej wiadomości, jeśli nie doszło do umowy. Potem wiadomości usuwamy ze skrzynki i z Instagrama.",
+      "why": "Pozwala wrócić do rozmowy, na przykład przy następnym terminie szkolenia, a nie trzyma danych bez końca. Wymaga raz na kwartał przejrzenia skrzynki."
+    },
+    {
+      "what": "Okres przechowywania rezerwacji w Kalendarzu Google",
+      "proposal": "12 miesięcy od terminu wizyty. Potem z wydarzenia usuwa się opis z danymi, imię i nazwisko w tytule i ukryte skróty kontaktu (ręcznie raz na kwartał albo skryptem) lub całe wydarzenie, a następnie opróżnia kosz kalendarza (Google trzyma w nim usunięte wydarzenia do 30 dni). Długoterminową historię zabiegów prowadzi się w karcie klientki w salonie.",
+      "why": "Kalendarz służy do planowania. 12 miesięcy obejmuje korekty (do 3 miesięcy) i zwykłe pytania po wizycie. Ceny odświeżenia zależą od czasu od ostatniego zabiegu (do 1,5 roku, do 3 lat, po 3 latach), ale tę informację powinna zawierać karta klientki, nie kalendarz z danymi ze strony. Jeśli salon chce liczyć ją z kalendarza, trzeba wydłużyć okres do około 3 lat i zmienić politykę. Kod nie usuwa rezerwacji automatycznie (skrypt cleanup-www.mjs służy tylko do usuwania przyszłych wpisów po ataku), więc okres musi egzekwować salon."
+    },
+    {
+      "what": "Nieodwołane nieobecności (zasada z pkt 10 Regulaminu: po dwóch nieodwołanych nieobecnościach w ciągu 12 miesięcy wizyty tylko telefonicznie)",
+      "proposal": "Odnotowywać nieobecność wyłącznie przy wydarzeniu w kalendarzu (np. dopisek „nieobecność” w tytule), bez osobnej listy osób. Przechowywać razem z rezerwacją, czyli 12 miesięcy od terminu wizyty; zasadę „dwóch nieobecności” liczyć w tym samym okresie.",
+      "why": "Regulamin wiąże z nieobecnością skutek, więc salon musi ją zapisywać, a to przetwarzanie danych musi być opisane w polityce (pkt 5 i 12). Jeśli salon nie chce tego prowadzić, usunąć zasadę z pkt 10 Regulaminu i odpowiedni punkt z polityki."
+    },
+    {
+      "what": "Okres przechowywania danych z umów i reklamacji",
+      "proposal": "Do upływu przedawnienia roszczeń według art. 118 Kodeksu cywilnego: co do zasady 6 lat, roszczenia związane z działalnością gospodarczą 3 lata, z końcem roku kalendarzowego.",
+      "why": "RODO wymaga podania okresu albo kryteriów jego ustalenia; samo „do przedawnienia” bez liczb jest dla czytelnika mało zrozumiałe. Dokumenty księgowe mają osobny, dłuższy okres z przepisów podatkowych."
+    },
+    {
+      "what": "Dokumentacja szkoleń z dofinansowaniem (KFS, BUR, RIS)",
+      "proposal": "Sprawdzić w umowach z operatorem lub urzędem, jak długo trzeba przechowywać listy obecności, ankiety i dane uczestników, i wpisać ten okres w pkt 12 zamiast ogólnego odesłania do zasad programu. Ustalić, czy obowiązek wynika z przepisów (art. 6 ust. 1 lit. c RODO), czy tylko z umowy.",
+      "why": "Programy finansowane ze środków publicznych często wymagają przechowywania dokumentacji przez kilka lat po rozliczeniu. Okres zależy od konkretnego programu i nie da się go ustalić bez dokumentów klientki."
+    },
+    {
+      "what": "Przechowywanie wniosków dotyczących praw z RODO",
+      "proposal": "3 lata od zakończenia sprawy; wniosek i odpowiedź w osobnym folderze skrzynki {privacyEmail}.",
+      "why": "Administrator musi umieć wykazać, że obsłużył wniosek (zasada rozliczalności, art. 5 ust. 2 RODO). 3 lata odpowiadają ogólnemu terminowi przedawnienia roszczeń związanych z działalnością gospodarczą."
+    },
+    {
+      "what": "Okres przechowywania logów serwera (Vercel)",
+      "proposal": "Do 30 dni. Nie włączać długoterminowego eksportu logów (log drains) do zewnętrznych narzędzi.",
+      "why": "Standardowa retencja logów na Vercelu jest krótka i zależy od planu. 30 dni to bezpieczna górna granica, wystarczająca do wyjaśniania błędów i incydentów. Przed publikacją trzeba sprawdzić faktyczne ustawienia projektu."
+    },
+    {
+      "what": "Hosting Vercel: plan, umowa powierzenia, region",
+      "proposal": "Używać planu Pro, który obejmuje użytek komercyjny i Data Processing Addendum Vercela. Funkcje serwerowe (API rezerwacji) ustawić w regionie UE, np. fra1 (Frankfurt) — vercel.json nie ustawia dziś regionu, więc funkcje działałyby w domyślnym regionie w USA. Jeśli serwis trafi na innego dostawcę hostingu, zmienić pkt 7, 10 i 11.",
+      "why": "Plan Hobby jest przeznaczony wyłącznie do użytku niekomercyjnego. Region w UE ogranicza przekazywanie danych z formularza rezerwacji do USA, choć sieć brzegowa i logi Vercela nadal mogą obejmować USA. Hosting jest dziś planowany, a nie potwierdzony."
+    },
+    {
+      "what": "Konto Google, na którym jest kalendarz rezerwacji",
+      "proposal": "Kalendarz na koncie Google Workspace (firmowym) z zaakceptowanym w konsoli administratora Cloud Data Processing Addendum. Konto usługi (Google Cloud) w tym samym projekcie firmowym.",
+      "why": "W prywatnym, konsumenckim koncie Gmail Google nie działa jako podmiot przetwarzający, tylko jako odrębny administrator. Wtedy zdanie o „umowie powierzenia” w polityce byłoby nieprawdziwe."
+    },
+    {
+      "what": "Dostawca poczty dla kontaktowego adresu e-mail",
+      "proposal": "Poczta u dostawcy z umową powierzenia (np. Google Workspace, Microsoft 365, polski hosting z DPA), nie prywatne konto bez umowy. Opcjonalnie wpisać nazwę dostawcy w punkcie 10.",
+      "why": "Wszystkie zapytania z formularzy trafiają do tej skrzynki, więc jej dostawca jest podmiotem przetwarzającym. Jeśli ma siedzibę poza EOG, trzeba go ująć w punkcie 11."
+    },
+    {
+      "what": "Cloudflare Turnstile",
+      "proposal": "Włączać tylko w razie spamu w rezerwacjach (spójnie z Polityką cookies). Jeśli na stałe pozostanie wyłączony, usunąć wzmianki o Cloudflare z punktów 6, 7, 9, 10 i 11 oraz z Polityki cookies i Regulaminu. Po włączeniu zaakceptować warunki przetwarzania danych Cloudflare dla Turnstile i sprawdzić, czy Cloudflare działa w nich wyłącznie jako podmiot przetwarzający; jeśli w części (np. doskonalenie wykrywania botów) działa jako odrębny administrator, dopisać to w punktach 6 i 10.",
+      "why": "Polityka ma opisywać to, co serwis robi naprawdę. Turnstile to jedyne miejsce, w którym przeglądarka odwiedzającego łączy się z zewnętrzną firmą, a rola Cloudflare wynika z jego aktualnych warunków, których nie da się ustalić z kodu."
+    },
+    {
+      "what": "Weryfikacja Data Privacy Framework",
+      "proposal": "Przed publikacją sprawdzić na dataprivacyframework.gov, czy Vercel Inc., Google LLC i Cloudflare, Inc. mają aktywną certyfikację. Jeśli któraś jej nie ma, oprzeć się tylko na standardowych klauzulach umownych.",
+      "why": "Punkt 11 powołuje się na DPF w odniesieniu do firm certyfikowanych. Status certyfikacji może się zmienić."
+    },
+    {
+      "what": "Dofinansowanie szkoleń (KFS, BUR, RIS): odbiorcy",
+      "proposal": "Potwierdzić, z których programów akademia faktycznie korzysta i komu przekazuje dane uczestników (np. operator BUR, powiatowy urząd pracy przez pracodawcę, operator regionalny). W razie potrzeby wpisać nazwy instytucji w punkcie 10.",
+      "why": "Przekazanie danych instytucji finansującej to odrębna kategoria odbiorców. Skróty programów pochodzą z briefu klientki i nie zostały zweryfikowane."
+    },
+    {
+      "what": "Biuro rachunkowe",
+      "proposal": "Potwierdzić, czy księgowość prowadzi zewnętrzne biuro. Jeśli tak, zawrzeć z nim umowę powierzenia. Jeśli nie, usunąć ten punkt z listy odbiorców.",
+      "why": "Lista odbiorców ma odpowiadać rzeczywistości."
+    },
+    {
+      "what": "Dane o zdrowiu w salonie (wywiad, zgoda na zabieg, karta klientki)",
+      "proposal": "Przygotować osobną klauzulę informacyjną wręczaną w salonie, z podstawą z art. 9 ust. 2 RODO (wyraźna zgoda na przetwarzanie danych o zdrowiu w wywiadzie) i okresami przechowywania dokumentacji zabiegu.",
+      "why": "Serwis celowo nie zbiera danych o zdrowiu, więc polityka tylko odsyła do informacji w salonie. Bez tej klauzuli salon zostaje bez podstawy do przetwarzania danych szczególnych kategorii."
+    },
+    {
+      "what": "Wersje językowe polityki",
+      "proposal": "Przetłumaczyć politykę na angielski i rosyjski i podlinkować z podstron /en i /ru. Wersja polska jest wiążąca.",
+      "why": "Art. 12 RODO wymaga informacji w zrozumiałej formie. Osoba korzystająca z rosyjskiej wersji strony może nie zrozumieć polskiego dokumentu."
+    }
+  ]
+}

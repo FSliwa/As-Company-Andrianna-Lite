@@ -1,0 +1,187 @@
+{
+  "slug": "polityka-cookies",
+  "title": "Polityka cookies",
+  "updated": "2026-09-29",
+  "intro": "Ta polityka wyjaśnia, jakie informacje serwis {siteUrl} zapisuje w Twoim urządzeniu lub z niego odczytuje, w jakim celu i jak możesz tym zarządzać. W skrócie: korzystamy wyłącznie z tego, co niezbędne do działania funkcji, których używasz. Nie stosujemy narzędzi analitycznych ani reklamowych.",
+  "sections": [
+    {
+      "id": "kto-odpowiada",
+      "heading": "1. Kto odpowiada za serwis",
+      "blocks": [
+        { "p": "Serwis prowadzi {company}, {address}, NIP {nip}, {register}. Pod markami AS COMPANY LOVELINESS i Babushkina Academy prowadzimy w Warszawie salon i akademię makijażu permanentnego (dalej: „my”)." },
+        { "p": "W sprawach tej polityki napisz do nas na adres {privacyEmail}. Możesz też skorzystać z adresu {email} lub zadzwonić pod numer {phone}." }
+      ]
+    },
+    {
+      "id": "czym-sa-cookies",
+      "heading": "2. Cookies i pamięć przeglądarki w skrócie",
+      "blocks": [
+        { "p": "Pliki cookies to małe pliki tekstowe, które strona internetowa zapisuje w przeglądarce. Podobnie działa pamięć lokalna przeglądarki (localStorage): pozwala stronie zapamiętać drobne informacje, na przykład Twoje ustawienia, także po zamknięciu karty." },
+        { "p": "Przepisy traktują obie technologie tak samo. Zgodnie z art. 399 ustawy z dnia 12 lipca 2024 r. – Prawo komunikacji elektronicznej, zanim zapiszemy informacje w Twoim urządzeniu albo je odczytamy, musimy jasno poinformować Cię o celu i o tym, jak możesz tym zarządzać. Na zapisy, które nie są niezbędne, potrzebujemy ponadto Twojej zgody. Zapisy niezbędne do świadczenia usługi, z której korzystasz na własne żądanie, zgody nie wymagają. W tej polityce słowo „cookies” obejmuje wszystkie takie technologie." },
+        { "p": "Nasz serwis nie ustawia własnych plików cookies. Korzysta z pamięci lokalnej przeglądarki, a przy rezerwacji online, jeśli ta ochrona jest włączona, z zabezpieczenia Cloudflare Turnstile, które może zapisać w przeglądarce pliki cookies Cloudflare. Szczegóły znajdziesz w punkcie 3." }
+      ]
+    },
+    {
+      "id": "co-zapisujemy",
+      "heading": "3. Co zapisujemy w Twoim urządzeniu",
+      "blocks": [
+        { "p": "Poniżej znajdziesz pełną listę. Wszystkie pozycje są niezbędne do działania funkcji, z których korzystasz, dlatego nie wymagają zgody. Nie używamy ich do śledzenia Cię ani do reklamy." },
+        { "p": "as-order-v1 — lista pigmentów do zapytania" },
+        { "list": [
+          "Cel: zapamiętanie pigmentów, które dodajesz do listy zapytania w katalogu pigmentów, żeby nie zniknęły po odświeżeniu strony ani po powrocie do katalogu.",
+          "Rodzaj: własny, pamięć lokalna przeglądarki (localStorage), niezbędny.",
+          "Zawartość: oznaczenia wybranych produktów z katalogu, pojemności i ilości. Bez imienia, telefonu, adresu e-mail ani innych danych z formularza.",
+          "Kiedy: wpis powstaje dopiero wtedy, gdy dodasz pierwszy pigment, a strona katalogu odczytuje go przy otwarciu. Wpis nie jest wysyłany na nasz serwer.",
+          "Czas: do chwili, gdy usuniesz wszystkie pozycje, użyjesz przycisku „Wyczyść listę” albo usuniesz dane witryny w przeglądarce. Wpis nie wygasa samoczynnie."
+        ] },
+        { "p": "as-consent-v1 — Twoja decyzja w banerze cookies" },
+        { "list": [
+          "Cel: zapamiętanie Twojej decyzji w banerze cookies, aby baner nie wyświetlał się przy każdej wizycie.",
+          "Rodzaj: własny, pamięć lokalna przeglądarki (localStorage), niezbędny.",
+          "Zawartość: wersja informacji o cookies, data decyzji i ustawienia poszczególnych kategorii.",
+          "Czas: decyzję pamiętamy przez 12 miesięcy. Po tym czasie, a także po istotnej zmianie tej polityki, baner wyświetli się ponownie, a wpis zostanie zastąpiony nowym. Wcześniej usuniesz go, czyszcząc dane witryny w przeglądarce."
+        ] },
+        { "p": "Cloudflare Turnstile — ochrona formularza rezerwacji (tylko wtedy, gdy jest włączona)" },
+        { "list": [
+          "Cel: odróżnienie człowieka od automatu (bota) i ochrona rezerwacji online przed nadużyciami, na przykład masowym blokowaniem terminów.",
+          "Rodzaj: zewnętrzny, dostawca Cloudflare, Inc. (USA); niezbędny do bezpiecznego przyjęcia rezerwacji, o którą prosisz. Skrypt jest ładowany z serwera challenges.cloudflare.com wyłącznie na stronie „Umów wizytę” (/umow-wizyte), od razu po jej otwarciu. Na innych podstronach nie działa.",
+          "Zawartość: skrypt odczytuje techniczne informacje o przeglądarce i urządzeniu (Cloudflare otrzymuje przy tym m.in. Twój adres IP) i może zapisać w przeglądarce własne pliki cookies Cloudflare (na przykład o nazwach zaczynających się od „cf_”) lub inne dane techniczne potrzebne do weryfikacji i do wykrywania błędów w jej działaniu. Wynikiem weryfikacji jest jednorazowy kod, ważny kilka minut, który nasz serwer sprawdza w Cloudflare, gdy wysyłasz rezerwację.",
+          "Czas: kod — kilka minut i jedno użycie; pliki cookies i dane zapisane przez Cloudflare — zgodnie z zasadami Cloudflare dla usługi Turnstile (www.cloudflare.com/turnstile-privacy-policy). Cloudflare deklaruje, że dane z Turnstile wykorzystuje wyłącznie do wykrywania i blokowania botów, a nie do identyfikowania ani profilowania osób."
+        ] },
+        { "p": "Jeżeli ochrona Turnstile nie jest włączona, skrypt Cloudflare nie jest ładowany i nic w związku z nim nie trafia do Twojego urządzenia." }
+      ]
+    },
+    {
+      "id": "czego-nie-uzywamy",
+      "heading": "4. Czego nie używamy",
+      "blocks": [
+        { "p": "Serwis nie korzysta z:" },
+        { "list": [
+          "narzędzi analitycznych i statystycznych (np. Google Analytics), także tych oferowanych przez dostawcę hostingu,",
+          "pikseli i cookies reklamowych, remarketingu ani profilowania (np. Meta Pixel),",
+          "narzędzi nagrywających sesje lub tworzących mapy kliknięć,",
+          "osadzonych treści z zewnętrznych serwisów, takich jak posty z Instagrama, filmy czy mapy; czcionki ładujemy z własnego serwera."
+        ] },
+        { "p": "Instagram ({instagram}) jest u nas zwykłym linkiem. Po przejściu na Instagram obowiązują zasady cookies i prywatności Meta. Tak samo jest z innymi stronami, do których prowadzą linki z naszego serwisu." },
+        { "p": "Jeśli w przyszłości zdecydujemy się na narzędzia analityczne lub marketingowe, najpierw zaktualizujemy tę politykę, a narzędzia uruchomimy dopiero po Twojej zgodzie wyrażonej w banerze. Zgodę będzie można w każdej chwili wycofać równie łatwo, jak się ją wyraża." }
+      ]
+    },
+    {
+      "id": "podstawa-prawna",
+      "heading": "5. Podstawa prawna",
+      "blocks": [
+        { "p": "Zapis informacji w Twoim urządzeniu i ich odczyt opieramy na wyjątku z art. 399 ustawy Prawo komunikacji elektronicznej: są niezbędne do świadczenia usługi, z której korzystasz na własne żądanie, czyli zapamiętania listy pigmentów, zapamiętania Twojej decyzji w banerze i bezpiecznego przyjęcia rezerwacji. Taki zapis nie wymaga zgody, ale wymaga jasnej informacji — właśnie ją czytasz. Zapisywane informacje nie zmieniają konfiguracji Twojego urządzenia ani zainstalowanego w nim oprogramowania." },
+        { "p": "Informacje zapisywane w pamięci przeglądarki nie zawierają Twoich danych kontaktowych i nie służą nam do rozpoznawania Cię. Jeśli w związku z korzystaniem z serwisu przetwarzamy Twoje dane osobowe, na przykład adres IP w logach serwera prowadzonych przez dostawcę hostingu, dane podane przy rezerwacji albo dane przetwarzane przez Cloudflare podczas weryfikacji, zasady, podstawy prawne z RODO i Twoje prawa opisujemy w Polityce prywatności ({siteUrl}/polityka-prywatnosci)." }
+      ]
+    },
+    {
+      "id": "zarzadzanie",
+      "heading": "6. Jak możesz tym zarządzać",
+      "blocks": [
+        { "list": [
+          "Baner: w każdej chwili kliknij „Ustawienia cookies” w stopce strony, aby ponownie wyświetlić informację o cookies. Jeśli wprowadzimy narzędzia wymagające zgody, w tym samym miejscu zmienisz lub wycofasz zgodę.",
+          "Lista pigmentów: usuń wszystkie pozycje albo kliknij „Wyczyść listę”, a wpis as-order-v1 zniknie z Twojej przeglądarki.",
+          "Przeglądarka: możesz usunąć dane zapisane przez nasz serwis, także pliki cookies Cloudflare, albo zablokować ich zapisywanie. W większości przeglądarek znajdziesz te opcje w ustawieniach prywatności, w części dotyczącej plików cookies i danych witryn. Okno prywatne (incognito) usuwa takie dane po jego zamknięciu."
+        ] },
+        { "p": "Jeśli zablokujesz zapisywanie danych, serwis nadal będzie działał, ale lista pigmentów nie przetrwa odświeżenia strony, a baner może pojawiać się przy każdej wizycie. Zablokowanie skryptu Cloudflare może uniemożliwić rezerwację online. Wtedy umówisz wizytę telefonicznie ({phone}), e-mailem ({email}) lub przez Instagram ({instagram})." }
+      ]
+    },
+    {
+      "id": "zmiany",
+      "heading": "7. Zmiany polityki",
+      "blocks": [
+        { "p": "Politykę aktualizujemy, gdy zmienia się sposób działania serwisu. Aktualna wersja jest zawsze dostępna na tej stronie, a data ostatniej zmiany widnieje na górze. Jeśli zmiana dotyczy zakresu informacji zapisywanych w Twoim urządzeniu, baner wyświetli się ponownie." },
+        { "p": "Polityka dotyczy całego serwisu, także podstron w języku angielskim i rosyjskim. Jeżeli udostępnimy jej tłumaczenia, w razie rozbieżności rozstrzyga wersja polska." }
+      ]
+    }
+  ],
+  "table": {
+    "section": "co-zapisujemy",
+    "columns": ["Nazwa", "Cel", "Rodzaj", "Czas przechowywania"],
+    "rows": [
+      ["as-order-v1", "Zapamiętanie pigmentów dodanych przez Ciebie do listy zapytania", "Własny, localStorage, niezbędny", "Do usunięcia wszystkich pozycji, wyczyszczenia listy lub usunięcia danych witryny"],
+      ["as-consent-v1", "Zapamiętanie Twojej decyzji w banerze cookies", "Własny, localStorage, niezbędny", "12 miesięcy (potem baner pojawi się ponownie) lub do usunięcia danych witryny"],
+      ["Cloudflare Turnstile (tylko gdy włączony)", "Ochrona formularza rezerwacji przed botami", "Zewnętrzny (Cloudflare, Inc.), cookies i dane techniczne, niezbędny", "Kod weryfikacji: kilka minut, jedno użycie; cookies Cloudflare: według zasad Cloudflare"]
+    ]
+  },
+  "banner": {
+    "title": "Prywatność i cookies",
+    "text": "Zapisujemy w Twojej przeglądarce tylko to, co niezbędne do działania strony, na przykład listę pigmentów, którą tworzysz. Nie używamy narzędzi analitycznych ani reklamowych.",
+    "buttonOk": "Rozumiem",
+    "buttonAccept": "Akceptuję wszystkie",
+    "buttonReject": "Tylko niezbędne",
+    "buttonSettings": "Ustawienia",
+    "buttonSave": "Zapisz wybór",
+    "categories": {
+      "necessary": {
+        "name": "Niezbędne",
+        "desc": "Zapamiętują Twoją decyzję w tym banerze i listę pigmentów dodanych do zapytania, a przy rezerwacji online, jeśli ta ochrona jest włączona, chronią formularz przed botami. Bez nich te funkcje nie działają prawidłowo."
+      },
+      "analytics": {
+        "name": "Analityczne",
+        "desc": "Pozwalają zbierać zbiorcze statystyki odwiedzin, na przykład które podstrony są czytane najczęściej, abyśmy mogli ulepszać serwis. Włączane wyłącznie za Twoją zgodą."
+      },
+      "marketing": {
+        "name": "Marketingowe",
+        "desc": "Pozwalają dopasowywać reklamy do Twoich zainteresowań i mierzyć ich skuteczność, także w innych serwisach. Włączane wyłącznie za Twoją zgodą."
+      }
+    },
+    "inactiveNote": "Obecnie nie korzystamy z takich narzędzi.",
+    "settingsTitle": "Ustawienia cookies",
+    "alwaysOn": "Zawsze włączone",
+    "footerLink": "Ustawienia cookies",
+    "policyLink": "Polityka cookies"
+  },
+  "decisions": [
+    {
+      "what": "Wariant banera na start",
+      "proposal": "Baner informacyjny: tekst, przycisk „Rozumiem”, link do Polityki cookies; panel „Ustawienia cookies” pokazuje tylko kategorię „Niezbędne” (zawsze włączone). Baner nie zasłania treści i nie blokuje korzystania ze strony. W stopce wszystkich wersji językowych linki „Polityka cookies” i „Ustawienia cookies”. Kategorie „Analityczne” i „Marketingowe” (teksty są w pliku, ale na start ich nie pokazujemy) oraz przyciski „Akceptuję wszystkie” / „Tylko niezbędne” włączyć dopiero wtedy, gdy pojawi się pierwsze takie narzędzie — z przyciskami równej wagi, bez domyślnie zaznaczonych zgód i z ładowaniem skryptów dopiero po zgodzie.",
+      "why": "Dziś serwis zapisuje wyłącznie informacje niezbędne (wyjątek z art. 399 PKE), więc zgoda nie jest potrzebna, a obowiązek informacji spełnia polityka i baner. Przełączniki dla nieistniejących narzędzi wprowadzałyby w błąd i sugerowały śledzenie, którego nie ma."
+    },
+    {
+      "what": "Jak długo pamiętać decyzję z banera (as-consent-v1)",
+      "proposal": "12 miesięcy od decyzji; wcześniej, gdy zmieni się wersja polityki (pole version podbite przy istotnej zmianie). Po wprowadzeniu analityki lub marketingu rozważyć skrócenie do 6 miesięcy.",
+      "why": "Przy samych niezbędnych zapisach roczny okres nie uciąża użytkownika; przy zgodach na narzędzia opcjonalne organy nadzorcze w UE zalecają częstsze ponawianie pytania. localStorage nie wygasa sam, więc termin musi egzekwować kod banera (patrz ostatnia pozycja)."
+    },
+    {
+      "what": "Automatyczne wygasanie listy pigmentów (as-order-v1)",
+      "proposal": "Zostawić bez automatycznego wygasania — lista znika po „Wyczyść listę”, usunięciu wszystkich pozycji lub wyczyszczeniu danych przeglądarki (tak działa dziś kod).",
+      "why": "Wpis zawiera tylko oznaczenia produktów i ilości, nie opuszcza urządzenia, powstaje na wyraźne działanie użytkownika i jest przez niego w pełni sterowany — jak koszyk w sklepie, powszechnie uznawany za zapis niezbędny. Ryzyko: część wytycznych uznaje za bezsprzecznie niezbędne głównie zapisy krótkotrwałe. Alternatywa ostrożniejsza: wygaszanie po 30 dniach bez zmian — wymaga drobnej zmiany w src/components/pigments/useOrder.js i poprawki punktu 3 oraz tabeli."
+    },
+    {
+      "what": "Cloudflare Turnstile na stronie rezerwacji",
+      "proposal": "Spójnie z Polityką prywatności: na start nie włączać (podpisany znacznik formularza i limit prób zwykle wystarczają), włączyć, gdy pojawią się fałszywe rezerwacje. Uwaga: dokumentacja techniczna (docs/rezerwacje-google.md, lista kontrolna wdrożenia) zaleca włączenie od startu — decyzja należy do klientki; polityka jest prawdziwa w obu wariantach. Po włączeniu: (a) dopisać do klauzuli pod formularzem rezerwacji (src/components/booking/BookingNotice.jsx) jedno zdanie o weryfikacji Cloudflare z linkiem do Polityki cookies albo ładować skrypt dopiero po rozpoczęciu wypełniania formularza; (b) zaakceptować warunki przetwarzania danych Cloudflare; (c) sprawdzić w narzędziach deweloperskich przeglądarki, jakie cookies faktycznie zapisuje widżet, i w razie potrzeby uzupełnić punkt 3 i tabelę.",
+      "why": "Skrypt ładuje się od razu po otwarciu /umow-wizyte, a art. 399 PKE wymaga informacji przed zapisem lub odczytem — osoba wchodząca bezpośrednio na stronę rezerwacji widzi baner równocześnie z ładowaniem skryptu. Mniej podmiotów zewnętrznych to też mniej danych technicznych wysyłanych do USA."
+    },
+    {
+      "what": "Funkcje hostingu i ochrony na brzegu, które mogłyby ustawiać cookies lub zbierać statystyki",
+      "proposal": "Na hostingu (Vercel) nie włączać Web Analytics ani Speed Insights. Limit prób dla POST /api/booking na brzegu (Vercel Firewall albo Cloudflare, zgodnie z docs/rezerwacje-google.md) liczyć po samym adresie IP, bez opcji opartych na cookies (w Cloudflare: bez _cfuvid), a Bot Fight Mode / Bot Management i tryby wyzwań (challenge) włączać tylko w razie ataku. Jeśli którakolwiek z tych funkcji zostanie włączona na stałe, dopisać jej cookies do punktu 3 i tabeli (np. __cf_bm Cloudflare, 30 minut), a w przypadku analityki przebudować baner na wariant ze zgodą.",
+      "why": "Polityka stwierdza, że serwis nie ustawia własnych cookies i nie używa analityki — funkcje hostingu lub serwera pośredniczącego (proxy) przed domeną ustawiają cookies w domenie serwisu i musiałyby zostać opisane."
+    },
+    {
+      "what": "Nowe funkcje zapisujące dane w przeglądarce",
+      "proposal": "Przed wdrożeniem każdej nowej funkcji, która coś zapisuje w przeglądarce (np. zapamiętanie wybranego języka, zapamiętanie wypełnionych pól), dopisać ją do punktu 3 i tabeli i podbić wersję w as-consent-v1. Dziś język wynika wyłącznie z adresu strony (/en, /ru) i nie jest nigdzie zapisywany.",
+      "why": "Polityka podaje zamkniętą, pełną listę zapisów — każdy nowy zapis bez aktualizacji czyniłby ją nieprawdziwą."
+    },
+    {
+      "what": "Publikacja polityki przed uzupełnieniem danych firmy",
+      "proposal": "Nie publikować serwisu produkcyjnie, dopóki w src/lib/site.js nie zostaną uzupełnione LEGAL.company, address, nip, register (oraz CONTACT.email i phone). Stronę /polityka-cookies i baner wdrożyć razem, od pierwszego dnia działania serwisu, z linkiem w stopce i w sitemap.",
+      "why": "Obowiązek informacji z art. 399 PKE dotyczy także zapisów niezbędnych i działa od pierwszej wizyty, a dane usługodawcy są wymagane także przez art. 5 u.ś.u.d.e.; polityka ze znacznikami „[do uzupełnienia]” nie spełnia tych wymogów."
+    },
+    {
+      "what": "Adres do spraw cookies i prywatności",
+      "proposal": "Osobny adres {privacyEmail} (np. skrzynka „prywatnosc@” w domenie firmy); do czasu jego utworzenia wystarczy ogólny {email}, jeśli ktoś go regularnie czyta.",
+      "why": "Ułatwia obsługę żądań dotyczących danych i oddziela je od korespondencji handlowej."
+    },
+    {
+      "what": "Wersja językowa rozstrzygająca",
+      "proposal": "Polska; wersje EN i RU jako tłumaczenia informacyjne z tą samą datą aktualizacji, podlinkowane ze stopki podstron /en i /ru.",
+      "why": "Administrator i klienci działają głównie w Polsce; jedna wersja wiążąca usuwa ryzyko rozbieżności tłumaczeń. Do czasu publikacji tłumaczeń polityka nie twierdzi, że już istnieją."
+    },
+    {
+      "what": "Nazwa i zawartość wpisu zgody w kodzie banera",
+      "proposal": "Klucz „as-consent-v1” w localStorage, wartość: { version, date, necessary: true, analytics: false, marketing: false }; odczyt i zapis w try/catch, jak w useOrder.js. Przy odczycie kod porównuje datę (starsza niż 12 miesięcy) i wersję (inna niż bieżąca) — w obu przypadkach ponownie pokazuje baner i po decyzji nadpisuje wpis.",
+      "why": "Polityka wymienia ten wpis z nazwy i opisuje jego zawartość oraz 12-miesięczny okres — implementacja musi się z tym zgadzać, a localStorage sam nie wygasa."
+    }
+  ]
+}

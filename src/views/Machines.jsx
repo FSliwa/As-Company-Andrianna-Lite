@@ -34,6 +34,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BRAND, LEGAL } from '@/lib/site';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -193,7 +194,7 @@ const EMPTY_RENTAL_FORM = { name: '', phone: '', email: '', salonName: '' };
 
 /* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
    o polach wymaganych — do tego czasu legendę pokazuje RequiredLegend. */
-const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
+const NOTICE_READY = LEGAL_COMPLETE;
 
 const pad = (n) => String(n).padStart(2, '0');
 const isRentable = (machine) => machine.id === PRINCESS.id;

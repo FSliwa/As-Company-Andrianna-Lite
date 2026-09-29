@@ -1,12 +1,31 @@
 'use client';
 
+/**
+ * Wspólny interfejs wszystkich wersji językowych: nagłówek, menu, stopka, pasek CTA.
+ * Teksty — src/content/common (useContent), dane nawigacji — useSite(), linki
+ * wewnętrzne — LocaleLink (polska ścieżka → adres bieżącego języka), język z adresu.
+ */
+
 import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/as/LocaleLink';
 import { usePathname } from 'next/navigation';
 import { Instagram, Menu, X } from 'lucide-react';
 import Logo from '@/components/as/Logo';
-import { BOOKING_PAGE, BOOKING_URL, BRAND, CONTACT, LEGAL, NAV_ALL, NAV_MAIN } from '@/lib/site';
+import LanguageSwitcher from '@/components/as/LanguageSwitcher';
+import { BOOKING_PAGE } from '@/lib/site';
+import { useBookingHref, useContent, usePathInfo, useSite } from '@/i18n/client';
+import common from '@/content/common';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/i18n/routes';
+import { openConsentSettings } from '@/lib/consent';
+import CookieConsent from '@/components/as/CookieConsent';
+
+/* Dokumenty prawne w stopce (treść: src/content/legal, dane firmy: LEGAL w site.js). */
+const LEGAL_LINKS = [
+  { key: 'privacy', route: ROUTES.privacy },
+  { key: 'cookiesPolicy', route: ROUTES.cookies },
+  { key: 'terms', route: ROUTES.terms },
+];
 
 /* ------------------------------------------------------------------ */
 /*  Nagłówek                                                            */
@@ -14,6 +33,14 @@ import { cn } from '@/lib/utils';
 
 function Header({ menuOpen, setMenuOpen }) {
   const pathname = usePathname();
+  const { canonical, locale } = usePathInfo();
+  const t = useContent(common);
+  const { CONTACT, NAV_ALL, NAV_MAIN } = useSite();
+  /* EN/RU: dłuższe etykiety („О НАС”, „ПРОЦЕДУРЫ”) — pozycja menu nie łamie się,
+     a między lg i xl odstęp jest ciaśniejszy, żeby zmieścił się przełącznik języka.
+     Wersja polska bez zmian. */
+  const longLabels = locale !== 'pl';
+  const bookingHref = useBookingHref();
   const [scrolled, setScrolled] = useState(false);
   const menuButton = useRef(null);
 
@@ -54,7 +81,7 @@ function Header({ menuOpen, setMenuOpen }) {
         href="#main"
         className="as-label sr-only z-[60] bg-ink px-5 py-3 text-cream-50 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
-        Przejdź do treści
+        {t.skipLink}
       </a>
       <header
         className={cn(
@@ -67,20 +94,24 @@ function Header({ menuOpen, setMenuOpen }) {
         )}
       >
         <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24">
-          <Link href="/" className="shrink-0" aria-label="AS COMPANY POLAND — strona główna">
+          <Link href="/" className="shrink-0" aria-label={t.homeAria}>
             <Logo priority />
           </Link>
 
-          <nav className="hidden items-center gap-9 lg:flex" aria-label="Nawigacja główna">
+          <nav
+            className={longLabels ? 'hidden items-center gap-6 lg:flex xl:gap-9' : 'hidden items-center gap-9 lg:flex'}
+            aria-label={t.mainNavAria}
+          >
             {NAV_MAIN.map((item) => {
-              const active = pathname === item.href;
+              const active = canonical === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
                     'relative py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors',
-                    active ? 'text-ink' : 'text-ink/65 hover:text-ink'
+                    active ? 'text-ink' : 'text-ink/65 hover:text-ink',
+                    longLabels && 'whitespace-nowrap'
                   )}
                 >
                   {item.label}
@@ -96,11 +127,13 @@ function Header({ menuOpen, setMenuOpen }) {
           </nav>
 
           <div className="flex items-center gap-4 sm:gap-5">
+            {/* przełącznik języka od lg — po nawigacji, przed pigułką; niżej w menu i stopce */}
+            <LanguageSwitcher tone="dark" className="hidden lg:flex" />
             <Link
-              href={BOOKING_URL}
+              href={bookingHref}
               className="hidden items-center gap-2 rounded-full border border-ink/25 px-6 py-2.5 text-[0.75rem] transition-colors hover:border-ink hover:bg-ink hover:text-cream-50 sm:inline-flex"
             >
-              Umów wizytę
+              {t.book}
               <span aria-hidden="true" className="text-[0.7rem]">
                 &#8599;
               </span>
@@ -112,7 +145,7 @@ function Header({ menuOpen, setMenuOpen }) {
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="as-menu"
-              aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
+              aria-label={menuOpen ? t.menuClose : t.menuOpen}
               className="grid h-11 w-11 place-items-center text-ink transition-colors hover:text-gold-dark lg:hidden"
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -126,7 +159,7 @@ function Header({ menuOpen, setMenuOpen }) {
         id="as-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-label={t.menuAria}
         hidden={!menuOpen}
         className={cn(
           'fixed inset-0 z-40 overflow-y-auto bg-cream-50 text-ink transition-opacity duration-300',
@@ -135,7 +168,7 @@ function Header({ menuOpen, setMenuOpen }) {
       >
         <div className="as-shell flex min-h-full flex-col justify-between pb-16 pt-28 lg:pt-36">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-            <nav className="lg:col-span-6" aria-label="Skróty">
+            <nav className="lg:col-span-6" aria-label={t.shortcutsAria}>
               <ul className="space-y-1">
                 {NAV_MAIN.map((item, i) => (
                   <li key={item.href}>
@@ -173,6 +206,7 @@ function Header({ menuOpen, setMenuOpen }) {
           </div>
 
           <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-gold/30 pt-8">
+            <LanguageSwitcher tone="dark" className="-ml-3.5 w-full" />
             <p className="as-label text-ink/65">
               {CONTACT.venue} · {CONTACT.city}
             </p>
@@ -197,14 +231,16 @@ function Header({ menuOpen, setMenuOpen }) {
 /* ------------------------------------------------------------------ */
 
 function Footer({ year }) {
+  const t = useContent(common);
+  const { BRAND, CONTACT, LEGAL, NAV_ALL } = useSite();
 
   return (
     <footer className="relative overflow-hidden border-t border-gold/30 bg-cream-100 text-ink">
       <div className="as-shell py-12 lg:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
-            <Logo size="lg" className="h-16 w-16 sm:h-24 sm:w-24 lg:h-28 lg:w-28" />
-            <p className="mt-6 font-display text-2xl italic text-ink lg:mt-8">{BRAND.tagline}</p>
+            {/* bez logo w stopce — znak marki jest w nagłówku, stopkę otwiera hasło */}
+            <p className="font-display text-2xl italic text-ink">{BRAND.tagline}</p>
             <p className="as-caption mt-3 hidden sm:block">{BRAND.claim}</p>
 
             <dl className="mt-6 max-w-sm lg:mt-10">
@@ -276,25 +312,32 @@ function Footer({ year }) {
           </p>
         </div>
 
-        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:mt-10">
-          <p className="as-label text-ink/65">
-            © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
-          </p>
-          {/* Dane firmy i polityka prywatności — pojawią się, gdy klient uzupełni LEGAL w site.js */}
-          {(LEGAL.company || LEGAL.privacyPolicy) && (
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.8125rem] text-ink/75">
-              {LEGAL.company && (
-                <span>
-                  {[LEGAL.company, LEGAL.address, LEGAL.nip && `NIP ${LEGAL.nip}`, LEGAL.register].filter(Boolean).join(' · ')}
-                </span>
-              )}
-              {LEGAL.privacyPolicy && (
-                <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
-                  Polityka prywatności
-                </Link>
-              )}
-            </div>
+        {/* Dokumenty zawsze (do czasu danych firmy jako projekt); dane firmy — po uzupełnieniu LEGAL w site.js */}
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 text-[0.8125rem] text-ink/75 lg:mt-10">
+          {LEGAL.company && (
+            <span className="basis-full sm:basis-auto">
+              {[LEGAL.company, LEGAL.address, LEGAL.nip && `${t.nip} ${LEGAL.nip}`, LEGAL.register].filter(Boolean).join(' · ')}
+            </span>
           )}
+          {LEGAL_LINKS.map(({ key, route }) => (
+            <Link key={key} href={route} className="inline-flex min-h-[44px] items-center underline underline-offset-2 hover:text-ink">
+              {t[key]}
+            </Link>
+          ))}
+          <button
+            type="button"
+            onClick={openConsentSettings}
+            className="inline-flex min-h-[44px] items-center underline underline-offset-2 hover:text-ink"
+          >
+            {t.cookieSettings}
+          </button>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="as-label text-ink/65">
+            © {year} {BRAND.full}. {t.rights}
+          </p>
+          <LanguageSwitcher tone="dark" className="-ml-3.5 sm:-mr-3.5 sm:ml-0" />
         </div>
       </div>
     </footer>
@@ -308,6 +351,9 @@ function Footer({ year }) {
 
 function StickyBar({ menuOpen }) {
   const pathname = usePathname();
+  const { canonical } = usePathInfo();
+  const t = useContent(common);
+  const bookingHref = useBookingHref();
   const [pastHero, setPastHero] = useState(false);
   const [blocked, setBlocked] = useState(false);
 
@@ -334,8 +380,8 @@ function StickyBar({ menuOpen }) {
     return () => io.disconnect();
   }, [pathname]);
 
-  /* trasy-formularze: pasek dublowałby formularz */
-  if (pathname === '/kontakt' || pathname === BOOKING_PAGE) return null;
+  /* trasy-formularze (w każdym języku): pasek dublowałby formularz */
+  if (canonical === '/kontakt' || canonical === BOOKING_PAGE) return null;
   const show = pastHero && !blocked && !menuOpen;
 
   return (
@@ -348,18 +394,18 @@ function StickyBar({ menuOpen }) {
       )}
     >
       <Link
-        href={BOOKING_URL}
+        href={bookingHref}
         tabIndex={show ? 0 : -1}
         className="as-label flex h-14 items-center justify-center bg-ink text-cream-50"
       >
-        Umów wizytę
+        {t.book}
       </Link>
       <Link
         href="/szkolenia"
         tabIndex={show ? 0 : -1}
         className="as-label flex h-14 items-center justify-center text-ink"
       >
-        Szkolenia
+        {t.stickyTraining}
       </Link>
     </div>
   );
@@ -371,6 +417,8 @@ export default function Layout({ children, year }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="flex min-h-screen flex-col bg-cream-50">
+      {/* baner zgody pierwszy w kolejności tabulacji; wizualnie przyklejony do dołu */}
+      <CookieConsent />
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         {children}

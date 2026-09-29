@@ -1,0 +1,392 @@
+{
+  "slug": "polityka-prywatnosci",
+  "title": "Privacy Policy",
+  "updated": "2026-09-29",
+  "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. This policy explains what personal data we collect on the {siteUrl} website (including its English and Russian pages), why we do so, whom we entrust it to and what rights you have. We describe only what the website actually does. We apply Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 (the General Data Protection Regulation, “GDPR”; in Polish “RODO”). The rules for using the website are set out in the Terms of Use ({siteUrl}/regulamin), and the information stored in your browser is described in the Cookie Policy ({siteUrl}/polityka-cookies).",
+  "sections": [
+    {
+      "id": "w-skrocie",
+      "heading": "1. At a glance",
+      "blocks": [
+        {
+          "list": [
+            "We do not use analytics or advertising tools or tracking pixels, and we do not set any cookies of our own.",
+            "Contact forms do not send data to our server. They prepare a message that you send yourself from your own email account or on Instagram.",
+            "An online booking saves the appointment, together with your contact details, in the salon’s Google Calendar. The website does not send any automatic text messages or emails.",
+            "Our forms do not ask about your health. We discuss it during the consultation at the salon.",
+            "We do not sell data, we do not profile anyone and we do not run a newsletter.",
+            "You can ask us at any time what data we hold about you, have it corrected or ask us to delete it."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "administrator",
+      "heading": "2. Data controller",
+      "blocks": [
+        {
+          "p": "The controller of your personal data is {company}, {address}, Tax ID (NIP) {nip}, {register}. We run a permanent make-up salon and training academy in Warsaw under the brands AS COMPANY LOVELINESS and Babushkina Academy. In this policy we refer to ourselves as “we” or “us”."
+        }
+      ]
+    },
+    {
+      "id": "kontakt-w-sprawie-danych",
+      "heading": "3. Contacting us about personal data",
+      "blocks": [
+        {
+          "p": "For any matter concerning personal data, write to {privacyEmail} or by post to {address}. You can also use our general contact details: {email}, tel. {phone}."
+        },
+        {
+          "p": "We have not appointed a data protection officer. Given the scale and nature of our business, the law does not require one (Article 37 GDPR)."
+        }
+      ]
+    },
+    {
+      "id": "kontakt-i-zapytania",
+      "heading": "4. Contact forms, email and Instagram",
+      "blocks": [
+        {
+          "p": "The website has four forms: a contact form, a training date enquiry, a machine hire enquiry and a pigment enquiry (a list of selected shades). None of them sends data to our server. When you click the button, your browser turns the completed fields into a ready-made message and opens your email program addressed to {email}. We receive the data only once you send that message yourself. You can also write to us on Instagram, and you can copy the pigment list using the button in the order window and paste it into a message. The message is delivered by your email provider or by Instagram, on their own terms."
+        },
+        {
+          "p": "Depending on the form, the message contains your first name or full name, phone number and email address and, in addition: in the contact form, the subject and content of your message; in the training enquiry, the chosen course, city, preferred date and your experience in permanent make-up; in the hire enquiry, the name of your salon and the chosen device; in the pigment enquiry, the name of your salon, the list of shades with an approximate total and any comments. The same rules apply to data you give us by emailing us directly, calling us or writing to us on Instagram."
+        },
+        {
+          "p": "Please do not send information about your health in your messages. We will discuss it during the consultation at the salon."
+        },
+        {
+          "p": "Purposes and legal bases:"
+        },
+        {
+          "list": [
+            "replying to your message and further correspondence: our legitimate interest in being able to answer questions sent to us (Article 6(1)(f) GDPR);",
+            "preparing an offer and arranging a date for training, hire or a purchase, when you ask us to: taking steps at your request before entering into a contract (Article 6(1)(b) GDPR);",
+            "performing the contract, if we conclude one, for example your participation in a training course, the hire of a machine or the purchase of pigments (Article 6(1)(b) GDPR);",
+            "settling training funding (e.g. KFS – Krajowy Fundusz Szkoleniowy, the National Training Fund; BUR – Baza Usług Rozwojowych, the Development Services Database), if you use it: performance of the contract (Article 6(1)(b) GDPR) and, where an obligation to transfer or retain data arises from the law, compliance with a legal obligation (Article 6(1)(c) GDPR);",
+            "handling complaints (section 12 of the Terms of Use): obligations under the law, in particular the Civil Code (Kodeks cywilny) and the Act on Consumer Rights (ustawa o prawach konsumenta) (Article 6(1)(c) GDPR) and, in matters not covered by such an obligation, our legitimate interest in handling the complaint properly (Article 6(1)(f) GDPR);",
+            "issuing and keeping accounting records: an obligation under tax and accounting legislation (Article 6(1)(c) GDPR);",
+            "establishing, pursuing or defending legal claims: our legitimate interest (Article 6(1)(f) GDPR)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rezerwacja-online",
+      "heading": "5. Booking an appointment online",
+      "blocks": [
+        {
+          "p": "On the “Book an appointment” page you can book a time for a treatment. You provide your full name, phone number and email address and, if you wish, a short note. You choose the treatment, the day and the time. Every treatment begins with a consultation at the salon. The form does not ask about your health, and we ask you not to enter such information in the notes. The rules for booking, rescheduling and cancelling an appointment are set out in sections 9 and 10 of the Terms of Use."
+        },
+        {
+          "p": "When you submit the form, our server saves the booking as an event in the salon’s Google Calendar. The event title contains the name of the treatment and your full name, and the description contains the duration and price of the treatment from the price list, your phone number and email address, your notes and the booking number. The event is set for the date and time of the appointment. The website does not send calendar invitations or automatic text messages or emails. You see the confirmation on screen and can download an .ics file (generated in your browser) to add the appointment to your own calendar. If the appointment needs to be rescheduled, we will contact you ourselves by phone or email."
+        },
+        {
+          "p": "When we show available times, the server retrieves from the calendar only the busy periods and technical event identifiers. It does not retrieve titles or descriptions, so it does not see other people’s names, phone numbers or email addresses. When saving a booking, it compares only the contact hashes described in section 6."
+        },
+        {
+          "p": "Purposes and legal bases:"
+        },
+        {
+          "list": [
+            "booking the appointment, contacting you about it (confirmation, rescheduling or cancellation) and performing the treatment: taking steps at your request before entering into a contract, and performance of the contract (Article 6(1)(b) GDPR);",
+            "protecting the form against abuse, as described in section 6: our legitimate interest in the security of the website and in keeping appointment times available for genuine clients (Article 6(1)(f) GDPR);",
+            "recording an appointment that someone did not attend and did not cancel, and applying the rule in section 10 of the Terms of Use (after two such missed appointments within 12 months, further appointments are arranged only by phone and not through online booking), as well as cancelling bookings made in breach of the Terms of Use: our legitimate interest in protecting the calendar and other clients’ appointments (Article 6(1)(f) GDPR);",
+            "establishing, pursuing or defending legal claims: our legitimate interest (Article 6(1)(f) GDPR)."
+          ]
+        },
+        {
+          "p": "If you book an appointment for someone else (section 9 of the Terms of Use), we receive that person’s full name, phone number and email address from you. We process them for the same purposes, on the same legal bases and for the same period as data from other bookings. Please pass on the information in this policy to that person before you give us their details. Online bookings may be made only by an adult and only for an adult."
+        },
+        {
+          "p": "We collect health information, consent to treatment and treatment records only at the salon. We will inform you there of how they are processed."
+        }
+      ]
+    },
+    {
+      "id": "ochrona-przed-naduzyciami",
+      "heading": "6. Protecting the booking form against abuse",
+      "blocks": [
+        {
+          "p": "The booking form has several safeguards to stop automated scripts from blocking appointment times:"
+        },
+        {
+          "list": [
+            "Contact hashes. In hidden fields of the event, separate from the title and description, we store one-way cryptographic hashes of your phone number and email address, and a hash of the entire submission. Without the secret key, which only our server holds, it is impossible to read the number, address or content from them. They allow us to check whether the same person already has too many future online bookings (the limit is set out in section 9 of the Terms of Use) and to recognise a repeat submission of the same form, for example after a connection error, so that no duplicate entry is created. The hashes are still personal data (in pseudonymised form), so we protect them in the same way as other data and delete them together with the booking.",
+            "Limit on attempts from a single IP address. The server counts how many times within a short period the form has been submitted or availability checked from a given IP address (for IPv6 addresses, the network to which the address belongs is counted). The counter exists only in the server’s working memory. We do not store IP addresses in the calendar or in our application logs (hosting logs are described in section 7), and the counter disappears by itself, at the latest when the server restarts.",
+            "Completion time and a honeypot field. The server checks how much time has passed between the form being displayed and it being submitted, and the form contains an invisible field that only bots fill in. These safeguards do not collect any additional information about you.",
+            "Cloudflare Turnstile, if enabled. The booking page may use the Turnstile service provided by Cloudflare, Inc., which tells humans and bots apart without asking you to type in codes from images. In that case, as soon as the page opens, it loads a script from challenges.cloudflare.com, and Cloudflare analyses technical data about the connection, browser and device, including your IP address, and may store in your browser cookies or other technical data needed for verification. Our server passes Cloudflare only a one-time verification token, without any data from the form. Turnstile does not run on any other page."
+          ]
+        },
+        {
+          "p": "The legal basis for these measures is our legitimate interest in the security of the website and in protecting the calendar against fake bookings (Article 6(1)(f) GDPR)."
+        }
+      ]
+    },
+    {
+      "id": "hosting-i-logi",
+      "heading": "7. Hosting and server logs",
+      "blocks": [
+        {
+          "p": "The website runs on servers operated by Vercel Inc. Each time a page is displayed, the hosting servers process technical request data: your IP address, the date and time, the address of the page requested and information about your browser and operating system (the so-called user agent), and store some of it in logs. Without this data the page cannot be delivered to your browser."
+        },
+        {
+          "p": "We use the logs only to keep the website running and secure, including protecting it against attacks, and to investigate errors. We do not compile visitor statistics from them or combine them with other data. The legal basis is our legitimate interest (Article 6(1)(f) GDPR)."
+        },
+        {
+          "p": "Fonts are hosted on our own server, and the website contains no content embedded from other services, such as videos, maps or Instagram posts. Simply browsing the website therefore does not pass your IP address to other companies. The only exception is Cloudflare on the booking page, if we enable Turnstile."
+        }
+      ]
+    },
+    {
+      "id": "instagram",
+      "heading": "8. Instagram",
+      "blocks": [
+        {
+          "p": "The website contains ordinary links to our Instagram profile ({instagram}). We do not embed any Meta plug-ins or content on the website, so until you click a link, Meta receives no data from our website. Once you go to Instagram, the privacy policy of Meta Platforms Ireland Limited applies; Meta processes your data as a separate controller."
+        },
+        {
+          "p": "If you message us on Instagram, we can see your profile name and the content of your message. We process them in the same way as other correspondence (section 4)."
+        }
+      ]
+    },
+    {
+      "id": "przegladarka",
+      "heading": "9. Information stored in your browser",
+      "blocks": [
+        {
+          "p": "The website does not set any cookies of its own. In your browser’s storage (localStorage) we save only information needed for features that you yourself use:"
+        },
+        {
+          "list": [
+            "the pigment list you create in the catalogue (key “as-order-v1”): identifiers of the selected shades, bottle sizes and quantities, without any contact details; the entry disappears when you clear the list or remove all items from it;",
+            "your choice in the cookie banner (key “as-consent-v1”), so that the banner is not shown on every visit; we remember it for 12 months."
+          ]
+        },
+        {
+          "p": "This information stays on your device and is not sent to us. If Cloudflare Turnstile is running on the booking page, it may store cookies or other technical data in your browser (section 6). Details, including how to delete this information, can be found in the Cookie Policy ({siteUrl}/polityka-cookies)."
+        }
+      ]
+    },
+    {
+      "id": "odbiorcy",
+      "heading": "10. Who we share data with",
+      "blocks": [
+        {
+          "p": "Your data can be accessed by people who work for us or with us on appointments, training and orders, only on the basis of our authorisation and only to the extent necessary. We also use companies that process data on our behalf (processors) under data processing agreements:"
+        },
+        {
+          "list": [
+            "Vercel Inc. (USA): website hosting and handling of the booking form;",
+            "Google Ireland Limited and Google LLC (USA): Google Calendar, in which we save bookings;",
+            "our email provider: storage of correspondence sent to {email};",
+            "Cloudflare, Inc. (USA): protection of the booking form (Turnstile), only if enabled;",
+            "our accounting firm: accounting records, if we enter into a contract."
+          ]
+        },
+        {
+          "p": "If you use training funding (e.g. KFS, BUR or RIS – Rejestr Instytucji Szkoleniowych, the Register of Training Institutions), we will pass the data required under the programme’s rules to the relevant institution or programme operator. We may also disclose data to public authorities where the law requires it. We do not sell data or pass it to anyone for marketing purposes."
+        }
+      ]
+    },
+    {
+      "id": "przekazywanie-poza-eog",
+      "heading": "11. Transfers of data outside the European Economic Area",
+      "blocks": [
+        {
+          "p": "Vercel, Google and Cloudflare are US companies or belong to US groups, so your data may be processed in the United States. The basis for the transfer is the European Commission’s decision of 10 July 2023 finding an adequate level of data protection under the EU-U.S. Data Privacy Framework (Article 45 GDPR), in respect of companies certified under that framework. As an additional safeguard, standard contractual clauses adopted by the European Commission (Article 46(2)(c) GDPR) are included in these providers’ data processing agreements. You can obtain a copy of these safeguards by writing to {privacyEmail}."
+        }
+      ]
+    },
+    {
+      "id": "okresy-przechowywania",
+      "heading": "12. How long we keep data",
+      "blocks": [
+        {
+          "list": [
+            "correspondence (forms, email, Instagram): for as long as needed to deal with the matter, and then for 12 months from the last message, unless we enter into a contract;",
+            "bookings in Google Calendar, together with contact hashes and any note of a missed appointment that was not cancelled: 12 months from the appointment date, after which we delete the personal data from the event or delete the entire event;",
+            "data relating to a contract concluded with you and to complaints: for the duration of the contract or of the complaint procedure, and then until the limitation periods for claims expire – as a rule 6 years, and 3 years for claims related to running a business (the period ends on the last day of the calendar year);",
+            "records of funded training: for the period required by the programme rules and by the agreement with the funding institution;",
+            "accounting records: 5 years from the end of the calendar year in which the tax payment deadline fell;",
+            "requests concerning your rights and our replies: 3 years from the close of the matter;",
+            "server logs: up to 30 days;",
+            "the IP attempt counter: only in the server’s memory, at most until the server restarts (the limit itself covers no more than the last 10 minutes);",
+            "information in your browser: the pigment list until you clear it, and the record of your banner choice for 12 months; you can delete them sooner by clearing the site data (details in the Cookie Policy)."
+          ]
+        },
+        {
+          "p": "Google Calendar keeps deleted events in the bin for up to 30 days, unless we empty it sooner. Where we process data on the basis of legitimate interest, we stop sooner if you successfully object. Data needed in an ongoing dispute may be kept until the dispute is resolved."
+        }
+      ]
+    },
+    {
+      "id": "twoje-prawa",
+      "heading": "13. Your rights",
+      "blocks": [
+        {
+          "p": "You have the right to:"
+        },
+        {
+          "list": [
+            "access your data and receive a copy of it (Article 15 GDPR);",
+            "have inaccurate data rectified or incomplete data completed (Article 16 GDPR);",
+            "have your data erased (Article 17 GDPR);",
+            "have the processing of your data restricted (Article 18 GDPR);",
+            "data portability, i.e. to receive data processed by automated means in order to conclude or perform a contract, for example data from an online booking (Article 20 GDPR);",
+            "object to processing based on our legitimate interest, on grounds relating to your particular situation (Article 21 GDPR)."
+          ]
+        },
+        {
+          "p": "We do not rely on your consent for any processing on the website, so there is no consent to withdraw. If we ask for your consent in future, you will be able to withdraw it at any time, without affecting the lawfulness of processing carried out before its withdrawal."
+        },
+        {
+          "p": "To exercise these rights, write to {privacyEmail}. We will reply without undue delay and at the latest within one month. In particularly complex cases this period may be extended by a further two months, and we will let you know if so. If we have any doubt as to whether a request comes from you, we may ask for additional confirmation, for example from the email address or phone number given when booking. Handling requests is free of charge. Only where requests are manifestly unfounded or excessive, in particular because they are repetitive, may we charge a reasonable fee or refuse to act (Article 12(5) GDPR)."
+        },
+        {
+          "p": "We keep your request and our reply for 3 years so that we can demonstrate compliance with the law. The legal basis is our legitimate interest (Article 6(1)(f) GDPR)."
+        }
+      ]
+    },
+    {
+      "id": "skarga-do-uodo",
+      "heading": "14. Complaint to the President of the UODO",
+      "blocks": [
+        {
+          "p": "If you believe that we are processing your data unlawfully, you can lodge a complaint with the President of the Personal Data Protection Office (Prezes Urzędu Ochrony Danych Osobowych, UODO), ul. Stawki 2, 00-193 Warszawa, uodo.gov.pl (Article 77 GDPR). We encourage you to contact us first. We will do our best to resolve the matter quickly."
+        }
+      ]
+    },
+    {
+      "id": "dobrowolnosc",
+      "heading": "15. Do you have to provide your data?",
+      "blocks": [
+        {
+          "p": "Providing data is voluntary, but without some of it we cannot fulfil your request:"
+        },
+        {
+          "list": [
+            "without contact details we cannot reply to your enquiry;",
+            "without your full name, phone number and email address we cannot accept an online booking, but you can book with us by phone, by email or on Instagram;",
+            "if we enter into a contract, the data is needed to conclude it, and data for accounting records and for settling training funding is required by law or by the programme rules."
+          ]
+        },
+        {
+          "p": "Every browser sends its IP address and browser information automatically. Without them the page cannot be displayed."
+        }
+      ]
+    },
+    {
+      "id": "profilowanie",
+      "heading": "16. Profiling and automated decisions",
+      "blocks": [
+        {
+          "p": "We do not profile you or take decisions about you based solely on automated processing that produce legal effects concerning you or similarly significantly affect you (Article 22 GDPR). The automated safeguards on the booking form (section 6) may reject a submission that looks like abuse or exceeds the online booking limit. In that case, please book with us by phone, by email or on Instagram."
+        }
+      ]
+    },
+    {
+      "id": "zmiany",
+      "heading": "17. Changes to this policy",
+      "blocks": [
+        {
+          "p": "We update this policy when the way the website works changes, for example when we add a new tool, or when the law changes. The current version is always available at this address, and the date of the latest change is shown at the top. We will also announce significant changes on the website."
+        },
+        {
+          "p": "This policy applies to the entire website, including its English and Russian pages. Where translations of it are made available, such as this English version, the Polish version prevails in the event of any discrepancy."
+        }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "what": "Controller and contact details (in src/lib/site.js: LEGAL.company, address, nip, register, privacyEmail; CONTACT.email, phone; website address NEXT_PUBLIC_SITE_URL)",
+      "proposal": "Fill these in exactly as shown in the CEIDG entry (Centralna Ewidencja i Informacja o Działalności Gospodarczej, the Central Register and Information on Economic Activity) or the KRS entry (Krajowy Rejestr Sądowy, the National Court Register). The data protection address (privacyEmail) can be the same as the contact address, provided someone reads it regularly.",
+      "why": "Without these details the policy does not meet Article 13(1)(a) GDPR or Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną). The forms open the email program only once the contact address has been set."
+    },
+    {
+      "what": "Data protection officer (DPO)",
+      "proposal": "Do not appoint one. The policy keeps the sentence stating that no DPO has been appointed.",
+      "why": "A small salon and academy does not monitor individuals on a large scale or process special categories of data on a large scale, so Article 37 GDPR does not require a DPO. This must be confirmed before the document is published."
+    },
+    {
+      "what": "Retention period for correspondence (forms via email, Instagram, phone)",
+      "proposal": "The time needed to deal with the matter plus 12 months from the last message, if no contract was concluded. After that, messages are deleted from the mailbox and from Instagram.",
+      "why": "This makes it possible to pick up a conversation again, for example when the next training date is set, without keeping data indefinitely. It requires reviewing the mailbox once a quarter."
+    },
+    {
+      "what": "Retention period for bookings in Google Calendar",
+      "proposal": "12 months from the appointment date. After that, delete from the event the description containing the data, the full name in the title and the hidden contact hashes (manually once a quarter or with a script), or delete the whole event, and then empty the calendar bin (Google keeps deleted events there for up to 30 days). The long-term treatment history is kept on the client record card at the salon.",
+      "why": "The calendar is a scheduling tool. 12 months covers touch-ups (up to 3 months) and routine questions after the appointment. Refresh prices depend on the time since the last treatment (up to 1.5 years, up to 3 years, over 3 years), but that information should be held on the client record card, not in a calendar containing data from the website. If the salon wants to work it out from the calendar, the period must be extended to about 3 years and the policy changed. The code does not delete bookings automatically (the cleanup-www.mjs script is only for removing future entries after an attack), so the salon must enforce the retention period itself."
+    },
+    {
+      "what": "Missed appointments that were not cancelled (the rule in section 10 of the Terms of Use: after two missed appointments without cancellation within 12 months, appointments by phone only)",
+      "proposal": "Record a missed appointment only on the calendar event itself (e.g. by adding “nieobecność” (no-show) to the title), without keeping a separate list of people. Keep it together with the booking, i.e. for 12 months from the appointment date; apply the “two missed appointments” rule over the same period.",
+      "why": "The Terms of Use attach a consequence to a missed appointment, so the salon must record it, and this processing of data must be described in the policy (sections 5 and 12). If the salon does not want to keep such records, remove the rule from section 10 of the Terms of Use and the corresponding point from the policy."
+    },
+    {
+      "what": "Retention period for contract and complaint data",
+      "proposal": "Until the limitation period for claims expires under Article 118 of the Civil Code: as a rule 6 years, 3 years for claims related to running a business, ending on the last day of the calendar year.",
+      "why": "The GDPR requires stating the period or the criteria used to determine it; “until the limitation period expires” without any figures is not very clear to the reader. Accounting records have a separate, longer period under tax legislation."
+    },
+    {
+      "what": "Records of funded training (KFS, BUR, RIS)",
+      "proposal": "Check in the agreements with the operator or the office how long attendance lists, questionnaires and participant data must be kept, and enter that period in section 12 instead of the general reference to the programme rules. Establish whether the obligation arises from the law (Article 6(1)(c) GDPR) or only from the agreement.",
+      "why": "Publicly funded programmes often require records to be kept for several years after settlement. The period depends on the specific programme and cannot be determined without the owner’s documents."
+    },
+    {
+      "what": "Keeping requests concerning GDPR rights",
+      "proposal": "3 years from the close of the matter; the request and the reply kept in a separate folder of the {privacyEmail} mailbox.",
+      "why": "The controller must be able to demonstrate that it handled the request (the accountability principle, Article 5(2) GDPR). 3 years matches the general limitation period for claims related to running a business."
+    },
+    {
+      "what": "Retention period for server logs (Vercel)",
+      "proposal": "Up to 30 days. Do not enable long-term log export (log drains) to external tools.",
+      "why": "Standard log retention on Vercel is short and depends on the plan. 30 days is a safe upper limit and is sufficient for investigating errors and incidents. The actual project settings must be checked before publication."
+    },
+    {
+      "what": "Vercel hosting: plan, data processing agreement, region",
+      "proposal": "Use the Pro plan, which covers commercial use and Vercel’s Data Processing Addendum. Set the server functions (the booking API) to an EU region, e.g. fra1 (Frankfurt) — vercel.json does not currently set a region, so the functions would run in the default US region. If the website moves to another hosting provider, update sections 7, 10 and 11.",
+      "why": "The Hobby plan is for non-commercial use only. An EU region limits transfers of booking form data to the USA, although Vercel’s edge network and logs may still involve the USA. The hosting is currently planned, not confirmed."
+    },
+    {
+      "what": "The Google account holding the booking calendar",
+      "proposal": "Keep the calendar on a Google Workspace (business) account with the Cloud Data Processing Addendum accepted in the admin console. The service account (Google Cloud) should be in the same business project.",
+      "why": "With a private consumer Gmail account, Google does not act as a processor but as a separate controller. In that case the reference to a “data processing agreement” in the policy would be untrue."
+    },
+    {
+      "what": "Email provider for the contact email address",
+      "proposal": "Email with a provider that offers a data processing agreement (e.g. Google Workspace, Microsoft 365, or a Polish hosting company with a DPA), not a private account without an agreement. Optionally, name the provider in section 10.",
+      "why": "All enquiries from the forms end up in this mailbox, so its provider is a processor. If it is based outside the EEA, it must be included in section 11."
+    },
+    {
+      "what": "Cloudflare Turnstile",
+      "proposal": "Enable it only if spam bookings occur (consistent with the Cookie Policy). If it stays permanently disabled, remove the references to Cloudflare from sections 6, 7, 9, 10 and 11 and from the Cookie Policy and the Terms of Use. Once it is enabled, accept Cloudflare’s data processing terms for Turnstile and check whether under them Cloudflare acts solely as a processor; if in some respects (e.g. improving bot detection) it acts as a separate controller, add this to sections 6 and 10.",
+      "why": "The policy must describe what the website actually does. Turnstile is the only point at which a visitor’s browser connects to an outside company, and Cloudflare’s role follows from its current terms, which cannot be determined from the code."
+    },
+    {
+      "what": "Data Privacy Framework check",
+      "proposal": "Before publication, check on dataprivacyframework.gov whether Vercel Inc., Google LLC and Cloudflare, Inc. hold active certification. If any of them does not, rely only on the standard contractual clauses.",
+      "why": "Section 11 relies on the DPF in respect of certified companies. Certification status can change."
+    },
+    {
+      "what": "Training funding (KFS, BUR, RIS): recipients",
+      "proposal": "Confirm which programmes the academy actually uses and to whom it passes participants’ data (e.g. the BUR operator, the district labour office (powiatowy urząd pracy) via the employer, a regional operator). If necessary, name the institutions in section 10.",
+      "why": "Passing data to a funding institution is a separate category of recipient. The programme abbreviations come from the owner’s brief and have not been verified."
+    },
+    {
+      "what": "Accounting firm",
+      "proposal": "Confirm whether the bookkeeping is done by an external accounting firm. If so, conclude a data processing agreement with it. If not, remove this item from the list of recipients.",
+      "why": "The list of recipients must reflect reality."
+    },
+    {
+      "what": "Health data at the salon (medical questionnaire, consent to treatment, client record card)",
+      "proposal": "Prepare a separate privacy notice to be handed out at the salon, with a legal basis under Article 9(2) GDPR (explicit consent to the processing of health data in the questionnaire) and retention periods for treatment records.",
+      "why": "The website deliberately does not collect health data, so the policy only refers to the information provided at the salon. Without this notice the salon has no basis for processing special categories of data."
+    },
+    {
+      "what": "Language versions of the policy",
+      "proposal": "Translate the policy into English and Russian and link to it from the /en and /ru pages. The Polish version is binding.",
+      "why": "Article 12 GDPR requires information to be provided in an intelligible form. A person using the Russian version of the website may not understand a Polish document."
+    }
+  ]
+}
