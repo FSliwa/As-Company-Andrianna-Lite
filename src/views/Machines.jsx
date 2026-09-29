@@ -32,7 +32,7 @@ import {
   RequiredLegend,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BRAND, LEGAL, SHOP } from '@/lib/site';
+import { BRAND, LEGAL } from '@/lib/site';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -64,25 +64,6 @@ import { useToast } from '@/components/ui/use-toast';
  *                Champagne Gold.
  * Gwarancji AS HERO i AS PRINCESS sklep nie podaje — nie wpisujemy jej.
  */
-
-const SHOP_ORIGIN = new URL(SHOP.url).origin;
-/* SHOP.rental prowadzi do wynajmu stanowiska i sali szkoleniowej, nie maszynki —
-   ofertę wynajmu AS PRINCESS sklep ma na osobnej karcie produktu. */
-const SHOP_MACHINE_RENTAL = `${SHOP_ORIGIN}/produkt/oferta-wynajmu-as-princess/`;
-
-/* Linki do sklepu otwierają się w nowej karcie; ArrowLink dokleja „→”, a przy
-   linku zewnętrznym strzałką jest „↗” w etykiecie — domyślną chowamy. */
-const EXTERNAL = { target: '_blank', rel: 'noreferrer noopener' };
-const EXTERNAL_ARROW = '[&_.as-arrow-glyph]:hidden';
-
-function ShopLabel({ children }) {
-  return (
-    <>
-      {children} <span aria-hidden="true">↗</span>
-      <span className="sr-only"> (sklep internetowy, otwiera się w nowej karcie)</span>
-    </>
-  );
-}
 
 /* 2999 → „2 999” (twarda spacja tysięcy) */
 const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
@@ -373,11 +354,11 @@ export default function Machines() {
             </Reveal>
             <Reveal delay={80} className="lg:col-span-5">
               <p className="as-body">
-                Ceny i parametry według kart produktów w sklepie AS LOVELINESS. Tam złożysz
-                zamówienie i sprawdzisz dostępność.
+                Ceny i parametry według kart produktów AS COMPANY. Napisz, który model Cię
+                interesuje — potwierdzimy dostępność, kolor i sposób dostawy.
               </p>
-              <ArrowLink href={SHOP.machine} {...EXTERNAL} className={`mt-6 w-fit ${EXTERNAL_ARROW}`}>
-                <ShopLabel>Kup w sklepie</ShopLabel>
+              <ArrowLink href="/kontakt?temat=produkty" className="mt-6 w-fit">
+                Zapytaj o zakup
               </ArrowLink>
             </Reveal>
           </div>
@@ -499,9 +480,6 @@ export default function Machines() {
                 <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
                   <ArrowLink onClick={() => openRental()} className="w-fit">
                     Zapytaj o warunki wynajmu
-                  </ArrowLink>
-                  <ArrowLink href={SHOP_MACHINE_RENTAL} {...EXTERNAL} className={`w-fit ${EXTERNAL_ARROW}`}>
-                    <ShopLabel>Wynajem w sklepie</ShopLabel>
                   </ArrowLink>
                 </div>
               </Reveal>

@@ -25,7 +25,7 @@
  *    tylko do Instagramu (kanał, który realnie działa).
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowLink,
   Field,
@@ -36,7 +36,7 @@ import {
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BOOKING_URL, CONTACT, FOUNDER, LEGAL, SHOP } from '@/lib/site';
+import { BOOKING_URL, CONTACT, FOUNDER, LEGAL } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
 import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
@@ -51,7 +51,6 @@ const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
 
-const SHOP_HOST = new URL(SHOP.url).host.replace(/^www\./, '');
 
 /* Kanały: Instagram i sklep zawsze; telefon i e-mail pojawią się same, gdy
    zostaną uzupełnione w CONTACT (do tego czasu nie ma pola ani placeholdera). */
@@ -70,12 +69,6 @@ const CHANNELS = [
     label: 'Instagram',
     value: CONTACT.instagramHandle,
     href: CONTACT.instagram,
-    external: true,
-  },
-  {
-    label: 'Sklep',
-    value: `${SHOP_HOST} ↗`,
-    href: SHOP.url,
     external: true,
   },
 ].filter(Boolean);
@@ -151,6 +144,13 @@ function EnquiryForm() {
     message: '',
   });
   const [sent, setSent] = useState(null); // null | ENQUIRY_STATUS
+
+  /* ?temat=produkty (np. z /maszynki „Zapytaj o zakup”) — wstępny wybór tematu.
+     window.location zamiast useSearchParams: strona zostaje statyczna. */
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('temat');
+    if (t && TOPICS.some((x) => x.value === t)) setFormData((f) => ({ ...f, topic: t }));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

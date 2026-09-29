@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Instagram, Menu, X } from 'lucide-react';
 import Logo from '@/components/as/Logo';
-import { BOOKING_URL, BRAND, CONTACT, LEGAL, NAV_ALL, NAV_MAIN, SHOP } from '@/lib/site';
+import { BOOKING_URL, BRAND, CONTACT, LEGAL, NAV_ALL, NAV_MAIN } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
@@ -95,16 +95,6 @@ function Header({ menuOpen, setMenuOpen }) {
                 </Link>
               );
             })}
-            {/* „Shop ↗" z makiety — sklep klienta (WooCommerce) */}
-            <a
-              href={SHOP.url}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] text-ink/65 transition-colors hover:text-ink"
-            >
-              Sklep <span aria-hidden="true">&#8599;</span>
-              <span className="sr-only"> (otwiera się w nowej karcie)</span>
-            </a>
           </nav>
 
           <div className="flex items-center gap-4 sm:gap-5">
@@ -168,19 +158,6 @@ function Header({ menuOpen, setMenuOpen }) {
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <a
-                    href={SHOP.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="group flex items-baseline gap-6 py-2 transition-colors hover:text-gold-light"
-                  >
-                    <span className="as-label w-6 text-gold-light">{String(NAV_MAIN.length + 1).padStart(2, '0')}</span>
-                    <span className="as-display-md">
-                      Sklep <span aria-hidden="true">&#8599;</span>
-                    </span>
-                  </a>
-                </li>
               </ul>
             </nav>
 
