@@ -1,4 +1,4 @@
-/* Root layout wersji polskiej (adresy bez prefiksu). Wspólny szkielet — src/i18n/RootShell.jsx. */
+/* Root layout wersji polskiej (adresy bez prefiksu). Wspólny szkielet – src/i18n/RootShell.jsx. */
 import RootShell, { rootMetadata, rootViewport } from '@/i18n/RootShell';
 
 export const metadata = rootMetadata('pl');

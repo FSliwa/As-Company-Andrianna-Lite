@@ -448,7 +448,7 @@ Formularz jest publiczny, więc ktoś mógłby napisać skrypt, który zarezerwu
 3. Skopiuj **Site Key** do `TURNSTILE_SITE_KEY`, a **Secret Key** do `TURNSTILE_SECRET_KEY` na hostingu, potem zrób **Redeploy**.
 4. Do testów lokalnych Cloudflare udostępnia klucze testowe, które zawsze przepuszczają: site key `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`.
 
-Turnstile przetwarza dane techniczne przeglądarki (m.in. adres IP) w Cloudflare. Dopisz to do polityki prywatności (rozdz. 10).
+Turnstile przetwarza dane techniczne przeglądarki (m.in. adres IP) w Cloudflare — przy samej weryfikacji w imieniu salonu, a przy ulepszaniu usługi jako odrębny administrator. Polityka prywatności (pkt 6, 10, 11) i Polityka cookies (pkt 3) już to opisują, warunkowo („jeśli jest włączony”); klauzula pod przyciskiem rezerwacji dopisuje wtedy zdanie o Turnstile. Skrypt Cloudflare ładuje się dopiero, gdy ktoś zaczyna wypełniać krok 04 „Twoje dane” (albo wysyła formularz), a nie przy otwarciu strony. Czy włączać Turnstile, decyduje klientka (docs/dokumenty-prawne.md).
 
 ### Sprzątanie po ataku
 
@@ -478,7 +478,7 @@ Czas podaje się w czasie polskim. Plik `.env.local` musi zawierać te same zmie
 - Dane przechodzą też przez **serwer hostingu** (np. Vercel). Hosting to kolejny podmiot przetwarzający. Strona nie zapisuje danych klientek w logach ani w żadnej własnej bazie.
 - W wydarzeniu zapisujemy też **skróty (HMAC) telefonu i e-maila**. Służą wyłącznie do limitu „2 wizyty na osobę” i nie da się z nich odczytać danych.
 - Jeśli włączony jest **Cloudflare Turnstile**, Cloudflare przetwarza dane techniczne przeglądarki (m.in. adres IP) w celu ochrony formularza przed robotami. To kolejny podmiot, który trzeba wpisać do polityki.
-- **Podstawa prawna:** art. 6 ust. 1 lit. b RODO, czyli działania na żądanie osoby przed zawarciem umowy. **Checkbox ze zgodą nie jest potrzebny.** Potrzebna jest za to **klauzula informacyjna** (art. 13 RODO). Pod formularzem wyświetli się automatycznie, gdy w `src/lib/site.js` zostaną uzupełnione dane w `LEGAL` (firma, adres, e-mail ds. danych i treść polityki). Bez tego `/polityka-prywatnosci` zwraca 404. **To trzeba uzupełnić przed włączeniem rezerwacji.**
+- **Podstawa prawna:** art. 6 ust. 1 lit. b RODO, czyli działania na żądanie osoby przed zawarciem umowy. **Checkbox ze zgodą nie jest potrzebny.** Potrzebna jest za to **klauzula informacyjna** (art. 13 RODO) i link do Regulaminu. Pod przyciskiem rezerwacji wyświetlają się automatycznie, gdy dokumenty prawne obowiązują: w `src/lib/site.js` uzupełnione są dane w `LEGAL` (firma, adres, NIP, rejestr) i `CONTACT` (e-mail, telefon) oraz `LEGAL.documentsApproved` (data zatwierdzenia treści dokumentów). **Do tego czasu rezerwacja online jest wyłączona także przy ustawionych zmiennych Google** — strona pokazuje „chwilowo niedostępna”, API odpowiada 503, a przyciski „Umów wizytę” prowadzą do /kontakt.
 
 ### Umowa powierzenia z Google
 
@@ -495,17 +495,9 @@ Wizyty zostają w kalendarzu, dopóki ich nie usuniesz. **Ustal okres przechowyw
 - Dostęp do kalendarza oznacza dostęp do danych klientek. Włącz **weryfikację dwuetapową** na koncie Google salonu, **nie udostępniaj** kalendarza publicznie, a każdej osobie, której go udostępniasz, nadaj upoważnienie do przetwarzania danych.
 - Klucz konta usługi (plik JSON) chroń jak hasło (rozdz. 2). Po zakończeniu współpracy z programistą **wygeneruj nowy klucz** i usuń stary.
 
-### Wzór akapitu do polityki prywatności
+### Treść polityki prywatności
 
-Do wklejenia jako nowa sekcja w `LEGAL.privacyPolicy` (`src/lib/site.js`). Uzupełnij pola w [nawiasach] i zweryfikuj z prawnikiem:
-
-> **Rezerwacja wizyt online**
->
-> Jeśli umawiasz wizytę przez formularz na stronie, przetwarzamy Twoje imię, numer telefonu, adres e-mail, wybrany zabieg, termin wizyty oraz uwagi, jeśli je podasz. Robimy to, żeby umówić i przeprowadzić wizytę oraz skontaktować się z Tobą w jej sprawie (art. 6 ust. 1 lit. b RODO: działania podejmowane na Twoje żądanie przed zawarciem umowy). Podanie danych jest dobrowolne, ale bez nich rezerwacja online nie jest możliwa.
->
-> Rezerwacje zapisujemy w naszym Kalendarzu Google. Dostawcą usługi jest [Google Ireland Limited / Google LLC], który przetwarza dane w naszym imieniu jako podmiot przetwarzający. Formularz działa na serwerach [nazwa dostawcy hostingu, np. Vercel Inc.]. Dane mogą być przekazywane poza Europejski Obszar Gospodarczy (m.in. do USA) na podstawie [EU-US Data Privacy Framework / standardowych klauzul umownych zatwierdzonych przez Komisję Europejską].
->
-> Dane z rezerwacji przechowujemy przez [okres, np. 12 miesięcy od daty wizyty], a potem je usuwamy. Masz prawo dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia oraz wniesienia sprzeciwu, a także prawo do skargi do Prezesa Urzędu Ochrony Danych Osobowych. W sprawach danych osobowych pisz na: [e-mail ds. danych].
+Polityka prywatności, polityka cookies i regulamin są gotowe w `src/content/legal/{privacy,cookies,terms}.{pl,en,ru}.json` (rezerwację opisują w polityce prywatności pkt 5, 6, 10, 11 i 12, a w regulaminie pkt 9 i 10). Dane firmy podstawia `src/lib/legal.js` z `LEGAL` i `CONTACT` w `src/lib/site.js`. Decyzje, które klientka musi potwierdzić przed publikacją (m.in. okres przechowywania rezerwacji, konto Google Workspace, region hostingu, Turnstile), są w `docs/dokumenty-prawne.md`.
 
 ---
 
@@ -521,5 +513,5 @@ Do wklejenia jako nowa sekcja w `LEGAL.privacyPolicy` (`src/lib/site.js`). Uzupe
 - [ ] Rezerwacja testowa widoczna w kalendarzu i **usunięta** (6)
 - [ ] **Godziny pracy potwierdzone** (8)
 - [ ] Święta i urlopy wpisane w kalendarz jako wydarzenia całodniowe (7)
-- [ ] **Dane w `LEGAL`** i polityka prywatności z akapitem o Google i hostingu uzupełnione (10)
+- [ ] **Dane w `LEGAL` i `CONTACT`** uzupełnione, decyzje z `docs/dokumenty-prawne.md` potwierdzone, `LEGAL.documentsApproved` wpisane — bez tego rezerwacja online się nie włączy (10)
 - [ ] Ustalony sposób potwierdzania wizyt klientkom (np. SMS od salonu) (9)

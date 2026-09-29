@@ -4,7 +4,7 @@
  * Drobne klocki katalogu pigmentów: próbka koloru, pasek palety kolekcji,
  * wybór pojemności, opis produktu, cena i odmiana liczebników.
  * Wszystkie teksty i liczby pochodzą z src/data/pigments.json (przez
- * src/lib/pigments.js) — tu jest tylko prezentacja.
+ * src/lib/pigments.js) – tu jest tylko prezentacja.
  */
 
 import React, { createContext, useContext } from 'react';
@@ -17,7 +17,7 @@ export const NBSP = '\u00a0';
 
 /**
  * `true`, gdy ceny w danych są starsze niż PRICE_MAX_AGE_DAYS (src/lib/pigments.js)
- * — wtedy zamiast kwot piszemy „cena do potwierdzenia”, a suma się nie liczy.
+ * – wtedy zamiast kwot piszemy „cena do potwierdzenia”, a suma się nie liczy.
  * Wartość ustala widok /pigmenty (serwer przy renderze + przeglądarka po
  * zamontowaniu), komponenty tylko ją czytają.
  */
@@ -37,13 +37,13 @@ export function plural(n, one, few, many) {
 }
 
 /* Serie ze sklepu (COLORS / ORGANIC / CLASSIC / CONCENTRATE) zapisujemy jak
-   nazwy własne — tak samo jak dotąd w tekstach strony („seria Concentrate”). */
+   nazwy własne – tak samo jak dotąd w tekstach strony („seria Concentrate”). */
 export function seriesLabel(series) {
   if (!series) return null;
   return series.charAt(0) + series.slice(1).toLowerCase();
 }
 
-/** „AS OPIUM · Colors” — kolekcja i seria nad nazwą. Seria powtarzająca nazwę
+/** „AS OPIUM · Colors” – kolekcja i seria nad nazwą. Seria powtarzająca nazwę
     kolekcji („AS Classic · Classic”) jest pomijana. */
 export function kickerFor(product) {
   const collection = collectionLabel(product.collection);
@@ -73,12 +73,12 @@ export function fold(text) {
 const HATCH = {
   backgroundImage: 'repeating-linear-gradient(135deg, rgba(36,27,20,0.32) 0 1px, transparent 1px 6px)',
 };
-/* Cienka wewnętrzna obwódka — jasne odcienie nie zlewają się z kremem. */
+/* Cienka wewnętrzna obwódka – jasne odcienie nie zlewają się z kremem. */
 const RING = { boxShadow: 'inset 0 0 0 1px rgba(36,27,20,0.12)' };
 
 /**
  * Próbka odcienia. `color` = '#rrggbb' (odcień poglądowy z danych) albo null.
- * Dekoracyjna dla czytnika — nazwa produktu stoi obok; brak koloru jest
+ * Dekoracyjna dla czytnika – nazwa produktu stoi obok; brak koloru jest
  * opisany tekstem „bez próbki” przez komponent nadrzędny.
  */
 export function Swatch({ color, className }) {
@@ -91,7 +91,7 @@ export function Swatch({ color, className }) {
   );
 }
 
-/** Pasek odcieni kolekcji — segment na każdy kolor (bez zestawów i bez `null`). */
+/** Pasek odcieni kolekcji – segment na każdy kolor (bez zestawów i bez `null`). */
 export function PaletteStrip({ colors, className }) {
   if (!colors.length) return <Swatch color={null} className={className} />;
   return (
@@ -106,7 +106,7 @@ export function PaletteStrip({ colors, className }) {
 /* ---------------- cena ---------------- */
 
 /**
- * `showStock` — przy pojemności bez stanu dopisek „(brak)” (komórka katalogu,
+ * `showStock` – przy pojemności bez stanu dopisek „(brak)” (komórka katalogu,
  * gdy produkt jako całość jest dostępny).
  *
  * Cena jak `priceLabel()` z src/lib/pigments.js („6 ml 149 zł · 15 ml 219 zł”),
@@ -123,7 +123,7 @@ export function PriceLine({ variants, showStock = false, className }) {
   if (stale) {
     return (
       <p className={cn('text-[0.8125rem] leading-relaxed text-mocha', className)}>
-        {labels.length > 0 && `${labels.map((v) => formatCapacity(v.label)).join(' · ')} — `}
+        {labels.length > 0 && `${labels.map((v) => formatCapacity(v.label)).join(' · ')} – `}
         {PRICE_TBC}
       </p>
     );
@@ -163,7 +163,7 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
   const stale = usePricesStale();
   return (
     <fieldset className={className}>
-      <legend className="sr-only">Pojemność — {product.name}</legend>
+      <legend className="sr-only">Pojemność – {product.name}</legend>
       <div className="flex flex-wrap">
         {product.variants.map((v, i) => {
           const id = `${name}-${i}`;
@@ -190,7 +190,7 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
               >
                 {formatCapacity(v.label)}
                 {showPrice && !stale && <span className="opacity-80">· {formatPrice(v.price)}</span>}
-                {!v.inStock && <span className="sr-only"> — brak w magazynie</span>}
+                {!v.inStock && <span className="sr-only"> – brak w magazynie</span>}
               </span>
             </label>
           );
@@ -201,13 +201,13 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
   );
 }
 
-/** „15 ml — brak w magazynie” dla pojemności bez stanu (gdy produkt jako całość jest dostępny). */
+/** „15 ml – brak w magazynie” dla pojemności bez stanu (gdy produkt jako całość jest dostępny). */
 export function StockNote({ product, className }) {
   const out = product.variants.filter((v) => !v.inStock && v.label);
   if (!out.length || !product.inStock) return null;
   return (
     <p className={cn('text-[0.8125rem] leading-snug text-mocha', className)}>
-      {out.map((v) => formatCapacity(v.label)).join(', ')} — brak w{NBSP}magazynie
+      {out.map((v) => formatCapacity(v.label)).join(', ')} – brak w{NBSP}magazynie
     </p>
   );
 }
@@ -264,6 +264,6 @@ export function Description({ text, className }) {
 
 /* ---------------- przycisk „Dodaj” ---------------- */
 
-/* Kompaktowy przycisk kontrolki katalogu (44 px) — ten sam język co .as-btn-ghost. */
+/* Kompaktowy przycisk kontrolki katalogu (44 px) – ten sam język co .as-btn-ghost. */
 export const ADD_BTN =
   'inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap border border-ink/25 px-4 text-[0.6875rem] font-medium uppercase tracking-wider2 text-ink transition-colors hover:border-ink hover:bg-ink hover:text-cream-50 focus-visible:outline-ink';

@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Ścieżka zabiegowa',
   description:
-    'Konsultacja, zabieg, korekta i odświeżenie — kolejność wizyt przy makijażu permanentnym i cena każdego kroku.',
+    'Konsultacja, zabieg, korekta i odświeżenie – kolejność wizyt przy makijażu permanentnym i cena każdego kroku.',
   path: '/pakiety',
 });
 

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * 03 Godzina — siatka chipów (natywne radio) z godzinami rozpoczęcia.
+ * 03 Godzina – siatka chipów (natywne radio) z godzinami rozpoczęcia.
  * Stany: brak zabiegu / brak dnia / ładowanie / lista / brak slotów
  * (+ „najbliższy wolny dzień”) / błąd / limit zapytań; nad siatką
  * komunikat 409 „Ten termin właśnie się zajął”.
@@ -28,7 +28,7 @@ function NextFree({ nextFree, onPick, windowChecked }) {
   if (!windowChecked) return null;
   return (
     <Message className="mt-4">
-      W najbliższych tygodniach nie ma już wolnych terminów na ten zabieg — napisz do nas na Instagramie{' '}
+      W najbliższych tygodniach nie ma już wolnych terminów na ten zabieg – napisz do nas na Instagramie{' '}
       <a
         href={CONTACT.instagram}
         target="_blank"
@@ -51,8 +51,8 @@ export const TakenNotice = forwardRef(function TakenNotice(_, ref) {
       role="alert"
       className="mb-6 border-l-2 border-gold bg-cream-100 px-5 py-4 text-[0.9375rem] leading-[1.6] text-ink focus-visible:outline-ink"
     >
-      {/* Komunikat pojawia się razem z ponownym pobraniem godzin — nie twierdzimy, że lista już jest świeża. */}
-      <strong className="font-medium">Ten termin właśnie się zajął.</strong> Odświeżamy listę godzin — wybierz inną.
+      {/* Komunikat pojawia się razem z ponownym pobraniem godzin – nie twierdzimy, że lista już jest świeża. */}
+      <strong className="font-medium">Ten termin właśnie się zajął.</strong> Odświeżamy listę godzin – wybierz inną.
     </div>
   );
 });
@@ -137,7 +137,7 @@ export function SlotGrid({
                 checked={checked}
                 onChange={() => onChange(time)}
                 onKeyDown={(e) => {
-                  // Enter: na niewybranej godzinie — wybiera ją; na wybranej — przejście do danych.
+                  // Enter: na niewybranej godzinie – wybiera ją; na wybranej – przejście do danych.
                   if (e.key === 'Enter') {
                     e.preventDefault();
                     if (checked) onEnter?.();

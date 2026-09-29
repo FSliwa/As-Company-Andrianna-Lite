@@ -5,7 +5,7 @@
  * POLSKĄ ścieżką kanoniczną ('/uslugi#cennik', '/kontakt?temat=produkty').
  * LocaleLink (src/components/as/LocaleLink.jsx) tłumaczy ją na adres bieżącego
  * języka: '/en/treatments#cennik'. Kotwice (#id) i parametry (?temat=) są
- * wspólne dla wszystkich języków — identyfikatorów sekcji nie tłumaczymy.
+ * wspólne dla wszystkich języków – identyfikatorów sekcji nie tłumaczymy.
  */
 
 import { DEFAULT_LOCALE, LOCALES, PUBLIC_LOCALES } from './config.js';
@@ -103,7 +103,7 @@ export const isKnownPath = (canonical) =>
  * ru: '/ru/treatments', 'x-default': '/uslugi' } (x-default = wersja polska).
  */
 export function languageAlternates(canonical) {
-  // tylko języki publiczne (PUBLIC_LOCALES); przy samym polskim — brak hreflang
+  // tylko języki publiczne (PUBLIC_LOCALES); przy samym polskim – brak hreflang
   if (PUBLIC_LOCALES.length < 2) return null;
   const out = Object.fromEntries(PUBLIC_LOCALES.map((l) => [HREFLANG[l], localePath(canonical, l)]));
   out['x-default'] = localePath(canonical, DEFAULT_LOCALE);
@@ -112,7 +112,7 @@ export function languageAlternates(canonical) {
 
 /**
  * Przełącznik języka: ta sama strona w innym języku. Kotwicę i parametry
- * (identyfikatory wspólne dla języków) dokleja wywołujący — znane są dopiero
+ * (identyfikatory wspólne dla języków) dokleja wywołujący – znane są dopiero
  * w przeglądarce. Nieznany adres (404) → strona główna w wybranym języku.
  */
 export function switchLocalePath(pathname, toLocale) {

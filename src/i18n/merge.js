@@ -3,7 +3,7 @@
  *
  * Struktura (klucze, kolejność i długość list, liczby, ceny, id, href) pochodzi
  * z wersji polskiej; tłumaczenie podaje tylko teksty. Listy łączymy po indeksie,
- * obiekty po kluczach. Czego tłumaczenie nie poda, zostaje po polsku — lepsze
+ * obiekty po kluczach. Czego tłumaczenie nie poda, zostaje po polsku – lepsze
  * niż pusty element. Elementy React i funkcje traktujemy jak wartości (bez zaglądania).
  */
 

@@ -1,7 +1,7 @@
 /**
- * Logo AS COMPANY POLAND — oficjalny plik marki (korona, kaligraficzny monogram
+ * Logo AS COMPANY POLAND – oficjalny plik marki (korona, kaligraficzny monogram
  * „AS” z pętlami, ramka, „COMPANY / POLAND”), ten sam co w makiecie i w sklepie
- * klienta (as05.png). Złoty gradient na przezroczystym tle — działa na kremie
+ * klienta (as05.png). Złoty gradient na przezroczystym tle – działa na kremie
  * i na espresso, więc nie potrzebuje wariantu kolorystycznego.
  *
  * Pliki: public/brand/as-company-logo-{96,160,240,320}.{webp,png} + oryginał.
@@ -12,8 +12,8 @@
 import { cn } from '@/lib/utils';
 
 const SIZES = {
-  sm: 'h-14 w-14', // nagłówek na telefonie — 56 px
-  md: 'h-14 w-14 lg:h-16 lg:w-16', // nagłówek — 56 / 64 px
+  sm: 'h-14 w-14', // nagłówek na telefonie – 56 px
+  md: 'h-14 w-14 lg:h-16 lg:w-16', // nagłówek – 56 / 64 px
   lg: 'h-24 w-24 lg:h-28 lg:w-28', // stopka
 };
 

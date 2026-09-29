@@ -1,19 +1,19 @@
 /**
- * Rezerwacja online — konfiguracja.
+ * Rezerwacja online – konfiguracja.
  *
  * Importy w src/lib/booking/* są wyłącznie względne (bez aliasu `@/`), żeby
- * `node --test` działał bez bundlera. Ceny NIE są tu przepisywane — pochodzą
+ * `node --test` działał bez bundlera. Ceny NIE są tu przepisywane – pochodzą
  * z cenników w src/lib/site.js.
  */
 
 import { CONTACT, PRICING_PMU, PRICING_REFRESH, PRICING_REMOVAL } from '../site.js';
 
 /**
- * Godziny pracy salonu — klucz = dzień tygodnia (0 = niedziela … 6 = sobota),
+ * Godziny pracy salonu – klucz = dzień tygodnia (0 = niedziela … 6 = sobota),
  * wartość = ['HH:MM', 'HH:MM'] albo null (zamknięte).
  *
  * ⚠️ DO POTWIERDZENIA PRZEZ KLIENTA: godziny w serwisie nie mają źródła;
- *    obecny sklep podaje 10–18. Zmiana tutaj wystarczy — API i UI liczą sloty
+ *    obecny sklep podaje 10–18. Zmiana tutaj wystarczy – API i UI liczą sloty
  *    wyłącznie z tej tabeli.
  */
 const WORKING_HOURS = Object.freeze({
@@ -32,7 +32,7 @@ export const BOOKING_CONFIG = Object.freeze({
   slotStepMin: 30,
   /**
    * Bufor po każdym zajętym przedziale (sprzątanie, przygotowanie stanowiska).
-   * Liczony po NASZYM zabiegu i po każdym wydarzeniu z kalendarza — między
+   * Liczony po NASZYM zabiegu i po każdym wydarzeniu z kalendarza – między
    * dwiema pozycjami w kalendarzu zawsze jest co najmniej `bufferMin` wolnego.
    */
   bufferMin: 15,
@@ -65,9 +65,9 @@ export const BOOKING_CONFIG = Object.freeze({
   maxBodyBytes: 8 * 1024,
   /**
    * Ochrona przed zablokowaniem kalendarza przez skrypt:
-   *  - maxActivePerContact — ile przyszłych wizyt z www może mieć ten sam telefon ALBO e-mail
+   *  - maxActivePerContact – ile przyszłych wizyt z www może mieć ten sam telefon ALBO e-mail
    *    (kolejna → 409 „limit”; np. zabieg + korekta = 2),
-   *  - maxPerHour / maxPerDay — bezpiecznik dla całej strony: po przekroczeniu rezerwacja
+   *  - maxPerHour / maxPerDay – bezpiecznik dla całej strony: po przekroczeniu rezerwacja
    *    online jest wstrzymana (503 „paused”), aż starsze wpisy wyjdą z okna. Szkoda po
    *    ataku ogranicza się do tylu wpisów w kalendarzu.
    */
@@ -76,7 +76,7 @@ export const BOOKING_CONFIG = Object.freeze({
     maxPerHour: 6,
     maxPerDay: 15,
   }),
-  /** Budżety czasu (ms) — łącznie dla całego żądania, niezależnie od timeoutu pojedynczego wywołania Google. */
+  /** Budżety czasu (ms) – łącznie dla całego żądania, niezależnie od timeoutu pojedynczego wywołania Google. */
   timeouts: Object.freeze({
     /** POST: sprawdzenia + zapis (z jedną ponowną próbą). */
     bookingMs: 18_000,
@@ -107,7 +107,7 @@ function priceFrom(pricing) {
 /**
  * Zabiegi dostępne w rezerwacji online. `durationMin` = czas blokady w kalendarzu
  * (górna granica z karty /uslugi). Każdy zabieg zawiera konsultację, architekturę
- * twarzy i rysunek wstępny — osobnej „konsultacji” nie oferujemy.
+ * twarzy i rysunek wstępny – osobnej „konsultacji” nie oferujemy.
  */
 export const TREATMENTS = Object.freeze(
   [
@@ -125,7 +125,7 @@ export const TREATMENTS = Object.freeze(
     },
     {
       id: 'usuwanie',
-      name: 'Usuwanie — laser / remover',
+      name: 'Usuwanie – laser / remover',
       durationMin: 45,
       price: priceFrom(PRICING_REMOVAL),
       priceNote: 'Cena zależy od strefy i wielkości',

@@ -1,12 +1,12 @@
 'use client';
 
 /**
- * Strona główna — „Numer 01".
+ * Strona główna – „Numer 01".
  *
  * Każda sekcja to rozkładówka: jeden kadr, jedno duże zdanie w Bodoni, jeden
  * link. Rytm tła: krem → espresso → cream-100 → krem → mocha → krem → stopka.
  * Portrety wyłącznie przez ROLES, grupy przez GROUPS, makra przez MACROS
- * (src/lib/roles.js) — każdy plik ma w serwisie jedno miejsce.
+ * (src/lib/roles.js) – każdy plik ma w serwisie jedno miejsce.
  */
 
 import React from 'react';
@@ -36,7 +36,7 @@ import {
 import { GROUPS, ROLES } from '@/lib/roles';
 
 /* ==================================================================
-   01 — HERO
+   01 – HERO
 
    Geometria przeniesiona 1:1 z makiety (zmierzonej na oryginale
    1320×2868 px). Wszystkie wartości to ułamki szerokości kadru treści
@@ -46,10 +46,10 @@ import { GROUPS, ROLES } from '@/lib/roles';
 const HERO_RATIO = 1 / 0.682; // szerokość : wysokość kadru hero
 const HERO_PHOTO = ROLES.heroHome.image;
 
-/* pozycje w % kontenera — x względem szerokości, y względem wysokości */
+/* pozycje w % kontenera – x względem szerokości, y względem wysokości */
 const G = {
   photo: { left: '33.7%', right: '33.5%', top: '12.6%', bottom: '19.0%' },
-  /* słowa 4 pp wyżej niż w pierwszej wersji — złota linia (50,6%) biegnie
+  /* słowa 4 pp wyżej niż w pierwszej wersji – złota linia (50,6%) biegnie
      pod literami, a nie przez nie (audyt AD-1) */
   beauty: { left: '0%', top: '32.3%' },
   with: { left: '71.4%', top: '33.0%' },
@@ -60,7 +60,7 @@ const G = {
   facts: { top: '89.6%' },
 };
 
-/* Typografia w cqw (1% szerokości kadru hero) — kompozycja skaluje się
+/* Typografia w cqw (1% szerokości kadru hero) – kompozycja skaluje się
    w całości i zawsze mieści się w pierwszym ekranie. */
 const TYPE = {
   beauty: 'clamp(2.5rem, 12.2cqw, 14rem)',
@@ -99,7 +99,7 @@ function Hero() {
     </>
   );
 
-  /* Kolofon zamiast miniatur makr — makra z telefonu nie wytrzymują hero. */
+  /* Kolofon zamiast miniatur makr – makra z telefonu nie wytrzymują hero. */
   const colophon = (
     <div className="border-t border-gold/40 pt-4">
       <p className="as-label text-ink">{FOUNDER.name}</p>
@@ -125,7 +125,7 @@ function Hero() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={HERO_PHOTO.src}
-            alt={`${FOUNDER.name} — założycielka AS Company i ${BRAND.academy}`}
+            alt={`${FOUNDER.name} – założycielka AS Company i ${BRAND.academy}`}
             width={HERO_PHOTO.w}
             height={HERO_PHOTO.h}
             fetchPriority="high"
@@ -140,9 +140,9 @@ function Hero() {
 
   return (
     <section className="relative -mt-20 overflow-hidden bg-cream-50 lg:-mt-24">
-      {/* jeden h1 w DOM — wersje wizualne (mobile / desktop) są aria-hidden */}
+      {/* jeden h1 w DOM – wersje wizualne (mobile / desktop) są aria-hidden */}
       <h1 className="sr-only">
-        {BRAND.tagline} {BRAND.full} — makijaż permanentny i szkolenia PMU w Warszawie
+        {BRAND.tagline} {BRAND.full} – makijaż permanentny i szkolenia PMU w Warszawie
       </h1>
 
       {/* ================= UKŁAD MOBILNY / TABLET ================= */}
@@ -224,7 +224,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — O NAS (espresso)                                              */
+/*  02 – O NAS (espresso)                                              */
 /* ================================================================== */
 
 function AboutBand() {
@@ -234,7 +234,7 @@ function AboutBand() {
 
       <div className="as-shell relative">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-          {/* kolumna 1 — zdanie */}
+          {/* kolumna 1 – zdanie */}
           <div className="md:col-span-6 lg:col-span-4">
             <Reveal>
               <SectionLabel number="02" tone="light">
@@ -250,7 +250,7 @@ function AboutBand() {
             </Reveal>
             <Reveal delay={80}>
               <p className="as-body-invert mt-6">
-                Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
+                Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości
                 produkty, zaawansowaną edukację i realną praktykę.
               </p>
               <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
@@ -259,13 +259,13 @@ function AboutBand() {
             </Reveal>
           </div>
 
-          {/* kolumna 2 — jeden portret, inna poza niż w hero */}
+          {/* kolumna 2 – jeden portret, inna poza niż w hero */}
           <Reveal delay={60} className="md:col-span-6 lg:col-span-4">
             <div className="mx-auto max-w-[16rem] sm:max-w-[20rem] md:max-w-none">
               <div className="as-photo-frame">
                 <Figure
                   image={ROLES.aboutHome.image}
-                  alt={`${FOUNDER.name} — ${FOUNDER.role}`}
+                  alt={`${FOUNDER.name} – ${FOUNDER.role}`}
                   ratio="3 / 4"
                   position={ROLES.aboutHome.position}
                   tone="dark"
@@ -278,7 +278,7 @@ function AboutBand() {
             </div>
           </Reveal>
 
-          {/* kolumna 3 — 01 / 02 / 03 jako komórki (tablet: trzy obok siebie pod spodem) */}
+          {/* kolumna 3 – 01 / 02 / 03 jako komórki (tablet: trzy obok siebie pod spodem) */}
           <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6 lg:col-span-4 lg:block">
             {PILLARS.map((p, i) => (
               <Reveal key={p.number} delay={i * 80}>
@@ -300,7 +300,7 @@ function AboutBand() {
           </div>
         </div>
 
-        {/* liczby — najmocniejszy dowód marki, w pierwszych dwóch ekranach */}
+        {/* liczby – najmocniejszy dowód marki, w pierwszych dwóch ekranach */}
         <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-cream-200/15 pt-10 md:grid-cols-4 lg:mt-16">
           {ACHIEVEMENTS.map((a, i) => (
             <Reveal key={a.label} delay={i * 60}>
@@ -314,7 +314,7 @@ function AboutBand() {
 }
 
 /* ================================================================== */
-/*  03 — PRODUKTY (cream-100)                                          */
+/*  03 – PRODUKTY (cream-100)                                          */
 /* ================================================================== */
 
 function ProductsBand() {
@@ -330,7 +330,7 @@ function ProductsBand() {
               za efektem.
             </h2>
             <p className="as-body mt-6">
-              Pigmenty, urządzenia i dokumentacja tworzone przez praktyków dla praktyków — to, czego
+              Pigmenty, urządzenia i dokumentacja tworzone przez praktyków dla praktyków – to, czego
               sami używamy w gabinecie i na szkoleniach.
             </p>
           </Reveal>
@@ -356,7 +356,7 @@ function ProductsBand() {
 }
 
 /* ================================================================== */
-/*  04 — ZABIEGI I CENNIK (cream-50)                                   */
+/*  04 – ZABIEGI I CENNIK (cream-50)                                   */
 /* ================================================================== */
 
 function TreatmentsBand() {
@@ -383,14 +383,14 @@ function TreatmentsBand() {
             <figure className="mx-auto max-w-[16rem] sm:max-w-[22rem] md:max-w-none">
               <Figure
                 image={portrait.image}
-                alt={`${FOUNDER.name} — ${FOUNDER.signature}`}
+                alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
                 ratio="4 / 5"
                 position={portrait.position}
                 framed
                 sizes="(min-width: 1024px) 37vw, (min-width: 640px) 384px, 320px"
               />
               <figcaption className="as-caption mt-6 lg:mt-8">
-                {FOUNDER.name} — {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
+                {FOUNDER.name} – {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
               </figcaption>
             </figure>
           </Reveal>
@@ -413,7 +413,7 @@ function TreatmentsBand() {
 }
 
 /* ================================================================== */
-/*  05 — SZKOLENIA (mocha)                                             */
+/*  05 – SZKOLENIA (mocha)                                             */
 /* ================================================================== */
 
 function TrainingBand() {
@@ -452,7 +452,7 @@ function TrainingBand() {
               <div className="as-photo-frame">
                 <Figure
                   image={GROUPS.trainingHome.image}
-                  alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami — ${BRAND.academy}`}
+                  alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}
                   ratio="3 / 2"
                   position={GROUPS.trainingHome.position}
                   tone="dark"
@@ -487,7 +487,7 @@ function TrainingBand() {
 }
 
 /* ================================================================== */
-/*  06 — ZAPROSZENIE (cream-50)                                        */
+/*  06 – ZAPROSZENIE (cream-50)                                        */
 /* ================================================================== */
 
 function InvitationBand() {
@@ -501,7 +501,7 @@ function InvitationBand() {
               Zacznijmy od <span className="italic text-gold-dark">konsultacji.</span>
             </h2>
             <p className="as-body mt-6">
-              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia —
+              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia –
               konsultacja jest pierwszym krokiem każdego zabiegu.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -517,7 +517,7 @@ function InvitationBand() {
           <Reveal delay={90} className="md:col-span-7 lg:col-span-6 lg:col-start-7">
             <Figure
               image={ROLES.closingHome.image}
-              alt={`${FOUNDER.name} — sesja wizerunkowa ${BRAND.name}`}
+              alt={`${FOUNDER.name} – sesja wizerunkowa ${BRAND.name}`}
               ratio="3 / 2"
               position={ROLES.closingHome.position}
               framed

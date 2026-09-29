@@ -3,17 +3,17 @@ import { pageMeta } from '@/lib/seo';
 
 /* Wersja rosyjska trasy /umow-wizyte. Stan rezerwacji, znacznik formularza i czas serwera
    składa BookingRoute (wspólny dla trzech języków). Zmienne środowiskowe czytane
-   w chwili żądania — dlatego trasa jest dynamiczna. */
+   w chwili żądania – dlatego trasa jest dynamiczna. */
 export const dynamic = 'force-dynamic';
 
-/* Bez skonfigurowanego kalendarza strona pokazuje tylko komunikat — noindex. */
+/* Bez skonfigurowanego kalendarza strona pokazuje tylko komunikat – noindex. */
 export function generateMetadata() {
   return pageMeta({
     locale: 'ru',
     route: 'book',
     title: 'Записаться',
     description:
-      'Онлайн-запись в Babushkina Academy, Варшава — выберите процедуру перманентного макияжа бровей, губ или стрелок, день и время визита.',
+      'Онлайн-запись в Babushkina Academy, Варшава – выберите процедуру перманентного макияжа бровей, губ или стрелок, день и время визита.',
     noindex: !isBookingEnabled(),
   });
 }

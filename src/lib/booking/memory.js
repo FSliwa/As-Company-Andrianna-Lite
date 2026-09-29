@@ -1,12 +1,12 @@
 /**
- * Dostawca kalendarza W PAMIĘCI — tylko dev/test. Ten sam interfejs co google.js
+ * Dostawca kalendarza W PAMIĘCI – tylko dev/test. Ten sam interfejs co google.js
  * (freeBusy / listEvents / getEvent / insertEvent / patchEvent / deleteEvent).
  * W production odmawia działania. Jak Google: id usuniętego wydarzenia nie da się
  * użyć ponownie (409), a getEvent zwraca je ze statusem 'cancelled'.
  *
  * Zawiera kilka przykładowych zajętości względem „teraz” (najbliższe dni robocze
  * po okresie wyprzedzenia), w tym całodniowy „urlop” oznaczony jako Dostępny
- * (transparent) — freeBusy go pomija, listEvents nie, jak w prawdziwym Google.
+ * (transparent) – freeBusy go pomija, listEvents nie, jak w prawdziwym Google.
  */
 
 import crypto from 'node:crypto';

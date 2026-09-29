@@ -2,7 +2,7 @@
 
 /**
  * Hooki języka dla komponentów klienckich. Język wynika z adresu
- * (/en/…, /ru/…, reszta = pl), więc nie potrzeba providera — działa też
+ * (/en/…, /ru/…, reszta = pl), więc nie potrzeba providera – działa też
  * przy renderze na serwerze i na stronie 404.
  */
 
@@ -17,7 +17,7 @@ export function useLocale() {
   return parsePath(usePathname() || '/').locale;
 }
 
-/** { locale, canonical } — canonical to polska ścieżka bieżącej strony (null dla 404). */
+/** { locale, canonical } – canonical to polska ścieżka bieżącej strony (null dla 404). */
 export function usePathInfo() {
   return parsePath(usePathname() || '/');
 }

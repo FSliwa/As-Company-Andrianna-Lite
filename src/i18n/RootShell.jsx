@@ -3,10 +3,10 @@
    Osobne root layouty = osobne <html lang> na serwerze (bez skryptu podmieniającego
    lang); przejście między językami to pełne przeładowanie strony.
 
-   Fonty hostowane lokalnie (public/fonts) — bez żądań do Google Fonts: IP
+   Fonty hostowane lokalnie (public/fonts) – bez żądań do Google Fonts: IP
    odwiedzających nie trafia do zewnętrznego serwera. Krytyczne pliki mają
    preload w <head>, reszta (latin-ext, italic) ładuje się na żądanie; wersja
-   rosyjska dodatkowo preloaduje cyrylicę (Playfair Display w rodzinie Bodoni —
+   rosyjska dodatkowo preloaduje cyrylicę (Playfair Display w rodzinie Bodoni –
    src/styles-fonts.css). */
 import '@/styles-fonts.css';
 import '@/index.css';
@@ -16,7 +16,7 @@ import { JsonLd, pageMeta, siteJsonLd } from '@/lib/seo';
 import { Toaster } from '@/components/ui/toaster';
 
 /* Tytuł domyślny (strona główna) i opis strony głównej w każdym języku.
-   Szablon tytułu podstron — nazwa marki, ta sama we wszystkich językach. */
+   Szablon tytułu podstron – nazwa marki, ta sama we wszystkich językach. */
 const ROOT_META = {
   pl: {
     title: 'Makijaż permanentny Warszawa i szkolenia PMU | AS COMPANY',
@@ -76,7 +76,7 @@ export default function RootShell({ locale, children }) {
         <JsonLd data={siteJsonLd(locale)} />
       </head>
       <body>
-        {/* rok liczony przy renderze na serwerze — bez niezgodności hydratacji 1 stycznia */}
+        {/* rok liczony przy renderze na serwerze – bez niezgodności hydratacji 1 stycznia */}
         <Layout year={new Date().getFullYear()}>{children}</Layout>
         <Toaster />
       </body>

@@ -1,19 +1,19 @@
 'use client';
 
 /**
- * „Twoje zamówienie” — lista pozycji (ilość 1–50, usuń), suma orientacyjna
- * i wysłanie listy jako ZAPYTANIA (nie zakupu — na tym etapie nic się nie
+ * „Twoje zamówienie” – lista pozycji (ilość 1–50, usuń), suma orientacyjna
+ * i wysłanie listy jako ZAPYTANIA (nie zakupu – na tym etapie nic się nie
  * kupuje ani nie płaci).
  *
  * Dwa tryby, zawsze zgodne z tym, co naprawdę działa:
- *  - FORM_LIVE (jest CONTACT.email i klauzula RODO z LEGAL): formularz
+ *  - FORM_LIVE (jest CONTACT.email i obowiązują dokumenty prawne – klauzula RODO): formularz
  *    (imię + telefon LUB e-mail) → sendEnquiry() (src/lib/enquiry.js, mailto).
- *    Listy nie czyścimy sami — program pocztowy mógł się nie otworzyć;
+ *    Listy nie czyścimy sami – program pocztowy mógł się nie otworzyć;
  *    po wysyłce jest „Skopiuj listę” i „Wyczyść listę”.
- *  - bez tego: żadnych pól danych osobowych — uczciwa informacja, „Skopiuj
+ *  - bez tego: żadnych pól danych osobowych – uczciwa informacja, „Skopiuj
  *    listę” i Instagram (jak na /kontakt, gdy formularz nie wysyła).
  *
- * Dane kontaktowe żyją wyłącznie w stanie komponentu — nie w localStorage
+ * Dane kontaktowe żyją wyłącznie w stanie komponentu – nie w localStorage
  * i nie w tekście do schowka.
  *
  * Dostępność: „−”/„+” na granicy zakresu zostają fokusowalne (aria-disabled),
@@ -32,17 +32,16 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ArrowLink, Field, FormNotice } from '@/components/as/Primitives';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { collectionLabel, formatCapacity, formatPrice, formatSyncedDate } from '@/lib/pigments';
-import { CONTACT, LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { CONTACT } from '@/lib/site';
 import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
 /* Formularz zbiera dane osobowe tylko wtedy, gdy naprawdę je dostarczy
-   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO. */
-const NOTICE_READY = LEGAL_COMPLETE;
-export const FORM_LIVE = Boolean(CONTACT.email) && NOTICE_READY;
+   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO
+   (ENQUIRY_LIVE w src/lib/enquiry.js – wspólny warunek wszystkich formularzy). */
+export const FORM_LIVE = ENQUIRY_LIVE;
 
 const SYNCED = formatSyncedDate();
 
@@ -54,14 +53,14 @@ const FIELDS = [
     label: 'E-mail',
     type: 'email',
     autoComplete: 'email',
-    hint: 'Podaj telefon lub e-mail — wystarczy jedno.',
+    hint: 'Podaj telefon lub e-mail – wystarczy jedno.',
   },
   { id: 'salon', label: 'Nazwa salonu (opcjonalnie)', autoComplete: 'organization' },
 ];
 const EMPTY_FORM = { name: '', phone: '', email: '', salon: '', notes: '' };
-const CONTACT_MISSING = 'Podaj telefon lub e-mail — wystarczy jedno.';
+const CONTACT_MISSING = 'Podaj telefon lub e-mail – wystarczy jedno.';
 
-/** „1. Japanese Garden (AS OPIUM), 6 ml × 2 — 298 zł” (bez kwot, gdy ceny są do potwierdzenia). */
+/** „1. Japanese Garden (AS OPIUM), 6 ml × 2 – 298 zł” (bez kwot, gdy ceny są do potwierdzenia). */
 function linesText(summary, stale) {
   return summary.lines.map((l, i) => `${i + 1}. ${stale ? l.item : l.text}`).join('\n');
 }
@@ -72,10 +71,10 @@ function totalText(summary, stale) {
     : `${formatPrice(summary.total)} (ceny z ${SYNCED}, bez kosztów dostawy)`;
 }
 
-/** Tekst do schowka — tylko lista, suma i uwagi, bez danych osobowych. */
+/** Tekst do schowka – tylko lista, suma i uwagi, bez danych osobowych. */
 function clipboardText(summary, stale, notes = '') {
   return [
-    'Zapytanie o pigmenty — lista odcieni:',
+    'Zapytanie o pigmenty – lista odcieni:',
     linesText(summary, stale),
     `Suma orientacyjna: ${totalText(summary, stale)}`,
     notes.trim() ? `Uwagi: ${notes.trim()}` : null,
@@ -92,7 +91,7 @@ function Stepper({ qty, name, onChange }) {
   const btn =
     'grid h-11 w-11 place-items-center text-ink transition-colors hover:bg-ink/5 focus-visible:outline-ink aria-disabled:cursor-not-allowed aria-disabled:text-ink/30 aria-disabled:hover:bg-transparent';
   return (
-    <div role="group" aria-label={`Ilość — ${name}`} className="inline-flex items-center border border-ink/25">
+    <div role="group" aria-label={`Ilość – ${name}`} className="inline-flex items-center border border-ink/25">
       <button
         type="button"
         className={btn}
@@ -165,7 +164,7 @@ function CopyFeedback({ copy, text }) {
       {copy === 'error' && (
         <>
           <p className="mt-5 text-[0.8125rem] text-mocha">
-            Przeglądarka nie pozwoliła skopiować — zaznacz tekst poniżej.
+            Przeglądarka nie pozwoliła skopiować – zaznacz tekst poniżej.
           </p>
           <pre className="mt-3 whitespace-pre-wrap border border-ink/15 bg-cream-100 p-4 font-sans text-[0.8125rem] leading-relaxed text-ink">
             {text}
@@ -187,7 +186,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
   const [copy, setCopy] = useState(null); // 'ok' | 'error'
   const [announce, setAnnounce] = useState('');
   const contentRef = useRef(null);
-  /* indeks usuniętej pozycji — po przerenderowaniu listy fokus idzie obok */
+  /* indeks usuniętej pozycji – po przerenderowaniu listy fokus idzie obok */
   const pendingFocus = useRef(null);
   const empty = summary.lines.length === 0;
   const count = summary.lines.length;
@@ -214,7 +213,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
 
   const handleOpenChange = (next) => {
     if (!next) {
-      /* zamknięcie po wysyłce — następne otwarcie zaczyna od listy */
+      /* zamknięcie po wysyłce – następne otwarcie zaczyna od listy */
       if (result) setResult(null);
       setCopy(null);
     }
@@ -266,7 +265,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
         ['Uwagi', form.notes],
       ],
     });
-    /* listy NIE czyścimy — program pocztowy mógł się nie otworzyć */
+    /* listy NIE czyścimy – program pocztowy mógł się nie otworzyć */
     setResult({ status });
     setCopy(null);
     const msg = enquiryMessage(status);
@@ -299,7 +298,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
         <DialogHeader>
           <DialogTitle>Twoje zamówienie</DialogTitle>
           <DialogDescription>
-            To zapytanie — na tym etapie nic nie kupujesz ani nie płacisz. Odpowiemy z dostępnością,
+            To zapytanie – na tym etapie nic nie kupujesz ani nie płacisz. Odpowiemy z dostępnością,
             łączną kwotą oraz sposobem dostawy i{NBSP}płatności.
           </DialogDescription>
         </DialogHeader>
@@ -315,8 +314,8 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
             <p className="as-body mt-4">{message.body}</p>
             <p className="as-body mt-3">
               {sentToMail
-                ? `Jeśli program pocztowy się nie otworzył — skopiuj listę i wyślij ją na Instagramie (${CONTACT.instagramHandle}).`
-                : 'Twoja lista czeka tutaj — skopiuj ją i wklej w wiadomości.'}
+                ? `Jeśli program pocztowy się nie otworzył – skopiuj listę i wyślij ją na Instagramie (${CONTACT.instagramHandle}).`
+                : 'Twoja lista czeka tutaj – skopiuj ją i wklej w wiadomości.'}
             </p>
             <DialogFooter>
               <button type="button" onClick={copyText} className="as-btn-solid">
@@ -341,7 +340,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
         ) : empty ? (
           <div className="mt-8 border-t border-ink/10 pt-6">
             <p className="as-body">
-              Lista jest pusta. Dodaj odcienie z katalogu — przycisk „Dodaj” jest przy każdym pigmencie.
+              Lista jest pusta. Dodaj odcienie z katalogu – przycisk „Dodaj” jest przy każdym pigmencie.
             </p>
             <ArrowLink onClick={onBrowse} data-empty-action="" className="mt-8 w-fit">
               Przejdź do katalogu
@@ -374,8 +373,8 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
             </div>
             <p className="as-caption mt-3 max-w-none">
               {stale
-                ? `Ceny z ${SYNCED} mogą być nieaktualne — kwotę potwierdzimy w odpowiedzi.`
-                : `Ceny z ${SYNCED}. Suma nie obejmuje kosztów dostawy — łączną kwotę potwierdzimy w${NBSP}odpowiedzi.`}
+                ? `Ceny z ${SYNCED} mogą być nieaktualne – kwotę potwierdzimy w odpowiedzi.`
+                : `Ceny z ${SYNCED}. Suma nie obejmuje kosztów dostawy – łączną kwotę potwierdzimy w${NBSP}odpowiedzi.`}
             </p>
 
             {FORM_LIVE ? (
@@ -427,7 +426,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
                 <h3 className="as-title text-ink">Wyślij listę na Instagramie</h3>
                 <p className="as-body mt-4">
                   Wysyłka zapytania z tej strony nie jest jeszcze uruchomiona. Skopiuj listę i wklej ją
-                  w{NBSP}wiadomości do {CONTACT.instagramHandle} — odpowiemy z dostępnością i łączną kwotą.
+                  w{NBSP}wiadomości do {CONTACT.instagramHandle} – odpowiemy z dostępnością i łączną kwotą.
                 </p>
                 <DialogFooter>
                   <button type="button" onClick={copyText} className="as-btn-solid">
@@ -440,7 +439,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
                   <ArrowLink onClick={() => handleOpenChange(false)} className="w-fit">
                     Wróć do katalogu
                   </ArrowLink>
-                  {/* po skopiowaniu (lista poszła dalej) — można zacząć od nowa */}
+                  {/* po skopiowaniu (lista poszła dalej) – można zacząć od nowa */}
                   {copy === 'ok' && (
                     <button type="button" onClick={handleClear} className={TEXT_BTN}>
                       Wyczyść listę

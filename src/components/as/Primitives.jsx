@@ -13,7 +13,7 @@ import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useContent, useLocale, useSite } from '@/i18n/client';
 import common from '@/content/common';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { LEGAL_PUBLISHED } from '@/lib/legal';
 import {
   Accordion,
   AccordionContent,
@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/accordion';
 
 /* ------------------------------------------------------------------ */
-/*  Etykieta sekcji:  „02  /  O NAS  ———————”                          */
+/*  Etykieta sekcji:  „02  /  O NAS  –––––––”                          */
 /* ------------------------------------------------------------------ */
 
 export function SectionLabel({ number, children, tone = 'dark', line = true, className }) {
@@ -65,7 +65,7 @@ export function ArrowLink({ href = '#', children, tone = 'dark', className, onCl
     </>
   );
 
-  /* akcja (np. otwarcie dialogu) — ten sam wygląd, semantyka przycisku */
+  /* akcja (np. otwarcie dialogu) – ten sam wygląd, semantyka przycisku */
   if (onClick) {
     return (
       <button type="button" onClick={onClick} className={classes} {...rest}>
@@ -90,7 +90,7 @@ export function ArrowLink({ href = '#', children, tone = 'dark', className, onCl
 }
 
 /* ------------------------------------------------------------------ */
-/*  Kadr ze zdjęciem — zawsze z /graphics, zawsze z wymiarami          */
+/*  Kadr ze zdjęciem – zawsze z /graphics, zawsze z wymiarami          */
 /* ------------------------------------------------------------------ */
 
 const DEFAULT_SIZES = '(min-width: 1024px) 33vw, 100vw';
@@ -107,15 +107,15 @@ function buildSrcSet(webp) {
  * Props:
  *  - image     wpis z src/lib/media.js ({ src, w, h, webp })
  *  - ratio     proporcja kadru, np. "3 / 4"; nadmiar jest przycinany (object-cover)
- *  - position  object-position, np. "50% 30%" — gdzie ma być środek ciężkości
+ *  - position  object-position, np. "50% 30%" – gdzie ma być środek ciężkości
  *              przy przycinaniu; domyślnie środek
  *  - tone      "dark" w sekcjach espresso/mocha (ciemniejszy, mniej nasycony),
  *              "light" w sekcjach kremowych (odsycony, jaśniejszy, z kremową
- *              mgłą) — w obu przypadkach po to, żeby zdjęcie siedziało w tle
+ *              mgłą) – w obu przypadkach po to, żeby zdjęcie siedziało w tle
  *              zamiast na nim świecić (jak w makiecie); domyślnie bez korekty
  *  - sizes     atrybut sizes; bez niego przeglądarka zakłada 100vw i pobiera
  *              największy wariant
- *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) —
+ *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) –
  *              dla pasów pełnej szerokości (Statement)
  */
 export function Figure({
@@ -217,7 +217,7 @@ export function GoldArc({ className, flip = false, opacity = 0.35 }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Krzyżyki narożne — subtelna „siatka konstrukcyjna” z makiety       */
+/*  Krzyżyki narożne – subtelna „siatka konstrukcyjna” z makiety       */
 /* ------------------------------------------------------------------ */
 
 export function CrossMarks({ className, tone = 'dark' }) {
@@ -242,14 +242,14 @@ export function CrossMarks({ className, tone = 'dark' }) {
 /*  Pojawianie się przy przewijaniu                                     */
 /* ------------------------------------------------------------------ */
 
-/* Na serwerze nie ma useLayoutEffect — podmieniamy, żeby nie sypać ostrzeżeniami. */
+/* Na serwerze nie ma useLayoutEffect – podmieniamy, żeby nie sypać ostrzeżeniami. */
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 /**
  * Pojawianie się przy przewijaniu.
  *
  * WAŻNE: treść startuje WIDOCZNA. Ukrywamy ją dopiero w useLayoutEffect,
- * czyli już po stronie przeglądarki i jeszcze przed pierwszym malowaniem —
+ * czyli już po stronie przeglądarki i jeszcze przed pierwszym malowaniem –
  * dzięki temu nie ma mignięcia, a jednocześnie:
  *   • HTML z serwera zawiera treść bez opacity:0 (czytelny dla wyszukiwarek
  *     i dla kogoś z wyłączonym JS),
@@ -276,7 +276,7 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
       return r.top < window.innerHeight * 1.3 && r.bottom > -window.innerHeight * 0.25;
     };
 
-    // Element jest już w kadrze — zostaw widoczny, nie ma czego animować.
+    // Element jest już w kadrze – zostaw widoczny, nie ma czego animować.
     if (isNear()) return;
 
     setHidden(true);
@@ -324,7 +324,7 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Nagłówek podstrony — wspólny dla wszystkich stron poza główną      */
+/*  Nagłówek podstrony – wspólny dla wszystkich stron poza główną      */
 /* ------------------------------------------------------------------ */
 
 export function PageHero({
@@ -344,8 +344,8 @@ export function PageHero({
   tone = 'cream',
   children,
 }) {
-  /* variant: 'cover' (domyślny, gdy jest zdjęcie) — portret 2:3 po prawej, tekst
-     wyśrodkowany w pionie; 'band' — pas espresso bez zdjęcia, H1 na całą szerokość
+  /* variant: 'cover' (domyślny, gdy jest zdjęcie) – portret 2:3 po prawej, tekst
+     wyśrodkowany w pionie; 'band' – pas espresso bez zdjęcia, H1 na całą szerokość
      łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty). */
   const kind = variant || (image ? 'cover' : 'band');
   const isDark = kind === 'band' || tone !== 'cream';
@@ -483,7 +483,7 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pasek zaufania — drobne fakty rozdzielone ukośnikiem               */
+/*  Pasek zaufania – drobne fakty rozdzielone ukośnikiem               */
 /* ------------------------------------------------------------------ */
 
 export function FactStrip({ items, tone = 'dark', className }) {
@@ -507,7 +507,7 @@ export function FactStrip({ items, tone = 'dark', className }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Przycisk CTA — link wewnętrzny, zewnętrzny/kotwica albo <button>   */
+/*  Przycisk CTA – link wewnętrzny, zewnętrzny/kotwica albo <button>   */
 /* ------------------------------------------------------------------ */
 
 export function CtaButton({ href, onClick, children, className = 'as-btn-solid', ...rest }) {
@@ -560,7 +560,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas zamykający stronę — jeden na każdej trasie, ten sam układ      */
+/*  Pas zamykający stronę – jeden na każdej trasie, ten sam układ      */
 /*  tło espresso-900, etykieta z numerem, h2 w skali sekcji,           */
 /*  lead as-body-invert, para gold + ghost-light, opcjonalnie kadr(y). */
 /* ------------------------------------------------------------------ */
@@ -577,9 +577,9 @@ export function ClosingCta({
   children,
   className,
 }) {
-  /* Pas zamykający = jeden blok ze stopką (espresso-900). Bez portretów —
+  /* Pas zamykający = jeden blok ze stopką (espresso-900). Bez portretów –
      założycielka nie może występować w każdym zakończeniu strony.
-     Etykieta domyślna („Kontakt”) — w języku strony. */
+     Etykieta domyślna („Kontakt”) – w języku strony. */
   const t = useContent(common);
   const button = (btn, cls) => {
     if (!btn) return null;
@@ -717,35 +717,41 @@ export function Field({ as = 'input', label, id, hint, required, className, wrap
 }
 
 /* ------------------------------------------------------------------ */
-/*  Klauzula informacyjna RODO pod formularzem (art. 13).              */
-/*  Renderuje się dopiero, gdy klient uzupełni LEGAL w site.js —       */
-/*  bez danych administratora nie udajemy klauzuli.                    */
+/*  Klauzula informacyjna RODO pod formularzem (art. 13) + Regulamin.  */
+/*  Renderuje się dopiero, gdy dokumenty prawne obowiązują             */
+/*  (LEGAL_PUBLISHED: dane w site.js + zatwierdzona treść) – bez       */
+/*  danych administratora nie udajemy klauzuli.                        */
 /* ------------------------------------------------------------------ */
 
 export function FormNotice({ tone = 'dark', className }) {
   const t = useContent(common);
   const { LEGAL } = useSite();
-  if (!LEGAL_COMPLETE) return null;
+  if (!LEGAL_PUBLISHED) return null;
   const onDark = tone === 'light';
+  const linkCls = cn('underline underline-offset-2', onDark ? 'hover:text-cream-50' : 'hover:text-ink');
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed', onDark ? 'text-cream-100/80' : 'text-mocha', className)}>
       {t.noticeController} {LEGAL.company}. {t.noticePurpose}{' '}
-      <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
+      <Link href="/polityka-prywatnosci" className={linkCls}>
         {t.privacy}
       </Link>
-      . {t.requiredLegend}
+      . {t.noticeTerms.pre}
+      <Link href="/regulamin" className={linkCls}>
+        {t.noticeTerms.link}
+      </Link>
+      {t.noticeTerms.post} {t.requiredLegend}
     </p>
   );
 }
 
-/* Legenda pól wymaganych — gdy klauzula jeszcze się nie renderuje. */
+/* Legenda pól wymaganych – gdy klauzula jeszcze się nie renderuje. */
 export function RequiredLegend({ className }) {
   const t = useContent(common);
   return <p className={cn('text-[0.8125rem] text-mocha', className)}>{t.requiredLegend}</p>;
 }
 
 /* ------------------------------------------------------------------ */
-/*  FAQ — jeden akordeon dla całego serwisu                            */
+/*  FAQ – jeden akordeon dla całego serwisu                            */
 /* ------------------------------------------------------------------ */
 
 export function Faq({ items, className }) {
@@ -762,7 +768,7 @@ export function Faq({ items, className }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas „statement" — jeden wielki portret na całą szerokość i jedno   */
+/*  Pas „statement" – jeden wielki portret na całą szerokość i jedno   */
 /*  zdanie. Moment strony; jeden na trasę.                             */
 /* ------------------------------------------------------------------ */
 
@@ -787,7 +793,7 @@ export function Statement({
         className
       )}
     >
-      {/* od lg portret zajmuje połowę pasa (kadr ≈ 1:1 — cała głowa i dłonie, bez powiększania
+      {/* od lg portret zajmuje połowę pasa (kadr ≈ 1:1 – cała głowa i dłonie, bez powiększania
           pliku 2:3 do pasa 2:1), a lewą krawędź wygasza maska; poniżej lg pełny spad */}
       <Figure
         image={image}
@@ -846,7 +852,7 @@ export function Statement({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pasek efektów — makra brwi/ust w kontrolowanej formie: małe,       */
+/*  Pasek efektów – makra brwi/ust w kontrolowanej formie: małe,       */
 /*  jednolite kadry, hairline, bez mgiełki. Jedyne miejsce dla makr.   */
 /* ------------------------------------------------------------------ */
 

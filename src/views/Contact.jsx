@@ -1,28 +1,28 @@
 'use client';
 
 /**
- * Kontakt (/kontakt) — „Numer 01".
+ * Kontakt (/kontakt) – „Numer 01".
  *
- * 01 Kontakt (cream-50)   — hero = formularz w pierwszym ekranie, bez portretu.
- *                           Od md dwie kolumny — lewa 5/12: H1, lead, lokalizacja
+ * 01 Kontakt (cream-50)   – hero = formularz w pierwszym ekranie, bez portretu.
+ *                           Od md dwie kolumny – lewa 5/12: H1, lead, lokalizacja
  *                           (CONTACT.venueNote), kanały i tryb umawiania (CONTACT.hours);
  *                           prawa: formularz na <Field> (panel cream-100; md 7/12,
  *                           lg 6/12 z pustą kolumną odstępu).
  *                           Na telefonie formularz stoi zaraz pod leadem, a dane
  *                           lokalizacji pod formularzem.
- * 02 Wizyta (cream-100)   — trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce;
+ * 02 Wizyta (cream-100)   – trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce;
  *                           od md portret obok kroków, na telefonie pod nimi.
  * → stopka. Formularz jest CTA tej strony, więc nie ma pasa zamykającego (ClosingCta);
  *   jasna sekcja 02 oddziela też formularz od ciemnej stopki.
  *
  * Zasady:
- *  • zdjęcia wyłącznie przez ROLES (src/lib/roles.js) — scena absolwentek
+ *  • zdjęcia wyłącznie przez ROLES (src/lib/roles.js) – scena absolwentek
  *    (GROUPS.contactVenue) wycofana: nazwiska kursantek na certyfikatach
  *    i zdjęcie szkolenia przy treści o wizycie w salonie,
- *  • dane kontaktowe wyłącznie z CONTACT (src/lib/site.js) — pola null
+ *  • dane kontaktowe wyłącznie z CONTACT (src/lib/site.js) – pola null
  *    (ulica, kod, telefon, e-mail) nie są renderowane, nie ma placeholderów,
  *  • CONTACT.venueNote (budynek, parking) występuje w serwisie tylko tutaj,
- *  • formularz nie udaje wysyłki — status i komunikat pochodzą z src/lib/enquiry.js;
+ *  • formularz nie udaje wysyłki – status i komunikat pochodzą z src/lib/enquiry.js;
  *    dopóki CONTACT.email jest puste, treść strony nie odsyła do formularza,
  *    tylko do Instagramu (kanał, który realnie działa).
  */
@@ -38,18 +38,19 @@ import {
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER, LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER } from '@/lib/site';
+import { LEGAL_PUBLISHED } from '@/lib/legal';
 import { ROLES } from '@/lib/roles';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /* Formularz naprawdę dostarcza wiadomość dopiero wtedy, gdy jest adres e-mail
-   (mailto w src/lib/enquiry.js). */
-const FORM_LIVE = Boolean(CONTACT.email);
+   (mailto w src/lib/enquiry.js) i obowiązują dokumenty prawne (klauzula z art. 13 RODO
+   pod formularzem) – ten sam warunek co w OrderDialog. */
+const FORM_LIVE = ENQUIRY_LIVE;
 
-/* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
-   o polach wymaganych — do tego czasu legendę pokazuje RequiredLegend. */
-const NOTICE_READY = LEGAL_COMPLETE;
+/* FormNotice renderuje się sam, gdy dokumenty obowiązują (LEGAL_PUBLISHED), i zawiera
+   już zdanie o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend. */
+const NOTICE_READY = LEGAL_PUBLISHED;
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
@@ -84,12 +85,12 @@ const TOPICS = [
 ];
 
 /* ================================================================== */
-/*  01 — KONTAKT: H1 + lokalizacja | formularz                          */
+/*  01 – KONTAKT: H1 + lokalizacja | formularz                          */
 /* ================================================================== */
 
 /* Wiersz z hairline u góry: etykieta 11 px caps | wartość 15 px.
    Gdy para nie mieści się w jednej linii (np. „Wizyty i szkolenia” przy 375 px),
-   wartość schodzi pod etykietę, wyrównana do lewej — bez łamania etykiety. */
+   wartość schodzi pod etykietę, wyrównana do lewej – bez łamania etykiety. */
 function DetailRow({ label, children }) {
   return (
     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t border-ink/15 py-3">
@@ -108,8 +109,8 @@ function LocationDetails() {
         {CONTACT.venueNote}.
         {!CONTACT.street &&
           (FORM_LIVE
-            ? ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz przez formularz albo na Instagramie.'
-            : ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz do nas na Instagramie.')}
+            ? ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie – napisz przez formularz albo na Instagramie.'
+            : ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie – napisz do nas na Instagramie.')}
       </p>
 
       <dl className="mt-8 border-b border-ink/15">
@@ -148,7 +149,7 @@ function EnquiryForm() {
   });
   const [sent, setSent] = useState(null); // null | ENQUIRY_STATUS
 
-  /* ?temat=produkty (np. z /maszynki „Zapytaj o zakup”) — wstępny wybór tematu.
+  /* ?temat=produkty (np. z /maszynki „Zapytaj o zakup”) – wstępny wybór tematu.
      window.location zamiast useSearchParams: strona zostaje statyczna. */
   useEffect(() => {
     const t = new URLSearchParams(window.location.search).get('temat');
@@ -162,7 +163,7 @@ function EnquiryForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { status } = sendEnquiry({
-      subject: `Zapytanie ze strony — ${formData.topic}`,
+      subject: `Zapytanie ze strony – ${formData.topic}`,
       fields: [
         ['Imię i nazwisko', formData.name],
         ['E-mail', formData.email],
@@ -272,7 +273,7 @@ function EnquiryForm() {
             className="md:flex-1"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Napisz, czego dotyczy Twoje pytanie — zabiegu, szkolenia czy produktów."
+            placeholder="Napisz, czego dotyczy Twoje pytanie – zabiegu, szkolenia czy produktów."
             required
           />
 
@@ -304,7 +305,7 @@ function Hero() {
               Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
             </h1>
             <p className="as-body mt-6">
-              Zabiegi, szkolenia, pytania o produkty — napisz, a wrócimy do Ciebie z konkretną
+              Zabiegi, szkolenia, pytania o produkty – napisz, a wrócimy do Ciebie z konkretną
               odpowiedzią i wolnym terminem.
             </p>
           </Reveal>
@@ -328,7 +329,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — WIZYTA (cream-100): trzy kroki wizyty + portret 4:5           */
+/*  02 – WIZYTA (cream-100): trzy kroki wizyty + portret 4:5           */
 /* ================================================================== */
 
 /* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi).
@@ -339,7 +340,7 @@ const BOOKING_STEPS = [
     title: 'Wiadomość',
     desc: FORM_LIVE
       ? 'Napisz przez formularz na tej stronie albo na Instagramie.'
-      : `Napisz na Instagramie — ${CONTACT.instagramHandle}.`,
+      : `Napisz na Instagramie – ${CONTACT.instagramHandle}.`,
   },
   { number: '02', title: 'Termin', desc: 'Wrócimy z konkretną odpowiedzią i wolnym terminem.' },
   { number: '03', title: 'Konsultacja', desc: 'Architektura twarzy i rysunek wstępny przed zabiegiem.' },
@@ -351,8 +352,8 @@ function VisitBand() {
     <section className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
-          {/* — etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze;
-                od md stoją po prawej, obok portretu) — */}
+          {/* – etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze;
+                od md stoją po prawej, obok portretu) – */}
           <div className="md:col-span-6 md:col-start-7 md:row-start-1 lg:col-span-5 lg:col-start-8">
             <Reveal>
               <SectionLabel number="02">Wizyta</SectionLabel>
@@ -370,21 +371,21 @@ function VisitBand() {
             </ol>
 
             <Reveal delay={200}>
-              {/* bez rezerwacji online link prowadziłby do tej samej strony — wtedy do formularza */}
+              {/* bez rezerwacji online link prowadziłby do tej samej strony – wtedy do formularza */}
               <ArrowLink href={BOOKING_ENABLED ? BOOKING_URL : '#formularz'} className="mt-10 w-fit">
                 Umów wizytę
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* — jeden kadr: portret z sesji marki, w złotej ramce — */}
+          {/* – jeden kadr: portret z sesji marki, w złotej ramce – */}
           <Reveal
             delay={90}
             className="mx-auto w-full max-w-[26rem] md:col-span-6 md:col-start-1 md:row-start-1 md:max-w-none lg:col-span-5 lg:col-start-2"
           >
             <Figure
               image={portrait?.image}
-              alt={`${FOUNDER.name} — portret z sesji wizerunkowej marki`}
+              alt={`${FOUNDER.name} – portret z sesji wizerunkowej marki`}
               ratio="4 / 5"
               position={portrait?.position}
               framed

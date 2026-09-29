@@ -2,26 +2,51 @@
 
 /**
  * Klauzula informacyjna pod przyciskiem rezerwacji. Ten sam układ i warunek co FormNotice
- * z Primitives (renderuje się dopiero po uzupełnieniu LEGAL), ale z prawdziwym celem
- * przetwarzania: rezerwacja wizyty zapisywana w Kalendarzu Google salonu (Google jako
- * podmiot przetwarzający) — ogólne „by odpowiedzieć na zapytanie” byłoby tu nieprawdą.
+ * z Primitives (renderuje się dopiero, gdy dokumenty prawne obowiązują – LEGAL_PUBLISHED),
+ * ale z prawdziwym celem przetwarzania: rezerwacja wizyty zapisywana w Kalendarzu Google
+ * salonu (Google jako podmiot przetwarzający) – ogólne „by odpowiedzieć na zapytanie” byłoby
+ * tu nieprawdą. Do tego akceptacja Regulaminu przy przycisku (art. 8 u.ś.u.d.e., art. 384 KC)
+ * i – gdy formularz chroni Cloudflare Turnstile – odesłanie do Polityki cookies.
+ * Teksty z src/content/common (wspólne dla /umow-wizyte, /en/book i /ru/book), linki przez
+ * LocaleLink – prowadzą do dokumentu w języku strony.
  */
 
-import Link from 'next/link';
-import { LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import Link from '@/components/as/LocaleLink';
+import common from '@/content/common';
+import { useContent, useSite } from '@/i18n/client';
+import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { ROUTES } from '@/i18n/routes';
 import { cn } from '@/lib/utils';
 
-export function BookingNotice({ className }) {
-  if (!LEGAL_COMPLETE) return null;
+const LINK = 'underline underline-offset-2 hover:text-ink';
+
+/** @param {{ submitLabel: string, turnstile?: boolean, className?: string }} props */
+export function BookingNotice({ submitLabel, turnstile = false, className }) {
+  const t = useContent(common);
+  const { LEGAL } = useSite();
+  if (!LEGAL_PUBLISHED) return null;
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed text-mocha', className)}>
-      Administratorem danych jest {LEGAL.company}. Dane z formularza przetwarzamy, by zarezerwować i obsłużyć
-      Twoją wizytę; termin z danymi kontaktowymi zapisujemy w Kalendarzu Google salonu.{' '}
-      <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
-        Polityka prywatności
+      {t.noticeController} {LEGAL.company}. {t.bookingPurpose}{' '}
+      <Link href={ROUTES.privacy} className={LINK}>
+        {t.privacy}
       </Link>
-      . Pola oznaczone * są wymagane.
+      . {t.bookingTerms.pre.replace('{button}', submitLabel)}
+      <Link href={`${ROUTES.terms}#rezerwacja-online`} className={LINK}>
+        {t.bookingTerms.link}
+      </Link>
+      {t.bookingTerms.post}
+      {turnstile && (
+        <>
+          {' '}
+          {t.bookingTurnstile.pre}
+          <Link href={`${ROUTES.cookies}#co-zapisujemy`} className={LINK}>
+            {t.bookingTurnstile.link}
+          </Link>
+          {t.bookingTurnstile.post}
+        </>
+      )}{' '}
+      {t.requiredLegend}
     </p>
   );
 }

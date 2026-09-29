@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Kontakt',
   description:
-    'Babushkina Academy, Warszawa — umów wizytę na makijaż permanentny albo zapytaj o termin szkolenia PMU.',
+    'Babushkina Academy, Warszawa – umów wizytę na makijaż permanentny albo zapytaj o termin szkolenia PMU.',
   path: '/kontakt',
 });
 

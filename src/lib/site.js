@@ -2,10 +2,10 @@
  * Jedno źródło prawdy dla treści serwisu.
  *
  * Wszystkie liczby, ceny i fakty pochodzą z materiałów marki
- * (folder /Graphics — cenniki, grafiki kursowe) albo z wcześniejszej
+ * (folder /Graphics – cenniki, grafiki kursowe) albo z wcześniejszej
  * treści serwisu. Nie dopisujemy tu danych „z głowy”.
  *
- * ⚠️ POLA OZNACZONE `TODO` TRZEBA UZUPEŁNIĆ PRAWDZIWYMI DANYMI —
+ * ⚠️ POLA OZNACZONE `TODO` TRZEBA UZUPEŁNIĆ PRAWDZIWYMI DANYMI –
  *    do czasu uzupełnienia nie są wyświetlane na stronie.
  */
 
@@ -24,7 +24,7 @@ export const FOUNDER = {
   signature: 'Autorka techniki Super Natural Brows',
 };
 
-/** Dane kontaktowe — uzupełnij TODO przed publikacją. */
+/** Dane kontaktowe – uzupełnij TODO przed publikacją. */
 export const CONTACT = {
   city: 'Warszawa',
   venue: 'Babushkina Academy',
@@ -43,16 +43,16 @@ export const CONTACT = {
 
 /**
  * Adres serwisu (canonical, sitemap, OG). Ustawiany przy wdrożeniu przez
- * NEXT_PUBLIC_SITE_URL — domena docelowa czeka na decyzję klienta
+ * NEXT_PUBLIC_SITE_URL – domena docelowa czeka na decyzję klienta
  * (dziś pod as-loveliness.eu działa sklep WooCommerce).
  */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://as-loveliness.eu').replace(/\/$/, '');
 
 /**
- * Rezerwacja online (Kalendarz Google) — cel wszystkich przycisków „Umów wizytę”.
+ * Rezerwacja online (Kalendarz Google) – cel wszystkich przycisków „Umów wizytę”.
  * BOOKING_ENABLED wylicza next.config.mjs w chwili buildu z tych samych zmiennych
  * co src/lib/booking/provider.js. Bez skonfigurowanego kalendarza przyciski prowadzą
- * do formularza kontaktowego — strona rezerwacji pokazałaby tylko „chwilowo
+ * do formularza kontaktowego – strona rezerwacji pokazałaby tylko „chwilowo
  * niedostępna”. Po ustawieniu zmiennych na hostingu i Redeploy przełączają się same.
  */
 export const BOOKING_ENABLED = process.env.NEXT_PUBLIC_BOOKING_ENABLED === '1';
@@ -60,7 +60,7 @@ export const BOOKING_PAGE = '/umow-wizyte';
 export const BOOKING_URL = BOOKING_ENABLED ? BOOKING_PAGE : '/kontakt';
 
 /**
- * Sklep internetowy klienta (WooCommerce) — produkty kupuje się tam.
+ * Sklep internetowy klienta (WooCommerce) – produkty kupuje się tam.
  * Adresy sprawdzone 29.09.2026; zmienią się, jeśli sklep przeniesie się
  * na subdomenę (decyzja klienta).
  */
@@ -74,11 +74,13 @@ export const SHOP = {
 };
 
 /**
- * Dane prawne — do uzupełnienia przez klienta (art. 5 u.ś.u.d.e., art. 13 RODO).
+ * Dane prawne – do uzupełnienia przez klienta (art. 5 u.ś.u.d.e., art. 13 RODO).
  * Podstawiane w polityce prywatności, polityce cookies i regulaminie
- * (src/content/legal/*.json, src/lib/legal.js). Dopóki pola są null, dokumenty są
- * projektem (pas „Projekt dokumentu”, braki oznaczone, noindex), stopka nie pokazuje
- * wiersza z danymi firmy, a klauzule pod formularzami się nie renderują.
+ * (src/content/legal/*.json, src/lib/legal.js). Dokumenty obowiązują dopiero, gdy są
+ * uzupełnione dane (także CONTACT.email i CONTACT.phone) ORAZ documentsApproved.
+ * Do tego czasu dokumenty są projektem (pas „Projekt dokumentu”, braki oznaczone,
+ * noindex), stopka nie pokazuje wiersza z danymi firmy (bez company), klauzule pod
+ * formularzami się nie renderują, a formularze i rezerwacja online nie zbierają danych.
  */
 export const LEGAL = {
   company: null, // pełna nazwa z rejestru, np. „… sp. z o.o." albo imię i nazwisko + nazwa firmy z CEIDG
@@ -86,6 +88,10 @@ export const LEGAL = {
   nip: null,
   register: null, // np. „KRS 0000…, Sąd Rejonowy …" albo „CEIDG"
   privacyEmail: null, // e-mail do spraw danych osobowych
+  /* Data zatwierdzenia treści dokumentów przez klientkę (albo prawnika), np. '2026-10-15'.
+     Wpisuje się ją dopiero po przejrzeniu decyzji z docs/dokumenty-prawne.md; tę samą
+     datę ustaw w polu "updated" dokumentów (src/content/legal/*.json). */
+  documentsApproved: null,
 };
 
 /** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA). */
@@ -97,7 +103,7 @@ export const NAV_MAIN = [
   { label: 'Kontakt', href: '/kontakt' },
 ];
 
-/** Pełna mapa serwisu — menu rozwijane i stopka. */
+/** Pełna mapa serwisu – menu rozwijane i stopka. */
 export const NAV_ALL = [
   {
     title: 'Produkty',
@@ -126,16 +132,16 @@ export const NAV_ALL = [
   },
 ];
 
-/** Osiągnięcia — przeniesione z dotychczasowej treści serwisu. */
+/** Osiągnięcia – przeniesione z dotychczasowej treści serwisu. */
 export const ACHIEVEMENTS = [
   { value: '5×', label: 'I i II miejsce na Mistrzostwach Świata' },
   { value: '100+', label: 'Kursantek szkolonych z włosa w ostatnim roku' },
   { value: '50+', label: 'Kursantek w bazie zagranicznej' },
-  { value: '10 lat', label: 'Prowadzenia salonów — Katowice i Warszawa' },
+  { value: '10 lat', label: 'Prowadzenia salonów – Katowice i Warszawa' },
 ];
 
 /**
- * CENNIK PMU — dane 1:1 z grafiki „CENNIK PMU 1/3”.
+ * CENNIK PMU – dane 1:1 z grafiki „CENNIK PMU 1/3”.
  */
 export const PRICING_PMU = {
   title: 'Cennik PMU',
@@ -155,7 +161,7 @@ export const PRICING_PMU = {
     'Korekta wykonuje się na życzenie klientki lub jest obowiązkowa w przypadku pracy na skórze: tłustej, porowatej, z resztkami starego makijażu permanentnego, po usuwaniu.',
 };
 
-/** CENNIK REFRESH — grafika „CENNIK REFRESH 2/3”. */
+/** CENNIK REFRESH – grafika „CENNIK REFRESH 2/3”. */
 export const PRICING_REFRESH = {
   title: 'Refresh',
   subtitle: 'Odświeżenie dla moich klientek',
@@ -166,7 +172,7 @@ export const PRICING_REFRESH = {
   ],
 };
 
-/** CENNIK USUWANIE — grafika „CENNIK USUWANIE 3/3”. */
+/** CENNIK USUWANIE – grafika „CENNIK USUWANIE 3/3”. */
 export const PRICING_REMOVAL = {
   title: 'Usuwanie',
   subtitle: 'Laser / remover',
@@ -182,7 +188,7 @@ export const PRICING_REMOVAL = {
 };
 
 /**
- * SZKOLENIA — dane 1:1 z grafik kursowych Babushkina Academy.
+ * SZKOLENIA – dane 1:1 z grafik kursowych Babushkina Academy.
  */
 export const COURSES = [
   {
@@ -204,7 +210,7 @@ export const COURSES = [
   },
   {
     id: 'kurs-podstawowy',
-    title: 'Super Natural Brows — Kurs podstawowy',
+    title: 'Super Natural Brows – Kurs podstawowy',
     kicker: 'Od zera do pierwszych klientek',
     price: '15 000 zł',
     priceNote: 'netto',
@@ -221,19 +227,19 @@ export const COURSES = [
   },
 ];
 
-/** Korzyści wspólne dla obu programów — z grafik kursowych. */
+/** Korzyści wspólne dla obu programów – z grafik kursowych. */
 export const COURSE_BENEFITS = [
-  'System nauki zrozumiały dla każdego — nie musisz umieć malować, aby nauczyć się mojej techniki',
+  'System nauki zrozumiały dla każdego – nie musisz umieć malować, aby nauczyć się mojej techniki',
   'Nauka atrakcyjnych zdjęć i marketing',
   'Cena zabiegu i jej wpływ na klientki',
   'Poprawa postawy ręki i wykonania pięknego ruchu pudrowego',
-  'Możliwość dalszego rozwoju na Master Classie «Efekt lami» i Warsztatach — dostępnych tylko dla moich kursantek',
+  'Możliwość dalszego rozwoju na Master Classie «Efekt lami» i Warsztatach – dostępnych tylko dla moich kursantek',
   'Dożywotnia opieka i grupa wsparcia',
   'Możliwość zakupu niezbędnych produktów do PMU na miejscu i przetestowania maszyny AS Princess',
   'Lunch, napoje i przekąski zapewnione',
 ];
 
-/** Harmonogram kursu podstawowego — grafika „HARMONOGRAM”. */
+/** Harmonogram kursu podstawowego – grafika „HARMONOGRAM”. */
 export const COURSE_SCHEDULE = [
   {
     day: '1 dzień stacjonarny',
@@ -309,7 +315,7 @@ export const PRODUCT_LINES = [
   },
 ];
 
-/** Filary marki — sekcja „More than permanent makeup”. */
+/** Filary marki – sekcja „More than permanent makeup”. */
 export const PILLARS = [
   {
     number: '01',
@@ -331,7 +337,7 @@ export const PILLARS = [
   },
 ];
 
-/** Filary szkoleń — sekcja „Szkolenia oparte na realnej praktyce”. */
+/** Filary szkoleń – sekcja „Szkolenia oparte na realnej praktyce”. */
 export const TRAINING_PILLARS = [
   { number: '01', title: 'Technika', desc: 'Nowoczesne metody i zaawansowane procedury krok po kroku.' },
   { number: '02', title: 'Doświadczenie', desc: 'Wiedza oparta na latach praktyki i pracy z tysiącami klientek.' },

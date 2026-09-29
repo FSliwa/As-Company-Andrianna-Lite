@@ -2,7 +2,7 @@
  * Best-effort limit żądań w pamięci (okno przesuwne per klucz).
  *
  * UWAGA: w środowisku serverless każda instancja ma własny licznik, a restart
- * go zeruje — na produkcji zalecany limit na brzegu (Vercel Firewall / Cloudflare).
+ * go zeruje – na produkcji zalecany limit na brzegu (Vercel Firewall / Cloudflare).
  * Poza Vercelem limit na brzegu jest WYMAGANY (patrz docs/rezerwacje-google.md).
  * Adresów IP NIE logujemy (to dane osobowe).
  */
@@ -11,7 +11,7 @@ import net from 'node:net';
 
 export function createRateLimiter({ limit, windowMs, maxKeys = 10_000 }) {
   // key → number[] (znaczniki czasu, rosnąco). Kolejność Map = ostatnie użycie
-  // (każde sprawdzenie przenosi klucz na koniec) — przy przepełnieniu usuwamy
+  // (każde sprawdzenie przenosi klucz na koniec) – przy przepełnieniu usuwamy
   // najdawniej używane klucze, a nie wszystkie liczniki naraz.
   const hits = new Map();
 
@@ -81,12 +81,12 @@ function listOf(value) {
 /**
  * Surowy adres klienta z nagłówka, któremu wolno ufać w danym hostingu:
  *  - BOOKING_CLIENT_IP_HEADER (np. cf-connecting-ip za Cloudflare, x-real-ip za nginx
- *    z `proxy_set_header X-Real-IP $remote_addr`) — dokładnie ten nagłówek;
+ *    z `proxy_set_header X-Real-IP $remote_addr`) – dokładnie ten nagłówek;
  *    dla x-forwarded-for ostatni wpis (dopisany przez nasze proxy),
- *  - Vercel (zmienna VERCEL): x-real-ip / x-vercel-forwarded-for — Vercel nadpisuje
+ *  - Vercel (zmienna VERCEL): x-real-ip / x-vercel-forwarded-for – Vercel nadpisuje
  *    te nagłówki, klient ich nie podrobi,
  *  - nic nie skonfigurowano: dotychczasowe zachowanie (x-real-ip, ostatni wpis
- *    x-forwarded-for) — klient może je podrobić, więc w production raz ostrzegamy w logu.
+ *    x-forwarded-for) – klient może je podrobić, więc w production raz ostrzegamy w logu.
  */
 export function clientIp(headers, env = process.env) {
   const configured = String(env.BOOKING_CLIENT_IP_HEADER || '').trim().toLowerCase();
@@ -99,7 +99,7 @@ export function clientIp(headers, env = process.env) {
     return listOf(headers.get('x-real-ip'))[0] || listOf(headers.get('x-vercel-forwarded-for'))[0] || listOf(headers.get('x-forwarded-for'))[0] || null;
   }
   if (env.NODE_ENV === 'production') {
-    warnOnce('BOOKING_CLIENT_IP_HEADER is not set outside Vercel — the per-IP rate limit trusts client-supplied headers; configure an edge rate limit');
+    warnOnce('BOOKING_CLIENT_IP_HEADER is not set outside Vercel – the per-IP rate limit trusts client-supplied headers; configure an edge rate limit');
   }
   const real = listOf(headers.get('x-real-ip'))[0];
   if (real) return real;
@@ -128,7 +128,7 @@ function ipv6Prefix64(ip) {
 }
 
 /**
- * Adres → klucz limitu: IPv4 cały, IPv6 — sieć /64 (jedno łącze domowe dostaje
+ * Adres → klucz limitu: IPv4 cały, IPv6 – sieć /64 (jedno łącze domowe dostaje
  * całą /64, więc liczenie po pełnym adresie dawałoby 2^64 kubełków). Porty,
  * nawiasy i strefy są usuwane. Nie-adres → null.
  */
@@ -164,7 +164,7 @@ export function clientKey(headers, env = process.env) {
 
 const STORE_KEY = Symbol.for('as-company.booking.ratelimit');
 
-/** Współdzielone limitery (globalThis — jedna instancja na proces, także w dev). */
+/** Współdzielone limitery (globalThis – jedna instancja na proces, także w dev). */
 export function sharedLimiter(name, options) {
   if (!globalThis[STORE_KEY]) globalThis[STORE_KEY] = new Map();
   const store = globalThis[STORE_KEY];

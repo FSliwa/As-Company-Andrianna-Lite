@@ -6,7 +6,7 @@
  * gdzie `error` to kod z API ('disabled', 'paused', 'rate_limited', 'calendar', 'taken',
  * 'limit', 'invalid', 'too_fast', 'form_expired', 'captcha', 'forbidden', …) albo
  * 'network' (brak połączenia).
- * Przerwane żądanie (AbortController) rzuca AbortError — wywołujący je pomija.
+ * Przerwane żądanie (AbortController) rzuca AbortError – wywołujący je pomija.
  *
  * Krótki cache w pamięci karty ogranicza liczbę zapytań przy przełączaniu
  * zabiegów strzałkami (limit API: 60 GET / min).
@@ -69,7 +69,7 @@ export function fetchDaySlots(treatment, date, options) {
   return cachedGet(`d|${treatment}|${date}`, TTL_MS.day, `/api/booking/slots?${qs}`, options);
 }
 
-/** Po 409 (termin się zajął) — świeże dane dla zabiegu. */
+/** Po 409 (termin się zajął) – świeże dane dla zabiegu. */
 export function invalidateAvailability(treatment) {
   for (const key of cache.keys()) {
     if (key.split('|')[1] === treatment) cache.delete(key);
@@ -79,7 +79,7 @@ export function invalidateAvailability(treatment) {
 /**
  * UUID jednej próby rezerwacji (idempotentny zapis: ponowienie po błędzie z tym samym
  * identyfikatorem nie tworzy drugiego wpisu). crypto.randomUUID wymaga bezpiecznego
- * kontekstu — w podglądzie przez http://192.168… używamy getRandomValues.
+ * kontekstu – w podglądzie przez http://192.168… używamy getRandomValues.
  */
 export function newRequestId() {
   const c = globalThis.crypto;

@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test \"src/lib/booking/*.test.js\" \"src/i18n/*.test.js\""
+    "test": "node --test \"src/lib/*.test.js\" \"src/lib/booking/*.test.js\" \"src/i18n/*.test.js\""
   },
   "dependencies": {
     "@base44/sdk": "^0.8.48",

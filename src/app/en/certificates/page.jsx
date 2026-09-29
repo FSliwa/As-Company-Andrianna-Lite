@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'certificates',
   title: 'Product documentation',
   description:
-    'What documents we provide for PMU products — declarations of conformity, safety data sheets and device documentation.',
+    'What documents we provide for PMU products – declarations of conformity, safety data sheets and device documentation.',
 });
 
 export default function Page() {

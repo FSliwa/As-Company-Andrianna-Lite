@@ -3,19 +3,29 @@
  *
  * Treść dokumentów leży w src/content/legal/<dokument>.<język>.json i używa
  * znaczników {company}, {nip}, {email}… Wartości biorą się WYŁĄCZNIE z site.js
- * (LEGAL, CONTACT, SITE_URL) — niczego tu nie wpisujemy na sztywno. Dopóki
- * brakuje danych rejestrowych, dokumenty są projektem: strony pokazują pas
- * „Projekt dokumentu”, braki jako „[do uzupełnienia: …]” i mają noindex.
+ * (LEGAL, CONTACT, SITE_URL) – niczego tu nie wpisujemy na sztywno.
+ *
+ * Dwa progi publikacji:
+ *  - LEGAL_COMPLETE – wpisane są wszystkie dane, których używają dokumenty (REQUIRED),
+ *  - LEGAL_PUBLISHED – dane są wpisane ORAZ klientka (albo prawnik) zatwierdziła treść
+ *    dokumentów: LEGAL.documentsApproved w site.js (data zatwierdzenia).
+ * Dopóki LEGAL_PUBLISHED = false, dokumenty są projektem (pas „Projekt dokumentu”,
+ * braki jako „[do uzupełnienia: …]”, noindex, brak w sitemap), klauzule pod formularzami
+ * się nie renderują, a formularze i rezerwacja online nie zbierają danych osobowych
+ * (src/lib/enquiry.js, BookingRoute, /api/booking, next.config.mjs).
+ *
+ * Import względny (./site.js), żeby moduł działał też w testach `node --test`
+ * i w next.config.mjs.
  */
 
-import { CONTACT, LEGAL, SITE_URL } from '@/lib/site';
+import { CONTACT, LEGAL, SITE_URL } from './site.js';
 
 export const LEGAL_VALUES = {
   company: LEGAL.company,
   address: LEGAL.address,
   nip: LEGAL.nip,
   register: LEGAL.register,
-  // e-mail w sprawach danych: osobny, a jeśli go nie ma — ogólny adres kontaktowy
+  // e-mail w sprawach danych: osobny, a jeśli go nie ma – ogólny adres kontaktowy
   privacyEmail: LEGAL.privacyEmail || CONTACT.email,
   email: CONTACT.email,
   phone: CONTACT.phone,
@@ -23,11 +33,24 @@ export const LEGAL_VALUES = {
   siteUrl: SITE_URL,
 };
 
-/** Pola, bez których dokument nie może być opublikowany jako obowiązujący. */
-const REQUIRED = ['company', 'address', 'nip', 'register', 'email'];
+/**
+ * Pola, bez których dokument nie może być opublikowany jako obowiązujący – wszystkie
+ * znaczniki używane w treści dokumentów, poza tymi, które mają wartość zawsze
+ * (privacyEmail → zastępczo email, instagram, siteUrl). Pilnuje tego src/lib/legal.test.js.
+ */
+export const REQUIRED = ['company', 'address', 'nip', 'register', 'email', 'phone'];
 
-export const LEGAL_MISSING = REQUIRED.filter((key) => !LEGAL_VALUES[key]);
+/** Brakujące pola dla podanych wartości (domyślnie: dane z site.js). */
+export function missingFields(values = LEGAL_VALUES) {
+  return REQUIRED.filter((key) => !values[key]);
+}
+
+export const LEGAL_MISSING = missingFields();
 export const LEGAL_COMPLETE = LEGAL_MISSING.length === 0;
+/** Treść zatwierdzona przez klientkę/prawnika (data w LEGAL.documentsApproved). */
+export const LEGAL_APPROVED = Boolean(LEGAL.documentsApproved);
+/** Dokumenty obowiązują: dane kompletne i treść zatwierdzona. */
+export const LEGAL_PUBLISHED = LEGAL_COMPLETE && LEGAL_APPROVED;
 
 /** Nazwy pól w oznaczeniu braku. */
 export const FIELD_LABELS = {
@@ -48,8 +71,8 @@ export const FIELD_LABELS = {
     address: 'registered address',
     nip: 'tax ID (NIP)',
     register: 'register entry (KRS/CEIDG)',
-    privacyEmail: 'data protection e-mail',
-    email: 'e-mail address',
+    privacyEmail: 'data protection email',
+    email: 'email address',
     phone: 'phone number',
     instagram: 'Instagram profile',
     siteUrl: 'website address',
@@ -75,15 +98,15 @@ export const FIELD_LABELS = {
  */
 const TOKEN = /\{([a-zA-Z]+)\}(\/[A-Za-z0-9\-_/#?=.]*[A-Za-z0-9\-_/#=])?/g;
 
-export function tokenize(text) {
+export function tokenize(text, values = LEGAL_VALUES) {
   const parts = [];
   let last = 0;
   for (const match of String(text).matchAll(TOKEN)) {
     const [whole, field, path] = match;
     if (match.index > last) parts.push({ text: text.slice(last, match.index) });
     if (field === 'siteUrl' && path) parts.push({ link: path });
-    else if (!(field in LEGAL_VALUES)) parts.push({ text: whole });
-    else if (LEGAL_VALUES[field]) parts.push({ field, value: LEGAL_VALUES[field] });
+    else if (!(field in values)) parts.push({ text: whole });
+    else if (values[field]) parts.push({ field, value: values[field] });
     else parts.push({ field, missing: true });
     if (field !== 'siteUrl' && path) parts.push({ text: path });
     last = match.index + whole.length;

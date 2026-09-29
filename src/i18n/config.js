@@ -1,7 +1,7 @@
 /**
  * Języki serwisu. Polski jest domyślny i bez prefiksu w adresie (/uslugi),
  * angielski i rosyjski to osobne podstrony z prefiksem (/en/treatments, /ru/treatments).
- * Źródłem prawdy dla treści jest wersja polska — tłumaczenia nakładają się na nią
+ * Źródłem prawdy dla treści jest wersja polska – tłumaczenia nakładają się na nią
  * (src/i18n/merge.js), więc brak tłumaczenia pokazuje tekst polski zamiast pustki.
  */
 
@@ -18,8 +18,8 @@ export const isLocale = (value) => LOCALES.includes(value);
 
 /**
  * Języki widoczne publicznie: przełącznik, hreflang, og:locale:alternate, sitemap
- * i indeksowanie. Pozostałe działają pod adresem (/en, /ru — podgląd), ale mają
- * noindex i nikt do nich nie linkuje — do czasu przetłumaczenia treści widoków.
+ * i indeksowanie. Pozostałe działają pod adresem (/en, /ru – podgląd), ale mają
+ * noindex i nikt do nich nie linkuje – do czasu przetłumaczenia treści widoków.
  * Ustawiane przy buildzie: NEXT_PUBLIC_LOCALES="pl,en,ru" (domyślnie tylko pl).
  */
 export const PUBLIC_LOCALES = (() => {

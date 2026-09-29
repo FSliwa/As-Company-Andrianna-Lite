@@ -6,7 +6,7 @@ import { JsonLd, coursesJsonLd, pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   locale: 'en',
   route: 'training',
-  title: 'PMU training — Super Natural Brows',
+  title: 'PMU training – Super Natural Brows',
   description:
     'Super Natural Brows training and the foundation course in permanent makeup at Babushkina Academy: programme, format, net prices and schedule.',
 });

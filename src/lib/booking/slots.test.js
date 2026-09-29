@@ -41,7 +41,7 @@ describe('konfiguracja startowa', () => {
   });
 });
 
-describe('computeSlots — godziny pracy, zabieg + bufor', () => {
+describe('computeSlots – godziny pracy, zabieg + bufor', () => {
   test('120 min + 15 bufor: 10:00…15:30 (15:30+2:15 = 17:45 ≤ 18:00, 16:00 już nie)', () => {
     const slots = computeSlots({ date: '2026-10-26', durationMin: 120, now: NOW, config });
     assert.deepEqual(slots, grid(10 * 60, 15 * 60 + 30));
@@ -70,7 +70,7 @@ describe('computeSlots — godziny pracy, zabieg + bufor', () => {
   });
 });
 
-describe('okno rezerwacji — minLeadHours i maxDaysAhead', () => {
+describe('okno rezerwacji – minLeadHours i maxDaysAhead', () => {
   test('dokładnie teraz + 24 h jest dozwolone (granica włącznie)', () => {
     const slots = computeSlots({ date: '2026-10-20', durationMin: 60, now: NOW, config });
     assert.equal(slots[0], '10:00');
@@ -81,7 +81,7 @@ describe('okno rezerwacji — minLeadHours i maxDaysAhead', () => {
     assert.equal(slots[0], '10:30');
     assert.equal(evaluateSlot({ date: '2026-10-20', time: '10:00', durationMin: 60, now, config }).reason, 'too_soon');
   });
-  test('dziś i jutro przed upływem 24 h — brak slotów', () => {
+  test('dziś i jutro przed upływem 24 h – brak slotów', () => {
     assert.deepEqual(computeSlots({ date: '2026-10-19', durationMin: 60, now: NOW, config }), []);
   });
   test('ostatni dzień = dziś + 60 (18.12.2026, pt), 21.12 już za daleko', () => {
@@ -98,7 +98,7 @@ describe('okno rezerwacji — minLeadHours i maxDaysAhead', () => {
   });
 });
 
-describe('kolizje z zajętością — przedziały półotwarte [start, end) + bufor', () => {
+describe('kolizje z zajętością – przedziały półotwarte [start, end) + bufor', () => {
   // Korekta 60 min, bufor 15: slot 12:00 wymaga wolnego [11:45, 13:15).
   const base = { date: '2026-10-26', time: '12:00', durationMin: 60, now: NOW, config };
   test('zajętość kończąca się dokładnie o 11:45 nie blokuje 12:00', () => {

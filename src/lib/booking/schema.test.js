@@ -95,7 +95,7 @@ describe('bookingSchema', () => {
 
 describe('parseSlotsQuery', () => {
   const q = (s) => parseSlotsQuery(new URLSearchParams(s));
-  test('date albo month — dokładnie jedno', () => {
+  test('date albo month – dokładnie jedno', () => {
     assert.equal(q('date=2026-10-26&treatment=korekta').success, true);
     assert.equal(q('month=2026-10&treatment=korekta').success, true);
     assert.equal(q('treatment=korekta').success, false);

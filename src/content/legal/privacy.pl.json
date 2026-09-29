@@ -2,7 +2,7 @@
   "slug": "polityka-prywatnosci",
   "title": "Polityka prywatności",
   "updated": "2026-09-29",
-  "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce — Polityka cookies ({siteUrl}/polityka-cookies).",
+  "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce – Polityka cookies ({siteUrl}/polityka-cookies).",
   "sections": [
     {
       "id": "w-skrocie",
@@ -49,10 +49,10 @@
           "p": "W serwisie są cztery formularze: kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki oraz zapytanie o pigmenty (lista wybranych odcieni). Żaden z nich nie wysyła danych na nasz serwer. Po kliknięciu przycisku przeglądarka składa z wypełnionych pól gotową wiadomość i otwiera Twój program pocztowy z naszym adresem {email}. Dane trafiają do nas dopiero wtedy, gdy sam wyślesz tę wiadomość. Możesz też napisać do nas na Instagramie, a listę pigmentów skopiować przyciskiem w oknie zamówienia i wkleić do wiadomości. Wiadomość przesyła Twój dostawca poczty albo Instagram, na swoich zasadach."
         },
         {
-          "p": "Zależnie od formularza wiadomość zawiera imię albo imię i nazwisko, telefon i e-mail, a ponadto: w formularzu kontaktowym temat i treść wiadomości; w zapytaniu o szkolenie wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym; w zapytaniu o wynajem nazwę salonu i wybrane urządzenie; w zapytaniu o pigmenty nazwę salonu, listę odcieni z orientacyjną sumą i uwagi. Te same zasady dotyczą danych, które przekażesz nam, pisząc bezpośrednio e-mailem, dzwoniąc lub pisząc na Instagramie."
+          "p": "Zależnie od formularza wiadomość zawiera imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o pigmenty wystarczy telefon albo e-mail), a ponadto: w formularzu kontaktowym temat i treść wiadomości; w zapytaniu o szkolenie wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym; w zapytaniu o wynajem nazwę salonu i wybrane urządzenie; w zapytaniu o pigmenty nazwę salonu, listę odcieni z orientacyjną sumą i uwagi. Te same zasady dotyczą danych, które przekażesz nam, pisząc bezpośrednio e-mailem, dzwoniąc lub pisząc na Instagramie."
         },
         {
-          "p": "Prosimy, nie przesyłaj w wiadomościach informacji o swoim zdrowiu. Omówimy je podczas konsultacji w salonie."
+          "p": "Prosimy, nie przesyłaj w wiadomościach informacji o swoim zdrowiu – omówimy je podczas konsultacji w salonie. Jeśli mimo to je prześlesz, usuniemy je z korespondencji."
         },
         {
           "p": "Cele i podstawy prawne:"
@@ -62,7 +62,7 @@
             "odpowiedź na wiadomość i dalsza korespondencja: nasz prawnie uzasadniony interes, czyli możliwość odpowiadania na kierowane do nas pytania (art. 6 ust. 1 lit. f RODO);",
             "przygotowanie oferty oraz ustalenie terminu szkolenia, wynajmu lub zakupu, gdy o to prosisz: działania na Twoje żądanie przed zawarciem umowy (art. 6 ust. 1 lit. b RODO);",
             "wykonanie umowy, jeśli ją zawrzemy, na przykład udział w szkoleniu, wynajem maszynki lub zakup pigmentów (art. 6 ust. 1 lit. b RODO);",
-            "rozliczenie dofinansowania szkolenia (np. KFS, BUR), jeśli z niego korzystasz: wykonanie umowy (art. 6 ust. 1 lit. b RODO), a gdy obowiązek przekazania lub przechowania danych wynika z przepisów — wypełnienie obowiązku prawnego (art. 6 ust. 1 lit. c RODO);",
+            "rozliczenie dofinansowania szkolenia (np. KFS, BUR), jeśli z niego korzystasz: wykonanie umowy (art. 6 ust. 1 lit. b RODO), a gdy obowiązek przekazania lub przechowania danych wynika z przepisów – wypełnienie obowiązku prawnego (art. 6 ust. 1 lit. c RODO);",
             "rozpatrzenie reklamacji (punkt 12 Regulaminu): obowiązki wynikające z przepisów, w szczególności Kodeksu cywilnego i ustawy o prawach konsumenta (art. 6 ust. 1 lit. c RODO), a w sprawach nieobjętych takim obowiązkiem nasz prawnie uzasadniony interes, czyli rzetelne rozpatrzenie zgłoszenia (art. 6 ust. 1 lit. f RODO);",
             "wystawienie i przechowywanie dokumentów księgowych: obowiązek wynikający z przepisów podatkowych i o rachunkowości (art. 6 ust. 1 lit. c RODO);",
             "ustalenie, dochodzenie lub obrona roszczeń: nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -75,7 +75,7 @@
       "heading": "5. Rezerwacja wizyty online",
       "blocks": [
         {
-          "p": "Na stronie „Umów wizytę” możesz zarezerwować termin zabiegu. Podajesz imię i nazwisko, numer telefonu i adres e-mail, a jeśli chcesz, także krótkie uwagi. Wybierasz zabieg, dzień i godzinę. Każdy zabieg zaczyna się od konsultacji w salonie. Formularz nie pyta o stan zdrowia i prosimy, by nie wpisywać takich informacji w uwagach. Zasady rezerwacji, zmiany i odwołania wizyty opisują punkty 9 i 10 Regulaminu."
+          "p": "Na stronie „Umów wizytę” możesz zarezerwować termin zabiegu. Podajesz imię i nazwisko, numer telefonu i adres e-mail, a jeśli chcesz, także krótkie uwagi. Wybierasz zabieg, dzień i godzinę. Każdy zabieg zaczyna się od konsultacji w salonie. Formularz nie pyta o stan zdrowia i prosimy, by nie wpisywać takich informacji w uwagach. Jeśli mimo to je wpiszesz, usuniemy je z opisu wizyty w kalendarzu i omówimy je w salonie. Zasady rezerwacji, zmiany i odwołania wizyty opisują punkty 9 i 10 Regulaminu."
         },
         {
           "p": "Po wysłaniu formularza nasz serwer zapisuje rezerwację jako wydarzenie w Kalendarzu Google salonu. Tytuł wydarzenia zawiera nazwę zabiegu oraz Twoje imię i nazwisko, a opis: czas trwania i cenę zabiegu z cennika, Twój telefon i e-mail, uwagi oraz numer rezerwacji. Termin wydarzenia to data i godzina wizyty. Serwis nie wysyła zaproszeń z kalendarza ani automatycznych SMS-ów i e-maili. Potwierdzenie widzisz na ekranie i możesz pobrać plik .ics (powstaje w Twojej przeglądarce), żeby dodać wizytę do własnego kalendarza. Jeśli trzeba będzie zmienić termin, skontaktujemy się z Tobą sami, telefonicznie lub e-mailem."
@@ -95,7 +95,7 @@
           ]
         },
         {
-          "p": "Jeśli rezerwujesz wizytę dla innej osoby (punkt 9 Regulaminu), jej imię i nazwisko, telefon i e-mail otrzymujemy od Ciebie. Przetwarzamy je w tych samych celach, na tych samych podstawach i przez ten sam czas co dane z pozostałych rezerwacji. Przekaż tej osobie informacje z tej polityki, zanim podasz nam jej dane. Rezerwacji online może dokonać wyłącznie osoba pełnoletnia i tylko dla osoby pełnoletniej."
+          "p": "Jeśli rezerwujesz wizytę dla innej osoby (punkt 9 Regulaminu), jej imię i nazwisko, telefon i e-mail otrzymujemy od Ciebie. Przetwarzamy je w tych samych celach, na tych samych podstawach i przez ten sam czas co dane z pozostałych rezerwacji. Przekaż tej osobie informacje z tej polityki, zanim podasz nam jej dane. Przy pierwszym kontakcie z nią (najpóźniej w salonie) sami przekażemy jej informację o przetwarzaniu jej danych. Rezerwacji online może dokonać wyłącznie osoba pełnoletnia i tylko dla osoby pełnoletniej."
         },
         {
           "p": "Informacje o zdrowiu, zgodę na zabieg i dokumentację zabiegu zbieramy dopiero w salonie. O zasadach ich przetwarzania poinformujemy Cię na miejscu."
@@ -114,7 +114,7 @@
             "Skróty kontaktu. W ukrytych polach wydarzenia, poza tytułem i opisem, zapisujemy jednokierunkowe skróty kryptograficzne Twojego numeru telefonu i adresu e-mail oraz skrót całej treści zgłoszenia. Bez tajnego klucza, który ma tylko nasz serwer, nie da się z nich odczytać numeru, adresu ani treści. Pozwalają sprawdzić, czy ta sama osoba nie ma już zbyt wielu przyszłych rezerwacji online (limit podaje punkt 9 Regulaminu), oraz rozpoznać ponowne wysłanie tego samego formularza, na przykład po błędzie połączenia, tak aby nie powstał drugi wpis. Skróty nadal są danymi osobowymi (w formie spseudonimizowanej), dlatego chronimy je tak samo jak pozostałe dane i usuwamy razem z rezerwacją.",
             "Limit prób z jednego adresu IP. Serwer liczy, ile razy w krótkim czasie z danego adresu IP wysłano formularz lub sprawdzano terminy (w przypadku adresów IPv6 liczy się sieć, do której adres należy). Licznik działa wyłącznie w pamięci operacyjnej serwera. Adresów IP nie zapisujemy w kalendarzu ani w logach naszej aplikacji (logi hostingu opisujemy w punkcie 7), a licznik znika sam, najpóźniej po ponownym uruchomieniu serwera.",
             "Czas wypełniania i pole-pułapka. Serwer sprawdza, ile czasu minęło od wyświetlenia formularza do jego wysłania, a formularz zawiera niewidoczne pole, które wypełniają tylko automaty. Te zabezpieczenia nie zbierają dodatkowych informacji o Tobie.",
-            "Cloudflare Turnstile, jeśli jest włączony. Na stronie rezerwacji może działać usługa Turnstile firmy Cloudflare, Inc., która odróżnia ludzi od automatów bez przepisywania kodów z obrazków. Strona wczytuje wtedy, zaraz po otwarciu, skrypt z serwera challenges.cloudflare.com, a Cloudflare analizuje techniczne dane o połączeniu, przeglądarce i urządzeniu, w tym adres IP, i może zapisać w przeglądarce pliki cookies lub inne dane techniczne potrzebne do weryfikacji. Nasz serwer przekazuje Cloudflare tylko jednorazowy kod weryfikacji, bez danych z formularza. Turnstile nie działa na innych podstronach."
+            "Cloudflare Turnstile, jeśli jest włączony. Na stronach rezerwacji (/umow-wizyte, /en/book, /ru/book) może działać usługa Turnstile firmy Cloudflare, Inc. (USA), która odróżnia ludzi od automatów bez przepisywania kodów z obrazków. Strona wczytuje wtedy skrypt z serwera challenges.cloudflare.com dopiero, gdy zaczniesz wpisywać swoje dane w formularzu (krok 04) albo go wyślesz. Cloudflare analizuje techniczne dane o połączeniu, przeglądarce i urządzeniu, w tym adres IP, i może zapisać w przeglądarce pliki cookies lub inne dane techniczne potrzebne do weryfikacji. Nasz serwer przekazuje Cloudflare tylko jednorazowy kod weryfikacji, bez danych z formularza. Przy samej weryfikacji Cloudflare działa w naszym imieniu jako podmiot przetwarzający. Część tych danych (tzw. sygnały) wykorzystuje też do ulepszania usługi Turnstile – w tym zakresie jest odrębnym administratorem i stosuje własne zasady: www.cloudflare.com/turnstile-privacy-policy. Turnstile nie działa na innych podstronach."
           ]
         },
         {
@@ -133,7 +133,7 @@
           "p": "Logi wykorzystujemy wyłącznie do zapewnienia działania i bezpieczeństwa serwisu, w tym ochrony przed atakami, oraz do wyjaśniania błędów. Nie tworzymy z nich statystyk odwiedzin i nie łączymy ich z innymi danymi. Podstawą jest nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
         },
         {
-          "p": "Czcionki są przechowywane na naszym serwerze, a na stronie nie ma treści osadzonych z innych serwisów, takich jak filmy, mapy czy posty z Instagrama. Samo przeglądanie strony nie przekazuje więc Twojego adresu IP innym firmom. Jedynym wyjątkiem jest Cloudflare na stronie rezerwacji, jeśli włączymy Turnstile."
+          "p": "Czcionki są przechowywane na naszym serwerze, a na stronie nie ma treści osadzonych z innych serwisów, takich jak filmy, mapy czy posty z Instagrama. Samo przeglądanie strony nie przekazuje więc Twojego adresu IP innym firmom poza dostawcą hostingu (Vercel). Wyjątkiem jest Cloudflare na stronach rezerwacji (punkt 6), jeśli włączymy Turnstile."
         }
       ]
     },
@@ -163,7 +163,7 @@
           ]
         },
         {
-          "p": "Te informacje zostają na Twoim urządzeniu i nie są do nas przesyłane. Jeżeli na stronie rezerwacji działa Cloudflare Turnstile, może on zapisać w przeglądarce pliki cookies lub inne dane techniczne (punkt 6). Szczegóły, w tym sposób usunięcia tych informacji, znajdziesz w Polityce cookies ({siteUrl}/polityka-cookies)."
+          "p": "Te informacje zostają na Twoim urządzeniu i nie są do nas przesyłane. Jeżeli na stronach rezerwacji działa Cloudflare Turnstile, może on zapisać w przeglądarce pliki cookies lub inne dane techniczne (punkt 6). Szczegóły, w tym sposób usunięcia tych informacji, znajdziesz w Polityce cookies ({siteUrl}/polityka-cookies)."
         }
       ]
     },
@@ -179,12 +179,12 @@
             "Vercel Inc. (USA): hosting serwisu i obsługa formularza rezerwacji;",
             "Google Ireland Limited i Google LLC (USA): Kalendarz Google, w którym zapisujemy rezerwacje;",
             "dostawca naszej poczty elektronicznej: przechowywanie korespondencji wysłanej na adres {email};",
-            "Cloudflare, Inc. (USA): ochrona formularza rezerwacji (Turnstile), tylko jeśli jest włączona;",
+            "Cloudflare, Inc. (USA): weryfikacja w formularzu rezerwacji (Turnstile), tylko jeśli jest włączona; w zakresie ulepszania usługi Turnstile Cloudflare jest odrębnym administratorem (punkt 6);",
             "biuro rachunkowe: dokumenty księgowe, jeśli zawrzemy umowę."
           ]
         },
         {
-          "p": "Jeżeli korzystasz z dofinansowania szkolenia (np. KFS, BUR, RIS), przekażemy instytucji lub operatorowi programu dane wymagane jego zasadami. Dane możemy też udostępnić organom publicznym, gdy wymaga tego prawo. Nie sprzedajemy danych i nie przekazujemy ich nikomu w celach marketingowych."
+          "p": "Jeżeli korzystasz z dofinansowania szkolenia (np. ze środków KFS albo w ramach usług z Bazy Usług Rozwojowych), przekażemy instytucji lub operatorowi programu dane wymagane jego zasadami. Dane możemy też udostępnić organom publicznym, gdy wymaga tego prawo. Nie sprzedajemy danych i nie przekazujemy ich nikomu w celach marketingowych."
         }
       ]
     },
@@ -193,7 +193,7 @@
       "heading": "11. Przekazywanie danych poza Europejski Obszar Gospodarczy",
       "blocks": [
         {
-          "p": "Vercel, Google i Cloudflare to firmy z USA lub należące do grup z USA, dlatego Twoje dane mogą być przetwarzane w Stanach Zjednoczonych. Podstawą przekazania jest decyzja Komisji Europejskiej z 10 lipca 2023 r. stwierdzająca odpowiedni stopień ochrony danych w ramach programu EU-U.S. Data Privacy Framework (art. 45 RODO), w odniesieniu do firm certyfikowanych w tym programie. Dodatkowym zabezpieczeniem są standardowe klauzule umowne przyjęte przez Komisję Europejską (art. 46 ust. 2 lit. c RODO), zawarte w umowach powierzenia tych dostawców. Kopię zabezpieczeń możesz otrzymać, pisząc na adres {privacyEmail}."
+          "p": "Vercel, Google i Cloudflare to firmy z USA lub należące do grup z USA, dlatego Twoje dane mogą być przetwarzane w Stanach Zjednoczonych. Podstawą przekazania jest decyzja Komisji Europejskiej z 10 lipca 2023 r. stwierdzająca odpowiedni stopień ochrony danych w ramach programu EU-U.S. Data Privacy Framework (art. 45 RODO), w odniesieniu do firm certyfikowanych w tym programie. Dodatkowym zabezpieczeniem są standardowe klauzule umowne przyjęte przez Komisję Europejską (art. 46 ust. 2 lit. c RODO), zawarte w umowach powierzenia tych dostawców. Kopię zabezpieczeń możesz otrzymać, pisząc na adres {privacyEmail}. Dane, które Cloudflare przetwarza jako odrębny administrator (punkt 6), przekazuje na zasadach opisanych w swojej polityce."
         }
       ]
     },
@@ -233,8 +233,14 @@
             "usunięcia danych (art. 17 RODO);",
             "ograniczenia przetwarzania (art. 18 RODO);",
             "przeniesienia danych przetwarzanych w sposób zautomatyzowany w celu zawarcia lub wykonania umowy, na przykład danych z rezerwacji online (art. 20 RODO);",
-            "sprzeciwu wobec przetwarzania opartego na naszym prawnie uzasadnionym interesie, z przyczyn związanych z Twoją szczególną sytuacją (art. 21 RODO)."
+            "sprzeciwu wobec przetwarzania opartego na naszym prawnie uzasadnionym interesie (art. 21 RODO) – opisujemy je osobno poniżej."
           ]
+        },
+        {
+          "h3": "Prawo sprzeciwu"
+        },
+        {
+          "p": "W każdej chwili możesz wnieść sprzeciw wobec przetwarzania Twoich danych na podstawie naszego prawnie uzasadnionego interesu (art. 6 ust. 1 lit. f RODO), z przyczyn związanych z Twoją szczególną sytuacją (art. 21 ust. 1 RODO). Dotyczy to przetwarzania opisanego w punktach 4–7 i 13, na przykład korespondencji, ochrony formularza rezerwacji, odnotowywania nieodwołanych nieobecności i logów serwera. Po sprzeciwie przestaniemy przetwarzać dane w tym celu, chyba że wykażemy ważne, prawnie uzasadnione podstawy nadrzędne wobec Twoich interesów, praw i wolności albo dane są nam potrzebne do ustalenia, dochodzenia lub obrony roszczeń. Sprzeciw wyślij na adres {privacyEmail}."
         },
         {
           "p": "W serwisie nie opieramy przetwarzania danych na Twojej zgodzie, więc nie ma zgody do wycofania. Jeśli w przyszłości o nią poprosimy, będzie można ją wycofać w każdej chwili, bez wpływu na zgodność z prawem przetwarzania przed jej wycofaniem."
@@ -258,7 +264,7 @@
     },
     {
       "id": "dobrowolnosc",
-      "heading": "15. Czy musisz podać dane",
+      "heading": "15. Czy musisz podać dane?",
       "blocks": [
         {
           "p": "Podanie danych jest dobrowolne, ale bez niektórych z nich nie spełnimy Twojej prośby:"
@@ -292,7 +298,7 @@
           "p": "Aktualizujemy politykę, gdy zmienia się sposób działania serwisu, na przykład gdy dodajemy nowe narzędzie, albo gdy zmieniają się przepisy. Aktualna wersja jest zawsze dostępna pod tym adresem, a na jej początku podajemy datę ostatniej zmiany. O istotnych zmianach poinformujemy dodatkowo na stronie."
         },
         {
-          "p": "Polityka dotyczy całego serwisu, także podstron w języku angielskim i rosyjskim. Jeżeli udostępnimy jej tłumaczenia, w razie rozbieżności rozstrzyga wersja polska."
+          "p": "Polityka dotyczy całego serwisu, także podstron w języku angielskim i rosyjskim. Udostępniamy jej tłumaczenia na język angielski i rosyjski; w razie rozbieżności rozstrzyga wersja polska."
         }
       ]
     }
@@ -329,7 +335,7 @@
       "why": "RODO wymaga podania okresu albo kryteriów jego ustalenia; samo „do przedawnienia” bez liczb jest dla czytelnika mało zrozumiałe. Dokumenty księgowe mają osobny, dłuższy okres z przepisów podatkowych."
     },
     {
-      "what": "Dokumentacja szkoleń z dofinansowaniem (KFS, BUR, RIS)",
+      "what": "Dokumentacja szkoleń z dofinansowaniem (KFS, BUR)",
       "proposal": "Sprawdzić w umowach z operatorem lub urzędem, jak długo trzeba przechowywać listy obecności, ankiety i dane uczestników, i wpisać ten okres w pkt 12 zamiast ogólnego odesłania do zasad programu. Ustalić, czy obowiązek wynika z przepisów (art. 6 ust. 1 lit. c RODO), czy tylko z umowy.",
       "why": "Programy finansowane ze środków publicznych często wymagają przechowywania dokumentacji przez kilka lat po rozliczeniu. Okres zależy od konkretnego programu i nie da się go ustalić bez dokumentów klientki."
     },
@@ -345,7 +351,7 @@
     },
     {
       "what": "Hosting Vercel: plan, umowa powierzenia, region",
-      "proposal": "Używać planu Pro, który obejmuje użytek komercyjny i Data Processing Addendum Vercela. Funkcje serwerowe (API rezerwacji) ustawić w regionie UE, np. fra1 (Frankfurt) — vercel.json nie ustawia dziś regionu, więc funkcje działałyby w domyślnym regionie w USA. Jeśli serwis trafi na innego dostawcę hostingu, zmienić pkt 7, 10 i 11.",
+      "proposal": "Używać planu Pro, który obejmuje użytek komercyjny i Data Processing Addendum Vercela. Funkcje serwerowe (API rezerwacji) ustawić w regionie UE, np. fra1 (Frankfurt) – vercel.json nie ustawia dziś regionu, więc funkcje działałyby w domyślnym regionie w USA. Jeśli serwis trafi na innego dostawcę hostingu, zmienić pkt 7, 10 i 11.",
       "why": "Plan Hobby jest przeznaczony wyłącznie do użytku niekomercyjnego. Region w UE ogranicza przekazywanie danych z formularza rezerwacji do USA, choć sieć brzegowa i logi Vercela nadal mogą obejmować USA. Hosting jest dziś planowany, a nie potwierdzony."
     },
     {
@@ -360,8 +366,8 @@
     },
     {
       "what": "Cloudflare Turnstile",
-      "proposal": "Włączać tylko w razie spamu w rezerwacjach (spójnie z Polityką cookies). Jeśli na stałe pozostanie wyłączony, usunąć wzmianki o Cloudflare z punktów 6, 7, 9, 10 i 11 oraz z Polityki cookies i Regulaminu. Po włączeniu zaakceptować warunki przetwarzania danych Cloudflare dla Turnstile i sprawdzić, czy Cloudflare działa w nich wyłącznie jako podmiot przetwarzający; jeśli w części (np. doskonalenie wykrywania botów) działa jako odrębny administrator, dopisać to w punktach 6 i 10.",
-      "why": "Polityka ma opisywać to, co serwis robi naprawdę. Turnstile to jedyne miejsce, w którym przeglądarka odwiedzającego łączy się z zewnętrzną firmą, a rola Cloudflare wynika z jego aktualnych warunków, których nie da się ustalić z kodu."
+      "proposal": "Włączać tylko w razie spamu w rezerwacjach (spójnie z Polityką cookies). Jeśli na stałe pozostanie wyłączony, usunąć wzmianki o Cloudflare z punktów 6, 7, 9, 10 i 11 oraz z Polityki cookies i Regulaminu. Po włączeniu zaakceptować warunki przetwarzania danych Cloudflare dla Turnstile. Polityka opisuje już Cloudflare jako podmiot przetwarzający przy weryfikacji i jako odrębnego administratora przy ulepszaniu Turnstile (punkty 6, 10 i 11), a skrypt ładuje się dopiero, gdy ktoś zaczyna wypełniać dane w formularzu rezerwacji; klauzula pod przyciskiem rezerwacji dopisuje wtedy zdanie o Turnstile z linkiem do Polityki cookies.",
+      "why": "Polityka ma opisywać to, co serwis robi naprawdę. Turnstile to jedyne miejsce, w którym przeglądarka odwiedzającego łączy się z zewnętrzną firmą. Według Turnstile Privacy Addendum (www.cloudflare.com/turnstile-privacy-policy) Cloudflare działa w imieniu właściciela strony tylko przy samej weryfikacji, a sygnały wykorzystywane do ulepszania Turnstile przetwarza jako administrator – przed włączeniem trzeba sprawdzić, czy te warunki się nie zmieniły."
     },
     {
       "what": "Weryfikacja Data Privacy Framework",
@@ -369,7 +375,7 @@
       "why": "Punkt 11 powołuje się na DPF w odniesieniu do firm certyfikowanych. Status certyfikacji może się zmienić."
     },
     {
-      "what": "Dofinansowanie szkoleń (KFS, BUR, RIS): odbiorcy",
+      "what": "Dofinansowanie szkoleń (KFS, BUR): odbiorcy",
       "proposal": "Potwierdzić, z których programów akademia faktycznie korzysta i komu przekazuje dane uczestników (np. operator BUR, powiatowy urząd pracy przez pracodawcę, operator regionalny). W razie potrzeby wpisać nazwy instytucji w punkcie 10.",
       "why": "Przekazanie danych instytucji finansującej to odrębna kategoria odbiorców. Skróty programów pochodzą z briefu klientki i nie zostały zweryfikowane."
     },
@@ -385,8 +391,8 @@
     },
     {
       "what": "Wersje językowe polityki",
-      "proposal": "Przetłumaczyć politykę na angielski i rosyjski i podlinkować z podstron /en i /ru. Wersja polska jest wiążąca.",
-      "why": "Art. 12 RODO wymaga informacji w zrozumiałej formie. Osoba korzystająca z rosyjskiej wersji strony może nie zrozumieć polskiego dokumentu."
+      "proposal": "Tłumaczenia EN i RU są opublikowane (/en/privacy-policy, /ru/privacy-policy) i podlinkowane ze stopki; w razie rozbieżności rozstrzyga wersja polska. Każdą zmianę wersji polskiej wprowadzać jednocześnie w tłumaczeniach, z tą samą datą aktualizacji.",
+      "why": "Art. 12 RODO wymaga informacji w zrozumiałej formie, a osoba korzystająca z rosyjskiej lub angielskiej wersji strony może nie zrozumieć polskiego dokumentu. Nieaktualne tłumaczenie byłoby informacją niezgodną z prawdą."
     }
   ]
 }

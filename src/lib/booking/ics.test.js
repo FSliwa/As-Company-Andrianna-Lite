@@ -26,7 +26,7 @@ describe('ics', () => {
       uid: 'abc@example.com',
       start: '2026-10-26T10:00:00+01:00',
       end: '2026-10-26T12:00:00+01:00',
-      summary: 'Perfect Lips — AS COMPANY',
+      summary: 'Perfect Lips – AS COMPANY',
       location: 'Babushkina Academy, Warszawa',
       now: Date.parse('2026-10-19T08:00:00Z'),
     });
@@ -44,7 +44,7 @@ describe('ics', () => {
       { bookingId: 'b-1', treatment: 'perfect-lips', start: '2026-10-26T10:00:00+01:00', end: '2026-10-26T12:00:00+01:00' },
       { now: Date.parse('2026-10-19T08:00:00Z') }
     );
-    assert.match(ics, /SUMMARY:Perfect Lips — AS COMPANY/);
+    assert.match(ics, /SUMMARY:Perfect Lips – AS COMPANY/);
     assert.match(ics, /UID:b-1@/);
     assert.ok(!/Telefon|E-mail/.test(ics));
   });

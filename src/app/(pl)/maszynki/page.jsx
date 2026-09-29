@@ -5,7 +5,7 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Maszynki PMU AS HERO i AS PRINCESS',
   description:
-    'Maszynki do makijażu permanentnego AS HERO i AS PRINCESS — modele, parametry, zakup w sklepie AS i wynajem dla salonów.',
+    'Maszynki do makijażu permanentnego AS HERO i AS PRINCESS – modele, parametry, zakup w sklepie AS i wynajem dla salonów.',
   path: '/maszynki',
 });
 

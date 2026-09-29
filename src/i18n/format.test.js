@@ -26,7 +26,7 @@ function collectPrices(value, path = '', out = []) {
 
 const SITE_PRICES = Object.entries(SITE).flatMap(([key, value]) => collectPrices(value, key));
 
-/* Zapisy cen spoza site.js — budowane w widokach i w src/lib (pigmenty, maszynki, rezerwacja). */
+/* Zapisy cen spoza site.js – budowane w widokach i w src/lib (pigmenty, maszynki, rezerwacja). */
 const VIEW_PRICES = [
   `369${NBSP}zł${NBSP}/${NBSP}mc`, // Machines: RENTAL_PRICE
   `2${NBSP}999${NBSP}zł`, // Machines: zl(2999)
@@ -46,11 +46,11 @@ test('site.js ma ceny do sprawdzenia', () => {
 });
 
 for (const locale of ['en', 'ru']) {
-  test(`${locale}: każda cena z site.js i widoków — te same cyfry, PLN, bez „zł”`, () => {
+  test(`${locale}: każda cena z site.js i widoków – te same cyfry, PLN, bez „zł”`, () => {
     for (const [where, pl] of [...SITE_PRICES, ...VIEW_PRICES.map((p) => ['widok', p])]) {
       const out = localizePriceString(pl, locale);
       assert.notEqual(out, pl, `${where}: „${pl}” nie został rozpoznany`);
-      assert.equal(digits(out), digits(pl), `${where}: „${pl}” → „${out}” — zmieniły się cyfry`);
+      assert.equal(digits(out), digits(pl), `${where}: „${pl}” → „${out}” – zmieniły się cyfry`);
       assert.ok(out.includes('PLN') && !out.includes('zł'), `${where}: „${out}”`);
     }
   });
@@ -87,7 +87,7 @@ test('twarde spacje z oryginału zostają twarde', () => {
   assert.equal(localizePriceString(`369${NBSP}zł${NBSP}/${NBSP}mc`, 'en'), `369${NBSP}PLN${NBSP}/${NBSP}month`);
 });
 
-test('polski, liczba bez waluty i nieznany zapis — bez zmian', () => {
+test('polski, liczba bez waluty i nieznany zapis – bez zmian', () => {
   assert.equal(localizePriceString('1700 zł', 'pl'), '1700 zł');
   assert.equal(localizePriceString('10', 'en'), '10');
   assert.equal(localizePriceString(null, 'en'), null);

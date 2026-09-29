@@ -16,7 +16,7 @@ export function Step({ id, number, title, caption, error, aside, disabled = fals
     <div id={id} className={cn('relative scroll-mt-28 border-t border-ink/15 pt-6 lg:scroll-mt-32', className)}>
       <fieldset disabled={disabled} aria-describedby={describedBy} className="min-w-0">
         <legend className={cn('w-full p-0', aside && 'pr-28')}>
-          {/* Skrypt przenosi tu fokus (Enter w poprzednim kroku, błąd z API) — wskaźnik musi być widoczny. */}
+          {/* Skrypt przenosi tu fokus (Enter w poprzednim kroku, błąd z API) – wskaźnik musi być widoczny. */}
           <h2 id={`${id}-title`} tabIndex={-1} className="flex items-baseline gap-3 focus-visible:outline-ink">
             <span className="as-num">{number}</span>
             <span className="as-numbered-title text-ink">{title}</span>

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * /o-nas — „Numer 01".
+ * /o-nas – „Numer 01".
  *
  * Rozkładówki: okładka (studio-11) → Droga zawodowa na espresso (jeden portret
  * studio-08 + biografia z inicjałem) → Liczby (cream-50) → Cytat (cream-100)
@@ -26,37 +26,37 @@ import {
 import { ACHIEVEMENTS, BOOKING_URL, BRAND, FOUNDER } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
 
-/* Wyróżnienia w biografii — marka pisze lekko, więc tylko font-medium. */
+/* Wyróżnienia w biografii – marka pisze lekko, więc tylko font-medium. */
 const Em = ({ children }) => <strong className="font-medium text-cream-50">{children}</strong>;
 
-/* Tytuły zdobyte na Mistrzostwach Świata — treść z dotychczasowej strony. */
+/* Tytuły zdobyte na Mistrzostwach Świata – treść z dotychczasowej strony. */
 const TITLES = [
   { category: 'Włos maszynowy', result: '1. i 2. miejsce' },
   { category: 'Brwi pudrowe', result: '2 × 1. miejsce' },
   { category: 'Usta', result: '1. miejsce' },
 ];
 
-/* Metoda — trzy kroki, które poprzedzają każdy zabieg (treść z serwisu). */
+/* Metoda – trzy kroki, które poprzedzają każdy zabieg (treść z serwisu). */
 const METHOD = [
   {
     number: '01',
     title: 'Konsultacja',
-    desc: 'Zaczynamy od rozmowy — każda osoba jest tu profesjonalnie zaopiekowana i wysłuchana przez specjalistę.',
+    desc: 'Zaczynamy od rozmowy – każda osoba jest tu profesjonalnie zaopiekowana i wysłuchana przez specjalistę.',
   },
   {
     number: '02',
     title: 'Architektura twarzy',
-    desc: 'Kształt dobieramy do rysów twarzy, a kolory do natury — podkreślamy indywidualną urodę, bez konturów i wyraźnych odcieni.',
+    desc: 'Kształt dobieramy do rysów twarzy, a kolory do natury – podkreślamy indywidualną urodę, bez konturów i wyraźnych odcieni.',
   },
   {
     number: '03',
     title: 'Rysunek wstępny',
-    desc: 'Dopasowany do architektury twarzy. Przy sprawdzaniu wprowadzamy zmiany według Twoich uwag i życzeń — dopiero potem sięgamy po maszynkę.',
+    desc: 'Dopasowany do architektury twarzy. Przy sprawdzaniu wprowadzamy zmiany według Twoich uwag i życzeń – dopiero potem sięgamy po maszynkę.',
   },
 ];
 
 /* ================================================================== */
-/*  01 — OKŁADKA                                                       */
+/*  01 – OKŁADKA                                                       */
 /* ================================================================== */
 
 function Hero() {
@@ -69,9 +69,9 @@ function Hero() {
       lead={`Linergistka, trenerka, prelegentka oraz sędzia w dziedzinie makijażu permanentnego na poziomie międzynarodowym. ${FOUNDER.signature}.`}
       image={ROLES.heroAbout.image}
       imagePosition={ROLES.heroAbout.position}
-      imageAlt={`${FOUNDER.name} — sesja wizerunkowa założycielki ${BRAND.name}`}
+      imageAlt={`${FOUNDER.name} – sesja wizerunkowa założycielki ${BRAND.name}`}
       tone="cream"
-      /* ≤ 343 px @375 — dłuższy pasek rozpycha kolumnę hero (PageHero bez min-w-0) i ucina H1 */
+      /* ≤ 343 px @375 – dłuższy pasek rozpycha kolumnę hero (PageHero bez min-w-0) i ucina H1 */
       facts={['Linergistka', 'Trenerka', 'Sędzia']}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -87,9 +87,9 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — DROGA ZAWODOWA (espresso)                                     */
+/*  02 – DROGA ZAWODOWA (espresso)                                     */
 /*  Jeden portret 4:5 po lewej (przyklejony przy przewijaniu), po      */
-/*  prawej etykieta, H2 i biografia z inicjałem — jedyny taki detal    */
+/*  prawej etykieta, H2 i biografia z inicjałem – jedyny taki detal    */
 /*  w serwisie. Na telefonie: etykieta → H2 → portret → tekst.         */
 /* ================================================================== */
 
@@ -118,7 +118,7 @@ function StoryBand() {
                 <div className="as-photo-frame">
                   <Figure
                     image={ROLES.storyAbout.image}
-                    alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
+                    alt={`${FOUNDER.name} – portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
                     ratio="4 / 5"
                     position={ROLES.storyAbout.position}
                     tone="dark"
@@ -140,15 +140,15 @@ function StoryBand() {
                 <Em>usta (1. miejsce)</Em>.
               </p>
               <p>
-                Wykonała tysiące pigmentacji i przeszkoliła setki kursantek z różnych technik —
+                Wykonała tysiące pigmentacji i przeszkoliła setki kursantek z różnych technik –
                 w samym ostatnim roku ponad{' '}
                 <Em>100 kursantek z techniki włosa maszynowego</Em>.
               </p>
               <p>
                 Tworzy szybkie, naturalne techniki makijażu permanentnego brwi i ust. Jest autorką
-                techniki <Em>Super Natural Brows</Em> — włosa maszynowego bez kompromisów między
+                techniki <Em>Super Natural Brows</Em> – włosa maszynowego bez kompromisów między
                 jakością a szybkością. Jej kursantki wykonują pigmentację w{' '}
-                <span className="whitespace-nowrap">2–2,5 godziny</span>, ona sama — w{' '}
+                <span className="whitespace-nowrap">2–2,5 godziny</span>, ona sama – w{' '}
                 <Em>
                   <span className="whitespace-nowrap">1,5–2 godziny</span>
                 </Em>
@@ -156,13 +156,13 @@ function StoryBand() {
                 dla skóry.
               </p>
               <p>
-                Przez <Em>7 lat prowadziła salon w Katowicach</Em> — na zabieg czekało się tam
+                Przez <Em>7 lat prowadziła salon w Katowicach</Em> – na zabieg czekało się tam
                 ponad pół roku.
               </p>
               <p>
                 <Em>Od 3 lat prowadzi salon i akademię makijażu permanentnego w Warszawie</Em>,
                 szkoląc osoby z różnych zakątków Polski i świata. Jest zapraszana za granicę na
-                pokazy, masterclassy i kursy — jej zagraniczna baza kursantek liczy już ponad
+                pokazy, masterclassy i kursy – jej zagraniczna baza kursantek liczy już ponad
                 50 osób. Na branżowych wydarzeniach{' '}
                 <Em>występuje na scenie jako prelegentka</Em>.
               </p>
@@ -175,7 +175,7 @@ function StoryBand() {
 }
 
 /* ================================================================== */
-/*  03 — LICZBY (cream-50)                                             */
+/*  03 – LICZBY (cream-50)                                             */
 /* ================================================================== */
 
 function NumbersBand() {
@@ -195,14 +195,14 @@ function NumbersBand() {
             <Reveal delay={80}>
               <p className="as-body mt-6 max-w-[26rem]">
                 Międzynarodowe podium, setki przeszkolonych kursantek i dziesięć lat prowadzenia
-                salonów — w Katowicach, a od trzech lat w Warszawie.
+                salonów – w Katowicach, a od trzech lat w Warszawie.
               </p>
             </Reveal>
           </div>
 
           {/* kategorie mistrzowskie jako wiersze cennikowe: kategoria | leader | miejsce */}
           <Reveal delay={80} className="lg:col-span-6 lg:col-start-7 lg:pt-10">
-            <h3 className="as-kicker">Kategorie mistrzowskie — Mistrzostwa Świata</h3>
+            <h3 className="as-kicker">Kategorie mistrzowskie – Mistrzostwa Świata</h3>
             <div className="mt-5">
               {TITLES.map((t) => (
                 <PriceRow key={t.category} name={t.category} price={t.result} />
@@ -224,7 +224,7 @@ function NumbersBand() {
 }
 
 /* ================================================================== */
-/*  04 — CYTAT (cream-100) — jedyny wyśrodkowany blok na stronie       */
+/*  04 – CYTAT (cream-100) – jedyny wyśrodkowany blok na stronie       */
 /* ================================================================== */
 
 function QuoteBand() {
@@ -235,7 +235,7 @@ function QuoteBand() {
           <SectionLabel number="04" line={false} className="justify-center">
             Filozofia
           </SectionLabel>
-          {/* podpis w figcaption, nie w znaczniku footer — ten chowa mobilny pasek CTA */}
+          {/* podpis w figcaption, nie w znaczniku footer – ten chowa mobilny pasek CTA */}
           <figure className="mt-8">
             <blockquote>
               <p className="as-pullquote as-text-balance text-ink">
@@ -253,7 +253,7 @@ function QuoteBand() {
 }
 
 /* ================================================================== */
-/*  05 — METODA (cream-50) — typograficznie, bez zdjęć; link /uslugi   */
+/*  05 – METODA (cream-50) – typograficznie, bez zdjęć; link /uslugi   */
 /* ================================================================== */
 
 function MethodBand() {
@@ -275,7 +275,7 @@ function MethodBand() {
             <p className="as-body">
               Akademia i salon makijażu permanentnego „{BRAND.academy}” w Warszawie. Stawiamy na
               sztukę piękna polegającą na naturalności, subtelności i podkreśleniu indywidualnej
-              urody każdej klientki — uzupełniamy niedoskonałości wynikające z natury lub przeżytych
+              urody każdej klientki – uzupełniamy niedoskonałości wynikające z natury lub przeżytych
               chorób. Charytatywnie opiekujemy się osobami, które straciły włoski w wyniku chorób
               onkologicznych.
             </p>
@@ -285,7 +285,7 @@ function MethodBand() {
           </Reveal>
         </div>
 
-        {/* trzy kroki przed każdym zabiegiem — komórki z hairline, bez zdjęć */}
+        {/* trzy kroki przed każdym zabiegiem – komórki z hairline, bez zdjęć */}
         <div className="mt-12 grid gap-8 md:grid-cols-3 lg:mt-16">
           {METHOD.map((m, i) => (
             <Reveal key={m.number} delay={i * 60} className="as-cell">
@@ -301,7 +301,7 @@ function MethodBand() {
 }
 
 /* ================================================================== */
-/*  06 — ZAPROSZENIE (ClosingCta, bez zdjęć)                           */
+/*  06 – ZAPROSZENIE (ClosingCta, bez zdjęć)                           */
 /* ================================================================== */
 
 function ClosingBand() {

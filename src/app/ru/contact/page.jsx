@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'contact',
   title: 'Контакты',
   description:
-    'Babushkina Academy, Варшава — запишитесь на перманентный макияж или узнайте даты обучения ПМ.',
+    'Babushkina Academy, Варшава – запишитесь на перманентный макияж или узнайте даты обучения ПМ.',
 });
 
 export default function Page() {

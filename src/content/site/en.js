@@ -1,10 +1,10 @@
 /**
- * Angielskie teksty danych z src/lib/site.js — TYLKO teksty, w tej samej strukturze
+ * Angielskie teksty danych z src/lib/site.js – TYLKO teksty, w tej samej strukturze
  * (listy po indeksie; `undefined` / pusta pozycja = zostaje wartość polska).
- * Ceny, liczby, id i href zostają w site.js i NIE są tu powtarzane — pola `price`
+ * Ceny, liczby, id i href zostają w site.js i NIE są tu powtarzane – pola `price`
  * zamienia automatycznie localizePriceString (src/i18n/format.js) w getSite().
  * Nazwy własne (techniki, produkty, Babushkina Academy) bez tłumaczenia.
- * Wiersze harmonogramu: [, 'tekst'] — pierwsza pozycja (godzina) zostaje z site.js.
+ * Wiersze harmonogramu: [, 'tekst'] – pierwsza pozycja (godzina) zostaje z site.js.
  */
 const site = {
   BRAND: {
@@ -38,7 +38,7 @@ const site = {
     { label: 'First and second places at the World Championships' },
     { label: 'Students trained in hair strokes in the past year' },
     { label: 'Students in our international network' },
-    { value: '10 years', label: 'Running studios — Katowice and Warsaw' },
+    { value: '10 years', label: 'Running studios – Katowice and Warsaw' },
   ],
   PRICING_PMU: {
     title: 'PMU price list',
@@ -80,7 +80,7 @@ const site = {
       kicker: 'Machine hair strokes',
       priceNote: 'net',
       format: '14 days online + 2 days in person',
-      lead: 'The most demanding, modern and exclusive technique — one that will bring many clients looking for a premium-standard service to your studio.',
+      lead: 'The most demanding, modern and exclusive technique – one that will bring many clients looking for a premium-standard service to your studio.',
       program: [
         {
           label: '14 days of online preparation',
@@ -95,7 +95,7 @@ const site = {
       ],
     },
     {
-      title: 'Super Natural Brows — Foundation course',
+      title: 'Super Natural Brows – Foundation course',
       kicker: 'From zero to your first clients',
       priceNote: 'net',
       format: '16 days online + 4 days in person',
@@ -119,11 +119,11 @@ const site = {
     },
   ],
   COURSE_BENEFITS: [
-    'A learning system anyone can follow — you don’t need to know how to paint to learn my technique',
+    'A learning system anyone can follow – you don’t need to know how to paint to learn my technique',
     'Learning to take attractive photos, and marketing',
     'Treatment pricing and its effect on clients',
     'Improving your hand position and a beautiful powder movement',
-    'The chance to keep developing at the “Lami effect” Master Class and Workshops — open only to my students',
+    'The chance to keep developing at the “Lami effect” Master Class and Workshops – open only to my students',
     'Lifetime guidance and a support group',
     'The option to buy essential PMU products on site and to test the AS Princess machine',
     'Lunch, drinks and snacks included',
