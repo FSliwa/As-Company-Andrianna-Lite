@@ -32,7 +32,7 @@ export function SectionLabel({ number, children, tone = 'dark', className }) {
       {number && (
         <span className={cn('as-label', isLight ? 'text-cream-200/40' : 'text-ink/30')}>/</span>
       )}
-      <span className={cn('as-label', isLight ? 'text-cream-100' : 'text-ink/75')}>{children}</span>
+      <span className={cn('as-label', isLight ? 'text-cream-100/85' : 'text-ink/70')}>{children}</span>
       <span
         className={cn(
           'hidden h-px w-16 sm:block lg:w-28',
@@ -254,7 +254,7 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
 
     const isNear = () => {
       const r = el.getBoundingClientRect();
-      return r.top < window.innerHeight * 1.05 && r.bottom > -window.innerHeight * 0.25;
+      return r.top < window.innerHeight * 1.3 && r.bottom > -window.innerHeight * 0.25;
     };
 
     // Element jest już w kadrze — zostaw widoczny, nie ma czego animować.
@@ -272,7 +272,7 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
       ([entry]) => {
         if (entry.isIntersecting) reveal();
       },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.01 }
+      { rootMargin: '0px 0px 5% 0px', threshold: 0.01 }
     );
     io.observe(el);
 
@@ -293,8 +293,8 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
     <Tag
       ref={ref}
       className={cn(
-        'transition-[opacity,transform] duration-900 ease-as motion-reduce:transition-none',
-        hidden ? 'translate-y-6 opacity-0' : 'translate-y-0 opacity-100',
+        'transition-[opacity,transform] duration-500 ease-as motion-reduce:transition-none',
+        hidden ? 'translate-y-3 opacity-0' : 'translate-y-0 opacity-100',
         className
       )}
       style={{ transitionDelay: hidden ? '0ms' : `${delay}ms` }}
@@ -319,65 +319,86 @@ export function PageHero({
   imageTone,
   imagePosition,
   facts,
+  stats,
+  variant,
   tone = 'cream',
   children,
 }) {
-  const isDark = tone !== 'cream';
-  return (
-    <section
-      className={cn(
-        'relative overflow-hidden pb-12 pt-24 sm:pt-28 lg:pb-16 lg:pt-32',
-        isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink'
-      )}
-    >
-      <GoldArc
-        className="-top-24 right-[-10%] h-[560px] w-[760px]"
-        opacity={isDark ? 0.28 : 0.3}
+  /* variant: 'cover' (domyślny, gdy jest zdjęcie) — portret 2:3 po prawej, tekst
+     wyśrodkowany w pionie; 'band' — pas espresso bez zdjęcia, H1 na całą szerokość
+     łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty). */
+  const kind = variant || (image ? 'cover' : 'band');
+  const isDark = kind === 'band' || tone !== 'cream';
+
+  const heading = (
+    <>
+      <SectionLabel number={number} tone={isDark ? 'light' : 'dark'}>
+        {label}
+      </SectionLabel>
+      <h1 className={cn('as-display-lg as-text-balance mt-6', isDark ? 'text-cream-100' : 'text-ink')}>
+        {title}
+        {titleAccent && (
+          <>
+            {' '}
+            <span className={cn('italic', isDark ? 'text-gold-light' : 'text-gold-dark')}>{titleAccent}</span>
+          </>
+        )}
+      </h1>
+      {lead && <p className={cn('mt-6', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>}
+      {children && <div className="mt-8">{children}</div>}
+    </>
+  );
+
+  const factStrip =
+    facts && facts.length > 0 ? (
+      <FactStrip
+        items={facts}
+        tone={isDark ? 'light' : 'dark'}
+        className={cn('mt-10 border-t pt-6', isDark ? 'border-cream-200/15' : 'border-ink/10')}
       />
-      <div className="as-shell relative">
-        <SectionLabel number={number} tone={isDark ? 'light' : 'dark'}>
-          {label}
-        </SectionLabel>
+    ) : null;
 
-        <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
-          <div className="lg:col-span-7">
-            <h1 className="as-display-lg as-text-balance">
-              {title}
-              {titleAccent && (
-                <>
-                  {' '}
-                  <span className={cn('italic', isDark ? 'text-gold-light' : 'text-gold-dark')}>
-                    {titleAccent}
-                  </span>
-                </>
-              )}
-            </h1>
-            {lead && (
-              <p className={cn('mt-6 max-w-xl', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>
-            )}
-            {children && <div className="mt-8">{children}</div>}
-            {/* pasek faktów — jedno miejsce i jeden odstęp na każdej podstronie */}
-            {facts && facts.length > 0 && (
-              <FactStrip
-                items={facts}
-                tone={isDark ? 'light' : 'dark'}
-                className={cn('mt-10 border-t pt-6', isDark ? 'border-cream-200/15' : 'border-ink/10')}
-              />
-            )}
-          </div>
+  if (kind === 'band') {
+    return (
+      <section className="relative overflow-hidden bg-espresso text-cream-50">
+        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.28} />
+        <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
+          <Reveal className="max-w-4xl">{heading}</Reveal>
+          {stats && stats.length > 0 && (
+            <div className="mt-12 grid gap-8 sm:grid-cols-3 lg:mt-16">
+              {stats.map((st) => (
+                <Stat key={st.label} value={st.value} label={st.label} tone="light" />
+              ))}
+            </div>
+          )}
+          {factStrip}
+        </div>
+      </section>
+    );
+  }
 
+  return (
+    <section className={cn('relative overflow-hidden', isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink')}>
+      <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-36">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+          <Reveal className="lg:col-span-6">
+            {heading}
+            {factStrip}
+          </Reveal>
           {image && (
-            <div className="lg:col-span-5">
-              <Figure
-                image={image}
-                alt={imageAlt || title}
-                ratio="4 / 5"
-                position={imagePosition}
-                tone={imageTone}
-                framed
-                priority
-                sizes="(min-width: 1024px) 40vw, 100vw"
-              />
+            <div className="lg:col-span-5 lg:col-start-8">
+              <div className="mx-auto max-w-[26rem] lg:max-w-none">
+                <Figure
+                  image={image}
+                  alt={imageAlt || title}
+                  ratio="2 / 3"
+                  position={imagePosition || '50% 20%'}
+                  tone={imageTone}
+                  framed
+                  priority
+                  sizes="(min-width: 1024px) 36vw, 90vw"
+                />
+              </div>
             </div>
           )}
         </div>
@@ -404,7 +425,7 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
         {note && (
           <span
             className={cn(
-              'mt-1 block text-xs leading-relaxed',
+              'mt-1 block text-[0.8125rem] leading-relaxed',
               isLight ? 'text-cream-200/55' : 'text-mocha-400'
             )}
           >
@@ -421,7 +442,7 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
       />
       <span
         className={cn(
-          'whitespace-nowrap font-display text-lg sm:text-xl',
+          'whitespace-nowrap font-display text-xl sm:text-[1.375rem]',
           isLight ? 'text-gold-light' : 'text-ink'
         )}
       >
@@ -488,8 +509,8 @@ export function Stat({ value, label, tone = 'dark', className }) {
   const isLight = tone === 'light';
   return (
     <div className={cn('as-card-col', className)}>
-      <p className={cn('as-display-md', isLight ? 'text-gold-light' : 'text-gold-dark')}>{value}</p>
-      <p className={cn('mt-2', isLight ? 'as-caption-invert' : 'as-caption')}>{label}</p>
+      <p className={cn('as-display-md leading-none', isLight ? 'text-cream-100' : 'text-ink')}>{value}</p>
+      <p className={cn('mt-3', isLight ? 'as-caption-invert' : 'as-caption')}>{label}</p>
     </div>
   );
 }
@@ -508,12 +529,12 @@ export function ClosingCta({
   lead,
   primary,
   secondary,
-  photos,
   aside,
   children,
   className,
 }) {
-  const side = photos && photos.length > 0 ? <ClosingPhotos photos={photos} /> : aside;
+  /* Pas zamykający = jeden blok ze stopką (espresso-900). Bez portretów —
+     założycielka nie może występować w każdym zakończeniu strony. */
   const button = (btn, cls) => {
     if (!btn) return null;
     const { label: text, ...rest } = btn;
@@ -524,17 +545,14 @@ export function ClosingCta({
     );
   };
   return (
-    <section className={cn('as-section relative overflow-hidden bg-espresso-900 text-cream-50', className)}>
-      <GoldArc className="-bottom-52 right-[-8%] h-[640px] w-[820px]" opacity={0.22} />
-      <div className="as-shell relative">
-        {/* etykieta siedzi w kolumnie tekstu — przy wysokim kadrze obok
-            zawsze zostaje 24 px nad tytułem, a kolumna centruje się do kadru */}
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-          <Reveal className={side ? 'lg:col-span-7' : 'lg:col-span-8'}>
+    <section data-sticky-hide className={cn('relative overflow-hidden bg-espresso-900 text-cream-50', className)}>
+      <div className="as-shell relative py-16 lg:py-24">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+          <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
             <SectionLabel number={number} tone="light">
               {label}
             </SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6">
+            <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
               {title}
               {titleAccent && (
                 <>
@@ -543,58 +561,55 @@ export function ClosingCta({
                 </>
               )}
             </h2>
-            {lead && <p className="as-body-invert mt-6 max-w-lg">{lead}</p>}
+            {lead && <p className="as-body-invert mt-6">{lead}</p>}
             {(primary || secondary) && (
               <div className="mt-8 flex flex-wrap gap-4">
-                {button(primary, 'as-btn-gold')}
+                {button(primary, 'as-btn-invert')}
                 {button(secondary, 'as-btn-ghost-light')}
               </div>
             )}
           </Reveal>
-
-          {side && (
-            <Reveal delay={90} className="lg:col-span-5">
-              {side}
+          {aside && (
+            <Reveal delay={90} className="lg:col-span-4 lg:col-start-9">
+              {aside}
             </Reveal>
           )}
         </div>
-
         {children}
       </div>
     </section>
   );
 }
 
-/* Jedna forma kadrów w pasie zamykającym: para 3/4, druga przesunięta w dół. */
-function ClosingPhotos({ photos }) {
-  if (photos.length === 1) {
-    const ph = photos[0];
-    return (
-      <Figure
-        image={ph.image}
-        alt={ph.alt}
-        ratio="4 / 5"
-        position={ph.position}
-        tone="dark"
-        framed
-        sizes="(min-width: 1024px) 36vw, 100vw"
-      />
-    );
-  }
+/* ------------------------------------------------------------------ */
+/*  Wiersz indeksu: numerał 64 | tytuł 28 + opis | meta/cena | link    */
+/*  (produkty na home, zabiegi na /uslugi, modele na /maszynki)        */
+/* ------------------------------------------------------------------ */
+
+export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', className, children }) {
+  const onDark = tone === 'light';
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {photos.slice(0, 2).map((ph, i) => (
-        <Figure
-          key={(ph.image && ph.image.src) || i}
-          image={ph.image}
-          alt={ph.alt}
-          ratio="3 / 4"
-          position={ph.position}
-          tone="dark"
-          className={i === 1 ? 'mt-10' : undefined}
-          sizes="(min-width: 1024px) 20vw, 45vw"
-        />
-      ))}
+    <div
+      className={cn(
+        'grid gap-4 border-t py-8 sm:grid-cols-[5rem_1fr] lg:grid-cols-[6rem_1fr_auto] lg:items-baseline lg:gap-8',
+        onDark ? 'border-cream-200/15' : 'border-ink/15',
+        className
+      )}
+    >
+      <span className={cn('as-display-md leading-none', onDark ? 'text-gold-light' : 'text-gold-dark')}>{number}</span>
+      <div>
+        <h3 className={cn('as-title', onDark ? 'text-cream-100' : 'text-ink')}>{title}</h3>
+        {desc && <p className={cn('mt-3 max-w-[34rem] text-[0.9375rem] leading-[1.65]', onDark ? 'text-cream-200/85' : 'text-ink/75')}>{desc}</p>}
+        {children}
+      </div>
+      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3 sm:col-start-2 lg:col-start-auto lg:justify-end">
+        {meta && <span className={cn('whitespace-nowrap font-display text-[1.375rem]', onDark ? 'text-cream-100' : 'text-ink')}>{meta}</span>}
+        {href && cta && (
+          <ArrowLink href={href} tone={onDark ? 'light' : 'dark'} className="w-fit">
+            {cta}
+          </ArrowLink>
+        )}
+      </div>
     </div>
   );
 }

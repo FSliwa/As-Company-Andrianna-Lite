@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Instagram, Menu, X } from 'lucide-react';
 import Logo from '@/components/as/Logo';
-import { ArrowLink } from '@/components/as/Primitives';
 import { BRAND, CONTACT, NAV_ALL, NAV_MAIN } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
@@ -38,9 +37,9 @@ function Header() {
     <>
       <header
         className={cn(
-          'sticky top-0 z-50 transition-all duration-500',
+          'sticky top-0 z-50 transition-colors duration-300',
           scrolled
-            ? 'border-b border-ink/10 bg-cream-50 shadow-[0_1px_24px_rgba(36,27,20,0.06)]'
+            ? 'border-b border-ink/10 bg-cream-50'
             : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
         )}
       >
@@ -57,7 +56,7 @@ function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative py-1 text-[0.8125rem] transition-colors',
+                    'relative py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors',
                     active ? 'text-ink' : 'text-ink/65 hover:text-ink'
                   )}
                 >
@@ -90,7 +89,7 @@ function Header() {
               aria-expanded={menuOpen}
               aria-controls="as-menu"
               aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-              className="grid h-10 w-10 place-items-center text-ink transition-colors hover:text-gold-dark"
+              className="grid h-10 w-10 place-items-center text-ink transition-colors hover:text-gold-dark lg:hidden"
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -175,44 +174,52 @@ function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-cream-200/12 bg-espresso-900 text-cream-50">
-      <div className="as-shell py-20 lg:py-28">
+      <div className="as-shell py-16 lg:py-24">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <Logo tone="light" />
-            <p className="as-body-invert mt-8 max-w-sm">{BRAND.claim}</p>
+            <p className="mt-8 font-display text-2xl italic text-cream-100">{BRAND.tagline}</p>
+            <p className="as-caption-invert mt-3">{BRAND.claim}</p>
 
-            <div className="mt-10 space-y-1.5">
-              <p className="text-sm text-cream-100">{CONTACT.venue}</p>
-              <p className="text-sm text-cream-200/60">
-                {[CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ')}
-              </p>
-              <p className="text-xs text-cream-200/45">{CONTACT.venueNote}</p>
-            </div>
+            <dl className="mt-10 max-w-sm">
+              <div className="flex items-baseline justify-between gap-6 border-t border-cream-200/12 py-3">
+                <dt className="as-label text-cream-200/70">{CONTACT.venue}</dt>
+                <dd className="text-[0.875rem] text-cream-100">
+                  {[CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ')}
+                </dd>
+              </div>
+              {CONTACT.hours.map((h) => (
+                <div key={h.day} className="flex items-baseline justify-between gap-6 border-t border-cream-200/12 py-3">
+                  <dt className="as-label text-cream-200/70">{h.day}</dt>
+                  <dd className="text-[0.875rem] text-cream-100">{h.value}</dd>
+                </div>
+              ))}
+            </dl>
 
             <div className="mt-8 flex flex-wrap items-center gap-6">
               {CONTACT.phone && (
-                <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="text-sm text-cream-100 hover:text-gold-light">
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="text-[0.875rem] text-cream-100 hover:text-gold-light">
                   {CONTACT.phone}
                 </a>
               )}
               {CONTACT.email && (
-                <a href={`mailto:${CONTACT.email}`} className="text-sm text-cream-100 hover:text-gold-light">
+                <a href={`mailto:${CONTACT.email}`} className="text-[0.875rem] text-cream-100 hover:text-gold-light">
                   {CONTACT.email}
                 </a>
               )}
               <a
                 href={CONTACT.instagram}
                 target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-cream-200/70 transition-colors hover:text-gold-light"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-2 text-[0.875rem] text-cream-200/80 transition-colors hover:text-gold-light"
               >
-                <Instagram className="h-4 w-4" />
+                <Instagram className="h-4 w-4" aria-hidden="true" />
                 {CONTACT.instagramHandle}
               </a>
             </div>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-7">
+          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7">
             {NAV_ALL.map((group) => (
               <div key={group.title}>
                 <h2 className="as-label text-gold-light">{group.title}</h2>
@@ -221,7 +228,7 @@ function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-sm text-cream-200/65 transition-colors hover:text-cream-50"
+                        className="text-[0.875rem] text-cream-200/75 transition-colors hover:text-cream-50"
                       >
                         {link.label}
                       </Link>
@@ -235,7 +242,7 @@ function Footer() {
 
         <div className="mt-16 border-t border-cream-200/12 pt-10">
           <p
-            className="as-display select-none text-cream-200/10"
+            className="as-display select-none text-cream-200/[0.08]"
             style={{ fontSize: 'clamp(2.5rem, 12vw, 11rem)', lineHeight: 0.85 }}
             aria-hidden="true"
           >
@@ -243,18 +250,73 @@ function Footer() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="as-label text-cream-200/40">
-            © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
-          </p>
-          <div className="flex flex-wrap items-center gap-6">
-            <ArrowLink href="/kontakt" tone="light" className="border-b-0 pb-0">
-              Napisz do nas
-            </ArrowLink>
-          </div>
-        </div>
+        <p className="as-label mt-10 text-cream-200/55">
+          © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
+        </p>
       </div>
     </footer>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Mobilny pasek CTA — po przewinięciu hero, ukryty przy pasie        */
+/*  zamykającym, formularzach i stopce (nie zasłania „Wyślij").        */
+/* ------------------------------------------------------------------ */
+
+function StickyBar() {
+  const pathname = usePathname();
+  const [pastHero, setPastHero] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.9);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return undefined;
+    const targets = Array.from(document.querySelectorAll('footer, form, [data-sticky-hide]'));
+    if (!targets.length) return undefined;
+    const visible = new Set();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+        setBlocked(visible.size > 0);
+      },
+      { threshold: 0 }
+    );
+    targets.forEach((t) => io.observe(t));
+    return () => io.disconnect();
+  }, [pathname]);
+
+  if (pathname === '/kontakt') return null;
+  const show = pastHero && !blocked;
+
+  return (
+    <div
+      aria-hidden={!show}
+      className={cn(
+        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-cream-200/15 bg-espresso-900 pb-[env(safe-area-inset-bottom)] transition-transform duration-300 lg:hidden',
+        show ? 'translate-y-0' : 'pointer-events-none translate-y-full'
+      )}
+    >
+      <Link
+        href="/kontakt"
+        tabIndex={show ? 0 : -1}
+        className="as-label flex h-14 items-center justify-center text-cream-100"
+      >
+        Umów wizytę
+      </Link>
+      <Link
+        href="/szkolenia"
+        tabIndex={show ? 0 : -1}
+        className="as-label flex h-14 items-center justify-center border-l border-cream-200/15 text-cream-100"
+      >
+        Szkolenia
+      </Link>
+    </div>
   );
 }
 
@@ -266,6 +328,7 @@ export default function Layout({ children }) {
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <StickyBar />
     </div>
   );
 }

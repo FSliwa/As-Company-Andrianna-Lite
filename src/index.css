@@ -66,10 +66,9 @@
     @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-14;
   }
 
-  /* Rytm z makiety (zmierzony parami sekcja–sekcja): ok. 48 px góra/dół.
-     To samo, co ma strona główna — podstrony dziedziczą automatycznie. */
+  /* Rytm „magazynu": 56 / 80 px. Sekcja to rozkładówka — ma oddychać. */
   .as-section {
-    @apply py-12 lg:py-14;
+    @apply py-14 lg:py-20;
   }
 
   /* ——— Typografia ——— */
@@ -83,47 +82,50 @@
     font-size: clamp(3.25rem, 13.8vw, 12.5rem);
   }
 
+  /* ——— Skala Bodoni: 5 rozmiarów i koniec ———
+     hero (cqw, Home.jsx) · lg = H1 podstron (88 px) · section = JEDYNY H2 (60 px)
+     · title = tytuły wierszy/kart (28 px) · numbered-title = 24 px italic.
+     Bodoni nigdy poniżej 22 px i nigdy w tekście ciągłym. */
   .as-display-lg {
     @apply as-display;
-    font-size: clamp(2.5rem, 6.2vw, 5.5rem);
+    font-size: clamp(2.75rem, 6.2vw, 5.5rem);
   }
 
+  /* Liczby Stat (64 px) */
   .as-display-md {
     @apply as-display;
-    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-size: clamp(2.5rem, 4.4vw, 4rem);
+  }
+
+  .as-display-section {
+    @apply as-display;
+    line-height: 0.95;
+    font-size: clamp(2.25rem, 4.2vw, 3.75rem);
+  }
+
+  /* Wycofane warianty — aliasy, żeby stare użycia zbiegły się do skali. */
+  .as-display-section-sm {
+    @apply as-display-section;
   }
 
   .as-display-sm {
-    @apply as-display;
-    font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+    @apply as-title;
   }
 
-  /* Nagłówek sekcji jak w makiecie: ok. 5,2% szerokości kadru treści
-     (≈60 px przy 1159 px). as-display-lg było o ~30% za duże i łamało
-     „Szkolenia oparte na realnej praktyce" na cztery wiersze. */
-  .as-display-section {
-    @apply as-display;
-    font-size: clamp(2.125rem, 4.9vw, 3.75rem);
+  .as-title {
+    @apply font-display text-[1.5rem] font-normal leading-[1.15] sm:text-[1.75rem];
   }
 
-  /* Wariant dla trzywierszowego nagłówka w kolumnie 33% („Szkolenia oparte
-     na realnej praktyce") — w makiecie ~50 px przy 1159 px treści. */
-  .as-display-section-sm {
-    @apply as-display;
-    font-size: clamp(1.75rem, 3.7vw, 3rem);
-  }
-
+  /* ——— Jost: 17 / 13 / 11 px ——— */
   .as-body {
-    @apply text-[0.9375rem] leading-[1.75] text-mocha;
+    @apply max-w-[36rem] text-[1.0625rem] leading-[1.6] text-ink/80;
   }
 
-  /* /90 zamiast /75: na tle mocha (#695647) /75 dawalo kontrast 3,8:1,
-     czyli ponizej progu WCAG AA 4,5:1. /90 daje ok. 5,1:1. */
   .as-body-invert {
-    @apply text-[0.9375rem] leading-[1.75] text-cream-200/90;
+    @apply max-w-[36rem] text-[1.0625rem] leading-[1.6] text-cream-200/90;
   }
 
-  /* Zajawki, opisy kart, podpisy — jak w makiecie (12–13 px), z wąskim łamem. */
+  /* Podpisy pod zdjęciami, opisy pozycji 01/02/03, noty cennika */
   .as-caption {
     @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha;
   }
@@ -138,32 +140,40 @@
   }
 
   .as-numbered-desc {
-    @apply mt-2 max-w-[15rem] text-[0.75rem] leading-[1.6];
+    @apply mt-2 max-w-[17rem] text-[0.8125rem] leading-[1.65];
   }
 
-  /* Karta w rzędzie rozdzielonym pionową złotą linią (sekcja „Efekty"). */
+  /* Karta w rzędzie rozdzielonym pionową złotą linią (wycofywane na rzecz .as-cell). */
   .as-card-col {
     @apply flex h-full flex-col border-l border-gold/35 pl-5 md:pr-7;
   }
 
-  /* Złota linia wokół grupy zdjęć (trójka w „O nas", kolaż w „Szkolenia"). */
+  /* Komórka redakcyjna: hairline u góry, bez tła, bez cienia (Sashiko / Aesop). */
+  .as-cell {
+    @apply border-t border-ink/15 pt-6;
+  }
+
+  .as-cell-invert {
+    @apply border-t border-cream-200/15 pt-6;
+  }
+
+  /* Złota linia wokół grupy zdjęć (stykówka). */
   .as-photo-frame {
     @apply border border-gold/35 p-1;
   }
 
-  /* Mikro-etykiety w kapitalikach: „02 / O NAS” */
+  /* Mikro-etykiety w kapitalikach: „02 / O NAS" — 11 px */
   .as-label {
-    @apply font-sans text-[0.625rem] font-medium uppercase tracking-label;
+    @apply font-sans text-[0.6875rem] font-medium uppercase tracking-label;
   }
 
-  /* Kicker nad tytułem karty (kategoria, poziom) — stonowany, złoto zostaje
-     dla numerów i etykiet sekcji. Badge („Bestseller”, „Nowość”) — goły, złoty. */
+  /* Kicker nad tytułem karty — kontrast AA (ink/65 ≈ 5:1, cream-200/70 ≈ 5,9:1) */
   .as-kicker {
-    @apply as-label text-ink/45;
+    @apply as-label text-ink/65;
   }
 
   .as-kicker-invert {
-    @apply as-label text-cream-200/55;
+    @apply as-label text-cream-200/70;
   }
 
   .as-badge {
@@ -175,18 +185,28 @@
     @apply mt-[0.7rem] h-px w-6 shrink-0 bg-gold;
   }
 
-  /* Krótki cytat w karcie (opinia, motto) */
+  /* Krótki cytat w karcie — Jost italic (Bodoni nie schodzi poniżej 22 px) */
   .as-quote {
-    @apply font-display text-[0.9375rem] italic leading-[1.7];
+    @apply font-sans text-[0.9375rem] italic leading-[1.7];
   }
 
   .as-quote-invert {
     @apply as-quote text-cream-200/85;
   }
 
-  /* Cytat wyróżniony (jeden na stronę) — skala pozycji numerowanych */
+  /* Cytat wyróżniony — jeden na stronę */
   .as-pullquote {
-    @apply font-display text-xl italic leading-[1.5] sm:text-2xl;
+    @apply font-display text-[1.625rem] italic leading-[1.35] sm:text-[2rem];
+  }
+
+  /* Inicjał — jeden detal magazynowy w serwisie (/o-nas) */
+  .as-dropcap::first-letter {
+    float: left;
+    font-family: var(--font-display), 'Bodoni Moda', Didot, Georgia, serif;
+    font-size: 4.2em;
+    line-height: 0.8;
+    margin: 0.3rem 0.75rem 0 0;
+    color: #d8c3a0;
   }
 
   /* ——— Linki strzałkowe ——— */
@@ -219,8 +239,14 @@
     @apply as-btn bg-ink text-cream-50 hover:bg-espresso-600;
   }
 
+  /* Przycisk główny na ciemnym tle — kremowy. Złoto nigdy jako wypełnienie. */
+  .as-btn-invert {
+    @apply as-btn bg-cream-100 text-ink hover:bg-cream-50;
+  }
+
+  /* Wycofany — alias, żeby stare użycia dostały kremowy przycisk. */
   .as-btn-gold {
-    @apply as-btn bg-gold text-espresso-900 hover:bg-gold-dark hover:text-cream-50;
+    @apply as-btn-invert;
   }
 
   .as-btn-ghost {
@@ -275,29 +301,20 @@
 
   .as-media-zoom img {
     transition-property: transform, filter;
-    transition-duration: 900ms;
+    transition-duration: 800ms;
     transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .as-media-zoom:hover img {
-    transform: scale(1.045);
+    transform: scale(1.03);
   }
 
-  /* Ton ciemnych sekcji. W makiecie zdjęcia na espresso/mocha są ciemniejsze
-     i mniej nasycone niż na kremie — siedzą w tle, nie świecą na nim.
-     Mierzone: średnia luminancja moich zdjęć 107–170 przy tle 46 (espresso)
-     i 90 (mocha). Filtr ściąga je o ok. 20–25% w dół. */
-  /* Kinowy, ciepły grading: portret siada w pasie espresso zamiast na nim leżeć
-     (porównanie trzech wariantów na studio-08 i academy-04: b.72 c1.12 s.8 sepia.22). */
+  /* Ton ciemnych sekcji: lekkie przygaszenie, bez sepii (sepia brudziła skórę
+     i szarzyła białą ścianę akademii). Nastrój robi tło pasa, nie filtr na twarzach. */
   .as-media-dark img {
-    filter: brightness(0.74) contrast(1.12) saturate(0.8) sepia(0.22);
+    filter: brightness(0.9) saturate(0.88) contrast(1.04);
   }
 
-  /* Ton jasnych (kremowych) sekcji. Makra skóry są 2× bardziej nasycone
-     i ~40 pkt ciemniejsze niż zdjęcia w kremowej sekcji makiety
-     (cel: L≈166, nasycenie ≈27%; moje kadry: L 99–131, sat 47–55%).
-     Filtr ściąga nasycenie i podnosi jasność, a kremowa „mgła" (22%)
-     wtapia krawędzie kadru w tło — po tym L 140–165, sat 25–32%. */
   /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) — tylko lekkie
      zdjęcie nasycenia, żeby skóra nie była pomarańczowa na tle kremu. */
   .as-media-light img {
@@ -342,5 +359,17 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* Wejście tytułu hero — trzy wyrazy z opóźnieniem (Home.jsx).
+   Tylko ruch, bez zanikania: gdy przeglądarka nie renderuje klatek (karta
+   w tle, zrzut, crawler), tytuł i tak jest w pełni widoczny. */
+@keyframes as-rise {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: translateY(0);
   }
 }

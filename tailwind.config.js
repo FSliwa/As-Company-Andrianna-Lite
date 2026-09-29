@@ -80,7 +80,7 @@ module.exports = {
   			'900': '900ms',
   		},
   		letterSpacing: {
-  			label: '0.22em',
+  			label: '0.18em',
   			wider2: '0.14em',
   		},
   		borderRadius: {
@@ -92,7 +92,7 @@ module.exports = {
   			/* 1440 zamykało układ w wyspie pośrodku szerokich ekranów;
   			   makieta była projektowana na ~1320, ale kompozycja jest
   			   procentowa i skaluje się — pozwalamy jej rosnąć do 1800. */
-  			shell: '1800px',
+  			shell: '1440px',
   		},
   		keyframes: {
   			'accordion-down': {

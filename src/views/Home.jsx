@@ -1,24 +1,38 @@
 'use client';
 
+/**
+ * Strona główna — „Numer 01".
+ *
+ * Każda sekcja to rozkładówka: jeden kadr, jedno duże zdanie w Bodoni, jeden
+ * link. Rytm tła: krem → espresso → cream-100 → krem → mocha → krem → stopka.
+ * Portrety wyłącznie przez ROLES, grupy przez GROUPS, makra przez MACROS
+ * (src/lib/roles.js) — każdy plik ma w serwisie jedno miejsce.
+ */
+
 import React from 'react';
 import Link from 'next/link';
 import {
   ArrowLink,
-  ClosingCta,
   FactStrip,
   Figure,
   GoldArc,
+  IndexRow,
   PriceRow,
   Reveal,
   SectionLabel,
   Stat,
 } from '@/components/as/Primitives';
-import { ACHIEVEMENTS, PILLARS, PRICING_PMU, PRODUCT_LINES, TRAINING_PILLARS } from '@/lib/site';
-import { ACADEMY, BY_NAME, LIPS, STUDIO } from '@/lib/media';
-
-/* ================================================================== */
-/*  01 — HERO                                                          */
-/* ================================================================== */
+import {
+  ACHIEVEMENTS,
+  BRAND,
+  COURSES,
+  FOUNDER,
+  PILLARS,
+  PRICING_PMU,
+  PRODUCT_LINES,
+  TRAINING_PILLARS,
+} from '@/lib/site';
+import { GROUPS, MACROS, ROLES } from '@/lib/roles';
 
 /* ==================================================================
    01 — HERO
@@ -29,39 +43,30 @@ import { ACADEMY, BY_NAME, LIPS, STUDIO } from '@/lib/media';
    ================================================================== */
 
 const HERO_RATIO = 1 / 0.682; // szerokość : wysokość kadru hero
-
-/* Ujęcie z sesji odpowiadające makiecie (dłoń pod brodą, biała tkanina). */
-const HERO_PHOTO = STUDIO[4];
+const HERO_PHOTO = ROLES.heroHome.image;
 
 /* pozycje w % kontenera — x względem szerokości, y względem wysokości */
 const G = {
   photo: { left: '33.7%', right: '33.5%', top: '12.6%', bottom: '19.0%' },
-  /* linia pisma („baseline") wyrazów — ułamek wysokości kadru */
   beauty: { left: '0%', top: '36.3%' },
   with: { left: '71.4%', top: '37.0%' },
   precision: { left: '71.4%', top: '42.6%' },
   rule: { top: '50.6%' },
   lead: { left: '0%', top: '54.6%' },
-  thumbs: { left: '0%', top: '74.0%', width: '23.1%' },
+  colophon: { left: '0%', top: '74.0%', width: '23.1%' },
   facts: { top: '89.6%' },
-  badge: { right: '0%', top: '78.5%' },
+  badge: { right: '0%', top: '80%' },
 };
 
-/* Rozmiary z makiety — „precision." jest wyraźnie mniejsze niż „Beauty". */
-/* Rozmiary w jednostkach kontenera (cqw = 1% szerokości kadru hero),
-   nie okna. Kadr hero ma stałą proporcję i mieści się w wysokości okna
-   (patrz HERO_BOX), więc typografia skaluje się razem z całą kompozycją
-   — pierwszy ekran jest zawsze kompletny, od 2065×590 po 1440×900.
-   Wartości zmierzone: „Beauty" 160 px przy kadrze 1313 px = 12,2 cqw itd. */
+/* Typografia w cqw (1% szerokości kadru hero) — kompozycja skaluje się
+   w całości i zawsze mieści się w pierwszym ekranie. */
 const TYPE = {
   beauty: 'clamp(2.5rem, 12.2cqw, 14rem)',
   precision: 'clamp(1.5rem, 7.46cqw, 8.6rem)',
   with: 'clamp(1rem, 4.72cqw, 5.4rem)',
 };
 
-/* Kadr hero: szerokość = min(cały kadr treści, wysokość okna × proporcja).
-   Dzięki temu przy niskim oknie kompozycja maleje zamiast się ucinać.
-   6rem = wysokość nagłówka na lg. */
+/* 6rem = wysokość nagłówka na lg */
 const HERO_BOX = {
   width: `min(100%, calc((100svh - 6rem) * ${HERO_RATIO}))`,
   aspectRatio: HERO_RATIO,
@@ -69,55 +74,43 @@ const HERO_BOX = {
   marginInline: 'auto',
 };
 
+/* Fakty wyłącznie z ACHIEVEMENTS / BRAND (src/lib/site.js) */
+const HERO_FACTS = [
+  `${ACHIEVEMENTS[0].value} podium Mistrzostw Świata`,
+  `${ACHIEVEMENTS[1].value} kursantek w roku`,
+  `${ACHIEVEMENTS[3].value} salonów`,
+  BRAND.city,
+];
+
+/* Wejście tytułu: trzy wyrazy, 0 / 150 / 300 ms (wyłączone przy reduced-motion) */
+const riseIn = (delay) => ({
+  animation: `as-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms both`,
+});
+
 function Hero() {
-  /* Dwie szerokie miniatury jak w makiecie (brew + usta) — czyste panele
-     wycięte ze sklejek, bez szwów i watermarków. */
-  const thumbs = [
-    { image: BY_NAME['brows-13-p3'], alt: 'Wygojona brew po zabiegu Super Natural Brows', position: '50% 50%' },
-    { image: BY_NAME['lips-01-p2'], alt: 'Wygojone usta po zabiegu Perfect Lips', position: '50% 66%' },
-  ];
-
-  /* ——— Elementy współdzielone przez układ mobilny i desktopowy ——— */
-
   const lead = (
     <>
-      <p className="as-caption max-w-[17rem] leading-[1.9]">
-        Profesjonalne produkty PMU, edukacja i doświadczenie tworzone przez praktyków.
-      </p>
+      <p className="as-caption max-w-[17rem] leading-[1.9]">{BRAND.claim}</p>
       <ArrowLink href="/o-nas" className="mt-7 w-fit">
         Poznaj AS
       </ArrowLink>
     </>
   );
 
-  const thumbRow = (
-    <div className="flex gap-1.5">
-      {thumbs.map((t, i) => (
-        <Figure
-          key={i}
-          image={t.image}
-          alt={t.alt}
-          ratio="2 / 1"
-          position={t.position}
-          className="flex-1"
-          sizes="180px"
-          priority
-        />
-      ))}
+  /* Kolofon zamiast miniatur makr — makra z telefonu nie wytrzymują hero. */
+  const colophon = (
+    <div className="border-t border-gold/40 pt-4">
+      <p className="as-label text-ink">{FOUNDER.name}</p>
+      <p className="as-label mt-2 text-ink/60">{FOUNDER.role}</p>
+      <p className="as-label mt-2 text-ink/60">{FOUNDER.signature}</p>
     </div>
   );
 
   const photo = (
     <div className="relative h-full w-full">
-      {/* linie konstrukcyjne wychodzące poza kadr */}
-      <span
-        aria-hidden="true"
-        className="absolute -top-[5.5%] bottom-[-3.5%] left-0 w-px bg-gold/45"
-      />
-      <span
-        aria-hidden="true"
-        className="absolute -top-[5.5%] bottom-[-3.5%] right-0 w-px bg-gold/45"
-      />
+      {/* linie konstrukcyjne wychodzące poza kadr (makieta) */}
+      <span aria-hidden="true" className="absolute -top-[5.5%] bottom-[-3.5%] left-0 w-px bg-gold/45" />
+      <span aria-hidden="true" className="absolute -top-[5.5%] bottom-[-3.5%] right-0 w-px bg-gold/45" />
       <span aria-hidden="true" className="absolute -left-[11%] -right-[11%] top-[-4%] h-px bg-gold/45" />
       <span aria-hidden="true" className="absolute -left-[11%] -right-[11%] bottom-0 h-px bg-gold/45" />
 
@@ -131,235 +124,174 @@ function Hero() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={HERO_PHOTO.src}
-            alt="Andriana Babushkina — założycielka AS Company i Babushkina Academy"
+            alt={`${FOUNDER.name} — założycielka AS Company i ${BRAND.academy}`}
             width={HERO_PHOTO.w}
             height={HERO_PHOTO.h}
             fetchPriority="high"
             decoding="sync"
             sizes="(min-width: 1024px) 34vw, 90vw"
+            style={{ objectPosition: ROLES.heroHome.position }}
           />
         </picture>
       </div>
     </div>
   );
 
+  /* Sygnet z makiety bez atrapy: sama linia i podpis (monogram w kółku
+     udawał zdjęcie maszynki, którego nie mamy). */
   const badge = (
     <div className="flex items-center gap-5">
       <span className="h-px w-14 bg-gold/45" aria-hidden="true" />
-      {/* W makiecie w kółku jest złoty pen — takiego zdjęcia nie ma w folderze.
-          Makro skóry przy 70 px to nieczytelna plama, więc monogram. */}
-      <span className="relative grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-full border border-gold/50">
-        <span className="font-display text-xl italic text-gold-dark">AS</span>
-      </span>
-      <p className="as-label max-w-[7rem] leading-[2.1] text-ink/55">Profesjonalny system PMU</p>
+      <p className="as-label max-w-[8rem] leading-[2.1] text-ink/60">Profesjonalny system PMU</p>
     </div>
   );
 
   return (
     <section className="relative -mt-20 overflow-hidden bg-cream-50 lg:-mt-24">
       {/* ================= UKŁAD MOBILNY / TABLET ================= */}
-      <div className="as-shell pb-14 pt-24 lg:hidden">
+      <div className="as-shell pb-14 pt-28 lg:hidden">
         <h1 className="as-display-xl text-ink">
           <span className="block">Beauty</span>
           <span className="block font-normal italic leading-[1.05]">with</span>
           <span className="block">precision.</span>
         </h1>
 
-        <div className="relative mx-auto mt-8 w-full max-w-[380px]">
-          <div style={{ aspectRatio: '7 / 10' }}>{photo}</div>
+        <div className="mt-8">{lead}</div>
+
+        <div className="relative mx-auto mt-10 w-full max-w-[380px]">
+          <div style={{ aspectRatio: '4 / 5', maxHeight: '60svh', marginInline: 'auto' }}>{photo}</div>
         </div>
 
-        <div className="mt-10">{lead}</div>
-        <div className="mt-10 max-w-[20rem]">{thumbRow}</div>
+        <div className="mt-12 max-w-[20rem]">{colophon}</div>
 
-        <div className="mt-12 border-t border-ink/10 pt-6">
-          <FactStrip items={['Sztuka', 'Technika', 'Ludzie', 'Realne efekty']} />
+        <div className="mt-10 border-t border-ink/10 pt-6">
+          <FactStrip items={HERO_FACTS} />
         </div>
       </div>
 
       {/* ================= UKŁAD DESKTOPOWY (wg makiety) ================= */}
       <div className="as-shell hidden lg:block">
         <div className="relative" style={HERO_BOX}>
-          {/* — zdjęcie — */}
           <div
             className="absolute"
-            style={{
-              left: G.photo.left,
-              right: G.photo.right,
-              top: G.photo.top,
-              bottom: G.photo.bottom,
-            }}
+            style={{ left: G.photo.left, right: G.photo.right, top: G.photo.top, bottom: G.photo.bottom }}
           >
             {photo}
           </div>
 
-          {/* — złote linijki na wysokości linii pisma — */}
-          <span
-            aria-hidden="true"
-            className="absolute left-0 h-px bg-gold/40"
-            style={{ top: G.rule.top, width: '31%' }}
-          />
-          <span
-            aria-hidden="true"
-            className="absolute right-0 h-px bg-gold/40"
-            style={{ top: G.rule.top, width: '23%' }}
-          />
+          <span aria-hidden="true" className="absolute left-0 h-px bg-gold/40" style={{ top: G.rule.top, width: '31%' }} />
+          <span aria-hidden="true" className="absolute right-0 h-px bg-gold/40" style={{ top: G.rule.top, width: '23%' }} />
 
-          {/* — nagłówek: trzy wyrazy ustawione wg linii pisma z makiety — */}
           <h1 className="pointer-events-none absolute inset-0 z-20 text-ink">
             <span
-              className="as-display absolute block whitespace-nowrap leading-none"
-              style={{ left: G.beauty.left, top: G.beauty.top, fontSize: TYPE.beauty }}
+              className="as-display absolute block whitespace-nowrap leading-none motion-reduce:!animate-none"
+              style={{ left: G.beauty.left, top: G.beauty.top, fontSize: TYPE.beauty, ...riseIn(0) }}
             >
               Beauty
             </span>
             <span
-              className="as-display absolute block whitespace-nowrap font-normal italic leading-none"
-              style={{ left: G.with.left, top: G.with.top, fontSize: TYPE.with }}
+              className="as-display absolute block whitespace-nowrap font-normal italic leading-none motion-reduce:!animate-none"
+              style={{ left: G.with.left, top: G.with.top, fontSize: TYPE.with, ...riseIn(150) }}
             >
               with
             </span>
             <span
-              className="as-display absolute block whitespace-nowrap leading-none"
-              style={{ left: G.precision.left, top: G.precision.top, fontSize: TYPE.precision }}
+              className="as-display absolute block whitespace-nowrap leading-none motion-reduce:!animate-none"
+              style={{ left: G.precision.left, top: G.precision.top, fontSize: TYPE.precision, ...riseIn(300) }}
             >
               precision.
             </span>
           </h1>
 
-          {/* — opis + CTA — */}
           <div className="absolute z-20" style={{ left: G.lead.left, top: G.lead.top }}>
             {lead}
           </div>
 
-          {/* — miniatury — */}
-          <div
-            className="absolute z-20"
-            style={{ left: G.thumbs.left, top: G.thumbs.top, width: G.thumbs.width }}
-          >
-            {thumbRow}
+          <div className="absolute z-20" style={{ left: G.colophon.left, top: G.colophon.top, width: G.colophon.width }}>
+            {colophon}
           </div>
 
-          {/* — sygnet „profesjonalny system PMU" — */}
-          <div
-            className="absolute z-20"
-            style={{ right: G.badge.right, top: G.badge.top }}
-          >
+          <div className="absolute z-20" style={{ right: G.badge.right, top: G.badge.top }}>
             {badge}
           </div>
 
-          {/* — dolny pasek — */}
           <div className="absolute inset-x-0 z-20" style={{ top: G.facts.top }}>
-            <FactStrip items={['Sztuka', 'Technika', 'Ludzie', 'Realne efekty']} />
+            <FactStrip items={HERO_FACTS} />
           </div>
-
-          <a
-            href="#o-nas"
-            className="as-label group absolute left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-3 text-ink/45 transition-colors hover:text-ink @[960px]:flex"
-            style={{ top: G.facts.top }}
-          >
-            Przewiń dalej
-            <span
-              aria-hidden="true"
-              className="transition-transform duration-300 group-hover:translate-y-1"
-            >
-              &#8595;
-            </span>
-          </a>
         </div>
       </div>
     </section>
   );
 }
+
 /* ================================================================== */
-/*  02 — O NAS                                                         */
+/*  02 — O NAS (espresso)                                              */
 /* ================================================================== */
 
 function AboutBand() {
-  /* Trzy różne plany (makro / grupa / portret) zamiast trzech makr skóry.
-     Panel brows-12-p3 to szeroki pasek — w kadrze 4/5 zostaje sam łuk brwi,
-     bez szwu i bez tekstu. Zdjęcie grupowe kotwiczone u góry, żeby nie
-     ucinać głów. */
-  const shots = [
-    { image: BY_NAME['brows-12-p3'], alt: 'Wygojony łuk brwi — włos maszynowy', position: '50% 50%' },
-    { image: ACADEMY[2], alt: 'Kursantki Babushkina Academy z certyfikatami po szkoleniu', position: '50% 20%' },
-    { image: STUDIO[12], alt: 'Andriana Babushkina — założycielka AS Company', position: '50% 20%' },
-  ];
-
   return (
-    <section id="o-nas" className="relative overflow-hidden bg-espresso py-12 text-cream-50 lg:py-14">
-      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.3} />
+    <section id="o-nas" className="as-section relative overflow-hidden bg-espresso text-cream-50">
+      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
 
       <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="02" tone="light">
-            O nas
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
-          {/* lewa kolumna — 33%, żeby „More than" mieściło się w jednym wierszu (3 wiersze jak w makiecie) */}
-          <div className="lg:col-span-4">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
             <Reveal>
-              <h2 className="as-display-section as-text-balance">
-                More than
+              <SectionLabel number="02" tone="light">
+                O nas
+              </SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+                Więcej niż
                 <br />
-                permanent
+                makijaż
                 <br />
-                makeup.
+                permanentny.
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-caption-invert mt-6 max-w-[17rem]">
+              <p className="as-body-invert mt-6 max-w-[24rem]">
                 Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
                 produkty, zaawansowaną edukację i realną praktykę.
               </p>
-            </Reveal>
-            <Reveal delay={140}>
               <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
                 Poznaj nasze podejście
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* trzy kadry — jak w makiecie: cienka złota ramka wokół trójki, odstępy ~4 px */}
-          <div className="lg:col-span-8">
-            {/* dopisek z makiety — nad ramką, do prawej; nie nachodzi na kadry */}
-            <Reveal className="mb-5 flex items-center justify-end gap-4">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-gold/40" aria-hidden="true">
-                <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-              </span>
-              <p className="font-display text-sm italic text-cream-100">Narzędzia. Wiedza. Techniki. Realne efekty.</p>
+          <div className="lg:col-span-7">
+            {/* dopisek z makiety — nad ramką, do prawej */}
+            <Reveal className="mb-5 flex justify-end">
+              <p className="font-display text-base italic text-cream-100/85">
+                Narzędzia. Wiedza. Techniki. Realne efekty.
+              </p>
             </Reveal>
-            <div className="as-photo-frame grid gap-1 sm:grid-cols-3">
-              {shots.map((s, i) => (
-                <Reveal key={i} delay={i * 90}>
-                  <Figure
-                    image={s.image}
-                    alt={s.alt}
-                    ratio="7 / 8"
-                    position={s.position}
-                    tone="dark"
-                    sizes="(min-width: 640px) 28vw, 90vw"
-                    priority
-                  />
-                </Reveal>
-              ))}
-            </div>
+            <Reveal>
+              <div className="as-photo-frame">
+                <Figure
+                  image={ROLES.aboutHome.image}
+                  alt={`${FOUNDER.name} — ${FOUNDER.signature}`}
+                  ratio="3 / 2"
+                  position={ROLES.aboutHome.position}
+                  tone="dark"
+                  sizes="(min-width: 1024px) 50vw, 92vw"
+                />
+              </div>
+            </Reveal>
 
-            {/* podpisy 01 / 02 / 03 — numer i tytuł w jednej linii, drobny opis (jak w makiecie) */}
-            <div className="mt-4 grid gap-6 sm:grid-cols-3">
+            {/* 01 / 02 / 03 — jak w makiecie: numer i tytuł w jednej linii */}
+            <div className="mt-8 grid gap-8 sm:grid-cols-3">
               {PILLARS.map((p, i) => (
-                <Reveal key={p.number} delay={i * 90}>
+                <Reveal key={p.number} delay={i * 80}>
                   <Link href={p.href} className="group block">
                     <div className="flex items-baseline gap-3">
                       <span className="as-num text-lg sm:text-xl">{p.number}</span>
-                      <h3 className="as-numbered-title text-cream-50">{p.title}</h3>
+                      <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
                     </div>
-                    <p className="as-numbered-desc text-cream-200/75">{p.desc}</p>
+                    <p className="as-numbered-desc text-cream-200/85">{p.desc}</p>
                     <span
                       aria-hidden="true"
-                      className="mt-2 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
+                      className="mt-3 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
                     >
                       &#8594;
                     </span>
@@ -370,155 +302,151 @@ function AboutBand() {
           </div>
         </div>
 
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/*  03 — EFEKTY                                                        */
-/* ================================================================== */
-
-const RESULT_CARDS = [
-  {
-    number: '01',
-    title: 'Brwi',
-    image: BY_NAME['brows-01-p1'],
-    alt: 'Wygojone brwi po zabiegu Super Natural Brows',
-    desc: 'Super Natural Brows i Perfect Powder Brows — włos maszynowy oraz technika pudrowa bez przerysowanych konturów.',
-    cta: 'Zobacz zabiegi brwi',
-    href: '/uslugi',
-  },
-  {
-    number: '02',
-    title: 'Usta',
-    image: LIPS[3],
-    position: '50% 55%',
-    alt: 'Wygojone usta po zabiegu Perfect Lips',
-    desc: 'Perfect Lips — lekka satynka, która po wygojeniu wygląda naturalnie i wyrównuje koloryt.',
-    cta: 'Zobacz zabiegi ust',
-    href: '/uslugi',
-  },
-  {
-    number: '03',
-    title: 'Kreski i korekty',
-    image: BY_NAME['brows-18-p1'],
-    alt: 'Perfect Eyeliners — kreska permanentna i linia zagęszczająca',
-    desc: 'Perfect Eyeliners, linia zagęszczająca, korekty oraz usuwanie laserem i removerem.',
-    cta: 'Zobacz pełen cennik',
-    href: '/uslugi#cennik',
-  },
-];
-
-function ResultsBand() {
-  return (
-    <section className="relative overflow-hidden bg-cream-100 py-12 lg:py-14">
-      <GoldArc className="-top-10 right-[-8%] h-[600px] w-[820px]" flip opacity={0.4} />
-
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="03">Efekty</SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-section as-text-balance text-ink">
-              Everything
-              <br />
-              behind the result.
-            </h2>
-          </Reveal>
-
-          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
-            <p className="as-caption">
-              Realne prace, realne wygojenia. Specjalizujemy się w najbardziej naturalnym efekcie —
-              bez przerysowanych konturów i bez kompromisów przy gojeniu.
-            </p>
-            <ArrowLink href="/uslugi" className="mt-6 w-fit">
-              Zobacz wszystkie zabiegi
-            </ArrowLink>
-          </Reveal>
-        </div>
-
-        {/* karty jak w makiecie: kolumny rozdzielone pionową złotą linią, bez border-top */}
-        <div className="mt-10 grid gap-y-10 md:grid-cols-3 md:gap-x-0">
-          {RESULT_CARDS.map((card, i) => (
-            <Reveal key={card.number} delay={i * 100}>
-              <article className="as-card-col group">
-                <div className="mb-4 flex items-center gap-4">
-                  <span className="as-num">{card.number}</span>
-                  <span className="h-px w-10 bg-ink/15 transition-all duration-300 group-hover:w-16 group-hover:bg-gold" />
-                </div>
-
-                <Figure
-                  image={card.image}
-                  alt={card.alt}
-                  ratio="5 / 4"
-                  position={card.position}
-                  tone="light"
-                  sizes="(min-width: 768px) 30vw, 90vw"
-                  priority
-                />
-
-                <h3 className="mt-5 font-display text-2xl text-ink sm:text-[1.75rem]">{card.title}</h3>
-                <p className="as-numbered-desc max-w-none flex-1 text-mocha">{card.desc}</p>
-                <ArrowLink href={card.href} className="mt-5 w-fit">
-                  {card.cta}
-                </ArrowLink>
-              </article>
+        {/* liczby — najmocniejszy dowód marki, w pierwszych dwóch ekranach */}
+        <div className="mt-14 grid gap-8 border-t border-cream-200/15 pt-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+          {ACHIEVEMENTS.map((a, i) => (
+            <Reveal key={a.label} delay={i * 60}>
+              <Stat value={a.value} label={a.label} tone="light" />
             </Reveal>
           ))}
         </div>
-
-        {/* Linie produktowe — przeniesione tutaj z osobnego pasa, który był
-            w całości tekstowy i wydłużał stronę bez żadnej treści wizualnej. */}
-        <Reveal delay={80} className="mt-10 border-t border-ink/10 pt-5">
-          <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
-            <span className="as-label text-ink/45">Produkty AS</span>
-            {PRODUCT_LINES.map((line) => (
-              <Link
-                key={line.id}
-                href={line.href}
-                className="group inline-flex items-baseline gap-3 text-ink/70 transition-colors hover:text-ink"
-              >
-                <span className="as-num text-[1rem] sm:text-[1.1rem]">{line.number}</span>
-                <span className="text-sm">{line.title}</span>
-                <span
-                  aria-hidden="true"
-                  className="text-gold-dark transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  &#8594;
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   );
 }
 
 /* ================================================================== */
-/*  05 — SZKOLENIA                                                     */
+/*  03 — PRODUKTY (cream-100)                                          */
+/* ================================================================== */
+
+function ProductsBand() {
+  return (
+    <section className="as-section bg-cream-100">
+      <div className="as-shell">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <Reveal className="lg:col-span-7">
+            <SectionLabel number="03">Produkty</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
+              Wszystko, co stoi
+              <br />
+              za efektem.
+            </h2>
+          </Reveal>
+          <Reveal delay={80} className="lg:col-span-5">
+            <p className="as-body">
+              Pigmenty, urządzenia i dokumentacja tworzone przez praktyków dla praktyków — to, czego
+              sami używamy w gabinecie i na szkoleniach.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-4">
+            <div className="mx-auto max-w-[22rem] lg:max-w-none">
+              <Figure
+                image={ROLES.productsHome.image}
+                alt={`${FOUNDER.name} — ${FOUNDER.role}`}
+                ratio="2 / 3"
+                position={ROLES.productsHome.position}
+                framed
+                sizes="(min-width: 1024px) 30vw, 80vw"
+              />
+            </div>
+          </Reveal>
+
+          <div className="lg:col-span-7 lg:col-start-6">
+            {PRODUCT_LINES.map((line, i) => (
+              <Reveal key={line.id} delay={i * 80}>
+                <IndexRow
+                  number={line.number}
+                  title={line.title}
+                  desc={line.desc}
+                  href={line.href}
+                  cta={line.cta}
+                  className={i === PRODUCT_LINES.length - 1 ? 'border-b' : undefined}
+                />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  04 — ZABIEGI I CENNIK (cream-50)                                   */
+/* ================================================================== */
+
+function TreatmentsBand() {
+  const macro = MACROS.brows09;
+  return (
+    <section className="as-section bg-cream-50">
+      <div className="as-shell">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
+            <Reveal>
+              <SectionLabel number="04">Zabiegi</SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
+                Naturalny efekt,
+                <br />
+                precyzyjna technika.
+              </h2>
+            </Reveal>
+            <Reveal delay={80} className="mt-10">
+              <figure className="max-w-[20rem]">
+                <Figure
+                  image={macro.image}
+                  alt="Brwi po makijażu permanentnym — zbliżenie"
+                  ratio={macro.ratio}
+                  position={macro.position}
+                  tone="light"
+                  zoom={false}
+                  sizes="320px"
+                />
+                <figcaption className="as-caption mt-3">{macro.caption}</figcaption>
+              </figure>
+            </Reveal>
+          </div>
+
+          <div className="lg:col-span-6 lg:col-start-7">
+            <Reveal>
+              <p className="as-body">
+                Każdy zabieg zaczynamy od konsultacji, architektury twarzy i rysunku wstępnego. Ceny
+                obejmują konsultację — bez gwiazdek i ukrytych dopłat.
+              </p>
+            </Reveal>
+            <Reveal delay={80} className="mt-8">
+              {PRICING_PMU.items.map((item) => (
+                <PriceRow key={item.name} name={item.name} note={item.note} price={item.price} />
+              ))}
+            </Reveal>
+            <p className="as-caption mt-6 max-w-[36rem]">{PRICING_PMU.footnote}</p>
+            <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
+              Zobacz pełen cennik
+            </ArrowLink>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  05 — SZKOLENIA (mocha)                                             */
 /* ================================================================== */
 
 function TrainingBand() {
   return (
-    <section className="relative overflow-hidden bg-mocha py-12 text-cream-50 lg:py-14">
-      <GoldArc className="top-0 left-[8%] h-[760px] w-[900px]" opacity={0.25} />
-
+    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
       <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="04" tone="light">
-            Szkolenia
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-4">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
             <Reveal>
-              {/* łamanie jak w makiecie: Szkolenia / oparte na / realnej praktyce */}
-              <h2 className="as-display-section-sm">
+              <SectionLabel number="05" tone="light">
+                Szkolenia
+              </SectionLabel>
+              <h2 className="as-display-section mt-6 text-cream-100">
                 Szkolenia
                 <br />
                 oparte na
@@ -527,65 +455,48 @@ function TrainingBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-caption-invert mt-6 max-w-[17rem]">
+              <p className="as-body-invert mt-6 max-w-[26rem]">
                 Autorskie szkolenia AS to połączenie zaawansowanej techniki, wieloletniego
-                doświadczenia i realnej praktyki. Uczysz się od ekspertów, zdobywasz pewność siebie
-                i otrzymujesz wsparcie na każdym etapie swojej drogi.
+                doświadczenia i realnej praktyki. Uczysz się od ekspertów i dostajesz wsparcie na
+                każdym etapie swojej drogi.
               </p>
-            </Reveal>
-            <Reveal delay={140}>
               <ArrowLink href="/szkolenia" tone="light" className="mt-8 w-fit">
                 Poznaj szkolenia
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* kolaż zdjęć kursantek */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-7">
             <Reveal>
-              {/* kolaż jak w makiecie: duże ~2,5:1, dwa małe ~2:1, złota linia wokół, odstępy 6 px */}
-              <div className="as-photo-frame grid gap-1">
+              <div className="as-photo-frame">
                 <Figure
-                  image={ACADEMY[3]}
-                  alt="Kursantki Babushkina Academy z certyfikatami Super Natural Brows"
-                  ratio="5 / 2"
-                  position="50% 20%"
+                  image={GROUPS.trainingHome.image}
+                  alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami — ${BRAND.academy}`}
+                  ratio="16 / 9"
+                  position={GROUPS.trainingHome.position}
                   tone="dark"
-                  sizes="(min-width: 1024px) 60vw, 90vw"
+                  zoom={false}
+                  sizes="(min-width: 1024px) 50vw, 92vw"
                 />
-                <div className="grid grid-cols-2 gap-1">
-                  <Figure
-                    image={ACADEMY[5]}
-                    alt="Absolwentki szkolenia PMU odbierają certyfikaty"
-                    ratio="2 / 1"
-                    position="50% 20%"
-                    tone="dark"
-                    sizes="(min-width: 1024px) 30vw, 45vw"
-                  />
-                  <Figure
-                    image={ACADEMY[7]}
-                    alt="Grupa kursantek Babushkina Academy po zakończonym kursie"
-                    ratio="2 / 1"
-                    position="50% 20%"
-                    tone="dark"
-                    sizes="(min-width: 1024px) 30vw, 45vw"
-                  />
-                </div>
               </div>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-8">
+              {COURSES.map((c) => (
+                <PriceRow key={c.id} name={c.title} note={c.format} price={`${c.price} ${c.priceNote}`} tone="light" />
+              ))}
             </Reveal>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
+        <div className="mt-14 grid gap-8 md:grid-cols-3 lg:mt-16">
           {TRAINING_PILLARS.map((p, i) => (
-            <Reveal key={p.number} delay={i * 90}>
-              <div className="flex items-baseline gap-4">
+            <Reveal key={p.number} delay={i * 80}>
+              <div className="flex items-baseline gap-3">
                 <span className="as-num text-lg text-gold-light sm:text-xl">{p.number}</span>
-                <div>
-                  <h3 className="as-numbered-title text-cream-50">{p.title}</h3>
-                  <p className="as-numbered-desc text-cream-200/75">{p.desc}</p>
-                </div>
+                <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
               </div>
+              <p className="as-numbered-desc text-cream-200/90">{p.desc}</p>
             </Reveal>
           ))}
         </div>
@@ -595,84 +506,48 @@ function TrainingBand() {
 }
 
 /* ================================================================== */
-/*  06 — CENNIK (zajawka)                                              */
+/*  06 — ZAPROSZENIE (cream-50)                                        */
 /* ================================================================== */
 
-function PricingTeaser() {
+function InvitationBand() {
   return (
-    <section className="relative overflow-hidden bg-cream-50 py-12 lg:py-14">
+    <section data-sticky-hide className="as-section bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-          {/* kolumna ze zdjęciem — bez niej pas był w całości tekstowy */}
-          <Reveal className="lg:col-span-5">
-            <SectionLabel number="05">Cennik</SectionLabel>
-            <h2 className="as-display-section mt-6 text-ink">
-              Jasne stawki,
-              <br />
-              bez gwiazdek.
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+          <Reveal className="lg:col-span-6">
+            <SectionLabel number="06">Kontakt</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
+              Zacznijmy od <span className="italic text-gold-dark">konsultacji.</span>
             </h2>
-            <div className="mt-9">
-              <Figure
-                image={BY_NAME['lips-01-p1']}
-                alt="Perfect Lips — efekt makijażu permanentnego ust po wygojeniu"
-                ratio="2 / 1"
-                position="50% 28%"
-                tone="light"
-                sizes="(min-width: 1024px) 28vw, 90vw"
-              />
+            <p className="as-body mt-6">
+              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia —
+              konsultacja jest pierwszym krokiem każdego zabiegu.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <Link href="/kontakt" className="as-btn-solid">
+                Umów wizytę
+              </Link>
+              <ArrowLink href="/szkolenia" className="w-fit">
+                Terminy szkoleń
+              </ArrowLink>
             </div>
-            <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
-              Zobacz pełen cennik
-            </ArrowLink>
           </Reveal>
 
-          <Reveal delay={90} className="lg:col-span-7">
-            <p className="as-body max-w-lg">
-              {PRICING_PMU.subtitle}. Pełen cennik obejmuje również odświeżenia oraz usuwanie
-              laserem i removerem.
-            </p>
-            <div className="mt-8">
-              {PRICING_PMU.items.map((item) => (
-                <PriceRow key={item.name} name={item.name} price={item.price} />
-              ))}
+          <Reveal delay={90} className="lg:col-span-4 lg:col-start-9">
+            <div className="mx-auto max-w-[24rem] lg:max-w-none">
+              <Figure
+                image={ROLES.closingHome.image}
+                alt={`${FOUNDER.name} — sesja wizerunkowa ${BRAND.name}`}
+                ratio="4 / 5"
+                position={ROLES.closingHome.position}
+                framed
+                sizes="(min-width: 1024px) 36vw, 90vw"
+              />
             </div>
-            <p className="mt-6 max-w-xl text-xs leading-relaxed text-mocha-400">
-              {PRICING_PMU.footnote}
-            </p>
           </Reveal>
         </div>
       </div>
     </section>
-  );
-}
-
-/* ================================================================== */
-/*  06 — OSIĄGNIĘCIA + CTA                                             */
-/* ================================================================== */
-
-function ClosingBand() {
-  return (
-    <ClosingCta
-      number="06"
-      label="Kontakt"
-      title="Zacznijmy od"
-      titleAccent="konsultacji."
-      lead="Salon i akademia w Warszawie — wolnostojący budynek z prywatnym parkingiem. Umów wizytę albo zapytaj o najbliższy termin szkolenia."
-      primary={{ href: '/kontakt', label: 'Umów wizytę' }}
-      secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
-      photos={[
-        { image: STUDIO[8], alt: 'Sesja wizerunkowa AS Company' },
-        { image: STUDIO[15], alt: 'Sesja wizerunkowa AS Company', position: '50% 30%' },
-      ]}
-    >
-      <div className="mt-12 grid gap-y-8 border-t border-cream-200/12 pt-10 sm:grid-cols-2 lg:grid-cols-4">
-        {ACHIEVEMENTS.map((a, i) => (
-          <Reveal key={a.label} delay={i * 70}>
-            <Stat value={a.value} label={a.label} tone="light" />
-          </Reveal>
-        ))}
-      </div>
-    </ClosingCta>
   );
 }
 
@@ -683,10 +558,10 @@ export default function Home() {
     <>
       <Hero />
       <AboutBand />
-      <ResultsBand />
+      <ProductsBand />
+      <TreatmentsBand />
       <TrainingBand />
-      <PricingTeaser />
-      <ClosingBand />
+      <InvitationBand />
     </>
   );
 }
