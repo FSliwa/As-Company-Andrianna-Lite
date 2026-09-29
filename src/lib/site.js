@@ -48,11 +48,16 @@ export const CONTACT = {
  */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://as-loveliness.eu').replace(/\/$/, '');
 
-/** Rezerwacja online (Kalendarz Google) — wszystkie przyciski „Umów wizytę”. */
-// TYMCZASOWO /kontakt — strona /umow-wizyte jest w budowie (workflow rezerwacji);
-// po jej sprawdzeniu wraca '/umow-wizyte'. Bez tego „Umów wizytę” dawało 404.
-export const BOOKING_URL = '/kontakt';
+/**
+ * Rezerwacja online (Kalendarz Google) — cel wszystkich przycisków „Umów wizytę”.
+ * BOOKING_ENABLED wylicza next.config.mjs w chwili buildu z tych samych zmiennych
+ * co src/lib/booking/provider.js. Bez skonfigurowanego kalendarza przyciski prowadzą
+ * do formularza kontaktowego — strona rezerwacji pokazałaby tylko „chwilowo
+ * niedostępna”. Po ustawieniu zmiennych na hostingu i Redeploy przełączają się same.
+ */
+export const BOOKING_ENABLED = process.env.NEXT_PUBLIC_BOOKING_ENABLED === '1';
 export const BOOKING_PAGE = '/umow-wizyte';
+export const BOOKING_URL = BOOKING_ENABLED ? BOOKING_PAGE : '/kontakt';
 
 /**
  * Sklep internetowy klienta (WooCommerce) — produkty kupuje się tam.

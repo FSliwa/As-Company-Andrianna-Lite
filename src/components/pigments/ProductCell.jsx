@@ -82,7 +82,7 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
           ) : (
             <OutOfStock />
           )}
-          <ArrowLink onClick={() => onDetails(product.id)} className="w-fit">
+          <ArrowLink onClick={() => onDetails(product.id)} aria-haspopup="dialog" className="w-fit">
             Szczegóły<span className="sr-only">: {product.name}</span>
           </ArrowLink>
         </div>
@@ -111,16 +111,18 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
         <p className="as-kicker">
           {collectionLabel(product.collection)} · {zonesText(product)}
         </p>
-        <h3 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">
+        {/* h4: zestawy stoją pod nagłówkiem „Zestawy” (h3) */}
+        <h4 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">
           <button
             type="button"
             onClick={() => onDetails(product.id)}
+            aria-haspopup="dialog"
             className="relative text-left underline decoration-ink/30 underline-offset-4 transition-colors before:absolute before:-inset-y-2.5 before:inset-x-0 before:content-[''] hover:decoration-ink"
           >
             {product.name}
             <span className="sr-only"> — skład zestawu</span>
           </button>
-        </h3>
+        </h4>
         {qty > 0 && (
           <p className="mt-1.5 text-[0.8125rem] text-gold-deep">
             W zamówieniu: {qty}

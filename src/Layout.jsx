@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Instagram, Menu, X } from 'lucide-react';
 import Logo from '@/components/as/Logo';
-import { BOOKING_URL, BRAND, CONTACT, LEGAL, NAV_ALL, NAV_MAIN } from '@/lib/site';
+import { BOOKING_PAGE, BOOKING_URL, BRAND, CONTACT, LEGAL, NAV_ALL, NAV_MAIN } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
@@ -344,7 +344,8 @@ function StickyBar({ menuOpen }) {
     return () => io.disconnect();
   }, [pathname]);
 
-  if (pathname === '/kontakt' || pathname === BOOKING_URL) return null;
+  /* trasy-formularze: pasek dublowałby formularz */
+  if (pathname === '/kontakt' || pathname === BOOKING_PAGE) return null;
   const show = pastHero && !blocked && !menuOpen;
 
   return (

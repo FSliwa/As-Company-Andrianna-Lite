@@ -38,7 +38,7 @@ import {
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BOOKING_URL, CONTACT, FOUNDER, LEGAL } from '@/lib/site';
+import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER, LEGAL } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
 import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
@@ -369,8 +369,9 @@ function VisitBand() {
             </ol>
 
             <Reveal delay={200}>
-              <ArrowLink href={BOOKING_URL} className="mt-10 w-fit">
-                Umów wizytę online
+              {/* bez rezerwacji online link prowadziłby do tej samej strony — wtedy do formularza */}
+              <ArrowLink href={BOOKING_ENABLED ? BOOKING_URL : '#formularz'} className="mt-10 w-fit">
+                Umów wizytę
               </ArrowLink>
             </Reveal>
           </div>

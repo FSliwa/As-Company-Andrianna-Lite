@@ -4,16 +4,20 @@
  * Filtry katalogu: kolekcja i strefa (przyciski aria-pressed w grupach)
  * oraz wyszukiwarka po nazwie odcienia.
  *
- * Rząd kolekcji stoi w jednej linii; gdy się nie mieści (telefon, tablet),
- * przewija się w bok, a krawędź z ukrytą treścią wygasza maska — pokazywana
- * tylko wtedy, gdy po tej stronie naprawdę coś jest.
+ * Chip kolekcji ma u dołu pasek jej odcieni (poglądowo, bez zestawów) —
+ * paleta kolekcji stoi tam, gdzie się ją wybiera.
+ *
+ * Poniżej lg rzędy przewijają się w bok (telefon, tablet: gest), a krawędź
+ * z ukrytą treścią wygasza maska — tylko gdy po tej stronie naprawdę coś
+ * jest. Od lg rzędy się zawijają: bez ukrytych chipów i bez przewijania
+ * w bok, którego mysz bez gładzika nie obsłuży.
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-function Chip({ pressed, onClick, children, controls }) {
+function Chip({ pressed, onClick, children, controls, palette }) {
   return (
     <button
       type="button"
@@ -21,13 +25,20 @@ function Chip({ pressed, onClick, children, controls }) {
       aria-controls={controls}
       onClick={onClick}
       className={cn(
-        'as-label inline-flex h-11 shrink-0 items-center whitespace-nowrap border px-4 transition-colors focus-visible:outline-ink',
+        'as-label relative inline-flex h-11 shrink-0 items-center overflow-hidden whitespace-nowrap border px-4 transition-colors focus-visible:outline-ink',
         pressed
           ? 'border-ink bg-ink text-cream-50'
           : 'border-ink/20 text-ink/80 hover:border-ink hover:text-ink'
       )}
     >
       {children}
+      {palette?.length > 0 && (
+        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 flex h-[3px]">
+          {palette.map((c, i) => (
+            <span key={`${c}-${i}`} className="h-full flex-1" style={{ backgroundColor: c }} />
+          ))}
+        </span>
+      )}
     </button>
   );
 }
@@ -40,6 +51,7 @@ function useEdgeFade() {
   const measure = useCallback(() => {
     const el = ref.current;
     if (!el) return;
+    /* od lg rząd się zawija (scrollWidth = clientWidth) — maska sama znika */
     const max = el.scrollWidth - el.clientWidth;
     const next = { left: el.scrollLeft > 2, right: max - el.scrollLeft > 2 };
     setEdges((prev) => (prev.left === next.left && prev.right === next.right ? prev : next));
@@ -75,7 +87,8 @@ function useEdgeFade() {
 
 function Row({ label, children, scroll = false, fadeRef, fadeStyle }) {
   return (
-    <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)] lg:items-center lg:gap-6">
+    /* baseline: etykieta w linii z PIERWSZYM rzędem chipów, gdy się zawijają */
+    <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)] lg:items-baseline lg:gap-6">
       <p className="as-kicker" aria-hidden="true">
         {label}
       </p>
@@ -87,8 +100,9 @@ function Row({ label, children, scroll = false, fadeRef, fadeStyle }) {
         className={cn(
           'flex gap-2',
           scroll
-            /* py-1.5: przewijany rząd przycina też w pionie — zostaw miejsce na obwódkę fokusu */
-            ? 'as-noscrollbar -mx-5 -my-1.5 overflow-x-auto px-5 py-1.5 sm:-mx-8 sm:px-8 lg:-mx-1.5 lg:px-1.5'
+            /* py-1.5: przewijany rząd przycina też w pionie — zostaw miejsce na obwódkę fokusu;
+               od lg: zawijanie, bez przewijania i bez przycinania */
+            ? 'as-noscrollbar -mx-5 -my-1.5 overflow-x-auto px-5 py-1.5 sm:-mx-8 sm:px-8 lg:m-0 lg:flex-wrap lg:overflow-visible lg:p-0'
             : 'flex-wrap'
         )}
       >
@@ -113,6 +127,7 @@ function useKeepActiveInView(ref, dep) {
 
 export default function CatalogFilters({
   collections,
+  palettes = {},
   collection,
   onCollection,
   zones,
@@ -134,7 +149,13 @@ export default function CatalogFilters({
           Wszystkie
         </Chip>
         {collections.map((c) => (
-          <Chip key={c.id} pressed={collection === c.id} onClick={() => onCollection(c.id)} controls={controls}>
+          <Chip
+            key={c.id}
+            pressed={collection === c.id}
+            onClick={() => onCollection(c.id)}
+            controls={controls}
+            palette={palettes[c.id]}
+          >
             {c.name}
           </Chip>
         ))}

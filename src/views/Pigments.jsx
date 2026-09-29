@@ -5,14 +5,15 @@
  *
  * Pełny katalog pigmentów NA TEJ STRONIE, bez przekierowań do zewnętrznego
  * sklepu (prośba klienta, 29.09.2026). Zakup = lista „Twoje zamówienie”
- * wysyłana jako zapytanie (bez płatności online).
+ * wysyłana jako ZAPYTANIE (na tym etapie nic się nie kupuje ani nie płaci).
  *
  * Dane: WYŁĄCZNIE src/data/pigments.json — kopia publicznego Store API
- * sklepu klienta (kategoria „Pigmenty”), odświeżana skryptem
- * `node scripts/sync-pigments.mjs`. Każda nazwa, cena, pojemność, stan
- * magazynowy i opis pochodzi z danych; liczby w hero i nagłówkach są
- * z nich wyliczane. Pokazujemy tylko cenę bieżącą — bez cen przekreślonych
- * i bez słowa „promocja” (brak najniższej ceny z 30 dni, Omnibus).
+ * sklepu klienta, odświeżana skryptem `node scripts/sync-pigments.mjs`.
+ * Każda nazwa, cena, pojemność, stan magazynowy i opis pochodzi z danych;
+ * liczby w hero i nagłówkach są z nich wyliczane. Pokazujemy tylko cenę
+ * bieżącą — bez cen przekreślonych i bez słowa „promocja” (brak najniższej
+ * ceny z 30 dni, Omnibus). Ceny starsze niż PRICE_MAX_AGE_DAYS → „cena do
+ * potwierdzenia” (src/lib/pigments.js).
  *
  * Zdjęć produktów ze sklepu nie pokazujemy. Kolor próbki to odcień
  * POGLĄDOWY wyznaczony z miniatury (pole `color`); brak koloru → kreskowanie
@@ -20,12 +21,15 @@
  *
  * Układ (rytm tła):
  *   01 PageHero band (espresso) — liczby z danych, „Przeglądaj katalog” + „Jak zamówić”
- *   02 Kolekcje #kolekcje (cream-50) — .as-cell z paskiem odcieni; klik filtruje katalog
- *   03 Katalog #katalog (cream-100, hairline) — filtry, licznik (aria-live), siatka
- *      odcieni (pierwsze 12 + „Pokaż wszystkie”), zestawy jako cennik, adnotacje
- *   04 Jak zamówić #zamowienie (cream-50, hairline) — 3 kroki + dokumentacja na prośbę
- *   05 ClosingCta — „Twoje zamówienie” (otwiera listę) + kontakt
+ *   02 Katalog #katalog (cream-50) — filtry (chip kolekcji z paskiem jej odcieni),
+ *      licznik (aria-live), siatka odcieni (pełne rzędy: 6 do xl, 8 od xl
+ *      + „Pokaż wszystkie”), zestawy jako cennik, adnotacje
+ *   03 Jak zamówić #zamowienie (cream-100, hairline) — 3 kroki + dokumentacja na prośbę
+ *   04 ClosingCta — „Twoje zamówienie” (otwiera listę) + kontakt
  *   + pływający przycisk listy i dwa dialogi (szczegóły, zamówienie)
+ *
+ * Dawna sekcja „Kolekcje” (komórki z paletą) dublowała filtr kolekcji —
+ * paleta przeszła na chip filtra, a strona mieści się w limicie długości.
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -45,18 +49,21 @@ import {
   filterProducts,
   formatCapacity,
   formatSyncedDate,
+  pricesExpired,
   productById,
   products as allProducts,
   stats as catalogStats,
   zoneLabel,
   zonesIn,
 } from '@/lib/pigments';
+import { CONTACT } from '@/lib/site';
+import { cn } from '@/lib/utils';
 import { ProductCell, SetRow } from '@/components/pigments/ProductCell';
 import CatalogFilters from '@/components/pigments/CatalogFilters';
 import ProductDialog from '@/components/pigments/ProductDialog';
-import OrderDialog from '@/components/pigments/OrderDialog';
+import OrderDialog, { FORM_LIVE } from '@/components/pigments/OrderDialog';
 import OrderFab from '@/components/pigments/OrderFab';
-import { NBSP, PaletteStrip, fold, plural } from '@/components/pigments/parts';
+import { NBSP, PricesStaleContext, fold, plural } from '@/components/pigments/parts';
 import { useOrder } from '@/components/pigments/useOrder';
 
 /* ------------------------------------------------------------------ */
@@ -68,27 +75,29 @@ const COLLECTIONS = allCollections().filter((c) => c.count > 0);
 const STATS = catalogStats();
 const SYNCED = formatSyncedDate();
 
-/* Pierwsze odcienie widoczne od razu (2 rzędy @1440); reszta po „Pokaż
-   wszystkie” — pełny przegląd kolekcji daje sekcja 02, a filtr kolekcji
-   ze 102 odcieni zostawia 4–28. Wyszukiwanie pokazuje zawsze wszystkie trafienia. */
-const PAGE = 8;
+/* Pierwsze odcienie widoczne od razu — zawsze PEŁNE rzędy siatki:
+   2 kolumny (telefon) → 3 rzędy, 3 kolumny (md) → 2 rzędy = 6 odcieni;
+   4 kolumny (xl) → 2 rzędy = 8. Siódmy i ósmy są w DOM, ale poniżej xl
+   ukryte klasą (bez mierzenia w JS — ten sam HTML na serwerze i w przeglądarce).
+   Reszta po „Pokaż wszystkie”; wyszukiwanie pokazuje zawsze wszystkie trafienia. */
+const PAGE_NARROW = 6;
+const PAGE_WIDE = 8;
+const WIDE_MQ = '(min-width: 1280px)';
 
-const COUNT_WORDS = ['', 'Jedna', 'Dwie', 'Trzy', 'Cztery', 'Pięć', 'Sześć', 'Siedem', 'Osiem', 'Dziewięć', 'Dziesięć'];
 const shadesWord = (n) => plural(n, 'odcień', 'odcienie', 'odcieni');
 const setsWord = (n) => plural(n, 'zestaw', 'zestawy', 'zestawów');
 
-/* Nazwa kolekcji do nagłówka komórki: łamanie po „/” i miękki dywiz
-   w złożeniach z „pigment…” — w kolumnie telefonu (~165 px) słowo
-   „Trichopigmentation” nie mieści się w 24 px Bodoni. */
-const displayName = (name) => name.replace('/', '/\u200b').replace(/(\w{4,})(pigment)/i, '$1\u00ad$2');
-
-/* Kolory odcieni kolekcji (bez zestawów i bez `null`) — pasek w sekcji 02. */
+/* Kolory odcieni kolekcji (bez zestawów i bez `null`) — pasek na chipie filtra. */
 const PALETTES = Object.fromEntries(
   COLLECTIONS.map((c) => [
     c.id,
     PRODUCTS.filter((p) => p.collection === c.id && !p.isSet && p.color).map((p) => p.color),
   ])
 );
+
+/* Strefa zostaje przy zmianie kolekcji tylko wtedy, gdy nowa kolekcja ją ma. */
+const zoneFits = (zone, collection) =>
+  !zone || zonesIn(filterProducts(PRODUCTS, { collection })).some((z) => z.id === zone);
 
 /* „6–15 ml” z pojemności odcieni w danych */
 const ml = (label) => Number(String(label).replace(',', '.').replace(/\s*ml$/, ''));
@@ -103,6 +112,8 @@ const HERO_STATS = [
   { value: CAPACITY_RANGE, label: 'pojemność butelki' },
 ];
 
+/* Krok 02 mówi o kanale, który naprawdę działa (jak BOOKING_STEPS na /kontakt). */
+const NOT_A_PURCHASE = 'To zapytanie — na tym etapie nic nie kupujesz ani nie płacisz.';
 const STEPS = [
   {
     number: '01',
@@ -112,7 +123,9 @@ const STEPS = [
   {
     number: '02',
     title: 'Wyślij zapytanie',
-    text: 'Podaj imię, telefon i e-mail i wyślij listę jako zapytanie — bez płatności online.',
+    text: FORM_LIVE
+      ? `Podaj imię i telefon lub e-mail, a potem wyślij listę. ${NOT_A_PURCHASE}`
+      : `Skopiuj listę i wyślij ją na Instagramie — ${CONTACT.instagramHandle}. ${NOT_A_PURCHASE}`,
   },
   {
     number: '03',
@@ -120,6 +133,12 @@ const STEPS = [
     text: 'Odpiszemy z informacją o dostępności, łączną kwotą oraz sposobem dostawy i płatności.',
   },
 ];
+
+const CLOSING_LEAD = `${
+  FORM_LIVE
+    ? 'Wyślij listę jako zapytanie'
+    : `Skopiuj listę i wyślij ją na Instagramie (${CONTACT.instagramHandle})`
+} — potwierdzimy dostępność, łączną kwotę oraz sposób dostawy i płatności. Nie wiesz, od którego odcienia zacząć? Napisz, do jakiej techniki i strefy szukasz pigmentu.`;
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
@@ -154,72 +173,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — KOLEKCJE (klik filtruje katalog)                              */
-/* ================================================================== */
-
-function Collections({ onPick }) {
-  const n = COLLECTIONS.length;
-  return (
-    <section id="kolekcje" className="as-section scroll-mt-24 bg-cream-50">
-      <div className="as-shell">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
-          <Reveal className="lg:col-span-7">
-            <SectionLabel number="02">Kolekcje</SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">
-              {COUNT_WORDS[n] || n} {plural(n, 'kolekcja', 'kolekcje', 'kolekcji')}.
-            </h2>
-          </Reveal>
-          <Reveal delay={80} className="lg:col-span-5">
-            <p className="as-body">
-              Wybierz kolekcję, a katalog pokaże tylko jej odcienie i zestawy. Pasek pod nazwą to
-              odcienie kolekcji — poglądowo.
-            </p>
-          </Reveal>
-        </div>
-
-        {/* komórka: hairline → nazwa → pasek odcieni → liczby → strefy → akcja;
-            cała komórka klikalna (akcja rozciągnięta na komórkę) */}
-        <ul className="mt-12 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 lg:grid-cols-4">
-          {COLLECTIONS.map((c) => (
-            <li key={c.id} className="as-cell group relative flex min-w-0 flex-col">
-              {/* nazwy kolekcji są angielskie — lang="en" daje poprawne dzielenie
-                  długich słów w wąskiej kolumnie telefonu (Trichopigmentation) */}
-              <h3
-                lang="en"
-                className="as-title as-text-balance hyphens-auto break-words text-ink transition-colors group-hover:text-gold-dark"
-              >
-                {displayName(c.name)}
-              </h3>
-              <PaletteStrip colors={PALETTES[c.id] || []} className="mt-4 h-2 w-full" />
-              <p className="mt-4 text-[0.9375rem] leading-[1.6] text-ink/75">
-                {c.shades} {shadesWord(c.shades)}
-                {c.sets > 0 && ` · ${c.sets} ${setsWord(c.sets)}`}
-              </p>
-              <p className="as-kicker mt-2 leading-relaxed">{c.zones.map((z) => zoneLabel(z)).join(' · ')}</p>
-              <div className="mt-auto pt-6">
-                <button
-                  type="button"
-                  onClick={() => onPick(c.id)}
-                  aria-controls="katalog-wyniki"
-                  className="as-arrow-dark group static w-fit after:absolute after:inset-0 after:content-['']"
-                >
-                  <span>Pokaż w katalogu</span>
-                  <span className="as-arrow-glyph" aria-hidden="true">
-                    &#8594;
-                  </span>
-                  <span className="sr-only">: {c.name}</span>
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/*  03 — KATALOG                                                       */
+/*  02 — KATALOG                                                       */
 /* ================================================================== */
 
 function Catalog({
@@ -237,7 +191,9 @@ function Catalog({
   onDetails,
 }) {
   const gridRef = useRef(null);
+  const filtersRef = useRef(null);
   const focusIndex = useRef(null);
+  const stale = React.useContext(PricesStaleContext);
 
   const base = useMemo(() => filterProducts(PRODUCTS, { collection }), [collection]);
   const zones = useMemo(() => zonesIn(base), [base]);
@@ -255,8 +211,10 @@ function Catalog({
 
   const shades = useMemo(() => results.filter((p) => !p.isSet), [results]);
   const sets = useMemo(() => results.filter((p) => p.isSet), [results]);
-  const limited = !expanded && !q && shades.length > PAGE;
-  const visible = limited ? shades.slice(0, PAGE) : shades;
+  const collapsible = !expanded && !q;
+  const limitedNarrow = collapsible && shades.length > PAGE_NARROW;
+  const limitedWide = collapsible && shades.length > PAGE_WIDE;
+  const visible = limitedNarrow ? shades.slice(0, PAGE_WIDE) : shades;
   const filtered = Boolean(collection || activeZone || q);
 
   /* po „Pokaż wszystkie” fokus na pierwszym nowo pokazanym odcieniu */
@@ -271,6 +229,8 @@ function Catalog({
     setZone(null);
     setQuery('');
     setExpanded(false);
+    /* przycisk, który to wywołał, znika — fokus na „Wszystkie” w rzędzie kolekcji */
+    requestAnimationFrame(() => filtersRef.current?.querySelector('[role="group"] button')?.focus());
   };
 
   const summary =
@@ -286,29 +246,31 @@ function Catalog({
         (activeZone ? ` · ${zoneLabel(activeZone)}` : '');
 
   return (
-    <section id="katalog" className="as-section scroll-mt-24 border-t border-ink/10 bg-cream-100">
+    <section id="katalog" className="as-section scroll-mt-24 bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <Reveal className="lg:col-span-7">
-            <SectionLabel number="03">Katalog</SectionLabel>
+            <SectionLabel number="02">Katalog</SectionLabel>
             <h2 ref={headingRef} tabIndex={-1} className="as-display-section as-text-balance mt-6 text-ink">
               Katalog odcieni.
             </h2>
           </Reveal>
           <Reveal delay={80} className="lg:col-span-5">
             <p className="as-body">
-              Dodaj odcienie do zamówienia i wyślij listę jako zapytanie — bez płatności online.
-              Przy pigmentach w kilku pojemnościach wybierz butelkę.
+              Wybierz kolekcję i strefę — pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
+              pigmenty trafiają na listę „Twoje zamówienie”, którą wysyłasz jako zapytanie.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-10 lg:mt-12">
+        <div ref={filtersRef} className="mt-10 lg:mt-12">
           <CatalogFilters
             collections={COLLECTIONS}
+            palettes={PALETTES}
             collection={collection}
             onCollection={(id) => {
               setCollection(id);
+              if (!zoneFits(zone, id)) setZone(null);
               setExpanded(false);
             }}
             zones={zones}
@@ -346,21 +308,34 @@ function Catalog({
               className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-4"
             >
               {visible.map((p, i) => (
-                <li key={p.id} data-i={i} tabIndex={-1} className="min-w-0">
+                <li
+                  key={p.id}
+                  data-i={i}
+                  tabIndex={-1}
+                  className={cn('min-w-0', limitedNarrow && i >= PAGE_NARROW && 'hidden xl:block')}
+                >
                   <ProductCell product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
                 </li>
               ))}
             </ul>
           )}
 
-          {limited && (
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink/15 pt-6">
+          {limitedNarrow && (
+            <div
+              className={cn(
+                'mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink/15 pt-6',
+                !limitedWide && 'xl:hidden'
+              )}
+            >
               <p className="as-caption max-w-none">
-                Pokazano {PAGE} z{NBSP}{shades.length} {plural(shades.length, 'odcienia', 'odcieni', 'odcieni')}.
+                Pokazano <span className="xl:hidden">{PAGE_NARROW}</span>
+                <span className="hidden xl:inline">{Math.min(PAGE_WIDE, shades.length)}</span> z{NBSP}
+                {shades.length} {plural(shades.length, 'odcienia', 'odcieni', 'odcieni')}.
               </p>
               <ArrowLink
                 onClick={() => {
-                  focusIndex.current = PAGE;
+                  /* fokus na pierwszym NOWO pokazanym odcieniu — zależy od szerokości */
+                  focusIndex.current = window.matchMedia?.(WIDE_MQ).matches ? PAGE_WIDE : PAGE_NARROW;
                   setExpanded(true);
                 }}
                 className="w-fit"
@@ -396,7 +371,11 @@ function Catalog({
 
         <div className="mt-10 space-y-1 border-t border-ink/15 pt-5">
           <p className="as-caption max-w-none">Kolory próbek są poglądowe — odcień na ekranie różni się od pigmentu.</p>
-          <p className="as-caption max-w-none">Ceny aktualne na {SYNCED}.</p>
+          <p className="as-caption max-w-none">
+            {stale
+              ? `Ceny z ${SYNCED} mogą być nieaktualne — potwierdzimy je w odpowiedzi na zapytanie.`
+              : `Ceny aktualne na ${SYNCED}, bez kosztów dostawy.`}
+          </p>
         </div>
       </div>
     </section>
@@ -404,23 +383,23 @@ function Catalog({
 }
 
 /* ================================================================== */
-/*  04 — JAK ZAMÓWIĆ                                                   */
+/*  03 — JAK ZAMÓWIĆ                                                   */
 /* ================================================================== */
 
 function HowToOrder() {
   return (
-    <section id="zamowienie" className="as-section scroll-mt-24 border-t border-ink/10 bg-cream-50">
+    <section id="zamowienie" className="as-section scroll-mt-24 border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Reveal>
-              <SectionLabel number="04">Zamówienie</SectionLabel>
+              <SectionLabel number="03">Zamówienie</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">Jak zamówić.</h2>
             </Reveal>
             <Reveal delay={80}>
               <p className="as-body mt-6">
-                Dokumentację udostępniamy na prośbę — napisz, której linii i których odcieni dotyczy
-                pytanie.
+                Zamówienie to zapytanie o listę odcieni — odpowiadamy z dostępnością i łączną kwotą.
+                Dokumentację produktów udostępniamy na prośbę.
               </p>
               <ArrowLink href="/certyfikaty" className="mt-8 w-fit">
                 Dokumentacja produktów
@@ -445,7 +424,18 @@ function HowToOrder() {
 
 /* ================================================================== */
 
-export default function Pigments() {
+/**
+ * @param {{ pricesStale?: boolean }} props
+ *   `pricesStale` — ceny przeterminowane w chwili renderu na serwerze (build);
+ *   przeglądarka sprawdza to ponownie po zamontowaniu (strona statyczna może
+ *   być oglądana długo po buildzie).
+ */
+export default function Pigments({ pricesStale = false }) {
+  const [stale, setStale] = useState(pricesStale);
+  useEffect(() => {
+    setStale(pricesExpired());
+  }, []);
+
   const order = useOrder();
   const { add, qtyByProduct, summary } = order;
 
@@ -469,8 +459,9 @@ export default function Pigments() {
     const params = new URLSearchParams(window.location.search);
     const c = params.get('kolekcja');
     const z = params.get('strefa');
-    if (c && COLLECTIONS.some((x) => x.id === c)) setCollection(c);
-    if (z && PRODUCTS.some((p) => p.zones.includes(z))) setZone(z);
+    const coll = c && COLLECTIONS.some((x) => x.id === c) ? c : null;
+    if (coll) setCollection(coll);
+    if (z && PRODUCTS.some((p) => p.zones.includes(z)) && zoneFits(z, coll)) setZone(z);
   }, []);
 
   const rememberTrigger = () => {
@@ -520,21 +511,9 @@ export default function Pigments() {
     setOrderOpen(true);
   }, []);
 
-  const pickCollection = useCallback(
-    (id) => {
-      setCollection(id);
-      setZone(null);
-      setQuery('');
-      setExpanded(false);
-      goToCatalog();
-    },
-    [goToCatalog]
-  );
-
   return (
-    <>
+    <PricesStaleContext.Provider value={stale}>
       <Hero />
-      <Collections onPick={pickCollection} />
       <Catalog
         headingRef={headingRef}
         collection={collection}
@@ -552,11 +531,11 @@ export default function Pigments() {
       <HowToOrder />
 
       <ClosingCta
-        number="05"
+        number="04"
         label="Zamówienie"
         title="Twoja lista"
         titleAccent="odcieni."
-        lead="Wyślij listę jako zapytanie — potwierdzimy dostępność, łączną kwotę oraz sposób dostawy i płatności. Nie wiesz, od którego odcienia zacząć? Napisz, do jakiej techniki i strefy szukasz pigmentu."
+        lead={CLOSING_LEAD}
         primary={{
           onClick: openOrder,
           'aria-haspopup': 'dialog',
@@ -595,6 +574,6 @@ export default function Pigments() {
         }}
         onCloseAutoFocus={restoreFocus}
       />
-    </>
+    </PricesStaleContext.Provider>
   );
 }

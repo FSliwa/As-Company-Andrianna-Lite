@@ -1,8 +1,8 @@
-import { LEGAL, SITE_URL } from '@/lib/site';
+import { BOOKING_ENABLED, BOOKING_PAGE, LEGAL, SITE_URL } from '@/lib/site';
 
 /** sitemap.xml — publiczne trasy; data = data buildu. */
-// '/umow-wizyte' wraca tu razem ze stroną rezerwacji (jeszcze nie w repozytorium).
-const ROUTES = ['', '/o-nas', '/uslugi', '/pakiety', '/kontakt', '/szkolenia', '/maszynki', '/pigmenty', '/certyfikaty'];
+// /umow-wizyte tylko przy włączonej rezerwacji online — inaczej to strona z komunikatem.
+const ROUTES = ['', '/o-nas', '/uslugi', ...(BOOKING_ENABLED ? [BOOKING_PAGE] : []), '/pakiety', '/kontakt', '/szkolenia', '/maszynki', '/pigmenty', '/certyfikaty'];
 
 export default function sitemap() {
   const lastModified = new Date();

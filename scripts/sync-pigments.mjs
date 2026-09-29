@@ -69,8 +69,9 @@ const META = path.join(ROOT, 'scripts/pigments-sync-meta.json');
 
 /* Słowa promocji/obniżki w tekstach produktu (Omnibus). „%” łapiemy tylko jako
    „-40%” (minus przed liczbą, nie w środku kodu jak „L2-50%”) — retencja
-   „60% do 90%” i proporcje mieszanek nie są obniżką. */
-const PROMO_RE = /promocj|rabat|przecen|obniż|wyprzeda|taniej|okazj|gratis|\bsale\b|(?<![\p{L}\d])-\s?\d+\s?%/iu;
+   „60% do 90%” i proporcje mieszanek nie są obniżką. „SALE” tylko wielkimi
+   literami (polskie „sale” to liczba mnoga od „sala”). */
+const PROMO_RES = [/promocj|rabat|przecen|obniż|wyprzeda|taniej|okazj|gratis|(?<![\p{L}\d])-\s?\d+\s?%/iu, /\bSALE\b/u];
 
 /** Kolekcje strony ← kategorie sklepu (po slugu) + wzorzec nazwy (rozstrzyganie). */
 const COLLECTIONS = [
@@ -762,7 +763,7 @@ async function main() {
   const promoHits = [];
   for (const it of items) {
     for (const [field, text] of [['nazwa', it.fullName], ['krótki opis', it.shortDesc], ['opis', it.description]]) {
-      const m = PROMO_RE.exec(text || '');
+      const m = PROMO_RES.map((re) => re.exec(text || '')).find(Boolean);
       if (m) {
         const at = Math.max(0, m.index - 40);
         promoHits.push(`${it.sourceId} ${it.fullName} — ${field}: „…${text.slice(at, m.index + m[0].length + 40).replace(/\s+/g, ' ')}…”`);

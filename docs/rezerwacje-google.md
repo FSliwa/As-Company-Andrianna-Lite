@@ -345,7 +345,9 @@ Zaproszenia od innych osób, które widnieją w tym kalendarzu, też blokują cz
 
 ### Czasowe wyłączenie rezerwacji online
 
-Najprościej zablokować dni w kalendarzu (patrz wyżej). Żeby całkowicie wyłączyć formularz, ustaw na hostingu `BOOKING_PROVIDER=off` i zrób **Redeploy**. Strona pokaże wtedy komunikat i skieruje do kontaktu oraz na Instagram. Powrót: `BOOKING_PROVIDER=google` + Redeploy.
+Najprościej zablokować dni w kalendarzu (patrz wyżej). Żeby całkowicie wyłączyć formularz, ustaw na hostingu `BOOKING_PROVIDER=off` i zrób **Redeploy**. Przyciski „Umów wizytę” wrócą wtedy do formularza kontaktowego, a sama strona /umow-wizyte pokaże komunikat i skieruje do kontaktu oraz na Instagram. Powrót: `BOOKING_PROVIDER=google` + Redeploy.
+
+Cel przycisków „Umów wizytę” w całym serwisie jest ustalany **w chwili buildu** (`next.config.mjs` → `NEXT_PUBLIC_BOOKING_ENABLED`) z tych samych zmiennych, więc każda zmiana zmiennych wymaga Redeploy.
 
 ---
 
