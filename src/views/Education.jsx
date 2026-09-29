@@ -377,9 +377,9 @@ function ProgramBand({ onBook }) {
 /* ================================================================== */
 
 /* Stykówka: trzy kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
-   < sm: mozaika — pierwszy kadr na 2/3 szerokości i dwa rzędy, dwa pozostałe
-   jeden nad drugim obok (2 × 4:5 + przerwa ≈ wysokość dużego); wszystkie nadal 4:5.
-   Od sm: trzy równe kadry w rzędzie.
+   < sm: academy-01 (bliższy plan) na całą szerokość, pod nim dwa kadry obok siebie —
+   twarze nie spadają do rozmiaru ikon; wszystkie nadal 4:5.
+   Od sm: trzy równe kadry w rzędzie, bliższy plan w środku (06 · 01 · 08).
    Opisy tylko tego, co widać w kadrze (liczba osób i certyfikatów). */
 const GRADUATE_TILES = [
   {
@@ -428,7 +428,7 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-3 gap-1">
+              <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
@@ -438,11 +438,11 @@ function GraduatesBand() {
                     position={group.position}
                     tone="dark"
                     zoom={false}
-                    className={i === 0 ? 'col-span-2 row-span-2 sm:col-span-1 sm:row-span-1' : undefined}
+                    className={['col-span-2 sm:col-span-1 sm:order-2', 'sm:order-1', 'sm:order-3'][i]}
                     sizes={
                       i === 0
-                        ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 62vw'
-                        : '(min-width: 1024px) 18vw, 31vw'
+                        ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 92vw'
+                        : '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 46vw'
                     }
                   />
                 ))}

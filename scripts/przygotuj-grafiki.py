@@ -47,10 +47,10 @@ import json
 import os
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 SRC_DIR = 'Graphics'
-OUT_DIR = 'public/graphics'
+OUT_DIR = os.environ.get('GRAPHICS_OUT', 'public/graphics')
 MANIFEST = os.path.join(OUT_DIR, 'manifest.json')
 MAX_DIM = 1920
 JPEG_QUALITY = 92
@@ -107,6 +107,13 @@ def build_lut(strength):
 
 
 LUTS = {k: build_lut(v) for k, v in STRENGTH.items()}
+
+
+# --- korekta ekspozycji pojedynczych kadrów (po gradingu) ---------------------
+# academy-08: zmierzona średnia jasność 107 wobec 123 u academy-01 i -06 (ściana
+# 162 wobec 187–190) — w tryptyku absolwentek wyglądała na niedoświetloną.
+# ×1,15 wyrównuje ją do sąsiadów (średnia ≈ 123, przepaleń 0,01 %).
+EXPOSURE = {'academy-08': 1.15}
 
 
 def apply_grade(img, group):
@@ -184,6 +191,8 @@ def save_all(img, name, group, manifest):
         s = MAX_DIM / max(w, h)
         img = img.resize((round(w * s), round(h * s)), Image.LANCZOS)
     img = apply_grade(img, group)
+    if name in EXPOSURE:
+        img = ImageEnhance.Brightness(img).enhance(EXPOSURE[name])
 
     jpg = os.path.join(OUT_DIR, f'{name}.jpg')
     img.save(jpg, 'JPEG', quality=JPEG_QUALITY, optimize=True, progressive=True, subsampling=0)

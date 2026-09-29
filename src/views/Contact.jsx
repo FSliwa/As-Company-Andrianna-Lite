@@ -378,7 +378,7 @@ function VisitBand() {
           {/* — jeden kadr: portret z sesji marki, w złotej ramce — */}
           <Reveal
             delay={90}
-            className="mx-auto w-full max-w-[26rem] md:col-span-5 md:col-start-1 md:row-start-1 md:max-w-none lg:col-start-2"
+            className="mx-auto w-full max-w-[26rem] md:col-span-6 md:col-start-1 md:row-start-1 md:max-w-none lg:col-span-5 lg:col-start-2"
           >
             <Figure
               image={portrait?.image}
@@ -387,7 +387,7 @@ function VisitBand() {
               position={portrait?.position}
               framed
               zoom={false}
-              sizes="(min-width: 1024px) 34vw, (min-width: 768px) 40vw, 92vw"
+              sizes="(min-width: 1024px) 37vw, (min-width: 768px) 44vw, 92vw"
             />
           </Reveal>
         </div>

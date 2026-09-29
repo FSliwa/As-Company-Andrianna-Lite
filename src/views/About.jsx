@@ -114,15 +114,18 @@ function StoryBand() {
           <div className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
             <Reveal className="md:sticky md:top-28">
               <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
-                <Figure
-                  image={ROLES.storyAbout.image}
-                  alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
-                  ratio="4 / 5"
-                  position={ROLES.storyAbout.position}
-                  tone="dark"
-                  zoom={false}
-                  sizes="(min-width: 1024px) 36vw, 90vw"
-                />
+                {/* ciasna ramka jak portret na espresso na stronie głównej */}
+                <div className="as-photo-frame">
+                  <Figure
+                    image={ROLES.storyAbout.image}
+                    alt={`${FOUNDER.name} — portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
+                    ratio="4 / 5"
+                    position={ROLES.storyAbout.position}
+                    tone="dark"
+                    zoom={false}
+                    sizes="(min-width: 1024px) 36vw, (min-width: 768px) 40vw, 90vw"
+                  />
+                </div>
                 <figcaption className="as-caption-invert mt-3">{FOUNDER.signature}</figcaption>
               </figure>
             </Reveal>

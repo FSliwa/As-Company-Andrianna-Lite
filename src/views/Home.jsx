@@ -120,7 +120,7 @@ function Hero() {
           <source
             type="image/webp"
             srcSet={Object.entries(HERO_PHOTO.webp).map(([w, src]) => `${src} ${w}w`).join(', ')}
-            sizes="(min-width: 1024px) 34vw, 90vw"
+            sizes="(min-width: 1024px) 27vw, (min-width: 768px) 43vw, 90vw"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -130,7 +130,7 @@ function Hero() {
             height={HERO_PHOTO.h}
             fetchPriority="high"
             decoding="sync"
-            sizes="(min-width: 1024px) 34vw, 90vw"
+            sizes="(min-width: 1024px) 27vw, (min-width: 768px) 43vw, 90vw"
             style={{ objectPosition: ROLES.heroHome.position }}
           />
         </picture>
@@ -269,7 +269,7 @@ function AboutBand() {
                   ratio="3 / 4"
                   position={ROLES.aboutHome.position}
                   tone="dark"
-                  sizes="(min-width: 1024px) 28vw, 80vw"
+                  sizes="(min-width: 1024px) 28vw, 320px"
                 />
               </div>
               <p className="mt-4 text-right font-display text-base italic text-cream-100/85">
@@ -387,7 +387,7 @@ function TreatmentsBand() {
                 ratio="4 / 5"
                 position={portrait.position}
                 framed
-                sizes="(min-width: 1024px) 38vw, 80vw"
+                sizes="(min-width: 1024px) 37vw, (min-width: 640px) 384px, 320px"
               />
               <figcaption className="as-caption mt-6 lg:mt-8">
                 {FOUNDER.name} — {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
@@ -446,7 +446,8 @@ function TrainingBand() {
             </Reveal>
           </div>
 
-          <div className="md:col-span-7">
+          {/* grupa z telefonu mniejsza niż portrety sesji; kolumna 6/12 jak kadr w sekcji 06 */}
+          <div className="md:col-span-7 lg:col-span-6 lg:col-start-7">
             <Reveal>
               <div className="as-photo-frame">
                 <Figure
@@ -456,7 +457,7 @@ function TrainingBand() {
                   position={GROUPS.trainingHome.position}
                   tone="dark"
                   zoom={false}
-                  sizes="(min-width: 1024px) 50vw, 92vw"
+                  sizes="(min-width: 1024px) 44vw, (min-width: 768px) 55vw, 92vw"
                 />
               </div>
             </Reveal>

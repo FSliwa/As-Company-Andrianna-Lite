@@ -300,6 +300,13 @@
     }
   }
 
+  /* telefon: linia ramki 16 px od krawędzi ekranu, nie 10 px — wewnątrz marginesu łamu */
+  @media (max-width: 639px) {
+    .as-frame {
+      margin-inline: 0.375rem;
+    }
+  }
+
   /* Kadr ze zdjęciem: stała proporcja + przykrycie */
   .as-media {
     @apply relative overflow-hidden bg-cream-200;

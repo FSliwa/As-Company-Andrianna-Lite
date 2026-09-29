@@ -419,7 +419,7 @@ export function PageHero({
                   tone={imageTone}
                   framed
                   priority
-                  sizes="(min-width: 768px) 36vw, 90vw"
+                  sizes="(min-width: 1440px) 432px, (min-width: 1024px) 30vw, (min-width: 768px) 36vw, 90vw"
                 />
               </div>
             </div>
@@ -771,24 +771,42 @@ export function Statement({
   return (
     <section
       className={cn(
-        'relative flex min-h-[80svh] items-end overflow-hidden bg-espresso-900 text-cream-50',
+        'relative flex min-h-[80svh] items-end overflow-hidden bg-espresso-900 text-cream-50 lg:min-h-[70svh]',
         className
       )}
     >
-      <Figure image={image} alt={alt} position={position} tone="dark" zoom={false} fill sizes="100vw" />
+      {/* od lg portret zajmuje połowę pasa (kadr ≈ 1:1 — cała głowa i dłonie, bez powiększania
+          pliku 2:3 do pasa 2:1), a lewą krawędź wygasza maska; poniżej lg pełny spad */}
+      <Figure
+        image={image}
+        alt={alt}
+        position={position}
+        tone="dark"
+        zoom={false}
+        fill
+        className={cn(
+          right
+            ? 'lg:right-auto lg:w-[52%] lg:max-w-[50rem] lg:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%)] lg:[mask-image:linear-gradient(to_left,transparent,#000_28%)]'
+            : 'lg:left-auto lg:w-[52%] lg:max-w-[50rem] lg:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%)] lg:[mask-image:linear-gradient(to_right,transparent,#000_28%)]'
+        )}
+        sizes="(min-width: 1540px) 800px, (min-width: 1024px) 52vw, 100vw"
+      />
       {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej */}
       <div
         aria-hidden="true"
         className={cn(
-          'absolute inset-0',
+          'absolute inset-0 hidden lg:block',
           right
             ? 'bg-gradient-to-l from-espresso-900/85 via-espresso-900/40 to-transparent'
             : 'bg-gradient-to-r from-espresso-900/85 via-espresso-900/40 to-transparent'
         )}
       />
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-espresso-900/70 to-transparent" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-espresso-900/90 via-espresso-900/55 to-transparent lg:h-40 lg:from-espresso-900/70 lg:via-transparent"
+      />
       <div className="as-shell relative w-full pb-16 pt-40 lg:pb-24 lg:pt-56">
-        <Reveal className={cn('max-w-xl', right && 'ml-auto')}>
+        <Reveal className={cn('max-w-xl lg:max-w-[44%]', right && 'ml-auto')}>
           {label && (
             <SectionLabel number={number} tone="light">
               {label}
@@ -826,9 +844,9 @@ export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, c
   const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
   return (
     <div className={className}>
-      <ul className={cn('grid gap-1', grid)}>
+      <ul className={cn('as-photo-frame grid gap-1', grid)}>
         {items.map((it, i) => (
-          <li key={(it.image && it.image.src) || i} className="border border-gold/35 p-1">
+          <li key={(it.image && it.image.src) || i}>
             <Figure
               image={it.image}
               alt={it.alt}
