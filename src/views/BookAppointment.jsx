@@ -62,14 +62,14 @@ import { BOOKING_CONFIG, getTreatment, shownDurationMin } from '@/lib/booking/co
 import { bookingSchema } from '@/lib/booking/schema';
 import { bookingWindow, workingHoursFor } from '@/lib/booking/slots';
 import { CONTACT } from '@/lib/site';
-import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* BookingNotice (jak FormNotice, ale z celem „rezerwacja wizyty w Kalendarzu Google”)
-   renderuje się sam, gdy dokumenty obowiązują (LEGAL_PUBLISHED), i zawiera zdanie
-   o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend (jak /kontakt).
-   Bez obowiązujących dokumentów BookingRoute i tak nie włącza rezerwacji. */
-const NOTICE_READY = LEGAL_PUBLISHED;
+   renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera zdanie
+   o polach wymaganych – bez niego legendę pokazuje RequiredLegend (jak /kontakt).
+   Bez publicznych dokumentów BookingRoute i tak nie włącza rezerwacji. */
+const NOTICE_READY = LEGAL_PUBLIC;
 const SUBMIT_LABEL = 'Zarezerwuj wizytę';
 
 const FIELD_ORDER = ['treatment', 'date', 'time', 'name', 'phone', 'email', 'note'];

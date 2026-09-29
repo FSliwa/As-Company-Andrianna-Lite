@@ -2,17 +2,25 @@
  * Dokumenty prawne i baner cookies (node --test):
  *  - teksty banera (banner.js) = pole "banner" w cookies.<język>.json,
  *  - te same sekcje (id) i ten sam układ bloków w wersjach PL, EN i RU,
- *  - każdy znacznik {pole} z dokumentów jest w REQUIRED albo ma wartość zawsze –
- *    po uzupełnieniu REQUIRED żaden dokument nie pokazuje „[do uzupełnienia]”,
- *  - tokenize: link {siteUrl}/ścieżka, nieznany znacznik, kropka po ścieżce,
+ *  - składnia treści (segmenty [[…]], listy {{…}}, znaczniki {pole}) – tokenize,
+ *  - każdy akapit i punkt 9 dokumentów w wariancie „brak danych firmy” (dziś) i „pełne dane
+ *    testowe” – oraz we wszystkich kombinacjach częściowych – czyta się bez śladów znaczników,
+ *    „[do uzupełnienia]”, pustych nawiasów, podwójnych przecinków i urwanych zdań,
+ *  - bez danych: marka, miasto i Instagram; z danymi: wszystkie dane firmy, bez wartości zastępczych,
+ *  - klauzula pod formularzami (noticeController) – te same zasady,
  *  - liczby z Regulaminu (pkt 9) = konfiguracja rezerwacji (BOOKING_CONFIG),
- *  - publikacja: bez danych i bez zatwierdzenia dokumentów rezerwacja i formularze są wyłączone,
+ *  - publikacja: LEGAL_PUBLIC (decyzja Filipa z 30.09.2026) otwiera dokumenty, klauzule i bramki;
+ *    bez niego rezerwacja jest wyłączona,
  *  - consent.js: wygaśnięcie po 12 miesiącach, inna wersja, znacznik z przyszłości, uszkodzony wpis.
  */
 import { readFileSync } from 'node:fs';
 import { afterEach, describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 import BANNER from '../content/legal/banner.js';
+import COMMON_PL from '../content/common/pl.js';
+import COMMON_EN from '../content/common/en.js';
+import COMMON_RU from '../content/common/ru.js';
+import { getSite } from '../i18n/site.js';
 import { BOOKING_CONFIG } from './booking/config.js';
 import { defaultProvider, handleBookingPost } from './booking/handlers.js';
 import {
@@ -25,36 +33,128 @@ import {
 import {
   LEGAL_APPROVED,
   LEGAL_COMPLETE,
+  LEGAL_FALLBACKS,
+  LEGAL_PUBLIC,
   LEGAL_PUBLISHED,
   LEGAL_VALUES,
+  PUBLIC_BEFORE_COMPANY_DATA,
   REQUIRED,
+  isBlank,
   missingFields,
+  parseLegalText,
+  partsToText,
   tokenize,
 } from './legal.js';
+import { CONTACT } from './site.js';
 
 const LOCALES = ['pl', 'en', 'ru'];
 const DOCS = ['privacy', 'cookies', 'terms'];
+const COMMON = { pl: COMMON_PL, en: COMMON_EN, ru: COMMON_RU };
 const load = (doc, locale) =>
   JSON.parse(readFileSync(new URL(`../content/legal/${doc}.${locale}.json`, import.meta.url), 'utf8'));
 
-/** Wszystkie teksty dokumentu, które renderuje LegalDocument (bez decyzji). */
-function renderedTexts(doc) {
-  const out = [doc.intro || ''];
+/* ---------------- warianty danych ---------------- */
+
+/** Dane firmy, które mogą być puste (reszta – instagram, siteUrl – jest zawsze). */
+const COMPANY_FIELDS = ['company', 'address', 'nip', 'register', 'email', 'phone', 'ownPrivacyEmail', 'street'];
+
+const TEST_DATA = {
+  company: 'Testowa Firma sp. z o.o.',
+  address: 'ul. Testowa 1, 00-001 Warszawa',
+  nip: '5250000000',
+  register: 'KRS 0000000000',
+  email: 'kontakt@example.pl',
+  phone: '+48 500 000 000',
+  ownPrivacyEmail: 'dane@example.pl',
+  street: 'ul. Testowa 1',
+};
+
+/** Wartości dla tokenize z podzbioru uzupełnionych pól (jak LEGAL_VALUES w legal.js). */
+function valuesWith(filled) {
+  const pick = (key) => (filled.includes(key) ? TEST_DATA[key] : null);
+  return {
+    ...LEGAL_VALUES,
+    company: pick('company'),
+    seat: pick('address'),
+    address: pick('address'),
+    nip: pick('nip'),
+    register: pick('register'),
+    privacyEmail: pick('ownPrivacyEmail') || pick('email'),
+    email: pick('email'),
+    phone: pick('phone'),
+    street: pick('street'),
+  };
+}
+
+const NONE = valuesWith([]);
+const FULL = valuesWith(COMPANY_FIELDS);
+
+/* ---------------- render jak w LegalDocument ---------------- */
+
+/** Wszystkie teksty dokumentu: [miejsce, tekst, rodzaj]. */
+function blocks(doc) {
+  const out = [['title', doc.title, 'title']];
+  if (doc.intro) out.push(['intro', doc.intro, 'p']);
   for (const s of doc.sections) {
-    out.push(s.heading);
-    for (const b of s.blocks) {
-      if (b.p) out.push(b.p);
-      if (b.h3) out.push(b.h3);
-      if (b.list) out.push(...b.list);
-    }
+    out.push([`${s.id}`, s.heading, 'heading']);
+    s.blocks.forEach((b, i) => {
+      if (b.p) out.push([`${s.id}#${i}`, b.p, 'p']);
+      if (b.h3) out.push([`${s.id}#${i}`, b.h3, 'h3']);
+      if (b.list) b.list.forEach((item, j) => out.push([`${s.id}#${i}.${j}`, item, 'li']));
+    });
   }
   return out;
 }
 
-/** Pola, które mają wartość zawsze (privacyEmail → zastępczo email). */
-const ALWAYS = new Set(['privacyEmail', 'instagram', 'siteUrl']);
+/** Dokument po wyrenderowaniu: teksty bez pustych akapitów i pozycji list (jak LegalDocument). */
+function render(doc, locale, values, publicMode = true) {
+  return blocks(doc)
+    .map(([where, text, kind]) => {
+      const parts = tokenize(text, { values, locale, publicMode });
+      return { where, kind, parts, text: partsToText(parts), blank: isBlank(parts) };
+    })
+    .filter((b) => !b.blank);
+}
 
-describe('dokumenty prawne', () => {
+/** Usterki w wyrenderowanym tekście – każda z nazwą, żeby komunikat błędu mówił, co poprawić. */
+const DEFECTS = [
+  ['znacznik {…}', /[{}]/],
+  ['segment [[…]]', /\[\[|\]\]/],
+  ['kreska listy |', /\|/],
+  ['„do uzupełnienia”', /do uzupełnienia|to be completed|будет дополнено/i],
+  // „plik .ics” to nie usterka – znak interpunkcyjny musi kończyć słowo
+  ['spacja przed znakiem interpunkcyjnym', / [,.;:!?)](\s|$)/],
+  // „sp. z o.o., ul. …” to nie usterka – kropka skrótu przed przecinkiem jest dozwolona
+  ['podwójny znak interpunkcyjny', /,,|;;|::|\.\.(?!\.)|,\.|,;|;\.|,:/],
+  ['przecinek przed kropką/nawiasem', /,\s+[.;:)]/],
+  ['pusty nawias', /\(\s*\)/],
+  ['spacja po „(”', /\(\s/],
+  ['podwójna spacja', / {2}/],
+  ['spacja na początku/końcu', /^\s|\s$/],
+  ['dwukropek przed kropką', /:\s*[.;,]/],
+  ['urwane „na adres”/„pod numer”', /(^|\s)(na adres|pod numer|z adresem|tel\.|addressed to|write to|at|by post at|by email to|на адрес|по адресу|с адресом|тел\.)\s*[.,;)]/i],
+  // „and, in addition:” ani „i.e.” to nie usterki – urwany spójnik stoi przed końcem zdania, średnikiem albo nawiasem
+  ['urwany spójnik', /(^|\s)(albo|lub|oraz|i|or|and|или|и)\s*[.;)](\s|$)/i],
+  ['nawias zaczęty spójnikiem', /\(\s*(albo|lub|or|или)\b/i],
+  ['„NIP” bez numeru', /NIP\s*[,.;]/],
+];
+
+function defectsOf(text) {
+  return DEFECTS.filter(([, re]) => re.test(text)).map(([name]) => name);
+}
+
+function assertClean(rendered, label) {
+  for (const b of rendered) {
+    const found = defectsOf(b.text);
+    assert.deepEqual(found, [], `${label} [${b.where}]: ${found.join(', ')} w „${b.text.slice(0, 200)}”`);
+    const missing = b.parts.filter((p) => p.missing);
+    assert.deepEqual(missing, [], `${label} [${b.where}]: pole bez wartości poza segmentem: ${missing.map((p) => p.field).join(', ')}`);
+  }
+}
+
+/* ---------------- testy ---------------- */
+
+describe('dokumenty prawne – struktura', () => {
   test('banner.js jest kopią pola "banner" z cookies.<język>.json', () => {
     for (const locale of LOCALES) {
       assert.deepEqual(BANNER[locale], load('cookies', locale).banner, `banner.js ≠ cookies.${locale}.json → banner`);
@@ -76,48 +176,161 @@ describe('dokumenty prawne', () => {
     }
   });
 
-  test('każdy znacznik z dokumentów jest w REQUIRED albo ma wartość zawsze', () => {
-    const used = new Set();
+  test('znaczniki: znane pola; poza segmentem/listą tylko pola z wartością zawsze (marka, miasto, Instagram, adres serwisu)', () => {
+    assert.ok(CONTACT.instagram && CONTACT.instagramHandle, 'CONTACT.instagram jest kanałem kontaktu bez danych firmy');
+    const ALWAYS = new Set(['company', 'seat', 'instagram', 'siteUrl']);
+    const walk = (nodes, guarded, where) => {
+      for (const node of nodes) {
+        if (node.type === 'field') {
+          assert.ok(node.field in LEGAL_VALUES, `${where}: nieznany znacznik {${node.field}}`);
+          if (!guarded && !(node.field === 'siteUrl' && node.path))
+            assert.ok(ALWAYS.has(node.field), `${where}: {${node.field}} poza segmentem [[…]] – bez danych zostałoby urwane zdanie`);
+        } else if (node.type === 'segment') walk(node.nodes, true, where);
+        else if (node.type === 'list') {
+          assert.ok(node.items.length >= 2, `${where}: lista {{…}} z jedną pozycją – wystarczy segment`);
+          node.items.forEach((item) => walk(item, true, where));
+        }
+      }
+    };
+    const texts = [];
+    for (const doc of DOCS)
+      for (const locale of LOCALES) for (const [where, text] of blocks(load(doc, locale))) texts.push([`${doc}.${locale} ${where}`, text]);
+    for (const locale of LOCALES) texts.push([`common.${locale} noticeController`, COMMON[locale].noticeController]);
+    for (const [where, text] of texts) walk(parseLegalText(text), false, where);
+  });
+});
+
+describe('dokumenty prawne – render bez danych i z danymi', () => {
+  test('bez danych firmy (dziś): czyste zdania, marka + miasto + Instagram, bez NIP-u, e-maila i telefonu', () => {
+    for (const doc of DOCS)
+      for (const locale of LOCALES) {
+        const rendered = render(load(doc, locale), locale, NONE);
+        assertClean(rendered, `${doc}.${locale} (brak danych)`);
+        const all = rendered.map((b) => b.text).join('\n');
+        const { company, seat } = LEGAL_FALLBACKS[locale];
+        assert.ok(all.includes(`${company}, ${seat}`) || all.includes(company), `${doc}.${locale}: brak marki w miejscu nazwy firmy`);
+        assert.ok(all.includes(seat), `${doc}.${locale}: brak miasta w miejscu siedziby`);
+        assert.ok(all.includes(CONTACT.instagramHandle), `${doc}.${locale}: brak Instagrama jako kanału kontaktu`);
+        assert.doesNotMatch(all, /\bNIP\b|Tax ID|ИНН|KRS 0|@example/, `${doc}.${locale}: dane firmy w wariancie bez danych`);
+        for (const b of rendered) if (b.kind === 'li') assert.ok(b.text.trim(), `${doc}.${locale} [${b.where}]: pusta pozycja listy`);
+      }
+  });
+
+  test('każda lista zachowuje co najmniej jedną pozycję bez danych firmy', () => {
     for (const doc of DOCS)
       for (const locale of LOCALES)
-        for (const text of renderedTexts(load(doc, locale)))
-          for (const [, field] of text.matchAll(/\{([a-zA-Z]+)\}/g)) used.add(field);
-    for (const field of used) {
-      assert.ok(field in LEGAL_VALUES, `nieznany znacznik {${field}}`);
-      assert.ok(REQUIRED.includes(field) || ALWAYS.has(field), `{${field}} nie jest w REQUIRED (src/lib/legal.js)`);
+        for (const s of load(doc, locale).sections)
+          s.blocks.forEach((b, i) => {
+            if (!b.list) return;
+            const kept = b.list.filter((item) => !isBlank(tokenize(item, { values: NONE, locale, publicMode: true })));
+            assert.ok(kept.length > 0, `${doc}.${locale} [${s.id}#${i}]: lista bez żadnej pozycji`);
+          });
+  });
+
+  test('pełne dane testowe: czyste zdania, wszystkie dane firmy, żadnej wartości zastępczej', () => {
+    const expected = ['company', 'address', 'nip', 'register', 'email', 'phone', 'ownPrivacyEmail'].map((k) => TEST_DATA[k]);
+    for (const doc of DOCS)
+      for (const locale of LOCALES) {
+        const rendered = render(load(doc, locale), locale, FULL);
+        assertClean(rendered, `${doc}.${locale} (pełne dane)`);
+        const all = rendered.map((b) => b.text).join('\n');
+        for (const value of expected) assert.ok(all.includes(value), `${doc}.${locale}: w pełnym wariancie brak „${value}”`);
+        const fallback = rendered.flatMap((b) => b.parts).filter((p) => p.fallback);
+        assert.deepEqual(fallback, [], `${doc}.${locale}: wartość zastępcza mimo pełnych danych`);
+        assert.ok(all.includes(CONTACT.instagramHandle), `${doc}.${locale}: Instagram zostaje kanałem kontaktu`);
+      }
+  });
+
+  test('każda kombinacja częściowo uzupełnionych danych daje czyste zdania', () => {
+    const combos = 1 << COMPANY_FIELDS.length;
+    for (let mask = 0; mask < combos; mask += 1) {
+      const filled = COMPANY_FIELDS.filter((_, bit) => mask & (1 << bit));
+      const values = valuesWith(filled);
+      for (const doc of DOCS)
+        for (const locale of LOCALES) assertClean(render(load(doc, locale), locale, values), `${doc}.${locale} [${filled.join('+') || 'nic'}]`);
     }
   });
 
-  test('po uzupełnieniu REQUIRED żaden dokument nie ma braków', () => {
-    const filled = { ...LEGAL_VALUES };
-    for (const key of REQUIRED) filled[key] = `test-${key}`;
-    filled.privacyEmail = filled.privacyEmail || filled.email;
-    assert.deepEqual(missingFields(filled), []);
-    for (const doc of DOCS)
-      for (const locale of LOCALES)
-        for (const text of renderedTexts(load(doc, locale))) {
-          const missing = tokenize(text, filled).filter((p) => p.missing);
-          assert.deepEqual(missing, [], `${doc}.${locale}: brak w „${text.slice(0, 60)}…”`);
-        }
+  test('tryb projektu (LEGAL_PUBLIC = false) pokazuje braki zamiast wartości zastępczych', () => {
+    const rendered = render(load('privacy', 'pl'), 'pl', NONE, false);
+    const all = rendered.map((b) => b.text).join('\n');
+    assert.match(all, /\[do uzupełnienia: nazwa firmy\]/);
+    assert.match(all, /\[do uzupełnienia: NIP\]/);
+    assert.ok(!all.includes(LEGAL_FALLBACKS.pl.company), 'w trybie projektu bez marki w miejscu nazwy firmy');
   });
+});
 
-  test('tokenize: link do podstrony, nieznany znacznik, kropka po ścieżce', () => {
-    const values = { siteUrl: 'https://example.pl', email: 'a@b.pl', phone: null };
-    assert.deepEqual(tokenize('Zobacz {siteUrl}/regulamin#rezerwacja-online.', values), [
+describe('klauzula pod formularzami (noticeController)', () => {
+  test('bez danych: marka, miasto i Instagram; z danymi: nazwa, adres i e-mail', () => {
+    for (const locale of LOCALES) {
+      const text = COMMON[locale].noticeController;
+      const none = [{ where: 'noticeController', parts: tokenize(text, { values: NONE, locale, publicMode: true }) }];
+      none[0].text = partsToText(none[0].parts);
+      assertClean(none, `common.${locale} (brak danych)`);
+      const { company, seat } = LEGAL_FALLBACKS[locale];
+      assert.ok(none[0].text.includes(`${company}, ${seat}`), `common.${locale}: „${none[0].text}”`);
+      assert.ok(none[0].text.includes(CONTACT.instagramHandle), `common.${locale}: brak Instagrama`);
+
+      const full = [{ where: 'noticeController', parts: tokenize(text, { values: FULL, locale, publicMode: true }) }];
+      full[0].text = partsToText(full[0].parts);
+      assertClean(full, `common.${locale} (pełne dane)`);
+      for (const value of [TEST_DATA.company, TEST_DATA.address, TEST_DATA.ownPrivacyEmail])
+        assert.ok(full[0].text.includes(value), `common.${locale}: brak „${value}” w „${full[0].text}”`);
+    }
+  });
+});
+
+describe('tokenize – składnia', () => {
+  const values = { company: null, seat: null, address: null, nip: null, email: 'a@b.pl', phone: null, instagram: 'https://ig/x', siteUrl: 'https://example.pl' };
+  const text = (t, opts = {}) => partsToText(tokenize(t, { values, publicMode: true, ...opts }));
+
+  test('link do podstrony, kropka po ścieżce, nieznany znacznik', () => {
+    assert.deepEqual(tokenize('Zobacz {siteUrl}/regulamin#rezerwacja-online.', { values }), [
       { text: 'Zobacz ' },
       { link: '/regulamin#rezerwacja-online' },
       { text: '.' },
     ]);
-    assert.deepEqual(tokenize('Napisz: {email}, tel. {phone}', values), [
-      { text: 'Napisz: ' },
-      { field: 'email', value: 'a@b.pl' },
-      { text: ', tel. ' },
-      { field: 'phone', missing: true },
-    ]);
-    assert.deepEqual(tokenize('{nieznane} zostaje', values), [{ text: '{nieznane}' }, { text: ' zostaje' }]);
-    assert.deepEqual(tokenize('adres {siteUrl}', values), [{ text: 'adres ' }, { field: 'siteUrl', value: 'https://example.pl' }]);
+    assert.deepEqual(tokenize('adres {siteUrl}', { values }), [{ text: 'adres ' }, { field: 'siteUrl', value: 'https://example.pl' }]);
+    assert.deepEqual(tokenize('{nieznane} zostaje', { values }), [{ text: '{nieznane} zostaje' }]);
   });
 
+  test('wartości zastępcze (marka, miasto w języku strony) tylko przy LEGAL_PUBLIC', () => {
+    assert.equal(text('Administrator: {company}, {seat}[[, NIP {nip}]].', { locale: 'en' }), `Administrator: ${LEGAL_FALLBACKS.en.company}, Warsaw.`);
+    assert.equal(text('{seat}', { locale: 'ru' }), 'Варшава');
+    const draft = tokenize('{company}[[, NIP {nip}]]', { values, publicMode: false });
+    assert.deepEqual(draft, [{ field: 'company', missing: true }, { text: ', NIP ' }, { field: 'nip', missing: true }]);
+    const withFallback = tokenize('{company}', { values });
+    assert.deepEqual(withFallback, [{ field: 'company', value: LEGAL_FALLBACKS.pl.company, fallback: true }]);
+  });
+
+  test('segmenty: znikają bez danych, zagnieżdżone liczą się osobno', () => {
+    assert.equal(text('Napisz[[ na adres {email} albo]] na Instagramie.'), 'Napisz na adres a@b.pl albo na Instagramie.');
+    assert.equal(text('Napisz[[ tel. {phone} albo]] na Instagramie.'), 'Napisz na Instagramie.');
+    assert.equal(text('A[[ – {email}[[, tel. {phone}]]]].'), 'A – a@b.pl.');
+    assert.equal(text('A[[ – {phone}[[, {email}]]]].'), 'A.');
+    assert.equal(text('X[[{?email}; ok]][[{?phone}; nie]].'), 'X; ok.');
+    assert.equal(text('[[NIP: {nip}]]'), '');
+    assert.ok(isBlank(tokenize('[[NIP: {nip}]]', { values })));
+  });
+
+  test('listy {{…}}: spójnik przed ostatnią pozycją, pusty spójnik = przecinki, pusta lista jak brak pola', () => {
+    const list = '{{lub|{?phone}telefonicznie|{?email}e-mailem|przez Instagram}}';
+    assert.equal(text(`Umów się ${list}.`), 'Umów się e-mailem lub przez Instagram.');
+    assert.equal(text(`Umów się ${list}.`, { values: { ...values, email: null } }), 'Umów się przez Instagram.');
+    assert.equal(text(`Umów się ${list}.`, { values: { ...values, phone: '1' } }), 'Umów się telefonicznie, e-mailem lub przez Instagram.');
+    assert.equal(text('Dane: {{|{email}|tel. {phone}}}.', { values: { ...values, phone: '1' } }), 'Dane: a@b.pl, tel. 1.');
+    assert.equal(text('A.[[ Też: {{|{phone}|{nip}}}.]]'), 'A.');
+    const empty = tokenize('Też: {{lub|{phone}|{nip}}}.', { values });
+    assert.ok(empty.some((p) => p.missing), 'lista bez pozycji poza segmentem = błąd treści');
+  });
+
+  test('niezamknięte i nadmiarowe nawiasy to błąd', () => {
+    for (const bad of ['[[ bez końca', 'lista {{lub|a|b', 'koniec ]] bez początku', 'koniec }} bez początku', 'lista {{bez kreski}}'])
+      assert.throws(() => tokenize(bad, { values }), /Dokument prawny/, bad);
+  });
+});
+
+describe('dokumenty prawne – liczby z konfiguracji', () => {
   test('Regulamin (pkt 9) podaje te same liczby co konfiguracja rezerwacji', () => {
     const { minLeadHours, maxDaysAhead } = BOOKING_CONFIG;
     const active = BOOKING_CONFIG.abuse.maxActivePerContact;
@@ -134,16 +347,34 @@ describe('dokumenty prawne', () => {
 });
 
 describe('publikacja dokumentów', () => {
-  test('bez daty zatwierdzenia dokumenty nie obowiązują', () => {
-    assert.equal(LEGAL_PUBLISHED, LEGAL_COMPLETE && LEGAL_APPROVED);
-    if (!LEGAL_APPROVED) assert.equal(LEGAL_PUBLISHED, false);
+  test('decyzja Filipa (30.09.2026): dokumenty publiczne przed uzupełnieniem danych firmy', () => {
+    assert.equal(PUBLIC_BEFORE_COMPANY_DATA, true);
+    assert.equal(LEGAL_PUBLIC, PUBLIC_BEFORE_COMPANY_DATA || LEGAL_PUBLISHED);
+    assert.equal(LEGAL_PUBLIC, true);
   });
 
-  test('rezerwacja: bez obowiązujących dokumentów domyślny dostawca = null (API → 503 disabled)', async () => {
+  test('pełne obowiązywanie (LEGAL_PUBLISHED) wymaga danych firmy i daty zatwierdzenia', () => {
+    assert.equal(LEGAL_PUBLISHED, LEGAL_COMPLETE && LEGAL_APPROVED);
+    if (!LEGAL_APPROVED) assert.equal(LEGAL_PUBLISHED, false);
+    assert.deepEqual(missingFields(valuesWith(COMPANY_FIELDS)), []);
+    assert.deepEqual(missingFields(NONE), REQUIRED);
+  });
+
+  test('wartości zastępcze tylko z site.js: marka i miasto; nic za e-mail, telefon, NIP ani adres', () => {
+    for (const locale of LOCALES) {
+      const { BRAND, CONTACT: C } = getSite(locale);
+      assert.deepEqual(LEGAL_FALLBACKS[locale], { company: `${BRAND.full} (${BRAND.academy})`, seat: C.city });
+    }
+  });
+
+  test('rezerwacja: bez publicznych dokumentów domyślny dostawca = null (API → 503 disabled)', async () => {
     const env = { NODE_ENV: 'test', BOOKING_PROVIDER: 'memory' };
-    assert.equal(defaultProvider(env, { legalPublished: false }), null);
-    assert.notEqual(defaultProvider(env, { legalPublished: true }), null);
-    if (!LEGAL_PUBLISHED) {
+    assert.equal(defaultProvider(env, { legalPublic: false }), null);
+    assert.notEqual(defaultProvider(env, { legalPublic: true }), null);
+    if (LEGAL_PUBLIC) {
+      assert.notEqual(defaultProvider(env), null, 'LEGAL_PUBLIC: rezerwacja zależy już tylko od konfiguracji kalendarza');
+      assert.equal(defaultProvider({ NODE_ENV: 'production' }), null, 'bez kluczy Google rezerwacja pozostaje wyłączona');
+    } else {
       const res = await handleBookingPost(
         new Request('http://localhost:3000/api/booking', {
           method: 'POST',

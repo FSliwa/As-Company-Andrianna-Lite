@@ -1,11 +1,12 @@
 import { BOOKING_ENABLED, SITE_URL } from '@/lib/site';
-import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { PUBLIC_LOCALES } from '@/i18n/config';
 import { ROUTES, languageAlternates, localePath } from '@/i18n/routes';
 
 /** sitemap.xml – publiczne trasy w trzech językach (pl, /en, /ru) z hreflang; data = data buildu. */
 // Rezerwacja (/umow-wizyte, /en/book, /ru/book) tylko przy włączonej rezerwacji online –
-// inaczej to strona z komunikatem. Dokumenty prawne dopiero, gdy obowiązują (LEGAL_PUBLISHED: dane + zatwierdzenie).
+// inaczej to strona z komunikatem. Dokumenty prawne, gdy są publiczne (LEGAL_PUBLIC – decyzja Filipa z 30.09.2026:
+// także przed uzupełnieniem danych firmy; w pełni obowiązują po LEGAL_PUBLISHED).
 const KEYS = [
   'home',
   'about',
@@ -24,7 +25,7 @@ const absolute = (path) => `${SITE_URL}${path === '/' ? '' : path}`;
 
 export default function sitemap() {
   const lastModified = new Date();
-  const keys = LEGAL_PUBLISHED ? [...KEYS, 'privacy', 'cookies', 'terms'] : KEYS;
+  const keys = LEGAL_PUBLIC ? [...KEYS, 'privacy', 'cookies', 'terms'] : KEYS;
   return keys.flatMap((key) => {
     const canonical = ROUTES[key];
     const alt = languageAlternates(canonical);

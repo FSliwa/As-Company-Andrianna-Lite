@@ -65,7 +65,7 @@ import {
 import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { COURSE_ENQUIRY_OPTIONS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
-import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
@@ -969,7 +969,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
 
             <div className="space-y-2">
               {/* FormNotice zawiera już zdanie o polach wymaganych */}
-              {!LEGAL_PUBLISHED && <RequiredLegend />}
+              {!LEGAL_PUBLIC && <RequiredLegend />}
               <FormNotice />
             </div>
           </form>

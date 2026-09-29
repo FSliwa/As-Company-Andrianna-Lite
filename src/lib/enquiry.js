@@ -7,19 +7,20 @@
  *
  * Rozwiązanie bez backendu: składamy wiadomość i otwieramy program pocztowy
  * użytkownika (mailto). Działa, gdy w src/lib/site.js jest CONTACT.email ORAZ
- * dokumenty prawne obowiązują (LEGAL_PUBLISHED – pod formularzem stoi wtedy
- * klauzula informacyjna z art. 13 RODO). Do tego czasu formularz uczciwie mówi,
- * że nie jest podpięty, i kieruje na kanał, który realnie działa (Instagram).
+ * dokumenty prawne są publiczne (LEGAL_PUBLIC – pod formularzem stoi wtedy
+ * klauzula informacyjna z art. 13 RODO; decyzja Filipa z 30.09.2026: dokumenty
+ * publiczne także przed uzupełnieniem danych firmy). Bez adresu e-mail formularz
+ * uczciwie mówi, że nie jest podpięty, i kieruje na kanał, który realnie działa (Instagram).
  *
  * Gdy pojawi się prawdziwy endpoint, wystarczy podmienić treść
  * `sendEnquiry` na fetch('/api/...') – reszta kodu się nie zmienia.
  */
 
 import { CONTACT, COURSES } from '@/lib/site';
-import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 
 /** Formularze przekazują dane (mailto) – jest adres i klauzula informacyjna. */
-export const ENQUIRY_LIVE = Boolean(CONTACT.email) && LEGAL_PUBLISHED;
+export const ENQUIRY_LIVE = Boolean(CONTACT.email) && LEGAL_PUBLIC;
 
 /**
  * Opcje pola „Szkolenie” w zapytaniu o kurs (D4) – wszystkie kursy z briefu, w kolejności

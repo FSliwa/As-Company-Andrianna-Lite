@@ -40,18 +40,18 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER } from '@/lib/site';
-import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { ROLES } from '@/lib/roles';
 import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /* Formularz naprawdę dostarcza wiadomość dopiero wtedy, gdy jest adres e-mail
-   (mailto w src/lib/enquiry.js) i obowiązują dokumenty prawne (klauzula z art. 13 RODO
-   pod formularzem) – ten sam warunek co w OrderDialog. */
+   (mailto w src/lib/enquiry.js) i dokumenty prawne są publiczne (klauzula z art. 13 RODO
+   pod formularzem, LEGAL_PUBLIC) – ten sam warunek co w OrderDialog. */
 const FORM_LIVE = ENQUIRY_LIVE;
 
-/* FormNotice renderuje się sam, gdy dokumenty obowiązują (LEGAL_PUBLISHED), i zawiera
-   już zdanie o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend. */
-const NOTICE_READY = LEGAL_PUBLISHED;
+/* FormNotice renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera
+   już zdanie o polach wymaganych – bez niego legendę pokazuje RequiredLegend. */
+const NOTICE_READY = LEGAL_PUBLIC;
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');

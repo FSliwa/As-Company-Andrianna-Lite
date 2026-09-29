@@ -1,7 +1,7 @@
 {
   "slug": "regulamin",
   "title": "Website Terms of Use",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "effective": null,
   "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. These terms describe how the {siteUrl} website works: what you can do on it, how online appointment booking works and how to report a problem. Using the website is free of charge and does not require creating an account.",
   "sections": [
@@ -22,11 +22,11 @@
       "blocks": [
         { "list": [
           "Website – the AS COMPANY LOVELINESS and Babushkina Academy website available at {siteUrl}, together with its language versions.",
-          "Service Provider, “we” – {company}; full details are given in section 3.",
+          "Service Provider, “we” – {company}; details and contact information are given in section 3.",
           "User, “you” – any person who uses the Website.",
           "Consumer – a natural person who uses the Website or enters into a contract with us for a purpose not directly related to their business or professional activity (Article 22¹ of the Civil Code (Kodeks cywilny)).",
           "Services – the free services provided by electronic means on the Website, described in section 4.",
-          "Salon – the Babushkina Academy permanent make-up salon and academy in Warsaw; the Salon’s address is given on the Contact page.",
+          "Salon – the Babushkina Academy permanent make-up salon and academy in Warsaw[[{?street}; the Salon’s address is given on the Contact page]].",
           "Treatment – a service from the Salon’s price list, performed at the Salon.",
           "Booking – saving a chosen appointment time in the Salon’s calendar using the form on the “Book a visit” page.",
           "Form – the contact form, the training date enquiry, the machine hire enquiry or the pigment enquiry.",
@@ -42,15 +42,15 @@
         { "p": "The Website is run by:" },
         { "list": [
           "{company}",
-          "address: {address}",
-          "Tax ID (NIP): {nip}",
-          "register: {register}",
-          "email: {email}",
-          "phone: {phone}",
+          "registered office: {seat}",
+          "[[Tax ID (NIP): {nip}]]",
+          "[[register: {register}]]",
+          "[[email: {email}]]",
+          "[[phone: {phone}]]",
           "Instagram: {instagram}",
-          "personal data matters: {privacyEmail}"
+          "[[personal data matters: {privacyEmail}]]"
         ] },
-        { "p": "We answer questions fastest by phone, by email and on Instagram. Please send complaints and formal matters by email or by post." }
+        { "p": "We answer questions fastest {{and|{?phone}by phone|{?email}by email|on Instagram}}. Please send complaints and formal matters {{or|{?email}by email|{?address}by post|via Instagram}}." }
       ]
     },
     {
@@ -64,7 +64,7 @@
           "Pigment List – a selection of shades, bottle sizes and quantities that you can send as an enquiry;",
           "online appointment booking – choosing a Treatment, a day and a time and saving the appointment in the Salon’s calendar."
         ] },
-        { "p": "Online booking works when it is enabled. If the “Book a visit” page says it is temporarily unavailable, we will arrange your appointment by phone, by email or via Instagram." },
+        { "p": "Online booking works when it is enabled. If the “Book a visit” page says it is temporarily unavailable, we will arrange your appointment {{or|{?phone}by phone|{?email}by email|via Instagram}}." },
         { "p": "The Website does not sell anything or accept payments. You do not create an account on it or sign up for a newsletter. Buying products, taking part in a training course and hiring a machine require separate arrangements with us (section 11)." }
       ]
     },
@@ -124,7 +124,7 @@
       "id": "formularze-i-lista-pigmentow",
       "heading": "8. Forms and the Pigment List",
       "blocks": [
-        { "p": "Forms do not send data to our server. When you click the send button, the Website composes a ready message from the information you have entered and opens your email program addressed to {email}. We receive the message only once you send it." },
+        { "p": "Forms do not send data to our server. When you click the send button, the Website composes a ready message from the information you have entered and opens your email program[[ addressed to {email}]]. We receive the message only once you send it." },
         { "p": "If there is no email program on your device, you can copy or retype the content and send it to us as a message on Instagram ({instagram}). The message is delivered by your email provider or by Instagram, on the terms of those services." },
         { "p": "Depending on the Form, the message contains: your first name or full name, phone number and email address (for the pigment enquiry, a phone number or an email address is enough) and, in addition, the subject and content of the message; the chosen training course, city, preferred date and your experience in permanent make-up; your salon’s name and the chosen device; or the Pigment List with an approximate total and comments. Provide only what we need to reply." },
         { "p": "Sending an enquiry does not mean that a sales contract, training contract or hire contract has been concluded. In our reply we will set out availability and terms, and a contract is concluded separately if both parties wish." },
@@ -147,7 +147,7 @@
         { "p": "The Booking is made when you see the “Appointment booked” screen („Wizyta zapisana”) with a booking number – at that point the appointment is already saved in the Salon’s calendar. If, instead of the confirmation, you see a message that the time is already taken, the Booking has not been made; please choose another time. If you see an error message, try again – a repeat attempt for the same time will not create a second appointment – or contact us. If, despite the error, the appointment was saved in the calendar, we will contact you to confirm or cancel it." },
         { "p": "The confirmation is shown only on screen. You can download an .ics file and add the appointment to your calendar. The Website does not send confirmation text messages or emails, so please make a note of your booking number." },
         { "p": "A single phone number or email address may have no more than two future appointments booked online at any one time, e.g. a treatment and a touch-up. You can arrange further appointments by contacting us." },
-        { "p": "To protect the calendar against abuse, the Website limits the number of attempts, checks how long the form takes to complete and – if enabled – uses Cloudflare Turnstile verification. If there is an unusually high number of bookings, online booking may be temporarily suspended; in that case, please book your appointment by phone, by email or via Instagram." },
+        { "p": "To protect the calendar against abuse, the Website limits the number of attempts, checks how long the form takes to complete and – if enabled – uses Cloudflare Turnstile verification. If there is an unusually high number of bookings, online booking may be temporarily suspended; in that case, please book your appointment {{or|{?phone}by phone|{?email}by email|via Instagram}}." },
         { "p": "Online bookings may be made only by adults. You may book an appointment for another adult if they agree – in that case, enter their full name and contact details and pass on to them the information in the Privacy Policy. When we first contact that person (at the latest at the Salon), we will also provide them with information about the processing of their data ourselves." }
       ]
     },
@@ -157,7 +157,7 @@
       "blocks": [
         { "p": "Every Treatment begins with a consultation, facial mapping and a preliminary drawing. During the consultation we discuss your expectations, the condition of your skin and any contraindications, and we confirm the scope and price of the Treatment." },
         { "p": "The contract for the Treatment is concluded at the Salon – after the consultation and before the Treatment begins. If, after the consultation, the Treatment cannot be performed that day, e.g. because of contraindications, or you decide not to go ahead, we will suggest another date or another solution. If you decide not to go ahead after the consultation, there is no charge. We perform Treatments only on adults." },
-        { "p": "To reschedule or cancel an appointment, contact us by phone ({phone}), by email ({email}) or via Instagram ({instagram}). Give your booking number, or your full name and the date and time of the appointment. Please contact us at least 24 hours before your appointment. Rescheduling and cancellation are always free of charge. The Website does not allow you to cancel an appointment online yourself." },
+        { "p": "To reschedule or cancel an appointment, contact us {{or|by phone ({phone})|by email ({email})|via Instagram ({instagram})}}. Give your booking number, or your full name and the date and time of the appointment. Please contact us at least 24 hours before your appointment. Rescheduling and cancellation are always free of charge. The Website does not allow you to cancel an appointment online yourself." },
         { "p": "If you are running late, we will try to see you on the same day. If you are more than 15 minutes late, we may offer you another appointment so that the Treatment is not rushed or carried out at the expense of other clients." },
         { "p": "If, within 12 months, you twice fail to attend a booked appointment without cancelling it, we may arrange further appointments with you only by phone and not through online booking." },
         { "p": "In exceptional situations, e.g. if the specialist is ill or there is a breakdown, we may reschedule or cancel a booked appointment. In that case we will contact you as soon as possible, by phone or by email, and offer you a new date." }
@@ -181,8 +181,9 @@
       "blocks": [
         { "p": "If a Service on the Website does not work properly or in accordance with the Terms, you can submit a complaint:" },
         { "list": [
-          "by email to {email};",
-          "by post to {address}."
+          "[[by email to {email};]]",
+          "[[by post to {address};]]",
+          "by direct message on Instagram ({instagram})."
         ] },
         { "p": "In your complaint, give your name and contact details and describe the problem – what happened, when, and on what device or in what browser – and, if it concerns a Booking, give its number or date and time. Please also tell us what you expect. If anything is missing, we will ask you to provide it." },
         { "p": "We will reply within 14 days of receiving your complaint – by the same means you used to submit it, unless you ask us to use another. If you are a consumer and we do not reply within that period, your complaint is deemed to have been accepted." },
@@ -203,7 +204,7 @@
       "id": "dane-osobowe",
       "heading": "14. Personal data and browser storage",
       "blocks": [
-        { "p": "The controller of the personal data provided on the Website is {company}. What data we collect, for what purpose, how long we keep it, whom we entrust it to (e.g. the hosting provider and Google Calendar) and what rights you have are described in the Privacy Policy: {siteUrl}/polityka-prywatnosci. For personal data matters, write to {privacyEmail}." },
+        { "p": "The controller of the personal data provided on the Website is {company}, {seat}. What data we collect, for what purpose, how long we keep it, whom we entrust it to (e.g. the hosting provider and Google Calendar) and what rights you have are described in the Privacy Policy: {siteUrl}/polityka-prywatnosci. For personal data matters, write to us[[ at {privacyEmail} or]] on Instagram ({instagram})." },
         { "p": "The Website does not use analytics or advertising tools and does not set any cookies of its own. In your browser’s storage it saves only the Pigment List, if you use it, and your choice in the cookie banner. If Cloudflare Turnstile verification is running on the booking pages, the Cloudflare script may store its own cookies and technical data in your browser. Details, including how to delete them, are given in the Cookie Policy: {siteUrl}/polityka-cookies." }
       ]
     },
@@ -241,13 +242,13 @@
   "decisions": [
     {
       "what": "Service Provider details and the Salon’s address before publication",
-      "proposal": "Fill in LEGAL.company, address, nip, register, privacyEmail and CONTACT.email, phone, street and postal in src/lib/site.js; do not publish the Terms with “[do uzupełnienia]” (“to be completed”) fields.",
-      "why": "Article 5 of the Act on Providing Services by Electronic Means requires the name, address, email address and registration numbers to be given. If the company is a limited liability company (spółka z o.o.), the {register} field must also state the registry court, the KRS number (Krajowy Rejestr Sądowy, the National Court Register) and the amount of share capital (Article 206 § 1 of the Commercial Companies Code (Kodeks spółek handlowych)). The Terms (section 2) refer to the Contact page for the Salon’s address, and today the street and postcode are empty."
+      "proposal": "Fill in LEGAL.company, address, nip, register, privacyEmail and CONTACT.email, phone, street and postal in src/lib/site.js. Until then the Terms are public without these details (decision by Filip of 30 September 2026, LEGAL_PUBLIC in src/lib/legal.js): the Service Provider is identified by the brand AS COMPANY LOVELINESS (Babushkina Academy) based in Warsaw, contact and complaints go via Instagram, and the items with the tax ID, register entry, address, email and phone are left out; “[do uzupełnienia]” (“to be completed”) fields are never shown publicly.",
+      "why": "Article 5 of the Act on Providing Services by Electronic Means requires the name, address, email address and registration numbers to be given. If the company is a limited liability company (spółka z o.o.), the {register} field must also state the registry court, the KRS number (Krajowy Rejestr Sądowy, the National Court Register) and the amount of share capital (Article 206 § 1 of the Commercial Companies Code (Kodeks spółek handlowych)). The Terms (section 2) refer to the Contact page for the Salon’s address only once the street is filled in (CONTACT.street) – today the street and postcode are empty."
     },
     {
       "what": "Link to the Terms next to the forms",
       "proposal": "Done: a “Terms of Use” link in the footer of every language version (routes /regulamin, /en/terms, /ru/terms and the sitemap), a sentence under the “Book appointment” („Zarezerwuj wizytę”) button (“By clicking “Zarezerwuj wizytę”, you accept our Terms of Use – points 9–10 describe how booking works and how to change or cancel a visit”), a link to section 10 on the “Appointment booked” („Wizyta zapisana”) screen and a sentence with a link in the notice under the other forms – without a mandatory tick box. To be confirmed: the wording of these sentences.",
-      "why": "Article 8(1)(1) and 8(2) of the Act on Providing Services by Electronic Means: the terms must be made available before the contract is concluded, and the recipient of the service is not bound by provisions that were not made available to them; Article 384 § 1 and § 4 of the Civil Code requires a standard form to be made available before the contract is concluded in a way that allows it to be stored and reproduced. Acceptance “by use” (section 1) is stronger when the link is visible at the moment of booking. The notices under the forms appear only once the documents apply (company details and LEGAL.documentsApproved in src/lib/site.js)."
+      "why": "Article 8(1)(1) and 8(2) of the Act on Providing Services by Electronic Means: the terms must be made available before the contract is concluded, and the recipient of the service is not bound by provisions that were not made available to them; Article 384 § 1 and § 4 of the Civil Code requires a standard form to be made available before the contract is concluded in a way that allows it to be stored and reproduced. Acceptance “by use” (section 1) is stronger when the link is visible at the moment of booking. The notices under the forms and at booking are shown straight away (LEGAL_PUBLIC in src/lib/legal.js); until the company details are filled in, they name the brand, the city and Instagram."
     },
     {
       "what": "Status of an online booking",

@@ -1,15 +1,15 @@
 {
   "slug": "polityka-cookies",
   "title": "Polityka cookies",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "intro": "Ta polityka wyjaśnia, jakie informacje serwis {siteUrl} zapisuje w Twoim urządzeniu lub z niego odczytuje, w jakim celu i jak możesz tym zarządzać. W skrócie: korzystamy wyłącznie z tego, co niezbędne do działania funkcji, których używasz. Nie stosujemy narzędzi analitycznych ani reklamowych.",
   "sections": [
     {
       "id": "kto-odpowiada",
       "heading": "1. Kto odpowiada za serwis",
       "blocks": [
-        { "p": "Serwis prowadzi {company}, {address}, NIP {nip}, {register}. Pod markami AS COMPANY LOVELINESS i Babushkina Academy prowadzimy w Warszawie salon i akademię makijażu permanentnego (dalej: „my”)." },
-        { "p": "W sprawach tej polityki napisz do nas na adres {privacyEmail}. Możesz też skorzystać z adresu {email} lub zadzwonić pod numer {phone}." }
+        { "p": "Serwis prowadzi {company}, {seat}[[, NIP {nip}]][[, {register}]]. Pod markami AS COMPANY LOVELINESS i Babushkina Academy prowadzimy w Warszawie salon i akademię makijażu permanentnego (dalej: „my”)." },
+        { "p": "W sprawach tej polityki napisz do nas[[ na adres {privacyEmail} albo]] na Instagramie ({instagram}).[[ Możesz też {{lub|skorzystać z adresu {email}|zadzwonić pod numer {phone}}}.]]" }
       ]
     },
     {
@@ -83,7 +83,7 @@
           "Lista pigmentów: usuń wszystkie pozycje albo kliknij „Wyczyść listę”, a wpis as-order-v1 zniknie z Twojej przeglądarki.",
           "Przeglądarka: możesz usunąć dane zapisane przez nasz serwis, także pliki cookies Cloudflare, albo zablokować ich zapisywanie. W większości przeglądarek znajdziesz te opcje w ustawieniach prywatności, w części dotyczącej plików cookies i danych witryn. Okno prywatne (incognito) usuwa takie dane po jego zamknięciu."
         ] },
-        { "p": "Jeśli zablokujesz zapisywanie danych, serwis nadal będzie działał, ale lista pigmentów nie przetrwa odświeżenia strony, a baner może pojawiać się przy każdej wizycie. Zablokowanie skryptu Cloudflare może uniemożliwić rezerwację online. Wtedy umówisz wizytę telefonicznie ({phone}), e-mailem ({email}) lub przez Instagram ({instagram})." }
+        { "p": "Jeśli zablokujesz zapisywanie danych, serwis nadal będzie działał, ale lista pigmentów nie przetrwa odświeżenia strony, a baner może pojawiać się przy każdej wizycie. Zablokowanie skryptu Cloudflare może uniemożliwić rezerwację online. Wtedy umówisz wizytę {{lub|telefonicznie ({phone})|e-mailem ({email})|przez Instagram ({instagram})}}." }
       ]
     },
     {
@@ -156,8 +156,8 @@
     },
     {
       "what": "Publikacja polityki przed uzupełnieniem danych firmy",
-      "proposal": "Nie publikować serwisu produkcyjnie, dopóki w src/lib/site.js nie zostaną uzupełnione LEGAL.company, address, nip, register (oraz CONTACT.email i phone) i wpisana data zatwierdzenia treści dokumentów (LEGAL.documentsApproved). Do tego czasu kod sam traktuje dokumenty jako projekt (pas „Projekt dokumentu”, noindex, brak w sitemap), a formularze i rezerwacja online nie zbierają danych. Stronę /polityka-cookies i baner wdrożyć razem, od pierwszego dnia działania serwisu, z linkiem w stopce i w sitemap.",
-      "why": "Dane usługodawcy są wymagane przez art. 5 u.ś.u.d.e., a dane administratora – przez art. 13 RODO (także przy danych przetwarzanych przez Cloudflare podczas weryfikacji); polityka ze znacznikami „[do uzupełnienia]” nie spełnia tych wymogów. Zapisy konieczne są wprawdzie zwolnione z obowiązków z art. 399 ust. 1 PKE (ust. 3), ale baner i polityka cookies informują o nich od pierwszej wizyty."
+      "proposal": "Decyzja Filipa (30.09.2026): dokumenty są publiczne już teraz, bez danych firmy (LEGAL_PUBLIC w src/lib/legal.js) – bez pasa „Projekt dokumentu”, bez noindex, w sitemap, z klauzulami pod formularzami i przy rezerwacji. Do czasu uzupełnienia w src/lib/site.js LEGAL.company, address, nip, register oraz CONTACT.email i phone w miejscu nazwy firmy stoi marka AS COMPANY LOVELINESS (Babushkina Academy), w miejscu siedziby – miasto, zdania o kontakcie kierują na Instagram, a fragmenty z NIP-em, rejestrem, adresem, e-mailem i telefonem są pominięte (nigdy „[do uzupełnienia]”). Po wpisaniu danych i daty zatwierdzenia treści (LEGAL.documentsApproved) dokumenty w pełni obowiązują (LEGAL_PUBLISHED), a pełne dane pokazują się same. Stronę /polityka-cookies i baner wdrożyć razem, od pierwszego dnia działania serwisu, z linkiem w stopce i w sitemap.",
+      "why": "Dane usługodawcy są wymagane przez art. 5 u.ś.u.d.e., a dane administratora – przez art. 13 RODO (także przy danych przetwarzanych przez Cloudflare podczas weryfikacji); marka, miasto i Instagram to rozwiązanie przejściowe, które tych wymogów w pełni nie spełnia, więc dane firmy trzeba uzupełnić jak najszybciej. Zapisy konieczne są wprawdzie zwolnione z obowiązków z art. 399 ust. 1 PKE (ust. 3), ale baner i polityka cookies informują o nich od pierwszej wizyty."
     },
     {
       "what": "Adres do spraw cookies i prywatności",

@@ -1,15 +1,15 @@
 {
   "slug": "polityka-cookies",
   "title": "Cookie Policy",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. This policy explains what information the {siteUrl} website stores on or reads from your device, for what purpose and how you can manage it. In short: we use only what is necessary for the features you use. We do not use any analytics or advertising tools.",
   "sections": [
     {
       "id": "kto-odpowiada",
       "heading": "1. Who runs the website",
       "blocks": [
-        { "p": "The website is run by {company}, {address}, Tax ID (NIP) {nip}, {register}. Under the brands AS COMPANY LOVELINESS and Babushkina Academy we run a permanent make-up salon and academy in Warsaw (“we”)." },
-        { "p": "For matters concerning this policy, write to us at {privacyEmail}. You can also use {email} or call us on {phone}." }
+        { "p": "The website is run by {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. Under the brands AS COMPANY LOVELINESS and Babushkina Academy we run a permanent make-up salon and academy in Warsaw (“we”)." },
+        { "p": "For matters concerning this policy, write to us[[ at {privacyEmail} or]] on Instagram ({instagram}).[[ You can also {{or|use {email}|call us on {phone}}}.]]" }
       ]
     },
     {
@@ -83,7 +83,7 @@
           "Pigment list: remove all items or click “Clear list”, and the as-order-v1 entry will disappear from your browser.",
           "Browser: you can delete data stored by our website, including Cloudflare cookies, or block it from being stored. In most browsers you will find these options in the privacy settings, in the section on cookies and site data. A private (incognito) window deletes such data when you close it."
         ] },
-        { "p": "If you block data storage, the website will still work, but your pigment list will not survive a page refresh and the banner may appear on every visit. Blocking the Cloudflare script may prevent online booking. In that case you can book an appointment by phone ({phone}), by email ({email}) or via Instagram ({instagram})." }
+        { "p": "If you block data storage, the website will still work, but your pigment list will not survive a page refresh and the banner may appear on every visit. Blocking the Cloudflare script may prevent online booking. In that case you can book an appointment {{or|by phone ({phone})|by email ({email})|via Instagram ({instagram})}}." }
       ]
     },
     {
@@ -156,8 +156,8 @@
     },
     {
       "what": "Publishing the policy before the company details are filled in",
-      "proposal": "Do not publish the website in production until LEGAL.company, address, nip and register (as well as CONTACT.email and phone) have been filled in in src/lib/site.js and the date on which the documents were approved has been entered (LEGAL.documentsApproved). Until then, the code itself treats the documents as drafts (a “Draft document” banner, noindex, not in the sitemap), and the forms and online booking do not collect any data. Launch the /polityka-cookies page and the banner together, from the first day the website is live, with a link in the footer and in the sitemap.",
-      "why": "The service provider’s details are required by Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną), and the controller’s details by Article 13 GDPR (also for data processed by Cloudflare during verification); a policy containing “[do uzupełnienia]” (“to be completed”) placeholders does not meet these requirements. Strictly necessary storage is exempt from the obligations in Article 399(1) of the Electronic Communications Law (paragraph 3), but the banner and the Cookie Policy describe it from the first visit."
+      "proposal": "Decision by Filip (30 September 2026): the documents are public now, without the company details (LEGAL_PUBLIC in src/lib/legal.js) – no “Draft document” banner, no noindex, included in the sitemap, with the notices under the forms and at booking. Until LEGAL.company, address, nip and register (as well as CONTACT.email and phone) are filled in in src/lib/site.js, the brand AS COMPANY LOVELINESS (Babushkina Academy) stands in for the company name and the city for the registered address, contact sentences point to Instagram, and passages with the tax ID, register entry, address, email and phone are left out (never “[do uzupełnienia]”). Once the details and the approval date (LEGAL.documentsApproved) are entered, the documents apply in full (LEGAL_PUBLISHED) and the full details appear automatically. Launch the /polityka-cookies page and the banner together, from the first day the website is live, with a link in the footer and in the sitemap.",
+      "why": "The service provider’s details are required by Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną), and the controller’s details by Article 13 GDPR (also for data processed by Cloudflare during verification); the brand, city and Instagram are a temporary solution that does not fully meet these requirements, so the company details should be added as soon as possible. Strictly necessary storage is exempt from the obligations in Article 399(1) of the Electronic Communications Law (paragraph 3), but the banner and the Cookie Policy describe it from the first visit."
     },
     {
       "what": "Address for cookie and privacy matters",

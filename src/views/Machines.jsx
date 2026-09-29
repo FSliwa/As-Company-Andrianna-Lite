@@ -35,7 +35,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BRAND } from '@/lib/site';
-import { LEGAL_PUBLISHED } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -198,10 +198,10 @@ const RENTAL_FIELDS = [
 
 const EMPTY_RENTAL_FORM = { name: '', phone: '', email: '', salonName: '' };
 
-/* FormNotice renderuje się sam, gdy dokumenty obowiązują (LEGAL_PUBLISHED), i zawiera
-   już zdanie o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend.
-   Wysyłkę wniosku blokuje do tego czasu sam sendEnquiry (ENQUIRY_LIVE). */
-const NOTICE_READY = LEGAL_PUBLISHED;
+/* FormNotice renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera
+   już zdanie o polach wymaganych – bez niego legendę pokazuje RequiredLegend.
+   Wysyłkę wniosku bez adresu e-mail blokuje sam sendEnquiry (ENQUIRY_LIVE). */
+const NOTICE_READY = LEGAL_PUBLIC;
 
 const pad = (n) => String(n).padStart(2, '0');
 const isRentable = (machine) => machine.id === PRINCESS.id;

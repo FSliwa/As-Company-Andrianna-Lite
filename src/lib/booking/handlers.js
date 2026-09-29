@@ -10,8 +10,9 @@
  *
  * W logach wyłącznie nazwa/rodzaj błędu i status – nigdy dane osobowe, IP ani klucz.
  *
- * Rezerwacja zbiera dane osobowe, więc domyślny dostawca jest dostępny dopiero, gdy
- * obowiązują dokumenty prawne (LEGAL_PUBLISHED, src/lib/legal.js) – inaczej 503 disabled,
+ * Rezerwacja zbiera dane osobowe, więc domyślny dostawca jest dostępny tylko, gdy
+ * dokumenty prawne są publiczne (LEGAL_PUBLIC, src/lib/legal.js – decyzja Filipa
+ * z 30.09.2026: także przed uzupełnieniem danych firmy) – inaczej 503 disabled,
  * tak jak przy braku konfiguracji kalendarza. Testy podają własne `getProvider`.
  */
 
@@ -25,7 +26,7 @@ import {
   SlotTakenError,
   describeError,
 } from './errors.js';
-import { LEGAL_PUBLISHED } from '../legal.js';
+import { LEGAL_PUBLIC } from '../legal.js';
 import { getBookingProvider } from './provider.js';
 import { clientKey, sharedLimiter } from './ratelimit.js';
 import { bookingSchema, issueFields, parseSlotsQuery } from './schema.js';
@@ -129,9 +130,9 @@ function isJsonContentType(value) {
 
 /* ---------------- wspólne ---------------- */
 
-/** Dostawca kalendarza – tylko przy obowiązujących dokumentach prawnych (klauzula przy formularzu). */
-export function defaultProvider(env = process.env, { legalPublished = LEGAL_PUBLISHED } = {}) {
-  return legalPublished ? getBookingProvider(env) : null;
+/** Dostawca kalendarza – tylko przy publicznych dokumentach prawnych (klauzula przy formularzu). */
+export function defaultProvider(env = process.env, { legalPublic = LEGAL_PUBLIC } = {}) {
+  return legalPublic ? getBookingProvider(env) : null;
 }
 
 function resolveProvider(getProvider) {

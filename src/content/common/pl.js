@@ -23,9 +23,13 @@ const common = {
   goTo: 'Przejdź:',
   closingLabel: 'Kontakt',
   requiredLegend: 'Pola oznaczone * są wymagane.',
-  noticeController: 'Administratorem danych jest',
+  /* klauzula pod formularzami i przy rezerwacji (FormNotice, BookingNotice): zdanie o administratorze
+     ze znacznikami danych firmy – składnia jak w dokumentach prawnych (src/lib/legal.js): bez danych
+     firmy marka + miasto + Instagram, po uzupełnieniu site.js pełna nazwa, adres i e-mail */
+  noticeController: 'Administratorem danych jest {company}, {seat} (kontakt:[[ {privacyEmail} lub]] Instagram {instagram}).',
   noticePurpose: 'Dane z formularza przetwarzamy, by odpowiedzieć na zapytanie i – jeśli o to poprosisz – przygotować ofertę.',
-  /* zdanie z linkiem: pre + <link> + post */
+  /* zdania z linkiem: pre + <link> + post */
+  noticePrivacy: { pre: 'Więcej w ', link: 'Polityce prywatności', post: '.' },
   noticeTerms: { pre: 'Zasady korzystania z formularzy opisuje ', link: 'Regulamin', post: '.' },
   /* klauzula pod przyciskiem rezerwacji (BookingNotice); {button} = etykieta przycisku */
   bookingPurpose:

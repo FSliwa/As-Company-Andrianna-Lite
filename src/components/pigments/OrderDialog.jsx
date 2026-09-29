@@ -39,8 +39,9 @@ import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
 /* Formularz zbiera dane osobowe tylko wtedy, gdy naprawdę je dostarczy
-   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO
-   (ENQUIRY_LIVE w src/lib/enquiry.js – wspólny warunek wszystkich formularzy). */
+   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO – dokumenty
+   prawne publiczne, LEGAL_PUBLIC (ENQUIRY_LIVE w src/lib/enquiry.js – wspólny warunek
+   wszystkich formularzy). Dziś bez CONTACT.email okno pokazuje wariant bez pól danych. */
 export const FORM_LIVE = ENQUIRY_LIVE;
 
 const SYNCED = formatSyncedDate();

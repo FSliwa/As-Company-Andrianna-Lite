@@ -1,7 +1,7 @@
 {
   "slug": "polityka-prywatnosci",
   "title": "Polityka prywatności",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce – Polityka cookies ({siteUrl}/polityka-cookies).",
   "sections": [
     {
@@ -25,7 +25,7 @@
       "heading": "2. Administrator danych",
       "blocks": [
         {
-          "p": "Administratorem Twoich danych osobowych jest {company}, {address}, NIP {nip}, {register}. Prowadzimy salon makijażu permanentnego i akademię szkoleniową działające w Warszawie pod markami AS COMPANY LOVELINESS i Babushkina Academy. W tej polityce piszemy o sobie „my”."
+          "p": "Administratorem Twoich danych osobowych jest {company}, {seat}[[, NIP {nip}]][[, {register}]]. Prowadzimy salon makijażu permanentnego i akademię szkoleniową działające w Warszawie pod markami AS COMPANY LOVELINESS i Babushkina Academy. W tej polityce piszemy o sobie „my”."
         }
       ]
     },
@@ -34,7 +34,7 @@
       "heading": "3. Kontakt w sprawie danych osobowych",
       "blocks": [
         {
-          "p": "We wszystkich sprawach dotyczących danych osobowych napisz na adres {privacyEmail} albo listownie na adres {address}. Możesz też skorzystać z ogólnych danych kontaktowych: {email}, tel. {phone}."
+          "p": "We wszystkich sprawach dotyczących danych osobowych napisz do nas {{albo|na adres {privacyEmail}|listownie na adres {address}|na Instagramie ({instagram})}}.[[ Możesz też skorzystać z ogólnych danych kontaktowych: {{|{email}|tel. {phone}}}.]]"
         },
         {
           "p": "Nie wyznaczyliśmy inspektora ochrony danych. Przy skali i charakterze naszej działalności przepisy tego nie wymagają (art. 37 RODO)."
@@ -46,7 +46,7 @@
       "heading": "4. Formularze kontaktowe, e-mail i Instagram",
       "blocks": [
         {
-          "p": "W serwisie są cztery formularze: kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki oraz zapytanie o pigmenty (lista wybranych odcieni). Żaden z nich nie wysyła danych na nasz serwer. Po kliknięciu przycisku przeglądarka składa z wypełnionych pól gotową wiadomość i otwiera Twój program pocztowy z naszym adresem {email}. Dane trafiają do nas dopiero wtedy, gdy sam wyślesz tę wiadomość. Możesz też napisać do nas na Instagramie, a listę pigmentów skopiować przyciskiem w oknie zamówienia i wkleić do wiadomości. Wiadomość przesyła Twój dostawca poczty albo Instagram, na swoich zasadach."
+          "p": "W serwisie są cztery formularze: kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki oraz zapytanie o pigmenty (lista wybranych odcieni). Żaden z nich nie wysyła danych na nasz serwer. Po kliknięciu przycisku przeglądarka składa z wypełnionych pól gotową wiadomość i otwiera Twój program pocztowy[[ z naszym adresem {email}]]. Dane trafiają do nas dopiero wtedy, gdy sam wyślesz tę wiadomość. Możesz też napisać do nas na Instagramie, a listę pigmentów skopiować przyciskiem w oknie zamówienia i wkleić do wiadomości. Wiadomość przesyła Twój dostawca poczty albo Instagram, na swoich zasadach."
         },
         {
           "p": "Zależnie od formularza wiadomość zawiera imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o pigmenty wystarczy telefon albo e-mail), a ponadto: w formularzu kontaktowym temat i treść wiadomości; w zapytaniu o szkolenie wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym; w zapytaniu o wynajem nazwę salonu i wybrane urządzenie; w zapytaniu o pigmenty nazwę salonu, listę odcieni z orientacyjną sumą i uwagi. Te same zasady dotyczą danych, które przekażesz nam, pisząc bezpośrednio e-mailem, dzwoniąc lub pisząc na Instagramie."
@@ -178,7 +178,7 @@
           "list": [
             "Vercel Inc. (USA): hosting serwisu i obsługa formularza rezerwacji;",
             "Google Ireland Limited i Google LLC (USA): Kalendarz Google, w którym zapisujemy rezerwacje;",
-            "dostawca naszej poczty elektronicznej: przechowywanie korespondencji wysłanej na adres {email};",
+            "dostawca naszej poczty elektronicznej: przechowywanie korespondencji wysłanej na nasz adres e-mail[[ {email}]];",
             "Cloudflare, Inc. (USA): weryfikacja w formularzu rezerwacji (Turnstile), tylko jeśli jest włączona; w zakresie ulepszania usługi Turnstile Cloudflare jest odrębnym administratorem (punkt 6);",
             "biuro rachunkowe: dokumenty księgowe, jeśli zawrzemy umowę."
           ]
@@ -193,7 +193,7 @@
       "heading": "11. Przekazywanie danych poza Europejski Obszar Gospodarczy",
       "blocks": [
         {
-          "p": "Vercel, Google i Cloudflare to firmy z USA lub należące do grup z USA, dlatego Twoje dane mogą być przetwarzane w Stanach Zjednoczonych. Podstawą przekazania jest decyzja Komisji Europejskiej z 10 lipca 2023 r. stwierdzająca odpowiedni stopień ochrony danych w ramach programu EU-U.S. Data Privacy Framework (art. 45 RODO), w odniesieniu do firm certyfikowanych w tym programie. Dodatkowym zabezpieczeniem są standardowe klauzule umowne przyjęte przez Komisję Europejską (art. 46 ust. 2 lit. c RODO), zawarte w umowach powierzenia tych dostawców. Kopię zabezpieczeń możesz otrzymać, pisząc na adres {privacyEmail}. Dane, które Cloudflare przetwarza jako odrębny administrator (punkt 6), przekazuje na zasadach opisanych w swojej polityce."
+          "p": "Vercel, Google i Cloudflare to firmy z USA lub należące do grup z USA, dlatego Twoje dane mogą być przetwarzane w Stanach Zjednoczonych. Podstawą przekazania jest decyzja Komisji Europejskiej z 10 lipca 2023 r. stwierdzająca odpowiedni stopień ochrony danych w ramach programu EU-U.S. Data Privacy Framework (art. 45 RODO), w odniesieniu do firm certyfikowanych w tym programie. Dodatkowym zabezpieczeniem są standardowe klauzule umowne przyjęte przez Komisję Europejską (art. 46 ust. 2 lit. c RODO), zawarte w umowach powierzenia tych dostawców. Kopię zabezpieczeń możesz otrzymać, pisząc do nas[[ na adres {privacyEmail} albo]] na Instagramie ({instagram}). Dane, które Cloudflare przetwarza jako odrębny administrator (punkt 6), przekazuje na zasadach opisanych w swojej polityce."
         }
       ]
     },
@@ -240,13 +240,13 @@
           "h3": "Prawo sprzeciwu"
         },
         {
-          "p": "W każdej chwili możesz wnieść sprzeciw wobec przetwarzania Twoich danych na podstawie naszego prawnie uzasadnionego interesu (art. 6 ust. 1 lit. f RODO), z przyczyn związanych z Twoją szczególną sytuacją (art. 21 ust. 1 RODO). Dotyczy to przetwarzania opisanego w punktach 4–7 i 13, na przykład korespondencji, ochrony formularza rezerwacji, odnotowywania nieodwołanych nieobecności i logów serwera. Po sprzeciwie przestaniemy przetwarzać dane w tym celu, chyba że wykażemy ważne, prawnie uzasadnione podstawy nadrzędne wobec Twoich interesów, praw i wolności albo dane są nam potrzebne do ustalenia, dochodzenia lub obrony roszczeń. Sprzeciw wyślij na adres {privacyEmail}."
+          "p": "W każdej chwili możesz wnieść sprzeciw wobec przetwarzania Twoich danych na podstawie naszego prawnie uzasadnionego interesu (art. 6 ust. 1 lit. f RODO), z przyczyn związanych z Twoją szczególną sytuacją (art. 21 ust. 1 RODO). Dotyczy to przetwarzania opisanego w punktach 4–7 i 13, na przykład korespondencji, ochrony formularza rezerwacji, odnotowywania nieodwołanych nieobecności i logów serwera. Po sprzeciwie przestaniemy przetwarzać dane w tym celu, chyba że wykażemy ważne, prawnie uzasadnione podstawy nadrzędne wobec Twoich interesów, praw i wolności albo dane są nam potrzebne do ustalenia, dochodzenia lub obrony roszczeń. Sprzeciw prześlij[[ na adres {privacyEmail} albo]] wiadomością na Instagramie ({instagram})."
         },
         {
           "p": "W serwisie nie opieramy przetwarzania danych na Twojej zgodzie, więc nie ma zgody do wycofania. Jeśli w przyszłości o nią poprosimy, będzie można ją wycofać w każdej chwili, bez wpływu na zgodność z prawem przetwarzania przed jej wycofaniem."
         },
         {
-          "p": "Aby skorzystać z tych praw, napisz na adres {privacyEmail}. Odpowiemy bez zbędnej zwłoki, najpóźniej w ciągu miesiąca. W wyjątkowo złożonych sprawach termin może się wydłużyć o kolejne dwa miesiące, o czym Cię poinformujemy. Jeśli będziemy mieć wątpliwość, czy wniosek pochodzi od Ciebie, możemy poprosić o dodatkowe potwierdzenie, na przykład z adresu e-mail lub numeru telefonu podanego przy rezerwacji. Obsługa wniosków jest bezpłatna. Tylko przy żądaniach ewidentnie nieuzasadnionych lub nadmiernych, zwłaszcza powtarzających się, możemy pobrać rozsądną opłatę albo odmówić (art. 12 ust. 5 RODO)."
+          "p": "Aby skorzystać z tych praw, napisz do nas[[ na adres {privacyEmail} albo]] na Instagramie ({instagram}). Odpowiemy bez zbędnej zwłoki, najpóźniej w ciągu miesiąca. W wyjątkowo złożonych sprawach termin może się wydłużyć o kolejne dwa miesiące, o czym Cię poinformujemy. Jeśli będziemy mieć wątpliwość, czy wniosek pochodzi od Ciebie, możemy poprosić o dodatkowe potwierdzenie, na przykład z adresu e-mail lub numeru telefonu podanego przy rezerwacji. Obsługa wniosków jest bezpłatna. Tylko przy żądaniach ewidentnie nieuzasadnionych lub nadmiernych, zwłaszcza powtarzających się, możemy pobrać rozsądną opłatę albo odmówić (art. 12 ust. 5 RODO)."
         },
         {
           "p": "Wniosek i naszą odpowiedź przechowujemy przez 3 lata, aby móc wykazać, że przestrzegamy przepisów. Podstawą jest nasz prawnie uzasadniony interes (art. 6 ust. 1 lit. f RODO)."
@@ -272,7 +272,7 @@
         {
           "list": [
             "bez danych kontaktowych nie odpowiemy na zapytanie;",
-            "bez imienia i nazwiska, telefonu i e-maila nie przyjmiemy rezerwacji online, ale możesz umówić się z nami telefonicznie, e-mailem lub na Instagramie;",
+            "bez imienia i nazwiska, telefonu i e-maila nie przyjmiemy rezerwacji online, ale możesz umówić się z nami {{lub|{?phone}telefonicznie|{?email}e-mailem|na Instagramie}};",
             "jeśli zawieramy umowę, dane są potrzebne do jej zawarcia, a dane do dokumentów księgowych i do rozliczenia dofinansowania szkolenia są wymagane przepisami lub zasadami programu."
           ]
         },
@@ -286,7 +286,7 @@
       "heading": "16. Profilowanie i decyzje automatyczne",
       "blocks": [
         {
-          "p": "Nie profilujemy i nie podejmujemy wobec Ciebie decyzji opartych wyłącznie na automatycznym przetwarzaniu, które wywoływałyby skutki prawne lub w podobny sposób istotnie na Ciebie wpływały (art. 22 RODO). Automatyczne zabezpieczenia formularza rezerwacji (punkt 6) mogą odrzucić zgłoszenie, które wygląda na nadużycie albo przekracza limit rezerwacji online. Wtedy umów się z nami telefonicznie, e-mailem lub na Instagramie."
+          "p": "Nie profilujemy i nie podejmujemy wobec Ciebie decyzji opartych wyłącznie na automatycznym przetwarzaniu, które wywoływałyby skutki prawne lub w podobny sposób istotnie na Ciebie wpływały (art. 22 RODO). Automatyczne zabezpieczenia formularza rezerwacji (punkt 6) mogą odrzucić zgłoszenie, które wygląda na nadużycie albo przekracza limit rezerwacji online. Wtedy umów się z nami {{lub|{?phone}telefonicznie|{?email}e-mailem|na Instagramie}}."
         }
       ]
     },
@@ -307,7 +307,7 @@
     {
       "what": "Dane administratora i kontaktowe (w src/lib/site.js: LEGAL.company, address, nip, register, privacyEmail; CONTACT.email, phone; adres serwisu NEXT_PUBLIC_SITE_URL)",
       "proposal": "Uzupełnić dokładnie według wpisu w CEIDG lub KRS. Adres do spraw danych (privacyEmail) może być tym samym adresem co kontaktowy, jeśli ktoś go regularnie czyta.",
-      "why": "Bez tych danych polityka nie spełnia art. 13 ust. 1 lit. a RODO ani art. 5 ustawy o świadczeniu usług drogą elektroniczną. Formularze otwierają pocztę dopiero po ustawieniu adresu kontaktowego."
+      "why": "Bez tych danych polityka nie spełnia art. 13 ust. 1 lit. a RODO ani art. 5 ustawy o świadczeniu usług drogą elektroniczną. Formularze otwierają pocztę dopiero po ustawieniu adresu kontaktowego. Decyzja Filipa (30.09.2026): polityka jest publiczna jeszcze przed podaniem tych danych – do tego czasu administratora wskazuje marka AS COMPANY LOVELINESS (Babushkina Academy) i miasto (Warszawa), a kontakt w sprawie danych prowadzi przez Instagram; fragmenty z NIP-em, wpisem do rejestru, adresem, e-mailem i telefonem pojawią się same po uzupełnieniu site.js (src/lib/legal.js, LEGAL_PUBLIC)."
     },
     {
       "what": "Inspektor ochrony danych (IOD)",

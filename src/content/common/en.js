@@ -19,8 +19,9 @@ const common = {
   goTo: 'Go to:',
   closingLabel: 'Contact',
   requiredLegend: 'Fields marked * are required.',
-  noticeController: 'The data controller is',
+  noticeController: 'The data controller is {company}, {seat} (contact:[[ {privacyEmail} or]] Instagram {instagram}).',
   noticePurpose: 'We process the data from this form to answer your enquiry and, if you ask us to, to prepare an offer.',
+  noticePrivacy: { pre: 'See our ', link: 'Privacy Policy', post: ' for details.' },
   noticeTerms: { pre: 'The rules for using the forms are set out in our ', link: 'Terms of Use', post: '.' },
   bookingPurpose:
     'We process the data from this form to book and handle your appointment; the appointment and your contact details are saved in the salon’s Google Calendar.',

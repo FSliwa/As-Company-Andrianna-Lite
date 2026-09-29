@@ -1,13 +1,14 @@
-import { LEGAL_PUBLISHED } from './src/lib/legal.js';
+import { LEGAL_PUBLIC } from './src/lib/legal.js';
 
 /**
  * Rezerwacja online: czy przyciski „Umów wizytę” mają prowadzić do /umow-wizyte.
- * Ta sama logika co resolveProviderName() w src/lib/booking/provider.js — liczona
+ * Ta sama logika co resolveProviderName() w src/lib/booking/provider.js – liczona
  * w chwili buildu, bo stała trafia też do komponentów klienckich
  * (NEXT_PUBLIC_BOOKING_ENABLED → BOOKING_ENABLED w src/lib/site.js).
  * Zmiana zmiennych na hostingu wymaga więc ponownego wdrożenia (Redeploy).
- * Dodatkowo rezerwacja wymaga obowiązujących dokumentów prawnych (LEGAL_PUBLISHED
- * w src/lib/legal.js) — jak BookingRoute i /api/booking.
+ * Dodatkowo rezerwacja wymaga publicznych dokumentów prawnych (LEGAL_PUBLIC
+ * w src/lib/legal.js – decyzja Filipa z 30.09.2026: także przed uzupełnieniem danych
+ * firmy) – jak BookingRoute i /api/booking.
  */
 function bookingEnabled(env) {
   const hasGoogle = Boolean(
@@ -40,7 +41,7 @@ const nextConfig = {
   // `next build` nie nadpisywał .next działającego `next dev`.
   distDir: process.env.NEXT_DIST_DIR || '.next',
   env: {
-    NEXT_PUBLIC_BOOKING_ENABLED: LEGAL_PUBLISHED && bookingEnabled(process.env) ? '1' : '',
+    NEXT_PUBLIC_BOOKING_ENABLED: LEGAL_PUBLIC && bookingEnabled(process.env) ? '1' : '',
   },
   // Serwis nie używa next/image (obrazy mają własne srcSet w WebP z public/graphics),
   // więc optymalizator obrazów i zdalne domeny są wyłączone.

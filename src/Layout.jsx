@@ -324,7 +324,7 @@ function Footer({ year }) {
           </p>
         </div>
 
-        {/* Dokumenty zawsze (do czasu danych firmy jako projekt); dane firmy – po uzupełnieniu LEGAL w site.js */}
+        {/* Dokumenty zawsze (publiczne – LEGAL_PUBLIC); wiersz z danymi firmy – po uzupełnieniu LEGAL w site.js */}
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 text-[0.8125rem] text-cream-200/80 lg:mt-10">
           {LEGAL.company && (
             <span className="basis-full sm:basis-auto">
