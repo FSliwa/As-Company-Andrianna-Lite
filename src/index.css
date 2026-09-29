@@ -397,3 +397,10 @@
     transform: translateY(0);
   }
 }
+
+/* Baner cookies nad mobilnym paskiem CTA, gdy pasek jest widoczny (bez sprzęgania komponentów w JS). */
+@media (max-width: 1023px) {
+  html:has(#as-sticky[aria-hidden='false']) [data-consent-banner] {
+    bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.75rem);
+  }
+}

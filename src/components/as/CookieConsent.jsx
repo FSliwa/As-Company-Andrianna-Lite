@@ -75,6 +75,7 @@ export default function CookieConsent() {
     <div
       role="region"
       aria-labelledby={titleId}
+      data-consent-banner=""
       className="fixed inset-x-3 bottom-3 z-[60] border border-gold/40 bg-cream-50 p-5 text-ink shadow-[0_18px_48px_-18px_rgba(36,27,20,0.35)] sm:inset-x-auto sm:bottom-5 sm:left-5 sm:max-w-[26rem] sm:p-6"
     >
       <h2 id={titleId} ref={headingRef} tabIndex={-1} className="as-label text-gold-deep focus:outline-none">

@@ -427,13 +427,14 @@ export default function Layout({ children, year }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="flex min-h-screen flex-col bg-cream-50">
+      {/* baner zgody pierwszy w kolejności tabulacji; wizualnie przyklejony do dołu */}
+      <CookieConsent />
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         {children}
       </main>
       <Footer year={year} />
       <StickyBar menuOpen={menuOpen} />
-      <CookieConsent />
     </div>
   );
 }
