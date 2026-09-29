@@ -146,20 +146,26 @@ function Hero() {
       </h1>
 
       {/* ================= UKŁAD MOBILNY / TABLET ================= */}
+      {/* telefon: jedna kolumna; tablet (md): tytuł i opis obok portretu */}
       <div className="as-shell pb-14 pt-28 lg:hidden">
-        <p aria-hidden="true" className="as-display-xl text-ink">
-          <span className="block">Beauty</span>
-          <span className="block font-normal italic leading-[1.05]">with</span>
-          <span className="block">precision.</span>
-        </p>
+        <div className="md:grid md:grid-cols-12 md:items-center md:gap-8">
+          <div className="md:col-span-6">
+            <p aria-hidden="true" className="as-display-xl text-ink md:text-[5.25rem]">
+              <span className="block">Beauty</span>
+              <span className="block font-normal italic leading-[1.05]">with</span>
+              <span className="block">precision.</span>
+            </p>
 
-        <div className="mt-8">{lead}</div>
+            <div className="mt-8">{lead}</div>
+            <div className="mt-10 hidden max-w-[20rem] md:block">{colophon}</div>
+          </div>
 
-        <div className="relative mx-auto mt-10 w-full max-w-[380px]">
-          <div style={{ aspectRatio: '4 / 5', maxHeight: '60svh', marginInline: 'auto' }}>{photo}</div>
+          <div className="relative mx-auto mt-10 w-full max-w-[380px] md:col-span-6 md:mt-0 md:max-w-none">
+            <div style={{ aspectRatio: '4 / 5', maxHeight: '60svh', marginInline: 'auto' }}>{photo}</div>
+          </div>
         </div>
 
-        <div className="mt-12 max-w-[20rem]">{colophon}</div>
+        <div className="mt-12 max-w-[20rem] md:hidden">{colophon}</div>
 
         <div className="mt-10 border-t border-ink/10 pt-6">
           <FactStrip items={HERO_FACTS} />
@@ -295,7 +301,7 @@ function AboutBand() {
         </div>
 
         {/* liczby — najmocniejszy dowód marki, w pierwszych dwóch ekranach */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-cream-200/15 pt-10 lg:mt-16 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-cream-200/15 pt-10 md:grid-cols-4 lg:mt-16">
           {ACHIEVEMENTS.map((a, i) => (
             <Reveal key={a.label} delay={i * 60}>
               <Stat value={a.value} label={a.label} tone="light" />

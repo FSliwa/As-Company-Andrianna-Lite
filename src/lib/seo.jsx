@@ -42,6 +42,7 @@ export function siteJsonLd() {
         alternateName: [BRAND.name, BRAND.academy],
         url: SITE_URL,
         slogan: BRAND.tagline,
+        logo: `${SITE_URL}/brand/as-company-logo.png`,
         description: BRAND.claim,
         sameAs: [CONTACT.instagram],
         founder: { '@id': `${SITE_URL}/#founder` },

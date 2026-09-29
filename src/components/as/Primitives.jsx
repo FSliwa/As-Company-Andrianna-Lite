@@ -378,9 +378,9 @@ export function PageHero({
         <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
           <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
-            <div className="mt-12 grid gap-8 sm:grid-cols-3 lg:mt-16">
+            <div className="mt-10 grid grid-cols-3 gap-3 sm:gap-8 lg:mt-16">
               {stats.map((st) => (
-                <Stat key={st.label} value={st.value} label={st.label} tone="light" />
+                <Stat key={st.label} value={st.value} label={st.label} tone="light" compact />
               ))}
             </div>
           )}
@@ -393,11 +393,11 @@ export function PageHero({
   return (
     <section className={cn('relative overflow-hidden', isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink')}>
       <div className="as-shell relative pb-14 pt-24 sm:pt-28 lg:pb-16 lg:pt-24">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
           <Reveal
             className={cn(
-              'min-w-0 lg:row-start-1',
-              imageSide === 'left' ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'
+              'min-w-0 md:row-start-1',
+              imageSide === 'left' ? 'md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7' : 'md:col-span-7 md:col-start-1 lg:col-span-6'
             )}
           >
             {heading}
@@ -406,11 +406,11 @@ export function PageHero({
           {image && (
             <div
               className={cn(
-                'min-w-0 lg:row-start-1',
-                imageSide === 'left' ? 'lg:col-span-4 lg:col-start-2' : 'lg:col-span-4 lg:col-start-8'
+                'min-w-0 md:row-start-1',
+                imageSide === 'left' ? 'md:col-span-5 md:col-start-1 lg:col-span-4 lg:col-start-2' : 'md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-8'
               )}
             >
-              <div className="mx-auto max-w-[22rem] lg:max-w-none">
+              <div className="mx-auto max-w-[22rem] md:max-w-none">
                 <Figure
                   image={image}
                   alt={imageAlt || title}
@@ -419,7 +419,7 @@ export function PageHero({
                   tone={imageTone}
                   framed
                   priority
-                  sizes="(min-width: 1024px) 30vw, 90vw"
+                  sizes="(min-width: 768px) 36vw, 90vw"
                 />
               </div>
             </div>
@@ -481,14 +481,14 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
 
 export function FactStrip({ items, tone = 'dark', className }) {
   const isLight = tone === 'light';
-  /* Telefon: siatka 2 kolumn bez ukośników (nic nie jest ucięte w pół słowa).
-     Od sm: jedna linia z ukośnikami. */
+  /* Do lg: siatka 2 kolumn bez ukośników (nic nie jest ucięte w pół słowa
+     i żaden wiersz nie zaczyna się od „/”). Od lg: jedna linia z ukośnikami. */
   return (
-    <ul className={cn('grid grid-cols-2 gap-x-6 gap-y-3 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5', className)}>
+    <ul className={cn('grid grid-cols-2 gap-x-6 gap-y-3 lg:flex lg:flex-wrap lg:items-center lg:gap-x-5', className)}>
       {items.map((item, i) => (
         <li key={item} className="flex items-center gap-5">
           {i > 0 && (
-            <span aria-hidden="true" className={cn('as-label hidden sm:inline', isLight ? 'text-cream-200/40' : 'text-ink/30')}>
+            <span aria-hidden="true" className={cn('as-label hidden lg:inline', isLight ? 'text-cream-200/40' : 'text-ink/30')}>
               /
             </span>
           )}
@@ -530,11 +530,18 @@ export function CtaButton({ href, onClick, children, className = 'as-btn-solid',
 /*  Liczba osiągnięcia: „5 000+” + podpis                              */
 /* ------------------------------------------------------------------ */
 
-export function Stat({ value, label, tone = 'dark', className }) {
+export function Stat({ value, label, tone = 'dark', compact = false, className }) {
   const isLight = tone === 'light';
   return (
-    <div className={cn('as-card-col', className)}>
-      <p className={cn('as-display-md leading-none', isLight ? 'text-cream-100' : 'text-ink')}>{value}</p>
+    <div className={cn(compact ? 'border-l border-gold/35 pl-3 sm:pl-5' : 'as-card-col', className)}>
+      <p
+        className={cn(
+          compact ? 'as-display text-[1.625rem] leading-none sm:text-[2.5rem] lg:text-[4rem]' : 'as-display-md leading-none',
+          isLight ? 'text-cream-100' : 'text-ink'
+        )}
+      >
+        {value}
+      </p>
       <p className={cn('mt-3', isLight ? 'as-caption-invert' : 'as-caption')}>{label}</p>
     </div>
   );

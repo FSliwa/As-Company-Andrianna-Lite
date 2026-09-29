@@ -49,7 +49,10 @@ export const CONTACT = {
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://as-loveliness.eu').replace(/\/$/, '');
 
 /** Rezerwacja online (Kalendarz Google) — wszystkie przyciski „Umów wizytę”. */
-export const BOOKING_URL = '/umow-wizyte';
+// TYMCZASOWO /kontakt — strona /umow-wizyte jest w budowie (workflow rezerwacji);
+// po jej sprawdzeniu wraca '/umow-wizyte'. Bez tego „Umów wizytę” dawało 404.
+export const BOOKING_URL = '/kontakt';
+export const BOOKING_PAGE = '/umow-wizyte';
 
 /**
  * Sklep internetowy klienta (WooCommerce) — produkty kupuje się tam.

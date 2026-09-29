@@ -69,8 +69,8 @@ function Header({ menuOpen, setMenuOpen }) {
         )}
       >
         <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24">
-          <Link href="/" aria-label={`${BRAND.name} ${BRAND.full.replace(BRAND.name, '').trim()} PMU — strona główna`} className="shrink-0">
-            <Logo tone={dark ? 'light' : 'gold'} />
+          <Link href="/" className="shrink-0" aria-label="AS COMPANY POLAND — strona główna">
+            <Logo priority />
           </Link>
 
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Nawigacja główna">
@@ -210,14 +210,14 @@ function Footer({ year }) {
 
   return (
     <footer className="relative overflow-hidden border-t border-cream-200/12 bg-espresso-900 text-cream-50">
-      <div className="as-shell py-16 lg:py-24">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-5">
-            <Logo tone="light" />
-            <p className="mt-8 font-display text-2xl italic text-cream-100">{BRAND.tagline}</p>
-            <p className="as-caption-invert mt-3">{BRAND.claim}</p>
+      <div className="as-shell py-12 lg:py-24">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-10">
+          <div className="md:col-span-5">
+            <Logo size="lg" />
+            <p className="mt-6 font-display text-2xl italic text-cream-100 lg:mt-8">{BRAND.tagline}</p>
+            <p className="as-caption-invert mt-3 hidden sm:block">{BRAND.claim}</p>
 
-            <dl className="mt-10 max-w-sm">
+            <dl className="mt-6 max-w-sm lg:mt-10">
               <div className="flex items-baseline justify-between gap-6 border-t border-cream-200/12 py-3">
                 <dt className="as-label text-cream-200/70">{CONTACT.venue}</dt>
                 <dd className="text-[0.875rem] text-cream-100">
@@ -232,7 +232,7 @@ function Footer({ year }) {
               ))}
             </dl>
 
-            <div className="mt-8 flex flex-wrap items-center gap-6">
+            <div className="mt-4 flex flex-wrap items-center gap-6 lg:mt-8">
               {CONTACT.phone && (
                 <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="text-[0.875rem] text-cream-100 hover:text-gold-light">
                   {CONTACT.phone}
@@ -255,7 +255,7 @@ function Footer({ year }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
             {NAV_ALL.map((group) => (
               <div key={group.title}>
                 <p className="as-label text-gold-light">{group.title}</p>
@@ -276,7 +276,7 @@ function Footer({ year }) {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-cream-200/12 pt-10">
+        <div className="mt-10 border-t border-cream-200/12 pt-8 lg:mt-16 lg:pt-10">
           <p
             className="as-display select-none text-cream-200/[0.08]"
             style={{ fontSize: 'clamp(2.5rem, 12vw, 11rem)', lineHeight: 0.85 }}
@@ -286,7 +286,7 @@ function Footer({ year }) {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:mt-10">
           <p className="as-label text-cream-200/70">
             © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
           </p>
