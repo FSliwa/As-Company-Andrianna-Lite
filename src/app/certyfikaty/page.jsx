@@ -1,12 +1,13 @@
 import Certificates from '@/views/Certificates';
+import { pageMeta } from '@/lib/seo';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim. */
-export const metadata = {
-  title: 'Dokumentacja i certyfikaty',
+export const metadata = pageMeta({
+  title: 'Dokumentacja produktów',
   description:
-    'Deklaracje zgodności REACH, karty charakterystyki, sterylność kartridży i dokumentacja urządzeń — co dołączamy do każdego zamówienia.',
-  alternates: { canonical: '/certyfikaty' },
-};
+    'Jakie dokumenty udostępniamy do produktów PMU — deklaracje zgodności, karty charakterystyki i dokumentacja urządzeń.',
+  path: '/certyfikaty',
+});
 
 export default function Page() {
   return <Certificates />;

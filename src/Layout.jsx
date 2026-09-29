@@ -1,21 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Instagram, Menu, X } from 'lucide-react';
 import Logo from '@/components/as/Logo';
-import { BRAND, CONTACT, NAV_ALL, NAV_MAIN } from '@/lib/site';
+import { BOOKING_URL, BRAND, CONTACT, LEGAL, NAV_ALL, NAV_MAIN, SHOP } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Nagłówek                                                            */
 /* ------------------------------------------------------------------ */
 
-function Header() {
+function Header({ menuOpen, setMenuOpen }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -24,28 +24,53 @@ function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Zamknij menu przy zmianie trasy i zablokuj przewijanie, gdy otwarte
-  useEffect(() => setMenuOpen(false), [pathname]);
+  // Zamknij menu przy zmianie trasy
+  useEffect(() => setMenuOpen(false), [pathname, setMenuOpen]);
+
+  // Menu jako dialog: blokada przewijania, treść pod spodem „inert", Escape zamyka
+  // i oddaje fokus przyciskowi menu.
   useEffect(() => {
+    const outside = [document.querySelector('main'), document.querySelector('footer'), document.getElementById('as-sticky')];
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
+    outside.forEach((el) => el && (el.inert = menuOpen));
+    if (!menuOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
     };
-  }, [menuOpen]);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+      outside.forEach((el) => el && (el.inert = false));
+    };
+  }, [menuOpen, setMenuOpen]);
+
+  const dark = menuOpen;
 
   return (
     <>
+      <a
+        href="#main"
+        className="as-label sr-only z-[60] bg-ink px-5 py-3 text-cream-50 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Przejdź do treści
+      </a>
       <header
         className={cn(
           'sticky top-0 z-50 transition-colors duration-300',
-          scrolled
-            ? 'border-b border-ink/10 bg-cream-50'
-            : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
+          dark
+            ? 'border-b border-cream-200/10 bg-espresso'
+            : scrolled
+              ? 'border-b border-ink/10 bg-cream-50'
+              : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
         )}
       >
         <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24">
-          <Link href="/" aria-label="AS Company — strona główna" className="shrink-0">
-            <Logo />
+          <Link href="/" aria-label={`${BRAND.name} ${BRAND.full.replace(BRAND.name, '').trim()} PMU — strona główna`} className="shrink-0">
+            <Logo tone={dark ? 'light' : 'gold'} />
           </Link>
 
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Nawigacja główna">
@@ -70,12 +95,27 @@ function Header() {
                 </Link>
               );
             })}
+            {/* „Shop ↗" z makiety — sklep klienta (WooCommerce) */}
+            <a
+              href={SHOP.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] text-ink/65 transition-colors hover:text-ink"
+            >
+              Sklep <span aria-hidden="true">&#8599;</span>
+              <span className="sr-only"> (otwiera się w nowej karcie)</span>
+            </a>
           </nav>
 
           <div className="flex items-center gap-4 sm:gap-5">
             <Link
-              href="/kontakt"
-              className="hidden items-center gap-2 rounded-full border border-ink/25 px-6 py-2.5 text-[0.75rem] transition-colors hover:border-ink hover:bg-ink hover:text-cream-50 sm:inline-flex"
+              href={BOOKING_URL}
+              className={cn(
+                'hidden items-center gap-2 rounded-full border px-6 py-2.5 text-[0.75rem] transition-colors sm:inline-flex',
+                dark
+                  ? 'border-cream-200/30 text-cream-100 hover:bg-cream-100 hover:text-ink'
+                  : 'border-ink/25 hover:border-ink hover:bg-ink hover:text-cream-50'
+              )}
             >
               Umów wizytę
               <span aria-hidden="true" className="text-[0.7rem]">
@@ -84,12 +124,16 @@ function Header() {
             </Link>
 
             <button
+              ref={menuButton}
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="as-menu"
               aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-              className="grid h-10 w-10 place-items-center text-ink transition-colors hover:text-gold-dark lg:hidden"
+              className={cn(
+                'grid h-11 w-11 place-items-center transition-colors lg:hidden',
+                dark ? 'text-cream-100 hover:text-gold-light' : 'text-ink hover:text-gold-dark'
+              )}
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -97,9 +141,12 @@ function Header() {
         </div>
       </header>
 
-      {/* Pełnoekranowe menu */}
+      {/* Pełnoekranowe menu (telefon, tablet) — dialog */}
       <div
         id="as-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
         hidden={!menuOpen}
         className={cn(
           'fixed inset-0 z-40 overflow-y-auto bg-espresso text-cream-50 transition-opacity duration-300',
@@ -116,24 +163,37 @@ function Header() {
                       href={item.href}
                       className="group flex items-baseline gap-6 py-2 transition-colors hover:text-gold-light"
                     >
-                      <span className="as-label w-6 text-gold/70">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="as-label w-6 text-gold-light">{String(i + 1).padStart(2, '0')}</span>
                       <span className="as-display-md">{item.label}</span>
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <a
+                    href={SHOP.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group flex items-baseline gap-6 py-2 transition-colors hover:text-gold-light"
+                  >
+                    <span className="as-label w-6 text-gold-light">{String(NAV_MAIN.length + 1).padStart(2, '0')}</span>
+                    <span className="as-display-md">
+                      Sklep <span aria-hidden="true">&#8599;</span>
+                    </span>
+                  </a>
+                </li>
               </ul>
             </nav>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-6">
               {NAV_ALL.map((group) => (
                 <div key={group.title}>
-                  <h2 className="as-label text-gold-light">{group.title}</h2>
-                  <ul className="mt-5 space-y-3">
+                  <p className="as-label text-gold-light">{group.title}</p>
+                  <ul className="mt-4">
                     {group.links.map((link) => (
                       <li key={link.label}>
                         <Link
                           href={link.href}
-                          className="text-sm text-cream-200/70 transition-colors hover:text-cream-50"
+                          className="block py-1.5 text-[0.875rem] text-cream-200/80 transition-colors hover:text-cream-50"
                         >
                           {link.label}
                         </Link>
@@ -146,16 +206,16 @@ function Header() {
           </div>
 
           <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-cream-200/15 pt-8">
-            <p className="as-label text-cream-200/50">
+            <p className="as-label text-cream-200/75">
               {CONTACT.venue} · {CONTACT.city}
             </p>
             <a
               href={CONTACT.instagram}
               target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-cream-200/70 transition-colors hover:text-cream-50"
+              rel="noreferrer noopener"
+              className="inline-flex min-h-[44px] items-center gap-2 text-[0.875rem] text-cream-200/80 transition-colors hover:text-cream-50"
             >
-              <Instagram className="h-4 w-4" />
+              <Instagram className="h-4 w-4" aria-hidden="true" />
               {CONTACT.instagramHandle}
             </a>
           </div>
@@ -169,8 +229,7 @@ function Header() {
 /*  Stopka                                                              */
 /* ------------------------------------------------------------------ */
 
-function Footer() {
-  const year = new Date().getFullYear();
+function Footer({ year }) {
 
   return (
     <footer className="relative overflow-hidden border-t border-cream-200/12 bg-espresso-900 text-cream-50">
@@ -211,7 +270,7 @@ function Footer() {
                 href={CONTACT.instagram}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 text-[0.875rem] text-cream-200/80 transition-colors hover:text-gold-light"
+                className="inline-flex min-h-[44px] items-center gap-2 text-[0.875rem] text-cream-200/80 transition-colors hover:text-gold-light"
               >
                 <Instagram className="h-4 w-4" aria-hidden="true" />
                 {CONTACT.instagramHandle}
@@ -222,13 +281,13 @@ function Footer() {
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7">
             {NAV_ALL.map((group) => (
               <div key={group.title}>
-                <h2 className="as-label text-gold-light">{group.title}</h2>
-                <ul className="mt-5 space-y-3">
+                <p className="as-label text-gold-light">{group.title}</p>
+                <ul className="mt-4">
                   {group.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-[0.875rem] text-cream-200/75 transition-colors hover:text-cream-50"
+                        className="block py-1.5 text-[0.875rem] text-cream-200/80 transition-colors hover:text-cream-50"
                       >
                         {link.label}
                       </Link>
@@ -250,9 +309,26 @@ function Footer() {
           </p>
         </div>
 
-        <p className="as-label mt-10 text-cream-200/55">
-          © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
-        </p>
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="as-label text-cream-200/70">
+            © {year} {BRAND.full}. Wszystkie prawa zastrzeżone.
+          </p>
+          {/* Dane firmy i polityka prywatności — pojawią się, gdy klient uzupełni LEGAL w site.js */}
+          {(LEGAL.company || LEGAL.privacyPolicy) && (
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.8125rem] text-cream-200/80">
+              {LEGAL.company && (
+                <span>
+                  {[LEGAL.company, LEGAL.address, LEGAL.nip && `NIP ${LEGAL.nip}`, LEGAL.register].filter(Boolean).join(' · ')}
+                </span>
+              )}
+              {LEGAL.privacyPolicy && (
+                <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-cream-50">
+                  Polityka prywatności
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </footer>
   );
@@ -263,7 +339,7 @@ function Footer() {
 /*  zamykającym, formularzach i stopce (nie zasłania „Wyślij").        */
 /* ------------------------------------------------------------------ */
 
-function StickyBar() {
+function StickyBar({ menuOpen }) {
   const pathname = usePathname();
   const [pastHero, setPastHero] = useState(false);
   const [blocked, setBlocked] = useState(false);
@@ -291,11 +367,12 @@ function StickyBar() {
     return () => io.disconnect();
   }, [pathname]);
 
-  if (pathname === '/kontakt') return null;
-  const show = pastHero && !blocked;
+  if (pathname === '/kontakt' || pathname === BOOKING_URL) return null;
+  const show = pastHero && !blocked && !menuOpen;
 
   return (
     <div
+      id="as-sticky"
       aria-hidden={!show}
       className={cn(
         'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-cream-200/15 bg-espresso-900 pb-[env(safe-area-inset-bottom)] transition-[transform,opacity] duration-300 lg:hidden',
@@ -303,7 +380,7 @@ function StickyBar() {
       )}
     >
       <Link
-        href="/kontakt"
+        href={BOOKING_URL}
         tabIndex={show ? 0 : -1}
         className="as-label flex h-14 items-center justify-center text-cream-100"
       >
@@ -322,13 +399,16 @@ function StickyBar() {
 
 /* ------------------------------------------------------------------ */
 
-export default function Layout({ children }) {
+export default function Layout({ children, year }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="flex min-h-screen flex-col bg-cream-50">
-      <Header />
-      <main className="flex-1">{children}</main>
-      <Footer />
-      <StickyBar />
+      <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+        {children}
+      </main>
+      <Footer year={year} />
+      <StickyBar menuOpen={menuOpen} />
     </div>
   );
 }

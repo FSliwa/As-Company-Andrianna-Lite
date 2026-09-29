@@ -36,6 +36,8 @@ module.exports = {
   				light: '#D8C3A0',
   				pale: '#E8DBC4',
   				dark: '#9A7C52',
+  				/* drobny tekst złoty na kremie — AA: 5,0:1 na cream-50, 4,5:1 na cream-100 */
+  				deep: '#806744',
   			},
   			ink: '#241B14',
   			/* ——— tokeny shadcn (zostawione dla komponentów ui/) ——— */

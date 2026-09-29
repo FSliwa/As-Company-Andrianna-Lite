@@ -9,6 +9,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { LEGAL } from '@/lib/site';
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +26,7 @@ export function SectionLabel({ number, children, tone = 'dark', line = true, cla
   return (
     <div className={cn('flex items-center gap-4', className)}>
       {number && (
-        <span className={cn('as-label', isLight ? 'text-gold-light' : 'text-gold-dark')}>
+        <span className={cn('as-label', isLight ? 'text-gold-light' : 'text-gold-deep')}>
           {number}
         </span>
       )}
@@ -448,7 +449,7 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
           <span
             className={cn(
               'mt-1 block text-[0.8125rem] leading-relaxed',
-              isLight ? 'text-cream-200/55' : 'text-mocha-400'
+              isLight ? 'text-cream-100/85' : 'text-mocha'
             )}
           >
             {note}
@@ -480,18 +481,18 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
 
 export function FactStrip({ items, tone = 'dark', className }) {
   const isLight = tone === 'light';
-  /* Jedna linia zawsze — na wąskim ekranie przewija się w bok, zamiast
-     łamać się z wiszącym ukośnikiem. */
+  /* Telefon: siatka 2 kolumn bez ukośników (nic nie jest ucięte w pół słowa).
+     Od sm: jedna linia z ukośnikami. */
   return (
-    <ul className={cn('as-noscrollbar flex items-center gap-x-5 overflow-x-auto whitespace-nowrap', className)}>
+    <ul className={cn('grid grid-cols-2 gap-x-6 gap-y-3 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5', className)}>
       {items.map((item, i) => (
-        <li key={item} className="flex shrink-0 items-center gap-5">
+        <li key={item} className="flex items-center gap-5">
           {i > 0 && (
-            <span aria-hidden="true" className={cn('as-label', isLight ? 'text-cream-200/35' : 'text-ink/25')}>
+            <span aria-hidden="true" className={cn('as-label hidden sm:inline', isLight ? 'text-cream-200/40' : 'text-ink/30')}>
               /
             </span>
           )}
-          <span className={cn('as-label', isLight ? 'text-cream-200/75' : 'text-ink/60')}>{item}</span>
+          <span className={cn('as-label', isLight ? 'text-cream-100/85' : 'text-ink/65')}>{item}</span>
         </li>
       ))}
     </ul>
@@ -569,7 +570,7 @@ export function ClosingCta({
     );
   };
   return (
-    <section data-sticky-hide className={cn('relative overflow-hidden bg-espresso-900 text-cream-50', className)}>
+    <section data-sticky-hide className={cn('relative overflow-hidden bg-espresso text-cream-50', className)}>
       <div className="as-shell relative py-16 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
           <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
@@ -643,14 +644,18 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
 /*  (input / textarea / select). Jedna klasa dla całego serwisu.       */
 /* ------------------------------------------------------------------ */
 
+/* 16 px na telefonie (mniejsze pola iOS Safari powiększa przy fokusie),
+   linia pola ink/40 (≥ 3:1), fokus = linia 2 px w ink, placeholder w mocha. */
 export const FIELD_CLASS =
-  'block h-12 w-full rounded-none border-0 border-b border-ink/15 bg-transparent px-0 text-[0.9375rem] text-ink shadow-none outline-none transition-colors placeholder:text-mocha-400/70 focus:border-gold-dark focus-visible:ring-0';
+  'block h-12 w-full rounded-none border-0 border-b border-ink/40 bg-transparent px-0 text-base text-ink shadow-none outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] focus-visible:ring-0 sm:text-[0.9375rem]';
 
-export function Field({ as = 'input', label, id, hint, className, wrapperClassName, children, ...rest }) {
+export function Field({ as = 'input', label, id, hint, required, className, wrapperClassName, children, ...rest }) {
   const Tag = as;
   const control = (
     <Tag
       id={id}
+      required={required}
+      aria-required={required || undefined}
       className={cn(
         FIELD_CLASS,
         as === 'textarea' && 'h-auto min-h-[7.5rem] resize-y py-3',
@@ -665,8 +670,13 @@ export function Field({ as = 'input', label, id, hint, className, wrapperClassNa
   return (
     <div className={wrapperClassName}>
       {label && (
-        <label htmlFor={id} className="as-label mb-1 block text-ink/55">
+        <label htmlFor={id} className="as-label mb-1 block text-ink/70">
           {label}
+          {required && (
+            <span className="text-gold-deep" aria-hidden="true">
+              {' '}*
+            </span>
+          )}
         </label>
       )}
       {as === 'select' ? (
@@ -674,15 +684,41 @@ export function Field({ as = 'input', label, id, hint, className, wrapperClassNa
           {control}
           <ChevronDown
             aria-hidden="true"
-            className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/50"
+            className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/60"
           />
         </div>
       ) : (
         control
       )}
-      {hint && <p className="mt-2 text-xs leading-relaxed text-mocha-400">{hint}</p>}
+      {hint && <p className="mt-2 text-[0.8125rem] leading-relaxed text-mocha">{hint}</p>}
     </div>
   );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Klauzula informacyjna RODO pod formularzem (art. 13).              */
+/*  Renderuje się dopiero, gdy klient uzupełni LEGAL w site.js —       */
+/*  bez danych administratora nie udajemy klauzuli.                    */
+/* ------------------------------------------------------------------ */
+
+export function FormNotice({ tone = 'dark', className }) {
+  if (!LEGAL.company || !LEGAL.privacyPolicy) return null;
+  const onDark = tone === 'light';
+  return (
+    <p className={cn('text-[0.8125rem] leading-relaxed', onDark ? 'text-cream-100/80' : 'text-mocha', className)}>
+      Administratorem danych jest {LEGAL.company}. Dane z formularza przetwarzamy wyłącznie po to, by
+      odpowiedzieć na zapytanie.{' '}
+      <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
+        Polityka prywatności
+      </Link>
+      . Pola oznaczone * są wymagane.
+    </p>
+  );
+}
+
+/* Legenda pól wymaganych — gdy klauzula jeszcze się nie renderuje. */
+export function RequiredLegend({ className }) {
+  return <p className={cn('text-[0.8125rem] text-mocha', className)}>Pola oznaczone * są wymagane.</p>;
 }
 
 /* ------------------------------------------------------------------ */

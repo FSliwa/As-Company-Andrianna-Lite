@@ -1,36 +1,38 @@
 'use client';
 
 /**
- * /maszynki — „Numer 01".
+ * /maszynki — „Numer 01”.
  *
  * W /Graphics nie ma packshotów maszynek (AS HERO / AS HERO 2 / AS PRINCESS),
  * kartridży ani akcesoriów, więc trasa jest w 100% typograficzna — świadoma
  * decyzja do czasu sesji packshotowej, nie brak. Zero portretów, zero makr.
  *
  * Rytm tła (max 2 ciemne pasy, nigdy dwa ciemne obok siebie):
- *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z parametrów widoku)
+ *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z karty AS PRINCESS)
  *   02 Katalog #katalog (cream-50) — model = wiersz pełnej szerokości,
- *      w wierszu wszystkie parametry (obroty, skok, waga, zasilanie)
- *   03 Prędkości (espresso) — selektor 7 poziomów + rekomendowana igła
- *   04 Wynajem (cream-100) — kalkulator w PriceRow, wniosek w dialogu (Field)
+ *      w wierszu parametry z karty produktu + link do sklepu
+ *   03 Parametry (espresso) — 7 prędkości AS PRINCESS + skok i wysuw igły
+ *   04 Wynajem (cream-100) — warunki ze sklepu, wniosek w dialogu (Field)
  *   05 ClosingCta (espresso-900, jeden blok ze stopką)
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść.
  * Prostokątne przyciski tylko w hero (jeden), ClosingCta i formularzu;
  * w sekcjach akcje to ArrowLink (z onClick, gdy otwierają dialog).
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   ArrowLink,
   ClosingCta,
   CtaButton,
   Field,
+  FormNotice,
   PageHero,
   PriceRow,
   Reveal,
+  RequiredLegend,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BRAND } from '@/lib/site';
+import { BRAND, LEGAL, SHOP } from '@/lib/site';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -44,33 +46,72 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 
 /* ================================================================== */
-/*  DANE (do potwierdzenia przez klienta — nie pochodzą z site.js)     */
+/*  DANE — przepisane ze sklepu klienta (as-loveliness.eu), 29.09.2026  */
 /* ================================================================== */
+/*
+ * Źródła (karty produktów WooCommerce):
+ *   AS HERO      /produkt/as-hero-rotary-machine/ — sklep nie podaje parametrów
+ *                technicznych, więc wiersz ma tylko typ i zastosowanie.
+ *   AS HERO 2    /produkt/as-hero-2-next-generation-wireless-hybrid-pmu-machine/
+ *                — specyfikacja 1:1 (10 500 obr./min przy 12 V, 141 g, 1 800 mAh,
+ *                skok 2,2–4,2 mm, 12-miesięczna gwarancja producenta).
+ *   AS PRINCESS  /produkt/as-princess-champagne-gold/, maszynka-pmu-gold/,
+ *                maszynka-pmu-pink/ — trzy kolory, te same parametry i cena.
+ *                Sklep podaje „poprzednią najniższą cenę” 2 999 zł, więc „ceny
+ *                regularnej” 3 500 zł tu nie pokazujemy.
+ *   Wynajem      /produkt/oferta-wynajmu-as-princess/ — 369 zł (300 zł netto)
+ *                miesięcznie, zwrotna kaucja 500 zł, kolory Gold / Pink Gold /
+ *                Champagne Gold.
+ * Gwarancji AS HERO i AS PRINCESS sklep nie podaje — nie wpisujemy jej.
+ */
 
-/* Parametry: `v` = wartość z jednostką (nigdy nie łamie się w środku liczby),
-   `n` = dopisek (liczba biegów, rodzaj skoku) — łamie się normalnie. */
+const SHOP_ORIGIN = new URL(SHOP.url).origin;
+/* SHOP.rental prowadzi do wynajmu stanowiska i sali szkoleniowej, nie maszynki —
+   ofertę wynajmu AS PRINCESS sklep ma na osobnej karcie produktu. */
+const SHOP_MACHINE_RENTAL = `${SHOP_ORIGIN}/produkt/oferta-wynajmu-as-princess/`;
+
+/* Linki do sklepu otwierają się w nowej karcie; ArrowLink dokleja „→”, a przy
+   linku zewnętrznym strzałką jest „↗” w etykiecie — domyślną chowamy. */
+const EXTERNAL = { target: '_blank', rel: 'noreferrer noopener' };
+const EXTERNAL_ARROW = '[&_.as-arrow-glyph]:hidden';
+
+function ShopLabel({ children }) {
+  return (
+    <>
+      {children} <span aria-hidden="true">↗</span>
+      <span className="sr-only"> (sklep internetowy, otwiera się w nowej karcie)</span>
+    </>
+  );
+}
+
+/* 2999 → „2 999” (twarda spacja tysięcy) */
+const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+const zl = (n) => `${fmt(n)}\u00a0zł`;
+
+/* Parametr w wierszu katalogu:
+   `v` = liczba (nigdy nie łamie się w środku), `u` = jednostka (może zejść
+   do nowej linii przy 320 px), `text` = opis zamiast liczby, `n` = dopisek,
+   `span` = szerokość w siatce parametrów. */
+const WIDE = 'col-span-2 xl:col-span-3';
+
 const MACHINES_DATA = [
   {
     id: 'as-hero',
     number: '01',
     name: 'AS HERO',
-    subtitle: 'Maszyna rotacyjna',
+    subtitle: 'Maszynka rotacyjna',
     price: 1499,
-    originalPrice: null,
     description:
-      'Kompaktowa, wysoce precyzyjna maszynka rotacyjna idealna dla ceniących lekkość i bezwzględną stabilność prowadzenia igły.',
+      'Urządzenie zaprojektowane przez profesjonalistów z myślą o makijażu permanentnym.',
     features: [
-      'Silnik bezszczotkowy najnowszej generacji',
-      'Ergonomiczny chwyt redukujący zmęczenie dłoni',
-      'Uniwersalne złącze kartridży z systemem membranowym',
-      'Waga zaledwie 105 g',
+      'System kartridży AS: stały nacisk igły w górę i w dół, płynny i równomierny ruch',
+      'Do pigmentacji brwi i ust, a także do tatuażu ciała',
     ],
-    specs: {
-      rpm: { v: '6 000–9 500 RPM' },
-      stroke: { v: '2,5 mm', n: 'stały' },
-      weight: { v: '105 g' },
-      power: { v: 'Przewodowe złącze RCA / opcja akumulatora', wrap: true },
-    },
+    specs: [
+      { label: 'Typ', text: 'Rotacyjna' },
+      { label: 'Igła', text: 'Kartridże, system AS' },
+      { label: 'Zastosowanie', text: 'Brwi, usta, tatuaż ciała', span: WIDE },
+    ],
   },
   {
     id: 'as-hero-2',
@@ -78,134 +119,109 @@ const MACHINES_DATA = [
     name: 'AS HERO 2',
     subtitle: 'Hybrydowa, bezprzewodowa',
     price: 1999,
-    originalPrice: null,
     description:
-      'Hybrydowa bezprzewodowa maszynka nowej generacji. Łączy moc maszynek tatuażowych z miękkością wymaganą przy delikatnych pigmentacjach PMU.',
+      'Hybrydowa maszynka PMU nowej generacji: wysoki moment obrotowy, minimalne wibracje, stała moc i płynny ruch igły także przy dłuższych zabiegach.',
     features: [
-      'Cyfrowy wyświetlacz OLED pokazujący stan baterii i napięcie',
-      '2 wymienne akumulatory o pojemności 1200 mAh w zestawie',
-      'System bezpośredniego przełożenia napędu (Direct Drive)',
-      'Tryb pracy ciągłej z kablem USB-C',
+      'Długość skoku zmieniasz obrotem tylnej części — bez demontażu i wymiany mimośrodu',
+      'Skok 2,2 / 2,6 / 3,0 / 3,4 / 3,8 / 4,2\u00a0mm: od miękkiego cieniowania po tatuaż',
+      'Moment obrotowy 330\u00a0N·mm, wibracje 0,3\u00a0m/s², hałas 35–37\u00a0dB',
+      'Do technik makijażu permanentnego, mikropigmentacji skóry głowy (SMP) i tatuażu',
     ],
-    specs: {
-      rpm: { v: '6 000–10 000 RPM', n: '7 prędkości' },
-      stroke: { v: '2,1–3,0 mm', n: 'regulowany' },
-      weight: { v: '107 g' },
-      power: { v: '2\u00a0akumulatory (do 4\u00a0h pracy każdy) / USB-C', wrap: true },
-    },
+    specs: [
+      { label: 'Prędkość silnika', v: '10\u00a0500', u: 'obr./min', n: 'przy 12\u00a0V' },
+      { label: 'Skok igły', v: '2,2–4,2', u: 'mm', n: '6 stopni regulacji' },
+      { label: 'Waga', v: '141', u: 'g', n: 'bez baterii; z baterią 203,5\u00a0g' },
+      { label: 'Bateria', v: '1\u00a0800', u: 'mAh', n: '5–7\u00a0h pracy, ładowanie 1,5–2\u00a0h' },
+      { label: 'Gwarancja', v: '12', u: 'mies.', n: 'gwarancja producenta' },
+    ],
   },
   {
-    id: 'as-princess-gold',
+    id: 'as-princess',
     number: '03',
-    name: 'AS PRINCESS Champagne Gold',
-    subtitle: 'Flagowa, bezprzewodowa',
+    name: 'AS PRINCESS',
+    subtitle: 'Bezprzewodowa',
     price: 2999,
-    originalPrice: 3500,
     description:
-      'Luksusowe urządzenie klasy Premium. Zaprojektowane z lotniczego aluminium w kolorze szampańskiego złota, z unikalną amortyzacją wibracji.',
+      'Bezprzewodowa maszynka z aluminium o wadze 107\u00a0g — minimalne wibracje i cicha praca, przy której dobrze czujesz skórę.',
     features: [
-      'Bezprzewodowa swoboda ruchu z dołączonymi 2 bateriami',
-      '7 precyzyjnych biegów dedykowanych technikom pikselowym i konturowym',
-      'Płynny wysuw igły 0–3,2 mm z mikrometryczną podziałką',
-      'Model objęty pełnym serwisem door-to-door',
+      'Dwie wymienne baterie i ładowarka w zestawie; ponad 3\u00a0h pracy na jednej baterii, możliwa praca na kablu USB',
+      'Skok 2,1–3,0\u00a0mm zmieniasz obrotem środkowej części korpusu — 7 stopni',
+      'Wysuw igły regulowany od 0 do 3,2\u00a0mm — pod rzadsze i gęstsze pigmenty',
+      'Kartridże o uniwersalnym wkręcie, także z większą liczbą igieł — do 9 Magnum',
     ],
-    specs: {
-      rpm: { v: '6 000–10 000 RPM', n: '7 biegów' },
-      stroke: { v: '2,1–3,0 mm', n: '7 stopni skoku' },
-      weight: { v: '107 g' },
-      power: { v: '2\u00a0baterie bezprzewodowe + ładowarka', wrap: true },
-    },
-    color: 'Champagne Gold',
-  },
-  {
-    id: 'as-princess-pink',
-    number: '04',
-    name: 'AS PRINCESS Rose Pink',
-    subtitle: 'Flagowa, bezprzewodowa',
-    price: 2999,
-    originalPrice: 3500,
-    description:
-      'Elegancka wariacja flagowej maszynki AS PRINCESS w limitowanym wykończeniu różowego złota. Doskonała precyzja i nieskazitelna estetyka.',
-    features: [
-      'Stylowy, satynowy różowy korpus odporny na zarysowania',
-      'Ultracicha praca nie powodująca dyskomfortu u klientki',
-      'Rekomendowana do technik pudrowych oraz mikroblading hybrydowego',
-      'W zestawie eleganckie etui podróżne',
+    specs: [
+      { label: 'Prędkości', v: '6\u00a0000–10\u00a0000', u: 'obr./min', n: '7 prędkości' },
+      { label: 'Skok igły', v: '2,1–3,0', u: 'mm', n: '7 stopni regulacji' },
+      { label: 'Waga', v: '107', u: 'g', n: 'korpus z aluminium' },
+      { label: 'Wysuw igły', v: '0–3,2', u: 'mm' },
+      { label: 'Zasilanie', text: '2 wymienne baterie + ładowarka', n: 'lub praca na kablu USB', span: 'col-span-2' },
+      { label: 'Kolory', text: 'Champagne Gold, Gold, Pink', span: WIDE },
     ],
-    specs: {
-      rpm: { v: '6 000–10 000 RPM' },
-      stroke: { v: '2,1–3,0 mm' },
-      weight: { v: '107 g' },
-      power: { v: '2\u00a0baterie bezprzewodowe + ładowarka', wrap: true },
-    },
-    color: 'Rose Pink',
   },
 ];
 
+const PRINCESS = MACHINES_DATA.find((m) => m.id === 'as-princess');
+
+/* Prędkości AS PRINCESS — nazwy i obroty 1:1 z karty produktu. */
 const SPEED_LEVELS = [
-  { level: 1, rpm: '6 000 RPM', name: 'Pikselowa', desc: 'Delikatny cień, idealna do miękkich przejść w brwiach pudrowych.' },
-  { level: 2, rpm: '6 500 RPM', name: 'Pudrowa', desc: 'Zagęszczenie pigmentu, technika Ombre Brows i Powder Effect.' },
-  { level: 3, rpm: '7 000 RPM', name: 'Hybrydowa', desc: 'Uniwersalna praca na ustach i brwiach z mieszanymi pigmentami.' },
-  { level: 4, rpm: '7 500 RPM', name: 'Liniowa', desc: 'Włoskowa metoda Hairstrokes, precyzyjne mikrolinie.' },
-  { level: 5, rpm: '8 000 RPM', name: 'Konturowa', desc: 'Wyrazisty kontur ust oraz kreska zagęszczająca linię rzęs (Eyeliner).' },
-  { level: 6, rpm: '9 000 RPM', name: 'Tatuażowa I', desc: 'Głębokie nasycenie barwnika, praca z gęstszymi pigmentami.' },
-  { level: 7, rpm: '10 000 RPM', name: 'Tatuażowa II', desc: 'Maksymalna częstotliwość nakłuć do zaawansowanych prac medycznych i kamuflażu.' },
+  { level: 1, rpm: 6000, name: 'Pikselowa' },
+  { level: 2, rpm: 6500, name: 'Pudrowa' },
+  { level: 3, rpm: 7000, name: 'Hybrydowa' },
+  { level: 4, rpm: 7500, name: 'Liniowa' },
+  { level: 5, rpm: 8000, name: 'Konturowa' },
+  { level: 6, rpm: 9000, name: 'Tatuażowa' },
+  { level: 7, rpm: 10000, name: 'Tatuażowa' },
 ];
 
-/* Rząd liczb w hero — wyłącznie parametry, które widok już podaje
-   (7 prędkości i skok 2,1–3,0 mm z MACHINES_DATA, gwarancja z katalogu). */
+/* 7 stopni skoku; twarde spacje: wiersz łamie się tylko po „·”, a ostatnia
+   para z jednostką nie zostaje sama w nowej linii. */
+const STROKE_STEPS = '2,1\u00a0· 2,2\u00a0· 2,4\u00a0· 2,55\u00a0· 2,7\u00a0· 2,9\u00a0·\u00a03,0\u00a0mm';
+
+/* Rząd liczb w hero — wyłącznie parametry z karty AS PRINCESS w sklepie. */
 const HERO_STATS = [
-  { value: '7', label: 'trybów prędkości, od 6 000 do 10 000 RPM' },
-  { value: '2,1–3,0 mm', label: 'zmienny skok igły, 7 stopni regulacji' },
-  { value: '24 mies.', label: 'gwarancji producenta i wsparcie techniczne' },
+  { value: '7', label: 'prędkości AS\u00a0PRINCESS, od 6\u00a0000 do 10\u00a0000\u00a0obr./min' },
+  { value: '2,1–3,0\u00a0mm', label: 'skok igły AS\u00a0PRINCESS, 7 stopni regulacji' },
+  { value: '107\u00a0g', label: 'waga AS\u00a0PRINCESS, korpus z aluminium' },
 ];
 
-/* 2999 → „2 999" (twarda spacja tysięcy, jak w kalkulatorze wynajmu) */
-const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
-
-const RENTAL_PRICE = '369 zł / mc';
+const RENTAL_MONTHLY = 369;
+const RENTAL_PRICE = `${zl(RENTAL_MONTHLY)}\u00a0/\u00a0mc`;
+const RENTAL_DEPOSIT = zl(500);
 
 const RENTAL_POINTS = [
-  'Brak wysokiej opłaty początkowej – startujesz od pierwszego dnia',
-  'Pełny serwis i maszynka zastępcza w\u00a024\u00a0h w\u00a0przypadku awarii',
-  'Możliwość wykupu urządzenia na własność po okresie subskrypcji',
+  `Zwrotna kaucja ${RENTAL_DEPOSIT} — informację o wpłacie dostajesz razem z umową wynajmu`,
+  'Do wyboru kolory Gold, Pink Gold i Champagne Gold',
 ];
 
 const RENTAL_MATH = [
-  { name: 'Koszt zakupu nowej maszynki', price: `${fmt(2999)} zł` },
-  { name: 'Miesięczny koszt wynajmu', price: RENTAL_PRICE },
-  { name: 'Przewidywana liczba zabiegów w miesiącu', price: '10 zabiegów' },
-  { name: 'Koszt sprzętu na 1 zabieg', note: 'Przy 10 zabiegach miesięcznie', price: '36,90 zł' },
-];
-
-/* Parametry w wierszu katalogu — komplet (waga była wcześniej tylko w tabeli
-   porównawczej, która dublowała katalog). Zasilanie to opis, nie liczba:
-   na xl zajmuje cały drugi rząd siatki. */
-const SPEC_ROWS = [
-  { key: 'rpm', label: 'Obroty' },
-  { key: 'stroke', label: 'Skok igły' },
-  { key: 'weight', label: 'Waga' },
-  { key: 'power', label: 'Zasilanie', className: 'xl:col-span-3' },
+  { name: 'Zakup AS PRINCESS', price: zl(PRINCESS.price) },
+  { name: 'Wynajem AS PRINCESS', note: `Plus zwrotna kaucja ${RENTAL_DEPOSIT}`, price: RENTAL_PRICE },
+  { name: 'Zabiegi w miesiącu', note: 'Założenie do wyliczenia', price: '10' },
+  { name: 'Koszt wynajmu na 1 zabieg', note: `${zl(RENTAL_MONTHLY)} : 10 zabiegów`, price: '36,90\u00a0zł' },
 ];
 
 const RENTAL_FIELDS = [
-  { id: 'name', label: 'Imię i nazwisko', placeholder: 'np. Anna Kowalska', required: true },
-  { id: 'phone', label: 'Numer telefonu', placeholder: '+48 600 000 000', type: 'tel', required: true },
-  { id: 'email', label: 'Adres e-mail', placeholder: 'salon@example.com', type: 'email', required: true },
-  { id: 'salonName', label: 'Nazwa salonu / działalności', placeholder: 'np. Studio Beauty Katowice' },
+  { id: 'name', label: 'Imię i nazwisko', placeholder: 'np. Anna Kowalska', autoComplete: 'name', required: true },
+  { id: 'phone', label: 'Numer telefonu', placeholder: '+48 600 000 000', type: 'tel', autoComplete: 'tel', required: true },
+  { id: 'email', label: 'Adres e-mail', placeholder: 'salon@example.com', type: 'email', autoComplete: 'email', required: true },
+  { id: 'salonName', label: 'Nazwa salonu / działalności', placeholder: 'np. Studio Beauty Katowice', autoComplete: 'organization' },
 ];
 
 const EMPTY_RENTAL_FORM = { name: '', phone: '', email: '', salonName: '' };
 
+/* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
+   o polach wymaganych — do tego czasu legendę pokazuje RequiredLegend. */
+const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
+
 const pad = (n) => String(n).padStart(2, '0');
-const isRentable = (machine) => machine.name.includes('PRINCESS');
+const isRentable = (machine) => machine.id === PRINCESS.id;
 
 /* ================================================================== */
 /*  Lokalne klocki                                                     */
 /* ================================================================== */
 
 /* Wiersz katalogu — rozwinięcie IndexRow o parametry i drugą akcję (wynajem).
-   Numerał 64 | model + „Opis i cechy" | parametry (2 kol. na lg, 3 na xl) |
+   Numerał 64 | model + „Opis i cechy” | parametry (2 kol. na lg, 3 na xl) |
    cena + akcje. Rozwijany opis stoi w kolumnie modelu, żeby zwinięty wiersz
    miał wysokość samych parametrów. */
 function MachineRow({ machine, onRent, last }) {
@@ -225,13 +241,14 @@ function MachineRow({ machine, onRent, last }) {
         <p className="as-kicker mt-3">{machine.subtitle}</p>
 
         {/* Opis i cechy — zwinięte, żeby indeks czytał się jak spis modeli
-            (parametry i cena na wierzchu), a treść nie znikała z widoku. */}
-        <details className="group/more mt-6">
-          <summary className="as-label inline-flex cursor-pointer list-none items-center gap-3 border-b border-ink/20 pb-1.5 text-ink/70 transition-colors hover:text-ink [&::-webkit-details-marker]:hidden">
+            (parametry i cena na wierzchu), a treść nie znikała z widoku.
+            Summary ma 44 px wysokości (cel dotykowy), tekst przy dolnej linii. */}
+        <details className="group/more mt-1">
+          <summary className="as-label inline-flex min-h-[44px] cursor-pointer list-none items-end gap-3 border-b border-ink/20 pb-1.5 text-ink/70 transition-colors hover:text-ink [&::-webkit-details-marker]:hidden">
             Opis i cechy
             <span
               aria-hidden="true"
-              className="text-gold-dark transition-transform duration-300 group-open/more:rotate-45"
+              className="text-gold-deep transition-transform duration-300 group-open/more:rotate-45"
             >
               +
             </span>
@@ -251,31 +268,25 @@ function MachineRow({ machine, onRent, last }) {
       </div>
 
       <dl className="grid grid-cols-2 content-start gap-x-6 gap-y-5 self-start sm:col-start-2 lg:col-start-auto xl:grid-cols-3">
-        {SPEC_ROWS.map((row) => {
-          const spec = machine.specs[row.key];
-          return (
-            <div key={row.key} className={row.className}>
-              <dt className="as-label text-ink/55">{row.label}</dt>
-              <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink">
-                <span className={spec.wrap ? undefined : 'whitespace-nowrap'}>{spec.v}</span>
-                {spec.n && <span className="block text-ink/60">{spec.n}</span>}
-              </dd>
-            </div>
-          );
-        })}
+        {machine.specs.map((spec) => (
+          <div key={spec.label} className={spec.span}>
+            <dt className="as-label text-ink/55">{spec.label}</dt>
+            <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink">
+              {spec.text ?? (
+                <>
+                  <span className="whitespace-nowrap">{spec.v}</span> {spec.u}
+                </>
+              )}
+              {spec.n && <span className="block text-ink/60">{spec.n}</span>}
+            </dd>
+          </div>
+        ))}
       </dl>
 
       <div className="flex flex-col items-start gap-4 sm:col-start-2 lg:col-start-auto lg:items-end lg:text-right">
-        <div>
-          <p className="whitespace-nowrap font-display text-[1.375rem] leading-[1.2] text-ink">
-            {fmt(machine.price)} zł
-          </p>
-          {machine.originalPrice && (
-            <p className="as-caption mt-1 whitespace-nowrap">
-              cena regularna {fmt(machine.originalPrice)} zł
-            </p>
-          )}
-        </div>
+        <p className="whitespace-nowrap font-display text-[1.375rem] leading-[1.2] text-ink">
+          {zl(machine.price)}
+        </p>
         <ArrowLink href="/kontakt" className="w-fit whitespace-nowrap">
           Zapytaj o dostępność
         </ArrowLink>
@@ -293,11 +304,15 @@ function MachineRow({ machine, onRent, last }) {
 
 export default function Machines() {
   const { toast } = useToast();
-  const [selectedSpeed, setSelectedSpeed] = useState(SPEED_LEVELS[0]);
   const [selectedMachineForRental, setSelectedMachineForRental] = useState(null);
   const [rentalForm, setRentalForm] = useState(EMPTY_RENTAL_FORM);
+  /* Przycisk, który otworzył dialog — po zamknięciu fokus wraca na niego. */
+  const rentalTriggerRef = useRef(null);
 
-  const openRental = (machine = MACHINES_DATA[2]) => setSelectedMachineForRental(machine);
+  const openRental = (machine = PRINCESS) => {
+    rentalTriggerRef.current = typeof document !== 'undefined' ? document.activeElement : null;
+    setSelectedMachineForRental(machine);
+  };
 
   // W projekcie nie ma koszyka ani backendu — wniosek idzie tą samą drogą
   // co pozostałe formularze (patrz src/lib/enquiry.js).
@@ -330,7 +345,9 @@ export default function Machines() {
         label="Urządzenia"
         number="01"
         title={'AS\u00a0HERO i\u00a0AS\u00a0PRINCESS.'}
-        lead={'Maszynki PMU z\u00a0lotniczego aluminium i\u00a0z\u00a0wymiennymi akumulatorami.'}
+        lead={
+          'Trzy maszynki PMU: rotacyjna AS\u00a0HERO, hybrydowa AS\u00a0HERO\u00a02 i\u00a0bezprzewodowa AS\u00a0PRINCESS.'
+        }
         stats={HERO_STATS}
       >
         <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -356,9 +373,12 @@ export default function Machines() {
             </Reveal>
             <Reveal delay={80} className="lg:col-span-5">
               <p className="as-body">
-                Wszystkie maszynki objęte są 24-miesięczną gwarancją producenta oraz wsparciem
-                technicznym.
+                Ceny i parametry według kart produktów w sklepie AS LOVELINESS. Tam złożysz
+                zamówienie i sprawdzisz dostępność.
               </p>
+              <ArrowLink href={SHOP.machine} {...EXTERNAL} className={`mt-6 w-fit ${EXTERNAL_ARROW}`}>
+                <ShopLabel>Kup w sklepie</ShopLabel>
+              </ArrowLink>
             </Reveal>
           </div>
 
@@ -373,7 +393,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  03 — PRĘDKOŚCI (espresso) — jedyny ciemny pas w treści       */}
+      {/*  03 — PARAMETRY AS PRINCESS (espresso) — jedyny ciemny pas    */}
       {/* ============================================================ */}
 
       <section className="as-section bg-espresso text-cream-50">
@@ -384,72 +404,57 @@ export default function Machines() {
                 Prędkości
               </SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
-                Wybierz prędkość
+                Siedem prędkości,
                 <br />
-                i technikę pracy.
+                siedem stopni skoku.
               </h2>
             </Reveal>
             <Reveal delay={80} className="lg:col-span-5">
               <p className="as-body-invert">
-                Maszynki zoptymalizowane pod kątem pigmentów mineralnych i hybrydowych. Wybierz
-                jeden z siedmiu poziomów obrotów, aby poznać zalecaną technikę pigmentacji.
+                AS&nbsp;PRINCESS według karty produktu: od prędkości pikselowej (6&nbsp;000&nbsp;obr./min)
+                do tatuażowej (10&nbsp;000&nbsp;obr./min).
               </p>
             </Reveal>
           </div>
 
-          {/* — selektor prędkości — */}
+          {/* — siedem prędkości (nazwy i obroty 1:1 ze sklepu) — */}
           <Reveal delay={60} className="mt-10">
-            <div
-              role="group"
-              aria-label="Poziomy prędkości"
+            <ol
+              aria-label="Prędkości AS PRINCESS"
               className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7"
             >
-              {SPEED_LEVELS.map((speed) => {
-                const active = selectedSpeed.level === speed.level;
-                return (
-                  <button
-                    key={speed.level}
-                    type="button"
-                    onClick={() => setSelectedSpeed(speed)}
-                    aria-pressed={active}
-                    className={cn(
-                      /* 7 pozycji w 2 i 4 kolumnach zostawiało pustą ósmą komórkę —
-                         ostatnia rozciąga się na dwie kolumny do progu lg */
-                      'flex flex-col items-start gap-3 border px-4 py-4 text-left transition-colors duration-300 last:col-span-2 sm:px-5 lg:last:col-span-1',
-                      active
-                        ? 'border-cream-100 bg-cream-100 text-ink'
-                        : 'border-cream-200/25 text-cream-50 hover:border-gold-light'
-                    )}
-                  >
-                    <span className={cn('as-num', active ? 'text-gold-dark' : 'text-gold-light')}>
-                      {pad(speed.level)}
-                    </span>
-                    <span className={cn('as-label', active ? 'text-ink/70' : 'text-cream-200/75')}>
-                      {speed.rpm}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+              {SPEED_LEVELS.map((speed) => (
+                <li
+                  key={speed.level}
+                  className="flex flex-col items-start gap-2 border border-cream-200/25 px-4 py-4 last:col-span-2 sm:px-5 lg:last:col-span-1"
+                >
+                  <span className="as-num text-gold-light">{pad(speed.level)}</span>
+                  <span className="text-base text-cream-50">{speed.name}</span>
+                  <span className="as-caption-invert">
+                    <span className="whitespace-nowrap">{fmt(speed.rpm)}</span> obr./min
+                  </span>
+                </li>
+              ))}
+            </ol>
           </Reveal>
 
-          {/* — opis wybranego poziomu — */}
-          <div
-            aria-live="polite"
-            className="mt-8 grid gap-4 lg:grid-cols-12 lg:items-start lg:gap-8"
-          >
-            <div className="lg:col-span-6">
-              <p className="as-kicker-invert">
-                Poziom {pad(selectedSpeed.level)} · {selectedSpeed.rpm}
-              </p>
-              <h3 className="as-title mt-3 text-cream-100">{selectedSpeed.name}</h3>
-              <p className="as-body-invert mt-2">{selectedSpeed.desc}</p>
-            </div>
-            <div className="lg:col-span-6">
+          {/* — skok i wysuw igły — */}
+          <div className="mt-10 grid gap-6 lg:grid-cols-12 lg:gap-8">
+            <p className="as-caption-invert lg:col-span-5">
+              Nazwy prędkości to ogólne wytyczne — ostateczny dobór prędkości, skoku i&nbsp;igły zależy
+              od techniki i&nbsp;skóry.
+            </p>
+            <div className="lg:col-span-6 lg:col-start-7">
               <PriceRow
-                name="Rekomendowana igła"
-                note="Dobór zależny od skóry i techniki"
-                price="1RL 0.25 / 3RL 0.18"
+                name="Skok igły"
+                note={`7 stopni: ${STROKE_STEPS}`}
+                price={'2,1–3,0\u00a0mm'}
+                tone="light"
+              />
+              <PriceRow
+                name="Wysuw igły"
+                note="Pod rzadsze i gęstsze pigmenty"
+                price={'0–3,2\u00a0mm'}
                 tone="light"
               />
             </div>
@@ -458,7 +463,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  04 — WYNAJEM (cream-100): kalkulator w PriceRow               */}
+      {/*  04 — WYNAJEM (cream-100): warunki ze sklepu + wyliczenie      */}
       {/* ============================================================ */}
 
       <section id="wynajem" className="as-section scroll-mt-24 bg-cream-100">
@@ -468,16 +473,17 @@ export default function Machines() {
               <Reveal>
                 <SectionLabel number="04">Wynajem</SectionLabel>
                 <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                  Program wynajmu
+                  Wynajem maszynki
                   <br />
-                  dla salonów.
+                  AS&nbsp;PRINCESS.
                 </h2>
               </Reveal>
               <Reveal delay={80}>
                 <p className="as-body mt-6">
-                  Rozwijaj swój salon bez zamrażania kapitału. Wynajmij bezprzewodową maszynkę{' '}
-                  <span className="whitespace-nowrap text-ink">AS PRINCESS</span> na dogodnych warunkach ze stałą
-                  opłatą <span className="text-ink">369 zł miesięcznie</span>.
+                  Maszynkę <span className="whitespace-nowrap text-ink">AS PRINCESS</span> wynajmiesz
+                  w&nbsp;abonamencie miesięcznym:{' '}
+                  <span className="text-ink">{zl(RENTAL_MONTHLY)} brutto (300&nbsp;zł netto)</span>.
+                  Umowę wynajmu wysyłamy po złożeniu zamówienia w&nbsp;sklepie.
                 </p>
                 <ul className="mt-6 space-y-2.5">
                   {RENTAL_POINTS.map((point) => (
@@ -487,23 +493,31 @@ export default function Machines() {
                     </li>
                   ))}
                 </ul>
-                <ArrowLink onClick={() => openRental()} className="mt-8 w-fit">
-                  Wyślij zapytanie o wynajem
-                </ArrowLink>
+                <p className="mt-6 text-[0.9375rem] leading-[1.65] text-ink/80">
+                  Pozostałe warunki określa umowa wynajmu — zapytaj o nie przed zamówieniem.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+                  <ArrowLink onClick={() => openRental()} className="w-fit">
+                    Zapytaj o warunki wynajmu
+                  </ArrowLink>
+                  <ArrowLink href={SHOP_MACHINE_RENTAL} {...EXTERNAL} className={`w-fit ${EXTERNAL_ARROW}`}>
+                    <ShopLabel>Wynajem w sklepie</ShopLabel>
+                  </ArrowLink>
+                </div>
               </Reveal>
             </div>
 
             <div className="lg:col-span-6 lg:col-start-7 lg:pt-10">
               <Reveal delay={80}>
-                <h3 className="as-title text-ink">Kalkulator korzyści</h3>
+                <h3 className="as-title text-ink">Przykładowe wyliczenie</h3>
                 <div className="mt-6">
                   {RENTAL_MATH.map((row) => (
                     <PriceRow key={row.name} name={row.name} note={row.note} price={row.price} />
                   ))}
                 </div>
                 <p className="as-caption mt-5 max-w-[30rem]">
-                  Model subskrypcyjny B2B. Wyliczenie poglądowe dla 10 zabiegów miesięcznie;
-                  szczegóły umowy ustalamy indywidualnie po wysłaniu zapytania.
+                  Wyliczenie poglądowe przy 10 zabiegach w&nbsp;miesiącu; zwrotnej kaucji nie
+                  wliczamy. Ceny według sklepu AS LOVELINESS.
                 </p>
               </Reveal>
             </div>
@@ -520,9 +534,9 @@ export default function Machines() {
         label="Kontakt"
         title="Przetestuj maszynę"
         titleAccent="na żywo."
-        lead={`Maszynę AS\u00a0PRINCESS przetestujesz na miejscu podczas szkolenia w ${BRAND.academy}. Napisz, jeśli chcesz porównać modele przed zakupem.`}
+        lead={`Maszynę AS\u00a0PRINCESS przetestujesz na miejscu podczas szkolenia w\u00a0${BRAND.academy}. Napisz, jeśli chcesz porównać modele przed zakupem.`}
         primary={{ href: '/kontakt', label: 'Zapytaj o maszynkę' }}
-        secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
+        secondary={{ href: '/szkolenia', label: 'Zapytaj o termin' }}
       />
 
       {/* ============================================================ */}
@@ -535,12 +549,17 @@ export default function Machines() {
           if (!open) setSelectedMachineForRental(null);
         }}
       >
-        <DialogContent>
+        <DialogContent
+          onCloseAutoFocus={(e) => {
+            e.preventDefault();
+            rentalTriggerRef.current?.focus();
+          }}
+        >
           <DialogHeader>
-            <DialogTitle>Wniosek o wynajem maszynki PMU</DialogTitle>
+            <DialogTitle>Zapytanie o wynajem</DialogTitle>
             <DialogDescription>
-              Wypełnij krótki formularz, aby zarezerwować model {selectedMachineForRental?.name} w
-              opcji {RENTAL_PRICE}.
+              {selectedMachineForRental?.name ?? PRINCESS.name}: {RENTAL_PRICE}, zwrotna kaucja{' '}
+              {RENTAL_DEPOSIT}. Zostaw kontakt — odpowiemy z&nbsp;warunkami umowy.
             </DialogDescription>
           </DialogHeader>
 
@@ -551,8 +570,10 @@ export default function Machines() {
                   key={field.id}
                   as="input"
                   id={`rental-${field.id}`}
+                  name={field.id}
                   label={field.label}
                   type={field.type}
+                  autoComplete={field.autoComplete}
                   required={field.required}
                   placeholder={field.placeholder}
                   value={rentalForm[field.id]}
@@ -563,7 +584,7 @@ export default function Machines() {
 
             <DialogFooter>
               <button type="submit" className="as-btn-solid">
-                Wyślij wniosek
+                Wyślij zapytanie
               </button>
               <button
                 type="button"
@@ -573,6 +594,8 @@ export default function Machines() {
                 Anuluj
               </button>
             </DialogFooter>
+            <FormNotice className="mt-6" />
+            {!NOTICE_READY && <RequiredLegend className="mt-6" />}
           </form>
         </DialogContent>
       </Dialog>

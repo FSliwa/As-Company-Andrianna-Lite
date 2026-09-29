@@ -4,20 +4,25 @@
  * Kontakt (/kontakt) — „Numer 01".
  *
  * 01 Kontakt (cream-50)   — hero = formularz w pierwszym ekranie, bez portretu:
- *                           lewa 5/12: H1, lead, lokalizacja (CONTACT.venueNote), godziny;
+ *                           lewa 5/12: H1, lead, lokalizacja (CONTACT.venueNote),
+ *                           kanały i tryb umawiania (CONTACT.hours);
  *                           prawa 6/12: formularz na <Field> (panel cream-100).
  *                           Na telefonie formularz stoi zaraz pod leadem, a dane
  *                           lokalizacji pod formularzem.
- * 02 Miejsce (cream-100)  — GROUPS.contactVenue 3:2 w ramce + trzy kroki wizyty.
+ * 02 Wizyta (cream-100)   — trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce.
  * → stopka. Formularz jest CTA tej strony, więc nie ma pasa zamykającego (ClosingCta);
  *   jasna sekcja 02 oddziela też formularz od ciemnej stopki.
  *
  * Zasady:
- *  • zdjęcia wyłącznie przez GROUPS (src/lib/roles.js) — ROLES.heroContact wycofane,
+ *  • zdjęcia wyłącznie przez ROLES (src/lib/roles.js) — scena absolwentek
+ *    (GROUPS.contactVenue) wycofana: nazwiska kursantek na certyfikatach
+ *    i zdjęcie szkolenia przy treści o wizycie w salonie,
  *  • dane kontaktowe wyłącznie z CONTACT (src/lib/site.js) — pola null
  *    (ulica, kod, telefon, e-mail) nie są renderowane, nie ma placeholderów,
  *  • CONTACT.venueNote (budynek, parking) występuje w serwisie tylko tutaj,
- *  • formularz nie udaje wysyłki — status i komunikat pochodzą z src/lib/enquiry.js.
+ *  • formularz nie udaje wysyłki — status i komunikat pochodzą z src/lib/enquiry.js;
+ *    dopóki CONTACT.email jest puste, treść strony nie odsyła do formularza,
+ *    tylko do Instagramu (kanał, który realnie działa).
  */
 
 import { useState } from 'react';
@@ -25,19 +30,31 @@ import {
   ArrowLink,
   Field,
   Figure,
+  FormNotice,
   NumberedItem,
+  RequiredLegend,
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BRAND, CONTACT } from '@/lib/site';
-import { GROUPS } from '@/lib/roles';
+import { BOOKING_URL, CONTACT, FOUNDER, LEGAL, SHOP } from '@/lib/site';
+import { ROLES } from '@/lib/roles';
 import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+
+/* Formularz naprawdę dostarcza wiadomość dopiero wtedy, gdy jest adres e-mail
+   (mailto w src/lib/enquiry.js). */
+const FORM_LIVE = Boolean(CONTACT.email);
+
+/* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
+   o polach wymaganych — do tego czasu legendę pokazuje RequiredLegend. */
+const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
 
-/* Kanały: Instagram zawsze; telefon i e-mail pojawią się same, gdy zostaną
-   uzupełnione w CONTACT (do tego czasu nie ma pola ani placeholdera). */
+const SHOP_HOST = new URL(SHOP.url).host.replace(/^www\./, '');
+
+/* Kanały: Instagram i sklep zawsze; telefon i e-mail pojawią się same, gdy
+   zostaną uzupełnione w CONTACT (do tego czasu nie ma pola ani placeholdera). */
 const CHANNELS = [
   CONTACT.phone && {
     label: 'Telefon',
@@ -55,6 +72,12 @@ const CHANNELS = [
     href: CONTACT.instagram,
     external: true,
   },
+  {
+    label: 'Sklep',
+    value: `${SHOP_HOST} ↗`,
+    href: SHOP.url,
+    external: true,
+  },
 ].filter(Boolean);
 
 const TOPICS = [
@@ -68,11 +91,13 @@ const TOPICS = [
 /*  01 — KONTAKT: H1 + lokalizacja | formularz                          */
 /* ================================================================== */
 
-/* Wiersz z hairline u góry: etykieta 11 px caps | wartość 15 px. */
+/* Wiersz z hairline u góry: etykieta 11 px caps | wartość 15 px.
+   Gdy para nie mieści się w jednej linii (np. „Wizyty i szkolenia” przy 375 px),
+   wartość schodzi pod etykietę, wyrównana do lewej — bez łamania etykiety. */
 function DetailRow({ label, children }) {
   return (
-    <div className="flex items-baseline justify-between gap-6 border-t border-ink/15 py-3">
-      <dt className="as-label text-ink/65">{label}</dt>
+    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t border-ink/15 py-3">
+      <dt className="as-label whitespace-nowrap text-ink/65">{label}</dt>
       <dd className="text-right text-[0.9375rem] text-ink">{children}</dd>
     </div>
   );
@@ -86,19 +111,24 @@ function LocationDetails() {
       <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/70">
         {CONTACT.venueNote}.
         {!CONTACT.street &&
-          ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz przez formularz albo na Instagramie.'}
+          (FORM_LIVE
+            ? ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz przez formularz albo na Instagramie.'
+            : ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz do nas na Instagramie.')}
       </p>
 
       <dl className="mt-8 border-b border-ink/15">
         {CHANNELS.map((c) => (
           <DetailRow key={c.label} label={c.label}>
+            {/* ::before powiększa pole dotyku do ≥ 44 px (jak .as-arrow),
+                wiersz i podkreślenie zostają bez zmian */}
             <a
               href={c.href}
               target={c.external ? '_blank' : undefined}
               rel={c.external ? 'noreferrer noopener' : undefined}
-              className="border-b border-ink/25 transition-colors hover:border-gold hover:text-gold-dark"
+              className="relative border-b border-ink/25 transition-colors before:absolute before:-inset-x-2 before:-inset-y-3 before:content-[''] hover:border-gold hover:text-gold-deep"
             >
               {c.value}
+              {c.external && <span className="sr-only"> (otwiera się w nowej karcie)</span>}
             </a>
           </DetailRow>
         ))}
@@ -144,8 +174,8 @@ function EnquiryForm() {
   const message = sent ? enquiryMessage(sent) : null;
 
   return (
-    /* lg: panel wypełnia wysokość obu rzędów siatki (dół panelu = dolna linia
-       godzin po lewej); rośnie pole wiadomości, nie odstępy. */
+    /* lg: panel wypełnia wysokość obu rzędów siatki; przy wyższej kolumnie
+       po lewej rośnie pole wiadomości, nie odstępy. */
     <div className="border border-ink/15 bg-cream-100 p-7 sm:p-10 lg:flex lg:h-full lg:flex-col">
       {message ? (
         <div role="status" aria-live="polite">
@@ -175,7 +205,9 @@ function EnquiryForm() {
           className="space-y-6 lg:flex lg:flex-1 lg:flex-col"
           aria-label="Formularz kontaktowy"
         >
-          <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+          {/* items-end: gdy „Telefon (opcjonalnie)” łamie się w wąskiej kolumnie
+              (lg ~1024 px), linie pól i tak stoją na jednej wysokości */}
+          <div className="grid gap-6 sm:grid-cols-2 sm:items-end sm:gap-x-8">
             <Field
               id="c-name"
               label="Imię i nazwisko"
@@ -188,7 +220,7 @@ function EnquiryForm() {
             />
             <Field
               id="c-phone"
-              label="Telefon"
+              label="Telefon (opcjonalnie)"
               type="tel"
               name="phone"
               autoComplete="tel"
@@ -238,13 +270,12 @@ function EnquiryForm() {
             required
           />
 
-          <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="as-caption max-w-[17rem]">
-              Dane z formularza wykorzystujemy wyłącznie do odpowiedzi na Twoje zapytanie.
-            </p>
+          <div className="pt-2">
             <button type="submit" className="as-btn-solid">
               Wyślij zapytanie
             </button>
+            <FormNotice className="mt-5 max-w-[32rem]" />
+            {!NOTICE_READY && <RequiredLegend className="mt-5" />}
           </div>
         </form>
       )}
@@ -291,30 +322,33 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — MIEJSCE (cream-100): kadr akademii + trzy kroki wizyty        */
+/*  02 — WIZYTA (cream-100): trzy kroki wizyty + portret 4:5           */
 /* ================================================================== */
 
-/* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi). */
+/* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi).
+   Krok 01 wskazuje formularz dopiero wtedy, gdy formularz faktycznie wysyła. */
 const BOOKING_STEPS = [
-  { number: '01', title: 'Wiadomość', desc: 'Formularz albo Instagram — tam odpowiadamy najszybciej.' },
+  {
+    number: '01',
+    title: 'Wiadomość',
+    desc: FORM_LIVE
+      ? 'Napisz przez formularz na tej stronie albo na Instagramie.'
+      : `Napisz na Instagramie — ${CONTACT.instagramHandle}.`,
+  },
   { number: '02', title: 'Termin', desc: 'Wrócimy z konkretną odpowiedzią i wolnym terminem.' },
   { number: '03', title: 'Konsultacja', desc: 'Architektura twarzy i rysunek wstępny przed zabiegiem.' },
 ];
 
-/* Kadr 3:2 z pionowego pliku (1206×1506): 18% trzyma w kadrze szyld akademii
-   i certyfikaty (30% z GROUPS.contactVenue ucina szyld). */
-const VENUE_POSITION = '50% 18%';
-
-function VenueBand() {
-  const venue = GROUPS.contactVenue;
+function VisitBand() {
+  const portrait = ROLES.contactSection;
   return (
     <section className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
           {/* — etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze) — */}
-          <div className="lg:col-span-4 lg:col-start-9 lg:row-start-1">
+          <div className="lg:col-span-5 lg:col-start-8 lg:row-start-1">
             <Reveal>
-              <SectionLabel number="02">Miejsce</SectionLabel>
+              <SectionLabel number="02">Wizyta</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">Jak umówić wizytę.</h2>
             </Reveal>
 
@@ -329,25 +363,26 @@ function VenueBand() {
             </ol>
 
             <Reveal delay={200}>
-              <ArrowLink href="#formularz" className="mt-10 w-fit">
-                Umów wizytę
+              <ArrowLink href={BOOKING_URL} className="mt-10 w-fit">
+                Umów wizytę online
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* — jeden kadr: szyld akademii i absolwentki, w złotej ramce — */}
-          <Reveal delay={90} className="lg:col-span-7 lg:col-start-1 lg:row-start-1">
-            <div className="as-photo-frame">
-              <Figure
-                image={venue.image}
-                alt={`Cztery kursantki z certyfikatami Super Natural Brows pod szyldem ${BRAND.academy} — ${CONTACT.city}`}
-                ratio="3 / 2"
-                position={VENUE_POSITION}
-                tone="light"
-                zoom={false}
-                sizes="(min-width: 1024px) 54vw, 92vw"
-              />
-            </div>
+          {/* — jeden kadr: portret z sesji marki, w złotej ramce — */}
+          <Reveal
+            delay={90}
+            className="mx-auto w-full max-w-[26rem] lg:col-span-5 lg:col-start-2 lg:row-start-1 lg:max-w-none"
+          >
+            <Figure
+              image={portrait?.image}
+              alt={`${FOUNDER.name} — portret z sesji wizerunkowej marki`}
+              ratio="4 / 5"
+              position={portrait?.position}
+              framed
+              zoom={false}
+              sizes="(min-width: 1024px) 34vw, 92vw"
+            />
           </Reveal>
         </div>
       </div>
@@ -361,7 +396,7 @@ export default function Contact() {
   return (
     <>
       <Hero />
-      <VenueBand />
+      <VisitBand />
     </>
   );
 }

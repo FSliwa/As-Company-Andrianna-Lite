@@ -1,41 +1,24 @@
-/* Fonty hostowane lokalnie (npm @fontsource) — bez żądań do Google Fonts:
-   IP odwiedzających nie trafia do zewnętrznego serwera, a pierwszy ekran
-   nie czeka na obcą domenę. Bodoni Moda z osią optical size, jak wcześniej. */
-import '@fontsource-variable/bodoni-moda/opsz.css';
-import '@fontsource-variable/bodoni-moda/opsz-italic.css';
-import '@fontsource-variable/jost/index.css';
-import '@fontsource-variable/jost/wght-italic.css';
+/* Fonty hostowane lokalnie (public/fonts) — bez żądań do Google Fonts: IP
+   odwiedzających nie trafia do zewnętrznego serwera. Krytyczne pliki mają
+   preload w <head>, reszta (latin-ext, italic) ładuje się na żądanie. */
+import '@/styles-fonts.css';
 import '@/index.css';
 import Layout from '@/Layout';
+import { SITE_URL } from '@/lib/site';
+import { JsonLd, pageMeta, siteJsonLd } from '@/lib/seo';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata = {
-  metadataBase: new URL('https://as-loveliness.eu'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'AS COMPANY LOVELINESS | Pigmenty, maszynki PMU i Babushkina Academy',
+    default: 'Makijaż permanentny Warszawa i szkolenia PMU | AS COMPANY',
     template: '%s | AS COMPANY LOVELINESS',
   },
-  description:
-    'Profesjonalne produkty PMU, edukacja i doświadczenie tworzone przez praktyków. Pigmenty AS OPIUM, maszynki AS PRINCESS i AS HERO oraz szkolenia Babushkina Academy w Warszawie.',
-  keywords: [
-    'makijaż permanentny Warszawa',
-    'szkolenia PMU',
-    'pigmenty PMU',
-    'maszynka PMU',
-    'AS Princess',
-    'AS Hero',
-    'Super Natural Brows',
-    'Babushkina Academy',
-  ],
-  openGraph: {
-    type: 'website',
-    locale: 'pl_PL',
-    siteName: 'AS COMPANY LOVELINESS',
-    title: 'AS COMPANY LOVELINESS — Beauty with precision',
+  ...pageMeta({
     description:
-      'Profesjonalne produkty PMU, edukacja i doświadczenie tworzone przez praktyków.',
-    images: ['/graphics/studio-02.jpg'],
-  },
+      'Makijaż permanentny brwi, ust i kresek w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS PMU.',
+    path: '/',
+  }),
 };
 
 export const viewport = {
@@ -47,8 +30,14 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pl">
+      <head>
+        <link rel="preload" href="/fonts/bodoni-moda-latin-opsz-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <JsonLd data={siteJsonLd()} />
+      </head>
       <body>
-        <Layout>{children}</Layout>
+        {/* rok liczony przy renderze na serwerze — bez niezgodności hydratacji 1 stycznia */}
+        <Layout year={new Date().getFullYear()}>{children}</Layout>
         <Toaster />
       </body>
     </html>

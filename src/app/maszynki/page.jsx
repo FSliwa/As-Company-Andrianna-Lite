@@ -1,12 +1,13 @@
 import Machines from '@/views/Machines';
+import { pageMeta } from '@/lib/seo';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim. */
-export const metadata = {
+export const metadata = pageMeta({
   title: 'Maszynki PMU AS HERO i AS PRINCESS',
   description:
-    'Lekkie urządzenia do makijażu permanentnego ze stopu aluminium: 7 prędkości, zmienny skok, wymienne akumulatory. Sprzedaż i wynajem.',
-  alternates: { canonical: '/maszynki' },
-};
+    'Maszynki do makijażu permanentnego AS HERO i AS PRINCESS — modele, parametry, zakup w sklepie AS i wynajem dla salonów.',
+  path: '/maszynki',
+});
 
 export default function Page() {
   return <Machines />;

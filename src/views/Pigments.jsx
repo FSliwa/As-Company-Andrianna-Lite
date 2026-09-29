@@ -3,30 +3,28 @@
 /**
  * Pigmenty — „Numer 01".
  *
- * ⚠️ DANE DO POTWIERDZENIA: nazwy, ceny i pojemności poniżej pochodzą
- * z pierwotnej wersji serwisu (wygenerowanej z szablonu) i nie zostały przez
- * nikogo zweryfikowane. Przed publikacją sprawdź je z aktualnym cennikiem
- * hurtowym — to jedyne miejsce w kodzie, w którym trzeba je poprawić.
+ * Po audycie publikacyjnym (K1 / TRESC-1) strona NIE pokazuje katalogu:
+ * 13 produktów z cenami i pojemnościami pochodziło z szablonu i nie zgadzało
+ * się ze sklepem klienta. Pigmenty kupuje się w sklepie AS LOVELINESS
+ * (SHOP w src/lib/site.js), a ta strona opisuje linie i prowadzi do ich
+ * kategorii w sklepie. Katalog może wrócić wyłącznie z danymi 1:1 ze sklepu
+ * lub z cennika klienta — wtedy razem z netto/brutto, ceną za ml i najniższą
+ * ceną z 30 dni przy promocjach (PRAWO-8, TRESC-7).
  *
- * W folderze /Graphics nie ma packshotów pigmentów, dlatego karty produktów
- * pokazują próbnik koloru (colorHex) jako pasek 8 px nad nazwą, a nie zdjęcie
- * butelki. Gdy pojawią się zdjęcia produktowe, dodaj je do manifestu
- * w src/lib/media.js, nadaj rolę w src/lib/roles.js i podepnij tutaj.
+ * Opisy linii zawierają tylko to, co widać w kategoriach sklepu (sprawdzone
+ * 29.09.2026): strefy, serie, zestawy. Bez parametrów, cen, liczby odcieni
+ * i bez deklaracji medycznych (PRAWO-9).
  *
- * Koszyk nie istnieje — poprzednia wersja udawała dodawanie do koszyka
- * komunikatem „Dodano do koszyka". Zastąpione zapytaniem o produkt.
- *
- * Układ (kierunek „Numer 01", trasa bez packshotów = strona typograficzna):
- *   01 PageHero band (espresso, bez zdjęcia, 3 Stat liczone z PRODUCTS)
- *   02 Paleta #katalog (cream-50) — filtr kategorii w jednej linii, komórki .as-cell
- *      (na telefonie karta = próbnik + nazwa + cena; opis i podtytuł od md)
+ * Układ:
+ *   01 PageHero band (espresso, bez zdjęcia, bez liczb)
+ *   02 Linie #linie (cream-50) — 5 × .as-cell, każda z linkiem do kategorii w sklepie
  *   03 Efekt (cream-100) — JEDYNE makro na trasie: MACROS.brows12p3 1:1 ≤ 320 px
- *   04 Dokumentacja w skrócie (cream-50) — 3 × .as-cell jak /certyfikaty 02 → /certyfikaty
- *   05 ClosingCta (espresso-900, jeden blok ze stopką)
+ *   04 Dokumentacja (cream-50) — 3 × .as-cell, dokumenty na prośbę → /certyfikaty
+ *   05 ClosingCta
  * Jasne sekcje obok siebie dzieli hairline (border-t ink/10).
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ArrowLink,
   ClosingCta,
@@ -37,227 +35,82 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { MACROS } from '@/lib/roles';
-import { cn } from '@/lib/utils';
+import { SHOP } from '@/lib/site';
 
-/* Krótkie polskie etykiety — filtr mieści się w jednej linii (id bez zmian). */
-const PIGMENT_CATEGORIES = [
-  { id: 'all', name: 'Wszystkie' },
-  { id: 'lips', name: 'Usta' },
-  { id: 'brows', name: 'Brwi' },
-  { id: 'eyelids', name: 'Powieki' },
-  { id: 'medical', name: 'Medyczne' },
-  { id: 'special', name: 'Edycje autorskie' },
-  { id: 'accessories', name: 'Kartridże i remover' },
+/* Linki do sklepu otwierają się w nowej karcie. */
+const EXTERNAL = { target: '_blank', rel: 'noreferrer noopener' };
+
+/* ArrowLink dokleja własną strzałkę „→" — przy linku do sklepu strzałką
+   jest „↗" w etykiecie, więc tę domyślną chowamy (bez podwójnej strzałki). */
+const EXTERNAL_ARROW = '[&_.as-arrow-glyph]:hidden';
+
+/* Etykieta linku do sklepu: „↗" dla oka, informacja o nowej karcie dla czytnika. */
+function ShopLabel({ children }) {
+  return (
+    <>
+      {children} <span aria-hidden="true">↗</span>
+      <span className="sr-only"> (sklep internetowy, otwiera się w nowej karcie)</span>
+    </>
+  );
+}
+
+/* Kategorie kolekcji w sklepie (WooCommerce) — adresy sprawdzone 29.09.2026,
+   wszystkie HTTP 200. Budowane od SHOP.url, więc przeniesienie sklepu na inną
+   domenę zmieni je razem z nim. */
+const SHOP_ORIGIN = new URL(SHOP.url).origin;
+const shopCategory = (slug) => `${SHOP_ORIGIN}/kategoria-produktu/${slug}/`;
+
+const LINES = [
+  {
+    number: '01',
+    name: 'AS OPIUM',
+    desc: 'Pigmenty do brwi, ust i kresek oraz modyfikatory. Odcienie do ust w seriach Colors i Organic.',
+    href: shopCategory('kolekcja-as-opium'),
+  },
+  {
+    number: '02',
+    name: 'AS OPIUM Light Minerals',
+    desc: 'Linia do brwi i kresek, z modyfikatorami — pojedyncze odcienie i zestawy.',
+    href: shopCategory('kolekcja-as-opium-light-minerals'),
+  },
+  {
+    number: '03',
+    name: 'AS Classic',
+    desc: 'Pigmenty do brwi, ust i kresek oraz korektory. Do ust także seria Concentrate.',
+    href: shopCategory('kolekcja-as-classic'),
+  },
+  {
+    number: '04',
+    name: 'Areola i Camouflage',
+    desc: 'Dwie serie w jednej kategorii: odcienie brązu do pigmentacji otoczki (Areola) oraz Camouflage — od beżu po biel.',
+    href: shopCategory('areola-camouflage'),
+  },
+  {
+    number: '05',
+    name: 'Trychopigmentacja',
+    desc: 'Do mikropigmentacji skóry głowy — pojedyncze odcienie i zestaw.',
+    href: shopCategory('trichopigmentation'),
+  },
 ];
 
-/* Na karcie pokazujemy tylko wyróżnienia handlowe — pozostałe „badge"
-   w danych powtarzały nazwę linii albo kategorii. */
-const SHOWN_BADGES = ['Bestseller', 'Promocja'];
-
-const PRODUCTS = [
-  // Lips
-  {
-    id: "pig-lip-1",
-    category: "lips",
-    name: "AS OPIUM #01 Velvet Nude",
-    subtitle: "Pigment do ust – ciepły naturalny nude",
-    price: 189,
-    capacity: "10 ml",
-    colorHex: "#C47B74",
-    badge: "Bestseller",
-    description: "Kremowy, aksamitny odcień nude z delikatnymi różowymi podtonami. Dedykowany do technik pudrowego wypełnienia ust.",
-    type: "Hybryda mineralna"
-  },
-  {
-    id: "pig-lip-2",
-    category: "lips",
-    name: "AS OPIUM #05 Royal Berry",
-    subtitle: "Pigment do ust – głęboka malinowa czerwień",
-    price: 189,
-    capacity: "10 ml",
-    colorHex: "#9E384D",
-    badge: null,
-    description: "Intensywna, wyrazista barwa dla klientek poszukujących efektu szminki (Lipstick Effect). Doskonała trwałość po wygojeniu.",
-    type: "Hybryda mineralna"
-  },
-  {
-    id: "pig-lip-3",
-    category: "lips",
-    name: "AS Classic Coral Bliss",
-    subtitle: "Pigment do ust – soczysty koral",
-    price: 169,
-    capacity: "10 ml",
-    colorHex: "#D96B58",
-    badge: "Promocja",
-    description: "Ciepły, odmładzający odcień koralowy. Przeznaczony do korekty chłodnych ust oraz do nadawania świeżości.",
-    type: "Kolekcja Classic"
-  },
-
-  // Brows - Mineral
-  {
-    id: "pig-brow-1",
-    category: "brows",
-    name: "AS OPIUM Light Minerals #01 Blonde",
-    subtitle: "Pigment do brwi – jasny neutralny blond",
-    price: 199,
-    capacity: "10 ml",
-    colorHex: "#A0866A",
-    badge: "Light Minerals",
-    description: "Dystrybuowany barwnik 100% mineralny. Wyłuszcza się ze skóry w sposób całkowicie czysty i przewidywalny bez czerwonych podtonów.",
-    type: "100% Mineralny"
-  },
-  {
-    id: "pig-brow-2",
-    category: "brows",
-    name: "AS OPIUM Light Minerals #03 Cold Brown",
-    subtitle: "Pigment do brwi – chłodny średni brąz",
-    price: 199,
-    capacity: "10 ml",
-    colorHex: "#5E4B3C",
-    badge: "Light Minerals",
-    description: "Czysty, chłodny brąz z delikatną nutką popielu. Równomierne osadzanie się w naskórku przy technice Ombre Powder.",
-    type: "100% Mineralny"
-  },
-  {
-    id: "pig-brow-3",
-    category: "brows",
-    name: "AS OPIUM Light Minerals #05 Dark Espresso",
-    subtitle: "Pigment do brwi – głęboki ciemny brąz",
-    price: 199,
-    capacity: "10 ml",
-    colorHex: "#3A2E28",
-    badge: "Light Minerals",
-    description: "Wyrazisty, głęboki odcień dla szatynek i brunetek. Stabilna formuła chroniąca przed szarzeniem koloru.",
-    type: "100% Mineralny"
-  },
-
-  // Eyelids
-  {
-    id: "pig-eye-1",
-    category: "eyelids",
-    name: "AS OPIUM Eyelids Deep Black",
-    subtitle: "Pigment do powiek – aksamitna głęboka czerń",
-    price: 199,
-    capacity: "10 ml",
-    colorHex: "#1A1A1A",
-    badge: "Eyeliner Spec",
-    description: "Niezwykle gęsty, nasycony pigment do kresek zagęszczających i dekoracyjnych. Bez ryzyka migracji podskórnej.",
-    type: "Special Eyelids"
-  },
-
-  // Medical PMU
-  {
-    id: "pig-med-1",
-    category: "medical",
-    name: "AS Areola #02 Natural Areola",
-    subtitle: "Pigment medyczny – rekonstrukcja otoczki brodawki",
-    price: 220,
-    capacity: "10 ml",
-    colorHex: "#B87A6F",
-    badge: "Medyczny PMU",
-    description: "Specjalistyczny barwnik medyczny stosowany po zabiegach mastektomii oraz w zabiegach rekonstrukcji piersi.",
-    type: "Medical Grade"
-  },
-  {
-    id: "pig-med-2",
-    category: "medical",
-    name: "AS Trichopigmentation Scalp Dark",
-    subtitle: "Pigment do mikropigmentacji skóry głowy",
-    price: 240,
-    capacity: "10 ml",
-    colorHex: "#2E2D2B",
-    badge: "Trichopigmentation",
-    description: "Specjalnie zbalansowany pigment imitujący mieszek włosowy do optycznego zagęszczania fryzury.",
-    type: "Medical Grade"
-  },
-
-  // Special Editions
-  {
-    id: "pig-spec-1",
-    category: "special",
-    name: "Special Edition: Hairstrokes #02 Hyper-Realism",
-    subtitle: "Edycja Autorska – metoda włoskowa hyper-realizm",
-    price: 210,
-    capacity: "10 ml",
-    colorHex: "#4A3B32",
-    badge: "Special Edition",
-    description: "Płynny barwnik ułatwiający tworzenie niezwykle cienkich rysunków włosków maszynką lub piórkiem.",
-    type: "Autorska Linia"
-  },
-  {
-    id: "pig-spec-2",
-    category: "special",
-    name: "Special Edition: The One Ring Gold",
-    subtitle: "Kolekcja Autorska – Modyfikator ocieplający",
-    price: 179,
-    capacity: "10 ml",
-    colorHex: "#E39E42",
-    badge: "Modyfikator",
-    description: "Modyfikator w kroplach dodawany do barwników brwiowych w celu wyeliminowania chłodnych tonów.",
-    type: "Modyfikator"
-  },
-
-  // Accessories & Care
-  {
-    id: "acc-1",
-    category: "accessories",
-    name: "Kartridże PMU Satellite (Box 20 szt.)",
-    subtitle: "Sterylne kartridże z membraną ochronną 0.25 1RL",
-    price: 140,
-    capacity: "20 szt.",
-    colorHex: "#D4DEC8",
-    badge: "Akcesoria",
-    description: "Japońska stal chirurgiczna, obudowa z plastycznego medycznego tworzywa. Kompatybilne z maszynami AS HERO.",
-    type: "Kartridże"
-  },
-  {
-    id: "acc-2",
-    category: "accessories",
-    name: "AS Chemical Remover PMU / Tattoo",
-    subtitle: "Bezpieczny preparat chemiczny do usuwania PMU",
-    price: 250,
-    capacity: "15 ml",
-    colorHex: "#E5E5E5",
-    badge: "Remover",
-    description: "Nieorganiczy płyn usuwający pigmenty każdego typu (w tym zielenie i błękity niewidoczne dla lasera).",
-    type: "Remover"
-  }
-];
-
-/* Fakty do paska liczb w hero — policzone z danych powyżej, nie wpisane
-   ręcznie: zmiana katalogu zmienia liczby. */
-const PIGMENTS_ONLY = PRODUCTS.filter((p) => p.category !== 'accessories');
-const PIGMENT_CAPACITIES = [...new Set(PIGMENTS_ONLY.map((p) => p.capacity))];
-
-const HERO_STATS = [
-  {
-    value: String(PIGMENTS_ONLY.length),
-    label: 'Pigmentów w katalogu',
-  },
-  {
-    value: PIGMENT_CAPACITIES.join(' / '),
-    label: PIGMENT_CAPACITIES.length === 1 ? 'Pojemność każdego pigmentu' : 'Pojemności pigmentów',
-  },
-  { value: 'REACH', label: 'Zgodność z REACH EU — dokumentacja do zamówień' },
-];
-
-/* Dokumentacja w skrócie — treść z /certyfikaty (rodzaje dokumentów bez
-   numerów, bo tych nie mamy potwierdzonych). */
+/* Dokumentacja w skrócie — bez obietnic „do każdego zamówienia" (TRESC-10):
+   dopóki klient nie potwierdzi dokumentów dla każdej linii, piszemy tylko,
+   że udostępniamy je na prośbę. */
 const DOCS = [
   {
     number: '01',
-    title: 'Zgodność REACH',
-    desc: 'Deklaracja zgodności z unijnym rozporządzeniem dla tuszy do tatuażu i makijażu permanentnego — pigmenty AS OPIUM i Light Minerals.',
+    title: 'Zgodność z REACH',
+    desc: 'Unijne rozporządzenie REACH określa wymagania dla tuszy do tatuażu i makijażu permanentnego. Zapytaj o dokumenty dla linii, której używasz.',
   },
   {
     number: '02',
     title: 'Karta charakterystyki',
-    desc: 'Skład, zagrożenia i sposób postępowania z produktem. To dokument, o który pyta Sanepid podczas kontroli gabinetu.',
+    desc: 'Skład, zagrożenia i sposób postępowania z produktem — dokument, o który może zapytać Sanepid podczas kontroli gabinetu.',
   },
   {
     number: '03',
-    title: 'W zamówieniu',
-    desc: 'Każde zamówienie hurtowe zawiera dokumentację w wersji cyfrowej. Na żądanie wysyłamy ją także przed zakupem, do wglądu.',
+    title: 'Przed zakupem',
+    desc: 'Dokumentację udostępniamy na prośbę — napisz, której linii i których odcieni dotyczy pytanie.',
   },
 ];
 
@@ -273,13 +126,12 @@ function Hero() {
       number="01"
       title="Pigmenty"
       titleAccent="AS OPIUM."
-      lead="Pigmenty AS OPIUM i Light Minerals do brwi, ust i powiek oraz linia medyczna. Starannie opracowane formuły, intensywne kolory i przewidywalne gojenie."
-      stats={HERO_STATS}
+      lead="AS OPIUM, Light Minerals i AS Classic do brwi, ust i kresek oraz pigmenty do areoli i trychopigmentacji. Pełną paletę odcieni z cenami znajdziesz w naszym sklepie internetowym."
     >
-      {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
+      {/* jeden prostokątny przycisk (sklep) + ArrowLink jako druga akcja */}
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <CtaButton href="#katalog" className="as-btn-invert">
-          Zobacz paletę
+        <CtaButton href={SHOP.url} {...EXTERNAL} className="as-btn-invert">
+          <ShopLabel>Zobacz pigmenty w sklepie</ShopLabel>
         </CtaButton>
         <ArrowLink href="/certyfikaty" tone="light" className="w-fit">
           Dokumentacja produktów
@@ -290,126 +142,43 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — PALETA (katalog)                                              */
+/*  02 — LINIE (opis linii + kategorie w sklepie)                      */
 /* ================================================================== */
 
-function ProductCell({ product }) {
-  const badge = SHOWN_BADGES.includes(product.badge) ? product.badge : null;
-  const price = <span className="font-display text-xl leading-none text-ink">{product.price} zł</span>;
+function Lines() {
   return (
-    /* na telefonie próbnik sam jest górną linią komórki (hairline od md) */
-    <article className="as-cell border-t-0 pt-0 md:border-t">
-      {/* od md: pasek specyfikacji między hairline a próbnikiem —
-          typ · pojemność (+ wyróżnienie) po lewej, cena po prawej */}
-      <div className="hidden items-baseline justify-between gap-4 py-1.5 md:flex">
-        <p className="flex min-w-0 flex-wrap items-baseline gap-x-3">
-          <span className="as-kicker">
-            {product.type} · {product.capacity}
-          </span>
-          {badge && <span className="as-badge">{badge}</span>}
-        </p>
-        <span className="shrink-0">{price}</span>
-      </div>
-
-      {/* próbnik koloru zamiast packshotu (brak zdjęć produktowych) —
-          pasek 8 px na pełną szerokość komórki; ring dla jasnych odcieni */}
-      <span
-        className="block h-2 w-full ring-1 ring-inset ring-ink/10"
-        style={{ backgroundColor: product.colorHex }}
-        aria-hidden="true"
-      />
-
-      <h3 className="as-title mt-3 text-ink">{product.name}</h3>
-      <p className="as-kicker mt-2 hidden md:block">{product.subtitle}</p>
-      <p className="mt-2 hidden max-w-[26rem] text-[0.9375rem] leading-[1.65] text-ink/75 md:block">
-        {product.description}
-      </p>
-
-      {/* telefon: karta = próbnik + nazwa + cena (z pojemnością i wyróżnieniem) */}
-      <div className="mt-3 flex items-baseline justify-between gap-4 md:hidden">
-        <span>
-          {price}
-          <span className="as-label ml-3 align-middle text-ink/55">{product.capacity}</span>
-        </span>
-        {badge && <span className="as-badge text-right">{badge}</span>}
-      </div>
-    </article>
-  );
-}
-
-function Palette() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const filteredProducts = PRODUCTS.filter(
-    (product) => selectedCategory === 'all' || product.category === selectedCategory
-  );
-
-  return (
-    <section id="katalog" className="as-section scroll-mt-24 bg-cream-50">
+    <section id="linie" className="as-section scroll-mt-24 bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <Reveal className="lg:col-span-8">
-            <SectionLabel number="02">Paleta</SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">Pełna paleta.</h2>
+            <SectionLabel number="02">Linie</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">Linie pigmentów.</h2>
+            <p className="as-body mt-6">
+              W sklepie znajdziesz też kolekcje do ust Paradise i Harley Quinn, serię Hairstrokes
+              do brwi oraz zestawy.
+            </p>
           </Reveal>
-          {/* jedyne CTA sekcji (koszyka nie ma — zapytanie) */}
+          {/* jedyne CTA sekcji — cały sklep */}
           <Reveal delay={80} className="lg:col-span-4 lg:justify-self-end">
-            <ArrowLink href="/kontakt" className="w-fit">
-              Zapytaj o produkt
+            <ArrowLink href={SHOP.url} {...EXTERNAL} className={`w-fit ${EXTERNAL_ARROW}`}>
+              <ShopLabel>Zobacz pigmenty w sklepie</ShopLabel>
             </ArrowLink>
           </Reveal>
         </div>
 
-        {/* filtr kategorii — zawsze jedna linia; na wąskim ekranie przewija się
-            w bok od krawędzi do krawędzi (-mx = padding .as-shell). Od xl licznik
-            wyników stoi w tej samej linii, po prawej. */}
-        <Reveal delay={120} className="mt-8 xl:flex xl:items-baseline xl:justify-between xl:gap-8">
-          <div
-            role="group"
-            aria-label="Kategoria"
-            className="as-noscrollbar -mx-5 flex min-w-0 items-center gap-x-7 overflow-x-auto whitespace-nowrap px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:gap-x-8 lg:px-0"
-          >
-            <span className="as-label hidden shrink-0 text-ink/55 md:inline">Kategoria</span>
-            {PIGMENT_CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat.id)}
-                  aria-pressed={active}
-                  className={cn(
-                    'as-label relative shrink-0 py-1 transition-colors',
-                    active ? 'text-ink' : 'text-ink/55 hover:text-ink'
-                  )}
-                >
-                  {cat.name}
-                  <span
-                    className={cn(
-                      'absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-300',
-                      active ? 'w-full' : 'w-0'
-                    )}
-                  />
-                </button>
-              );
-            })}
-          </div>
-
-          <p className="as-label mt-4 shrink-0 text-ink/55 xl:mt-0" aria-live="polite">
-            {filteredProducts.length === 0
-              ? 'Brak produktów w tej kategorii'
-              : `Produktów: ${filteredProducts.length}`}
-          </p>
-        </Reveal>
-
-        {/* komórki redakcyjne: hairline u góry, bez tła, bez kart */}
-        <div className="mt-6 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProducts.map((product, i) => (
-            <Reveal key={product.id} delay={(i % 3) * 70}>
-              <ProductCell product={product} />
+        {/* komórki redakcyjne: hairline → numer → nazwa → opis → link do kategorii */}
+        <ol className="mt-12 grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+          {LINES.map((line, i) => (
+            <Reveal as="li" key={line.number} delay={(i % 3) * 70} className="as-cell flex flex-col">
+              <p className="as-kicker">{line.number}</p>
+              <h3 className="as-title as-text-balance mt-3 text-ink">{line.name}</h3>
+              <p className="mt-3 max-w-[26rem] text-[0.9375rem] leading-[1.65] text-ink/75">{line.desc}</p>
+              <ArrowLink href={line.href} {...EXTERNAL} className={`mt-6 w-fit ${EXTERNAL_ARROW}`}>
+                <ShopLabel>Kolekcja w sklepie</ShopLabel>
+              </ArrowLink>
             </Reveal>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
@@ -420,8 +189,7 @@ function Palette() {
 /* ================================================================== */
 
 function Effect() {
-  /* brows-12-p3 (1638 × 820) w kadrze 1:1 — ostre przy 320 px;
-     lips-03-p3 (1206 × 494) w 4:5 było powiększone ~2× i miękkie */
+  /* brows-12-p3 (1638 × 820) w kadrze 1:1 — ostre przy 320 px */
   const macro = MACROS.brows12p3;
   return (
     <section className="as-section border-t border-ink/10 bg-cream-100">
@@ -430,16 +198,12 @@ function Effect() {
           <div className="lg:col-span-6">
             <Reveal>
               <SectionLabel number="03">Efekt</SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                Kolor, który goi się przewidywalnie.
-              </h2>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">Pigment w skórze.</h2>
             </Reveal>
             <Reveal delay={80}>
               <p className="as-body mt-6">
-                Wygojenie jest dowodem — to moment, w którym widać, czy formuła trzyma kolor.
-                Light Minerals to barwniki w 100% mineralne: #01 Blonde wychodzi ze skóry czysto
-                i przewidywalnie, bez czerwonych podtonów, a #05 Dark Espresso ma stabilną formułę
-                chroniącą przed szarzeniem.
+                Na zdjęciu brwi wykonane techniką Super Natural Brows — autorską metodą Andriany
+                Babushkiny. Efekt zależy od techniki, doboru odcienia i indywidualnego gojenia skóry.
               </p>
               <ArrowLink href="/uslugi" className="mt-8 w-fit">
                 Zobacz zabiegi
@@ -480,7 +244,7 @@ function Documentation() {
             <Reveal>
               <SectionLabel number="04">Dokumentacja</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                Dokumenty w komplecie.
+                Dokumenty na prośbę.
               </h2>
             </Reveal>
             <Reveal delay={80}>
@@ -507,19 +271,23 @@ function Documentation() {
 }
 
 /* ================================================================== */
-/*  05 — ZAMÓWIENIA HURTOWE (pas zamykający)                           */
+/*  05 — PAS ZAMYKAJĄCY                                                */
 /* ================================================================== */
 
 function ClosingBand() {
   return (
     <ClosingCta
       number="05"
-      label="Zamówienia"
-      title="Zamówienie"
-      titleAccent="hurtowe?"
-      lead="Napisz, czego potrzebujesz do gabinetu — dobierzemy odcienie i odeślemy dokumentację produktów razem z wyceną."
-      primary={{ href: '/kontakt', label: 'Napisz do nas' }}
-      secondary={{ href: '/maszynki', label: 'Zobacz urządzenia' }}
+      label="Kontakt"
+      title="Pytanie o"
+      titleAccent="odcień?"
+      lead="Napisz, do jakiej techniki i strefy szukasz pigmentu — podpowiemy, od której linii zacząć. Zamówienia składasz w sklepie internetowym."
+      primary={{
+        href: SHOP.url,
+        ...EXTERNAL,
+        label: <ShopLabel>Zobacz pigmenty w sklepie</ShopLabel>,
+      }}
+      secondary={{ href: '/kontakt', label: 'Napisz do nas' }}
     />
   );
 }
@@ -530,7 +298,7 @@ export default function Pigments() {
   return (
     <>
       <Hero />
-      <Palette />
+      <Lines />
       <Effect />
       <Documentation />
       <ClosingBand />

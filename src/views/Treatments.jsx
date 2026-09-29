@@ -11,31 +11,27 @@
  * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
  * i wizyta (espresso — jedyny ciemny pas) → 04 odświeżenie i usuwanie (cream-50)
  * → 05 cennik #cennik (cream-100, hairline) → 06 pytania (cream-50, hairline)
- * → 07 ClosingCta + stopka (espresso-900, jeden blok).
+ * → 07 ClosingCta (espresso) + stopka (espresso-900).
  *
  * Korekta do 3 miesięcy występuje jako krok 03 wizyty (pas espresso), więc
  * sekcja 04 obejmuje tylko zabiegi, których nie ma w indeksie ani w krokach.
  *
  * Telefon: cytaty technik i wstępy sekcji 04/06 ukryte (< sm); tabele refresh
  * i usuwania zwinięte w <Faq> (< lg) — od lg stoją w pełni.
+ *
+ * „Umów wizytę” prowadzi do rezerwacji online (/umow-wizyte, Kalendarz Google);
+ * w wierszu techniki z już wybranym zabiegiem. Rezerwacja nie pyta o zdrowie
+ * (art. 9 RODO) — wywiad zdrowotny należy do konsultacji. Obietnice zdrowotne
+ * w brzmieniu zgodnym z FAQ tej strony, bez gwarancji.
+ * ClosingCta ma tło espresso — ciemniejsza stopka (espresso-900) go domyka.
  */
 
-import React, { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { useToast } from '@/components/ui/use-toast';
+import React from 'react';
 import {
   ArrowLink,
   ClosingCta,
   CtaButton,
   Faq,
-  Field,
   GoldArc,
   NumberedItem,
   PageHero,
@@ -46,6 +42,7 @@ import {
 } from '@/components/as/Primitives';
 import {
   ACHIEVEMENTS,
+  BOOKING_URL,
   CONTACT,
   FOUNDER,
   PRICING_PMU,
@@ -54,15 +51,28 @@ import {
 } from '@/lib/site';
 import { MACROS, ROLES } from '@/lib/roles';
 import { cn } from '@/lib/utils';
-import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /* ------------------------------------------------------------------ */
 /*  Ceny — zawsze z cennika marki                                      */
 /* ------------------------------------------------------------------ */
 
+/* Zapis tekstów z cennika (site.js) na tej trasie: twarda spacja w tysiącach
+   i przed „zł”, „> 500 zł” → „od 500 zł”, głos „my” zamiast „moich klientek”.
+   Źródło w site.js zostaje nietknięte; gdy tam się zmieni, reguły są no-op.
+   Docelowo jedna wspólna funkcja dla serwisu (TRESC-13/15). */
+const NBSP = '\u00a0';
+const fmt = (text) =>
+  typeof text !== 'string'
+    ? text
+    : text
+        .replace(/^>\s*/, `od${NBSP}`)
+        .replace(/(\d)(\d{3})(?!\d)/g, `$1${NBSP}$2`)
+        .replace(/ zł/g, `${NBSP}zł`)
+        .replace(/moich klientek/g, 'naszych klientek');
+
 const priceOf = (table, name) => {
   const row = table.items.find((item) => item.name === name);
-  return row ? row.price : '';
+  return row ? fmt(row.price) : '';
 };
 
 /* Fakty w hero — z ACHIEVEMENTS (5× podium MŚ; salony „Katowice i Warszawa")
@@ -119,7 +129,7 @@ const TECHNIQUES = [
     duration: '1–1,5 godziny',
     price: priceOf(PRICING_PMU, 'Perfect Eyeliners'),
     description:
-      'Efekt zagęszczania rzęs, pogrubienia górnej wodnej linii oka, uwydatnienie koloru tęczówki, bez kreski, bez ogonka i bez cienia na powiece.',
+      'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki — bez kreski, bez ogonka i bez cienia na powiece.',
   },
 ];
 
@@ -163,64 +173,66 @@ const AFTERCARE = [
     tag: 'Po 1–3 latach',
     name: 'Odświeżenie makijażu permanentnego',
     duration: '1,5 godziny',
-    price: 'od ' + PRICING_REFRESH.items[0].price,
+    price: `od${NBSP}${fmt(PRICING_REFRESH.items[0].price)}`,
     priceNote: 'Stawka zależy od czasu, jaki minął od ostatniego zabiegu — pełne widełki w cenniku.',
     description:
-      'Zabieg, który wykonujemy raz na 1–3 lata, dla odnowienia efektu, uzupełnienia koloru, dodania gęstości, grubości i intensywności koloru.',
+      'Zabieg, który wykonujemy raz na 1–3 lata, aby odnowić efekt, uzupełnić kolor oraz dodać gęstości, grubości i intensywności.',
   },
   {
     id: 'usuwanie',
     number: '02',
-    tag: 'Bezpieczne oczyszczanie',
+    tag: 'Przed nową pigmentacją',
     name: 'Usuwanie laserem lub removerem',
     duration: '30–45 minut',
     price: priceOf(PRICING_REMOVAL, 'Usuwanie PMU brwi'),
-    priceNote: 'Brwi lub usta. Kreski, tatuaże i stawki dla stałych klientek — w cenniku.',
+    priceNote: 'Brwi lub usta. Kreski, tatuaże i stawka dla naszych klientek — w cenniku.',
     description:
       'Usuwamy stary, nieudany makijaż permanentny przed nową pigmentacją. Metodę — laser albo remover — dobieramy indywidualnie, tak aby jak najszybciej i najbezpieczniej pozbyć się niechcianego pigmentu.',
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/*  06 — FAQ (treść zachowana bez zmian)                               */
+/*  06 — FAQ: treść klienta po korekcie językowej. Absoluty złagodzone  */
+/*  (bez „w żadnym przypadku”, „nie ma żadnych blizn”) — brzmienie do   */
+/*  akceptacji klienta. Lead w hero jest z tym FAQ zgodny.             */
 /* ------------------------------------------------------------------ */
 
 const FAQ_ITEMS = [
   {
     q: 'Czy włos maszynowy się nie rozpływa?',
-    a: 'Włos maszynowy to tak samo płytka, delikatna i nietraumatyczna technika jak i puder, nie jest to piórkowa metoda, nie nacinamy skóry, nie wbijamy głęboko pigmentu. Pigmentujemy włoski precyzyjnie nasycając je warstwami pudru, delikatnie, z umiarem i wyczuciem. Dlatego włos maszynowy nie rozpływa się z czasem.',
+    a: 'Włos maszynowy to technika tak samo płytka, delikatna i nietraumatyczna jak puder. To nie metoda piórkowa: nie nacinamy skóry i nie wbijamy pigmentu głęboko. Włoski pigmentujemy precyzyjnie, nasycając je warstwami pudru — delikatnie, z umiarem i wyczuciem. Dzięki temu włos maszynowy nie rozpływa się z czasem.',
   },
   {
     q: 'Czy kolor z czasem nie zrobi się czerwony lub szary?',
-    a: 'Pigmenty oraz techniki, które wykorzystujemy są najwyższej jakości, spotykanej na rynku PMU. Stąd pewność w ich przewidywalnym zachowaniu się z czasem, co potwierdzają zdjęcia i filmy na naszym IG. Oczywiście skóra i hormony każdego człowieka rządzą się swoimi prawami, na to nie mamy wpływu i rzadko ale zdarza się że kolor pigmentu może się wychłodzić, ale mamy rozwiązanie dla takich klientek - bezpłatna inwersja koloru w cieplejszy odcień.',
+    a: 'Pracujemy na sprawdzonych pigmentach i technikach, których zachowanie z czasem jest przewidywalne — pokazujemy to na zdjęciach i filmach na naszym Instagramie. Skóra i hormony każdego człowieka rządzą się jednak swoimi prawami i na to nie mamy wpływu. Rzadko, ale zdarza się, że kolor pigmentu się wychłodzi — wtedy proponujemy bezpłatną inwersję koloru w cieplejszy odcień.',
   },
   {
     q: 'Czy będzie rysunek wstępny przed pigmentacją?',
-    a: 'Oczywiście że tak! Bez niego nie ruszymy. Rysunek wstępny zostanie dopasowany do Twojej architektury twarzy, a w momencie jak będziesz go sprawdzać możemy wprowadzić zmiany, uwzględniając Twoje uwagi i życzenia.',
+    a: 'Oczywiście, że tak — bez niego nie zaczynamy. Rysunek wstępny dopasujemy do Twojej architektury twarzy, a kiedy będziesz go sprawdzać, możemy wprowadzić zmiany zgodnie z Twoimi uwagami i życzeniami.',
   },
   {
     q: 'Czy zabieg jest bolesny?',
-    a: 'W 90% przypadków zabieg jest bezbolesny, a większość klientek przysypia podczas pigmentacji. Wrażliwe klientki będą odczuwać podczas pierwszego przejścia maszynką drapanie skóry, a już od razu po nim nałożymy żel chłodzący, który zniweluje nieprzyjemne odczucia i większą część zabiegu też można się relaksować.',
+    a: 'W 90% przypadków zabieg jest bezbolesny, a większość klientek przysypia podczas pigmentacji. Wrażliwe klientki mogą odczuwać drapanie skóry przy pierwszym przejściu maszynką — zaraz po nim nakładamy żel chłodzący, który łagodzi nieprzyjemne odczucia, więc przez większą część zabiegu można się zrelaksować.',
   },
   {
     q: 'Czy korekta jest obowiązkowa?',
-    a: 'Najczęściej nie, ale wiele zależy od Twojej skóry, procesu regeneracji, stanu hormonalnego oraz życzenia po wygojeniu. Gdy będziemy potrzebować uzupełnić ubytki, poprawić kształt, pogrubić lub zagęścić brwi, dodać intensywności czy delikatnie zmienić kolor - wykonanie korekty będzie najlepszym rozwiązaniem.',
+    a: 'Najczęściej nie, ale wiele zależy od Twojej skóry, procesu regeneracji, stanu hormonalnego oraz Twoich oczekiwań po wygojeniu. Gdy trzeba uzupełnić ubytki, poprawić kształt, pogrubić lub zagęścić brwi, dodać intensywności czy delikatnie zmienić kolor, korekta będzie najlepszym rozwiązaniem.',
   },
   {
     q: 'Czy można robić nowy zabieg na starym makijażu permanentnym?',
-    a: 'Zależy od tego, jak wygląda Twój obecny makijaż permanentny, jak dawno był zrobiony, czy był usuwany oraz czy jest możliwy do poprawy. Poprosimy Cię o wysłanie zdjęcia brwi/ust, abyśmy mogły ocenić jego wygląd. Gdy resztki będą delikatne, żółte, pomarańczowe czy lekko widoczne - zrobimy cover. W przypadku jak PMU będzie miał szary, ciemny, wyraźny zarys - zaprosimy na usuwanie.',
+    a: 'To zależy od tego, jak wygląda Twój obecny makijaż permanentny, jak dawno był zrobiony, czy był usuwany i czy da się go poprawić. Poprosimy Cię o zdjęcie brwi lub ust, abyśmy mogły ocenić jego wygląd. Gdy resztki są delikatne, żółte, pomarańczowe czy ledwo widoczne, zrobimy cover. Jeśli PMU ma szary, ciemny, wyraźny zarys, zaprosimy Cię najpierw na usuwanie.',
   },
   {
     q: 'Czy usuwanie uszkodzi moje włoski na brwiach?',
-    a: 'W żadnym przypadku. Często widzimy odwrotną reakcję: włoski po usuwaniu zaczynają aktywniej odrastać, ponieważ skóra pozbywa się nadmiaru pigmentu i włoski mają miejsce na porost. Czasami po zabiegu zauważysz zbielenie włosków, ale jest to tymczasowa reakcja, wkrótce włoski wracają do swojego koloru, a jak nie będziesz chciała czekać - można zrobić hennę lub farbkę już 2-3 dni po zabiegu usuwania.',
+    a: 'Zwykle nie — często widzimy wręcz odwrotną reakcję: po usuwaniu włoski zaczynają aktywniej odrastać, bo skóra pozbywa się nadmiaru pigmentu i włoski mają miejsce na porost. Czasem po zabiegu włoski bieleją, ale to reakcja tymczasowa i wkrótce wracają do swojego koloru. Jeśli nie chcesz czekać, już 2–3 dni po usuwaniu można zrobić hennę lub farbkę.',
   },
   {
     q: 'Czy usuwanie jest bardzo bolesne?',
-    a: 'Na pewno nie zaliczymy tego zabiegu do przyjemnych, ale samo usuwanie trwa około minuty, po zabiegu od razu wychłodzimy Twoją skórę i zadbamy abyś czuła się komfortowo. Każdy ma inny próg bólu, ktoś odczuwa mocniej, a ktoś wcale nie przeżywa bólu.',
+    a: 'Nie zaliczymy tego zabiegu do przyjemnych, ale samo usuwanie trwa około minuty. Zaraz po nim schładzamy skórę i dbamy o to, abyś czuła się komfortowo. Każdy ma inny próg bólu: jedni odczuwają zabieg mocniej, inni prawie wcale.',
   },
   {
     q: 'Czy po usuwaniu będą blizny?',
-    a: 'Usuwamy bardzo bezpiecznie oraz skutecznie. Zależy nam na tym, aby Twoja skóra była dobrze przygotowana do nowej pigmentacji, jej stan jest dla nas najważniejszy. Dlatego po usuwaniu laserem oraz removerem u nas nie ma żadnych blizn czy poparzeń. Jedynie należy rozumieć, że jak Twój PMU był zrobiony bardzo głęboko i traumatycznie przed zabiegiem u nas, co powoduje że te blizny są jeszcze przed usuwaniem, to po pozbyciu się koloru z brwi te blizny nie znikną. Będziemy łączyć techniki usuwania, aby jednocześnie usuwać pigment i działać na dobro Twojej skóry.',
+    a: 'Stan Twojej skóry jest dla nas najważniejszy — zależy nam, aby była dobrze przygotowana do nowej pigmentacji. Przy prawidłowej technice usuwanie laserem i removerem jest bezpieczne dla skóry, a my dbamy o to, by nie powstawały blizny ani poparzenia. Jeśli jednak poprzedni makijaż permanentny wykonano bardzo głęboko i traumatycznie, blizny mogą istnieć już przed usuwaniem i pozbycie się koloru ich nie usunie. Wtedy łączymy techniki usuwania, aby jednocześnie usuwać pigment i dbać o skórę.',
   },
 ];
 
@@ -232,10 +244,11 @@ const FAQ_ITEMS = [
    + link), rozpisana na 4 kolumny wyrównane do góry, żeby opis stał obok
    tytułu, a nie pod nim (budżet wysokości trasy).
    Lokalnie, bo IndexRow przyjmuje tylko `href`, a tu link otwiera dialog
-   rezerwacji — ArrowLink z onClick (semantyka <button>).
+   zapytania o termin — ArrowLink z onClick (semantyka <button>); przycisk
+   trafia do onBook, żeby po zamknięciu dialogu wrócił na niego fokus.
    Telefon: numerał obok tytułu, opis i meta na pełną szerokość; blok meta
    zawsze w kolumnie (czas + cena → „Umów wizytę"), cytat dopiero od sm. */
-function TechniqueRow({ t, onBook, last }) {
+function TechniqueRow({ t, last }) {
   return (
     <article
       id={t.id}
@@ -255,10 +268,10 @@ function TechniqueRow({ t, onBook, last }) {
       </div>
       <div className="col-span-2 flex flex-col items-start gap-3 sm:col-span-1 sm:col-start-2 lg:col-start-auto lg:items-end lg:gap-4">
         <p className="whitespace-nowrap">
-          <span className="as-label mr-4 text-ink/55">{t.duration}</span>
+          <span className="as-label mr-4 text-ink/70">{t.duration}</span>
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
         </p>
-        <ArrowLink onClick={() => onBook(t)} className="w-fit">
+        <ArrowLink href={bookingHref(t.id)} className="w-fit">
           Umów wizytę<span className="sr-only"> — {t.name}</span>
         </ArrowLink>
       </div>
@@ -266,7 +279,7 @@ function TechniqueRow({ t, onBook, last }) {
   );
 }
 
-function TechniquesBand({ onBook }) {
+function TechniquesBand() {
   return (
     <section id="zabiegi" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
@@ -280,7 +293,7 @@ function TechniquesBand({ onBook }) {
         <div className="mt-10">
           {TECHNIQUES.map((t, i) => (
             <Reveal key={t.id} delay={i * 60}>
-              <TechniqueRow t={t} onBook={onBook} last={i === TECHNIQUES.length - 1} />
+              <TechniqueRow t={t} last={i === TECHNIQUES.length - 1} />
             </Reveal>
           ))}
         </div>
@@ -356,8 +369,8 @@ function AftercareBand() {
               Odnowić albo zacząć od&nbsp;nowa.
             </h2>
             <p className="as-body mt-6 hidden sm:block">
-              Zabiegi uzupełniające prowadzimy tym samym standardem co pigmentację: ocena skóry, dobór
-              metody, bezpieczne gojenie. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
+              Zabiegi uzupełniające prowadzimy w tym samym standardzie co pigmentację: zaczynamy od oceny
+              skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
               makijażu permanentnego.
             </p>
             <ArrowLink href="#cennik" className="mt-8 w-fit">
@@ -376,7 +389,7 @@ function AftercareBand() {
                   <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">{t.description}</p>
                   <p className="mt-6 font-display text-[1.375rem] leading-none text-ink">
                     {t.price}
-                    <span className="as-label ml-4 align-middle text-ink/55">{t.duration}</span>
+                    <span className="as-label ml-4 align-middle text-ink/70">{t.duration}</span>
                   </p>
                   <p className="as-caption mt-3">{t.priceNote}</p>
                 </article>
@@ -404,7 +417,7 @@ function PriceRows({ table }) {
   return (
     <>
       {table.items.map((item) => (
-        <PriceRow key={item.name} name={item.name} note={noteOf(item)} price={item.price} />
+        <PriceRow key={item.name} name={fmt(item.name)} note={noteOf(item)} price={fmt(item.price)} />
       ))}
       {(shared || table.footnote) && (
         <p className="as-caption mt-4 max-w-[36rem]">{shared ? `${shared}.` : table.footnote}</p>
@@ -418,7 +431,7 @@ function PriceBlock({ table }) {
     <div>
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
         <h3 className="as-title text-ink">{table.title}</h3>
-        <p className="as-kicker">{table.subtitle}</p>
+        <p className="as-kicker">{fmt(table.subtitle)}</p>
       </div>
       <div className="mt-4">
         <PriceRows table={table} />
@@ -431,7 +444,7 @@ function PriceBlock({ table }) {
    siedem stawek usuwania) są zwinięte w akordeon — ten sam <Faq> co w pytaniach.
    Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie. */
 const faqOf = (table) => ({
-  q: `${table.title} — ${table.subtitle.toLowerCase()}`,
+  q: `${table.title} — ${fmt(table.subtitle).toLowerCase()}`,
   a: <PriceRows table={table} />,
 });
 const MOBILE_PRICE_FAQ = [faqOf(PRICING_REFRESH), faqOf(PRICING_REMOVAL)];
@@ -511,29 +524,23 @@ function FaqBand() {
 
 /* ================================================================== */
 
+/* Id zabiegów na /uslugi → id w konfiguracji rezerwacji (src/lib/booking/config.js).
+   „Umów wizytę” w wierszu otwiera /umow-wizyte z już wybranym zabiegiem. */
+const BOOKING_IDS = {
+  'supernatural-brows': 'super-natural-brows',
+  'perfect-brows': 'perfect-powder-brows',
+  'perfect-lips': 'perfect-lips',
+  'perfect-eyes': 'perfect-eyeliners',
+  odswiezenie: 'odswiezenie',
+  usuwanie: 'usuwanie',
+};
+
+function bookingHref(id) {
+  const b = BOOKING_IDS[id];
+  return b ? `${BOOKING_URL}?zabieg=${b}` : BOOKING_URL;
+}
+
 export default function Treatments() {
-  const { toast } = useToast();
-  const [selectedTreatment, setSelectedTreatment] = useState(null);
-  const [bookingForm, setBookingForm] = useState({ name: '', phone: '', date: '', notes: '' });
-
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
-    const { status } = sendEnquiry({
-      subject: `Zapytanie o termin${selectedTreatment ? ` — ${selectedTreatment.name}` : ''}`,
-      fields: [
-        ['Imię i nazwisko', bookingForm.name],
-        ['Telefon', bookingForm.phone],
-        ['Preferowany termin', bookingForm.date],
-        ['Zabieg', selectedTreatment ? selectedTreatment.name : ''],
-        ['Uwagi', bookingForm.notes],
-      ],
-    });
-    const msg = enquiryMessage(status);
-    toast({ title: msg.title, description: msg.body });
-    setSelectedTreatment(null);
-    setBookingForm({ name: '', phone: '', date: '', notes: '' });
-  };
-
   return (
     <>
       <PageHero
@@ -541,7 +548,7 @@ export default function Treatments() {
         number="01"
         title="Zabiegi makijażu"
         titleAccent="permanentnego."
-        lead="Specjalizujemy się w uzyskaniu najbardziej realistycznego, subtelnego efektu. Bez przerysowanych konturów, bez bólu i bez kompromisów."
+        lead="Specjalizujemy się w uzyskaniu jak najbardziej realistycznego, subtelnego efektu — bez przerysowanych konturów i z minimalnym dyskomfortem."
         image={ROLES.heroTreatments.image}
         imagePosition={ROLES.heroTreatments.position}
         imageAlt={`${FOUNDER.name} — ${FOUNDER.signature}`}
@@ -550,7 +557,7 @@ export default function Treatments() {
         facts={HERO_FACTS}
       >
         <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-          <CtaButton href="/kontakt" className="as-btn-solid">
+          <CtaButton href={BOOKING_URL} className="as-btn-solid">
             Umów wizytę
           </CtaButton>
           <ArrowLink href="#cennik" className="w-fit">
@@ -559,7 +566,7 @@ export default function Treatments() {
         </div>
       </PageHero>
 
-      <TechniquesBand onBook={setSelectedTreatment} />
+      <TechniquesBand />
       <ResultsBand />
       <AftercareBand />
       <PricingBand />
@@ -571,72 +578,10 @@ export default function Treatments() {
         title="Zacznijmy od"
         titleAccent="konsultacji."
         lead={`${CONTACT.venue} — ${CONTACT.city}. Napisz, co chcesz zmienić, a dobierzemy technikę i termin.`}
-        primary={{ href: '/kontakt', label: 'Umów wizytę' }}
+        primary={{ href: BOOKING_URL, label: 'Umów wizytę' }}
         secondary={{ href: '#cennik', label: 'Zobacz cennik' }}
       />
 
-      {/* ——— Rezerwacja — dialog na brandowych klasach z ui/dialog, pola <Field> ——— */}
-      <Dialog open={!!selectedTreatment} onOpenChange={(open) => !open && setSelectedTreatment(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Rezerwacja zabiegu</DialogTitle>
-            <DialogDescription>
-              {selectedTreatment ? selectedTreatment.name : ''}
-              {selectedTreatment && selectedTreatment.price ? ' · ' + selectedTreatment.price : ''}
-            </DialogDescription>
-          </DialogHeader>
-
-          <form onSubmit={handleBookingSubmit} className="mt-8 space-y-6">
-            <Field
-              id="bname"
-              label="Imię i nazwisko"
-              required
-              placeholder="np. Anna Kowalska"
-              value={bookingForm.name}
-              onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
-            />
-            <Field
-              id="bphone"
-              label="Numer telefonu"
-              type="tel"
-              required
-              placeholder="+48 500 000 000"
-              value={bookingForm.phone}
-              onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
-            />
-            <Field
-              id="bdate"
-              label="Preferowana data i godzina"
-              type="text"
-              required
-              placeholder="np. Przyszły wtorek po 15:00"
-              value={bookingForm.date}
-              onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
-            />
-            <Field
-              as="textarea"
-              id="bnotes"
-              label="Uwagi (np. czy posiadasz stary PMU / uczulenia)"
-              placeholder="Napisz czy brwi/usta były wcześniej pigmentowane..."
-              value={bookingForm.notes}
-              onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
-            />
-
-            <DialogFooter>
-              <button type="submit" className="as-btn-solid">
-                Wyślij zapytanie
-              </button>
-              <button
-                type="button"
-                className="as-btn-ghost"
-                onClick={() => setSelectedTreatment(null)}
-              >
-                Anuluj
-              </button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }

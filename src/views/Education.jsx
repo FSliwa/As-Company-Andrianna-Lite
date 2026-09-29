@@ -9,18 +9,20 @@
  * (ClosingCta + stopka). Sąsiednie jasne sekcje dzieli hairline.
  *
  * Zdjęcia: portret wyłącznie przez ROLES, grupy wyłącznie przez GROUPS
- * (src/lib/roles.js). Makra na tej trasie: 0. Plakaty COURSE tylko jako
- * miniatury ≤ 120 px w „Programie do pobrania" z linkiem do pliku.
+ * (src/lib/roles.js). Makra na tej trasie: 0. Plakaty COURSE nie są pokazywane
+ * jako obraz — tylko tekstowa lista linków „… (JPG)" w „Programie do pobrania".
  *
- * Dane programów, korzyści i harmonogramu: COURSES / COURSE_BENEFITS /
- * COURSE_SCHEDULE z '@/lib/site' (1:1 z grafik marki). Programy dodatkowe
- * (EXTRA_COURSES) pochodzą z wcześniejszej wersji strony — do potwierdzenia.
+ * Dane programów i harmonogramu: COURSES / COURSE_SCHEDULE z '@/lib/site'
+ * (1:1 z grafik marki). Korzyści (BENEFITS) — 1:1 z kart „zakres i cena"
+ * course-03 (Super Natural Brows) i course-05 (kurs podstawowy), po korekcie.
+ * Oferty spoza plakatów (dawny blok „Dla absolwentek" z cenami) usunięte —
+ * nie miały źródła (audyt K2 / TRESC-3). Wrócą tylko po potwierdzeniu klienta.
  *
  * Formularz zgłoszenia NIE realizuje płatności — zbiera dane i informuje, że
  * termin i rozliczenie potwierdzamy w rozmowie.
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -36,19 +38,13 @@ import {
   Faq,
   Field,
   Figure,
+  FormNotice,
   PageHero,
   Reveal,
+  RequiredLegend,
   SectionLabel,
 } from '@/components/as/Primitives';
-import {
-  ACHIEVEMENTS,
-  BRAND,
-  CONTACT,
-  COURSES,
-  COURSE_BENEFITS,
-  COURSE_SCHEDULE,
-  FOUNDER,
-} from '@/lib/site';
+import { ACHIEVEMENTS, BRAND, CONTACT, COURSES, COURSE_SCHEDULE, FOUNDER } from '@/lib/site';
 import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
@@ -59,55 +55,56 @@ import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 const byId = (id) => COURSES.find((c) => c.id === id);
 
+/* Twarda spacja w kwotach („7 000 zł", „15 000 zł netto") — kwota nie łamie się w pół. */
+const NBSP = ' ';
+const nb = (s) => String(s).replace(/ /g, NBSP);
+const priceLabel = (course) => nb(`${course.price} ${course.priceNote}`);
+
 /* Kolejność ścieżek: od zera → technika → dalszy rozwój */
 const MAIN_PATHS = [
   { number: '01', name: 'Kurs podstawowy', course: byId('kurs-podstawowy') },
   { number: '02', name: 'Super Natural Brows', course: byId('super-natural-brows') },
 ];
 
-/* Programy spoza dwóch głównych ścieżek — treść z dotychczasowej wersji strony. */
-const EXTRA_COURSES = [
+/* Nazwa jak na plakatach course-03 i course-05 (tam w «», w serwisie cudzysłów „”). */
+const MASTER_CLASS = 'Master Class „Efekt lami”';
+
+/* Korzyści — 1:1 z kart „zakres i cena" (course-03 i course-05), po korekcie językowej.
+   Punkt „Poprawa postawy ręki…" jest tylko na karcie Super Natural Brows (course-03). */
+const BENEFITS = [
+  { text: 'System nauki zrozumiały dla każdego. Nie musisz umieć malować, aby nauczyć się tej techniki' },
+  { text: 'Nauka atrakcyjnych zdjęć i marketing' },
+  { text: 'Cena zabiegu i jej wpływ na klientki' },
+  { text: 'Poprawa postawy ręki i wykonania pięknego ruchu pudrowego', only: 'Super Natural Brows' },
   {
-    id: 'snb-expert',
-    title: 'Master Class „SNB Expert”',
-    price: '5 000 zł',
-    format: '7 dni online + 1 dzień stacjonarny',
+    text: `Możliwość dalszego rozwoju w technice na Master Classie „Efekt lami” i Warsztatach (dostępnych tylko dla naszych kursantek)`,
   },
-  {
-    id: 'online-perfect-lips',
-    title: 'Kurs online „Perfect Lips”',
-    price: '1 500 zł',
-    format: 'Ponad 20 filmów szkoleniowych',
-  },
-  {
-    id: 'szyty-na-miare',
-    title: 'Kurs „Szyty na miarę”',
-    price: 'Wycena indywidualna',
-    format: 'Szkolenie 1 na 1 z Andrianą',
-  },
+  { text: 'Dożywotnia opieka i grupa wsparcia' },
+  { text: 'Możliwość zakupu niezbędnych produktów do PMU na miejscu i przetestowania maszyny AS PRINCESS' },
+  { text: 'Lunch, napoje i przekąski zapewnione' },
 ];
 
 /* Fakty w hero — dwa krótkie, wyłącznie z ACHIEVEMENTS. Pasek jest zawsze w jednej
    linii i musi zmieścić się w łamie telefonu (≈ 270 px): dłuższy rozpycha kolumnę hero. */
 const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `${ACHIEVEMENTS[1].value} kursantek`];
 
-/* Oryginalne karty programów — wyłącznie miniatury z linkiem do pliku. */
+/* Oryginalne karty programów — tekstowa lista linków do plików JPG (bez miniatur). */
 const DOWNLOADS = [
   {
     group: 'Super Natural Brows',
     items: [
-      { image: COURSE[1], caption: 'Plakat', alt: 'Plakat szkolenia Super Natural Brows — maszynowy włos, Babushkina Academy' },
-      { image: COURSE[0], caption: 'Program', alt: 'Karta programu szkolenia Super Natural Brows — 14 dni online i 2 dni stacjonarne' },
-      { image: COURSE[2], caption: 'Zakres i cena', alt: 'Karta z zakresem szkolenia Super Natural Brows i ceną 7 000 zł netto' },
+      { image: COURSE[1], caption: 'Plakat' },
+      { image: COURSE[0], caption: 'Program' },
+      { image: COURSE[2], caption: 'Zakres i cena' },
     ],
   },
   {
     group: 'Kurs podstawowy',
     items: [
-      { image: COURSE[6], caption: 'Plakat', alt: 'Plakat kursu podstawowego Super Natural Brows — Babushkina Academy' },
-      { image: COURSE[3], caption: 'Program', alt: 'Karta programu kursu podstawowego — 16 dni online i 4 dni stacjonarne' },
-      { image: COURSE[4], caption: 'Zakres i cena', alt: 'Karta z zakresem kursu podstawowego i ceną 15 000 zł netto' },
-      { image: COURSE[5], caption: 'Harmonogram', alt: 'Karta z harmonogramem czterech dni stacjonarnych kursu podstawowego' },
+      { image: COURSE[6], caption: 'Plakat' },
+      { image: COURSE[3], caption: 'Program' },
+      { image: COURSE[4], caption: 'Zakres i cena' },
+      { image: COURSE[5], caption: 'Harmonogram' },
     ],
   },
 ];
@@ -115,23 +112,23 @@ const DOWNLOADS = [
 const FAQ_ITEMS = [
   {
     q: 'Czy po szkoleniu zacznę pracę z klientkami?',
-    a: 'Tak, właśnie po to stworzyliśmy unikatowy system szkolenia online + offline, aby na kursie głównie skupić się na praktyce i pokonać lęk przed pracą z klientami. Przy pierwszej modelce zrobisz pracę z moją delikatną pomocą, przy ostatniej wykonasz ją zupełnie samodzielnie!',
+    a: 'Tak, właśnie po to stworzyliśmy unikatowy system szkolenia online + offline: na kursie skupiamy się głównie na praktyce i pomagamy pokonać lęk przed pracą z klientkami. Przy pierwszej modelce wykonasz pracę z delikatną pomocą prowadzącej, a przy ostatniej — zupełnie samodzielnie!',
   },
   {
-    q: 'Czy podczas szkolenia można zakupić produkty, potrzebne do wykonywania zabiegu?',
-    a: 'Tak, oczywiście! Otrzymasz kod rabatowy na zakupy online, ale także można będzie zaopatrzyć się w niezbędne akcesoria od razu na miejscu. Jako nasza kursantka będziesz mieć znacznie atrakcyjniejsze ceny i moje rekomendacje, aby nie przepłacać.',
+    q: 'Czy podczas szkolenia można kupić produkty potrzebne do wykonywania zabiegu?',
+    a: 'Tak, oczywiście! Otrzymasz kod rabatowy na zakupy online, a niezbędne akcesoria kupisz też od razu na miejscu. Jako nasza kursantka masz atrakcyjniejsze ceny i nasze rekomendacje, dzięki którym nie przepłacisz.',
   },
   {
     q: 'Czy mogę skorzystać z dofinansowania na te szkolenia?',
-    a: 'Tak, jesteśmy zarejestrowani w RIS (Rejestr Instytucji Szkoleniowych), KFS (Krajowy Fundusz Szkoleniowy) oraz BUR (Baza Usług Rozwojowych). Wybierz dogodną dla Ciebie placówkę, udaj się po wiedzę i wymagania dla akceptacji Twojego wniosku do Urzędu Miasta/Pracy i niech Twój operator się z nami skontaktuje - udzielimy mu wszystkich niezbędnych informacji i dokumentów!',
+    a: 'Tak. Jesteśmy wpisani do RIS (Rejestr Instytucji Szkoleniowych) i BUR (Baza Usług Rozwojowych), a szkolenia mogą być finansowane m.in. ze środków KFS (Krajowy Fundusz Szkoleniowy). Wybierz dogodną dla siebie placówkę, sprawdź w urzędzie miasta lub urzędzie pracy, jakie wymagania musi spełnić Twój wniosek, i poproś swojego operatora o kontakt z nami — przekażemy mu wszystkie niezbędne informacje i dokumenty.',
   },
   {
     q: 'Czy jest opieka po szkoleniu?',
-    a: 'Tak, będziemy w ciągłym kontakcie, bez ograniczeń i ramek czasowych! Nawet po kilku latach możesz nadal liczyć na moją pomoc, konsultacje prac i wsparcie w rozwoju.',
+    a: 'Tak, jesteśmy w stałym kontakcie, bez ograniczeń czasowych! Nawet po kilku latach możesz liczyć na naszą pomoc, konsultacje prac i wsparcie w rozwoju.',
   },
   {
     q: 'Czy na szkoleniu będą inne osoby?',
-    a: 'Zdecydowanie tak, zawsze polecamy kursy grupowe (kameralne 2-4 osoby), ponieważ istnieje na nich zdrowa konkurencja, wesoły klimat, nowe znajomości, pomoc od innych kursantek i możliwość podzielenia się oraz pochwalenia swoimi postępami – a czasami nawet znalezienie wiernej koleżanki w branży PMU na długie lata!',
+    a: 'Zdecydowanie tak. Zawsze polecamy kursy grupowe (kameralne, 2–4 osoby): jest na nich zdrowa konkurencja, wesoły klimat, nowe znajomości, pomoc innych kursantek i okazja, by pochwalić się swoimi postępami — a czasem nawet znaleźć koleżankę z branży PMU na długie lata!',
   },
 ];
 
@@ -149,14 +146,14 @@ function Hero({ onBook }) {
       label="Szkolenia"
       title="Szkolenia oparte na"
       titleAccent="realnej praktyce."
-      lead="Dużo praktyki, zero lęku przed pierwszą klientką. Uczymy, jak wykonać zabieg jakościowo — a przy tym szybko, komfortowo i bezpiecznie."
+      lead="Dużo praktyki, zero lęku przed pierwszą klientką. Uczymy, jak wykonać zabieg starannie, a przy tym szybko, komfortowo i bezpiecznie."
       image={ROLES.heroTraining.image}
       imagePosition={ROLES.heroTraining.position}
       imageAlt={`${FOUNDER.name} — ${FOUNDER.role}, prowadząca szkolenia ${BRAND.academy}`}
       facts={HERO_FACTS}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <CtaButton onClick={() => onBook(null)} className="as-btn-solid">
+        <CtaButton onClick={(e) => onBook(null, e)} className="as-btn-solid">
           Zapytaj o termin
         </CtaButton>
         <ArrowLink href="#kursy" className="w-fit">
@@ -180,7 +177,8 @@ function PathsBand() {
           <h2 className="as-display-section as-text-balance mt-6 text-ink">Trzy ścieżki, jedna metoda.</h2>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 md:grid-cols-3 md:gap-8">
+        {/* < md: jedna kolumna; md: 2 + 1 (trzecia komórka na całą szerokość); lg: trzy kolumny */}
+        <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
           {MAIN_PATHS.map(({ number, name, course }, i) => (
             <Reveal key={course.id} delay={i * 80} className="as-cell">
               <p className="as-kicker">
@@ -188,7 +186,7 @@ function PathsBand() {
               </p>
               <h3 className="as-title mt-3 text-ink">{name}</h3>
               <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">
-                {course.price}
+                {nb(course.price)}
                 <span className="as-label ml-2 align-middle text-mocha">{course.priceNote}</span>
               </p>
               <p className="as-kicker mt-3">{course.format}</p>
@@ -196,31 +194,25 @@ function PathsBand() {
             </Reveal>
           ))}
 
-          <Reveal delay={160} className="as-cell">
+          {/* Trzecia ścieżka wyłącznie z kart kursów (course-03 / course-05) — bez ceny. */}
+          <Reveal delay={160} className="as-cell md:col-span-2 lg:col-span-1">
             <p className="as-kicker">03 · Dalszy rozwój</p>
-            <h3 className="as-title mt-3 text-ink">Dla absolwentek</h3>
-            <ul className="mt-4">
-              {EXTRA_COURSES.map((c) => (
-                <li
-                  key={c.id}
-                  className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-ink/10 py-3 first:border-t"
-                >
-                  <span className="min-w-0">
-                    <span className="block text-[0.9375rem] leading-snug text-ink">{c.title}</span>
-                    <span className="mt-0.5 block text-[0.8125rem] leading-snug text-mocha">{c.format}</span>
-                  </span>
-                  <span className="max-w-[8.5rem] text-right font-display text-[1.375rem] leading-none text-ink lg:max-w-none">
-                    {c.price}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <h3 className="as-title mt-3 text-ink">{MASTER_CLASS}</h3>
+            <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">Tylko dla kursantek</p>
+            <p className="as-kicker mt-3">Master Class · Warsztaty</p>
+            <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">
+              Kolejny krok po kursie podstawowym lub Super Natural Brows: rozwój w technice na Master
+              Classie i Warsztatach, dostępnych tylko dla kursantek {BRAND.academy}.
+            </p>
           </Reveal>
         </div>
 
-        {/* Dofinansowanie — jedno zdanie; szczegóły w pytaniach (#pytania) */}
+        {/* Dofinansowanie — jedno zdanie; szczegóły w pytaniach (#pytania).
+            RIS i BUR to rejestry, KFS to fundusz (audyt TRESC-6). */}
         <Reveal className="mt-12 flex flex-col gap-4 border-t border-ink/15 pt-6 md:flex-row md:items-baseline md:justify-between md:gap-8">
-          <p className="as-body">Szkolenia można sfinansować przez RIS, KFS lub BUR.</p>
+          <p className="as-body">
+            Jesteśmy wpisani do RIS i BUR, a szkolenia mogą być finansowane m.in. ze środków KFS.
+          </p>
           <ArrowLink href="#pytania" className="w-fit shrink-0">
             Jak skorzystać z dofinansowania
           </ArrowLink>
@@ -232,6 +224,8 @@ function PathsBand() {
 
 /* ================================================================== */
 /*  03 — PROGRAM (cream-50)                                            */
+/*  Kotwice #program-kurs-podstawowy i #program-super-natural-brows    */
+/*  (linki ze stopki) — id na <article> każdego programu.              */
 /* ================================================================== */
 
 function ProgramBand({ onBook }) {
@@ -246,7 +240,7 @@ function ProgramBand({ onBook }) {
           <Reveal delay={80} className="lg:col-span-5 lg:col-start-8">
             <p className="as-body">
               Teorię przerabiasz online, we własnym tempie. Dni stacjonarne to skórki i żywe
-              modelki. Terminy zjazdów ustalamy indywidualnie.
+              modelki. Terminy części stacjonarnej ustalamy indywidualnie.
             </p>
           </Reveal>
         </div>
@@ -262,14 +256,14 @@ function ProgramBand({ onBook }) {
                 <span className="as-kicker">{number}</span>
                 <h3 className="as-title text-ink">{name}</h3>
                 <p className="as-kicker">
-                  {course.price} {course.priceNote} · {course.format}
+                  {priceLabel(course)} · {course.format}
                 </p>
               </div>
               <ArrowLink
-                onClick={() => onBook({ id: course.id, title: course.title })}
+                onClick={(e) => onBook({ id: course.id, title: course.title }, e)}
                 className="w-fit shrink-0"
               >
-                Zgłoś się
+                Zapytaj o termin<span className="sr-only"> — {name}</span>
               </ArrowLink>
             </Reveal>
 
@@ -295,19 +289,20 @@ function ProgramBand({ onBook }) {
 /* ================================================================== */
 
 /* Stykówka: trzy równe kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
-   < sm: pierwszy kadr na całą szerokość + dwa pod nim — wszystkie nadal 4:5. */
+   < sm: pierwszy kadr na całą szerokość + dwa pod nim — wszystkie nadal 4:5.
+   Opisy tylko tego, co widać w kadrze (liczba osób i certyfikatów). */
 const GRADUATE_TILES = [
   {
     group: GROUPS.graduatesMain,
-    alt: 'Trzy absolwentki z certyfikatami Super Natural Brows pod logo Babushkina Academy',
+    alt: `Trzy kobiety pod szyldem ${BRAND.academy}, dwie z certyfikatami Super Natural Brows`,
   },
   {
     group: GROUPS.graduatesA,
-    alt: 'Pięć absolwentek z certyfikatami Super Natural Brows w holu Babushkina Academy',
+    alt: `Cztery kobiety pod szyldem ${BRAND.academy}, trzy z certyfikatami Super Natural Brows`,
   },
   {
     group: GROUPS.graduatesB,
-    alt: 'Trzy absolwentki w czerni z certyfikatami Super Natural Brows na tle logo Babushkina Academy',
+    alt: `Trzy kobiety w czerni pod szyldem ${BRAND.academy}, dwie z certyfikatami Super Natural Brows`,
   },
 ];
 
@@ -374,7 +369,7 @@ function GraduatesBand() {
 }
 
 /* ================================================================== */
-/*  05 — W CENIE + HARMONOGRAM (cream-50)                              */
+/*  05 — CO DOSTAJESZ + HARMONOGRAM (cream-50)                         */
 /* ================================================================== */
 
 const SCHEDULE_ITEMS = COURSE_SCHEDULE.map((day) => ({
@@ -383,7 +378,7 @@ const SCHEDULE_ITEMS = COURSE_SCHEDULE.map((day) => ({
     <ul>
       {day.rows.map(([time, text]) => (
         <li key={`${day.day}-${time}-${text}`} className="flex gap-4 border-t border-ink/10 py-2.5 first:border-t-0">
-          <span className="w-12 shrink-0 text-[0.9375rem] font-medium tabular-nums leading-[1.6] text-gold-dark">{time}</span>
+          <span className="w-12 shrink-0 text-[0.9375rem] font-medium tabular-nums leading-[1.6] text-gold-deep">{time}</span>
           <span className="text-[0.9375rem] leading-[1.6] text-ink/80">{text}</span>
         </li>
       ))}
@@ -398,19 +393,21 @@ function IncludedBand() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <Reveal>
-              <SectionLabel number="05">W cenie</SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-ink">W cenie kursu.</h2>
+              <SectionLabel number="05">Korzyści</SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">Co dostajesz na kursie.</h2>
             </Reveal>
             <Reveal delay={80}>
-              {/* jedna kolumna < sm, dwie od sm */}
+              {/* jedna kolumna < sm, dwie od sm; punkt tylko z karty SNB oznaczony etykietą */}
               <ol className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
-                {COURSE_BENEFITS.map((benefit, i) => (
-                  <li
-                    key={benefit}
-                    className="flex items-baseline gap-4 border-t border-ink/10 py-3.5"
-                  >
-                    <span className="as-num w-8 shrink-0 text-lg sm:text-xl">{pad(i + 1)}</span>
-                    <span className="text-[0.9375rem] leading-[1.65] text-ink/80">{benefit}</span>
+                {BENEFITS.map((benefit, i) => (
+                  <li key={benefit.text} className="flex items-baseline gap-4 border-t border-ink/10 py-3.5">
+                    <span className="as-num w-8 shrink-0 text-lg text-gold-deep sm:text-xl">{pad(i + 1)}</span>
+                    <span className="text-[0.9375rem] leading-[1.65] text-ink/80">
+                      {benefit.text}
+                      {benefit.only && (
+                        <span className="as-label mt-1.5 block text-gold-deep">Tylko {benefit.only}</span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -421,8 +418,8 @@ function IncludedBand() {
             <Reveal delay={120}>
               <p className="as-kicker">Harmonogram · kurs podstawowy</p>
               <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">
-                Cztery dni stacjonarne, godzina po godzinie. W programie Super Natural Brows część
-                stacjonarna trwa dwa dni i przebiega w tym samym rytmie: egzamin, skórki, modelki.
+                Cztery dni stacjonarne, godzina po godzinie. W Super Natural Brows część stacjonarna
+                trwa dwa dni: egzamin teoretyczny, praktyka na skórkach, pokaz i praktyka na modelkach.
               </p>
               <Faq items={SCHEDULE_ITEMS} className="mt-6" />
             </Reveal>
@@ -456,32 +453,30 @@ function QuestionsBand() {
             <Reveal delay={120}>
               <p className="as-kicker">Program do pobrania</p>
               <p className="as-caption mt-3 max-w-none">
-                Oryginalne karty programów {BRAND.academy} — otwierają się w nowej karcie.
+                Oryginalne karty programów {BRAND.academy} w formacie JPG — otwierają się w nowej karcie.
               </p>
               <div className="mt-6 space-y-6">
                 {DOWNLOADS.map((d) => (
                   <div key={d.group} className="border-t border-ink/15 pt-4">
                     <p className="as-label text-ink/70">{d.group}</p>
-                    <ul className="mt-3 flex flex-wrap gap-3">
+                    <ul className="mt-2">
                       {d.items.map((it) => (
-                        <li key={it.image.src} className="w-16">
+                        <li key={it.image.src} className="border-b border-ink/10 last:border-b-0">
                           <a
                             href={it.image.src}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group block"
-                            aria-label={`${it.alt} — otwórz w nowej karcie`}
+                            className="group flex min-h-[44px] items-center justify-between gap-4 py-2 text-[0.9375rem] leading-snug text-ink transition-colors hover:text-gold-deep"
                           >
-                            <Figure
-                              image={it.image}
-                              alt=""
-                              ratio="9 / 16"
-                              zoom={false}
-                              sizes="64px"
-                              className="border border-ink/15 transition-colors group-hover:border-gold"
-                            />
-                            <span className="as-caption mt-1.5 block leading-snug group-hover:text-ink">
-                              {it.caption}
+                            <span>
+                              {it.caption} (JPG)
+                              <span className="sr-only">
+                                {' '}
+                                — {d.group}, otwiera się w nowej karcie
+                              </span>
+                            </span>
+                            <span aria-hidden="true" className="text-mocha transition-colors group-hover:text-gold-deep">
+                              ↗
                             </span>
                           </a>
                         </li>
@@ -507,25 +502,28 @@ function ClosingBand({ onBook }) {
     <ClosingCta
       number="07"
       label="Zapisy"
-      title="Zarezerwuj miejsce"
+      title="Zapytaj o miejsce"
       titleAccent="w grupie."
       lead={`Napisz, na jakim jesteś etapie — dobierzemy program i ustalimy najbliższy możliwy termin części stacjonarnej. Szkolenia prowadzi ${FOUNDER.name}, ${FOUNDER.role}.`}
-      primary={{ label: 'Zapytaj o termin', onClick: () => onBook(null) }}
+      primary={{ label: 'Zapytaj o termin', onClick: (e) => onBook(null, e) }}
       secondary={{ href: '/kontakt', label: 'Napisz do nas' }}
     />
   );
 }
 
 /* ================================================================== */
-/*  ZGŁOSZENIE NA SZKOLENIE                                            */
+/*  ZAPYTANIE O TERMIN                                                 */
 /*  (bez płatności — formularz zbiera dane i informuje o kontakcie)    */
 /* ================================================================== */
 
-const ALL_COURSE_TITLES = [...COURSES.map((c) => c.title), ...EXTRA_COURSES.map((c) => c.title)];
+/* Tylko kursy z kart programów (kolejność jak w ścieżkach: od zera → technika).
+   Wartość = pełna nazwa (trafia do wiadomości), etykieta = krótka nazwa ze ścieżek,
+   żeby pole wyboru nie ucinało tekstu na telefonie. */
+const COURSE_OPTIONS = MAIN_PATHS.map((p) => ({ value: p.course.title, label: p.name }));
 
-function BookingDialog({ course, onClose }) {
+function BookingDialog({ course, onClose, returnFocusRef }) {
   const [form, setForm] = useState({
-    course: course?.title || ALL_COURSE_TITLES[0],
+    course: course?.title || COURSE_OPTIONS[0].value,
     name: '',
     phone: '',
     email: '',
@@ -540,7 +538,7 @@ function BookingDialog({ course, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { status } = sendEnquiry({
-      subject: `Zgłoszenie na szkolenie — ${form.course}`,
+      subject: `Zapytanie o termin szkolenia — ${form.course}`,
       fields: [
         ['Szkolenie', form.course],
         ['Imię i nazwisko', form.name],
@@ -554,17 +552,24 @@ function BookingDialog({ course, onClose }) {
     setSent(status);
   };
 
+  /* Dialog jest kontrolowany bez <DialogTrigger>, więc Radix nie wie, dokąd oddać
+     fokus — oddajemy go ręcznie na przycisk, który dialog otworzył (A11Y-6). */
+  const restoreFocus = (e) => {
+    e.preventDefault();
+    returnFocusRef?.current?.focus?.();
+  };
+
   return (
     <Dialog open onOpenChange={onClose}>
       {/* formularz ma dwie kolumny pól — stąd szerszy panel */}
-      <DialogContent className="sm:max-w-[620px]">
+      <DialogContent className="sm:max-w-[620px]" onCloseAutoFocus={restoreFocus}>
         <DialogHeader>
-          <span className="as-kicker">Zgłoszenie na szkolenie</span>
-          <DialogTitle>{sent ? enquiryMessage(sent).title : form.course}</DialogTitle>
+          <span className="as-kicker">Szkolenia · {BRAND.academy}</span>
+          <DialogTitle>{sent ? enquiryMessage(sent).title : 'Zapytanie o termin'}</DialogTitle>
           <DialogDescription>
             {sent
               ? enquiryMessage(sent).body
-              : 'Zostaw kontakt i kilka słów o swoim doświadczeniu. Ten formularz nie realizuje płatności — potwierdzenie terminu i rozliczenie ustalamy osobno.'}
+              : 'Zostaw kontakt i kilka słów o swoim doświadczeniu. Ten formularz nie realizuje płatności — termin i rozliczenie ustalamy w rozmowie.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -593,8 +598,8 @@ function BookingDialog({ course, onClose }) {
             </div>
 
             <p className="as-caption mt-6 max-w-none">
-              Miejsce w grupie rezerwujemy dopiero po rozmowie — zgłoszenie nie jest jeszcze
-              opłacone ani potwierdzone. Najszybciej odpowiadamy na Instagramie.
+              Miejsce w grupie potwierdzamy dopiero po rozmowie — zapytanie nie jest opłacone ani
+              wiążące. Najszybciej odpowiadamy na Instagramie.
             </p>
 
             <DialogFooter>
@@ -608,10 +613,18 @@ function BookingDialog({ course, onClose }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-            <Field as="select" id="e-course" name="course" label="Szkolenie" value={form.course} onChange={handleChange}>
-              {ALL_COURSE_TITLES.map((title) => (
-                <option key={title} value={title}>
-                  {title}
+            <Field
+              as="select"
+              id="e-course"
+              name="course"
+              label="Szkolenie"
+              value={form.course}
+              onChange={handleChange}
+              autoComplete="off"
+            >
+              {COURSE_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
                 </option>
               ))}
             </Field>
@@ -622,6 +635,7 @@ function BookingDialog({ course, onClose }) {
                 name="name"
                 type="text"
                 label="Imię i nazwisko"
+                autoComplete="name"
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -631,6 +645,8 @@ function BookingDialog({ course, onClose }) {
                 name="phone"
                 type="tel"
                 label="Telefon"
+                autoComplete="tel"
+                inputMode="tel"
                 value={form.phone}
                 onChange={handleChange}
                 required
@@ -640,11 +656,20 @@ function BookingDialog({ course, onClose }) {
                 name="email"
                 type="email"
                 label="E-mail"
+                autoComplete="email"
                 value={form.email}
                 onChange={handleChange}
                 required
               />
-              <Field id="e-city" name="city" type="text" label="Miasto" value={form.city} onChange={handleChange} />
+              <Field
+                id="e-city"
+                name="city"
+                type="text"
+                label="Miasto"
+                autoComplete="address-level2"
+                value={form.city}
+                onChange={handleChange}
+              />
             </div>
 
             <Field
@@ -652,6 +677,7 @@ function BookingDialog({ course, onClose }) {
               name="term"
               type="text"
               label="Preferowany termin części stacjonarnej"
+              autoComplete="off"
               value={form.term}
               onChange={handleChange}
               placeholder="np. listopad, dowolny weekend"
@@ -675,12 +701,17 @@ function BookingDialog({ course, onClose }) {
 
             <DialogFooter>
               <button type="submit" className="as-btn-solid">
-                Wyślij zgłoszenie
+                Wyślij zapytanie
               </button>
               <button type="button" onClick={onClose} className="as-btn-ghost">
                 Anuluj
               </button>
             </DialogFooter>
+
+            <div className="space-y-2">
+              <RequiredLegend />
+              <FormNotice />
+            </div>
           </form>
         )}
       </DialogContent>
@@ -692,8 +723,14 @@ function BookingDialog({ course, onClose }) {
 
 export default function Education() {
   const [booking, setBooking] = useState(null); // { course } | null
+  /* przycisk, który otworzył dialog — po zamknięciu wraca na niego fokus */
+  const triggerRef = useRef(null);
 
-  const openBooking = (course) => setBooking({ course });
+  const openBooking = (course, event) => {
+    triggerRef.current =
+      event?.currentTarget ?? (typeof document !== 'undefined' ? document.activeElement : null);
+    setBooking({ course });
+  };
   const closeBooking = () => setBooking(null);
 
   return (
@@ -707,7 +744,12 @@ export default function Education() {
       <ClosingBand onBook={openBooking} />
 
       {booking && (
-        <BookingDialog key={booking.course?.id || 'ogolne'} course={booking.course} onClose={closeBooking} />
+        <BookingDialog
+          key={booking.course?.id || 'ogolne'}
+          course={booking.course}
+          onClose={closeBooking}
+          returnFocusRef={triggerRef}
+        />
       )}
     </>
   );

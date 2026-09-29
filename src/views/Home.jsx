@@ -24,6 +24,7 @@ import {
 } from '@/components/as/Primitives';
 import {
   ACHIEVEMENTS,
+  BOOKING_URL,
   BRAND,
   COURSES,
   FOUNDER,
@@ -48,12 +49,14 @@ const HERO_PHOTO = ROLES.heroHome.image;
 /* pozycje w % kontenera — x względem szerokości, y względem wysokości */
 const G = {
   photo: { left: '33.7%', right: '33.5%', top: '12.6%', bottom: '19.0%' },
-  beauty: { left: '0%', top: '36.3%' },
-  with: { left: '71.4%', top: '37.0%' },
-  precision: { left: '71.4%', top: '42.6%' },
+  /* słowa 4 pp wyżej niż w pierwszej wersji — złota linia (50,6%) biegnie
+     pod literami, a nie przez nie (audyt AD-1) */
+  beauty: { left: '0%', top: '32.3%' },
+  with: { left: '71.4%', top: '33.0%' },
+  precision: { left: '71.4%', top: '38.6%' },
   rule: { top: '50.6%' },
   lead: { left: '0%', top: '54.6%' },
-  colophon: { left: '0%', top: '74.0%', width: '23.1%' },
+  colophon: { left: '0%', top: '72.0%', width: '28%' },
   facts: { top: '89.6%' },
 };
 
@@ -100,8 +103,7 @@ function Hero() {
   const colophon = (
     <div className="border-t border-gold/40 pt-4">
       <p className="as-label text-ink">{FOUNDER.name}</p>
-      <p className="as-label mt-2 text-ink/60">{FOUNDER.role}</p>
-      <p className="as-label mt-2 text-ink/60">{FOUNDER.signature}</p>
+      <p className="as-label mt-2 text-ink/65">{FOUNDER.role}</p>
     </div>
   );
 
@@ -140,7 +142,7 @@ function Hero() {
     <section className="relative -mt-20 overflow-hidden bg-cream-50 lg:-mt-24">
       {/* jeden h1 w DOM — wersje wizualne (mobile / desktop) są aria-hidden */}
       <h1 className="sr-only">
-        {BRAND.tagline} {BRAND.full} — {BRAND.claim}
+        {BRAND.tagline} {BRAND.full} — makijaż permanentny i szkolenia PMU w Warszawie
       </h1>
 
       {/* ================= UKŁAD MOBILNY / TABLET ================= */}
@@ -175,7 +177,7 @@ function Hero() {
           </div>
 
           <span aria-hidden="true" className="absolute left-0 h-px bg-gold/40" style={{ top: G.rule.top, width: '31%' }} />
-          <span aria-hidden="true" className="absolute right-0 h-px bg-gold/40" style={{ top: G.rule.top, width: '23%' }} />
+          <span aria-hidden="true" className="absolute h-px bg-gold/40" style={{ top: G.rule.top, left: '66.5%', width: '4.5%' }} />
 
           <p aria-hidden="true" className="pointer-events-none absolute inset-0 z-20 text-ink">
             <span
@@ -444,7 +446,7 @@ function TrainingBand() {
                 <Figure
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami — ${BRAND.academy}`}
-                  ratio="16 / 9"
+                  ratio="3 / 2"
                   position={GROUPS.trainingHome.position}
                   tone="dark"
                   zoom={false}
@@ -496,11 +498,11 @@ function InvitationBand() {
               konsultacja jest pierwszym krokiem każdego zabiegu.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
-              <Link href="/kontakt" className="as-btn-solid">
+              <Link href={BOOKING_URL} className="as-btn-solid">
                 Umów wizytę
               </Link>
               <ArrowLink href="/szkolenia" className="w-fit">
-                Terminy szkoleń
+                Zapytaj o termin szkolenia
               </ArrowLink>
             </div>
           </Reveal>

@@ -1,12 +1,13 @@
 import Packages from '@/views/Packages';
+import { pageMeta } from '@/lib/seo';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim. */
-export const metadata = {
+export const metadata = pageMeta({
   title: 'Ścieżka zabiegowa',
   description:
-    'Od konsultacji przez zabieg i korektę po odświeżenie — kolejność wizyt i ceny każdego kroku.',
-  alternates: { canonical: '/pakiety' },
-};
+    'Konsultacja, zabieg, korekta i odświeżenie — kolejność wizyt przy makijażu permanentnym i cena każdego kroku.',
+  path: '/pakiety',
+});
 
 export default function Page() {
   return <Packages />;

@@ -35,11 +35,48 @@ export const CONTACT = {
   email: null, // TODO: adres e-mail
   instagram: 'https://www.instagram.com/andriana_babushkina/',
   instagramHandle: '@andriana_babushkina',
-  hours: [
-    { day: 'Poniedziałek – Piątek', value: '10:00 – 19:00' },
-    { day: 'Sobota', value: 'Terminy szkoleniowe' },
-    { day: 'Niedziela', value: 'Nieczynne' },
-  ],
+  /* Godziny 10–19 nie mają źródła (obecny serwis klienta podaje 10–18).
+     Do czasu potwierdzenia przez klienta pokazujemy tylko tryb umawiania. */
+  hours: [{ day: 'Wizyty i szkolenia', value: 'Po wcześniejszym umówieniu' }],
+  // hoursToConfirm: Pon–Pt 10:00–19:00 · Sobota: terminy szkoleniowe · Niedziela: nieczynne
+};
+
+/**
+ * Adres serwisu (canonical, sitemap, OG). Ustawiany przy wdrożeniu przez
+ * NEXT_PUBLIC_SITE_URL — domena docelowa czeka na decyzję klienta
+ * (dziś pod as-loveliness.eu działa sklep WooCommerce).
+ */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://as-loveliness.eu').replace(/\/$/, '');
+
+/** Rezerwacja online (Kalendarz Google) — wszystkie przyciski „Umów wizytę”. */
+export const BOOKING_URL = '/umow-wizyte';
+
+/**
+ * Sklep internetowy klienta (WooCommerce) — produkty kupuje się tam.
+ * Adresy sprawdzone 29.09.2026; zmienią się, jeśli sklep przeniesie się
+ * na subdomenę (decyzja klienta).
+ */
+export const SHOP = {
+  url: 'https://as-loveliness.eu/shop/',
+  browPigments: 'https://as-loveliness.eu/pigmenty-do-brwi/',
+  lipPigments: 'https://as-loveliness.eu/pigmenty-do-ust/',
+  linerPigments: 'https://as-loveliness.eu/pigmenty-do-kresek/',
+  machine: 'https://as-loveliness.eu/maszynka/',
+  rental: 'https://as-loveliness.eu/wspolpraca-wynajem/',
+};
+
+/**
+ * Dane prawne — do uzupełnienia przez klienta (art. 5 u.ś.u.d.e., art. 13 RODO).
+ * Dopóki pola są null, stopka nie pokazuje wiersza „Dane firmy", klauzula
+ * pod formularzami się nie renderuje, a /polityka-prywatnosci zwraca 404.
+ */
+export const LEGAL = {
+  company: null, // pełna nazwa z rejestru, np. „… sp. z o.o." albo imię i nazwisko + nazwa firmy z CEIDG
+  address: null, // adres siedziby
+  nip: null,
+  register: null, // np. „KRS 0000…, Sąd Rejonowy …" albo „CEIDG"
+  privacyEmail: null, // e-mail do spraw danych osobowych
+  privacyPolicy: null, // treść polityki prywatności: [{ heading, body }] — zatwierdzona przez klienta
 };
 
 /** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA). */
@@ -64,16 +101,16 @@ export const NAV_ALL = [
   {
     title: 'Edukacja',
     links: [
-      { label: 'Szkolenia i kalendarz', href: '/szkolenia' },
-      { label: 'Super Natural Brows', href: '/szkolenia#kursy' },
-      { label: 'Kurs podstawowy', href: '/szkolenia#kursy' },
+      { label: 'Szkolenia', href: '/szkolenia' },
+      { label: 'Super Natural Brows', href: '/szkolenia#program-super-natural-brows' },
+      { label: 'Kurs podstawowy', href: '/szkolenia#program-kurs-podstawowy' },
     ],
   },
   {
     title: 'Studio',
     links: [
       { label: 'Zabiegi i cennik', href: '/uslugi' },
-      { label: 'Pakiety', href: '/pakiety' },
+      { label: 'Ścieżka zabiegowa', href: '/pakiety' },
       { label: 'O nas i salon', href: '/o-nas' },
       { label: 'Kontakt', href: '/kontakt' },
     ],

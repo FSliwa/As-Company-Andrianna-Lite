@@ -86,7 +86,7 @@ export default function Logo({ tone = 'gold', className, compact = false }) {
       </svg>
 
       {!compact && (
-        <span className="hidden flex-col leading-none sm:flex">
+        <span className="flex flex-col leading-none">
           <span
             className="font-display text-lg tracking-[0.02em]"
             style={{ color: tone === 'light' ? '#F6F1E8' : '#241B14' }}

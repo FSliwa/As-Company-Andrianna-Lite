@@ -23,7 +23,7 @@ import {
   SectionLabel,
   Stat,
 } from '@/components/as/Primitives';
-import { ACHIEVEMENTS, BRAND, FOUNDER } from '@/lib/site';
+import { ACHIEVEMENTS, BOOKING_URL, BRAND, FOUNDER } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
 
 /* Wyróżnienia w biografii — marka pisze lekko, więc tylko font-medium. */
@@ -32,7 +32,7 @@ const Em = ({ children }) => <strong className="font-medium text-cream-50">{chil
 /* Tytuły zdobyte na Mistrzostwach Świata — treść z dotychczasowej strony. */
 const TITLES = [
   { category: 'Włos maszynowy', result: '1. i 2. miejsce' },
-  { category: 'Brwi pudrowe', result: '1. miejsca' },
+  { category: 'Brwi pudrowe', result: '2 × 1. miejsce' },
   { category: 'Usta', result: '1. miejsce' },
 ];
 
@@ -78,7 +78,7 @@ function Hero() {
         <Link href="/szkolenia" className="as-btn-solid">
           Zobacz szkolenia
         </Link>
-        <ArrowLink href="/kontakt" className="w-fit">
+        <ArrowLink href={BOOKING_URL} className="w-fit">
           Umów wizytę
         </ArrowLink>
       </div>
@@ -131,34 +131,37 @@ function StoryBand() {
           <Reveal delay={80} className="lg:col-span-6 lg:col-start-7 lg:row-start-2">
             <div className="as-body-invert space-y-5">
               <p className="as-dropcap">
-                Kilka razy wygrała podium Światowych Mistrzostw.{' '}
-                <Em>2 razy w kategorii włos maszynowy (1. oraz 2. miejsce)</Em>,{' '}
-                <Em>2 razy w kategorii brwi pudrowe (1. miejsca)</Em>, a także kategoria{' '}
-                <Em>usta (1. miejsce)</Em>.
+                Kilkakrotnie stanęła na podium Mistrzostw Świata: w kategorii{' '}
+                <Em>włos maszynowy (1. i 2. miejsce)</Em>, w kategorii{' '}
+                <Em>brwi pudrowe (dwukrotnie 1. miejsce)</Em>, a także w kategorii{' '}
+                <Em>usta (1. miejsce)</Em>.
               </p>
               <p>
-                Wykonała tysiące pigmentacji dla klientek oraz przeszkoliła setki kursantek z różnych
-                technologii, za ostatni rok tylko ponad{' '}
-                <Em>100 kursantek z techniki włosa maszynowego</Em>.
+                Wykonała tysiące pigmentacji i przeszkoliła setki kursantek z różnych technik —
+                w samym ostatnim roku ponad{' '}
+                <Em>100 kursantek z techniki włosa maszynowego</Em>.
               </p>
               <p>
-                Twórczyni szybkich, naturalnych technik makijażu permanentnego brwi oraz ust z 80%
-                wygojeniem. Autorka techniki <Em>Super Natural Brows</Em> — włos maszynowy bez
-                kompromisów między jakością a szybkością. Pigmentacja jej kursantek wykonywana jest
-                w 2–2,5 godziny, a sama wykonuje włos maszynowy w{' '}
-                <Em>1,5–2 godziny, bez bólu, bez blizn i migracji pigmentu po czasie</Em>.
+                Tworzy szybkie, naturalne techniki makijażu permanentnego brwi i ust. Jest autorką
+                techniki <Em>Super Natural Brows</Em> — włosa maszynowego bez kompromisów między
+                jakością a szybkością. Jej kursantki wykonują pigmentację w{' '}
+                <span className="whitespace-nowrap">2–2,5 godziny</span>, ona sama — w{' '}
+                <Em>
+                  <span className="whitespace-nowrap">1,5–2 godziny</span>
+                </Em>
+                . Zabieg przebiega z minimalnym dyskomfortem, a wykonany prawidłowo jest bezpieczny
+                dla skóry.
               </p>
               <p>
-                <Em>7 lat prowadziła salon w Katowicach</Em>, który stał się najbardziej wybieranym
-                i zaufanym salonem makijażu permanentnego na Śląsku — z listą oczekiwania na zabieg
+                Przez <Em>7 lat prowadziła salon w Katowicach</Em> — na zabieg czekało się tam
                 ponad pół roku.
               </p>
               <p>
-                <Em>3 lata prowadzi salon i akademię makijażu permanentnego w Warszawie</Em>,
-                szkoląc osoby z różnych zakątków Polski i świata. Jest zapraszana na pokazy,
-                masterclassy i kursy w innych krajach — baza kursantek za granicą liczy już ponad 50
-                osób. Na branżowych wydarzeniach występuje jako{' '}
-                <Em>Prime Speaker i Stage Prelegent</Em>.
+                <Em>Od 3 lat prowadzi salon i akademię makijażu permanentnego w Warszawie</Em>,
+                szkoląc osoby z różnych zakątków Polski i świata. Jest zapraszana za granicę na
+                pokazy, masterclassy i kursy — jej zagraniczna baza kursantek liczy już ponad
+                50 osób. Na branżowych wydarzeniach{' '}
+                <Em>występuje na scenie jako prelegentka</Em>.
               </p>
             </div>
           </Reveal>
@@ -237,7 +240,7 @@ function QuoteBand() {
               </p>
             </blockquote>
             <figcaption className="as-label mt-6 text-ink/70">
-              Życzenie, które spełniamy w 100% — techniką Super Natural Brows
+              Życzenie, na które odpowiadamy techniką Super Natural Brows
             </figcaption>
           </figure>
         </Reveal>
@@ -268,7 +271,7 @@ function MethodBand() {
           <Reveal delay={80} className="lg:col-span-6 lg:col-start-7">
             <p className="as-body">
               Akademia i salon makijażu permanentnego „{BRAND.academy}” w Warszawie. Stawiamy na
-              sztukę piękna, polegającą na naturalności, subtelności i podkreśleniu indywidualnej
+              sztukę piękna polegającą na naturalności, subtelności i podkreśleniu indywidualnej
               urody każdej klientki — uzupełniamy niedoskonałości wynikające z natury lub przeżytych
               chorób. Charytatywnie opiekujemy się osobami, które straciły włoski w wyniku chorób
               onkologicznych.
@@ -306,8 +309,8 @@ function ClosingBand() {
       title="Zobacz technikę"
       titleAccent="z bliska."
       lead="Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia."
-      primary={{ href: '/kontakt', label: 'Umów wizytę' }}
-      secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
+      primary={{ href: BOOKING_URL, label: 'Umów wizytę' }}
+      secondary={{ href: '/szkolenia', label: 'Zapytaj o termin' }}
     />
   );
 }

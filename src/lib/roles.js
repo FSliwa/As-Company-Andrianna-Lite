@@ -6,7 +6,8 @@
  * sesji). Widoki importują portrety WYŁĄCZNIE przez ROLES, makra WYŁĄCZNIE
  * przez MACROS, grupy z akademii WYŁĄCZNIE przez GROUPS.
  *
- * Rezerwa (poza stroną): studio-01, -06, -07, -09, -10, -12, -15, -16; studio-02 = też obraz OG.
+ * Rezerwa (poza stroną): studio-01, -06, -07, -09, -10, -15. Obraz OG: public/og.jpg.
+ * Scena absolwentek w dwóch miejscach (home + /szkolenia), nie pięciu.
  * Na home trzy różne pozy: tiul (hero), marynarka (O nas), kadr poziomy (zaproszenie).
  * Wycofane: academy-02 (balony, baner), -05 (choinka), -07; lips-04, lips-01-p2,
  * brows-02*, brows-18*, brows-01-*, pliki zbiorcze (sklejki), plakaty COURSE
@@ -35,18 +36,19 @@ export const ROLES = {
   heroAbout: { image: pick('studio-11'), position: '50% 15%' },
   storyAbout: { image: pick('studio-08'), position: '50% 15%' },
   heroTreatments: { image: pick('studio-13'), position: '50% 20%' },
-  heroTraining: { image: pick('studio-03'), position: '50% 12%' },
+  heroTraining: { image: pick('studio-10'), position: '50% 30%' }, // marynarka, inna poza niż O nas na home (studio-04)
+  contactSection: { image: pick('studio-16'), position: '60% 30%' }, // /kontakt „Jak umówić wizytę" (zamiast sceny absolwentek)
+  statementPackages: { image: pick('studio-12'), position: '50% 18%' }, // /pakiety — pas Statement
 };
 
-export const OG_IMAGE = '/graphics/studio-02.jpg';
+export const OG_IMAGE = '/og.jpg'; // 1200×630, kadr z rezerwy (studio-12)
 
 /* Zdjęcia grupowe z akademii — każdy plik raz w serwisie */
 export const GROUPS = {
-  trainingHome: { image: pick('academy-04'), position: '50% 30%' }, // home, 16:9 (21:9 ucinał szyld)
+  trainingHome: { image: pick('academy-04'), position: '50% 12%' }, // home, 3:2 — cały szyld i certyfikaty
   graduatesMain: { image: pick('academy-01'), position: '50% 30%' }, // /szkolenia, 3:2
-  graduatesA: { image: pick('academy-03'), position: '50% 25%' }, // /szkolenia, 4:5
+  graduatesA: { image: pick('academy-06'), position: '50% 25%' }, // /szkolenia, 4:5 (academy-03 ma ikonę Instagrama w kadrze)
   graduatesB: { image: pick('academy-08'), position: '50% 25%' }, // /szkolenia, 4:5
-  contactVenue: { image: pick('academy-06'), position: '50% 30%' }, // /kontakt, 3:2
 };
 
 /* Makra — biała lista. Renderować ≤ 360 px, zoom={false}.

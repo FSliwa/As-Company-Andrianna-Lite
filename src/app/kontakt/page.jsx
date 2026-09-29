@@ -1,12 +1,13 @@
 import Contact from '@/views/Contact';
+import { pageMeta } from '@/lib/seo';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim. */
-export const metadata = {
+export const metadata = pageMeta({
   title: 'Kontakt',
   description:
-    'Babushkina Academy, Warszawa — umów wizytę w salonie makijażu permanentnego albo zapytaj o termin szkolenia.',
-  alternates: { canonical: '/kontakt' },
-};
+    'Babushkina Academy, Warszawa — umów wizytę na makijaż permanentny albo zapytaj o termin szkolenia PMU.',
+  path: '/kontakt',
+});
 
 export default function Page() {
   return <Contact />;

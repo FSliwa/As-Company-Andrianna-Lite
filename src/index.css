@@ -39,6 +39,9 @@
 
   html {
     scroll-behavior: smooth;
+    /* element z fokusem/kotwicą nie chowa się pod sticky nagłówkiem ani paskiem CTA */
+    scroll-padding-top: 6.5rem;
+    scroll-padding-bottom: 4.5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -54,8 +57,10 @@
   }
 
   /* Delikatny, złoty focus zamiast domyślnego niebieskiego */
+  /* Fokus w kolorze tekstu elementu: ciemny na kremie, jasny na espresso —
+     zawsze ≥ 3:1 (złoty #B89768 dawał na kremie 2,3–2,6:1). */
   :focus-visible {
-    outline: 2px solid #b89768;
+    outline: 2px solid currentColor;
     outline-offset: 3px;
   }
 }
@@ -86,9 +91,10 @@
      hero (cqw, Home.jsx) · lg = H1 podstron (88 px) · section = JEDYNY H2 (60 px)
      · title = tytuły wierszy/kart (28 px) · numbered-title = 24 px italic.
      Bodoni nigdy poniżej 22 px i nigdy w tekście ciągłym. */
+  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi */
   .as-display-lg {
     @apply as-display;
-    font-size: clamp(2.75rem, 6.2vw, 5.5rem);
+    font-size: clamp(2.4rem, 6.2vw, 5.5rem);
   }
 
   /* Liczby Stat (64 px) */
@@ -179,7 +185,7 @@
   }
 
   .as-badge {
-    @apply as-label text-gold-dark;
+    @apply as-label text-gold-deep;
   }
 
   /* Złota kreska-punktor w listach (zamiast kropki) — jedna szerokość w serwisie. */
@@ -331,8 +337,10 @@
   }
 
   /* ——— Numerowane pozycje 01 / 02 / 03 ——— */
+  /* Numerały 01/02/03 — ≥ 24 px (tekst duży, próg 3:1): na kremie gold-dark
+     3,7:1; na ciemnym tle nadpisywane text-gold-light w widokach. */
   .as-num {
-    @apply font-display text-2xl leading-none text-gold sm:text-[1.75rem];
+    @apply font-display text-2xl leading-none text-gold-dark sm:text-[1.75rem];
   }
 }
 
