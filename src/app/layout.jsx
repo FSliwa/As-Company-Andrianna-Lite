@@ -1,3 +1,10 @@
+/* Fonty hostowane lokalnie (npm @fontsource) — bez żądań do Google Fonts:
+   IP odwiedzających nie trafia do zewnętrznego serwera, a pierwszy ekran
+   nie czeka na obcą domenę. Bodoni Moda z osią optical size, jak wcześniej. */
+import '@fontsource-variable/bodoni-moda/opsz.css';
+import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+import '@fontsource-variable/jost/index.css';
+import '@fontsource-variable/jost/wght-italic.css';
 import '@/index.css';
 import Layout from '@/Layout';
 import { Toaster } from '@/components/ui/toaster';
@@ -40,14 +47,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pl">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Jost:wght@300;400;500;600&display=swap"
-        />
-      </head>
       <body>
         <Layout>{children}</Layout>
         <Toaster />

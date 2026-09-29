@@ -6,7 +6,8 @@
  * sesji). Widoki importują portrety WYŁĄCZNIE przez ROLES, makra WYŁĄCZNIE
  * przez MACROS, grupy z akademii WYŁĄCZNIE przez GROUPS.
  *
- * Rezerwa (poza stroną): studio-01, -06, -07, -09, -15; studio-02 = obraz OG.
+ * Rezerwa (poza stroną): studio-01, -06, -07, -09, -10, -12, -15, -16; studio-02 = obraz OG.
+ * Na home trzy różne pozy: tiul (hero), marynarka (O nas), kadr poziomy (zaproszenie).
  * Wycofane: academy-02 (balony, baner), -05 (choinka), -07; lips-04, lips-01-p2,
  * brows-02*, brows-18*, brows-01-*, pliki zbiorcze (sklejki), plakaty COURSE
  * i grafiki CENNIK jako elementy layoutu.
@@ -28,13 +29,13 @@ const pick = (name) => {
 /* Portrety — { image, position } */
 export const ROLES = {
   heroHome: { image: pick('studio-05'), position: '50% 20%' },
-  aboutHome: { image: pick('studio-14'), position: '50% 30%' }, // jedyny poziomy kadr 3:2
-  productsHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka — „biznes"
-  closingHome: { image: pick('studio-16'), position: '60% 30%' },
+  aboutHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka — „firma", inna poza niż hero
+  closingHome: { image: pick('studio-14'), position: '50% 30%' }, // jedyny poziomy kadr 3:2
   heroAbout: { image: pick('studio-11'), position: '50% 15%' },
   storyAbout: { image: pick('studio-08'), position: '50% 15%' },
   heroTreatments: { image: pick('studio-13'), position: '50% 20%' },
   heroTraining: { image: pick('studio-03'), position: '50% 12%' },
+  // wycofywane w tej rundzie (hero /kontakt = formularz, /pakiety = pas) — usunąć po przebudowie widoków
   heroContact: { image: pick('studio-10'), position: '50% 30%' },
   heroPackages: { image: pick('studio-12'), position: '50% 20%' },
 };

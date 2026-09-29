@@ -124,7 +124,7 @@ function Header() {
               </ul>
             </nav>
 
-            <div className="grid gap-10 sm:grid-cols-3 lg:col-span-6">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-6">
               {NAV_ALL.map((group) => (
                 <div key={group.title}>
                   <h2 className="as-label text-gold-light">{group.title}</h2>
@@ -219,7 +219,7 @@ function Footer() {
             </div>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7">
             {NAV_ALL.map((group) => (
               <div key={group.title}>
                 <h2 className="as-label text-gold-light">{group.title}</h2>
@@ -298,8 +298,8 @@ function StickyBar() {
     <div
       aria-hidden={!show}
       className={cn(
-        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-cream-200/15 bg-espresso-900 pb-[env(safe-area-inset-bottom)] transition-transform duration-300 lg:hidden',
-        show ? 'translate-y-0' : 'pointer-events-none translate-y-full'
+        'fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-cream-200/15 bg-espresso-900 pb-[env(safe-area-inset-bottom)] transition-[transform,opacity] duration-300 lg:hidden',
+        show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-full opacity-0'
       )}
     >
       <Link

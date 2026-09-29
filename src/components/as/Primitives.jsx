@@ -20,7 +20,7 @@ import {
 /*  Etykieta sekcji:  „02  /  O NAS  ———————”                          */
 /* ------------------------------------------------------------------ */
 
-export function SectionLabel({ number, children, tone = 'dark', className }) {
+export function SectionLabel({ number, children, tone = 'dark', line = true, className }) {
   const isLight = tone === 'light';
   return (
     <div className={cn('flex items-center gap-4', className)}>
@@ -33,12 +33,14 @@ export function SectionLabel({ number, children, tone = 'dark', className }) {
         <span className={cn('as-label', isLight ? 'text-cream-200/40' : 'text-ink/30')}>/</span>
       )}
       <span className={cn('as-label', isLight ? 'text-cream-100/85' : 'text-ink/70')}>{children}</span>
-      <span
-        className={cn(
-          'hidden h-px w-16 sm:block lg:w-28',
-          isLight ? 'bg-cream-200/25' : 'bg-ink/15'
-        )}
-      />
+      {line && (
+        <span
+          className={cn(
+            'hidden h-px w-16 sm:block lg:w-28',
+            isLight ? 'bg-cream-200/25' : 'bg-ink/15'
+          )}
+        />
+      )}
     </div>
   );
 }
@@ -47,7 +49,7 @@ export function SectionLabel({ number, children, tone = 'dark', className }) {
 /*  Link ze strzałką                                                    */
 /* ------------------------------------------------------------------ */
 
-export function ArrowLink({ href = '#', children, tone = 'dark', className, ...rest }) {
+export function ArrowLink({ href = '#', children, tone = 'dark', className, onClick, ...rest }) {
   const classes = cn('group', tone === 'light' ? 'as-arrow-light' : 'as-arrow-dark', className);
   const inner = (
     <>
@@ -57,6 +59,15 @@ export function ArrowLink({ href = '#', children, tone = 'dark', className, ...r
       </span>
     </>
   );
+
+  /* akcja (np. otwarcie dialogu) — ten sam wygląd, semantyka przycisku */
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} className={classes} {...rest}>
+        {inner}
+      </button>
+    );
+  }
 
   if (typeof href === 'string' && (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:'))) {
     return (
@@ -321,6 +332,7 @@ export function PageHero({
   facts,
   stats,
   variant,
+  imageSide = 'right',
   tone = 'cream',
   children,
 }) {
@@ -379,15 +391,25 @@ export function PageHero({
 
   return (
     <section className={cn('relative overflow-hidden', isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink')}>
-      <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-36">
+      <div className="as-shell relative pb-14 pt-24 sm:pt-28 lg:pb-16 lg:pt-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
-          <Reveal className="lg:col-span-6">
+          <Reveal
+            className={cn(
+              'lg:row-start-1',
+              imageSide === 'left' ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'
+            )}
+          >
             {heading}
             {factStrip}
           </Reveal>
           {image && (
-            <div className="lg:col-span-5 lg:col-start-8">
-              <div className="mx-auto max-w-[26rem] lg:max-w-none">
+            <div
+              className={cn(
+                'lg:row-start-1',
+                imageSide === 'left' ? 'lg:col-span-4 lg:col-start-2' : 'lg:col-span-4 lg:col-start-8'
+              )}
+            >
+              <div className="mx-auto max-w-[22rem] lg:max-w-none">
                 <Figure
                   image={image}
                   alt={imageAlt || title}
@@ -396,7 +418,7 @@ export function PageHero({
                   tone={imageTone}
                   framed
                   priority
-                  sizes="(min-width: 1024px) 36vw, 90vw"
+                  sizes="(min-width: 1024px) 30vw, 90vw"
                 />
               </div>
             </div>
@@ -458,16 +480,18 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
 
 export function FactStrip({ items, tone = 'dark', className }) {
   const isLight = tone === 'light';
+  /* Jedna linia zawsze — na wąskim ekranie przewija się w bok, zamiast
+     łamać się z wiszącym ukośnikiem. */
   return (
-    <ul className={cn('flex flex-wrap items-center gap-x-5 gap-y-3', className)}>
+    <ul className={cn('as-noscrollbar flex items-center gap-x-5 overflow-x-auto whitespace-nowrap', className)}>
       {items.map((item, i) => (
-        <li key={item} className="flex items-center gap-5">
-          <span className={cn('as-label', isLight ? 'text-cream-200/70' : 'text-ink/55')}>
-            {item}
-          </span>
-          {i < items.length - 1 && (
-            <span className={cn('as-label', isLight ? 'text-cream-200/30' : 'text-ink/25')}>/</span>
+        <li key={item} className="flex shrink-0 items-center gap-5">
+          {i > 0 && (
+            <span aria-hidden="true" className={cn('as-label', isLight ? 'text-cream-200/35' : 'text-ink/25')}>
+              /
+            </span>
           )}
+          <span className={cn('as-label', isLight ? 'text-cream-200/75' : 'text-ink/60')}>{item}</span>
         </li>
       ))}
     </ul>
@@ -764,7 +788,8 @@ export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, c
               ratio={ratio}
               position={it.position || '50% 45%'}
               tone={onDark ? 'dark' : 'light'}
-              sizes="(min-width: 768px) 16vw, 33vw"
+              zoom={false}
+              sizes="(min-width: 768px) 22vw, 45vw"
             />
             {it.caption && (
               <p className={cn('mt-2 px-1 pb-1', onDark ? 'as-caption-invert' : 'as-caption')}>{it.caption}</p>

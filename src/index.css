@@ -5,8 +5,8 @@
 @layer base {
   :root {
     /* kroje pisma (ładowane w src/app/layout.jsx z Google Fonts) */
-    --font-display: 'Bodoni Moda', 'Didot', 'Playfair Display', Georgia, serif;
-    --font-sans: 'Jost', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Bodoni Moda Variable', 'Bodoni Moda', 'Didot', 'Playfair Display', Georgia, serif;
+    --font-sans: 'Jost Variable', 'Jost', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
     /* tokeny shadcn — przemapowane na paletę marki */
     --background: 40 40% 94%;
@@ -139,8 +139,10 @@
     @apply font-display text-xl italic sm:text-2xl;
   }
 
+  /* Treść merytoryczna pozycji (kroki, korzyści, etapy) — 15 px, nie 13:
+     13 px zostaje tylko dla podpisów pod zdjęciami i not cennika. */
   .as-numbered-desc {
-    @apply mt-2 max-w-[17rem] text-[0.8125rem] leading-[1.65];
+    @apply mt-2 max-w-[24rem] text-[0.9375rem] leading-[1.65];
   }
 
   /* Karta w rzędzie rozdzielonym pionową złotą linią (wycofywane na rzecz .as-cell). */

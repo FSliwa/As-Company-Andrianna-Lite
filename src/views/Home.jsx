@@ -55,7 +55,6 @@ const G = {
   lead: { left: '0%', top: '54.6%' },
   colophon: { left: '0%', top: '74.0%', width: '23.1%' },
   facts: { top: '89.6%' },
-  badge: { right: '0%', top: '80%' },
 };
 
 /* Typografia w cqw (1% szerokości kadru hero) — kompozycja skaluje się
@@ -137,24 +136,20 @@ function Hero() {
     </div>
   );
 
-  /* Sygnet z makiety bez atrapy: sama linia i podpis (monogram w kółku
-     udawał zdjęcie maszynki, którego nie mamy). */
-  const badge = (
-    <div className="flex items-center gap-5">
-      <span className="h-px w-14 bg-gold/45" aria-hidden="true" />
-      <p className="as-label max-w-[8rem] leading-[2.1] text-ink/60">Profesjonalny system PMU</p>
-    </div>
-  );
-
   return (
     <section className="relative -mt-20 overflow-hidden bg-cream-50 lg:-mt-24">
+      {/* jeden h1 w DOM — wersje wizualne (mobile / desktop) są aria-hidden */}
+      <h1 className="sr-only">
+        {BRAND.tagline} {BRAND.full} — {BRAND.claim}
+      </h1>
+
       {/* ================= UKŁAD MOBILNY / TABLET ================= */}
       <div className="as-shell pb-14 pt-28 lg:hidden">
-        <h1 className="as-display-xl text-ink">
+        <p aria-hidden="true" className="as-display-xl text-ink">
           <span className="block">Beauty</span>
           <span className="block font-normal italic leading-[1.05]">with</span>
           <span className="block">precision.</span>
-        </h1>
+        </p>
 
         <div className="mt-8">{lead}</div>
 
@@ -182,7 +177,7 @@ function Hero() {
           <span aria-hidden="true" className="absolute left-0 h-px bg-gold/40" style={{ top: G.rule.top, width: '31%' }} />
           <span aria-hidden="true" className="absolute right-0 h-px bg-gold/40" style={{ top: G.rule.top, width: '23%' }} />
 
-          <h1 className="pointer-events-none absolute inset-0 z-20 text-ink">
+          <p aria-hidden="true" className="pointer-events-none absolute inset-0 z-20 text-ink">
             <span
               className="as-display absolute block whitespace-nowrap leading-none motion-reduce:!animate-none"
               style={{ left: G.beauty.left, top: G.beauty.top, fontSize: TYPE.beauty, ...riseIn(0) }}
@@ -201,7 +196,7 @@ function Hero() {
             >
               precision.
             </span>
-          </h1>
+          </p>
 
           <div className="absolute z-20" style={{ left: G.lead.left, top: G.lead.top }}>
             {lead}
@@ -209,10 +204,6 @@ function Hero() {
 
           <div className="absolute z-20" style={{ left: G.colophon.left, top: G.colophon.top, width: G.colophon.width }}>
             {colophon}
-          </div>
-
-          <div className="absolute z-20" style={{ right: G.badge.right, top: G.badge.top }}>
-            {badge}
           </div>
 
           <div className="absolute inset-x-0 z-20" style={{ top: G.facts.top }}>
@@ -234,8 +225,9 @@ function AboutBand() {
       <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
 
       <div className="as-shell relative">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* kolumna 1 — zdanie */}
+          <div className="lg:col-span-4">
             <Reveal>
               <SectionLabel number="02" tone="light">
                 O nas
@@ -249,7 +241,7 @@ function AboutBand() {
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-body-invert mt-6 max-w-[24rem]">
+              <p className="as-body-invert mt-6">
                 Tworzymy kompleksowy ekosystem dla profesjonalistów PMU — łącząc najwyższej jakości
                 produkty, zaawansowaną edukację i realną praktykę.
               </p>
@@ -259,51 +251,49 @@ function AboutBand() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-7">
-            {/* dopisek z makiety — nad ramką, do prawej */}
-            <Reveal className="mb-5 flex justify-end">
-              <p className="font-display text-base italic text-cream-100/85">
-                Narzędzia. Wiedza. Techniki. Realne efekty.
-              </p>
-            </Reveal>
-            <Reveal>
+          {/* kolumna 2 — jeden portret, inna poza niż w hero */}
+          <Reveal delay={60} className="lg:col-span-4">
+            <div className="mx-auto max-w-[20rem] lg:max-w-none">
               <div className="as-photo-frame">
                 <Figure
                   image={ROLES.aboutHome.image}
-                  alt={`${FOUNDER.name} — ${FOUNDER.signature}`}
-                  ratio="3 / 2"
+                  alt={`${FOUNDER.name} — ${FOUNDER.role}`}
+                  ratio="3 / 4"
                   position={ROLES.aboutHome.position}
                   tone="dark"
-                  sizes="(min-width: 1024px) 50vw, 92vw"
+                  sizes="(min-width: 1024px) 28vw, 80vw"
                 />
               </div>
-            </Reveal>
+              <p className="mt-4 text-right font-display text-base italic text-cream-100/85">
+                Narzędzia. Wiedza. Techniki. Realne efekty.
+              </p>
+            </div>
+          </Reveal>
 
-            {/* 01 / 02 / 03 — jak w makiecie: numer i tytuł w jednej linii */}
-            <div className="mt-8 grid gap-8 sm:grid-cols-3">
-              {PILLARS.map((p, i) => (
-                <Reveal key={p.number} delay={i * 80}>
-                  <Link href={p.href} className="group block">
-                    <div className="flex items-baseline gap-3">
-                      <span className="as-num text-lg sm:text-xl">{p.number}</span>
-                      <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
-                    </div>
-                    <p className="as-numbered-desc text-cream-200/85">{p.desc}</p>
+          {/* kolumna 3 — 01 / 02 / 03 jako komórki */}
+          <div className="lg:col-span-4">
+            {PILLARS.map((p, i) => (
+              <Reveal key={p.number} delay={i * 80}>
+                <Link href={p.href} className="as-cell-invert group block pb-6">
+                  <div className="flex items-baseline gap-3">
+                    <span className="as-num text-lg sm:text-xl">{p.number}</span>
+                    <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
                     <span
                       aria-hidden="true"
-                      className="mt-3 inline-block text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
+                      className="ml-auto text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
                     >
                       &#8594;
                     </span>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
+                  </div>
+                  <p className="as-numbered-desc text-cream-200/85">{p.desc}</p>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
 
         {/* liczby — najmocniejszy dowód marki, w pierwszych dwóch ekranach */}
-        <div className="mt-14 grid gap-8 border-t border-cream-200/15 pt-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-cream-200/15 pt-10 lg:mt-16 lg:grid-cols-4">
           {ACHIEVEMENTS.map((a, i) => (
             <Reveal key={a.label} delay={i * 60}>
               <Stat value={a.value} label={a.label} tone="light" />
@@ -323,35 +313,18 @@ function ProductsBand() {
   return (
     <section className="as-section bg-cream-100">
       <div className="as-shell">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-7">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-4">
             <SectionLabel number="03">Produkty</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Wszystko, co stoi
               <br />
               za efektem.
             </h2>
-          </Reveal>
-          <Reveal delay={80} className="lg:col-span-5">
-            <p className="as-body">
+            <p className="as-body mt-6">
               Pigmenty, urządzenia i dokumentacja tworzone przez praktyków dla praktyków — to, czego
               sami używamy w gabinecie i na szkoleniach.
             </p>
-          </Reveal>
-        </div>
-
-        <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="lg:col-span-4">
-            <div className="mx-auto max-w-[22rem] lg:max-w-none">
-              <Figure
-                image={ROLES.productsHome.image}
-                alt={`${FOUNDER.name} — ${FOUNDER.role}`}
-                ratio="2 / 3"
-                position={ROLES.productsHome.position}
-                framed
-                sizes="(min-width: 1024px) 30vw, 80vw"
-              />
-            </div>
           </Reveal>
 
           <div className="lg:col-span-7 lg:col-start-6">
@@ -394,7 +367,7 @@ function TreatmentsBand() {
               </h2>
             </Reveal>
             <Reveal delay={80} className="mt-10">
-              <figure className="max-w-[20rem]">
+              <figure className="max-w-[15rem] sm:max-w-[20rem]">
                 <Figure
                   image={macro.image}
                   alt="Brwi po makijażu permanentnym — zbliżenie"
@@ -412,8 +385,8 @@ function TreatmentsBand() {
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal>
               <p className="as-body">
-                Każdy zabieg zaczynamy od konsultacji, architektury twarzy i rysunku wstępnego. Ceny
-                obejmują konsultację — bez gwiazdek i ukrytych dopłat.
+                Wszystkie zabiegi zawierają konsultację, architekturę twarzy oraz rysunek wstępny.
+                Kolor dobieramy do karnacji, a kształt do Twoich rysów.
               </p>
             </Reveal>
             <Reveal delay={80} className="mt-8">
@@ -423,7 +396,7 @@ function TreatmentsBand() {
             </Reveal>
             <p className="as-caption mt-6 max-w-[36rem]">{PRICING_PMU.footnote}</p>
             <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
-              Zobacz pełen cennik
+              Zobacz cennik
             </ArrowLink>
           </div>
         </div>
@@ -514,7 +487,7 @@ function InvitationBand() {
     <section data-sticky-hide className="as-section bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
-          <Reveal className="lg:col-span-6">
+          <Reveal className="lg:col-span-5">
             <SectionLabel number="06">Kontakt</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zacznijmy od <span className="italic text-gold-dark">konsultacji.</span>
@@ -533,17 +506,15 @@ function InvitationBand() {
             </div>
           </Reveal>
 
-          <Reveal delay={90} className="lg:col-span-4 lg:col-start-9">
-            <div className="mx-auto max-w-[24rem] lg:max-w-none">
-              <Figure
-                image={ROLES.closingHome.image}
-                alt={`${FOUNDER.name} — sesja wizerunkowa ${BRAND.name}`}
-                ratio="4 / 5"
-                position={ROLES.closingHome.position}
-                framed
-                sizes="(min-width: 1024px) 36vw, 90vw"
-              />
-            </div>
+          <Reveal delay={90} className="lg:col-span-6 lg:col-start-7">
+            <Figure
+              image={ROLES.closingHome.image}
+              alt={`${FOUNDER.name} — sesja wizerunkowa ${BRAND.name}`}
+              ratio="3 / 2"
+              position={ROLES.closingHome.position}
+              framed
+              sizes="(min-width: 1024px) 46vw, 92vw"
+            />
           </Reveal>
         </div>
       </div>
