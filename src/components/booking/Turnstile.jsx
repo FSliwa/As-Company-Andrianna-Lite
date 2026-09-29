@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * Cloudflare Turnstile (opcjonalny) — niewidoczna weryfikacja „czy to człowiek”.
+ * Cloudflare Turnstile (opcjonalny) – niewidoczna weryfikacja „czy to człowiek”.
  * Renderuje się tylko, gdy serwer poda klucz witryny (TURNSTILE_SITE_KEY + TURNSTILE_SECRET_KEY
- * w env). `appearance: 'interaction-only'` — pole pokazuje się wyłącznie, gdy Cloudflare
+ * w env). `appearance: 'interaction-only'` – pole pokazuje się wyłącznie, gdy Cloudflare
  * potrzebuje kliknięcia. Token jest jednorazowy: po każdym wysłaniu formularza `reset()`.
  */
 

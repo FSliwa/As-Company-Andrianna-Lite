@@ -345,7 +345,7 @@
     },
     {
       "what": "Vercel hosting: plan, data processing agreement, region",
-      "proposal": "Use the Pro plan, which covers commercial use and Vercel’s Data Processing Addendum. Set the server functions (the booking API) to an EU region, e.g. fra1 (Frankfurt) — vercel.json does not currently set a region, so the functions would run in the default US region. If the website moves to another hosting provider, update sections 7, 10 and 11.",
+      "proposal": "Use the Pro plan, which covers commercial use and Vercel’s Data Processing Addendum. Set the server functions (the booking API) to an EU region, e.g. fra1 (Frankfurt) – vercel.json does not currently set a region, so the functions would run in the default US region. If the website moves to another hosting provider, update sections 7, 10 and 11.",
       "why": "The Hobby plan is for non-commercial use only. An EU region limits transfers of booking form data to the USA, although Vercel’s edge network and logs may still involve the USA. The hosting is currently planned, not confirmed."
     },
     {

@@ -1,19 +1,19 @@
 'use client';
 
 /**
- * /maszynki — „Numer 01”.
+ * /maszynki – „Numer 01”.
  *
  * W /Graphics nie ma packshotów maszynek (AS HERO / AS HERO 2 / AS PRINCESS),
- * kartridży ani akcesoriów, więc trasa jest w 100% typograficzna — świadoma
+ * kartridży ani akcesoriów, więc trasa jest w 100% typograficzna – świadoma
  * decyzja do czasu sesji packshotowej, nie brak. Zero portretów, zero makr.
  *
  * Rytm tła (max 2 ciemne pasy, nigdy dwa ciemne obok siebie):
  *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z karty AS PRINCESS)
- *   02 Katalog #katalog (cream-50) — model = wiersz pełnej szerokości,
+ *   02 Katalog #katalog (cream-50) – model = wiersz pełnej szerokości,
  *      w wierszu parametry z karty produktu + link do sklepu; na telefonie
  *      parametry zwinięte w „Parametry”, od md widoczne od razu
- *   03 Parametry (espresso) — 7 prędkości AS PRINCESS + skok i wysuw igły
- *   04 Wynajem (cream-100) — warunki ze sklepu, wniosek w dialogu (Field)
+ *   03 Parametry (espresso) – 7 prędkości AS PRINCESS + skok i wysuw igły
+ *   04 Wynajem (cream-100) – warunki ze sklepu, wniosek w dialogu (Field)
  *   05 ClosingCta (espresso-900, jeden blok ze stopką)
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść.
  * Prostokątne przyciski tylko w hero (jeden), ClosingCta i formularzu;
@@ -48,23 +48,23 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 
 /* ================================================================== */
-/*  DANE — przepisane ze sklepu klienta (as-loveliness.eu), 29.09.2026  */
+/*  DANE – przepisane ze sklepu klienta (as-loveliness.eu), 29.09.2026  */
 /* ================================================================== */
 /*
  * Źródła (karty produktów WooCommerce):
- *   AS HERO      /produkt/as-hero-rotary-machine/ — sklep nie podaje parametrów
+ *   AS HERO      /produkt/as-hero-rotary-machine/ – sklep nie podaje parametrów
  *                technicznych, więc wiersz ma tylko typ i zastosowanie.
  *   AS HERO 2    /produkt/as-hero-2-next-generation-wireless-hybrid-pmu-machine/
- *                — specyfikacja 1:1 (10 500 obr./min przy 12 V, 141 g, 1 800 mAh,
+ *                – specyfikacja 1:1 (10 500 obr./min przy 12 V, 141 g, 1 800 mAh,
  *                skok 2,2–4,2 mm, 12-miesięczna gwarancja producenta).
  *   AS PRINCESS  /produkt/as-princess-champagne-gold/, maszynka-pmu-gold/,
- *                maszynka-pmu-pink/ — trzy kolory, te same parametry i cena.
+ *                maszynka-pmu-pink/ – trzy kolory, te same parametry i cena.
  *                Sklep podaje „poprzednią najniższą cenę” 2 999 zł, więc „ceny
  *                regularnej” 3 500 zł tu nie pokazujemy.
- *   Wynajem      /produkt/oferta-wynajmu-as-princess/ — 369 zł (300 zł netto)
+ *   Wynajem      /produkt/oferta-wynajmu-as-princess/ – 369 zł (300 zł netto)
  *                miesięcznie, zwrotna kaucja 500 zł, kolory Gold / Pink Gold /
  *                Champagne Gold.
- * Gwarancji AS HERO i AS PRINCESS sklep nie podaje — nie wpisujemy jej.
+ * Gwarancji AS HERO i AS PRINCESS sklep nie podaje – nie wpisujemy jej.
  */
 
 /* 2999 → „2 999” (twarda spacja tysięcy) */
@@ -105,7 +105,7 @@ const MACHINES_DATA = [
     description:
       'Hybrydowa maszynka PMU nowej generacji: wysoki moment obrotowy, minimalne wibracje, stała moc i płynny ruch igły także przy dłuższych zabiegach.',
     features: [
-      'Długość skoku zmieniasz obrotem tylnej części — bez demontażu i wymiany mimośrodu',
+      'Długość skoku zmieniasz obrotem tylnej części – bez demontażu i wymiany mimośrodu',
       'Skok 2,2 / 2,6 / 3,0 / 3,4 / 3,8 / 4,2\u00a0mm: od miękkiego cieniowania po tatuaż',
       'Moment obrotowy 330\u00a0N·mm, wibracje 0,3\u00a0m/s², hałas 35–37\u00a0dB',
       'Do technik makijażu permanentnego, mikropigmentacji skóry głowy (SMP) i tatuażu',
@@ -125,12 +125,12 @@ const MACHINES_DATA = [
     subtitle: 'Bezprzewodowa',
     price: 2999,
     description:
-      'Bezprzewodowa maszynka z aluminium o wadze 107\u00a0g — minimalne wibracje i cicha praca, przy której dobrze czujesz skórę.',
+      'Bezprzewodowa maszynka z aluminium o wadze 107\u00a0g – minimalne wibracje i cicha praca, przy której dobrze czujesz skórę.',
     features: [
       'Dwie wymienne baterie i ładowarka w zestawie; ponad 3\u00a0h pracy na jednej baterii, możliwa praca na kablu USB',
-      'Skok 2,1–3,0\u00a0mm zmieniasz obrotem środkowej części korpusu — 7 stopni',
-      'Wysuw igły regulowany od 0 do 3,2\u00a0mm — pod rzadsze i gęstsze pigmenty',
-      'Kartridże o uniwersalnym wkręcie, także z większą liczbą igieł — do 9 Magnum',
+      'Skok 2,1–3,0\u00a0mm zmieniasz obrotem środkowej części korpusu – 7 stopni',
+      'Wysuw igły regulowany od 0 do 3,2\u00a0mm – pod rzadsze i gęstsze pigmenty',
+      'Kartridże o uniwersalnym wkręcie, także z większą liczbą igieł – do 9 Magnum',
     ],
     specs: [
       { label: 'Prędkości', v: '6\u00a0000–10\u00a0000', u: 'obr./min', n: '7 prędkości' },
@@ -145,7 +145,7 @@ const MACHINES_DATA = [
 
 const PRINCESS = MACHINES_DATA.find((m) => m.id === 'as-princess');
 
-/* Prędkości AS PRINCESS — nazwy i obroty 1:1 z karty produktu. */
+/* Prędkości AS PRINCESS – nazwy i obroty 1:1 z karty produktu. */
 const SPEED_LEVELS = [
   { level: 1, rpm: 6000, name: 'Pikselowa' },
   { level: 2, rpm: 6500, name: 'Pudrowa' },
@@ -160,7 +160,7 @@ const SPEED_LEVELS = [
    para z jednostką nie zostaje sama w nowej linii. */
 const STROKE_STEPS = '2,1\u00a0· 2,2\u00a0· 2,4\u00a0· 2,55\u00a0· 2,7\u00a0· 2,9\u00a0·\u00a03,0\u00a0mm';
 
-/* Rząd liczb w hero — wyłącznie parametry z karty AS PRINCESS w sklepie. */
+/* Rząd liczb w hero – wyłącznie parametry z karty AS PRINCESS w sklepie. */
 const HERO_STATS = [
   { value: '7', label: 'prędkości AS\u00a0PRINCESS, od 6\u00a0000 do 10\u00a0000\u00a0obr./min' },
   { value: '2,1–3,0\u00a0mm', label: 'skok igły AS\u00a0PRINCESS, 7 stopni regulacji' },
@@ -172,7 +172,7 @@ const RENTAL_PRICE = `${zl(RENTAL_MONTHLY)}\u00a0/\u00a0mc`;
 const RENTAL_DEPOSIT = zl(500);
 
 const RENTAL_POINTS = [
-  `Zwrotna kaucja ${RENTAL_DEPOSIT} — informację o wpłacie dostajesz razem z umową wynajmu`,
+  `Zwrotna kaucja ${RENTAL_DEPOSIT} – informację o wpłacie dostajesz razem z umową wynajmu`,
   'Do wyboru kolory Gold, Pink Gold i Champagne Gold',
 ];
 
@@ -193,7 +193,7 @@ const RENTAL_FIELDS = [
 const EMPTY_RENTAL_FORM = { name: '', phone: '', email: '', salonName: '' };
 
 /* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
-   o polach wymaganych — do tego czasu legendę pokazuje RequiredLegend. */
+   o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend. */
 const NOTICE_READY = LEGAL_COMPLETE;
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -203,16 +203,16 @@ const isRentable = (machine) => machine.id === PRINCESS.id;
 /*  Lokalne klocki                                                     */
 /* ================================================================== */
 
-/* Wiersz katalogu — rozwinięcie IndexRow o parametry i drugą akcję (wynajem).
+/* Wiersz katalogu – rozwinięcie IndexRow o parametry i drugą akcję (wynajem).
    Rozwijany opis stoi w kolumnie modelu, żeby zwinięty wiersz miał wysokość
    samych parametrów.
      < md   numerał 56 | model + „Opis i cechy” + „Parametry” (zwinięte) + cena
-            i akcje — telefon widzi od razu nazwę, podtytuł, cenę i akcje.
+            i akcje – telefon widzi od razu nazwę, podtytuł, cenę i akcje.
      md     numerał | model, pod nim cena i akcje | parametry (2 kolumny).
      lg+    numerał | model | parametry (2 kol., 3 na xl) | cena + akcje.
    Parametry siedzą w jednym <details>: poniżej md działa jak akordeon, od md
    summary znika, a treść jest widoczna mimo zamkniętego <details>
-   (::details-content) — bez migania przed hydracją i bez dublowania siatki.
+   (::details-content) – bez migania przed hydracją i bez dublowania siatki.
    Przeglądarki bez ::details-content (Safari < 18.4, Firefox < 143) dostają
    otwarcie skryptem po wejściu w md. */
 const MD_UP = '(min-width: 768px)';
@@ -249,7 +249,7 @@ function MachineRow({ machine, onRent, last }) {
         <h3 className="as-title as-text-balance text-ink">{machine.name}</h3>
         <p className="as-kicker mt-3">{machine.subtitle}</p>
 
-        {/* Opis i cechy — zwinięte, żeby indeks czytał się jak spis modeli
+        {/* Opis i cechy – zwinięte, żeby indeks czytał się jak spis modeli
             (parametry i cena na wierzchu), a treść nie znikała z widoku.
             Summary ma 44 px wysokości (cel dotykowy), tekst przy dolnej linii. */}
         <details className="group/more mt-1">
@@ -265,7 +265,7 @@ function MachineRow({ machine, onRent, last }) {
           <p className="mt-5 max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">
             {machine.description}
           </p>
-          <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe — ${machine.name}`}>
+          <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe – ${machine.name}`}>
             {machine.features.map((feat) => (
               <li key={feat} className="flex gap-4">
                 <span aria-hidden="true" className="as-dash" />
@@ -276,7 +276,7 @@ function MachineRow({ machine, onRent, last }) {
         </details>
       </div>
 
-      {/* Parametry — na telefonie -mt-4 dosuwa „Parametry” do „Opis i cechy”
+      {/* Parametry – na telefonie -mt-4 dosuwa „Parametry” do „Opis i cechy”
           (ten sam odstęp co podtytuł → „Opis i cechy”). Na md prawa kolumna
           przez oba rzędy (model | parametry, pod modelem cena i akcje); 7fr,
           żeby „6 000–10 000 obr./min” mieściło się w jednej linii przy 768 px. */}
@@ -333,7 +333,7 @@ export default function Machines() {
   const { toast } = useToast();
   const [selectedMachineForRental, setSelectedMachineForRental] = useState(null);
   const [rentalForm, setRentalForm] = useState(EMPTY_RENTAL_FORM);
-  /* Przycisk, który otworzył dialog — po zamknięciu fokus wraca na niego. */
+  /* Przycisk, który otworzył dialog – po zamknięciu fokus wraca na niego. */
   const rentalTriggerRef = useRef(null);
 
   const openRental = (machine = PRINCESS) => {
@@ -341,12 +341,12 @@ export default function Machines() {
     setSelectedMachineForRental(machine);
   };
 
-  // W projekcie nie ma koszyka ani backendu — wniosek idzie tą samą drogą
+  // W projekcie nie ma koszyka ani backendu – wniosek idzie tą samą drogą
   // co pozostałe formularze (patrz src/lib/enquiry.js).
   const handleRentalSubmit = (e) => {
     e.preventDefault();
     const { status } = sendEnquiry({
-      subject: `Wynajem maszynki${selectedMachineForRental ? ` — ${selectedMachineForRental.name}` : ''}`,
+      subject: `Wynajem maszynki${selectedMachineForRental ? ` – ${selectedMachineForRental.name}` : ''}`,
       fields: [
         ['Imię i nazwisko', rentalForm.name],
         ['Telefon', rentalForm.phone],
@@ -364,7 +364,7 @@ export default function Machines() {
   return (
     <>
       {/* ============================================================ */}
-      {/*  01 — HERO: pas typograficzny (espresso, bez zdjęcia)        */}
+      {/*  01 – HERO: pas typograficzny (espresso, bez zdjęcia)        */}
       {/* ============================================================ */}
 
       <PageHero
@@ -388,7 +388,7 @@ export default function Machines() {
       </PageHero>
 
       {/* ============================================================ */}
-      {/*  02 — KATALOG (cream-50): model = wiersz pełnej szerokości    */}
+      {/*  02 – KATALOG (cream-50): model = wiersz pełnej szerokości    */}
       {/* ============================================================ */}
 
       <section id="katalog" className="as-section scroll-mt-24 bg-cream-50">
@@ -401,7 +401,7 @@ export default function Machines() {
             <Reveal delay={80} className="lg:col-span-5">
               <p className="as-body">
                 Ceny i parametry według kart produktów AS COMPANY. Napisz, który model Cię
-                interesuje — potwierdzimy dostępność, kolor i sposób dostawy.
+                interesuje – potwierdzimy dostępność, kolor i sposób dostawy.
               </p>
               <ArrowLink href="/kontakt?temat=produkty" className="mt-6 w-fit">
                 Zapytaj o zakup
@@ -420,7 +420,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  03 — PARAMETRY AS PRINCESS (espresso) — jedyny ciemny pas    */}
+      {/*  03 – PARAMETRY AS PRINCESS (espresso) – jedyny ciemny pas    */}
       {/* ============================================================ */}
 
       <section className="as-section bg-espresso text-cream-50">
@@ -444,7 +444,7 @@ export default function Machines() {
             </Reveal>
           </div>
 
-          {/* — siedem prędkości (nazwy i obroty 1:1 ze sklepu) — */}
+          {/* – siedem prędkości (nazwy i obroty 1:1 ze sklepu) – */}
           <Reveal delay={60} className="mt-10">
             <ol
               aria-label="Prędkości AS PRINCESS"
@@ -465,10 +465,10 @@ export default function Machines() {
             </ol>
           </Reveal>
 
-          {/* — skok i wysuw igły — */}
+          {/* – skok i wysuw igły – */}
           <div className="mt-10 grid gap-6 lg:grid-cols-12 lg:gap-8">
             <p className="as-caption-invert lg:col-span-5">
-              Nazwy prędkości to ogólne wytyczne — ostateczny dobór prędkości, skoku i&nbsp;igły zależy
+              Nazwy prędkości to ogólne wytyczne – ostateczny dobór prędkości, skoku i&nbsp;igły zależy
               od techniki i&nbsp;skóry.
             </p>
             <div className="lg:col-span-6 lg:col-start-7">
@@ -490,7 +490,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  04 — WYNAJEM (cream-100): warunki ze sklepu + wyliczenie      */}
+      {/*  04 – WYNAJEM (cream-100): warunki ze sklepu + wyliczenie      */}
       {/* ============================================================ */}
 
       <section id="wynajem" className="as-section scroll-mt-24 bg-cream-100">
@@ -521,7 +521,7 @@ export default function Machines() {
                   ))}
                 </ul>
                 <p className="mt-6 text-[0.9375rem] leading-[1.65] text-ink/80">
-                  Pozostałe warunki określa umowa wynajmu — zapytaj o nie przed zamówieniem.
+                  Pozostałe warunki określa umowa wynajmu – zapytaj o nie przed zamówieniem.
                 </p>
                 <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
                   <ArrowLink onClick={() => openRental()} className="w-fit">
@@ -550,7 +550,7 @@ export default function Machines() {
       </section>
 
       {/* ============================================================ */}
-      {/*  05 — KONTAKT (espresso-900; wspólny pas zamykający)          */}
+      {/*  05 – KONTAKT (espresso-900; wspólny pas zamykający)          */}
       {/* ============================================================ */}
 
       <ClosingCta
@@ -583,7 +583,7 @@ export default function Machines() {
             <DialogTitle>Zapytanie o wynajem</DialogTitle>
             <DialogDescription>
               {selectedMachineForRental?.name ?? PRINCESS.name}: {RENTAL_PRICE}, zwrotna kaucja{' '}
-              {RENTAL_DEPOSIT}. Zostaw kontakt — odpowiemy z&nbsp;warunkami umowy.
+              {RENTAL_DEPOSIT}. Zostaw kontakt – odpowiemy z&nbsp;warunkami umowy.
             </DialogDescription>
           </DialogHeader>
 

@@ -1,29 +1,29 @@
 'use client';
 
 /**
- * Umów wizytę (/umow-wizyte) — rezerwacja online zapisywana w Kalendarzu Google salonu.
+ * Umów wizytę (/umow-wizyte) – rezerwacja online zapisywana w Kalendarzu Google salonu.
  *
- * 01 Rezerwacja (cream-50) — nagłówek strony (SectionLabel, H1, lead), a pod nim
+ * 01 Rezerwacja (cream-50) – nagłówek strony (SectionLabel, H1, lead), a pod nim
  *    przepływ w czterech krokach na jednym ekranie (nie kreator z ukrytymi krokami):
  *      01 Zabieg  · 02 Dzień · 03 Godzina · 04 Dane
  *    Desktop: prawa kolumna sticky „Podsumowanie” z przyciskiem. Telefon: podsumowanie
  *    pod krokiem 04, nad przyciskiem.
- * → stopka (formularz jest CTA tej strony — bez ClosingCta, jak /kontakt).
+ * → stopka (formularz jest CTA tej strony – bez ClosingCta, jak /kontakt).
  *
- * Stany: wyłączona (503 / brak konfiguracji — `initialEnabled` z serwera), ładowanie,
+ * Stany: wyłączona (503 / brak konfiguracji – `initialEnabled` z serwera), ładowanie,
  * brak slotów (+ najbliższy wolny dzień), walidacja, 409 „termin się zajął”, 429,
  * 502/500/sieć, sukces z plikiem .ics.
  *
  * Zasady:
  *  • zabiegi, czasy i ceny wyłącznie z src/lib/booking/config.js (ceny → site.js),
- *  • daty liczone dopiero w przeglądarce (strefa salonu: Europe/Warsaw) — bez
+ *  • daty liczone dopiero w przeglądarce (strefa salonu: Europe/Warsaw) – bez
  *    niezgodności hydratacji; przy przestawionym zegarze urządzenia (> 2 min od czasu
  *    serwera) pasek dni liczy się od czasu serwera, a po powrocie do karty / co 5 min
  *    okno jest przeliczane (karta otwarta przez północ); ?zabieg=<id> wybiera zabieg,
  *  • klawiatura: natywne radio (Tab = grupa, strzałki = wybór, Enter = wybór, a na
- *    wybranym — następny krok),
+ *    wybranym – następny krok),
  *  • anty-bot: podpisany znacznik formularza z serwera (nie zegar przeglądarki),
- *    opcjonalnie Cloudflare Turnstile; requestId na próbę rezerwacji terminu —
+ *    opcjonalnie Cloudflare Turnstile; requestId na próbę rezerwacji terminu –
  *    ponowienie po błędzie nie tworzy drugiego wpisu w kalendarzu,
  *  • bez pytań o zdrowie, bez obietnic SMS/e-mail (serwis ich nie wysyła).
  */
@@ -64,7 +64,7 @@ import { LEGAL_COMPLETE } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* BookingNotice (jak FormNotice, ale z celem „rezerwacja wizyty w Kalendarzu Google”)
-   renderuje się sam po uzupełnieniu LEGAL i zawiera zdanie o polach wymaganych —
+   renderuje się sam po uzupełnieniu LEGAL i zawiera zdanie o polach wymaganych –
    do tego czasu legendę pokazuje RequiredLegend (jak /kontakt). */
 const NOTICE_READY = LEGAL_COMPLETE;
 
@@ -138,7 +138,7 @@ function formErrorMessage(err) {
     case 'captcha':
       return 'Nie udało się potwierdzić, że formularz wysyła człowiek. Spróbuj ponownie za chwilę.';
     case 'captcha_pending':
-      return 'Sprawdzamy zabezpieczenie formularza — spróbuj ponownie za kilka sekund.';
+      return 'Sprawdzamy zabezpieczenie formularza – spróbuj ponownie za kilka sekund.';
     case 'captcha_failed':
       return `Nie udało się załadować zabezpieczenia formularza. Odśwież stronę albo napisz na Instagramie ${CONTACT.instagramHandle}.`;
     case 'rate_limited': {
@@ -150,7 +150,7 @@ function formErrorMessage(err) {
     case 'reload':
       return 'Nie udało się wysłać formularza. Odśwież stronę i spróbuj ponownie.';
     default:
-      return `Nie udało się potwierdzić rezerwacji — kalendarz salonu chwilowo nie odpowiada. Spróbuj ponownie za chwilę albo napisz na Instagramie ${CONTACT.instagramHandle}.`;
+      return `Nie udało się potwierdzić rezerwacji – kalendarz salonu chwilowo nie odpowiada. Spróbuj ponownie za chwilę albo napisz na Instagramie ${CONTACT.instagramHandle}.`;
   }
 }
 
@@ -167,7 +167,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   const pendingTimeFocus = useRef(false);
   const strip = useStripScroll();
 
-  const [windowDates, setWindowDates] = useState(null); // { firstDate, lastDate } — liczone w przeglądarce
+  const [windowDates, setWindowDates] = useState(null); // { firstDate, lastDate } – liczone w przeglądarce
   const [foreignZone, setForeignZone] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaFailed, setCaptchaFailed] = useState(false);
@@ -188,18 +188,18 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   const [attempted, setAttempted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
-  const [taken, setTaken] = useState(0); // licznik 409 — zmiana = fokus na komunikat
+  const [taken, setTaken] = useState(0); // licznik 409 – zmiana = fokus na komunikat
   const [announcement, setAnnouncement] = useState('');
 
-  /* — montaż: ?zabieg=, strefa przeglądarki — */
+  /* – montaż: ?zabieg=, strefa przeglądarki – */
   useEffect(() => {
     const preset = new URLSearchParams(window.location.search).get('zabieg');
     if (preset && getTreatment(preset)) setTreatment(preset);
     setForeignZone(browserTimeZoneDiffers());
   }, []);
 
-  /* — okno rezerwacji: zegar przeglądarki skorygowany o czas serwera, przeliczane po
-       powrocie do karty i co 5 min (zmiana dnia przy otwartej karcie) — */
+  /* – okno rezerwacji: zegar przeglądarki skorygowany o czas serwera, przeliczane po
+       powrocie do karty i co 5 min (zmiana dnia przy otwartej karcie) – */
   useEffect(() => {
     const skew = serverNow ? serverNow - Date.now() : 0;
     const offset = Math.abs(skew) > CLOCK_SKEW_TOLERANCE_MS ? skew : 0;
@@ -221,7 +221,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     };
   }, [serverNow]);
 
-  /* Wybrany dzień wypadł z okna (np. minęła północ) — wybór do ponowienia. */
+  /* Wybrany dzień wypadł z okna (np. minęła północ) – wybór do ponowienia. */
   useEffect(() => {
     if (date && windowDates && (date < windowDates.firstDate || date > windowDates.lastDate)) {
       setDate(null);
@@ -246,7 +246,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     updateStrip();
   }, [days, updateStrip]);
 
-  /* — dostępność dni (jedno zapytanie na miesiąc okna) — */
+  /* – dostępność dni (jedno zapytanie na miesiąc okna) – */
   useEffect(() => {
     if (!treatment || !months.length) return undefined;
     const ctrl = new AbortController();
@@ -277,7 +277,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     };
   }, [treatment, months, countsReload, onDisabled]);
 
-  /* — wolne godziny wybranego dnia — */
+  /* – wolne godziny wybranego dnia – */
   const slotsKey = treatment && date ? `${treatment}|${date}` : null;
   useEffect(() => {
     if (!slotsKey) return undefined;
@@ -314,7 +314,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   else slotStatus = slotsState.status;
   const slots = slotStatus === 'ready' ? slotsState.slots : [];
 
-  /* — najbliższy wolny dzień (po wybranym, a gdy go nie ma — pierwszy wolny) — */
+  /* – najbliższy wolny dzień (po wybranym, a gdy go nie ma – pierwszy wolny) – */
   const nextFree = useMemo(() => {
     if (!days) return null;
     const free = days.filter((d) => !d.closed && counts[d.date] > 0).map((d) => d.date);
@@ -323,7 +323,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     return free.find((d) => d > date) || free.find((d) => d !== date) || null;
   }, [days, counts, date]);
 
-  /* — komunikaty dla czytników ekranu — */
+  /* – komunikaty dla czytników ekranu – */
   useEffect(() => {
     if (slotStatus === 'loading') setAnnouncement('Sprawdzamy wolne godziny…');
     else if (slotStatus === 'ready' && date) {
@@ -336,8 +336,8 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     } else if (slotStatus === 'error' || slotStatus === 'rate_limited') setAnnouncement('Nie udało się pobrać wolnych godzin.');
   }, [slotStatus, slotsState, date]);
 
-  /* — Enter w kroku 02, gdy godziny jeszcze się ładowały: fokus czekał na nagłówku 03;
-       po załadowaniu przenosimy go na pierwszą godzinę (jeśli nikt go nie ruszył) — */
+  /* – Enter w kroku 02, gdy godziny jeszcze się ładowały: fokus czekał na nagłówku 03;
+       po załadowaniu przenosimy go na pierwszą godzinę (jeśli nikt go nie ruszył) – */
   useEffect(() => {
     if (!pendingTimeFocus.current || slotStatus === 'loading') return;
     pendingTimeFocus.current = false;
@@ -345,7 +345,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     if (slotStatus === 'ready' && slots.length && title && document.activeElement === title) focusGroup('time');
   });
 
-  /* — 409: fokus na komunikacie nad siatką godzin — */
+  /* – 409: fokus na komunikacie nad siatką godzin – */
   useEffect(() => {
     if (!taken || !takenRef.current) return;
     takenRef.current.focus({ preventScroll: true });
@@ -379,7 +379,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
 
   const focusStepTitle = (id) => document.getElementById(`${id}-title`)?.focus();
 
-  /* Krok 03: pierwsza godzina, a gdy jeszcze się ładują — nagłówek (fokus przejdzie na godzinę po załadowaniu). */
+  /* Krok 03: pierwsza godzina, a gdy jeszcze się ładują – nagłówek (fokus przejdzie na godzinę po załadowaniu). */
   const focusTimeStep = () => {
     if (focusGroup('time')) return;
     pendingTimeFocus.current = true;
@@ -437,14 +437,14 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
 
   const onFieldBlur = (name) => {
     const filled = String(values[name]).trim() !== '';
-    if (!filled && !attempted) return; // puste pole przed wysłaniem — bez upominania
+    if (!filled && !attempted) return; // puste pole przed wysłaniem – bez upominania
     setTouched((t) => ({ ...t, [name]: true }));
     const all = validate({ ...values, treatment, date, time });
     setErrors((e) => ({ ...e, [name]: all[name] }));
   };
 
   const handleTaken = () => {
-    // Termin przepadł (także gdy nasz wpis przegrał wyścig i został usunięty) — kolejna
+    // Termin przepadł (także gdy nasz wpis przegrał wyścig i został usunięty) – kolejna
     // próba, nawet tej samej godziny, to nowa rezerwacja z nowym identyfikatorem.
     requestRef.current = { key: null, id: null };
     invalidateAvailability(treatment);
@@ -474,7 +474,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     }
 
     // Jeden identyfikator na próbę rezerwacji tego terminu: ponowienie po błędzie (502,
-    // brak sieci) wysyła ten sam — serwer rozpozna wpis, który mimo błędu się zapisał.
+    // brak sieci) wysyła ten sam – serwer rozpozna wpis, który mimo błędu się zapisał.
     const slotKey = `${treatment}|${date}|${time}`;
     if (requestRef.current.key !== slotKey) requestRef.current = { key: slotKey, id: newRequestId() };
 
@@ -494,7 +494,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
       ...(turnstileSiteKey ? { turnstileToken: captchaToken } : {}),
     }).catch(() => ({ ok: false, status: 0, error: 'network' }));
     setSubmitting(false);
-    // Token Turnstile jest jednorazowy — po każdej odpowiedzi pobieramy nowy.
+    // Token Turnstile jest jednorazowy – po każdej odpowiedzi pobieramy nowy.
     if (turnstileSiteKey) turnstileRef.current?.reset();
 
     if (res.ok && res.data && res.data.bookingId && res.data.start) {
@@ -534,7 +534,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
           }
           const first = FIELD_ORDER.find((f) => known.includes(f));
           if (first === 'time') {
-            // Godziny zaraz się przeładują (radia znikną) — fokus na nagłówek kroku 03,
+            // Godziny zaraz się przeładują (radia znikną) – fokus na nagłówek kroku 03,
             // a po załadowaniu na pierwszą godzinę.
             pendingTimeFocus.current = true;
             focusStepTitle('b-step-time');
@@ -570,12 +570,12 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
 
   const t = getTreatment(treatment);
   const { minLeadHours, maxDaysAhead } = BOOKING_CONFIG;
-  /* Zdanie o wyszarzeniu tylko, gdy dostępność dni naprawdę jest znana — przy błędzie
+  /* Zdanie o wyszarzeniu tylko, gdy dostępność dni naprawdę jest znana – przy błędzie
      lub limicie nic nie jest wyszarzone, a komunikat o błędzie stoi osobno pod podpisem. */
   const countsNote =
     countsStatus === 'loading' ? ' Sprawdzamy, które dni są wolne…' : countsStatus === 'ready' ? ' Dni bez wolnych godzin są wyszarzone.' : '';
   const dateCaption = !treatment
-    ? 'Najpierw wybierz zabieg — pokażemy dni z wolnymi godzinami.'
+    ? 'Najpierw wybierz zabieg – pokażemy dni z wolnymi godzinami.'
     : `Rezerwacja najpóźniej ${minLeadHours} ${plural(minLeadHours, 'godzinę', 'godziny', 'godzin')} przed wizytą, do ${maxDaysAhead} dni naprzód.${countsNote}`;
   const timeCaption =
     [t ? `Godzina rozpoczęcia wizyty. ${t.name} trwa do ${t.durationMin} min.` : null, foreignZone ? SALON_TIME_NOTE : null]
@@ -617,7 +617,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
             <div className="mb-5 flex flex-wrap items-baseline gap-x-6 gap-y-3">
               <p className="text-[0.875rem] leading-relaxed text-ink/80">
                 {countsStatus === 'rate_limited'
-                  ? 'Za dużo zapytań w krótkim czasie — dostępność dni pokażemy za chwilę.'
+                  ? 'Za dużo zapytań w krótkim czasie – dostępność dni pokażemy za chwilę.'
                   : 'Nie udało się sprawdzić, które dni są wolne. Wybierz dzień, a sprawdzimy godziny.'}
               </p>
               <ArrowLink onClick={() => setCountsReload((n) => n + 1)} className="w-fit">
@@ -733,7 +733,7 @@ export default function BookAppointment({ initialEnabled = true, formToken = nul
     setPanelFocus((n) => n + 1);
   }, []);
 
-  /* Po zmianie stanu (sukces / wyłączenie) — przewiń do panelu i przenieś fokus na jego nagłówek. */
+  /* Po zmianie stanu (sukces / wyłączenie) – przewiń do panelu i przenieś fokus na jego nagłówek. */
   useEffect(() => {
     if (!panelFocus) return;
     flowTopRef.current?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
@@ -742,7 +742,7 @@ export default function BookAppointment({ initialEnabled = true, formToken = nul
 
   const lead =
     'Każdy zabieg zaczyna się od konsultacji, architektury twarzy i rysunku wstępnego.' +
-    (enabled && !booking ? ' Wybierz zabieg, dzień i godzinę — wizyta trafi od razu do kalendarza salonu.' : '');
+    (enabled && !booking ? ' Wybierz zabieg, dzień i godzinę – wizyta trafi od razu do kalendarza salonu.' : '');
 
   return (
     <section className="bg-cream-50">

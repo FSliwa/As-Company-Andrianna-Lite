@@ -4,7 +4,7 @@
  * Klauzula informacyjna pod przyciskiem rezerwacji. Ten sam układ i warunek co FormNotice
  * z Primitives (renderuje się dopiero po uzupełnieniu LEGAL), ale z prawdziwym celem
  * przetwarzania: rezerwacja wizyty zapisywana w Kalendarzu Google salonu (Google jako
- * podmiot przetwarzający) — ogólne „by odpowiedzieć na zapytanie” byłoby tu nieprawdą.
+ * podmiot przetwarzający) – ogólne „by odpowiedzieć na zapytanie” byłoby tu nieprawdą.
  */
 
 import Link from 'next/link';

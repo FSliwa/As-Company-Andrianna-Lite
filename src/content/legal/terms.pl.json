@@ -10,7 +10,7 @@
       "blocks": [
         { "p": "Regulamin określa zasady świadczenia usług drogą elektroniczną w Serwisie, w tym w jego wersjach angielskiej i rosyjskiej. Jest regulaminem, o którym mowa w art. 8 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną." },
         { "p": "Regulamin jest dostępny bezpłatnie pod adresem {siteUrl}/regulamin, zanim zaczniesz korzystać z Usług. Możesz go w każdej chwili wyświetlić, zapisać lub wydrukować, a na Twoją prośbę prześlemy go e-mailem." },
-        { "p": "Korzystając z Serwisu, akceptujesz Regulamin. Dotyczy on wszystkich Usług opisanych w pkt 4, także samego przeglądania strony. Jeśli go nie akceptujesz, nie korzystaj z Serwisu — możesz skontaktować się z nami bezpośrednio (pkt 3)." },
+        { "p": "Korzystając z Serwisu, akceptujesz Regulamin. Dotyczy on wszystkich Usług opisanych w pkt 4, także samego przeglądania strony. Jeśli go nie akceptujesz, nie korzystaj z Serwisu – możesz skontaktować się z nami bezpośrednio (pkt 3)." },
         { "p": "Regulamin nie ogranicza praw, które przysługują Ci na podstawie bezwzględnie obowiązujących przepisów, w szczególności praw konsumenta. Gdyby któreś postanowienie było z nimi sprzeczne, stosuje się przepisy." },
         { "p": "Wiążąca jest polska wersja Regulaminu, a wersje angielska i rosyjska są jej tłumaczeniem. Postanowienia niejednoznaczne tłumaczy się na korzyść konsumenta." }
       ]
@@ -20,17 +20,17 @@
       "heading": "2. Definicje",
       "blocks": [
         { "list": [
-          "Serwis — strona internetowa AS COMPANY LOVELINESS i Babushkina Academy dostępna pod adresem {siteUrl}, wraz z wersjami językowymi.",
-          "Usługodawca, „my” — {company}; pełne dane podajemy w pkt 3.",
-          "Użytkownik, „Ty” — każda osoba, która korzysta z Serwisu.",
-          "Konsument — osoba fizyczna, która korzysta z Serwisu lub zawiera z nami umowę w celu niezwiązanym bezpośrednio z jej działalnością gospodarczą lub zawodową (art. 22¹ Kodeksu cywilnego).",
-          "Usługi — bezpłatne usługi świadczone drogą elektroniczną w Serwisie, opisane w pkt 4.",
-          "Salon — salon i akademia makijażu permanentnego Babushkina Academy w Warszawie; adres salonu podajemy na stronie Kontakt.",
-          "Zabieg — usługa z cennika Salonu, wykonywana w Salonie.",
-          "Rezerwacja — zapisanie wybranego terminu wizyty w kalendarzu Salonu za pomocą formularza na stronie „Umów wizytę”.",
-          "Formularz — formularz kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki lub zapytanie o pigmenty.",
-          "Lista pigmentów — lista odcieni, pojemności i ilości, którą tworzysz w katalogu pigmentów, w oknie „Twoje zamówienie”, aby wysłać ją jako zapytanie.",
-          "Polityka prywatności i Polityka cookies — dokumenty dostępne pod adresami {siteUrl}/polityka-prywatnosci i {siteUrl}/polityka-cookies."
+          "Serwis – strona internetowa AS COMPANY LOVELINESS i Babushkina Academy dostępna pod adresem {siteUrl}, wraz z wersjami językowymi.",
+          "Usługodawca, „my” – {company}; pełne dane podajemy w pkt 3.",
+          "Użytkownik, „Ty” – każda osoba, która korzysta z Serwisu.",
+          "Konsument – osoba fizyczna, która korzysta z Serwisu lub zawiera z nami umowę w celu niezwiązanym bezpośrednio z jej działalnością gospodarczą lub zawodową (art. 22¹ Kodeksu cywilnego).",
+          "Usługi – bezpłatne usługi świadczone drogą elektroniczną w Serwisie, opisane w pkt 4.",
+          "Salon – salon i akademia makijażu permanentnego Babushkina Academy w Warszawie; adres salonu podajemy na stronie Kontakt.",
+          "Zabieg – usługa z cennika Salonu, wykonywana w Salonie.",
+          "Rezerwacja – zapisanie wybranego terminu wizyty w kalendarzu Salonu za pomocą formularza na stronie „Umów wizytę”.",
+          "Formularz – formularz kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki lub zapytanie o pigmenty.",
+          "Lista pigmentów – lista odcieni, pojemności i ilości, którą tworzysz w katalogu pigmentów, w oknie „Twoje zamówienie”, aby wysłać ją jako zapytanie.",
+          "Polityka prywatności i Polityka cookies – dokumenty dostępne pod adresami {siteUrl}/polityka-prywatnosci i {siteUrl}/polityka-cookies."
         ] }
       ]
     },
@@ -58,10 +58,10 @@
       "blocks": [
         { "p": "W Serwisie bezpłatnie świadczymy następujące Usługi:" },
         { "list": [
-          "przeglądanie treści — informacji o zabiegach, cennikach i ścieżce zabiegowej, o szkoleniach i ich dofinansowaniu, o pigmentach, maszynkach i certyfikatach oraz danych kontaktowych;",
-          "Formularze — przygotowanie wiadomości do nas: pytania ogólnego, zapytania o termin szkolenia, o wynajem maszynki albo o pigmenty;",
-          "Lista pigmentów — zestawienie wybranych odcieni, pojemności i ilości, które możesz wysłać jako zapytanie;",
-          "rezerwacja wizyty online — wybór zabiegu, dnia i godziny oraz zapisanie wizyty w kalendarzu Salonu."
+          "przeglądanie treści – informacji o zabiegach, cennikach i ścieżce zabiegowej, o szkoleniach i ich dofinansowaniu, o pigmentach, maszynkach i certyfikatach oraz danych kontaktowych;",
+          "Formularze – przygotowanie wiadomości do nas: pytania ogólnego, zapytania o termin szkolenia, o wynajem maszynki albo o pigmenty;",
+          "Lista pigmentów – zestawienie wybranych odcieni, pojemności i ilości, które możesz wysłać jako zapytanie;",
+          "rezerwacja wizyty online – wybór zabiegu, dnia i godziny oraz zapisanie wizyty w kalendarzu Salonu."
         ] },
         { "p": "Rezerwacja online działa, gdy jest włączona. Jeśli strona „Umów wizytę” informuje, że jest chwilowo niedostępna, umówimy wizytę telefonicznie, e-mailem lub przez Instagram." },
         { "p": "Serwis nie prowadzi sprzedaży i nie przyjmuje płatności. Nie zakładasz w nim konta i nie zapisujesz się do newslettera. Zakup produktów, udział w szkoleniu i wynajem maszynki wymagają odrębnych ustaleń z nami (pkt 11)." }
@@ -73,12 +73,12 @@
       "blocks": [
         { "p": "Do korzystania z Serwisu potrzebujesz:" },
         { "list": [
-          "urządzenia z dostępem do internetu — komputera, tabletu lub telefonu;",
-          "aktualnej przeglądarki, np. Chrome, Safari, Firefox lub Edge, z włączoną obsługą JavaScript — bez niej nie zadziałają Formularze, Lista pigmentów ani rezerwacja online;",
-          "do wysłania Formularza — programu pocztowego skonfigurowanego na urządzeniu albo konta na Instagramie, aby skopiować treść i wysłać ją nam w wiadomości;",
-          "aby Lista pigmentów pozostała zapisana po odświeżeniu lub zamknięciu strony — włączonej pamięci przeglądarki (localStorage);",
-          "aby dodać wizytę do własnego kalendarza — aplikacji obsługującej pliki .ics, np. Kalendarza Apple, Google lub Outlooka;",
-          "jeśli rezerwacja online korzysta z weryfikacji Cloudflare Turnstile — możliwości połączenia z serwerami Cloudflare; weryfikacja zwykle odbywa się bez Twojego udziału."
+          "urządzenia z dostępem do internetu – komputera, tabletu lub telefonu;",
+          "aktualnej przeglądarki, np. Chrome, Safari, Firefox lub Edge, z włączoną obsługą JavaScript – bez niej nie zadziałają Formularze, Lista pigmentów ani rezerwacja online;",
+          "do wysłania Formularza – programu pocztowego skonfigurowanego na urządzeniu albo konta na Instagramie, aby skopiować treść i wysłać ją nam w wiadomości;",
+          "aby Lista pigmentów pozostała zapisana po odświeżeniu lub zamknięciu strony – włączonej pamięci przeglądarki (localStorage);",
+          "aby dodać wizytę do własnego kalendarza – aplikacji obsługującej pliki .ics, np. Kalendarza Apple, Google lub Outlooka;",
+          "jeśli rezerwacja online korzysta z weryfikacji Cloudflare Turnstile – możliwości połączenia z serwerami Cloudflare; weryfikacja zwykle odbywa się bez Twojego udziału."
         ] },
         { "p": "Koszt połączenia z internetem ponosisz według umowy z Twoim operatorem." },
         { "p": "Serwis nie instaluje na Twoim urządzeniu żadnego oprogramowania. W pamięci przeglądarki zapisuje tylko informacje opisane w pkt 14 i w Polityce cookies." },
@@ -99,8 +99,8 @@
           "korzystać z automatów, skryptów i botów, obchodzić zabezpieczeń i limitów ani zakłócać działania Serwisu."
         ] },
         { "p": "Prosimy, nie wpisuj w Formularzach ani w polu „Uwagi” informacji o swoim zdrowiu. Omówimy je w Salonie, podczas konsultacji." },
-        { "p": "Treści Serwisu — teksty, zdjęcia, grafiki, logo i nazwy produktów — są chronione prawem autorskim i prawem do znaków towarowych. Możesz z nich korzystać w ramach dozwolonego użytku osobistego. Kopiowanie i rozpowszechnianie, np. zdjęć prac, wymaga naszej zgody, chyba że przepisy stanowią inaczej." },
-        { "p": "Serwis zawiera odnośniki do serwisów zewnętrznych, np. do naszego profilu na Instagramie ({instagram}). Po przejściu do nich obowiązują regulaminy i polityki ich operatorów — w przypadku Instagrama firmy Meta." },
+        { "p": "Treści Serwisu – teksty, zdjęcia, grafiki, logo i nazwy produktów – są chronione prawem autorskim i prawem do znaków towarowych. Możesz z nich korzystać w ramach dozwolonego użytku osobistego. Kopiowanie i rozpowszechnianie, np. zdjęć prac, wymaga naszej zgody, chyba że przepisy stanowią inaczej." },
+        { "p": "Serwis zawiera odnośniki do serwisów zewnętrznych, np. do naszego profilu na Instagramie ({instagram}). Po przejściu do nich obowiązują regulaminy i polityki ich operatorów – w przypadku Instagrama firmy Meta." },
         { "p": "Jeśli ktoś narusza te zasady, możemy odmówić mu świadczenia Usługi, a Rezerwację dokonaną z naruszeniem Regulaminu, np. z fikcyjnymi danymi albo automatycznie, anulować i usunąć z kalendarza. Jeśli w Rezerwacji podano prawdziwe dane kontaktowe, poinformujemy o anulowaniu." }
       ]
     },
@@ -110,12 +110,12 @@
       "blocks": [
         { "p": "Umowa o świadczenie Usług jest bezpłatna. Zawieramy ją na czas korzystania z danej Usługi:" },
         { "list": [
-          "przeglądanie treści — z chwilą otwarcia Serwisu; umowa kończy się, gdy zamkniesz stronę;",
-          "Formularz — z chwilą rozpoczęcia wypełniania; umowa kończy się, gdy otworzy się program pocztowy z gotową wiadomością, gdy skopiujesz jej treść albo gdy porzucisz Formularz;",
-          "Lista pigmentów — z chwilą dodania pierwszej pozycji; umowa kończy się, gdy wyczyścisz listę, usuniesz z niej wszystkie pozycje albo usuniesz dane strony w przeglądarce;",
-          "rezerwacja online — z chwilą rozpoczęcia wypełniania formularza rezerwacji; umowa kończy się z chwilą wyświetlenia potwierdzenia albo porzucenia formularza. Zapisana wizyta obowiązuje dalej na zasadach z pkt 9 i 10."
+          "przeglądanie treści – z chwilą otwarcia Serwisu; umowa kończy się, gdy zamkniesz stronę;",
+          "Formularz – z chwilą rozpoczęcia wypełniania; umowa kończy się, gdy otworzy się program pocztowy z gotową wiadomością, gdy skopiujesz jej treść albo gdy porzucisz Formularz;",
+          "Lista pigmentów – z chwilą dodania pierwszej pozycji; umowa kończy się, gdy wyczyścisz listę, usuniesz z niej wszystkie pozycje albo usuniesz dane strony w przeglądarce;",
+          "rezerwacja online – z chwilą rozpoczęcia wypełniania formularza rezerwacji; umowa kończy się z chwilą wyświetlenia potwierdzenia albo porzucenia formularza. Zapisana wizyta obowiązuje dalej na zasadach z pkt 9 i 10."
         ] },
-        { "p": "W każdej chwili, bez podania przyczyny i bez kosztów, możesz zakończyć korzystanie z Usług — wystarczy zamknąć stronę lub porzucić formularz." },
+        { "p": "W każdej chwili, bez podania przyczyny i bez kosztów, możesz zakończyć korzystanie z Usług – wystarczy zamknąć stronę lub porzucić formularz." },
         { "p": "Możemy odmówić świadczenia Usługi lub je przerwać, jeśli korzystasz z Serwisu wbrew Regulaminowi. Możemy też czasowo wyłączyć lub zmienić poszczególne funkcje Serwisu, np. z powodu prac technicznych, awarii albo gdy zabezpieczenia wykryją nietypowo dużo rezerwacji. Nie wpływa to na wizyty już zapisane." }
       ]
     },
@@ -127,7 +127,7 @@
         { "p": "Jeśli na urządzeniu nie ma programu pocztowego, możesz skopiować lub przepisać treść i wysłać ją wiadomością na Instagramie ({instagram}). Wiadomość przesyła Twój dostawca poczty albo Instagram, na zasadach tych usług." },
         { "p": "Zależnie od Formularza wiadomość zawiera: imię i nazwisko, telefon i adres e-mail, a do tego temat i treść wiadomości, wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym, nazwę salonu i wybrane urządzenie albo Listę pigmentów z orientacyjną sumą i uwagami. Podaj tylko to, co jest potrzebne do odpowiedzi." },
         { "p": "Wysłanie zapytania nie oznacza zawarcia umowy sprzedaży, umowy o szkolenie ani umowy wynajmu. W odpowiedzi przedstawimy dostępność i warunki, a umowę zawieramy odrębnie, jeśli obie strony tego chcą." },
-        { "p": "Lista pigmentów jest zapisywana wyłącznie w pamięci przeglądarki na Twoim urządzeniu i nie trafia do nas, dopóki nie wyślesz zapytania. Przy cenach w katalogu podajemy datę, na którą są aktualne. Suma na liście jest orientacyjna, nie obejmuje kosztów dostawy i nie jest ceną do zapłaty — łączną kwotę potwierdzimy w odpowiedzi. Listę możesz w każdej chwili wyczyścić w oknie „Twoje zamówienie” albo usuwając dane strony w przeglądarce." }
+        { "p": "Lista pigmentów jest zapisywana wyłącznie w pamięci przeglądarki na Twoim urządzeniu i nie trafia do nas, dopóki nie wyślesz zapytania. Przy cenach w katalogu podajemy datę, na którą są aktualne. Suma na liście jest orientacyjna, nie obejmuje kosztów dostawy i nie jest ceną do zapłaty – łączną kwotę potwierdzimy w odpowiedzi. Listę możesz w każdej chwili wyczyścić w oknie „Twoje zamówienie” albo usuwając dane strony w przeglądarce." }
       ]
     },
     {
@@ -136,18 +136,18 @@
       "blocks": [
         { "p": "Rezerwacja online jest dostępna na stronie „Umów wizytę” i przebiega w czterech krokach:" },
         { "list": [
-          "zabieg — wybierasz zabieg; przy każdym widzisz czas trwania i cenę z cennika, a przy odświeżeniu i usuwaniu — cenę „od”, zależną od rodzaju zabiegu;",
-          "dzień — wybierasz dzień, w którym są wolne terminy;",
-          "godzina — wybierasz jedną z wolnych godzin;",
-          "Twoje dane — podajesz imię i nazwisko, numer telefonu i adres e-mail, a w polu „Uwagi”, jeśli chcesz, krótką informację, np. czy to Twój pierwszy zabieg."
+          "zabieg – wybierasz zabieg; przy każdym widzisz czas trwania i cenę z cennika, a przy odświeżeniu i usuwaniu – cenę „od”, zależną od rodzaju zabiegu;",
+          "dzień – wybierasz dzień, w którym są wolne terminy;",
+          "godzina – wybierasz jedną z wolnych godzin;",
+          "Twoje dane – podajesz imię i nazwisko, numer telefonu i adres e-mail, a w polu „Uwagi”, jeśli chcesz, krótką informację, np. czy to Twój pierwszy zabieg."
         ] },
-        { "p": "Na koniec klikasz „Zarezerwuj wizytę”. Podaj prawdziwe dane kontaktowe — tylko pod nimi możemy się z Tobą skontaktować w sprawie wizyty." },
+        { "p": "Na koniec klikasz „Zarezerwuj wizytę”. Podaj prawdziwe dane kontaktowe – tylko pod nimi możemy się z Tobą skontaktować w sprawie wizyty." },
         { "p": "Wizytę możesz zarezerwować online najpóźniej 24 godziny przed jej rozpoczęciem i najwyżej 60 dni naprzód. Godziny podajemy w czasie polskim (Warszawa). Wolne terminy wynikają z godzin pracy i bieżącego kalendarza Salonu." },
-        { "p": "Rezerwacja jest dokonana, gdy zobaczysz ekran „Wizyta zapisana” z numerem rezerwacji — termin jest już wtedy zapisany w kalendarzu Salonu. Jeśli zamiast potwierdzenia pojawi się komunikat o zajętym terminie, Rezerwacja nie doszła do skutku; wybierz wtedy inny termin. Jeśli pojawi się komunikat o błędzie, spróbuj ponownie — ponowna próba tego samego terminu nie utworzy drugiej wizyty — albo skontaktuj się z nami. Gdyby mimo błędu wizyta zapisała się w kalendarzu, skontaktujemy się z Tobą, aby ją potwierdzić lub odwołać." },
+        { "p": "Rezerwacja jest dokonana, gdy zobaczysz ekran „Wizyta zapisana” z numerem rezerwacji – termin jest już wtedy zapisany w kalendarzu Salonu. Jeśli zamiast potwierdzenia pojawi się komunikat o zajętym terminie, Rezerwacja nie doszła do skutku; wybierz wtedy inny termin. Jeśli pojawi się komunikat o błędzie, spróbuj ponownie – ponowna próba tego samego terminu nie utworzy drugiej wizyty – albo skontaktuj się z nami. Gdyby mimo błędu wizyta zapisała się w kalendarzu, skontaktujemy się z Tobą, aby ją potwierdzić lub odwołać." },
         { "p": "Potwierdzenie widzisz wyłącznie na ekranie. Możesz pobrać plik .ics i dodać wizytę do swojego kalendarza. Serwis nie wysyła SMS-ów ani e-maili z potwierdzeniem, dlatego zanotuj numer rezerwacji." },
         { "p": "Z jednego numeru telefonu lub adresu e-mail można mieć jednocześnie najwyżej dwie przyszłe wizyty zarezerwowane online, np. zabieg i korektę. Kolejne terminy umówisz, kontaktując się z nami." },
-        { "p": "Aby chronić kalendarz przed nadużyciami, Serwis ogranicza liczbę prób, sprawdza czas wypełniania formularza i — jeśli jest włączona — korzysta z weryfikacji Cloudflare Turnstile. Przy nietypowo dużej liczbie rezerwacji rezerwacja online może zostać czasowo wstrzymana; wtedy umów wizytę telefonicznie, e-mailem lub przez Instagram." },
-        { "p": "Rezerwacji online może dokonać osoba pełnoletnia. Możesz zarezerwować wizytę dla innej pełnoletniej osoby, jeśli się na to zgadza — podaj wtedy jej imię i nazwisko oraz dane kontaktowe i przekaż jej informacje z Polityki prywatności." }
+        { "p": "Aby chronić kalendarz przed nadużyciami, Serwis ogranicza liczbę prób, sprawdza czas wypełniania formularza i – jeśli jest włączona – korzysta z weryfikacji Cloudflare Turnstile. Przy nietypowo dużej liczbie rezerwacji rezerwacja online może zostać czasowo wstrzymana; wtedy umów wizytę telefonicznie, e-mailem lub przez Instagram." },
+        { "p": "Rezerwacji online może dokonać osoba pełnoletnia. Możesz zarezerwować wizytę dla innej pełnoletniej osoby, jeśli się na to zgadza – podaj wtedy jej imię i nazwisko oraz dane kontaktowe i przekaż jej informacje z Polityki prywatności." }
       ]
     },
     {
@@ -155,7 +155,7 @@
       "heading": "10. Wizyta w Salonie, zmiana i odwołanie terminu",
       "blocks": [
         { "p": "Każdy zabieg zaczyna się od konsultacji, architektury twarzy i rysunku wstępnego. Podczas konsultacji omawiamy Twoje oczekiwania, stan skóry i ewentualne przeciwwskazania oraz potwierdzamy zakres i cenę zabiegu." },
-        { "p": "Umowę o wykonanie zabiegu zawieramy w Salonie — po konsultacji, a przed rozpoczęciem zabiegu. Jeśli po konsultacji zabieg nie może zostać wykonany tego dnia, np. z powodu przeciwwskazań, albo zdecydujesz się z niego zrezygnować, zaproponujemy inny termin lub rozwiązanie. Rezygnacja po konsultacji jest bezpłatna. Zabiegi wykonujemy wyłącznie u osób pełnoletnich." },
+        { "p": "Umowę o wykonanie zabiegu zawieramy w Salonie – po konsultacji, a przed rozpoczęciem zabiegu. Jeśli po konsultacji zabieg nie może zostać wykonany tego dnia, np. z powodu przeciwwskazań, albo zdecydujesz się z niego zrezygnować, zaproponujemy inny termin lub rozwiązanie. Rezygnacja po konsultacji jest bezpłatna. Zabiegi wykonujemy wyłącznie u osób pełnoletnich." },
         { "p": "Aby zmienić lub odwołać termin, skontaktuj się z nami telefonicznie ({phone}), e-mailem ({email}) lub przez Instagram ({instagram}). Podaj numer rezerwacji albo imię i nazwisko oraz termin wizyty. Prosimy o kontakt najpóźniej 24 godziny przed wizytą. Zmiana i odwołanie terminu są zawsze bezpłatne. Serwis nie umożliwia samodzielnego odwołania wizyty online." },
         { "p": "Jeśli się spóźnisz, postaramy się przyjąć Cię tego samego dnia. Przy spóźnieniu powyżej 15 minut możemy zaproponować inny termin, aby zabieg nie odbywał się w pośpiechu ani kosztem kolejnych osób." },
         { "p": "Jeśli w ciągu 12 miesięcy dwukrotnie nie przyjdziesz na zarezerwowaną wizytę i jej nie odwołasz, kolejne wizyty możemy umawiać z Tobą wyłącznie telefonicznie, a nie przez rezerwację online." },
@@ -167,7 +167,7 @@
       "heading": "11. Ceny i charakter oferty",
       "blocks": [
         { "p": "Ceny w Serwisie podajemy w złotych polskich. Ceny zabiegów są cenami końcowymi (brutto), płatnymi w Salonie." },
-        { "p": "Cena zabiegu to cena z cennika, którą widzisz także przy Rezerwacji. Przy zabiegach z ceną „od” lub z wyceną indywidualną dokładną kwotę podajemy podczas konsultacji. Jeśli po konsultacji okaże się, że potrzebny jest inny zakres niż zarezerwowany, przedstawimy cenę przed rozpoczęciem zabiegu, a Ty zdecydujesz, czy się na niego zgadzasz. Korekta jest osobną pozycją cennika; w niektórych przypadkach, np. przy skórze tłustej lub porowatej albo po usuwaniu starego makijażu permanentnego, jest konieczna — powiemy Ci o tym podczas konsultacji." },
+        { "p": "Cena zabiegu to cena z cennika, którą widzisz także przy Rezerwacji. Przy zabiegach z ceną „od” lub z wyceną indywidualną dokładną kwotę podajemy podczas konsultacji. Jeśli po konsultacji okaże się, że potrzebny jest inny zakres niż zarezerwowany, przedstawimy cenę przed rozpoczęciem zabiegu, a Ty zdecydujesz, czy się na niego zgadzasz. Korekta jest osobną pozycją cennika; w niektórych przypadkach, np. przy skórze tłustej lub porowatej albo po usuwaniu starego makijażu permanentnego, jest konieczna – powiemy Ci o tym podczas konsultacji." },
         { "p": "Informacje o zabiegach, szkoleniach, pigmentach i maszynkach oraz o ich wynajmie, w tym ceny, są zaproszeniem do kontaktu i do zawarcia umowy (art. 71 Kodeksu cywilnego), a nie ofertą w rozumieniu art. 66 Kodeksu cywilnego. Warunki zakupu, szkolenia lub wynajmu ustalamy indywidualnie przed zawarciem umowy." },
         { "p": "Jeśli przy cenie zaznaczono, że jest to kwota netto (np. przy szkoleniach), doliczamy do niej podatek VAT według obowiązującej stawki, o ile jest należny. Przed zawarciem umowy zawsze podajemy cenę do zapłaty." },
         { "p": "Serwis nie przyjmuje płatności. Rezerwacja online jest bezpłatna i nie wymaga zadatku ani przedpłaty." },
@@ -183,8 +183,8 @@
           "e-mailem na adres {email};",
           "listownie na adres {address}."
         ] },
-        { "p": "W reklamacji podaj swoje imię i dane kontaktowe, opisz problem — co się stało, kiedy i na jakim urządzeniu lub w jakiej przeglądarce — a jeśli dotyczy Rezerwacji, podaj jej numer lub termin. Napisz też, czego oczekujesz. Jeśli czegoś zabraknie, poprosimy o uzupełnienie." },
-        { "p": "Odpowiemy w ciągu 14 dni od otrzymania reklamacji — tą drogą, którą ją złożysz, chyba że poprosisz o inną. Jeśli jesteś konsumentem, a my nie odpowiemy w tym terminie, uważa się, że reklamację uwzględniliśmy." },
+        { "p": "W reklamacji podaj swoje imię i dane kontaktowe, opisz problem – co się stało, kiedy i na jakim urządzeniu lub w jakiej przeglądarce – a jeśli dotyczy Rezerwacji, podaj jej numer lub termin. Napisz też, czego oczekujesz. Jeśli czegoś zabraknie, poprosimy o uzupełnienie." },
+        { "p": "Odpowiemy w ciągu 14 dni od otrzymania reklamacji – tą drogą, którą ją złożysz, chyba że poprosisz o inną. Jeśli jesteś konsumentem, a my nie odpowiemy w tym terminie, uważa się, że reklamację uwzględniliśmy." },
         { "p": "Reklamacje dotyczące wykonanego zabiegu, zakupionych produktów lub szkolenia rozpatrujemy na zasadach właściwych dla tych umów i zgodnie z przepisami, w szczególności Kodeksu cywilnego i ustawy o prawach konsumenta." }
       ]
     },
@@ -202,7 +202,7 @@
       "id": "dane-osobowe",
       "heading": "14. Dane osobowe i pamięć przeglądarki",
       "blocks": [
-        { "p": "Administratorem danych osobowych podanych w Serwisie jest {company}. Jakie dane zbieramy, w jakim celu, jak długo je przechowujemy, komu je powierzamy (np. dostawcy hostingu i Kalendarza Google) i jakie masz prawa — opisuje Polityka prywatności: {siteUrl}/polityka-prywatnosci. W sprawach danych osobowych napisz na {privacyEmail}." },
+        { "p": "Administratorem danych osobowych podanych w Serwisie jest {company}. Jakie dane zbieramy, w jakim celu, jak długo je przechowujemy, komu je powierzamy (np. dostawcy hostingu i Kalendarza Google) i jakie masz prawa – opisuje Polityka prywatności: {siteUrl}/polityka-prywatnosci. W sprawach danych osobowych napisz na {privacyEmail}." },
         { "p": "Serwis nie korzysta z narzędzi analitycznych ani reklamowych i nie ustawia własnych plików cookies. W pamięci Twojej przeglądarki zapisuje tylko Listę pigmentów, jeśli z niej korzystasz, oraz Twoją decyzję w banerze cookies. Jeśli na stronie rezerwacji działa weryfikacja Cloudflare Turnstile, skrypt Cloudflare może zapisać w przeglądarce własne pliki cookies i dane techniczne. Szczegóły i sposób ich usunięcia opisuje Polityka cookies: {siteUrl}/polityka-cookies." }
       ]
     },
@@ -217,7 +217,7 @@
           "zmienią się nasze dane;",
           "będzie to konieczne ze względów bezpieczeństwa."
         ] },
-        { "p": "Nową wersję publikujemy w Serwisie z datą wejścia w życie, co najmniej 7 dni wcześniej — chyba że zmiana wynika z przepisów lub ze względów bezpieczeństwa i musi nastąpić szybciej. Wizyty zarezerwowane przed zmianą realizujemy według wersji obowiązującej w chwili Rezerwacji, chyba że nowa wersja jest dla Ciebie korzystniejsza." },
+        { "p": "Nową wersję publikujemy w Serwisie z datą wejścia w życie, co najmniej 7 dni wcześniej – chyba że zmiana wynika z przepisów lub ze względów bezpieczeństwa i musi nastąpić szybciej. Wizyty zarezerwowane przed zmianą realizujemy według wersji obowiązującej w chwili Rezerwacji, chyba że nowa wersja jest dla Ciebie korzystniejsza." },
         { "p": "Datę ostatniej aktualizacji podajemy na początku Regulaminu." }
       ]
     },
@@ -230,7 +230,7 @@
         { "p": "Jako konsument możesz skorzystać z pozasądowych sposobów rozwiązania sporu; udział w nich jest dobrowolny dla obu stron. Możesz w szczególności:" },
         { "list": [
           "zwrócić się o bezpłatną pomoc do miejskiego lub powiatowego rzecznika konsumentów;",
-          "skorzystać z mediacji lub sądu polubownego prowadzonych przez podmioty uprawnione do pozasądowego rozwiązywania sporów konsumenckich — ich rejestr i informacje o procedurach znajdziesz na stronie Urzędu Ochrony Konkurencji i Konsumentów (www.uokik.gov.pl);",
+          "skorzystać z mediacji lub sądu polubownego prowadzonych przez podmioty uprawnione do pozasądowego rozwiązywania sporów konsumenckich – ich rejestr i informacje o procedurach znajdziesz na stronie Urzędu Ochrony Konkurencji i Konsumentów (www.uokik.gov.pl);",
           "skorzystać z porad organizacji konsumenckich, np. Federacji Konsumentów."
         ] },
         { "p": "Jeśli nie uwzględnimy Twojej reklamacji, w odpowiedzi poinformujemy Cię, czy zgadzamy się na pozasądowe rozwiązanie sporu, i wskażemy właściwy podmiot." }
@@ -271,7 +271,7 @@
     {
       "what": "Spóźnienia",
       "proposal": "15 minut tolerancji; przy dłuższym spóźnieniu Salon może zaproponować inny termin.",
-      "why": "Zabiegi w rezerwacji online trwają od 45 do 120 minut, a kalendarz ma 15-minutowy bufor między wizytami — dłuższe spóźnienie przesuwa kolejne osoby."
+      "why": "Zabiegi w rezerwacji online trwają od 45 do 120 minut, a kalendarz ma 15-minutowy bufor między wizytami – dłuższe spóźnienie przesuwa kolejne osoby."
     },
     {
       "what": "Konsultacja",
@@ -286,12 +286,12 @@
     {
       "what": "Ceny zabiegów",
       "proposal": "Ceny w cenniku zabiegów to ceny końcowe (brutto), płatne w Salonie; cena może się zmienić wyłącznie przy innym zakresie zabiegu, zaakceptowanym przez klientkę przed jego rozpoczęciem.",
-      "why": "Przy cenach zabiegów nie ma dopisku „netto”, a wobec konsumentów cena musi być kwotą do zapłaty z podatkiem (ustawa o informowaniu o cenach towarów i usług). Zdanie „cennik ma charakter informacyjny” zostało usunięte, bo pozwalałoby żądać innej ceny niż pokazana przy rezerwacji — to ryzyko praktyki wprowadzającej w błąd."
+      "why": "Przy cenach zabiegów nie ma dopisku „netto”, a wobec konsumentów cena musi być kwotą do zapłaty z podatkiem (ustawa o informowaniu o cenach towarów i usług). Zdanie „cennik ma charakter informacyjny” zostało usunięte, bo pozwalałoby żądać innej ceny niż pokazana przy rezerwacji – to ryzyko praktyki wprowadzającej w błąd."
     },
     {
       "what": "Ceny szkoleń podane „netto”",
       "proposal": "Podać przy szkoleniach także cenę brutto albo wyraźnie oznaczyć ofertę szkoleń jako skierowaną do przedsiębiorców.",
-      "why": "Kursantki bywają osobami prywatnymi, a konsumentowi trzeba podać cenę do zapłaty; sama cena netto grozi karą z ustawy o informowaniu o cenach. Szkolenia finansowane ze środków publicznych (np. KFS) mogą być zwolnione z VAT — stawkę warto potwierdzić z księgową. To samo dotyczy wynajmu maszynki, gdzie strona podaje obie kwoty."
+      "why": "Kursantki bywają osobami prywatnymi, a konsumentowi trzeba podać cenę do zapłaty; sama cena netto grozi karą z ustawy o informowaniu o cenach. Szkolenia finansowane ze środków publicznych (np. KFS) mogą być zwolnione z VAT – stawkę warto potwierdzić z księgową. To samo dotyczy wynajmu maszynki, gdzie strona podaje obie kwoty."
     },
     {
       "what": "Ceny pigmentów w katalogu",
@@ -321,17 +321,17 @@
     {
       "what": "Wersje językowe Regulaminu",
       "proposal": "Opublikować tłumaczenia EN i RU; wiążąca wersja polska, niejasności na korzyść konsumenta.",
-      "why": "Serwis ma wersje /en i /ru (rezerwacja także pod /en/book i /ru/book), a osoba korzystająca z nich powinna rozumieć warunki. Art. 385 § 2 Kodeksu cywilnego i tak nakazuje tłumaczyć niejasności na korzyść konsumenta. Dopóki tłumaczeń nie ma, klientka z wersji EN/RU widzi tylko polski Regulamin — to ryzyko przy sporze z konsumentką nieznającą polskiego."
+      "why": "Serwis ma wersje /en i /ru (rezerwacja także pod /en/book i /ru/book), a osoba korzystająca z nich powinna rozumieć warunki. Art. 385 § 2 Kodeksu cywilnego i tak nakazuje tłumaczyć niejasności na korzyść konsumenta. Dopóki tłumaczeń nie ma, klientka z wersji EN/RU widzi tylko polski Regulamin – to ryzyko przy sporze z konsumentką nieznającą polskiego."
     },
     {
       "what": "Limit aktywnych rezerwacji online",
       "proposal": "Dwie przyszłe wizyty na jeden telefon lub e-mail (zgodnie z obecną konfiguracją).",
-      "why": "Limit chroni kalendarz przed blokowaniem terminów i jest opisany w Regulaminie — jeśli zmieni się w konfiguracji (src/lib/booking/config.js, abuse.maxActivePerContact), trzeba zmienić też pkt 9. To samo dotyczy 24 h wyprzedzenia i 60 dni naprzód (minLeadHours, maxDaysAhead)."
+      "why": "Limit chroni kalendarz przed blokowaniem terminów i jest opisany w Regulaminie – jeśli zmieni się w konfiguracji (src/lib/booking/config.js, abuse.maxActivePerContact), trzeba zmienić też pkt 9. To samo dotyczy 24 h wyprzedzenia i 60 dni naprzód (minLeadHours, maxDaysAhead)."
     },
     {
       "what": "Cloudflare Turnstile w Regulaminie",
       "proposal": "Zostawić sformułowania warunkowe („jeśli jest włączona”); jeśli Turnstile pozostanie na stałe wyłączony, usunąć wzmianki z pkt 5, 9 i 14 razem ze zmianami w Polityce prywatności i Polityce cookies.",
-      "why": "Spójność z decyzją o Turnstile w Polityce prywatności i Polityce cookies — wszystkie trzy dokumenty muszą opisywać ten sam stan."
+      "why": "Spójność z decyzją o Turnstile w Polityce prywatności i Polityce cookies – wszystkie trzy dokumenty muszą opisywać ten sam stan."
     },
     {
       "what": "Odrębne warunki szkoleń, wynajmu maszynki i sprzedaży pigmentów",

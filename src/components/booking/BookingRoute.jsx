@@ -1,6 +1,6 @@
-/* Komponent SERWEROWY strony rezerwacji — wspólny dla /umow-wizyte, /en/book i /ru/book
+/* Komponent SERWEROWY strony rezerwacji – wspólny dla /umow-wizyte, /en/book i /ru/book
    (bez 'use client': czyta zmienne środowiskowe i podpisuje znacznik formularza).
-   Informacja, czy rezerwacja online jest skonfigurowana, liczona w chwili żądania —
+   Informacja, czy rezerwacja online jest skonfigurowana, liczona w chwili żądania –
    dlatego każda z tych tras ma `export const dynamic = 'force-dynamic'`. Sam widok
    jest komponentem klienckim; gdy API mimo to zwróci 503, widok sam przełączy się
    na komunikat „chwilowo niedostępna”.

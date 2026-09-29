@@ -4,9 +4,9 @@
  * site.js zostaje jedynym źródłem liczb, cen, id i linków; pliki
  * src/content/site/{en,ru}.js podają wyłącznie przetłumaczone teksty
  * w tej samej strukturze (listy po indeksie). Pola `price` nie są tłumaczone
- * ręcznie — zapis ceny w danym języku liczy localizePriceString z tekstu polskiego
+ * ręcznie – zapis ceny w danym języku liczy localizePriceString z tekstu polskiego
  * („1700 zł” → „1,700 PLN” / „1 700 PLN”). Działa na serwerze i w przeglądarce.
- * Importy względne z rozszerzeniem — plik ładuje też `node --test` (src/i18n/*.test.js).
+ * Importy względne z rozszerzeniem – plik ładuje też `node --test` (src/i18n/*.test.js).
  */
 
 import * as PL from '../lib/site.js';
@@ -46,7 +46,7 @@ export function getSite(locale) {
  * Pozycja listy znaleziona w danych POLSKICH, zwrócona w danym języku (ta sama
  * pozycja listy). Dla widoków, które szukają wiersza po polskiej nazwie:
  *   localizedFind(locale, 'PRICING_PMU', (i) => i.name === 'Korekta do 3 miesięcy')
- * Szukanie po przetłumaczonej nazwie nie zadziała — nazwy różnią się między językami.
+ * Szukanie po przetłumaczonej nazwie nie zadziała – nazwy różnią się między językami.
  */
 export function localizedFind(locale, key, predicate) {
   const source = PL[key];

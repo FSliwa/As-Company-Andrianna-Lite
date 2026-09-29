@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * 04 Dane — imię i nazwisko*, telefon*, e-mail*, uwagi (bez pytań o zdrowie)
+ * 04 Dane – imię i nazwisko*, telefon*, e-mail*, uwagi (bez pytań o zdrowie)
  * + niewidoczne pole-pułapka „website” (honeypot; API odrzuca wypełnione).
  * Błędy: tekst pod polem, powiązany przez aria-describedby, aria-invalid.
  */
@@ -87,7 +87,7 @@ export function ContactFields({ values, errors, onChange, onBlur }) {
           describedBy="b-note-hint"
         />
         <p id="b-note-hint" className="mt-2 text-[0.8125rem] leading-relaxed text-mocha">
-          Np. czy to pierwszy zabieg, czy odświeżenie. Nie wpisuj informacji o zdrowiu — omówimy je na konsultacji.
+          Np. czy to pierwszy zabieg, czy odświeżenie. Nie wpisuj informacji o zdrowiu – omówimy je na konsultacji.
         </p>
       </div>
 

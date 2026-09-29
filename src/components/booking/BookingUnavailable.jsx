@@ -17,7 +17,7 @@ export const BookingUnavailable = forwardRef(function BookingUnavailable(_, head
           Rezerwacja online jest chwilowo niedostępna.
         </h2>
         <p className="as-body mt-5">
-          Termin ustalimy z Tobą bezpośrednio — napisz na Instagramie {CONTACT.instagramHandle} albo przejdź
+          Termin ustalimy z Tobą bezpośrednio – napisz na Instagramie {CONTACT.instagramHandle} albo przejdź
           do strony kontaktowej.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">

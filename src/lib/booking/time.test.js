@@ -20,7 +20,7 @@ import {
 const TZ = 'Europe/Warsaw';
 const iso = (d) => (d ? d.toISOString() : d);
 
-describe('zonedToUtc — zmiana czasu jesienią (25.10.2026, CEST → CET)', () => {
+describe('zonedToUtc – zmiana czasu jesienią (25.10.2026, CEST → CET)', () => {
   test('10:00 w dniu zmiany to już czas zimowy (UTC+1)', () => {
     assert.equal(iso(zonedToUtc('2026-10-25', '10:00', TZ)), '2026-10-25T09:00:00.000Z');
   });
@@ -52,7 +52,7 @@ describe('zonedToUtc — zmiana czasu jesienią (25.10.2026, CEST → CET)', () 
   });
 });
 
-describe('zonedToUtc — zmiana czasu wiosną (29.03.2026, CET → CEST)', () => {
+describe('zonedToUtc – zmiana czasu wiosną (29.03.2026, CET → CEST)', () => {
   test('10:00 w dniu zmiany to już czas letni (UTC+2)', () => {
     assert.equal(iso(zonedToUtc('2026-03-29', '10:00', TZ)), '2026-03-29T08:00:00.000Z');
   });
@@ -72,7 +72,7 @@ describe('zonedToUtc — zmiana czasu wiosną (29.03.2026, CET → CEST)', () =>
   });
 });
 
-describe('zonedToUtc — inne przypadki', () => {
+describe('zonedToUtc – inne przypadki', () => {
   test('zły format lub nieistniejąca data → null', () => {
     assert.equal(zonedToUtc('2026-02-30', '10:00', TZ), null);
     assert.equal(zonedToUtc('2026-10-26', '24:00', TZ), null);

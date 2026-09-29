@@ -1,15 +1,15 @@
 'use client';
 
 /**
- * Ścieżka zabiegowa — „Numer 01".
+ * Ścieżka zabiegowa – „Numer 01".
  *
  * Strona nie wymyśla pakietów ani rabatów. Pokazuje realną kolejność wizyt
- * i koszt każdego kroku — wyłącznie ceny z cennika w src/lib/site.js
+ * i koszt każdego kroku – wyłącznie ceny z cennika w src/lib/site.js
  * (PRICING_PMU, PRICING_REFRESH), pobierane po nazwie pozycji, nie wpisywane
  * ręcznie. Jeśli powstaną prawdziwe pakiety z własnymi cenami, dopisz je do
  * site.js i podepnij tutaj.
  *
- * Pełny cennik (PMU / Refresh / Usuwanie) żyje WYŁĄCZNIE na /uslugi#cennik —
+ * Pełny cennik (PMU / Refresh / Usuwanie) żyje WYŁĄCZNIE na /uslugi#cennik –
  * tu są tylko linki, bez duplikatu tabel.
  *
  * Konsultacja nie ma ceny: ani cennik (site.js, grafiki cennik-*.jpg), ani
@@ -18,7 +18,7 @@
  *
  * Rytm tła: 01 hero band (espresso) → 02 kroki (cream-50) → 03 Statement
  * (portret ROLES.statementPackages, espresso-900) → 04 cennik (cream-100,
- * jasny oddech — Statement nie może stykać się z ClosingCta) → 05 ClosingCta
+ * jasny oddech – Statement nie może stykać się z ClosingCta) → 05 ClosingCta
  * + stopka (espresso-900, jeden blok).
  */
 
@@ -29,12 +29,12 @@ import { BOOKING_URL, FOUNDER, PRICING_PMU, PRICING_REFRESH } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
 
 /* ------------------------------------------------------------------ */
-/*  Ceny — wyłącznie z cennika (site.js), wyszukiwane po nazwie        */
+/*  Ceny – wyłącznie z cennika (site.js), wyszukiwane po nazwie        */
 /* ------------------------------------------------------------------ */
 
 const pick = (list, name) => list.items.find((item) => item.name === name) || { name, price: '' };
 
-/** Twarda spacja przed „zł” — cena nie łamie się na końcu wiersza. */
+/** Twarda spacja przed „zł” – cena nie łamie się na końcu wiersza. */
 const zl = (price) => String(price || '').replace(/\s+zł$/, '\u00a0zł');
 
 const SNB = pick(PRICING_PMU, 'Super Natural Brows');
@@ -52,20 +52,20 @@ const SAME_PRICE_TREATMENTS = PRICING_PMU.items
 const joinOr = (names) =>
   names.length > 1 ? `${names.slice(0, -1).join(', ')} lub ${names[names.length - 1]}` : names[0];
 
-/* Rząd Stat w hero — wartości z cennika, podpisy z nazw pozycji */
+/* Rząd Stat w hero – wartości z cennika, podpisy z nazw pozycji */
 const HERO_STATS = [
   { value: zl(SNB.price), label: 'zabieg' },
   { value: zl(CORRECTION.price), label: CORRECTION.name.toLowerCase() },
   { value: zl(REFRESH_18M.price), label: REFRESH_18M.name.toLowerCase() },
 ];
 
-/** Kolejne kroki — cena wprost z cennika; bez ceny, gdy cennik jej nie podaje. */
+/** Kolejne kroki – cena wprost z cennika; bez ceny, gdy cennik jej nie podaje. */
 const PATH = [
   {
     number: '01',
     title: 'Konsultacja',
     when: 'Przed zabiegiem',
-    /* brak ceny w cenniku — nie wpisujemy (patrz komentarz na górze pliku) */
+    /* brak ceny w cenniku – nie wpisujemy (patrz komentarz na górze pliku) */
     price: null,
     desc: 'Dobieramy kształt i kolor do rysów twarzy oraz oceniamy skórę. Ustalamy, czy potrzebna będzie obowiązkowa korekta.',
   },
@@ -74,7 +74,7 @@ const PATH = [
     title: 'Zabieg',
     when: 'Dzień zero',
     price: zl(SNB.price),
-    desc: `${joinOr(SAME_PRICE_TREATMENTS)}. ${EYELINERS.name} — ${zl(EYELINERS.price)}.`,
+    desc: `${joinOr(SAME_PRICE_TREATMENTS)}. ${EYELINERS.name} – ${zl(EYELINERS.price)}.`,
   },
   {
     number: '03',
@@ -88,12 +88,12 @@ const PATH = [
     title: 'Odświeżenie',
     when: 'Do 1,5 roku',
     price: zl(REFRESH_18M.price),
-    desc: `Dla stałych klientek. Do 3 lat — ${zl(REFRESH_3Y.price)}, po 3 latach — ${zl(REFRESH_AFTER_3Y.price)}, niezależnie od strefy pigmentacji.`,
+    desc: `Dla stałych klientek. Do 3 lat – ${zl(REFRESH_3Y.price)}, po 3 latach – ${zl(REFRESH_AFTER_3Y.price)}, niezależnie od strefy pigmentacji.`,
   },
 ];
 
 /* ================================================================== */
-/*  01 — HERO (band, espresso, bez zdjęcia)                            */
+/*  01 – HERO (band, espresso, bez zdjęcia)                            */
 /* ================================================================== */
 
 function Hero() {
@@ -120,7 +120,7 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 — CZTERY KROKI (cream-50)                                       */
+/*  02 – CZTERY KROKI (cream-50)                                       */
 /* ================================================================== */
 
 function StepsBand() {
@@ -152,7 +152,7 @@ function StepsBand() {
 }
 
 /* ================================================================== */
-/*  03 — STATEMENT (moment strony: portret + jedno zdanie z leadu)     */
+/*  03 – STATEMENT (moment strony: portret + jedno zdanie z leadu)     */
 /* ================================================================== */
 
 function StatementBand() {
@@ -161,7 +161,7 @@ function StatementBand() {
     <Statement
       image={image}
       position={position}
-      alt={`${FOUNDER.name} — portret z sesji wizerunkowej marki`}
+      alt={`${FOUNDER.name} – portret z sesji wizerunkowej marki`}
       number="03"
       label="Rozłożone w czasie"
       title="Nie jedna wizyta,"
@@ -171,7 +171,7 @@ function StatementBand() {
 }
 
 /* ================================================================== */
-/*  04 — CENNIK (cream-100, sam link — tabele żyją na /uslugi#cennik)  */
+/*  04 – CENNIK (cream-100, sam link – tabele żyją na /uslugi#cennik)  */
 /* ================================================================== */
 
 function PricingLinkBand() {
@@ -183,7 +183,7 @@ function PricingLinkBand() {
             <SectionLabel number="04">Cennik</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Wszystkie ceny w{'\u00a0'}jednym miejscu.</h2>
             <p className="as-body mt-6 max-w-xl">
-              Makijaż permanentny, korekta, odświeżenie i{'\u00a0'}usuwanie — pełny cennik jest na stronie zabiegów.
+              Makijaż permanentny, korekta, odświeżenie i{'\u00a0'}usuwanie – pełny cennik jest na stronie zabiegów.
             </p>
           </Reveal>
 
@@ -199,7 +199,7 @@ function PricingLinkBand() {
 }
 
 /* ================================================================== */
-/*  05 — PIERWSZY KROK (ClosingCta, bez zdjęć)                         */
+/*  05 – PIERWSZY KROK (ClosingCta, bez zdjęć)                         */
 /* ================================================================== */
 
 function ClosingBand() {

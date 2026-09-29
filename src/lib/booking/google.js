@@ -1,13 +1,13 @@
 /**
- * Klient Kalendarza Google bez `googleapis` — tylko serwer (node:crypto + fetch).
+ * Klient Kalendarza Google bez `googleapis` – tylko serwer (node:crypto + fetch).
  *
  * Uwierzytelnienie: konto usługi → JWT RS256 podpisany `crypto.createSign('RSA-SHA256')`
  * → wymiana na token (grant jwt-bearer) → cache w pamięci do `exp − 60 s`.
  * Każde wywołanie ma timeout (AbortSignal.timeout, domyślnie 10 s), a błędy są
- * mapowane na własne klasy z errors.js — bez treści odpowiedzi i danych osobowych.
+ * mapowane na własne klasy z errors.js – bez treści odpowiedzi i danych osobowych.
  *
  * Interfejs (wspólny z memory.js); każda metoda przyjmuje opcjonalny `signal`
- * (łączny budżet czasu żądania — łączony z timeoutem pojedynczego wywołania):
+ * (łączny budżet czasu żądania – łączony z timeoutem pojedynczego wywołania):
  *   freeBusy({ timeMin, timeMax, signal })          → [{ start, end }] (ISO)
  *   listEvents({ timeMin, timeMax?, privateProperty?, signal })
  *                                                   → [{ id, status, start, end, transparency, created,
@@ -37,8 +37,8 @@ export const DEFAULT_TIMEOUT_MS = 10_000;
 const TOKEN_SAFETY_MS = 60_000;
 const MAX_EVENT_PAGES = 10;
 
-// eventType — urodziny i miejsce pracy nie blokują terminów (slots.js › blocksTime);
-// attendees(self,responseStatus) — odrzucone zaproszenia też nie.
+// eventType – urodziny i miejsce pracy nie blokują terminów (slots.js › blocksTime);
+// attendees(self,responseStatus) – odrzucone zaproszenia też nie.
 const EVENT_FIELDS = 'id,status,start,end,transparency,created,extendedProperties,eventType,attendees(self,responseStatus)';
 
 /**
@@ -202,7 +202,7 @@ export function createGoogleCalendar({
     if (query) {
       for (const [k, v] of Object.entries(query)) {
         if (v === undefined || v === null) continue;
-        // Parametry powtarzalne (np. privateExtendedProperty) — tablica = kilka wpisów.
+        // Parametry powtarzalne (np. privateExtendedProperty) – tablica = kilka wpisów.
         if (Array.isArray(v)) v.forEach((item) => url.searchParams.append(k, String(item)));
         else url.searchParams.set(k, String(v));
       }
@@ -218,7 +218,7 @@ export function createGoogleCalendar({
     );
 
     if (res.status === 401 && !retried) {
-      // Token unieważniony wcześniej niż wynikało z exp — jedna ponowna próba z nowym.
+      // Token unieważniony wcześniej niż wynikało z exp – jedna ponowna próba z nowym.
       token = null;
       return api(method, path, { query, body, okStatuses, signal }, true);
     }
@@ -247,7 +247,7 @@ export function createGoogleCalendar({
       const entry = calendars[calendarId] || Object.values(calendars)[0];
       if (!entry) throw new CalendarApiError('freeBusy returned no calendar', { status: 200, reason: 'noCalendar' });
       if (Array.isArray(entry.errors) && entry.errors.length) {
-        // Najczęściej 'notFound' — kalendarz nie jest udostępniony kontu usługi.
+        // Najczęściej 'notFound' – kalendarz nie jest udostępniony kontu usługi.
         const reason = entry.errors[0] && typeof entry.errors[0].reason === 'string' ? entry.errors[0].reason : 'unknown';
         throw new CalendarApiError('freeBusy calendar error', { status: 200, reason });
       }
@@ -256,7 +256,7 @@ export function createGoogleCalendar({
 
     /**
      * `privateProperty` ({ source: 'www' }) → privateExtendedProperty=source=www
-     * (kilka par = wszystkie muszą pasować). Bez `timeMax` — wszystkie od `timeMin`.
+     * (kilka par = wszystkie muszą pasować). Bez `timeMax` – wszystkie od `timeMin`.
      */
     async listEvents({ timeMin, timeMax, privateProperty, signal }) {
       const items = [];
@@ -275,7 +275,7 @@ export function createGoogleCalendar({
             showDeleted: 'false',
             orderBy: 'startTime',
             maxResults: 250,
-            // Tylko pola potrzebne do liczenia zajętości — bez tytułów i opisów (RODO).
+            // Tylko pola potrzebne do liczenia zajętości – bez tytułów i opisów (RODO).
             fields: `items(${EVENT_FIELDS}),nextPageToken`,
             pageToken,
           },

@@ -8,7 +8,7 @@
     --font-display: 'Bodoni Moda Variable', 'Bodoni Moda', 'Didot', 'Playfair Display', Georgia, serif;
     --font-sans: 'Jost Variable', 'Jost', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-    /* tokeny shadcn — przemapowane na paletę marki */
+    /* tokeny shadcn – przemapowane na paletę marki */
     --background: 40 40% 94%;
     --foreground: 28 28% 11%;
     --card: 40 45% 97%;
@@ -57,7 +57,7 @@
   }
 
   /* Delikatny, złoty focus zamiast domyślnego niebieskiego */
-  /* Fokus w kolorze tekstu elementu: ciemny na kremie, jasny na espresso —
+  /* Fokus w kolorze tekstu elementu: ciemny na kremie, jasny na espresso –
      zawsze ≥ 3:1 (złoty #B89768 dawał na kremie 2,3–2,6:1). */
   :focus-visible {
     outline: 2px solid currentColor;
@@ -66,17 +66,17 @@
 }
 
 @layer components {
-  /* ——— Siatka i rytm ——— */
+  /* ––– Siatka i rytm ––– */
   .as-shell {
     @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-14;
   }
 
-  /* Rytm „magazynu": 56 / 80 px. Sekcja to rozkładówka — ma oddychać. */
+  /* Rytm „magazynu": 56 / 80 px. Sekcja to rozkładówka – ma oddychać. */
   .as-section {
     @apply py-14 lg:py-20;
   }
 
-  /* ——— Typografia ——— */
+  /* ––– Typografia ––– */
   .as-display {
     @apply font-display font-normal leading-[0.92] tracking-[-0.015em];
   }
@@ -87,7 +87,7 @@
     font-size: clamp(3.25rem, 13.8vw, 12.5rem);
   }
 
-  /* ——— Skala Bodoni: 5 rozmiarów i koniec ———
+  /* ––– Skala Bodoni: 5 rozmiarów i koniec –––
      hero (cqw, Home.jsx) · lg = H1 podstron (88 px) · section = JEDYNY H2 (60 px)
      · title = tytuły wierszy/kart (28 px) · numbered-title = 24 px italic.
      Bodoni nigdy poniżej 22 px i nigdy w tekście ciągłym. */
@@ -109,7 +109,7 @@
     font-size: clamp(2.25rem, 4.2vw, 3.75rem);
   }
 
-  /* Wycofane warianty — aliasy, żeby stare użycia zbiegły się do skali. */
+  /* Wycofane warianty – aliasy, żeby stare użycia zbiegły się do skali. */
   .as-display-section-sm {
     @apply as-display-section;
   }
@@ -122,7 +122,7 @@
     @apply font-display text-[1.5rem] font-normal leading-[1.15] sm:text-[1.75rem];
   }
 
-  /* ——— Jost: 17 / 13 / 11 px ——— */
+  /* ––– Jost: 17 / 13 / 11 px ––– */
   .as-body {
     @apply max-w-[36rem] text-[1.0625rem] leading-[1.6] text-ink/80;
   }
@@ -145,7 +145,7 @@
     @apply font-display text-xl italic sm:text-2xl;
   }
 
-  /* Treść merytoryczna pozycji (kroki, korzyści, etapy) — 15 px, nie 13:
+  /* Treść merytoryczna pozycji (kroki, korzyści, etapy) – 15 px, nie 13:
      13 px zostaje tylko dla podpisów pod zdjęciami i not cennika. */
   .as-numbered-desc {
     @apply mt-2 max-w-[24rem] text-[0.9375rem] leading-[1.65];
@@ -170,12 +170,12 @@
     @apply border border-gold/35 p-1;
   }
 
-  /* Mikro-etykiety w kapitalikach: „02 / O NAS" — 11 px */
+  /* Mikro-etykiety w kapitalikach: „02 / O NAS" – 11 px */
   .as-label {
     @apply font-sans text-[0.6875rem] font-medium uppercase tracking-label;
   }
 
-  /* Kicker nad tytułem karty — kontrast AA (ink/65 ≈ 5:1, cream-200/70 ≈ 5,9:1) */
+  /* Kicker nad tytułem karty – kontrast AA (ink/65 ≈ 5:1, cream-200/70 ≈ 5,9:1) */
   .as-kicker {
     @apply as-label text-ink/65;
   }
@@ -188,12 +188,12 @@
     @apply as-label text-gold-deep;
   }
 
-  /* Złota kreska-punktor w listach (zamiast kropki) — jedna szerokość w serwisie. */
+  /* Złota kreska-punktor w listach (zamiast kropki) – jedna szerokość w serwisie. */
   .as-dash {
     @apply mt-[0.7rem] h-px w-6 shrink-0 bg-gold;
   }
 
-  /* Krótki cytat w karcie — Jost italic (Bodoni nie schodzi poniżej 22 px) */
+  /* Krótki cytat w karcie – Jost italic (Bodoni nie schodzi poniżej 22 px) */
   .as-quote {
     @apply font-sans text-[0.9375rem] italic leading-[1.7];
   }
@@ -202,12 +202,12 @@
     @apply as-quote text-cream-200/85;
   }
 
-  /* Cytat wyróżniony — jeden na stronę */
+  /* Cytat wyróżniony – jeden na stronę */
   .as-pullquote {
     @apply font-display text-[1.625rem] italic leading-[1.35] sm:text-[2rem];
   }
 
-  /* Inicjał — jeden detal magazynowy w serwisie (/o-nas) */
+  /* Inicjał – jeden detal magazynowy w serwisie (/o-nas) */
   .as-dropcap::first-letter {
     float: left;
     font-family: var(--font-display), 'Bodoni Moda', Didot, Georgia, serif;
@@ -217,8 +217,8 @@
     color: #d8c3a0;
   }
 
-  /* ——— Linki strzałkowe ——— */
-  /* Uwaga: klasę `group` dodajemy w JSX — Tailwind nie pozwala jej użyć w @apply. */
+  /* ––– Linki strzałkowe ––– */
+  /* Uwaga: klasę `group` dodajemy w JSX – Tailwind nie pozwala jej użyć w @apply. */
   /* ::before powiększa pole dotyku do ≥ 44 px bez zmiany wyglądu linku */
   .as-arrow {
     @apply relative inline-flex items-center gap-3 border-b pb-2 text-[0.6875rem] font-medium uppercase tracking-wider2 transition-colors;
@@ -243,7 +243,7 @@
     @apply transition-transform duration-300 group-hover:translate-x-1.5;
   }
 
-  /* ——— Przyciski ——— */
+  /* ––– Przyciski ––– */
   /* border-transparent: warianty pełne mają tę samą wysokość co ghost (51 px),
      więc para przycisków w jednej linii zawsze jest równa. */
   .as-btn {
@@ -254,12 +254,12 @@
     @apply as-btn bg-ink text-cream-50 hover:bg-espresso-600;
   }
 
-  /* Przycisk główny na ciemnym tle — kremowy. Złoto nigdy jako wypełnienie. */
+  /* Przycisk główny na ciemnym tle – kremowy. Złoto nigdy jako wypełnienie. */
   .as-btn-invert {
     @apply as-btn bg-cream-100 text-ink hover:bg-cream-50;
   }
 
-  /* Wycofany — alias, żeby stare użycia dostały kremowy przycisk. */
+  /* Wycofany – alias, żeby stare użycia dostały kremowy przycisk. */
   .as-btn-gold {
     @apply as-btn-invert;
   }
@@ -272,7 +272,7 @@
     @apply as-btn border border-cream-200/30 text-cream-50 hover:border-gold-light hover:bg-gold-light hover:text-espresso-900;
   }
 
-  /* ——— Ramki i linie ——— */
+  /* ––– Ramki i linie ––– */
   .as-hair {
     @apply h-px w-full bg-gold/35;
   }
@@ -281,7 +281,7 @@
     @apply h-px w-full bg-cream-200/20;
   }
 
-  /* Cienka złota ramka wokół kadru — jak w makiecie */
+  /* Cienka złota ramka wokół kadru – jak w makiecie */
   .as-frame {
     @apply relative;
   }
@@ -300,7 +300,7 @@
     }
   }
 
-  /* telefon: linia ramki 16 px od krawędzi ekranu, nie 10 px — wewnątrz marginesu łamu */
+  /* telefon: linia ramki 16 px od krawędzi ekranu, nie 10 px – wewnątrz marginesu łamu */
   @media (max-width: 639px) {
     .as-frame {
       margin-inline: 0.375rem;
@@ -312,7 +312,7 @@
     @apply relative overflow-hidden bg-cream-200;
   }
 
-  /* <picture> nie ma własnego boxu — img pozycjonuje się względem .as-media */
+  /* <picture> nie ma własnego boxu – img pozycjonuje się względem .as-media */
   .as-media picture {
     display: contents;
   }
@@ -337,14 +337,14 @@
     filter: brightness(0.9) saturate(0.88) contrast(1.04);
   }
 
-  /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) — tylko lekkie
+  /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) – tylko lekkie
      zdjęcie nasycenia, żeby skóra nie była pomarańczowa na tle kremu. */
   .as-media-light img {
     filter: saturate(0.85) brightness(1.02);
   }
 
-  /* ——— Numerowane pozycje 01 / 02 / 03 ——— */
-  /* Numerały 01/02/03 — ≥ 24 px (tekst duży, próg 3:1): na kremie gold-dark
+  /* ––– Numerowane pozycje 01 / 02 / 03 ––– */
+  /* Numerały 01/02/03 – ≥ 24 px (tekst duży, próg 3:1): na kremie gold-dark
      3,7:1; na ciemnym tle nadpisywane text-gold-light w widokach. */
   .as-num {
     @apply font-display text-2xl leading-none text-gold-dark sm:text-[1.75rem];
@@ -386,7 +386,7 @@
   }
 }
 
-/* Wejście tytułu hero — trzy wyrazy z opóźnieniem (Home.jsx).
+/* Wejście tytułu hero – trzy wyrazy z opóźnieniem (Home.jsx).
    Tylko ruch, bez zanikania: gdy przeglądarka nie renderuje klatek (karta
    w tle, zrzut, crawler), tytuł i tak jest w pełni widoczny. */
 @keyframes as-rise {

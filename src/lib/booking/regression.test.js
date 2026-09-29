@@ -28,7 +28,7 @@ describe('DST 2027 (28.03 / 31.10)', () => {
     assert.equal(zonedToUtc('2027-10-31', '02:30', TZ, { disambiguation: 'later' }).toISOString(), '2027-10-31T01:30:00.000Z');
     assert.equal(zonedToUtc('2027-10-31', '02:30', TZ, { disambiguation: 'reject' }), null);
   });
-  test('doba 28.03.2027 ma 23 h, 31.10.2027 — 25 h', () => {
+  test('doba 28.03.2027 ma 23 h, 31.10.2027 – 25 h', () => {
     const len = (d) => {
       const r = dayRange(d, TZ);
       return (r.end - r.start) / HOUR;
@@ -128,7 +128,7 @@ describe('losesRace na granicy bufora', () => {
   });
 });
 
-describe('icsFileName — data w strefie salonu', () => {
+describe('icsFileName – data w strefie salonu', () => {
   test('Date/ms o 00:30 w Warszawie → dzień warszawski, nie UTC', () => {
     assert.equal(icsFileName(new Date('2026-10-25T23:30:00Z')), 'wizyta-2026-10-26.ics');
     assert.equal(icsFileName(Date.parse('2026-07-01T22:30:00Z')), 'wizyta-2026-07-02.ics');
@@ -136,7 +136,7 @@ describe('icsFileName — data w strefie salonu', () => {
   });
 });
 
-describe('proces w innej strefie czasowej (TZ) — te same wyniki', () => {
+describe('proces w innej strefie czasowej (TZ) – te same wyniki', () => {
   const script = `
     const time = await import(${JSON.stringify(new URL('./time.js', import.meta.url).href)});
     const slots = await import(${JSON.stringify(new URL('./slots.js', import.meta.url).href)});

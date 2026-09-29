@@ -1,17 +1,17 @@
 'use client';
 
 /**
- * Lista „Twoje zamówienie” — stan w React, kopia w localStorage.
+ * Lista „Twoje zamówienie” – stan w React, kopia w localStorage.
  *
  * Pozycja: { productId (slug ze sklepu), label (pojemność albo null), qty }.
  * Kopia w localStorage (klucz ORDER_KEY) jest tylko wygodą: każdy odczyt
  * i zapis jest w try/catch, więc przy zablokowanym storage (tryb prywatny,
  * podgląd, polityka przeglądarki) lista działa do przeładowania strony.
- * Dane kontaktowe z formularza NIE trafiają do storage — tylko produkty.
+ * Dane kontaktowe z formularza NIE trafiają do storage – tylko produkty.
  *
  * Odczyt dopiero po zamontowaniu (useEffect), więc HTML z serwera i pierwszy
  * render w przeglądarce są identyczne (bez błędu hydratacji). Zapis rusza
- * dopiero po odczycie — pusta lista startowa nie nadpisuje zapisanej.
+ * dopiero po odczycie – pusta lista startowa nie nadpisuje zapisanej.
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -55,7 +55,7 @@ function writeStorage(items) {
     if (items.length) window.localStorage.setItem(ORDER_KEY, JSON.stringify(items));
     else window.localStorage.removeItem(ORDER_KEY);
   } catch {
-    /* brak storage — lista żyje tylko w pamięci strony */
+    /* brak storage – lista żyje tylko w pamięci strony */
   }
 }
 
@@ -66,13 +66,13 @@ export function useOrder() {
   useEffect(() => {
     setItems(readStorage());
     setReady(true);
-    /* druga karta z tą samą stroną — ta sama lista */
+    /* druga karta z tą samą stroną – ta sama lista */
     const onStorage = (e) => {
       if (e.key !== ORDER_KEY) return;
       try {
         setItems(e.newValue ? sanitizeOrder(JSON.parse(e.newValue)) : []);
       } catch {
-        /* uszkodzony wpis — zostaw bieżącą listę */
+        /* uszkodzony wpis – zostaw bieżącą listę */
       }
     };
     window.addEventListener('storage', onStorage);
@@ -83,7 +83,7 @@ export function useOrder() {
     if (ready) writeStorage(items);
   }, [items, ready]);
 
-  /* Funkcje stabilne (bez zależności) — komórki katalogu w React.memo
+  /* Funkcje stabilne (bez zależności) – komórki katalogu w React.memo
      nie renderują się od nowa przy każdej zmianie listy. */
   const add = useCallback((productId, label = null, qty = 1) => {
     setItems((prev) => {
@@ -107,7 +107,7 @@ export function useOrder() {
 
   const summary = useMemo(() => orderSummary(items), [items]);
 
-  /** Łączna liczba sztuk danego produktu (wszystkie pojemności) — do komórek katalogu. */
+  /** Łączna liczba sztuk danego produktu (wszystkie pojemności) – do komórek katalogu. */
   const qtyByProduct = useMemo(() => {
     const map = new Map();
     for (const x of items) map.set(x.productId, (map.get(x.productId) || 0) + x.qty);

@@ -67,7 +67,7 @@ describe('GET /api/booking/slots', () => {
     assert.deepEqual(r.json, { error: 'disabled' });
     assert.match(r.headers.get('cache-control'), /no-store/);
   });
-  test('200 — sloty dnia', async () => {
+  test('200 – sloty dnia', async () => {
     const r = await read(await handleSlotsGet(get('date=2026-10-26&treatment=perfect-lips'), deps));
     assert.equal(r.status, 200);
     assert.deepEqual(Object.keys(r.json), ['date', 'treatment', 'timeZone', 'slots']);
@@ -76,7 +76,7 @@ describe('GET /api/booking/slots', () => {
     assert.equal(r.json.timeZone, 'Europe/Warsaw');
     assert.match(r.headers.get('cache-control'), /no-store/);
   });
-  test('200 — miesiąc', async () => {
+  test('200 – miesiąc', async () => {
     const r = await read(await handleSlotsGet(get('month=2026-11&treatment=korekta'), deps));
     assert.equal(r.status, 200);
     assert.equal(r.json.month, '2026-11');
@@ -128,7 +128,7 @@ describe('GET /api/booking/slots', () => {
 });
 
 describe('POST /api/booking', () => {
-  test('201 — zapis i odpowiedź', async () => {
+  test('201 – zapis i odpowiedź', async () => {
     const r = await read(await handleBookingPost(post(), deps));
     assert.equal(r.status, 201);
     assert.deepEqual(Object.keys(r.json).sort(), ['bookingId', 'end', 'start', 'timeZone', 'treatment']);
@@ -138,10 +138,10 @@ describe('POST /api/booking', () => {
     assert.match(r.headers.get('cache-control'), /no-store/);
     const events = provider.snapshot();
     assert.equal(events.length, 1);
-    assert.equal(events[0].summary, 'Wizyta: Perfect Lips — Anna Kowalska');
+    assert.equal(events[0].summary, 'Wizyta: Perfect Lips – Anna Kowalska');
     assert.equal(events[0].attendees, undefined);
   });
-  test('409 taken — drugi raz ten sam termin; sloty GET już go nie pokazują', async () => {
+  test('409 taken – drugi raz ten sam termin; sloty GET już go nie pokazują', async () => {
     assert.equal((await handleBookingPost(post(), deps)).status, 201);
     const r = await read(await handleBookingPost(post({ ...body, name: 'Beata Nowak' }), deps));
     assert.equal(r.status, 409);
@@ -150,7 +150,7 @@ describe('POST /api/booking', () => {
     assert.ok(!slots.json.slots.includes('10:00'));
     assert.equal(slots.json.slots[0], '12:30', '10:00 + 2 h + 15 min bufora → 12:15 → pierwszy na siatce 12:30');
   });
-  test('409 taken — termin poza oknem (za wcześnie)', async () => {
+  test('409 taken – termin poza oknem (za wcześnie)', async () => {
     const r = await read(await handleBookingPost(post({ ...body, date: '2026-10-19' }), deps));
     assert.equal(r.status, 409);
   });
@@ -159,7 +159,7 @@ describe('POST /api/booking', () => {
     assert.equal(r.status, 503);
     assert.deepEqual(r.json, { error: 'disabled' });
   });
-  test('403 — brak Origin/Referer, obcy Origin, Origin "null"; Referer z tego hosta przechodzi', async () => {
+  test('403 – brak Origin/Referer, obcy Origin, Origin "null"; Referer z tego hosta przechodzi', async () => {
     const noOrigin = new Request(`${ORIGIN}/api/booking`, {
       method: 'POST',
       headers: { host: 'localhost:3000', 'content-type': 'application/json' },
@@ -185,11 +185,11 @@ describe('POST /api/booking', () => {
     assert.equal(isAllowedOrigin(viaSiteUrl, { required: true, env: { NEXT_PUBLIC_SITE_URL: 'https://www.example.pl' } }), true);
     assert.equal(isAllowedOrigin(viaSiteUrl, { required: true, env: {} }), false);
   });
-  test('415 — zły Content-Type', async () => {
+  test('415 – zły Content-Type', async () => {
     const r = await read(await handleBookingPost(post(body, { 'content-type': 'text/plain' }), deps));
     assert.equal(r.status, 415);
   });
-  test('413 — body > 8 KB (Content-Length i strumień bez nagłówka)', async () => {
+  test('413 – body > 8 KB (Content-Length i strumień bez nagłówka)', async () => {
     const big = { ...body, note: 'x'.repeat(9000) };
     assert.equal((await handleBookingPost(post(big), deps)).status, 413);
     const stream = new ReadableStream({
@@ -206,23 +206,23 @@ describe('POST /api/booking', () => {
     });
     assert.equal((await handleBookingPost(chunked, deps)).status, 413);
   });
-  test('400 — niepoprawny JSON / nie-obiekt', async () => {
+  test('400 – niepoprawny JSON / nie-obiekt', async () => {
     assert.equal((await handleBookingPost(post('{nope'), deps)).status, 400);
     assert.equal((await handleBookingPost(post('[1,2]'), deps)).status, 400);
   });
-  test('400 — honeypot wypełniony, bez zapisu', async () => {
+  test('400 – honeypot wypełniony, bez zapisu', async () => {
     const r = await read(await handleBookingPost(post({ ...body, website: 'http://spam' }), deps));
     assert.equal(r.status, 400);
     assert.deepEqual(r.json, { error: 'invalid' });
     assert.equal(provider.snapshot().length, 0);
   });
-  test('400 too_fast — znacznik formularza młodszy niż 3 s (zegar serwera, nie przeglądarki)', async () => {
+  test('400 too_fast – znacznik formularza młodszy niż 3 s (zegar serwera, nie przeglądarki)', async () => {
     const r = await read(await handleBookingPost(post({ ...body, formToken: formToken(1000) }), deps));
     assert.equal(r.status, 400);
     assert.deepEqual(r.json, { error: 'too_fast' });
     assert.equal(provider.snapshot().length, 0);
   });
-  test('400 form_expired — brak, podrobiony, obcy lub przeterminowany znacznik (dawny startedAt=1 nie działa)', async () => {
+  test('400 form_expired – brak, podrobiony, obcy lub przeterminowany znacznik (dawny startedAt=1 nie działa)', async () => {
     const forged = `${Math.floor(NOW.getTime() - 60_000).toString(36)}.${'0'.repeat(32)}`;
     const foreign = issueFormToken({ now: NOW.getTime() - 60_000, secret: 'inny-sekret-0123456789' });
     const old = formToken(25 * 60 * 60 * 1000);
@@ -239,21 +239,21 @@ describe('POST /api/booking', () => {
     }
     assert.equal(provider.snapshot().length, 0);
   });
-  test('400 invalid — lista pól bez wartości', async () => {
+  test('400 invalid – lista pól bez wartości', async () => {
     const r = await read(await handleBookingPost(post({ ...body, phone: '123', email: 'x', time: '10:15' }), deps));
     assert.equal(r.status, 400);
     assert.equal(r.json.error, 'invalid');
     assert.deepEqual(r.json.fields.sort(), ['email', 'phone', 'time']);
     assert.ok(!JSON.stringify(r.json).includes('123'));
   });
-  test('429 — limit POST', async () => {
+  test('429 – limit POST', async () => {
     const limited = { ...deps, limiter: createRateLimiter({ limit: 1, windowMs: 600_000 }) };
     await handleBookingPost(post({ ...body, name: '' }), limited);
     const r = await handleBookingPost(post(), limited);
     assert.equal(r.status, 429);
     assert.ok(Number(r.headers.get('retry-after')) > 0);
   });
-  test('502 calendar — błąd zapisu w Google; logi bez danych osobowych', async () => {
+  test('502 calendar – błąd zapisu w Google; logi bez danych osobowych', async () => {
     const broken = {
       ...provider,
       insertEvent: async () => {
@@ -268,7 +268,7 @@ describe('POST /api/booking', () => {
       assert.ok(!errors[0].includes(secret), `log zawiera ${secret}`);
     }
   });
-  test('500 server — nieoczekiwany wyjątek, bez szczegółów w odpowiedzi', async () => {
+  test('500 server – nieoczekiwany wyjątek, bez szczegółów w odpowiedzi', async () => {
     const broken = {
       ...provider,
       freeBusy: async () => {

@@ -1,8 +1,8 @@
 /**
- * Katalog pigmentów — czyste funkcje nad src/data/pigments.json.
+ * Katalog pigmentów – czyste funkcje nad src/data/pigments.json.
  *
  * Dane pochodzą WYŁĄCZNIE z publicznego Store API sklepu klienta (WooCommerce,
- * kategoria „Pigmenty” + pigmenty spoza niej — zob. ZAKRES w skrypcie) i są
+ * kategoria „Pigmenty” + pigmenty spoza niej – zob. ZAKRES w skrypcie) i są
  * odświeżane skryptem:
  *
  *   node scripts/sync-pigments.mjs
@@ -10,12 +10,12 @@
  * Nie dopisujemy tu niczego ręcznie. Ten plik trafia do paczki JS przeglądarki,
  * więc skrypt zapisuje w nim tylko pola, które strona pokazuje. Ceny są
  * w groszach (PLN); `price` to cena BIEŻĄCA ze sklepu. Ceny regularnej i flagi
- * promocji tu NIE MA (są w scripts/pigments-sync-meta.json, tylko do wiedzy) —
+ * promocji tu NIE MA (są w scripts/pigments-sync-meta.json, tylko do wiedzy) –
  * strona nie pokazuje przekreśleń ani „promocji” (brak najniższej ceny z 30 dni,
  * Omnibus).
  *
  * `color` to odcień POGLĄDOWY wyznaczony z miniatury produktu (analiza lokalna;
- * zdjęć sklepu nie publikujemy) — `null`, gdy nie dało się go wiarygodnie ustalić
+ * zdjęć sklepu nie publikujemy) – `null`, gdy nie dało się go wiarygodnie ustalić
  * (zestawy, biały pigment).
  *
  * Kształt produktu:
@@ -24,7 +24,21 @@
  *     shortDesc, description, inStock, color }
  */
 
-import data from '@/data/pigments.json';
+import raw from '@/data/pigments.json';
+
+/* Myślnik: w danych ze sklepu bywa długi (U+2014); na stronie zawsze półpauza „–” (decyzja Filipa
+   z 29.09). Zamieniamy przy odczycie, nie w pliku – tłumaczenia opisów (pigments.i18n.json)
+   są przypięte do skrótu polskiego tekstu z pliku, więc plik zostaje taki, jak ze sklepu. */
+const EM_DASH = /\u2014/g;
+function withEnDash(value) {
+  if (typeof value === 'string') return value.replace(EM_DASH, '\u2013');
+  if (Array.isArray(value)) return value.map(withEnDash);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, withEnDash(v)]));
+  }
+  return value;
+}
+const data = withEnDash(raw);
 
 const NBSP = ' ';
 
@@ -114,7 +128,7 @@ export function countBy(list, { collection = null, zone = null, sets = 'include'
 
 /**
  * Grosze → „149 zł” (twarda spacja przed „zł”), „149,50 zł” gdy są grosze.
- * Bez separatora tysięcy — jak w sklepie („1800 zł”). Nieliczba → ''.
+ * Bez separatora tysięcy – jak w sklepie („1800 zł”). Nieliczba → ''.
  */
 export function formatPrice(grosze) {
   const n = Number(grosze);
@@ -181,7 +195,7 @@ export function findVariant(product, label = null) {
  * Podsumowanie listy „Twoje zamówienie”.
  * @param {Array<{ productId: string|number, label?: string|null, qty: number }>} entries
  * @returns {{ lines: Array<{ product, variant, qty, total: number, item: string, text: string }>, total: number, count: number }}
- *   `item` np. „Japanese Garden (AS OPIUM), 6 ml × 2” (bez ceny), `text` = `item` + „ — 298 zł”.
+ *   `item` np. „Japanese Garden (AS OPIUM), 6 ml × 2” (bez ceny), `text` = `item` + „ – 298 zł”.
  *   Pozycje nieznane są pomijane.
  */
 export function orderSummary(entries, catalog = data) {
@@ -199,7 +213,7 @@ export function orderSummary(entries, catalog = data) {
       .filter(Boolean)
       .join(', ');
     const item = `${what} × ${qty}`;
-    lines.push({ product, variant, qty, total, item, text: `${item} — ${formatPrice(total)}` });
+    lines.push({ product, variant, qty, total, item, text: `${item} – ${formatPrice(total)}` });
   }
   return {
     lines,
@@ -211,7 +225,7 @@ export function orderSummary(entries, catalog = data) {
 /* ---------------- statystyki ---------------- */
 
 /**
- * Liczby do nagłówka/hero — wszystkie wyliczone z danych:
+ * Liczby do nagłówka/hero – wszystkie wyliczone z danych:
  *   shades       – liczba odcieni (bez zestawów)
  *   sets         – liczba zestawów
  *   collections  – liczba kolekcji z produktami
@@ -233,7 +247,7 @@ export function stats(catalog = data) {
   };
 }
 
-/** Data synchronizacji jako „29.09.2026” (strefa Europe/Warsaw — ten sam wynik na serwerze i w przeglądarce). */
+/** Data synchronizacji jako „29.09.2026” (strefa Europe/Warsaw – ten sam wynik na serwerze i w przeglądarce). */
 export function formatSyncedDate(iso = data.syncedAt) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '';

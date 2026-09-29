@@ -1,10 +1,10 @@
 /**
- * Logika rezerwacji ponad dostawcą kalendarza (serwer). Bez HTTP — testowalna
+ * Logika rezerwacji ponad dostawcą kalendarza (serwer). Bez HTTP – testowalna
  * z dostawcą w pamięci lub atrapą.
  *
  * Zajętość = freeBusy ∪ wydarzenia z listEvents, które blokują czas (slots.js ›
  * blocksTime: bez urodzin, „miejsca pracy” i odrzuconych zaproszeń). freeBusy
- * pomija wydarzenia oznaczone „Dostępny” (transparent) — a tak domyślnie zapisują
+ * pomija wydarzenia oznaczone „Dostępny” (transparent) – a tak domyślnie zapisują
  * się wydarzenia całodniowe w Kalendarzu Google (np. „Urlop”). Specyfikacja wymaga,
  * żeby każde takie wydarzenie blokowało sloty, więc łączymy oba źródła (równolegle).
  *
@@ -87,7 +87,7 @@ function cachedBusy(provider, timeMin, timeMax, config, options) {
   return promise;
 }
 
-/** Po zapisie wizyty — kolejne GET widzą ją od razu (na tej instancji). */
+/** Po zapisie wizyty – kolejne GET widzą ją od razu (na tej instancji). */
 export function invalidateBusyCache(provider) {
   if (provider) busyCache.delete(provider);
 }
@@ -103,7 +103,7 @@ export async function getDaySlots({ provider, date, treatmentId, now = new Date(
   return computeSlots({ date, durationMin: treatment.durationMin, busy, now, config });
 }
 
-/** Liczba wolnych slotów dla każdego dnia miesiąca — jedno zapytanie o zajętość. */
+/** Liczba wolnych slotów dla każdego dnia miesiąca – jedno zapytanie o zajętość. */
 export async function getMonthAvailability({ provider, month, treatmentId, now = new Date(), config = BOOKING_CONFIG, signal }) {
   const treatment = getTreatment(treatmentId);
   const dates = datesOfMonth(month);
@@ -125,15 +125,15 @@ export async function getMonthAvailability({ provider, month, treatmentId, now =
 
 /**
  * Wartość od klientki do opisu wydarzenia. Google interpretuje description jako HTML,
- * więc znaki < > zamieniamy na podobne ‹ › — żadnych znaczników ani linków <a>.
+ * więc znaki < > zamieniamy na podobne ‹ › – żadnych znaczników ani linków <a>.
  */
 function plainText(value) {
   return String(value === undefined || value === null ? '' : value).replace(/[<>]/g, (c) => (c === '<' ? '‹' : '›'));
 }
 
 /**
- * Treść wydarzenia w Kalendarzu Google. Dane klientki tylko w opisie — BEZ attendees.
- * Uwagi stoją na końcu, za nagłówkiem, a każda ich linia zaczyna się od „│ ” — nie
+ * Treść wydarzenia w Kalendarzu Google. Dane klientki tylko w opisie – BEZ attendees.
+ * Uwagi stoją na końcu, za nagłówkiem, a każda ich linia zaczyna się od „│ ” – nie
  * mogą udawać linii „Telefon:” ani „ID rezerwacji”.
  */
 export function buildCalendarEvent({ bookingId, eventId, treatment, input, start, end, hashes, digest, config = BOOKING_CONFIG }) {
@@ -156,7 +156,7 @@ export function buildCalendarEvent({ bookingId, eventId, treatment, input, start
   if (digest) privateProps.payloadHash = digest;
 
   const event = {
-    summary: `Wizyta: ${treatment.name} — ${plainText(input.name)}`,
+    summary: `Wizyta: ${treatment.name} – ${plainText(input.name)}`,
     description,
     start: { dateTime: formatIsoWithOffset(start, tz), timeZone: tz },
     end: { dateTime: formatIsoWithOffset(end, tz), timeZone: tz },
@@ -185,7 +185,7 @@ function privateOf(event) {
  * Czy nasze świeżo zapisane wydarzenie przegrywa z innym w tym samym czasie.
  * Wydarzenie wpisane ręcznie (nie z www) zawsze ma pierwszeństwo; z dwóch zapisów
  * z www wygrywa wcześniej utworzony (remis → mniejsze id). Dzięki temu dwa
- * równoległe żądania nie kasują się nawzajem — dokładnie jedno zostaje.
+ * równoległe żądania nie kasują się nawzajem – dokładnie jedno zostaje.
  * Urodziny, „miejsce pracy” i odrzucone zaproszenia nie konkurują (blocksTime).
  */
 export function losesRace(ours, events, { from, to }, config = BOOKING_CONFIG) {
@@ -204,7 +204,7 @@ export function losesRace(ours, events, { from, to }, config = BOOKING_CONFIG) {
 /* ---------------- limity: kontakt i bezpiecznik ---------------- */
 
 /**
- * Przyszłe (i niedawno utworzone) wizyty z www — jedno zapytanie dla limitu na kontakt,
+ * Przyszłe (i niedawno utworzone) wizyty z www – jedno zapytanie dla limitu na kontakt,
  * bezpiecznika i rozpoznania powtórzonego żądania. Wizyta utworzona w ostatniej dobie
  * zaczyna się najwcześniej `minLeadHours` po utworzeniu, więc od `teraz − (24 h − minLead)`
  * lista obejmuje wszystkie wpisy z ostatnich 24 h.
@@ -222,7 +222,7 @@ function warnFuse(window, log) {
   const now = Date.now();
   if (now - s.lastWarnAt < HOUR) return;
   s.lastWarnAt = now;
-  log(`volume fuse tripped (${window}) — online booking paused`, { name: 'BookingPausedError' });
+  log(`volume fuse tripped (${window}) – online booking paused`, { name: 'BookingPausedError' });
 }
 
 /** Bezpiecznik: za dużo wpisów z www w ostatniej godzinie / dobie → BookingPausedError. */
@@ -274,13 +274,13 @@ async function findOwnEvent(provider, eventId, bookingId, config) {
     const found = await provider.getEvent(eventId, { signal: AbortSignal.timeout(config.timeouts.afterInsertMs) });
     if (found && found.status !== 'cancelled' && privateOf(found).bookingId === bookingId) return found;
   } catch {
-    /* brak odpowiedzi = nie wiemy — traktujemy jak brak wydarzenia */
+    /* brak odpowiedzi = nie wiemy – traktujemy jak brak wydarzenia */
   }
   return null;
 }
 
 /**
- * insertEvent z id wydarzenia: przy timeoucie / błędzie sieci / 5xx — jedna ponowna próba
+ * insertEvent z id wydarzenia: przy timeoucie / błędzie sieci / 5xx – jedna ponowna próba
  * z tym samym id; 409 (id zajęte) = wydarzenie już jest → sprawdzamy, czy to nasze.
  * Zanim oddamy błąd (→ 502), sprawdzamy, czy Google jednak nie zapisał wydarzenia.
  */
@@ -334,7 +334,7 @@ function defaultLog(message, err) {
  * @param {{ provider: object, input: object, now?: Date, config?: object, secret?: string,
  *           newId?: () => string, log?: (msg: string, err?: unknown) => void }} args
  *   `input.requestId` (UUID z przeglądarki, jeden na próbę rezerwacji danego terminu)
- *   = identyfikator rezerwacji; bez niego — nowy losowy.
+ *   = identyfikator rezerwacji; bez niego – nowy losowy.
  * @returns {Promise<{ bookingId: string, treatment: string, start: string, end: string, timeZone: string }>}
  * @throws {SlotTakenError | BookingLimitError | BookingPausedError | import('./errors.js').CalendarError}
  */
@@ -369,7 +369,7 @@ export async function createBooking({
   };
   const event = buildCalendarEvent({ bookingId, eventId, treatment, input, hashes, digest, start: rules.start, end: rules.end, config });
 
-  // 2. Zajętość slotu (z buforami) i wizyty z www — równolegle, w łącznym budżecie czasu.
+  // 2. Zajętość slotu (z buforami) i wizyty z www – równolegle, w łącznym budżecie czasu.
   const budget = AbortSignal.timeout(config.timeouts.bookingMs);
   const from = rules.start.getTime() - config.bufferMin * MINUTE;
   const to = rules.blockEnd.getTime();
@@ -387,7 +387,7 @@ export async function createBooking({
       throw new SlotTakenError('conflict');
     }
     if (privateOf(existing).payloadHash !== digest) {
-      // Klientka poprawiła dane przed ponowieniem — aktualizujemy opis zamiast tworzyć drugi wpis.
+      // Klientka poprawiła dane przed ponowieniem – aktualizujemy opis zamiast tworzyć drugi wpis.
       const { summary, description, extendedProperties } = event;
       await provider.patchEvent(eventId, { summary, description, extendedProperties }, { signal: budget });
     }
@@ -420,7 +420,7 @@ export async function createBooking({
       signal: AbortSignal.timeout(config.timeouts.afterInsertMs),
     });
   } catch (err) {
-    // Wydarzenie jest już zapisane, a wstępna kontrola przeszła — nie cofamy rezerwacji.
+    // Wydarzenie jest już zapisane, a wstępna kontrola przeszła – nie cofamy rezerwacji.
     log('race check skipped', err);
   }
   if (events && created && losesRace(created, events, { from, to }, config)) {

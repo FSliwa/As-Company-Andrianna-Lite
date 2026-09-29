@@ -1,11 +1,11 @@
 /**
- * Czyste funkcje dostępności terminów (bez I/O) — testowalne `node --test`.
+ * Czyste funkcje dostępności terminów (bez I/O) – testowalne `node --test`.
  *
  * Zasady (wszystko w czasie lokalnym salonu, `config.timeZone`):
  *  - slot startuje na siatce `slotStepMin` liczonej od otwarcia danego dnia,
  *  - zabieg + bufor (`durationMin + bufferMin`) mieści się w godzinach pracy,
  *  - przedziały zajętości są półotwarte [start, end); każdy zajęty przedział ma
- *    po sobie `bufferMin` wolnego, a nasz zabieg też ma bufor po sobie — kolizja
+ *    po sobie `bufferMin` wolnego, a nasz zabieg też ma bufor po sobie – kolizja
  *    zachodzi, gdy [start − bufor, start + zabieg + bufor) nachodzi na [bStart, bEnd),
  *  - start ≥ teraz + `minLeadHours`, data ≤ dzisiaj + `maxDaysAhead`,
  *  - dni zamknięte (godziny null lub `closedDates`) nie mają slotów,
@@ -59,8 +59,8 @@ export function workingHoursFor(dateStr, config) {
 
 /**
  * Okno rezerwacji względem `now`:
- *  earliestStart — najwcześniejsza chwila startu (ms),
- *  firstDate — data lokalna tej chwili, lastDate — dzisiaj + maxDaysAhead.
+ *  earliestStart – najwcześniejsza chwila startu (ms),
+ *  firstDate – data lokalna tej chwili, lastDate – dzisiaj + maxDaysAhead.
  */
 export function bookingWindow(now, config) {
   const nowMs = toMs(now);
@@ -89,7 +89,7 @@ function startOfLocalDay(dateStr, timeZone) {
 }
 
 /**
- * Doba lokalna jako przedział UTC [start, end) — w dni zmiany czasu ma 23 lub 25 h.
+ * Doba lokalna jako przedział UTC [start, end) – w dni zmiany czasu ma 23 lub 25 h.
  * @returns {{ start: Date, end: Date } | null}
  */
 export function dayRange(dateStr, timeZone) {
@@ -199,9 +199,9 @@ export function countSlotsByDay({ dates, durationMin, busy = [], now, config }) 
 
 /**
  * Typy wydarzeń, które Google dopisuje sam i które NIE są zajętością salonu:
- * urodziny (z Kontaktów Google i z profilu konta — całodniowe, co roku) oraz
+ * urodziny (z Kontaktów Google i z profilu konta – całodniowe, co roku) oraz
  * dzienne „miejsce pracy” w Workspace. Ręczny „Urlop” (typ 'default') blokuje
- * zawsze — także oznaczony jako „Dostępny” — bo filtrujemy po typie, nie po transparency.
+ * zawsze – także oznaczony jako „Dostępny” – bo filtrujemy po typie, nie po transparency.
  */
 const NON_BLOCKING_EVENT_TYPES = new Set(['birthday', 'workingLocation']);
 

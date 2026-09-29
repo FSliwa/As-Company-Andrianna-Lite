@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'machines',
   title: 'Машинки для ПМ AS HERO и AS PRINCESS',
   description:
-    'Машинки для перманентного макияжа AS HERO и AS PRINCESS — модели, характеристики, покупка в магазине AS и аренда для студий.',
+    'Машинки для перманентного макияжа AS HERO и AS PRINCESS – модели, характеристики, покупка в магазине AS и аренда для студий.',
 });
 
 export default function Page() {

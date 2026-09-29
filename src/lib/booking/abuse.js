@@ -1,15 +1,15 @@
 /**
- * Ochrona przed nadużyciami rezerwacji online (tylko serwer — node:crypto).
+ * Ochrona przed nadużyciami rezerwacji online (tylko serwer – node:crypto).
  *
- *  - sekret rezerwacji (HMAC): BOOKING_SECRET albo — gdy go brak — pochodna
+ *  - sekret rezerwacji (HMAC): BOOKING_SECRET albo – gdy go brak – pochodna
  *    klucza konta usługi (ten sam na każdej instancji serverless),
- *  - skróty kontaktu (telefon / e-mail) do limitu wizyt na osobę — w kalendarzu
+ *  - skróty kontaktu (telefon / e-mail) do limitu wizyt na osobę – w kalendarzu
  *    zapisujemy tylko HMAC, nie da się z niego odczytać numeru ani adresu,
  *  - identyfikator wydarzenia wyprowadzony z identyfikatora żądania (idempotentny zapis),
  *  - podpisany znacznik czasu formularza (zamiast zegara przeglądarki),
  *  - opcjonalna weryfikacja Cloudflare Turnstile (TURNSTILE_SITE_KEY + TURNSTILE_SECRET_KEY).
  *
- * Importy wyłącznie względne — testy `node --test` bez bundlera.
+ * Importy wyłącznie względne – testy `node --test` bez bundlera.
  */
 
 import crypto from 'node:crypto';
@@ -63,7 +63,7 @@ export function contactHashes({ phone, email }, secret) {
   };
 }
 
-/** Skrót całej treści zgłoszenia — czy powtórzone żądanie niesie te same dane. */
+/** Skrót całej treści zgłoszenia – czy powtórzone żądanie niesie te same dane. */
 export function payloadHash(input, secret) {
   const parts = [input.treatment, input.date, input.time, input.name, input.phone, input.email, input.note || ''];
   return hmacHex(secret, 'payload', JSON.stringify(parts)).slice(0, 32);
@@ -71,7 +71,7 @@ export function payloadHash(input, secret) {
 
 /**
  * Identyfikator wydarzenia w Kalendarzu Google z identyfikatora rezerwacji.
- * 32 znaki hex ⊂ base32hex (a–v, 0–9), 5–1024 znaków — wymagania Google Events.id.
+ * 32 znaki hex ⊂ base32hex (a–v, 0–9), 5–1024 znaków – wymagania Google Events.id.
  * HMAC zamiast samego UUID klienta: nikt z zewnątrz nie wskaże id cudzego wydarzenia.
  */
 export function eventIdFor(bookingId, secret) {
@@ -80,7 +80,7 @@ export function eventIdFor(bookingId, secret) {
 
 /* ---------------- znacznik formularza ---------------- */
 
-/** Podpisany czas wydania formularza: '<ms base36>.<hmac>' — wydawany przy renderze /umow-wizyte. */
+/** Podpisany czas wydania formularza: '<ms base36>.<hmac>' – wydawany przy renderze /umow-wizyte. */
 export function issueFormToken({ now = Date.now(), secret }) {
   const ts = Math.floor(now).toString(36);
   return `${ts}.${hmacHex(secret, 'form', ts).slice(0, 32)}`;
@@ -109,7 +109,7 @@ export function checkFormToken(token, { now = Date.now(), secret, minAgeMs, maxA
 export const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 export const TURNSTILE_ACTION = 'booking';
 
-/** Klucze Turnstile z env albo null (oba muszą być ustawione — inaczej weryfikacja wyłączona). */
+/** Klucze Turnstile z env albo null (oba muszą być ustawione – inaczej weryfikacja wyłączona). */
 export function turnstileKeys(env = process.env) {
   const siteKey = String(env.TURNSTILE_SITE_KEY || '').trim();
   const secretKey = String(env.TURNSTILE_SECRET_KEY || '').trim();

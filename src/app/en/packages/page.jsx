@@ -8,7 +8,7 @@ export const metadata = pageMeta({
   route: 'packages',
   title: 'Treatment journey',
   description:
-    'Consultation, treatment, touch-up and refresh — the order of visits for permanent makeup and the price of each step.',
+    'Consultation, treatment, touch-up and refresh – the order of visits for permanent makeup and the price of each step.',
 });
 
 export default function Page() {

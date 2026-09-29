@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * 01 Zabieg — natywne <input type="radio"> (Tab wchodzi do grupy, strzałki
+ * 01 Zabieg – natywne <input type="radio"> (Tab wchodzi do grupy, strzałki
  * zmieniają wybór) stylowane jako wiersze-karty: nazwa as-title, cena i czas
  * z konfiguracji (ceny pochodzą z cenników site.js).
  */
@@ -33,8 +33,8 @@ export function TreatmentPicker({ value, onChange, onEnter, invalid }) {
                 checked={checked}
                 onChange={() => onChange(t.id)}
                 onKeyDown={(e) => {
-                  // Enter: na niewybranym zabiegu — wybiera go (bez skoku do wyłączonego kroku 02);
-                  // na wybranym — przejście do dni.
+                  // Enter: na niewybranym zabiegu – wybiera go (bez skoku do wyłączonego kroku 02);
+                  // na wybranym – przejście do dni.
                   if (e.key === 'Enter') {
                     e.preventDefault();
                     if (checked) onEnter?.();

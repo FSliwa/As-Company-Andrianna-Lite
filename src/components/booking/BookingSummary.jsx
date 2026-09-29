@@ -37,7 +37,7 @@ export function BookingSummary({ treatment, date, time, children }) {
           {time ? timeRange(time, t ? t.durationMin : 0, date) : 'Nie wybrano'}
         </Row>
         <Row label="Czas" empty={!t}>
-          {t ? formatDuration(t.durationMin) : '—'}
+          {t ? formatDuration(t.durationMin) : '–'}
         </Row>
         <Row label="Cena" empty={!t || !t.price}>
           {t && t.price ? (
@@ -46,7 +46,7 @@ export function BookingSummary({ treatment, date, time, children }) {
               {t.priceNote && <span className="mt-1 block text-[0.8125rem] leading-snug text-mocha">{t.priceNote}</span>}
             </>
           ) : (
-            '—'
+            '–'
           )}
         </Row>
       </dl>

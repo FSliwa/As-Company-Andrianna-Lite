@@ -5,7 +5,7 @@
  * Każdy link prowadzi do TEJ SAMEJ strony w innym języku (nieznany adres / 404 →
  * strona główna języka). Kotwica i parametry (#cennik, ?temat=…) są wspólne dla
  * języków, ale znane dopiero w przeglądarce i zmieniają się bez nawigacji (filtry
- * katalogu) — doklejamy je w chwili kliknięcia. Zwykłe <a>, nie next/link: każdy
+ * katalogu) – doklejamy je w chwili kliknięcia. Zwykłe <a>, nie next/link: każdy
  * język ma własny root layout, więc przejście i tak jest pełnym przeładowaniem.
  * Pole dotyku 44 × 44 px; aktywny język podkreślony 1 px, aria-current="page".
  */

@@ -2,7 +2,7 @@
 
 /**
  * Potwierdzenie (201): „Wizyta zapisana” + szczegóły + plik .ics.
- * Nie obiecujemy SMS-ów ani e-maili — serwis ich nie wysyła.
+ * Nie obiecujemy SMS-ów ani e-maili – serwis ich nie wysyła.
  */
 
 import { forwardRef, useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ function Row({ label, children }) {
   );
 }
 
-/** Blob URL pliku .ics — tworzony po stronie przeglądarki, zwalniany przy odmontowaniu. */
+/** Blob URL pliku .ics – tworzony po stronie przeglądarki, zwalniany przy odmontowaniu. */
 function useIcsUrl(booking) {
   const [url, setUrl] = useState(null);
   useEffect(() => {
@@ -59,7 +59,7 @@ export const BookingDone = forwardRef(function BookingDone({ booking }, headingR
             Wizyta <span className="italic text-gold-dark">zapisana.</span>
           </h2>
           <p className="as-body mt-6">
-            Termin jest już w kalendarzu salonu. Zapisz go też u siebie — nie wysyłamy SMS-ów ani e-maili
+            Termin jest już w kalendarzu salonu. Zapisz go też u siebie – nie wysyłamy SMS-ów ani e-maili
             z potwierdzeniem. Jeśli termin będzie wymagał zmiany, salon skontaktuje się z Tobą.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-6">

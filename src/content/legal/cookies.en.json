@@ -26,7 +26,7 @@
       "heading": "3. What we store on your device",
       "blocks": [
         { "p": "Below is the complete list. All items are necessary for features you use, so they do not require consent. We do not use them to track you or for advertising." },
-        { "p": "as-order-v1 — pigment list for your enquiry" },
+        { "p": "as-order-v1 – pigment list for your enquiry" },
         { "list": [
           "Purpose: to remember the pigments you add to your enquiry list in the pigment catalogue, so that they do not disappear when you refresh the page or return to the catalogue.",
           "Type: first-party, browser local storage (localStorage), necessary.",
@@ -34,19 +34,19 @@
           "When: the entry is created only when you add your first pigment, and the catalogue page reads it when it opens. The entry is not sent to our server.",
           "Duration: until you remove all items, use the “Clear list” button or delete the site data in your browser. The entry does not expire automatically."
         ] },
-        { "p": "as-consent-v1 — your choice in the cookie banner" },
+        { "p": "as-consent-v1 – your choice in the cookie banner" },
         { "list": [
           "Purpose: to remember your choice in the cookie banner so that the banner is not displayed on every visit.",
           "Type: first-party, browser local storage (localStorage), necessary.",
           "Content: the version of the cookie information, the date of your choice and the settings for each category.",
           "Duration: we remember your choice for 12 months. After that, and also after a significant change to this policy, the banner will be displayed again and the entry will be replaced with a new one. You can delete it sooner by clearing the site data in your browser."
         ] },
-        { "p": "Cloudflare Turnstile — booking form protection (only when enabled)" },
+        { "p": "Cloudflare Turnstile – booking form protection (only when enabled)" },
         { "list": [
           "Purpose: to tell humans apart from automated programs (bots) and to protect online booking against abuse, such as mass blocking of appointment times.",
           "Type: third-party, provided by Cloudflare, Inc. (USA); necessary to accept the booking you request securely. The script is loaded from challenges.cloudflare.com only on the “Book an appointment” page (/umow-wizyte and its equivalents in the English and Russian versions of the website), as soon as the page is opened. It does not run on any other page.",
           "Content: the script reads technical information about your browser and device (in the process Cloudflare receives, among other things, your IP address) and may store its own Cloudflare cookies in your browser (for example with names beginning with “cf_”) or other technical data needed for verification and for detecting faults in how it works. The result of the verification is a one-time token, valid for a few minutes, which our server checks with Cloudflare when you submit your booking.",
-          "Duration: token — a few minutes and a single use; cookies and data stored by Cloudflare — in accordance with Cloudflare’s rules for the Turnstile service (www.cloudflare.com/turnstile-privacy-policy). Cloudflare states that it uses Turnstile data solely to detect and block bots, and not to identify or profile individuals."
+          "Duration: token – a few minutes and a single use; cookies and data stored by Cloudflare – in accordance with Cloudflare’s rules for the Turnstile service (www.cloudflare.com/turnstile-privacy-policy). Cloudflare states that it uses Turnstile data solely to detect and block bots, and not to identify or profile individuals."
         ] },
         { "p": "If Turnstile protection is not enabled, the Cloudflare script is not loaded and nothing related to it is placed on your device." }
       ]
@@ -70,7 +70,7 @@
       "id": "podstawa-prawna",
       "heading": "5. Legal basis",
       "blocks": [
-        { "p": "We store information on your device and read it on the basis of the exemption in Article 399 of the Electronic Communications Law: this is necessary to provide a service you have explicitly requested, namely remembering your pigment list, remembering your choice in the banner and securely accepting your booking. Such storage does not require consent, but it does require clear information — which is what you are reading now. The information stored does not change the configuration of your device or of the software installed on it." },
+        { "p": "We store information on your device and read it on the basis of the exemption in Article 399 of the Electronic Communications Law: this is necessary to provide a service you have explicitly requested, namely remembering your pigment list, remembering your choice in the banner and securely accepting your booking. Such storage does not require consent, but it does require clear information – which is what you are reading now. The information stored does not change the configuration of your device or of the software installed on it." },
         { "p": "The information saved in your browser’s storage does not contain your contact details and we do not use it to identify you. If we process your personal data in connection with your use of the website, for example your IP address in server logs kept by the hosting provider, the details you provide when booking or data processed by Cloudflare during verification, the rules, the legal bases under the General Data Protection Regulation (GDPR; in Polish “RODO”) and your rights are described in our Privacy Policy ({siteUrl}/polityka-prywatnosci)." }
       ]
     },
@@ -135,7 +135,7 @@
   "decisions": [
     {
       "what": "Banner variant at launch",
-      "proposal": "An information banner: text, a “Got it” button and a link to the Cookie Policy; the “Cookie settings” panel shows only the “Necessary” category (always on). The banner does not cover the content or block use of the website. The footer of every language version has “Cookie Policy” and “Cookie settings” links. The “Analytics” and “Marketing” categories (their texts are in the file, but we do not show them at launch) and the “Accept all” / “Necessary only” buttons should be switched on only when the first such tool is introduced — with buttons of equal prominence, no pre-ticked consents and scripts loaded only after consent is given.",
+      "proposal": "An information banner: text, a “Got it” button and a link to the Cookie Policy; the “Cookie settings” panel shows only the “Necessary” category (always on). The banner does not cover the content or block use of the website. The footer of every language version has “Cookie Policy” and “Cookie settings” links. The “Analytics” and “Marketing” categories (their texts are in the file, but we do not show them at launch) and the “Accept all” / “Necessary only” buttons should be switched on only when the first such tool is introduced – with buttons of equal prominence, no pre-ticked consents and scripts loaded only after consent is given.",
       "why": "Today the website stores only necessary information (the exemption in Article 399 of the Electronic Communications Law), so consent is not needed, and the information obligation is met by the policy and the banner. Toggles for tools that do not exist would be misleading and would suggest tracking that does not take place."
     },
     {
@@ -145,23 +145,23 @@
     },
     {
       "what": "Automatic expiry of the pigment list (as-order-v1)",
-      "proposal": "Leave it without automatic expiry — the list disappears after “Clear list”, when all items are removed or when browser data is cleared (this is how the code works today).",
-      "why": "The entry contains only product identifiers and quantities, never leaves the device, is created by a deliberate action of the user and is fully under their control — like a shopping basket in an online shop, which is widely regarded as necessary storage. Risk: some guidance treats mainly short-lived storage as unquestionably necessary. A more cautious alternative: expiry after 30 days without changes — this requires a minor change in src/components/pigments/useOrder.js and an update to section 3 and the table."
+      "proposal": "Leave it without automatic expiry – the list disappears after “Clear list”, when all items are removed or when browser data is cleared (this is how the code works today).",
+      "why": "The entry contains only product identifiers and quantities, never leaves the device, is created by a deliberate action of the user and is fully under their control – like a shopping basket in an online shop, which is widely regarded as necessary storage. Risk: some guidance treats mainly short-lived storage as unquestionably necessary. A more cautious alternative: expiry after 30 days without changes – this requires a minor change in src/components/pigments/useOrder.js and an update to section 3 and the table."
     },
     {
       "what": "Cloudflare Turnstile on the booking page",
-      "proposal": "Consistent with the Privacy Policy: do not enable it at launch (a signed form token and a rate limit are usually enough), and enable it if fake bookings appear. Note: the technical documentation (docs/rezerwacje-google.md, the deployment checklist) recommends enabling it from launch — the decision is the owner’s; the policy is accurate in both scenarios. Once it is enabled: (a) add one sentence about Cloudflare verification, with a link to the Cookie Policy, to the notice below the booking form (src/components/booking/BookingNotice.jsx), or load the script only once the user starts filling in the form; (b) accept Cloudflare’s data processing terms; (c) check in the browser’s developer tools which cookies the widget actually stores and, if necessary, update section 3 and the table.",
-      "why": "The script loads as soon as /umow-wizyte is opened, and Article 399 of the Electronic Communications Law requires information to be given before anything is stored or read — a person who goes straight to the booking page sees the banner at the same moment as the script loads. Fewer third parties also means less technical data sent to the USA."
+      "proposal": "Consistent with the Privacy Policy: do not enable it at launch (a signed form token and a rate limit are usually enough), and enable it if fake bookings appear. Note: the technical documentation (docs/rezerwacje-google.md, the deployment checklist) recommends enabling it from launch – the decision is the owner’s; the policy is accurate in both scenarios. Once it is enabled: (a) add one sentence about Cloudflare verification, with a link to the Cookie Policy, to the notice below the booking form (src/components/booking/BookingNotice.jsx), or load the script only once the user starts filling in the form; (b) accept Cloudflare’s data processing terms; (c) check in the browser’s developer tools which cookies the widget actually stores and, if necessary, update section 3 and the table.",
+      "why": "The script loads as soon as /umow-wizyte is opened, and Article 399 of the Electronic Communications Law requires information to be given before anything is stored or read – a person who goes straight to the booking page sees the banner at the same moment as the script loads. Fewer third parties also means less technical data sent to the USA."
     },
     {
       "what": "Hosting and edge protection features that could set cookies or collect statistics",
       "proposal": "On the hosting (Vercel), do not enable Web Analytics or Speed Insights. Apply the rate limit for POST /api/booking at the edge (Vercel Firewall or Cloudflare, as described in docs/rezerwacje-google.md) by IP address alone, without cookie-based options (in Cloudflare: without _cfuvid), and enable Bot Fight Mode / Bot Management and challenge modes only during an attack. If any of these features is switched on permanently, add its cookies to section 3 and the table (e.g. Cloudflare’s __cf_bm, 30 minutes), and in the case of analytics, rebuild the banner as the consent-based variant.",
-      "why": "The policy states that the website sets no cookies of its own and uses no analytics — hosting features or a proxy server in front of the domain set cookies on the website’s domain and would have to be described."
+      "why": "The policy states that the website sets no cookies of its own and uses no analytics – hosting features or a proxy server in front of the domain set cookies on the website’s domain and would have to be described."
     },
     {
       "what": "New features that store data in the browser",
       "proposal": "Before launching any new feature that stores something in the browser (e.g. remembering the selected language or remembering completed form fields), add it to section 3 and the table and bump the version in as-consent-v1. Today the language is determined solely by the page address (/en, /ru) and is not stored anywhere.",
-      "why": "The policy gives a closed, complete list of what is stored — any new storage without an update would make it untrue."
+      "why": "The policy gives a closed, complete list of what is stored – any new storage without an update would make it untrue."
     },
     {
       "what": "Publishing the policy before the company details are filled in",
@@ -180,8 +180,8 @@
     },
     {
       "what": "Name and content of the consent entry in the banner code",
-      "proposal": "The key “as-consent-v1” in localStorage, value: { version, date, necessary: true, analytics: false, marketing: false }; reading and writing wrapped in try/catch, as in useOrder.js. On reading, the code checks the date (older than 12 months) and the version (different from the current one) — in either case it shows the banner again and overwrites the entry after the user’s choice.",
-      "why": "The policy names this entry and describes its content and the 12-month period — the implementation must match, and localStorage does not expire by itself."
+      "proposal": "The key “as-consent-v1” in localStorage, value: { version, date, necessary: true, analytics: false, marketing: false }; reading and writing wrapped in try/catch, as in useOrder.js. On reading, the code checks the date (older than 12 months) and the version (different from the current one) – in either case it shows the banner again and overwrites the entry after the user’s choice.",
+      "why": "The policy names this entry and describes its content and the 12-month period – the implementation must match, and localStorage does not expire by itself."
     }
   ]
 }

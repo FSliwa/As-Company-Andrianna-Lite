@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Szkolenia (/szkolenia) — „Numer 01".
+ * Szkolenia (/szkolenia) – „Numer 01".
  *
  * Każda sekcja to rozkładówka: SectionLabel → H2 .as-display-section → treść
  * → jedno wezwanie. Rytm tła: cream-50 (hero) → cream-100 → cream-50 →
@@ -10,19 +10,19 @@
  *
  * Zdjęcia: portret wyłącznie przez ROLES, grupy wyłącznie przez GROUPS
  * (src/lib/roles.js). Makra na tej trasie: 0. Plakaty COURSE nie są pokazywane
- * jako obraz — tylko tekstowa lista linków „… (JPG)" w „Programie do pobrania".
+ * jako obraz – tylko tekstowa lista linków „… (JPG)" w „Programie do pobrania".
  *
  * Dane programów i harmonogramu: COURSES / COURSE_SCHEDULE z '@/lib/site'
- * (1:1 z grafik marki). Korzyści (BENEFITS) — 1:1 z kart „zakres i cena"
+ * (1:1 z grafik marki). Korzyści (BENEFITS) – 1:1 z kart „zakres i cena"
  * course-03 (Super Natural Brows) i course-05 (kurs podstawowy), po korekcie.
- * Oferty spoza plakatów (dawny blok „Dla absolwentek" z cenami) usunięte —
+ * Oferty spoza plakatów (dawny blok „Dla absolwentek" z cenami) usunięte –
  * nie miały źródła (audyt K2 / TRESC-3). Wrócą tylko po potwierdzeniu klienta.
  *
- * Formularz zgłoszenia NIE realizuje płatności — zbiera dane i informuje, że
+ * Formularz zgłoszenia NIE realizuje płatności – zbiera dane i informuje, że
  * termin i rozliczenie potwierdzamy w rozmowie.
  *
  * Telefon (< md): program każdego kursu, korzyści i pliki do pobrania pokazują
- * początek listy, resztę chowa rozwinięcie (MobileMore) — nic nie jest usuwane.
+ * początek listy, resztę chowa rozwinięcie (MobileMore) – nic nie jest usuwane.
  * Od md wszystko otwarte; desktop (≥ lg) bez zmian.
  */
 
@@ -61,7 +61,7 @@ import { cn } from '@/lib/utils';
 
 const byId = (id) => COURSES.find((c) => c.id === id);
 
-/* Twarda spacja w kwotach („7 000 zł", „15 000 zł netto") — kwota nie łamie się w pół. */
+/* Twarda spacja w kwotach („7 000 zł", „15 000 zł netto") – kwota nie łamie się w pół. */
 const NBSP = ' ';
 const nb = (s) => String(s).replace(/ /g, NBSP);
 const priceLabel = (course) => nb(`${course.price} ${course.priceNote}`);
@@ -75,7 +75,7 @@ const MAIN_PATHS = [
 /* Nazwa jak na plakatach course-03 i course-05 (tam w «», w serwisie cudzysłów „”). */
 const MASTER_CLASS = 'Master Class „Efekt lami”';
 
-/* Korzyści — 1:1 z kart „zakres i cena" (course-03 i course-05), po korekcie językowej.
+/* Korzyści – 1:1 z kart „zakres i cena" (course-03 i course-05), po korekcie językowej.
    Punkt „Poprawa postawy ręki…" jest tylko na karcie Super Natural Brows (course-03). */
 const BENEFITS = [
   { text: 'System nauki zrozumiały dla każdego. Nie musisz umieć malować, aby nauczyć się tej techniki' },
@@ -90,11 +90,11 @@ const BENEFITS = [
   { text: 'Lunch, napoje i przekąski zapewnione' },
 ];
 
-/* Fakty w hero — dwa krótkie, wyłącznie z ACHIEVEMENTS. Pasek jest zawsze w jednej
+/* Fakty w hero – dwa krótkie, wyłącznie z ACHIEVEMENTS. Pasek jest zawsze w jednej
    linii i musi zmieścić się w łamie telefonu (≈ 270 px): dłuższy rozpycha kolumnę hero. */
 const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `${ACHIEVEMENTS[1].value} kursantek`];
 
-/* Oryginalne karty programów — tekstowa lista linków do plików JPG (bez miniatur). */
+/* Oryginalne karty programów – tekstowa lista linków do plików JPG (bez miniatur). */
 const DOWNLOADS = [
   {
     group: 'Super Natural Brows',
@@ -118,7 +118,7 @@ const DOWNLOADS = [
 const FAQ_ITEMS = [
   {
     q: 'Czy po szkoleniu zacznę pracę z klientkami?',
-    a: 'Tak, właśnie po to stworzyliśmy unikatowy system szkolenia online + offline: na kursie skupiamy się głównie na praktyce i pomagamy pokonać lęk przed pracą z klientkami. Przy pierwszej modelce wykonasz pracę z delikatną pomocą prowadzącej, a przy ostatniej — zupełnie samodzielnie!',
+    a: 'Tak, właśnie po to stworzyliśmy unikatowy system szkolenia online + offline: na kursie skupiamy się głównie na praktyce i pomagamy pokonać lęk przed pracą z klientkami. Przy pierwszej modelce wykonasz pracę z delikatną pomocą prowadzącej, a przy ostatniej – zupełnie samodzielnie!',
   },
   {
     q: 'Czy podczas szkolenia można kupić produkty potrzebne do wykonywania zabiegu?',
@@ -126,7 +126,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Czy mogę skorzystać z dofinansowania na te szkolenia?',
-    a: 'Tak. Jesteśmy wpisani do RIS (Rejestr Instytucji Szkoleniowych) i BUR (Baza Usług Rozwojowych), a szkolenia mogą być finansowane m.in. ze środków KFS (Krajowy Fundusz Szkoleniowy). Wybierz dogodną dla siebie placówkę, sprawdź w urzędzie miasta lub urzędzie pracy, jakie wymagania musi spełnić Twój wniosek, i poproś swojego operatora o kontakt z nami — przekażemy mu wszystkie niezbędne informacje i dokumenty.',
+    a: 'Tak. Jesteśmy wpisani do RIS (Rejestr Instytucji Szkoleniowych) i BUR (Baza Usług Rozwojowych), a szkolenia mogą być finansowane m.in. ze środków KFS (Krajowy Fundusz Szkoleniowy). Wybierz dogodną dla siebie placówkę, sprawdź w urzędzie miasta lub urzędzie pracy, jakie wymagania musi spełnić Twój wniosek, i poproś swojego operatora o kontakt z nami – przekażemy mu wszystkie niezbędne informacje i dokumenty.',
   },
   {
     q: 'Czy jest opieka po szkoleniu?',
@@ -134,7 +134,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Czy na szkoleniu będą inne osoby?',
-    a: 'Zdecydowanie tak. Zawsze polecamy kursy grupowe (kameralne, 2–4 osoby): jest na nich zdrowa konkurencja, wesoły klimat, nowe znajomości, pomoc innych kursantek i okazja, by pochwalić się swoimi postępami — a czasem nawet znaleźć koleżankę z branży PMU na długie lata!',
+    a: 'Zdecydowanie tak. Zawsze polecamy kursy grupowe (kameralne, 2–4 osoby): jest na nich zdrowa konkurencja, wesoły klimat, nowe znajomości, pomoc innych kursantek i okazja, by pochwalić się swoimi postępami – a czasem nawet znaleźć koleżankę z branży PMU na długie lata!',
   },
 ];
 
@@ -162,9 +162,9 @@ const collapsedClass = (i, n) => {
 };
 
 /* Rozwinięcie tylko na telefonie (< md). Od md lista jest zawsze otwarta,
-   a przycisk znika — decydują same klasy responsywne (max-md:hidden), więc
+   a przycisk znika – decydują same klasy responsywne (max-md:hidden), więc
    SSR i desktop renderują dokładnie to samo co dotąd, bez skoku po hydratacji.
-   (<details> nie da się otworzyć samym CSS od md — wymagałby JS po starcie.) */
+   (<details> nie da się otworzyć samym CSS od md – wymagałby JS po starcie.) */
 function MobileMore({ open, onToggle, controls, label, openLabel, className }) {
   return (
     <button
@@ -192,7 +192,7 @@ function MobileMore({ open, onToggle, controls, label, openLabel, className }) {
 }
 
 /* ================================================================== */
-/*  01 — HERO                                                          */
+/*  01 – HERO                                                          */
 /* ================================================================== */
 
 function Hero({ onBook }) {
@@ -206,7 +206,7 @@ function Hero({ onBook }) {
       lead="Dużo praktyki, zero lęku przed pierwszą klientką. Uczymy, jak wykonać zabieg starannie, a przy tym szybko, komfortowo i bezpiecznie."
       image={ROLES.heroTraining.image}
       imagePosition={ROLES.heroTraining.position}
-      imageAlt={`${FOUNDER.name} — ${FOUNDER.role}, prowadząca szkolenia ${BRAND.academy}`}
+      imageAlt={`${FOUNDER.name} – ${FOUNDER.role}, prowadząca szkolenia ${BRAND.academy}`}
       facts={HERO_FACTS}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -222,7 +222,7 @@ function Hero({ onBook }) {
 }
 
 /* ================================================================== */
-/*  02 — TRZY ŚCIEŻKI + DOFINANSOWANIE (cream-100)                     */
+/*  02 – TRZY ŚCIEŻKI + DOFINANSOWANIE (cream-100)                     */
 /* ================================================================== */
 
 function PathsBand() {
@@ -252,7 +252,7 @@ function PathsBand() {
             </Reveal>
           ))}
 
-          {/* Trzecia ścieżka wyłącznie z kart kursów (course-03 / course-05) — bez ceny. */}
+          {/* Trzecia ścieżka wyłącznie z kart kursów (course-03 / course-05) – bez ceny. */}
           <Reveal
             delay={160}
             className="as-cell md:col-span-2 md:grid md:grid-cols-2 md:gap-x-8 lg:col-span-1 lg:block"
@@ -270,7 +270,7 @@ function PathsBand() {
           </Reveal>
         </div>
 
-        {/* Dofinansowanie — jedno zdanie; szczegóły w pytaniach (#pytania).
+        {/* Dofinansowanie – jedno zdanie; szczegóły w pytaniach (#pytania).
             RIS i BUR to rejestry, KFS to fundusz (audyt TRESC-6). */}
         <Reveal className="mt-12 flex flex-col gap-4 border-t border-ink/15 pt-6 md:flex-row md:items-baseline md:justify-between md:gap-8">
           <p className="as-body">
@@ -286,9 +286,9 @@ function PathsBand() {
 }
 
 /* ================================================================== */
-/*  03 — PROGRAM (cream-50)                                            */
+/*  03 – PROGRAM (cream-50)                                            */
 /*  Kotwice #program-kurs-podstawowy i #program-super-natural-brows    */
-/*  (linki ze stopki) — id na <article> każdego programu.              */
+/*  (linki ze stopki) – id na <article> każdego programu.              */
 /* ================================================================== */
 
 /* < md: tytuł, linia ceny/formatu i PROGRAM_PREVIEW pierwszych pozycji (sm–md: 4,
@@ -316,7 +316,7 @@ function ProgramArticle({ number, name, course, onBook }) {
           onClick={(e) => onBook({ id: course.id, title: course.title }, e)}
           className="w-fit shrink-0"
         >
-          Zapytaj o termin<span className="sr-only"> — {name}</span>
+          Zapytaj o termin<span className="sr-only"> – {name}</span>
         </ArrowLink>
       </Reveal>
 
@@ -373,11 +373,11 @@ function ProgramBand({ onBook }) {
 }
 
 /* ================================================================== */
-/*  04 — ABSOLWENTKI (espresso, jedyny ciemny pas)                     */
+/*  04 – ABSOLWENTKI (espresso, jedyny ciemny pas)                     */
 /* ================================================================== */
 
 /* Stykówka: trzy kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
-   < sm: academy-01 (bliższy plan) na całą szerokość, pod nim dwa kadry obok siebie —
+   < sm: academy-01 (bliższy plan) na całą szerokość, pod nim dwa kadry obok siebie –
    twarze nie spadają do rozmiaru ikon; wszystkie nadal 4:5.
    Od sm: trzy równe kadry w rzędzie, bliższy plan w środku (06 · 01 · 08).
    Opisy tylko tego, co widać w kadrze (liczba osób i certyfikatów). */
@@ -459,7 +459,7 @@ function GraduatesBand() {
 }
 
 /* ================================================================== */
-/*  05 — CO DOSTAJESZ + HARMONOGRAM (cream-50)                         */
+/*  05 – CO DOSTAJESZ + HARMONOGRAM (cream-50)                         */
 /* ================================================================== */
 
 const SCHEDULE_ITEMS = COURSE_SCHEDULE.map((day) => ({
@@ -539,7 +539,7 @@ function IncludedBand() {
 }
 
 /* ================================================================== */
-/*  06 — PYTANIA + PROGRAM DO POBRANIA (cream-100)                     */
+/*  06 – PYTANIA + PROGRAM DO POBRANIA (cream-100)                     */
 /* ================================================================== */
 
 function QuestionsBand() {
@@ -562,7 +562,7 @@ function QuestionsBand() {
             <Reveal delay={120}>
               <p className="as-kicker">Program do pobrania</p>
               <p className="as-caption mt-3 max-w-none">
-                Oryginalne karty programów {BRAND.academy} w formacie JPG — otwierają się w nowej karcie.
+                Oryginalne karty programów {BRAND.academy} w formacie JPG – otwierają się w nowej karcie.
               </p>
               {/* < md: lista plików za rozwinięciem; md: dwie grupy obok siebie; lg: wąska kolumna */}
               <MobileMore
@@ -596,7 +596,7 @@ function QuestionsBand() {
                               {it.caption} (JPG)
                               <span className="sr-only">
                                 {' '}
-                                — {d.group}, otwiera się w nowej karcie
+                                – {d.group}, otwiera się w nowej karcie
                               </span>
                             </span>
                             <span aria-hidden="true" className="text-mocha transition-colors group-hover:text-gold-deep">
@@ -618,7 +618,7 @@ function QuestionsBand() {
 }
 
 /* ================================================================== */
-/*  07 — KONTAKT (pas zamykający)                                      */
+/*  07 – KONTAKT (pas zamykający)                                      */
 /* ================================================================== */
 
 function ClosingBand({ onBook }) {
@@ -628,7 +628,7 @@ function ClosingBand({ onBook }) {
       label="Zapisy"
       title="Zapytaj o miejsce"
       titleAccent="w grupie."
-      lead={`Napisz, na jakim jesteś etapie — dobierzemy program i ustalimy najbliższy możliwy termin części stacjonarnej. Szkolenia prowadzi ${FOUNDER.name}, ${FOUNDER.role}.`}
+      lead={`Napisz, na jakim jesteś etapie – dobierzemy program i ustalimy najbliższy możliwy termin części stacjonarnej. Szkolenia prowadzi ${FOUNDER.name}, ${FOUNDER.role}.`}
       primary={{ label: 'Zapytaj o termin', onClick: (e) => onBook(null, e) }}
       secondary={{ href: '/kontakt', label: 'Napisz do nas' }}
     />
@@ -637,7 +637,7 @@ function ClosingBand({ onBook }) {
 
 /* ================================================================== */
 /*  ZAPYTANIE O TERMIN                                                 */
-/*  (bez płatności — formularz zbiera dane i informuje o kontakcie)    */
+/*  (bez płatności – formularz zbiera dane i informuje o kontakcie)    */
 /* ================================================================== */
 
 /* Tylko kursy z kart programów (kolejność jak w ścieżkach: od zera → technika).
@@ -662,7 +662,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { status } = sendEnquiry({
-      subject: `Zapytanie o termin szkolenia — ${form.course}`,
+      subject: `Zapytanie o termin szkolenia – ${form.course}`,
       fields: [
         ['Szkolenie', form.course],
         ['Imię i nazwisko', form.name],
@@ -677,7 +677,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
   };
 
   /* Dialog jest kontrolowany bez <DialogTrigger>, więc Radix nie wie, dokąd oddać
-     fokus — oddajemy go ręcznie na przycisk, który dialog otworzył (A11Y-6). */
+     fokus – oddajemy go ręcznie na przycisk, który dialog otworzył (A11Y-6). */
   const restoreFocus = (e) => {
     e.preventDefault();
     returnFocusRef?.current?.focus?.();
@@ -685,7 +685,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      {/* formularz ma dwie kolumny pól — stąd szerszy panel */}
+      {/* formularz ma dwie kolumny pól – stąd szerszy panel */}
       <DialogContent className="sm:max-w-[620px]" onCloseAutoFocus={restoreFocus}>
         <DialogHeader>
           <span className="as-kicker">Szkolenia · {BRAND.academy}</span>
@@ -693,7 +693,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
           <DialogDescription>
             {sent
               ? enquiryMessage(sent).body
-              : 'Zostaw kontakt i kilka słów o swoim doświadczeniu. Ten formularz nie realizuje płatności — termin i rozliczenie ustalamy w rozmowie.'}
+              : 'Zostaw kontakt i kilka słów o swoim doświadczeniu. Ten formularz nie realizuje płatności – termin i rozliczenie ustalamy w rozmowie.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -722,7 +722,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
             </div>
 
             <p className="as-caption mt-6 max-w-none">
-              Miejsce w grupie potwierdzamy dopiero po rozmowie — zapytanie nie jest opłacone ani
+              Miejsce w grupie potwierdzamy dopiero po rozmowie – zapytanie nie jest opłacone ani
               wiążące. Najszybciej odpowiadamy na Instagramie.
             </p>
 
@@ -847,7 +847,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
 
 export default function Education() {
   const [booking, setBooking] = useState(null); // { course } | null
-  /* przycisk, który otworzył dialog — po zamknięciu wraca na niego fokus */
+  /* przycisk, który otworzył dialog – po zamknięciu wraca na niego fokus */
   const triggerRef = useRef(null);
 
   const openBooking = (course, event) => {
