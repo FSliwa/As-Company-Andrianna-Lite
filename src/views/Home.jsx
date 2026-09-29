@@ -32,7 +32,7 @@ import {
   PRODUCT_LINES,
   TRAINING_PILLARS,
 } from '@/lib/site';
-import { GROUPS, MACROS, ROLES } from '@/lib/roles';
+import { GROUPS, ROLES } from '@/lib/roles';
 
 /* ==================================================================
    01 — HERO
@@ -352,44 +352,43 @@ function ProductsBand() {
 /* ================================================================== */
 
 function TreatmentsBand() {
-  const macro = MACROS.brows09;
+  const portrait = ROLES.treatmentsHome;
   return (
     <section className="as-section bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
-            <Reveal>
-              <SectionLabel number="04">Zabiegi</SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                Naturalny efekt,
-                <br />
-                precyzyjna technika.
-              </h2>
-            </Reveal>
-            <Reveal delay={80} className="mt-10">
-              <figure className="max-w-[15rem] sm:max-w-[20rem]">
-                <Figure
-                  image={macro.image}
-                  alt="Brwi po makijażu permanentnym — zbliżenie"
-                  ratio={macro.ratio}
-                  position={macro.position}
-                  tone="light"
-                  zoom={false}
-                  sizes="320px"
-                />
-                <figcaption className="as-caption mt-3">{macro.caption}</figcaption>
-              </figure>
-            </Reveal>
-          </div>
+        {/* telefon: nagłówek → portret → cennik; od lg: portret po lewej na całą wysokość */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10">
+          <Reveal className="lg:col-span-6 lg:col-start-7 lg:row-start-1">
+            <SectionLabel number="04">Zabiegi</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
+              Naturalny efekt,
+              <br />
+              precyzyjna technika.
+            </h2>
+            <p className="as-body mt-6">
+              Wszystkie zabiegi zawierają konsultację, architekturę twarzy oraz rysunek wstępny.
+              Kolor dobieramy do karnacji, a kształt do Twoich rysów.
+            </p>
+          </Reveal>
 
-          <div className="lg:col-span-6 lg:col-start-7">
-            <Reveal>
-              <p className="as-body">
-                Wszystkie zabiegi zawierają konsultację, architekturę twarzy oraz rysunek wstępny.
-                Kolor dobieramy do karnacji, a kształt do Twoich rysów.
-              </p>
-            </Reveal>
-            <Reveal delay={80} className="mt-8">
+          <Reveal delay={60} className="lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:self-start">
+            <figure className="mx-auto max-w-[20rem] sm:max-w-[24rem] lg:max-w-none">
+              <Figure
+                image={portrait.image}
+                alt={`${FOUNDER.name} — ${FOUNDER.signature}`}
+                ratio="4 / 5"
+                position={portrait.position}
+                framed
+                sizes="(min-width: 1024px) 38vw, 80vw"
+              />
+              <figcaption className="as-caption mt-6 lg:mt-8">
+                {FOUNDER.name} — {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
+              </figcaption>
+            </figure>
+          </Reveal>
+
+          <div className="lg:col-span-6 lg:col-start-7 lg:row-start-2">
+            <Reveal delay={80}>
               {PRICING_PMU.items.map((item) => (
                 <PriceRow key={item.name} name={item.name} note={item.note} price={item.price} />
               ))}

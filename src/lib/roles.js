@@ -6,7 +6,7 @@
  * sesji). Widoki importują portrety WYŁĄCZNIE przez ROLES, makra WYŁĄCZNIE
  * przez MACROS, grupy z akademii WYŁĄCZNIE przez GROUPS.
  *
- * Rezerwa (poza stroną): studio-01, -06, -07, -09, -10, -12, -15, -16; studio-02 = obraz OG.
+ * Rezerwa (poza stroną): studio-01, -06, -07, -09, -10, -12, -15, -16; studio-02 = też obraz OG.
  * Na home trzy różne pozy: tiul (hero), marynarka (O nas), kadr poziomy (zaproszenie).
  * Wycofane: academy-02 (balony, baner), -05 (choinka), -07; lips-04, lips-01-p2,
  * brows-02*, brows-18*, brows-01-*, pliki zbiorcze (sklejki), plakaty COURSE
@@ -31,6 +31,7 @@ export const ROLES = {
   heroHome: { image: pick('studio-05'), position: '50% 20%' },
   aboutHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka — „firma", inna poza niż hero
   closingHome: { image: pick('studio-14'), position: '50% 30%' }, // jedyny poziomy kadr 3:2
+  treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz — brwi i usta, sekcja zabiegów
   heroAbout: { image: pick('studio-11'), position: '50% 15%' },
   storyAbout: { image: pick('studio-08'), position: '50% 15%' },
   heroTreatments: { image: pick('studio-13'), position: '50% 20%' },
@@ -49,7 +50,8 @@ export const GROUPS = {
 };
 
 /* Makra — biała lista. Renderować ≤ 360 px, zoom={false}.
-   Limity: home 2, /uslugi 4, /pigmenty 1, pozostałe trasy 0.
+   Limity: /uslugi 4, /pigmenty 1, pozostałe trasy 0 (home: portret zamiast makra —
+   makro z telefonu nie pasowało jakością ani kolorem do sesji studyjnej).
    `ratio` + `position` wycinają znaki wodne i napisy ze sklejek.
    Podpisy tylko faktyczne: technikę znamy wyłącznie dla brows-12/13 (napis
    „Supernatural brows" w sklejce źródłowej).
