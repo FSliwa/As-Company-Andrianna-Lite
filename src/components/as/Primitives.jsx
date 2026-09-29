@@ -13,6 +13,7 @@ import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useContent, useLocale, useSite } from '@/i18n/client';
 import common from '@/content/common';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import {
   Accordion,
   AccordionContent,
@@ -724,7 +725,7 @@ export function Field({ as = 'input', label, id, hint, required, className, wrap
 export function FormNotice({ tone = 'dark', className }) {
   const t = useContent(common);
   const { LEGAL } = useSite();
-  if (!LEGAL.company || !LEGAL.privacyPolicy) return null;
+  if (!LEGAL_COMPLETE) return null;
   const onDark = tone === 'light';
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed', onDark ? 'text-cream-100/80' : 'text-mocha', className)}>

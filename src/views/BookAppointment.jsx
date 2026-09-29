@@ -60,12 +60,13 @@ import { BOOKING_CONFIG, getTreatment } from '@/lib/booking/config';
 import { bookingSchema } from '@/lib/booking/schema';
 import { bookingWindow, workingHoursFor } from '@/lib/booking/slots';
 import { CONTACT, LEGAL } from '@/lib/site';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* BookingNotice (jak FormNotice, ale z celem „rezerwacja wizyty w Kalendarzu Google”)
    renderuje się sam po uzupełnieniu LEGAL i zawiera zdanie o polach wymaganych —
    do tego czasu legendę pokazuje RequiredLegend (jak /kontakt). */
-const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
+const NOTICE_READY = LEGAL_COMPLETE;
 
 const FIELD_ORDER = ['treatment', 'date', 'time', 'name', 'phone', 'email', 'note'];
 const CONTACT_FIELDS = ['name', 'phone', 'email', 'note'];

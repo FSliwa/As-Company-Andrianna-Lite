@@ -39,6 +39,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER, LEGAL } from '@/lib/site';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import { ROLES } from '@/lib/roles';
 import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
@@ -48,7 +49,7 @@ const FORM_LIVE = Boolean(CONTACT.email);
 
 /* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
    o polach wymaganych — do tego czasu legendę pokazuje RequiredLegend. */
-const NOTICE_READY = Boolean(LEGAL.company && LEGAL.privacyPolicy);
+const NOTICE_READY = LEGAL_COMPLETE;
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');

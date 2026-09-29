@@ -1,15 +1,15 @@
 import LegalDocument from '@/components/as/LegalDocument';
 import { pageMeta } from '@/lib/seo';
 import { LEGAL_COMPLETE } from '@/lib/legal';
-import doc from '@/content/legal/privacy.ru.json';
+import doc from '@/content/legal/terms.ru.json';
 
-/* Polityka prywatności — treść: src/content/legal/privacy.*.json, dane firmy z LEGAL (site.js).
+/* Regulamin serwisu (art. 8 u.ś.u.d.e.) i rezerwacja online — treść: src/content/legal/terms.*.json, dane firmy z LEGAL (site.js).
    Dopóki LEGAL jest niepełne, dokument jest projektem: pas „Projekt dokumentu”, oznaczone braki, noindex. */
 export const metadata = pageMeta({
   locale: 'ru',
-  route: 'privacy',
+  route: 'terms',
   title: doc.title,
-  description: 'Как обрабатываются персональные данные на сайте AS COMPANY и Babushkina Academy: формы, онлайн-запись, хостинг, ваши права.',
+  description: 'Условия пользования сайтом AS COMPANY и Babushkina Academy: формы, список пигментов, онлайн-запись, жалобы.',
   noindex: !LEGAL_COMPLETE,
 });
 

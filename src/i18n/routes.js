@@ -23,6 +23,8 @@ export const SLUGS = {
   '/kontakt': '/contact',
   '/umow-wizyte': '/book',
   '/polityka-prywatnosci': '/privacy-policy',
+  '/polityka-cookies': '/cookie-policy',
+  '/regulamin': '/terms',
 };
 
 /**
@@ -42,6 +44,8 @@ export const ROUTES = {
   certificates: '/certyfikaty',
   book: '/umow-wizyte',
   privacy: '/polityka-prywatnosci',
+  cookies: '/polityka-cookies',
+  terms: '/regulamin',
 };
 
 /** Kody hreflang: polski z regionem (serwis dla Polski), EN/RU bez regionu. */

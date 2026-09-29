@@ -24,11 +24,12 @@ const common = {
   closingLabel: 'Kontakt',
   requiredLegend: 'Pola oznaczone * są wymagane.',
   noticeController: 'Administratorem danych jest',
-  noticePurpose: 'Dane z formularza przetwarzamy wyłącznie po to, by odpowiedzieć na zapytanie.',
+  noticePurpose: 'Dane z formularza przetwarzamy, by odpowiedzieć na zapytanie i — jeśli o to poprosisz — przygotować ofertę.',
   documents: 'Dokumenty',
-  dataController: 'Administrator danych:',
   /* Polityka prywatności jeszcze nieprzetłumaczona — treść po polsku (tylko EN/RU) */
-  privacyInPolish: '',
+  cookiesPolicy: 'Polityka cookies',
+  terms: 'Regulamin',
+  cookieSettings: 'Ustawienia cookies',
   notFound: {
     metaTitle: 'Nie znaleziono strony',
     label: 'Nie znaleziono',

@@ -1,10 +1,11 @@
-import { BOOKING_ENABLED, LEGAL, SITE_URL } from '@/lib/site';
+import { BOOKING_ENABLED, SITE_URL } from '@/lib/site';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import { LOCALES } from '@/i18n/config';
 import { ROUTES, languageAlternates, localePath } from '@/i18n/routes';
 
 /** sitemap.xml — publiczne trasy w trzech językach (pl, /en, /ru) z hreflang; data = data buildu. */
 // Rezerwacja (/umow-wizyte, /en/book, /ru/book) tylko przy włączonej rezerwacji online —
-// inaczej to strona z komunikatem. Polityka prywatności dopiero, gdy klient dostarczy treść.
+// inaczej to strona z komunikatem. Dokumenty prawne dopiero, gdy przestaną być projektem (pełne LEGAL).
 const KEYS = [
   'home',
   'about',
@@ -23,7 +24,7 @@ const absolute = (path) => `${SITE_URL}${path === '/' ? '' : path}`;
 
 export default function sitemap() {
   const lastModified = new Date();
-  const keys = LEGAL.privacyPolicy ? [...KEYS, 'privacy'] : KEYS;
+  const keys = LEGAL_COMPLETE ? [...KEYS, 'privacy', 'cookies', 'terms'] : KEYS;
   return keys.flatMap((key) => {
     const canonical = ROUTES[key];
     const languages = Object.fromEntries(

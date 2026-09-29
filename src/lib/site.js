@@ -75,8 +75,10 @@ export const SHOP = {
 
 /**
  * Dane prawne — do uzupełnienia przez klienta (art. 5 u.ś.u.d.e., art. 13 RODO).
- * Dopóki pola są null, stopka nie pokazuje wiersza „Dane firmy", klauzula
- * pod formularzami się nie renderuje, a /polityka-prywatnosci zwraca 404.
+ * Podstawiane w polityce prywatności, polityce cookies i regulaminie
+ * (src/content/legal/*.json, src/lib/legal.js). Dopóki pola są null, dokumenty są
+ * projektem (pas „Projekt dokumentu”, braki oznaczone, noindex), stopka nie pokazuje
+ * wiersza z danymi firmy, a klauzule pod formularzami się nie renderują.
  */
 export const LEGAL = {
   company: null, // pełna nazwa z rejestru, np. „… sp. z o.o." albo imię i nazwisko + nazwa firmy z CEIDG
@@ -84,7 +86,6 @@ export const LEGAL = {
   nip: null,
   register: null, // np. „KRS 0000…, Sąd Rejonowy …" albo „CEIDG"
   privacyEmail: null, // e-mail do spraw danych osobowych
-  privacyPolicy: null, // treść polityki prywatności: [{ heading, body }] — zatwierdzona przez klienta
 };
 
 /** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA). */

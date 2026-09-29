@@ -1,0 +1,342 @@
+{
+  "slug": "regulamin",
+  "title": "Website Terms of Use",
+  "updated": "2026-09-29",
+  "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. These terms describe how the {siteUrl} website works: what you can do on it, how online appointment booking works and how to report a problem. Using the website is free of charge and does not require creating an account.",
+  "sections": [
+    {
+      "id": "postanowienia-ogolne",
+      "heading": "1. General provisions",
+      "blocks": [
+        { "p": "These Terms set out the rules for the provision of services by electronic means on the Website, including its English and Russian versions. They are the terms and conditions referred to in Article 8 of the Act of 18 July 2002 on Providing Services by Electronic Means (ustawa z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną)." },
+        { "p": "The Terms are available free of charge at {siteUrl}/regulamin before you start using the Services. You can view, save or print them at any time, and we will email them to you on request." },
+        { "p": "By using the Website, you accept the Terms. They apply to all the Services described in section 4, including simply browsing the website. If you do not accept them, please do not use the Website — you can contact us directly instead (section 3)." },
+        { "p": "The Terms do not limit any rights you have under mandatory provisions of law, in particular consumer rights. If any provision of the Terms conflicts with such provisions, the provisions of law apply." },
+        { "p": "The Polish version of the Terms is binding, and the English and Russian versions are translations of it. Ambiguous provisions are interpreted in favour of the consumer." }
+      ]
+    },
+    {
+      "id": "definicje",
+      "heading": "2. Definitions",
+      "blocks": [
+        { "list": [
+          "Website — the AS COMPANY LOVELINESS and Babushkina Academy website available at {siteUrl}, together with its language versions.",
+          "Service Provider, “we” — {company}; full details are given in section 3.",
+          "User, “you” — any person who uses the Website.",
+          "Consumer — a natural person who uses the Website or enters into a contract with us for a purpose not directly related to their business or professional activity (Article 22¹ of the Civil Code (Kodeks cywilny)).",
+          "Services — the free services provided by electronic means on the Website, described in section 4.",
+          "Salon — the Babushkina Academy permanent make-up salon and academy in Warsaw; the Salon’s address is given on the Contact page.",
+          "Treatment — a service from the Salon’s price list, performed at the Salon.",
+          "Booking — saving a chosen appointment time in the Salon’s calendar using the form on the “Book an appointment” page.",
+          "Form — the contact form, the training date enquiry, the machine hire enquiry or the pigment enquiry.",
+          "Pigment List — the list of shades, bottle sizes and quantities that you create in the pigment catalogue, in the “Your order” window, in order to send it as an enquiry.",
+          "Privacy Policy and Cookie Policy — the documents available at {siteUrl}/polityka-prywatnosci and {siteUrl}/polityka-cookies."
+        ] }
+      ]
+    },
+    {
+      "id": "uslugodawca",
+      "heading": "3. Service Provider and contact details",
+      "blocks": [
+        { "p": "The Website is run by:" },
+        { "list": [
+          "{company}",
+          "address: {address}",
+          "Tax ID (NIP): {nip}",
+          "register: {register}",
+          "email: {email}",
+          "phone: {phone}",
+          "Instagram: {instagram}",
+          "personal data matters: {privacyEmail}"
+        ] },
+        { "p": "We answer questions fastest by phone, by email and on Instagram. Please send complaints and formal matters by email or by post." }
+      ]
+    },
+    {
+      "id": "uslugi",
+      "heading": "4. Services on the Website",
+      "blocks": [
+        { "p": "We provide the following Services on the Website free of charge:" },
+        { "list": [
+          "browsing content — information about treatments, price lists and the treatment journey, training courses and their funding, pigments, machines and certificates, and contact details;",
+          "Forms — preparing a message to us: a general question, or an enquiry about a training date, machine hire or pigments;",
+          "Pigment List — a selection of shades, bottle sizes and quantities that you can send as an enquiry;",
+          "online appointment booking — choosing a Treatment, a day and a time and saving the appointment in the Salon’s calendar."
+        ] },
+        { "p": "Online booking works when it is enabled. If the “Book an appointment” page says it is temporarily unavailable, we will arrange your appointment by phone, by email or via Instagram." },
+        { "p": "The Website does not sell anything or accept payments. You do not create an account on it or sign up for a newsletter. Buying products, taking part in a training course and hiring a machine require separate arrangements with us (section 11)." }
+      ]
+    },
+    {
+      "id": "wymagania-techniczne",
+      "heading": "5. Technical requirements and security",
+      "blocks": [
+        { "p": "To use the Website, you need:" },
+        { "list": [
+          "a device with internet access — a computer, tablet or phone;",
+          "an up-to-date browser, e.g. Chrome, Safari, Firefox or Edge, with JavaScript enabled — without it, the Forms, the Pigment List and online booking will not work;",
+          "to send a Form — an email program set up on your device, or an Instagram account so that you can copy the content and send it to us in a message;",
+          "for the Pigment List to remain saved after you refresh or close the page — browser storage (localStorage) enabled;",
+          "to add an appointment to your own calendar — an application that supports .ics files, e.g. Apple Calendar, Google Calendar or Outlook;",
+          "if online booking uses Cloudflare Turnstile verification — the ability to connect to Cloudflare’s servers; verification usually takes place without any action on your part."
+        ] },
+        { "p": "You bear the cost of your internet connection under your agreement with your provider." },
+        { "p": "The Website does not install any software on your device. In your browser’s storage it saves only the information described in section 14 and in the Cookie Policy." },
+        { "p": "As with any online service, using the Website involves typical risks: malware, attempts to obtain data fraudulently (phishing), impersonation of well-known brands and interception of data on unsecured networks. The Website uses an encrypted connection (HTTPS). You send messages from the Forms from your own mailbox or via Instagram, so their security also depends on those services." },
+        { "p": "The Website does not send text messages or emails and does not accept payments. If you receive a message in our name asking you to pay for an online booking or to provide a password or card details, do not reply to it and let us know." },
+        { "p": "We recommend keeping your operating system and browser up to date, using antivirus software and checking the website address before entering any data." }
+      ]
+    },
+    {
+      "id": "zasady-korzystania",
+      "heading": "6. Rules for using the Website",
+      "blocks": [
+        { "p": "Use the Website in accordance with the law, accepted standards of conduct and the Terms. In particular, you must not:" },
+        { "list": [
+          "provide unlawful content, including content that is offensive, infringes the rights of others or is misleading;",
+          "give fictitious data or another person’s data without their consent;",
+          "book appointment times you do not intend to use or block the Salon’s calendar;",
+          "use bots, scripts or other automated tools, circumvent safeguards or limits, or disrupt the operation of the Website."
+        ] },
+        { "p": "Please do not enter information about your health in the Forms or in the “Notes” field. We will discuss it at the Salon, during the consultation." },
+        { "p": "The content of the Website — texts, photos, graphics, logos and product names — is protected by copyright and trade mark law. You may use it within the limits of permitted personal use. Copying and distributing it, e.g. photos of our work, requires our consent, unless the law provides otherwise." },
+        { "p": "The Website contains links to external websites, e.g. to our Instagram profile ({instagram}). Once you go to them, their operators’ terms and policies apply — in the case of Instagram, those of Meta." },
+        { "p": "If someone breaches these rules, we may refuse to provide them with a Service, and we may cancel a Booking made in breach of the Terms, e.g. with fictitious data or by automated means, and remove it from the calendar. If genuine contact details were given in the Booking, we will inform that person of the cancellation." }
+      ]
+    },
+    {
+      "id": "zawarcie-i-rozwiazanie-umowy",
+      "heading": "7. Conclusion and termination of the contract",
+      "blocks": [
+        { "p": "The contract for the provision of Services is free of charge. It is concluded for the time you use a given Service:" },
+        { "list": [
+          "browsing content — when you open the Website; the contract ends when you close the page;",
+          "Form — when you start filling it in; the contract ends when your email program opens with the ready message, when you copy its content or when you abandon the Form;",
+          "Pigment List — when you add the first item; the contract ends when you clear the list, remove all items from it or delete the site data in your browser;",
+          "online booking — when you start filling in the booking form; the contract ends when the confirmation is displayed or when you abandon the form. The booked appointment remains valid on the terms set out in sections 9 and 10."
+        ] },
+        { "p": "You may stop using the Services at any time, without giving a reason and at no cost — simply close the page or abandon the form." },
+        { "p": "We may refuse to provide a Service or discontinue it if you use the Website in breach of the Terms. We may also temporarily disable or change individual features of the Website, e.g. because of technical work, a failure or when the safeguards detect an unusually high number of bookings. This does not affect appointments already booked." }
+      ]
+    },
+    {
+      "id": "formularze-i-lista-pigmentow",
+      "heading": "8. Forms and the Pigment List",
+      "blocks": [
+        { "p": "Forms do not send data to our server. When you click the send button, the Website composes a ready message from the information you have entered and opens your email program addressed to {email}. We receive the message only once you send it." },
+        { "p": "If there is no email program on your device, you can copy or retype the content and send it to us as a message on Instagram ({instagram}). The message is delivered by your email provider or by Instagram, on the terms of those services." },
+        { "p": "Depending on the Form, the message contains: your full name, phone number and email address and, in addition, the subject and content of the message; the chosen training course, city, preferred date and your experience in permanent make-up; your salon’s name and the chosen device; or the Pigment List with an approximate total and comments. Provide only what we need to reply." },
+        { "p": "Sending an enquiry does not mean that a sales contract, training contract or hire contract has been concluded. In our reply we will set out availability and terms, and a contract is concluded separately if both parties wish." },
+        { "p": "The Pigment List is saved only in the browser storage on your device and does not reach us until you send an enquiry. The prices in the catalogue are shown with the date on which they are valid. The total on the list is approximate, does not include delivery costs and is not the price payable — we will confirm the total amount in our reply. You can clear the list at any time in the “Your order” window or by deleting the site data in your browser." }
+      ]
+    },
+    {
+      "id": "rezerwacja-online",
+      "heading": "9. Booking an appointment online",
+      "blocks": [
+        { "p": "Online booking is available on the “Book an appointment” page and takes four steps:" },
+        { "list": [
+          "treatment — you choose a Treatment; for each one you can see its duration and the price from the price list, and for refreshes and removals a “from” price that depends on the type of Treatment;",
+          "day — you choose a day with available times;",
+          "time — you choose one of the available times;",
+          "your details — you enter your full name, phone number and email address and, if you wish, a short note in the “Notes” field, e.g. whether this is your first treatment."
+        ] },
+        { "p": "Finally, you click “Book appointment”. Please give genuine contact details — they are the only way we can contact you about your appointment." },
+        { "p": "You can book an appointment online no later than 24 hours before it starts and no more than 60 days in advance. Times are given in Polish time (Warsaw). Available times depend on the Salon’s opening hours and its current calendar." },
+        { "p": "The Booking is made when you see the “Appointment booked” screen with a booking number — at that point the appointment is already saved in the Salon’s calendar. If, instead of the confirmation, you see a message that the time is already taken, the Booking has not been made; please choose another time. If you see an error message, try again — a repeat attempt for the same time will not create a second appointment — or contact us. If, despite the error, the appointment was saved in the calendar, we will contact you to confirm or cancel it." },
+        { "p": "The confirmation is shown only on screen. You can download an .ics file and add the appointment to your calendar. The Website does not send confirmation text messages or emails, so please make a note of your booking number." },
+        { "p": "A single phone number or email address may have no more than two future appointments booked online at any one time, e.g. a treatment and a touch-up. You can arrange further appointments by contacting us." },
+        { "p": "To protect the calendar against abuse, the Website limits the number of attempts, checks how long the form takes to complete and — if enabled — uses Cloudflare Turnstile verification. If there is an unusually high number of bookings, online booking may be temporarily suspended; in that case, please book your appointment by phone, by email or via Instagram." },
+        { "p": "Online bookings may be made by adults. You may book an appointment for another adult if they agree — in that case, enter their full name and contact details and pass on to them the information in the Privacy Policy." }
+      ]
+    },
+    {
+      "id": "wizyta-w-salonie",
+      "heading": "10. Your visit to the Salon, rescheduling and cancellation",
+      "blocks": [
+        { "p": "Every Treatment begins with a consultation, facial mapping and a preliminary drawing. During the consultation we discuss your expectations, the condition of your skin and any contraindications, and we confirm the scope and price of the Treatment." },
+        { "p": "The contract for the Treatment is concluded at the Salon — after the consultation and before the Treatment begins. If, after the consultation, the Treatment cannot be performed that day, e.g. because of contraindications, or you decide not to go ahead, we will suggest another date or another solution. Withdrawing after the consultation is free of charge. We perform Treatments only on adults." },
+        { "p": "To reschedule or cancel an appointment, contact us by phone ({phone}), by email ({email}) or via Instagram ({instagram}). Give your booking number, or your full name and the date and time of the appointment. Please contact us at least 24 hours before your appointment. Rescheduling and cancellation are always free of charge. The Website does not allow you to cancel an appointment online yourself." },
+        { "p": "If you are running late, we will try to see you on the same day. If you are more than 15 minutes late, we may offer you another appointment so that the Treatment is not rushed or carried out at the expense of other clients." },
+        { "p": "If, within 12 months, you twice fail to attend a booked appointment without cancelling it, we may arrange further appointments with you only by phone and not through online booking." },
+        { "p": "In exceptional situations, e.g. if the specialist is ill or there is a breakdown, we may reschedule or cancel a booked appointment. In that case we will contact you as soon as possible, by phone or by email, and offer you a new date." }
+      ]
+    },
+    {
+      "id": "ceny-i-oferta",
+      "heading": "11. Prices and the nature of our offer",
+      "blocks": [
+        { "p": "Prices on the Website are given in Polish zloty (PLN). Treatment prices are final prices (including VAT), payable at the Salon." },
+        { "p": "The price of a Treatment is the price in the price list, which you also see when making a Booking. For Treatments with a “from” price or an individual quote, we give the exact amount during the consultation. If after the consultation it turns out that a different scope is needed from the one booked, we will tell you the price before the Treatment begins, and you decide whether you agree to it. A touch-up is a separate item in the price list; in some cases, e.g. with oily or porous skin or after removal of old permanent make-up, it is necessary — we will tell you about this during the consultation." },
+        { "p": "Information about treatments, training courses, pigments and machines and about machine hire, including prices, is an invitation to contact us and to enter into a contract (Article 71 of the Civil Code), and not an offer within the meaning of Article 66 of the Civil Code. The terms of a purchase, training course or hire are agreed individually before the contract is concluded." },
+        { "p": "Where a price is marked as a net amount (e.g. for training courses), we add VAT at the applicable rate, if due. Before a contract is concluded, we always state the price payable." },
+        { "p": "The Website does not accept payments. Online booking is free of charge and does not require a deposit or prepayment." },
+        { "p": "Information about our entry in the Register of Training Institutions (Rejestr Instytucji Szkoleniowych, RIS) and in the Development Services Database (Baza Usług Rozwojowych, BUR), and about the possibility of funding training from sources including the National Training Fund (Krajowy Fundusz Szkoleniowy, KFS), is provided for information only. Decisions on funding are made by the competent office or operator according to its own rules." }
+      ]
+    },
+    {
+      "id": "reklamacje",
+      "heading": "12. Complaints",
+      "blocks": [
+        { "p": "If a Service on the Website does not work properly or in accordance with the Terms, you can submit a complaint:" },
+        { "list": [
+          "by email to {email};",
+          "by post to {address}."
+        ] },
+        { "p": "In your complaint, give your name and contact details and describe the problem — what happened, when, and on what device or in what browser — and, if it concerns a Booking, give its number or date and time. Please also tell us what you expect. If anything is missing, we will ask you to provide it." },
+        { "p": "We will reply within 14 days of receiving your complaint — by the same means you used to submit it, unless you ask us to use another. If you are a consumer and we do not reply within that period, your complaint is deemed to have been accepted." },
+        { "p": "Complaints concerning a Treatment performed, products purchased or training are handled under the rules applicable to those contracts and in accordance with the law, in particular the Civil Code and the Act on Consumer Rights (ustawa o prawach konsumenta)." }
+      ]
+    },
+    {
+      "id": "prawa-konsumenta",
+      "heading": "13. Consumer rights",
+      "blocks": [
+        { "p": "The Services on the Website are free of charge and you may stop using them at any time, without giving a reason and at no cost (section 7)." },
+        { "p": "An online Booking is not a purchase of a service and does not involve any payment. You can change or cancel it free of charge at any time (section 10), and the contract for the Treatment is concluded at the Salon, after the consultation." },
+        { "p": "No sales contracts are concluded on the Website. If, following an exchange of messages, we conclude a distance contract with you, e.g. for the sale of pigments or participation in a training course, before it is concluded we will give you the information required by the Act on Consumer Rights, including information about the right to withdraw from the contract, if you have that right." },
+        { "p": "Consumer protection provisions, to the extent specified in the Act on Consumer Rights and the Civil Code, also apply to a natural person running a sole proprietorship if the contract is not of a professional nature for them, as follows in particular from the business activity entered in CEIDG (Centralna Ewidencja i Informacja o Działalności Gospodarczej, the Central Register and Information on Economic Activity)." }
+      ]
+    },
+    {
+      "id": "dane-osobowe",
+      "heading": "14. Personal data and browser storage",
+      "blocks": [
+        { "p": "The controller of the personal data provided on the Website is {company}. What data we collect, for what purpose, how long we keep it, whom we entrust it to (e.g. the hosting provider and Google Calendar) and what rights you have are described in the Privacy Policy: {siteUrl}/polityka-prywatnosci. For personal data matters, write to {privacyEmail}." },
+        { "p": "The Website does not use analytics or advertising tools and does not set any cookies of its own. In your browser’s storage it saves only the Pigment List, if you use it, and your choice in the cookie banner. If Cloudflare Turnstile verification is running on the booking page, the Cloudflare script may store its own cookies and technical data in your browser. Details, including how to delete them, are given in the Cookie Policy: {siteUrl}/polityka-cookies." }
+      ]
+    },
+    {
+      "id": "zmiany-regulaminu",
+      "heading": "15. Changes to the Terms",
+      "blocks": [
+        { "p": "We may change the Terms for valid reasons, in particular when:" },
+        { "list": [
+          "the law or its interpretation changes;",
+          "we change the scope or operation of the Services, e.g. by introducing email confirmations or online payments;",
+          "our details change;",
+          "it is necessary for security reasons."
+        ] },
+        { "p": "We publish the new version on the Website, together with its effective date, at least 7 days in advance — unless the change results from the law or from security reasons and must take effect sooner. Appointments booked before the change are handled according to the version in force at the time of the Booking, unless the new version is more favourable to you." },
+        { "p": "The date of the latest update is shown at the top of the Terms." }
+      ]
+    },
+    {
+      "id": "prawo-i-spory",
+      "heading": "16. Governing law and dispute resolution",
+      "blocks": [
+        { "p": "The Terms and the contracts for the provision of Services are governed by Polish law. If you are a consumer living in another country, the choice of Polish law does not deprive you of the protection afforded to you by the mandatory provisions of the law of that country." },
+        { "p": "Disputes are resolved by the courts having jurisdiction under the Code of Civil Procedure (Kodeks postępowania cywilnego). Disputes with businesses that do not benefit from consumer protection are resolved by the court having jurisdiction over the Service Provider’s registered office." },
+        { "p": "As a consumer, you may use out-of-court methods of resolving disputes; participation in them is voluntary for both parties. In particular, you may:" },
+        { "list": [
+          "seek free assistance from a municipal or district consumer ombudsman (miejski lub powiatowy rzecznik konsumentów);",
+          "use mediation or arbitration conducted by bodies authorised to resolve consumer disputes out of court — their register and information on the procedures can be found on the website of the Office of Competition and Consumer Protection (Urząd Ochrony Konkurencji i Konsumentów, UOKiK) at www.uokik.gov.pl;",
+          "obtain advice from consumer organisations, e.g. the Consumer Federation (Federacja Konsumentów)."
+        ] },
+        { "p": "If we do not accept your complaint, in our reply we will tell you whether we agree to out-of-court dispute resolution and indicate the competent body." }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "what": "Service Provider details and the Salon’s address before publication",
+      "proposal": "Fill in LEGAL.company, address, nip, register, privacyEmail and CONTACT.email, phone, street and postal in src/lib/site.js; do not publish the Terms with “[do uzupełnienia]” (“to be completed”) fields.",
+      "why": "Article 5 of the Act on Providing Services by Electronic Means requires the name, address, email address and registration numbers to be given. If the company is a limited liability company (spółka z o.o.), the {register} field must also state the registry court, the KRS number (Krajowy Rejestr Sądowy, the National Court Register) and the amount of share capital (Article 206 § 1 of the Commercial Companies Code (Kodeks spółek handlowych)). The Terms (section 2) refer to the Contact page for the Salon’s address, and today the street and postcode are empty."
+    },
+    {
+      "what": "Link to the Terms next to the forms",
+      "proposal": "A “Terms of Use” link in the footer of every language version, and one sentence next to the “Book appointment” button (e.g. “By booking, you accept the Terms of Use and the rules set out in the Privacy Policy”), without a mandatory tick box.",
+      "why": "Article 8(1)(1) of the Act on Providing Services by Electronic Means requires the terms to be made available before the contract is concluded. Today there is only a personal data notice below the booking button, and acceptance “by use” (section 1) is stronger when the link is visible at the moment of booking. The /regulamin address must also be added to the EN/RU routes (src/i18n/routes.js) and to the sitemap."
+    },
+    {
+      "what": "Status of an online booking",
+      "proposal": "A booking is effective once the “Appointment booked” screen is displayed; the contract for the Treatment is concluded at the Salon, after the consultation.",
+      "why": "That is how the website works: the appointment goes straight into the calendar and the screen says “Booking confirmed”. Concluding the Treatment contract at the Salon reduces the risk of the booking being regarded as a distance contract, but the Terms cannot settle this, because the classification is determined by the law, not by what the booking is called. Even if a booking were classified in that way, free cancellation at any time gives the client more than the 14-day right of withdrawal. If the Salon prefers to confirm each booking by phone, both the Terms and the texts on the booking page must be changed."
+    },
+    {
+      "what": "Appointment saved despite an error message",
+      "proposal": "Review calendar entries marked “Zapis ze strony www” (“Website booking”) and, for entries the client may not have been aware of (e.g. no contact after the booking), phone the client to confirm or cancel the appointment.",
+      "why": "The code saves appointments idempotently and checks whether the booking was saved after an error, but if the connection drops, the appointment may be saved while the client sees an error. The Terms (section 9) promise contact in that case, so the Salon must actually do this in practice."
+    },
+    {
+      "what": "Rescheduling and cancelling appointments",
+      "proposal": "Contact by phone, by email or via Instagram at least 24 hours before the appointment; rescheduling and cancellation always free of charge.",
+      "why": "Online booking also requires 24 hours’ notice, so the rules are symmetrical. The website does not take a deposit, so a late cancellation fee would in practice be unenforceable; introducing one would require a deposit and information before booking."
+    },
+    {
+      "what": "No-shows without cancellation",
+      "proposal": "After two missed appointments without cancellation within 12 months, further appointments for that person only after contact by phone.",
+      "why": "This protects the calendar without introducing fees. The 12-month window matches the booking retention period in the Privacy Policy, so the calendar history is enough to apply the rule. If the Salon wants to keep a separate note of no-shows, it must be added to the Privacy Policy (purpose: protecting the calendar; basis: legitimate interest; period: 12 months). The alternative (a deposit) requires online payment or a bank transfer before the appointment and a change to the Terms."
+    },
+    {
+      "what": "Late arrivals",
+      "proposal": "15 minutes’ grace period; for longer delays the Salon may offer another appointment.",
+      "why": "Treatments booked online last from 45 to 120 minutes, and the calendar has a 15-minute buffer between appointments — a longer delay pushes back the clients who follow."
+    },
+    {
+      "what": "Consultation",
+      "proposal": "Consultation included in the Treatment price; withdrawing after the consultation free of charge.",
+      "why": "The website states that every Treatment begins with a consultation, and the price list does not show it as a separate item. If the consultation is charged for, its price must be added to the price list and section 10 amended."
+    },
+    {
+      "what": "Clients’ age and booking for another person",
+      "proposal": "Online booking and Treatments for adults only; booking for another adult with their consent, using their contact details.",
+      "why": "Permanent make-up breaks the skin; for a minor, the consent of a legal guardian would be needed, which an online form cannot secure. When someone books for another person, we obtain that person’s data indirectly (Article 14 of the General Data Protection Regulation, GDPR), which is why the Terms ask for the Privacy Policy information to be passed on to them; the form does not verify age, so the rule operates as a declaration."
+    },
+    {
+      "what": "Treatment prices",
+      "proposal": "Prices in the Treatment price list are final prices (including VAT), payable at the Salon; a price may change only for a different scope of Treatment, accepted by the client before the Treatment begins.",
+      "why": "Treatment prices carry no “net” label, and for consumers the price must be the amount payable including tax (Act on Informing about the Prices of Goods and Services (ustawa o informowaniu o cenach towarów i usług)). The sentence “the price list is for information only” has been removed, because it would allow a price different from the one shown at booking to be demanded — which risks being treated as a misleading practice."
+    },
+    {
+      "what": "Training prices given “net”",
+      "proposal": "Show the gross price for training courses as well, or clearly mark the training offer as aimed at businesses.",
+      "why": "Trainees are sometimes private individuals, and consumers must be given the price payable; a net price alone risks a penalty under the Act on Informing about the Prices of Goods and Services. Publicly funded training (e.g. KFS) may be exempt from VAT — the rate should be confirmed with the accountant. The same applies to machine hire, where the website gives both amounts."
+    },
+    {
+      "what": "Pigment prices in the catalogue",
+      "proposal": "The total on the Pigment List is approximate, excluding delivery costs; prices according to the price list with the date given in the catalogue, with the amount payable confirmed in our reply.",
+      "why": "That is how the code works (the “Your order” window shows the price list date and delivery information). Before a contract is concluded with a consumer, the total price including delivery costs must be given (Act on Consumer Rights)."
+    },
+    {
+      "what": "Complaints about electronic services",
+      "proposal": "Accepted by email and by post; reply within 14 days, and no reply within that period means the consumer’s complaint is accepted.",
+      "why": "The Act on Providing Services by Electronic Means does not set a deadline; 14 days and the consequence of not replying reflect the general rule in Article 7a of the Act on Consumer Rights. Instagram is not proposed as a formal channel because it is difficult to document the date and content of a complaint made there."
+    },
+    {
+      "what": "Out-of-court dispute resolution",
+      "proposal": "Decide on participation in mediation or arbitration for each rejected consumer complaint and state that decision in the reply; in the Terms, refer to the register of bodies kept by UOKiK, without naming specific institutions and without a link to the ODR platform.",
+      "why": "The information obligation arises from Article 32 of the Act on Out-of-Court Resolution of Consumer Disputes (ustawa o pozasądowym rozwiązywaniu sporów konsumenckich). The list of authorised bodies changes (among other things as a result of the reform of the Trade Inspection (Inspekcja Handlowa)), so a reference to the UOKiK register will not become outdated. The EU ODR platform was closed on 20 July 2025 (Regulation (EU) 2024/3228), so a link to it is no longer needed."
+    },
+    {
+      "what": "Court for disputes with businesses",
+      "proposal": "The court having jurisdiction over the Service Provider’s registered office.",
+      "why": "A standard solution for B2B disputes (e.g. with salons buying pigments); such a clause would not be permitted in relation to consumers, so it does not cover them."
+    },
+    {
+      "what": "Procedure for changing the Terms",
+      "proposal": "Publication of the new version at least 7 days before it takes effect; appointments booked earlier handled according to the version in force at the time of booking.",
+      "why": "The website has no user accounts, so no one can be notified individually; the advance notice and the protection of existing bookings take the place of notification."
+    },
+    {
+      "what": "Language versions of the Terms",
+      "proposal": "Publish EN and RU translations; the Polish version is binding, and ambiguities are interpreted in favour of the consumer.",
+      "why": "The website has /en and /ru versions (booking is also available at /en/book and /ru/book), and a person using them should understand the terms. Article 385 § 2 of the Civil Code in any case requires ambiguities to be interpreted in favour of the consumer. Until the translations exist, a client using the EN/RU version sees only the Polish Terms — a risk in a dispute with a consumer who does not know Polish."
+    },
+    {
+      "what": "Limit on active online bookings",
+      "proposal": "Two future appointments per phone number or email address (as in the current configuration).",
+      "why": "The limit protects the calendar against blocking and is described in the Terms — if it changes in the configuration (src/lib/booking/config.js, abuse.maxActivePerContact), section 9 must be changed too. The same applies to the 24 hours’ notice and the 60 days in advance (minLeadHours, maxDaysAhead)."
+    },
+    {
+      "what": "Cloudflare Turnstile in the Terms",
+      "proposal": "Keep the conditional wording (“if enabled”); if Turnstile stays permanently disabled, remove the references from sections 5, 9 and 14 together with the corresponding changes in the Privacy Policy and the Cookie Policy.",
+      "why": "Consistency with the Turnstile decision in the Privacy Policy and the Cookie Policy — all three documents must describe the same state."
+    },
+    {
+      "what": "Separate terms for training, machine hire and pigment sales",
+      "proposal": "Prepare separate terms: a training agreement (advance payment, cancellation, rescheduling, certificate), hire (security deposit, damage, return) and sales (delivery, withdrawal, complaints).",
+      "why": "The website Terms cover only electronic services and invitations to contact us. Contracts concluded after an enquiry need their own rules; for a contract concluded with a consumer by email (training, pigments), the information required by Article 12 of the Act on Consumer Rights must be provided before it is concluded. An online shop run under a different domain has its own terms."
+    }
+  ]
+}

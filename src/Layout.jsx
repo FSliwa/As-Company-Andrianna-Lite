@@ -16,6 +16,16 @@ import { BOOKING_PAGE } from '@/lib/site';
 import { useBookingHref, useContent, usePathInfo, useSite } from '@/i18n/client';
 import common from '@/content/common';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/i18n/routes';
+import { openConsentSettings } from '@/lib/consent';
+import CookieConsent from '@/components/as/CookieConsent';
+
+/* Dokumenty prawne w stopce (treść: src/content/legal, dane firmy: LEGAL w site.js). */
+const LEGAL_LINKS = [
+  { key: 'privacy', route: ROUTES.privacy },
+  { key: 'cookiesPolicy', route: ROUTES.cookies },
+  { key: 'terms', route: ROUTES.terms },
+];
 
 /* ------------------------------------------------------------------ */
 /*  Nagłówek                                                            */
@@ -239,8 +249,8 @@ function Footer({ year }) {
       <div className="as-shell py-12 lg:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
-            <Logo size="lg" className="h-16 w-16 sm:h-24 sm:w-24 lg:h-28 lg:w-28" />
-            <p className="mt-6 font-display text-2xl italic text-cream-100 lg:mt-8">{BRAND.tagline}</p>
+            {/* bez logo w stopce — znak marki jest w nagłówku, stopkę otwiera hasło */}
+            <p className="font-display text-2xl italic text-cream-100">{BRAND.tagline}</p>
             <p className="as-caption-invert mt-3 hidden sm:block">{BRAND.claim}</p>
 
             <dl className="mt-6 max-w-sm lg:mt-10">
@@ -312,25 +322,31 @@ function Footer({ year }) {
           </p>
         </div>
 
-        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:mt-10">
+        {/* Dokumenty zawsze (do czasu danych firmy jako projekt); dane firmy — po uzupełnieniu LEGAL w site.js */}
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 text-[0.8125rem] text-cream-200/80 lg:mt-10">
+          {LEGAL.company && (
+            <span className="basis-full sm:basis-auto">
+              {[LEGAL.company, LEGAL.address, LEGAL.nip && `${t.nip} ${LEGAL.nip}`, LEGAL.register].filter(Boolean).join(' · ')}
+            </span>
+          )}
+          {LEGAL_LINKS.map(({ key, route }) => (
+            <Link key={key} href={route} className="inline-flex min-h-[44px] items-center underline underline-offset-2 hover:text-cream-50">
+              {t[key]}
+            </Link>
+          ))}
+          <button
+            type="button"
+            onClick={openConsentSettings}
+            className="inline-flex min-h-[44px] items-center underline underline-offset-2 hover:text-cream-50"
+          >
+            {t.cookieSettings}
+          </button>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="as-label text-cream-200/70">
             © {year} {BRAND.full}. {t.rights}
           </p>
-          {/* Dane firmy i polityka prywatności — pojawią się, gdy klient uzupełni LEGAL w site.js */}
-          {(LEGAL.company || LEGAL.privacyPolicy) && (
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.8125rem] text-cream-200/80">
-              {LEGAL.company && (
-                <span>
-                  {[LEGAL.company, LEGAL.address, LEGAL.nip && `${t.nip} ${LEGAL.nip}`, LEGAL.register].filter(Boolean).join(' · ')}
-                </span>
-              )}
-              {LEGAL.privacyPolicy && (
-                <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-cream-50">
-                  {t.privacy}
-                </Link>
-              )}
-            </div>
-          )}
           <LanguageSwitcher tone="light" className="-ml-3.5 sm:-mr-3.5 sm:ml-0" />
         </div>
       </div>
@@ -417,6 +433,7 @@ export default function Layout({ children, year }) {
       </main>
       <Footer year={year} />
       <StickyBar menuOpen={menuOpen} />
+      <CookieConsent />
     </div>
   );
 }

@@ -1,15 +1,15 @@
 import LegalDocument from '@/components/as/LegalDocument';
 import { pageMeta } from '@/lib/seo';
 import { LEGAL_COMPLETE } from '@/lib/legal';
-import doc from '@/content/legal/privacy.en.json';
+import doc from '@/content/legal/cookies.en.json';
 
-/* Polityka prywatności — treść: src/content/legal/privacy.*.json, dane firmy z LEGAL (site.js).
+/* Polityka cookies (art. 399 Prawa komunikacji elektronicznej) — treść: src/content/legal/cookies.*.json, dane firmy z LEGAL (site.js).
    Dopóki LEGAL jest niepełne, dokument jest projektem: pas „Projekt dokumentu”, oznaczone braki, noindex. */
 export const metadata = pageMeta({
   locale: 'en',
-  route: 'privacy',
+  route: 'cookies',
   title: doc.title,
-  description: 'How personal data is processed on the AS COMPANY and Babushkina Academy website: forms, online booking, hosting and your rights.',
+  description: 'What the AS COMPANY website stores in your browser, why, and how you can manage it.',
   noindex: !LEGAL_COMPLETE,
 });
 

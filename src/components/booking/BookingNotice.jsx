@@ -9,10 +9,11 @@
 
 import Link from 'next/link';
 import { LEGAL } from '@/lib/site';
+import { LEGAL_COMPLETE } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 export function BookingNotice({ className }) {
-  if (!LEGAL.company || !LEGAL.privacyPolicy) return null;
+  if (!LEGAL_COMPLETE) return null;
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed text-mocha', className)}>
       Administratorem danych jest {LEGAL.company}. Dane z formularza przetwarzamy, by zarezerwować i obsłużyć
