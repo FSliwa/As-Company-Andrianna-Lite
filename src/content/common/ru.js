@@ -1,0 +1,38 @@
+/** Nakładka RU na src/content/common/pl.js (te same klucze). */
+const common = {
+  skipLink: 'Перейти к содержанию',
+  homeAria: 'AS COMPANY POLAND — главная страница',
+  mainNavAria: 'Основная навигация',
+  book: 'Записаться',
+  menuOpen: 'Открыть меню',
+  menuClose: 'Закрыть меню',
+  menuAria: 'Меню',
+  shortcutsAria: 'Разделы',
+  languageAria: 'Язык',
+  more: 'Подробнее',
+  less: 'Свернуть',
+  close: 'Закрыть',
+  rights: 'Все права защищены.',
+  privacy: 'Политика конфиденциальности',
+  nip: 'ИНН (NIP)',
+  stickyTraining: 'Обучение',
+  goTo: 'Перейти:',
+  closingLabel: 'Контакты',
+  requiredLegend: 'Поля, отмеченные *, обязательны для заполнения.',
+  noticeController: 'Администратор данных —',
+  noticePurpose: 'Данные из формы мы обрабатываем исключительно для ответа на ваш запрос.',
+  documents: 'Документы',
+  dataController: 'Администратор данных:',
+  privacyInPolish: 'Политика конфиденциальности пока доступна только на польском языке.',
+  notFound: {
+    metaTitle: 'Страница не найдена',
+    label: 'Не найдено',
+    title: 'Такой страницы',
+    accent: 'нет.',
+    body: 'Адрес мог измениться, или страница была перенесена. Начните с главной страницы или напишите нам — мы поможем найти то, что вы ищете.',
+    home: 'Главная страница',
+    contact: 'Контакты',
+  },
+};
+
+export default common;

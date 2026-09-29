@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* kroje pisma (ładowane w src/app/layout.jsx z Google Fonts) */
+    /* kroje pisma (pliki w public/fonts, @font-face w src/styles-fonts.css; cyrylica z Playfair Display) */
     --font-display: 'Bodoni Moda Variable', 'Bodoni Moda', 'Didot', 'Playfair Display', Georgia, serif;
     --font-sans: 'Jost Variable', 'Jost', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 

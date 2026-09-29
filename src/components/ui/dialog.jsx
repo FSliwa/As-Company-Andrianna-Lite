@@ -5,6 +5,8 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useContent } from "@/i18n/client"
+import common from "@/content/common"
 
 /* Dialog w stylu marki: kremowy panel bez zaokrągleń i cieni, przyciemnienie
    espresso, tytuł w kroju display, opis w .as-caption, stopka z parą przycisków
@@ -29,7 +31,10 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => (
+const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => {
+  /* „Zamknij” w języku strony (src/content/common) */
+  const t = useContent(common)
+  return (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
@@ -43,11 +48,12 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
       <DialogPrimitive.Close
         className="absolute right-2 top-2 grid h-11 w-11 place-items-center text-ink/60 transition-colors hover:text-ink disabled:pointer-events-none">
         <X className="h-4 w-4" />
-        <span className="sr-only">Zamknij</span>
+        <span className="sr-only">{t.close}</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
-))
+  )
+})
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({

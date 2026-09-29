@@ -1,0 +1,38 @@
+/** Nakładka EN na src/content/common/pl.js (te same klucze). */
+const common = {
+  skipLink: 'Skip to content',
+  homeAria: 'AS COMPANY POLAND — home page',
+  mainNavAria: 'Main navigation',
+  book: 'Book a visit',
+  menuOpen: 'Open menu',
+  menuClose: 'Close menu',
+  menuAria: 'Menu',
+  shortcutsAria: 'Shortcuts',
+  languageAria: 'Language',
+  more: 'More',
+  less: 'Less',
+  close: 'Close',
+  rights: 'All rights reserved.',
+  privacy: 'Privacy policy',
+  nip: 'Tax ID (NIP)',
+  stickyTraining: 'Training',
+  goTo: 'Go to:',
+  closingLabel: 'Contact',
+  requiredLegend: 'Fields marked * are required.',
+  noticeController: 'The data controller is',
+  noticePurpose: 'We process the data from this form solely to respond to your enquiry.',
+  documents: 'Documents',
+  dataController: 'Data controller:',
+  privacyInPolish: 'The privacy policy is currently available in Polish only.',
+  notFound: {
+    metaTitle: 'Page not found',
+    label: 'Not found',
+    title: 'This page',
+    accent: 'does not exist.',
+    body: 'The address may have changed or the page may have been moved. Start from the home page or write to us — we will help you find what you are looking for.',
+    home: 'Home page',
+    contact: 'Contact',
+  },
+};
+
+export default common;
