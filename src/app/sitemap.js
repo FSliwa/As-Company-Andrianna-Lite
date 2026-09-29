@@ -1,6 +1,6 @@
 import { BOOKING_ENABLED, SITE_URL } from '@/lib/site';
 import { LEGAL_COMPLETE } from '@/lib/legal';
-import { LOCALES } from '@/i18n/config';
+import { PUBLIC_LOCALES } from '@/i18n/config';
 import { ROUTES, languageAlternates, localePath } from '@/i18n/routes';
 
 /** sitemap.xml — publiczne trasy w trzech językach (pl, /en, /ru) z hreflang; data = data buildu. */
@@ -27,15 +27,15 @@ export default function sitemap() {
   const keys = LEGAL_COMPLETE ? [...KEYS, 'privacy', 'cookies', 'terms'] : KEYS;
   return keys.flatMap((key) => {
     const canonical = ROUTES[key];
-    const languages = Object.fromEntries(
-      Object.entries(languageAlternates(canonical)).map(([lang, path]) => [lang, absolute(path)])
-    );
-    return LOCALES.map((locale) => ({
+    const alt = languageAlternates(canonical);
+    const languages = alt ? Object.fromEntries(Object.entries(alt).map(([lang, path]) => [lang, absolute(path)])) : null;
+    // tylko języki publiczne (PUBLIC_LOCALES) — /en i /ru dołączą po przetłumaczeniu treści
+    return PUBLIC_LOCALES.map((locale) => ({
       url: absolute(localePath(canonical, locale)),
       lastModified,
       changeFrequency: key === 'home' ? 'weekly' : 'monthly',
       priority: key === 'home' ? 1 : 0.7,
-      alternates: { languages },
+      ...(languages ? { alternates: { languages } } : {}),
     }));
   });
 }

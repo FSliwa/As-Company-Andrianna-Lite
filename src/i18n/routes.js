@@ -8,7 +8,7 @@
  * wspólne dla wszystkich języków — identyfikatorów sekcji nie tłumaczymy.
  */
 
-import { DEFAULT_LOCALE, LOCALES } from './config.js';
+import { DEFAULT_LOCALE, LOCALES, PUBLIC_LOCALES } from './config.js';
 
 /** ścieżka polska → slug EN/RU (angielski w obu wersjach) */
 export const SLUGS = {
@@ -103,7 +103,9 @@ export const isKnownPath = (canonical) =>
  * ru: '/ru/treatments', 'x-default': '/uslugi' } (x-default = wersja polska).
  */
 export function languageAlternates(canonical) {
-  const out = Object.fromEntries(LOCALES.map((l) => [HREFLANG[l], localePath(canonical, l)]));
+  // tylko języki publiczne (PUBLIC_LOCALES); przy samym polskim — brak hreflang
+  if (PUBLIC_LOCALES.length < 2) return null;
+  const out = Object.fromEntries(PUBLIC_LOCALES.map((l) => [HREFLANG[l], localePath(canonical, l)]));
   out['x-default'] = localePath(canonical, DEFAULT_LOCALE);
   return out;
 }

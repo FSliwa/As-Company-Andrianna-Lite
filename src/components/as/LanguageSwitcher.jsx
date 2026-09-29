@@ -11,7 +11,7 @@
  */
 
 import { usePathname } from 'next/navigation';
-import { LOCALES, LOCALE_META } from '@/i18n/config';
+import { LOCALE_META, PUBLIC_LOCALES } from '@/i18n/config';
 import { parsePath, switchLocalePath } from '@/i18n/routes';
 import { useContent } from '@/i18n/client';
 import common from '@/content/common';
@@ -27,9 +27,11 @@ export default function LanguageSwitcher({ tone = 'dark', className }) {
   const { locale } = parsePath(pathname);
   const t = useContent(common);
   const light = tone === 'light';
+  // dopóki publiczny jest tylko polski (NEXT_PUBLIC_LOCALES), przełącznika nie ma
+  if (PUBLIC_LOCALES.length < 2) return null;
   return (
     <div role="group" aria-label={t.languageAria} className={cn('flex items-center', className)}>
-      {LOCALES.map((l, i) => {
+      {PUBLIC_LOCALES.map((l, i) => {
         const base = switchLocalePath(pathname, l);
         const active = l === locale;
         return (

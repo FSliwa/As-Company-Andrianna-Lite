@@ -15,3 +15,19 @@ export const LOCALE_META = {
 };
 
 export const isLocale = (value) => LOCALES.includes(value);
+
+/**
+ * Języki widoczne publicznie: przełącznik, hreflang, og:locale:alternate, sitemap
+ * i indeksowanie. Pozostałe działają pod adresem (/en, /ru — podgląd), ale mają
+ * noindex i nikt do nich nie linkuje — do czasu przetłumaczenia treści widoków.
+ * Ustawiane przy buildzie: NEXT_PUBLIC_LOCALES="pl,en,ru" (domyślnie tylko pl).
+ */
+export const PUBLIC_LOCALES = (() => {
+  const list = (process.env.NEXT_PUBLIC_LOCALES || DEFAULT_LOCALE)
+    .split(',')
+    .map((l) => l.trim())
+    .filter(isLocale);
+  return LOCALES.filter((l) => l === DEFAULT_LOCALE || list.includes(l));
+})();
+
+export const isPublicLocale = (value) => PUBLIC_LOCALES.includes(value);

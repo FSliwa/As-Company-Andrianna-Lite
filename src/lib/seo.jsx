@@ -7,7 +7,7 @@
 
 import { SITE_URL } from './site';
 import { OG_IMAGE } from './roles';
-import { DEFAULT_LOCALE, LOCALES, LOCALE_META } from '@/i18n/config';
+import { DEFAULT_LOCALE, LOCALE_META, PUBLIC_LOCALES, isPublicLocale } from '@/i18n/config';
 import { ROUTES, isKnownPath, languageAlternates, localePath } from '@/i18n/routes';
 import { getSite } from '@/i18n/site';
 
@@ -22,18 +22,19 @@ export function pageMeta({ locale = DEFAULT_LOCALE, route, path = '/', title, de
   const canonicalPl = route ? ROUTES[route] : path;
   if (route && !canonicalPl) throw new Error(`[seo] nieznana trasa: ${route}`);
   const url = localePath(canonicalPl, locale);
+  const languages = isKnownPath(canonicalPl) ? languageAlternates(canonicalPl) : null;
   const ogTitle = title ? `${title} | ${BRAND.full}` : `${BRAND.full} — ${BRAND.tagline}`;
   return {
     ...(title ? { title } : {}),
     description,
     alternates: {
       canonical: url,
-      ...(isKnownPath(canonicalPl) ? { languages: languageAlternates(canonicalPl) } : {}),
+      ...(languages ? { languages } : {}),
     },
     openGraph: {
       type: 'website',
       locale: LOCALE_META[locale].og,
-      alternateLocale: LOCALES.filter((l) => l !== locale).map((l) => LOCALE_META[l].og),
+      alternateLocale: PUBLIC_LOCALES.filter((l) => l !== locale).map((l) => LOCALE_META[l].og),
       siteName: BRAND.full,
       url,
       title: ogTitle,
@@ -41,7 +42,8 @@ export function pageMeta({ locale = DEFAULT_LOCALE, route, path = '/', title, de
       images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: `${BRAND.full} — ${BRAND.tagline}` }],
     },
     twitter: { card: 'summary_large_image', title: ogTitle, description, images: [OG_IMAGE] },
-    ...(noindex ? { robots: { index: false } } : {}),
+    // język jeszcze niepubliczny (treść nieprzetłumaczona) → noindex, jak projekty dokumentów
+    ...(noindex || !isPublicLocale(locale) ? { robots: { index: false } } : {}),
   };
 }
 
