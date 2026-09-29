@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Dokumentacja produktowa.
+ * Dokumentacja produktowa — „Numer 01".
  *
  * ⚠️ UWAGA — poprzednia wersja tej strony zawierała WYMYŚLONE numery
  * certyfikatów („EU-REACH-2026-AS-091", „ISO-MED-992031-PL",
@@ -11,26 +11,19 @@
  * publikowanie nieistniejących numerów zgodności to ryzyko prawne dla marki
  * i dla salonów, które powołałyby się na nie podczas kontroli Sanepidu.
  *
- * Strona opisuje teraz RODZAJE dokumentacji dołączanej do zamówień,
- * bez podawania numerów. Żeby pokazać konkretne certyfikaty, wstaw tu
- * prawdziwe skany/PDF-y i ich numery — wtedy przywrócimy podgląd i pobieranie.
+ * Strona opisuje RODZAJE dokumentacji dołączanej do zamówień, bez podawania
+ * numerów. Żeby pokazać konkretne certyfikaty, wstaw tu prawdziwe skany/PDF-y
+ * i ich numery — wtedy dodamy wiersze „nazwa dokumentu | Pobierz".
  *
- * Układ: ten sam rytm i skala co strona główna (as-section, as-display-section,
- * pozycje numerowane, złota ramka wokół zdjęć, ton zdjęć wg tła sekcji).
+ * Trasa bez packshotów, więc cała jest typograficzna — bez portretów i makr.
+ * Rytm tła: 01 pas espresso (PageHero band) → 02 cream-50 → hairline →
+ * 03 cream-100 → 04 ClosingCta (espresso-900, jeden blok ze stopką).
+ * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść → max 1 ArrowLink.
  */
 
 import React from 'react';
 import Link from 'next/link';
-import {
-  ArrowLink,
-  ClosingCta,
-  Figure,
-  GoldArc,
-  PageHero,
-  Reveal,
-  SectionLabel,
-} from '@/components/as/Primitives';
-import { BROWS, STUDIO } from '@/lib/media';
+import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
 
 /** Rodzaje dokumentacji — bez numerów, bo tych nie mamy potwierdzonych. */
 const DOCUMENT_TYPES = [
@@ -66,93 +59,79 @@ const FOR_SALON = [
   'Na życzenie przygotowujemy komplet w wersji papierowej do segregatora gabinetowego.',
 ];
 
+/* Rząd Stat w pasie hero — wyłącznie fakty z treści powyżej (nic spoza strony). */
+const HERO_STATS = [
+  { value: String(DOCUMENT_TYPES.length), label: 'rodzaje dokumentów dołączanych do produktów' },
+  { value: 'REACH', label: 'deklaracja zgodności z rozporządzeniem UE' },
+  { value: 'SDS', label: 'karta charakterystyki, o którą pyta Sanepid' },
+];
+
 /* ================================================================== */
-/*  01 — NAGŁÓWEK                                                      */
+/*  01 — NAGŁÓWEK (pas espresso, bez zdjęcia)                          */
 /* ================================================================== */
 
 function Hero() {
-  /* Portret STUDIO na kremie — bez korekty tonu (zdjęcie jest jasne). */
   return (
     <PageHero
+      variant="band"
       number="01"
       label="Dokumentacja"
       title="Papiery, które gabinet"
       titleAccent="musi mieć pod ręką."
       lead="Do produktów, które dystrybuujemy, dołączamy dokumentację wymaganą przy pracy z makijażem permanentnym — od deklaracji zgodności po karty charakterystyki. Poniżej opisujemy, co dokładnie dostajesz."
-      image={STUDIO[11]}
-      imageAlt="Andriana Babushkina — portret z sesji wizerunkowej AS Company"
-      imagePosition="50% 20%"
-      tone="cream"
-      facts={['Pigmenty', 'Urządzenia', 'Kartridże', 'Preparaty']}
+      stats={HERO_STATS}
     >
-      <div className="flex flex-wrap gap-4">
-        <Link href="/kontakt" className="as-btn-solid">
+      {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
+      <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+        <Link href="/kontakt" className="as-btn-invert">
           Poproś o dokumentację
         </Link>
-        <Link href="/pigmenty" className="as-btn-ghost">
+        <ArrowLink href="/pigmenty" tone="light" className="w-fit">
           Zobacz pigmenty
-        </Link>
+        </ArrowLink>
       </div>
     </PageHero>
   );
 }
 
 /* ================================================================== */
-/*  02 — RODZAJE DOKUMENTÓW                                            */
+/*  02 — RODZAJE DOKUMENTÓW (cream-50)                                 */
 /* ================================================================== */
 
 function DocumentsBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
-      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
-
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="02" tone="light">
-            Co dostajesz
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
+    <section className="as-section bg-cream-50">
+      <div className="as-shell">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Reveal>
-              <h2 className="as-display-section as-text-balance">
+              <SectionLabel number="02">Co dostajesz</SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
                 Cztery rodzaje
                 <br />
                 dokumentów.
               </h2>
             </Reveal>
             <Reveal delay={80}>
-              <p className="as-caption-invert mt-6">
+              <p className="as-body mt-6 max-w-[24rem]">
                 Nie publikujemy tu numerów ani skanów — dokumenty przekazujemy bezpośrednio
                 kupującemu, razem z zamówieniem albo wcześniej, do wglądu.
               </p>
             </Reveal>
-            <Reveal delay={140}>
-              <ArrowLink href="/kontakt" tone="light" className="mt-8 w-fit">
-                Napisz po komplet
-              </ArrowLink>
-            </Reveal>
           </div>
 
-          {/* pozycje 01–04 jak filary „Szkolenia" na stronie głównej:
-              numer + tytuł w jednej linii, etykieta zakresu, drobny opis */}
-          <div className="lg:col-span-8">
-            <div className="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {DOCUMENT_TYPES.map((doc, i) => (
-                <Reveal key={doc.number} delay={i * 90}>
-                  <div className="flex items-baseline gap-4">
-                    <span className="as-num text-lg text-gold-light sm:text-xl">{doc.number}</span>
-                    <div>
-                      <h3 className="as-numbered-title text-cream-50">{doc.title}</h3>
-                      <p className="as-kicker-invert mt-2">{doc.scope}</p>
-                      <p className="as-numbered-desc text-cream-200/75">{doc.desc}</p>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+          {/* 01–04 jako komórki dokumentów (ten sam układ co /pigmenty 04):
+              hairline u góry → numer (.as-kicker) → tytuł (.as-title) → zakres (.as-kicker) → opis 15 px */}
+          <ol className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
+            {DOCUMENT_TYPES.map((doc, i) => (
+              <Reveal as="li" key={doc.number} delay={(i % 2) * 90} className="as-cell">
+                <p className="as-kicker">{doc.number}</p>
+                <h3 className="as-title as-text-balance mt-3 text-ink">{doc.title}</h3>
+                <p className="as-kicker mt-3">{doc.scope}</p>
+                <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">{doc.desc}</p>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
@@ -160,64 +139,39 @@ function DocumentsBand() {
 }
 
 /* ================================================================== */
-/*  03 — DLA GABINETU                                                  */
+/*  03 — DLA GABINETU (cream-100, hairline od sekcji 02)               */
 /* ================================================================== */
 
 function SalonBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-cream-100">
-      <GoldArc className="-top-10 right-[-8%] h-[600px] w-[820px]" flip opacity={0.4} />
+    <section className="as-section border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        {/* mobile: nagłówek → lista → link; lg: link wraca pod nagłówek w lewej kolumnie */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-4">
+            <SectionLabel number="03">Dla gabinetu</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
+              Spokojna
+              <br />
+              kontrola.
+            </h2>
+          </Reveal>
 
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="03">Dla gabinetu</SectionLabel>
-        </Reveal>
+          <Reveal delay={80} className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
+            <ul className="border-t border-ink/10">
+              {FOR_SALON.map((item) => (
+                <li key={item} className="flex gap-5 border-b border-ink/10 py-5">
+                  <span aria-hidden="true" className="as-dash" />
+                  <span className="as-body">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-6">
-            <Reveal>
-              <h2 className="as-display-section as-text-balance text-ink">
-                Spokojna
-                <br />
-                kontrola.
-              </h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <ul className="mt-6 max-w-[22rem]">
-                {FOR_SALON.map((item) => (
-                  <li key={item} className="flex gap-4 border-b border-ink/10 py-4">
-                    <span aria-hidden="true" className="as-dash" />
-                    <span className="as-caption max-w-none">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-            <Reveal delay={140}>
-              <ArrowLink href="/kontakt" className="mt-8 w-fit">
-                Zamów komplet dokumentów
-              </ArrowLink>
-            </Reveal>
-          </div>
-
-          {/* dwa makra brwi w jednej złotej ramce, ton „light" na kremie */}
-          <Reveal delay={90} className="lg:col-span-6">
-            <div className="as-photo-frame grid grid-cols-2 gap-1">
-              <Figure
-                image={BROWS[7]}
-                alt="Zbliżenie brwi po makijażu permanentnym — jasne włoski, zielone oko"
-                ratio="4 / 5"
-                tone="light"
-                sizes="(min-width: 1024px) 24vw, 45vw"
-              />
-              <Figure
-                image={BROWS[14]}
-                alt="Zbliżenie brwi po makijażu permanentnym — ciemne włoski, brązowe oko"
-                ratio="4 / 5"
-                position="50% 45%"
-                tone="light"
-                sizes="(min-width: 1024px) 24vw, 45vw"
-              />
-            </div>
+          <Reveal delay={140} className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start">
+            <ArrowLink href="/kontakt" className="w-fit">
+              Zamów komplet dokumentów
+            </ArrowLink>
           </Reveal>
         </div>
       </div>
@@ -226,7 +180,7 @@ function SalonBand() {
 }
 
 /* ================================================================== */
-/*  04 — KONTAKT (CTA)                                                 */
+/*  04 — KONTAKT (pas zamykający)                                      */
 /* ================================================================== */
 
 function ClosingBand() {
@@ -238,7 +192,7 @@ function ClosingBand() {
       titleAccent="dokumentu?"
       lead="Napisz, o który produkt chodzi — odeślemy aktualną dokumentację dla tej partii."
       primary={{ href: '/kontakt', label: 'Napisz do nas' }}
-      secondary={{ href: '/pigmenty', label: 'Zobacz pigmenty' }}
+      secondary={{ href: '/maszynki', label: 'Zobacz maszynki' }}
     />
   );
 }

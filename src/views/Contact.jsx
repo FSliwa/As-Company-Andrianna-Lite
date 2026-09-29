@@ -1,236 +1,61 @@
 'use client';
 
-import React, { useState } from 'react';
+/**
+ * Kontakt (/kontakt) — „Numer 01".
+ *
+ * 01 Kontakt (cream-50)   — hero = formularz w pierwszym ekranie, bez portretu:
+ *                           lewa 5/12: H1, lead, lokalizacja (CONTACT.venueNote), godziny;
+ *                           prawa 6/12: formularz na <Field> (panel cream-100).
+ *                           Na telefonie formularz stoi zaraz pod leadem, a dane
+ *                           lokalizacji pod formularzem.
+ * 02 Miejsce (cream-100)  — GROUPS.contactVenue 3:2 w ramce + trzy kroki wizyty.
+ * → stopka. Formularz jest CTA tej strony, więc nie ma pasa zamykającego (ClosingCta);
+ *   jasna sekcja 02 oddziela też formularz od ciemnej stopki.
+ *
+ * Zasady:
+ *  • zdjęcia wyłącznie przez GROUPS (src/lib/roles.js) — ROLES.heroContact wycofane,
+ *  • dane kontaktowe wyłącznie z CONTACT (src/lib/site.js) — pola null
+ *    (ulica, kod, telefon, e-mail) nie są renderowane, nie ma placeholderów,
+ *  • CONTACT.venueNote (budynek, parking) występuje w serwisie tylko tutaj,
+ *  • formularz nie udaje wysyłki — status i komunikat pochodzą z src/lib/enquiry.js.
+ */
+
+import { useState } from 'react';
 import {
   ArrowLink,
-  ClosingCta,
   Field,
   Figure,
-  GoldArc,
-  PageHero,
+  NumberedItem,
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BRAND, CONTACT, FOUNDER } from '@/lib/site';
-import { ACADEMY, STUDIO } from '@/lib/media';
-import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
-
-/**
- * Kontakt (/kontakt)
- *
- * Zasady:
- *  • zdjęcia wyłącznie z '@/lib/media' (folder /Graphics),
- *  • dane kontaktowe wyłącznie z CONTACT w '@/lib/site' — pola null
- *    (ulica, kod, telefon, e-mail) nie są renderowane,
- *  • nie ma zdjęć budynku, parkingu ani recepcji, więc sekcja „Lokalizacja”
- *    jest zbudowana typograficznie, a jedyne zdjęcia to realne ujęcia
- *    z wnętrza akademii (grupy kursantek z certyfikatami).
- *
- * Rytm i skala jak na stronie głównej: .as-section, SectionLabel → h2
- * (.as-display-section) → zajawka (.as-caption) → CTA; kolaż w .as-photo-frame,
- * pozycje 01/02 z .as-numbered-title, fakty w rzędzie pod kolażem.
- * Pola formularza to <Field>, pas zamykający to <ClosingCta>.
- * Rytm tła: cream-50 → espresso → cream-100 → espresso-900.
- */
+import { BRAND, CONTACT } from '@/lib/site';
+import { GROUPS } from '@/lib/roles';
+import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
 
-/* Nazwa akademii łamana słowo po słowie — nagłówek trzywierszowy w wąskiej
-   kolumnie, jak „Szkolenia / oparte na / realnej praktyce” na stronie głównej. */
-const VENUE_WORDS = CONTACT.venue.split(' ');
-
-/* ================================================================== */
-/*  01 — HERO                                                          */
-/* ================================================================== */
-
-function Hero() {
-  return (
-    <PageHero
-      number="01"
-      label="Kontakt"
-      title="Porozmawiajmy o"
-      titleAccent="Twoich brwiach."
-      lead={`Zabiegi, szkolenia, pytania o produkty — napisz, a wrócimy do Ciebie z konkretną odpowiedzią i wolnym terminem. ${CONTACT.venue}, ${CONTACT.city}.`}
-      image={STUDIO[9]}
-      imageAlt={`${FOUNDER.name} — ${FOUNDER.role}`}
-      tone="cream"
-      facts={[CONTACT.city, CONTACT.venue, 'Zabiegi', 'Szkolenia']}
-    >
-      <div className="flex flex-wrap gap-4">
-        <a href="#formularz" className="as-btn-solid">
-          Napisz wiadomość
-        </a>
-        <a
-          href={CONTACT.instagram}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="as-btn-ghost"
-        >
-          {CONTACT.instagramHandle}
-        </a>
-      </div>
-    </PageHero>
-  );
-}
-
-/* ================================================================== */
-/*  02 — LOKALIZACJA I GODZINY                                         */
-/* ================================================================== */
-
-/* Fakty kontaktowe w jednym rzędzie pod kolażem (jak pozycje 01/02/03
-   pod kolażem „Szkolenia” na stronie głównej). Telefon i e-mail pojawią
-   się same, gdy zostaną uzupełnione w CONTACT. */
-function ContactFacts() {
-  const facts = [
-    { label: 'Miasto', value: ADDRESS_LINE },
-    CONTACT.phone && {
-      label: 'Telefon',
-      value: CONTACT.phone,
-      href: `tel:${CONTACT.phone.replace(/\s/g, '')}`,
-    },
-    CONTACT.email && {
-      label: 'E-mail',
-      value: CONTACT.email,
-      href: `mailto:${CONTACT.email}`,
-    },
-    {
-      label: 'Instagram',
-      value: CONTACT.instagramHandle,
-      href: CONTACT.instagram,
-      external: true,
-    },
-  ].filter(Boolean);
-
-  return (
-    <dl className="flex flex-wrap gap-x-14 gap-y-8">
-      {facts.map((f) => (
-        <div key={f.label} className="min-w-[9rem]">
-          <dt className="as-kicker-invert">{f.label}</dt>
-          <dd className="mt-3 text-[0.9375rem] text-cream-50">
-            {f.href ? (
-              <a
-                href={f.href}
-                target={f.external ? '_blank' : undefined}
-                rel={f.external ? 'noreferrer noopener' : undefined}
-                className="transition-colors hover:text-gold-light"
-              >
-                {f.value}
-              </a>
-            ) : (
-              f.value
-            )}
-          </dd>
-        </div>
-      ))}
-
-      <div className="min-w-[14rem]">
-        <dt className="as-kicker-invert">Godziny</dt>
-        <dd className="mt-3 space-y-1.5">
-          {CONTACT.hours.map((h) => (
-            <p key={h.day} className="text-[0.8125rem] leading-[1.6] text-cream-100">
-              <span className="text-cream-200/60">{h.day}</span> — {h.value}
-            </p>
-          ))}
-        </dd>
-      </div>
-    </dl>
-  );
-}
-
-function LocationBand() {
-  return (
-    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
-      <GoldArc className="-top-28 left-[-6%] h-[700px] w-[880px]" opacity={0.28} />
-
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="02" tone="light">
-            Lokalizacja
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
-          {/* — nagłówek i zajawka — */}
-          <div className="lg:col-span-4">
-            <Reveal>
-              <h2 className="as-display-section-sm">
-                {VENUE_WORDS.map((word) => (
-                  <React.Fragment key={word}>
-                    {word}
-                    <br />
-                  </React.Fragment>
-                ))}
-                <span className="italic text-gold-light">{CONTACT.city}.</span>
-              </h2>
-            </Reveal>
-
-            <Reveal delay={80}>
-              <p className="as-caption-invert mt-6">{CONTACT.venueNote}.</p>
-              <p className="as-caption-invert mt-4">
-                Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz przez formularz
-                poniżej albo na Instagramie.
-              </p>
-            </Reveal>
-
-            <Reveal delay={140}>
-              <ArrowLink href="#formularz" tone="light" className="mt-8 w-fit">
-                Przejdź do formularza
-              </ArrowLink>
-            </Reveal>
-          </div>
-
-          {/* — realne ujęcia z wnętrza akademii: kolaż w złotej linii — */}
-          <div className="lg:col-span-8">
-            <Reveal delay={90}>
-              <div className="as-photo-frame grid gap-1">
-                <Figure
-                  image={ACADEMY[1]}
-                  alt={`Grupa kursantek z certyfikatami BROWS na tle ścianki ${BRAND.academy}`}
-                  ratio="5 / 2"
-                  position="50% 20%"
-                  tone="dark"
-                  sizes="(min-width: 1024px) 60vw, 90vw"
-                />
-                <div className="grid grid-cols-2 gap-1">
-                  <Figure
-                    image={ACADEMY[0]}
-                    alt={`Trzy kobiety, dwie z certyfikatami BROWS, pod logo ${BRAND.academy}`}
-                    ratio="2 / 1"
-                    position="50% 20%"
-                    tone="dark"
-                    sizes="(min-width: 1024px) 30vw, 45vw"
-                  />
-                  <Figure
-                    image={ACADEMY[6]}
-                    alt={`Cztery kursantki z certyfikatami Supernatural Brows pod logo ${BRAND.academy}`}
-                    ratio="2 / 1"
-                    position="50% 20%"
-                    tone="dark"
-                    sizes="(min-width: 1024px) 30vw, 45vw"
-                  />
-                </div>
-              </div>
-              <p className="as-caption-invert mt-3">
-                Zdjęcia z dni szkoleniowych w akademii — to samo miejsce, w którym odbywają się
-                zabiegi.
-              </p>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* — fakty: miasto / instagram / godziny (telefon i e-mail, gdy uzupełnione) — */}
-        <Reveal delay={120} className="mt-10 border-t border-cream-200/12 pt-8">
-          <ContactFacts />
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/*  03 — FORMULARZ                                                     */
-/* ================================================================== */
+/* Kanały: Instagram zawsze; telefon i e-mail pojawią się same, gdy zostaną
+   uzupełnione w CONTACT (do tego czasu nie ma pola ani placeholdera). */
+const CHANNELS = [
+  CONTACT.phone && {
+    label: 'Telefon',
+    value: CONTACT.phone,
+    href: `tel:${CONTACT.phone.replace(/\s/g, '')}`,
+  },
+  CONTACT.email && {
+    label: 'E-mail',
+    value: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+  },
+  {
+    label: 'Instagram',
+    value: CONTACT.instagramHandle,
+    href: CONTACT.instagram,
+    external: true,
+  },
+].filter(Boolean);
 
 const TOPICS = [
   { value: 'zabieg', label: 'Zabieg PMU' },
@@ -239,24 +64,55 @@ const TOPICS = [
   { value: 'inne', label: 'Inne pytanie' },
 ];
 
-const QUICK_LINKS = [
-  {
-    number: '01',
-    title: 'Zabiegi',
-    desc: 'Brwi, usta, kreski, korekty i usuwanie — pełen zakres wraz z cennikiem.',
-    cta: 'Zobacz zabiegi',
-    href: '/uslugi',
-  },
-  {
-    number: '02',
-    title: 'Szkolenia',
-    desc: `Programy ${BRAND.academy} wraz z harmonogramem części stacjonarnej.`,
-    cta: 'Zobacz szkolenia',
-    href: '/szkolenia',
-  },
-];
+/* ================================================================== */
+/*  01 — KONTAKT: H1 + lokalizacja | formularz                          */
+/* ================================================================== */
 
-function FormBand() {
+/* Wiersz z hairline u góry: etykieta 11 px caps | wartość 15 px. */
+function DetailRow({ label, children }) {
+  return (
+    <div className="flex items-baseline justify-between gap-6 border-t border-ink/15 py-3">
+      <dt className="as-label text-ink/65">{label}</dt>
+      <dd className="text-right text-[0.9375rem] text-ink">{children}</dd>
+    </div>
+  );
+}
+
+function LocationDetails() {
+  return (
+    <div className="max-w-[28rem]">
+      <p className="as-title text-ink">{CONTACT.venue}</p>
+      <p className="mt-1 text-[0.9375rem] text-ink/80">{ADDRESS_LINE}</p>
+      <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/70">
+        {CONTACT.venueNote}.
+        {!CONTACT.street &&
+          ' Dokładny adres i wskazówki dojazdu ustalamy indywidualnie — napisz przez formularz albo na Instagramie.'}
+      </p>
+
+      <dl className="mt-8 border-b border-ink/15">
+        {CHANNELS.map((c) => (
+          <DetailRow key={c.label} label={c.label}>
+            <a
+              href={c.href}
+              target={c.external ? '_blank' : undefined}
+              rel={c.external ? 'noreferrer noopener' : undefined}
+              className="border-b border-ink/25 transition-colors hover:border-gold hover:text-gold-dark"
+            >
+              {c.value}
+            </a>
+          </DetailRow>
+        ))}
+        {CONTACT.hours.map((h) => (
+          <DetailRow key={h.day} label={h.day}>
+            {h.value}
+          </DetailRow>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+function EnquiryForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -285,161 +141,149 @@ function FormBand() {
     setSent(status);
   };
 
+  const message = sent ? enquiryMessage(sent) : null;
+
   return (
-    <section id="formularz" className="as-section relative overflow-hidden bg-cream-100">
-      <GoldArc className="-top-12 right-[-8%] h-[620px] w-[840px]" flip opacity={0.35} />
+    /* lg: panel wypełnia wysokość obu rzędów siatki (dół panelu = dolna linia
+       godzin po lewej); rośnie pole wiadomości, nie odstępy. */
+    <div className="border border-ink/15 bg-cream-100 p-7 sm:p-10 lg:flex lg:h-full lg:flex-col">
+      {message ? (
+        <div role="status" aria-live="polite">
+          <h2 className="as-title text-ink">{message.title}</h2>
+          <p className="as-body mt-4">
+            {message.body}
+            {sent === ENQUIRY_STATUS.MAIL_OPENED &&
+              ' Jeśli sprawa jest pilna, napisz bezpośrednio na Instagramie.'}
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <a
+              href={CONTACT.instagram}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="as-btn-solid"
+            >
+              {CONTACT.instagramHandle}
+            </a>
+            <ArrowLink onClick={() => setSent(null)} className="w-fit">
+              Wróć do formularza
+            </ArrowLink>
+          </div>
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 lg:flex lg:flex-1 lg:flex-col"
+          aria-label="Formularz kontaktowy"
+        >
+          <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+            <Field
+              id="c-name"
+              label="Imię i nazwisko"
+              type="text"
+              name="name"
+              autoComplete="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <Field
+              id="c-phone"
+              label="Telefon"
+              type="tel"
+              name="phone"
+              autoComplete="tel"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="03">Formularz</SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* — wprowadzenie — */}
-          <div className="lg:col-span-5">
-            <Reveal>
-              <h2 className="as-display-section as-text-balance text-ink">Napisz do nas.</h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <p className="as-caption mt-6">
-                Zostaw wiadomość, a odezwiemy się na podany kontakt. Najszybciej odpowiadamy na
-                Instagramie — tam też znajdziesz aktualne prace i wolne terminy.
-              </p>
-              <ArrowLink
-                href={CONTACT.instagram}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="mt-8 w-fit"
-              >
-                {CONTACT.instagramHandle}
-              </ArrowLink>
-            </Reveal>
-
-            {/* pozycje 01 / 02 — numer i tytuł w jednej linii, drobny opis, link */}
-            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
-              {QUICK_LINKS.map((item, i) => (
-                <Reveal key={item.number} delay={140 + i * 70}>
-                  <div className="flex items-baseline gap-3">
-                    <span className="as-num text-lg sm:text-xl">{item.number}</span>
-                    <h3 className="as-numbered-title text-ink">{item.title}</h3>
-                  </div>
-                  <p className="as-numbered-desc text-mocha">{item.desc}</p>
-                  <ArrowLink href={item.href} className="mt-3 w-fit">
-                    {item.cta}
-                  </ArrowLink>
-                </Reveal>
+          <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+            <Field
+              id="c-email"
+              label="Adres e-mail"
+              type="email"
+              name="email"
+              autoComplete="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <Field
+              as="select"
+              id="c-topic"
+              label="Temat"
+              name="topic"
+              value={formData.topic}
+              onChange={handleChange}
+            >
+              {TOPICS.map((t) => (
+                <option key={t.value} value={t.value}>
+                  {t.label}
+                </option>
               ))}
-            </div>
+            </Field>
           </div>
 
-          {/* — formularz — */}
-          <div className="lg:col-span-7">
-            <Reveal delay={90}>
-              <div className="border border-ink/15 bg-cream-50 p-7 sm:p-10">
-                {sent ? (
-                  <div className="py-10 text-center">
-                    <span className="as-num">&#10003;</span>
-                    <h3 className="mt-5 font-display text-2xl text-ink sm:text-[1.75rem]">
-                      Dziękujemy.
-                    </h3>
-                    <p className="as-caption mx-auto mt-4">
-                      {enquiryMessage(sent).body} Jeśli sprawa jest pilna, napisz bezpośrednio na
-                      Instagramie.
-                    </p>
-                    <div className="mt-8 flex flex-wrap justify-center gap-4">
-                      <a
-                        href={CONTACT.instagram}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="as-btn-gold"
-                      >
-                        {CONTACT.instagramHandle}
-                      </a>
-                      <button
-                        type="button"
-                        onClick={() => setSent(null)}
-                        className="as-btn-ghost"
-                      >
-                        Nowa wiadomość
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
-                      <Field
-                        id="c-name"
-                        label="Imię i nazwisko"
-                        type="text"
-                        name="name"
-                        autoComplete="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                      />
-                      <Field
-                        id="c-phone"
-                        label="Telefon"
-                        type="tel"
-                        name="phone"
-                        autoComplete="tel"
-                        value={formData.phone}
-                        onChange={handleChange}
-                      />
-                    </div>
+          <Field
+            as="textarea"
+            id="c-message"
+            label="Wiadomość"
+            name="message"
+            rows={4}
+            wrapperClassName="lg:flex lg:flex-1 lg:flex-col"
+            className="lg:flex-1"
+            value={formData.message}
+            onChange={handleChange}
+            placeholder="Napisz, czego dotyczy Twoje pytanie — zabiegu, szkolenia czy produktów."
+            required
+          />
 
-                    <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8">
-                      <Field
-                        id="c-email"
-                        label="Adres e-mail"
-                        type="email"
-                        name="email"
-                        autoComplete="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                      />
-                      <Field
-                        as="select"
-                        id="c-topic"
-                        label="Temat"
-                        name="topic"
-                        value={formData.topic}
-                        onChange={handleChange}
-                      >
-                        {TOPICS.map((t) => (
-                          <option key={t.value} value={t.value}>
-                            {t.label}
-                          </option>
-                        ))}
-                      </Field>
-                    </div>
+          <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="as-caption max-w-[17rem]">
+              Dane z formularza wykorzystujemy wyłącznie do odpowiedzi na Twoje zapytanie.
+            </p>
+            <button type="submit" className="as-btn-solid">
+              Wyślij zapytanie
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}
 
-                    <Field
-                      as="textarea"
-                      id="c-message"
-                      label="Wiadomość"
-                      name="message"
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Napisz, czego dotyczy Twoje pytanie — zabiegu, szkolenia czy produktów."
-                      required
-                    />
+function Hero() {
+  /* Trzy komórki siatki: wstęp (lewa, rząd 1), formularz (prawa, rzędy 1–2),
+     lokalizacja (lewa, rząd 2). Na lg drugi rząd = 1fr, więc lokalizacja stoi
+     tuż pod leadem niezależnie od wysokości formularza; na telefonie kolejność
+     DOM daje: wstęp → formularz → lokalizacja. */
+  return (
+    <section className="bg-cream-50">
+      <div className="as-shell pb-14 pt-24 lg:pb-20 lg:pt-28">
+        <div className="grid gap-12 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-0">
+          <Reveal className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
+            <SectionLabel number="01">Kontakt</SectionLabel>
+            <h1 className="as-display-lg as-text-balance mt-6 text-ink">
+              Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
+            </h1>
+            <p className="as-body mt-6">
+              Zabiegi, szkolenia, pytania o produkty — napisz, a wrócimy do Ciebie z konkretną
+              odpowiedzią i wolnym terminem.
+            </p>
+          </Reveal>
 
-                    <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between">
-                      <p className="max-w-xs text-xs leading-relaxed text-mocha-400">
-                        Dane z formularza wykorzystujemy wyłącznie do odpowiedzi na Twoje zapytanie.
-                      </p>
-                      <button type="submit" className="as-btn-gold">
-                        Wyślij zapytanie
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </div>
+          <div
+            id="formularz"
+            className="scroll-mt-24 lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:scroll-mt-32"
+          >
+            <Reveal delay={80} className="lg:h-full">
+              <EnquiryForm />
             </Reveal>
           </div>
+
+          <Reveal delay={120} className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12">
+            <LocationDetails />
+          </Reveal>
         </div>
       </div>
     </section>
@@ -447,20 +291,67 @@ function FormBand() {
 }
 
 /* ================================================================== */
-/*  04 — DOMKNIĘCIE                                                    */
+/*  02 — MIEJSCE (cream-100): kadr akademii + trzy kroki wizyty        */
 /* ================================================================== */
 
-function ClosingBand() {
+/* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi). */
+const BOOKING_STEPS = [
+  { number: '01', title: 'Wiadomość', desc: 'Formularz albo Instagram — tam odpowiadamy najszybciej.' },
+  { number: '02', title: 'Termin', desc: 'Wrócimy z konkretną odpowiedzią i wolnym terminem.' },
+  { number: '03', title: 'Konsultacja', desc: 'Architektura twarzy i rysunek wstępny przed zabiegiem.' },
+];
+
+/* Kadr 3:2 z pionowego pliku (1206×1506): 18% trzyma w kadrze szyld akademii
+   i certyfikaty (30% z GROUPS.contactVenue ucina szyld). */
+const VENUE_POSITION = '50% 18%';
+
+function VenueBand() {
+  const venue = GROUPS.contactVenue;
   return (
-    <ClosingCta
-      number="04"
-      label="Zapraszamy"
-      title={`${BRAND.tagline.replace('.', '')} —`}
-      titleAccent="zacznijmy od rozmowy."
-      lead={`${CONTACT.venue}, ${CONTACT.city}. ${CONTACT.venueNote}.`}
-      primary={{ href: CONTACT.instagram, label: 'Napisz na Instagramie', target: '_blank', rel: 'noreferrer noopener' }}
-      secondary={{ href: '/szkolenia', label: 'Terminy szkoleń' }}
-    />
+    <section className="as-section border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+          {/* — etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze) — */}
+          <div className="lg:col-span-4 lg:col-start-9 lg:row-start-1">
+            <Reveal>
+              <SectionLabel number="02">Miejsce</SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">Jak umówić wizytę.</h2>
+            </Reveal>
+
+            <ol className="mt-10 space-y-7">
+              {BOOKING_STEPS.map((step, i) => (
+                <Reveal as="li" key={step.number} delay={i * 70}>
+                  <NumberedItem number={step.number} title={step.title}>
+                    {step.desc}
+                  </NumberedItem>
+                </Reveal>
+              ))}
+            </ol>
+
+            <Reveal delay={200}>
+              <ArrowLink href="#formularz" className="mt-10 w-fit">
+                Umów wizytę
+              </ArrowLink>
+            </Reveal>
+          </div>
+
+          {/* — jeden kadr: szyld akademii i absolwentki, w złotej ramce — */}
+          <Reveal delay={90} className="lg:col-span-7 lg:col-start-1 lg:row-start-1">
+            <div className="as-photo-frame">
+              <Figure
+                image={venue.image}
+                alt={`Cztery kursantki z certyfikatami Super Natural Brows pod szyldem ${BRAND.academy} — ${CONTACT.city}`}
+                ratio="3 / 2"
+                position={VENUE_POSITION}
+                tone="light"
+                zoom={false}
+                sizes="(min-width: 1024px) 54vw, 92vw"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -470,9 +361,7 @@ export default function Contact() {
   return (
     <>
       <Hero />
-      <LocationBand />
-      <FormBand />
-      <ClosingBand />
+      <VenueBand />
     </>
   );
 }

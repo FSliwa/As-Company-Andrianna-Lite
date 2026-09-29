@@ -35,9 +35,6 @@ export const ROLES = {
   storyAbout: { image: pick('studio-08'), position: '50% 15%' },
   heroTreatments: { image: pick('studio-13'), position: '50% 20%' },
   heroTraining: { image: pick('studio-03'), position: '50% 12%' },
-  // wycofywane w tej rundzie (hero /kontakt = formularz, /pakiety = pas) — usunąć po przebudowie widoków
-  heroContact: { image: pick('studio-10'), position: '50% 30%' },
-  heroPackages: { image: pick('studio-12'), position: '50% 20%' },
 };
 
 export const OG_IMAGE = '/graphics/studio-02.jpg';

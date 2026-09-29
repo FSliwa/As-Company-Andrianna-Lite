@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Katalog pigmentów i akcesoriów.
+ * Pigmenty — „Numer 01".
  *
  * ⚠️ DANE DO POTWIERDZENIA: nazwy, ceny i pojemności poniżej pochodzą
  * z pierwotnej wersji serwisu (wygenerowanej z szablonu) i nie zostały przez
@@ -9,43 +9,50 @@
  * hurtowym — to jedyne miejsce w kodzie, w którym trzeba je poprawić.
  *
  * W folderze /Graphics nie ma packshotów pigmentów, dlatego karty produktów
- * pokazują próbnik koloru (colorHex), a nie zdjęcie butelki. Gdy pojawią się
- * zdjęcia produktowe, dodaj je do manifestu w src/lib/media.js i podepnij tutaj.
+ * pokazują próbnik koloru (colorHex) jako pasek 8 px nad nazwą, a nie zdjęcie
+ * butelki. Gdy pojawią się zdjęcia produktowe, dodaj je do manifestu
+ * w src/lib/media.js, nadaj rolę w src/lib/roles.js i podepnij tutaj.
  *
  * Koszyk nie istnieje — poprzednia wersja udawała dodawanie do koszyka
  * komunikatem „Dodano do koszyka". Zastąpione zapytaniem o produkt.
  *
- * Układ: ten sam system co strona główna (src/views/Home.jsx) — PageHero
- * z paskiem faktów, rytm tła jasna/ciemna (cream-50 → espresso → cream-100 →
- * espresso-900), nagłówki .as-display-section, kolaż w .as-photo-frame,
- * karty .as-card-col, pole szukajki <Field>, pas zamykający <ClosingCta>,
- * numeracja etykiet ciągła 01–04.
+ * Układ (kierunek „Numer 01", trasa bez packshotów = strona typograficzna):
+ *   01 PageHero band (espresso, bez zdjęcia, 3 Stat liczone z PRODUCTS)
+ *   02 Paleta #katalog (cream-50) — filtr kategorii w jednej linii, komórki .as-cell
+ *      (na telefonie karta = próbnik + nazwa + cena; opis i podtytuł od md)
+ *   03 Efekt (cream-100) — JEDYNE makro na trasie: MACROS.brows12p3 1:1 ≤ 320 px
+ *   04 Dokumentacja w skrócie (cream-50) — 3 × .as-cell jak /certyfikaty 02 → /certyfikaty
+ *   05 ClosingCta (espresso-900, jeden blok ze stopką)
+ * Jasne sekcje obok siebie dzieli hairline (border-t ink/10).
  */
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import {
   ArrowLink,
   ClosingCta,
-  Field,
+  CtaButton,
   Figure,
-  GoldArc,
   PageHero,
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BROWS, BY_NAME } from '@/lib/media';
+import { MACROS } from '@/lib/roles';
 import { cn } from '@/lib/utils';
 
+/* Krótkie polskie etykiety — filtr mieści się w jednej linii (id bez zmian). */
 const PIGMENT_CATEGORIES = [
-  { id: "all", name: "Wszystkie Produkty" },
-  { id: "lips", name: "Pigmenty do Ust (Opium & Classic)" },
-  { id: "brows", name: "Pigmenty do Brwi (Light Minerals)" },
-  { id: "eyelids", name: "Pigmenty do Powiek (Eyelids)" },
-  { id: "medical", name: "Medyczne (Areola & Trichopigmentation)" },
-  { id: "special", name: "Kolekcje Autorskie (Special Edition)" },
-  { id: "accessories", name: "Kartridże & Chemia (Remover / Care)" },
+  { id: 'all', name: 'Wszystkie' },
+  { id: 'lips', name: 'Usta' },
+  { id: 'brows', name: 'Brwi' },
+  { id: 'eyelids', name: 'Powieki' },
+  { id: 'medical', name: 'Medyczne' },
+  { id: 'special', name: 'Edycje autorskie' },
+  { id: 'accessories', name: 'Kartridże i remover' },
 ];
+
+/* Na karcie pokazujemy tylko wyróżnienia handlowe — pozostałe „badge"
+   w danych powtarzały nazwę linii albo kategorii. */
+const SHOWN_BADGES = ['Bestseller', 'Promocja'];
 
 const PRODUCTS = [
   // Lips
@@ -217,241 +224,189 @@ const PRODUCTS = [
   }
 ];
 
+/* Fakty do paska liczb w hero — policzone z danych powyżej, nie wpisane
+   ręcznie: zmiana katalogu zmienia liczby. */
+const PIGMENTS_ONLY = PRODUCTS.filter((p) => p.category !== 'accessories');
+const PIGMENT_CAPACITIES = [...new Set(PIGMENTS_ONLY.map((p) => p.capacity))];
+
+const HERO_STATS = [
+  {
+    value: String(PIGMENTS_ONLY.length),
+    label: 'Pigmentów w katalogu',
+  },
+  {
+    value: PIGMENT_CAPACITIES.join(' / '),
+    label: PIGMENT_CAPACITIES.length === 1 ? 'Pojemność każdego pigmentu' : 'Pojemności pigmentów',
+  },
+  { value: 'REACH', label: 'Zgodność z REACH EU — dokumentacja do zamówień' },
+];
+
+/* Dokumentacja w skrócie — treść z /certyfikaty (rodzaje dokumentów bez
+   numerów, bo tych nie mamy potwierdzonych). */
+const DOCS = [
+  {
+    number: '01',
+    title: 'Zgodność REACH',
+    desc: 'Deklaracja zgodności z unijnym rozporządzeniem dla tuszy do tatuażu i makijażu permanentnego — pigmenty AS OPIUM i Light Minerals.',
+  },
+  {
+    number: '02',
+    title: 'Karta charakterystyki',
+    desc: 'Skład, zagrożenia i sposób postępowania z produktem. To dokument, o który pyta Sanepid podczas kontroli gabinetu.',
+  },
+  {
+    number: '03',
+    title: 'W zamówieniu',
+    desc: 'Każde zamówienie hurtowe zawiera dokumentację w wersji cyfrowej. Na żądanie wysyłamy ją także przed zakupem, do wglądu.',
+  },
+];
+
 /* ================================================================== */
-/*  01 — HERO                                                          */
+/*  01 — HERO (pas typograficzny, espresso)                            */
 /* ================================================================== */
 
 function Hero() {
   return (
     <PageHero
+      variant="band"
       label="Pigmenty"
       number="01"
-      title="Kolor, który"
-      titleAccent="goi się przewidywalnie."
-      lead="Pigmenty AS OPIUM i Light Minerals dobrane do pracy na brwiach, ustach i powiekach — plus linia medyczna do areoli i trichopigmentacji. Starannie opracowane formuły, intensywne kolory i przewidywalne gojenie."
-      /* brows-15 ma dokładnie proporcję 4:5 — w kadrze PageHero mieści się
-         w całości, bez przycinania. Makro skóry na kremie → ton „light". */
-      image={BROWS[14]}
-      imageAlt="Zbliżenie brwi po pigmentacji — rysunek pojedynczych włosków nad ciemnym okiem"
-      imageTone="light"
-      tone="cream"
-      facts={['Brwi', 'Usta', 'Powieki', 'Linia medyczna']}
+      title="Pigmenty"
+      titleAccent="AS OPIUM."
+      lead="Pigmenty AS OPIUM i Light Minerals do brwi, ust i powiek oraz linia medyczna. Starannie opracowane formuły, intensywne kolory i przewidywalne gojenie."
+      stats={HERO_STATS}
     >
-      <div className="flex flex-wrap gap-4">
-        <a href="#katalog" className="as-btn-solid">
-          Przejdź do katalogu
-        </a>
-        <Link href="/certyfikaty" className="as-btn-ghost">
+      {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
+      <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+        <CtaButton href="#katalog" className="as-btn-invert">
+          Zobacz paletę
+        </CtaButton>
+        <ArrowLink href="/certyfikaty" tone="light" className="w-fit">
           Dokumentacja produktów
-        </Link>
+        </ArrowLink>
       </div>
     </PageHero>
   );
 }
 
 /* ================================================================== */
-/*  02 — JAK SIĘ GOJĄ                                                  */
+/*  02 — PALETA (katalog)                                              */
 /* ================================================================== */
 
-function HealedBand() {
+function ProductCell({ product }) {
+  const badge = SHOWN_BADGES.includes(product.badge) ? product.badge : null;
+  const price = <span className="font-display text-xl leading-none text-ink">{product.price} zł</span>;
   return (
-    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
-      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
-
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="02" tone="light">
-            Jak się goją
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-4">
-            <Reveal>
-              <h2 className="as-display-section as-text-balance">
-                Wygojenie
-                <br />
-                jest dowodem.
-              </h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <p className="as-caption-invert mt-6">
-                Prace wykonane naszymi pigmentami — zdjęcia po wygojeniu, nie świeżo po
-                zabiegu. To moment, w którym widać, czy formuła trzyma kolor.
-              </p>
-            </Reveal>
-            <Reveal delay={140}>
-              <ArrowLink href="/uslugi" tone="light" className="mt-8 w-fit">
-                Zobacz zabiegi
-              </ArrowLink>
-            </Reveal>
-          </div>
-
-          {/* Kolaż jak w „Szkoleniach" na stronie głównej: jeden szeroki kadr
-              5:2 i dwa 2:1 pod nim, całość w złotej linii. Panele wycięte ze
-              sklejek (bez szwu) są poziome (1,6–2,9:1), więc w tych ramkach
-              tracą najmniej. lips-01-p2 ma wtopiony napis przy górnej krawędzi
-              — position 60% wycina go z kadru; brows-12-p2 kotwiczony do lewej,
-              żeby nie pokazywać skrawka drugiego oka przy prawej krawędzi. */}
-          <div className="lg:col-span-8">
-            <Reveal>
-              <div className="as-photo-frame grid gap-1">
-                <Figure
-                  image={BY_NAME['brows-13-p1']}
-                  alt="Pojedynczy łuk brwi po pigmentacji — zbliżenie"
-                  ratio="5 / 2"
-                  position="50% 50%"
-                  tone="dark"
-                  sizes="(min-width: 1024px) 60vw, 90vw"
-                />
-                <div className="grid grid-cols-2 gap-1">
-                  <Figure
-                    image={BY_NAME['lips-01-p2']}
-                    alt="Usta po pigmentacji — wygojony, czerwony kolor"
-                    ratio="2 / 1"
-                    position="50% 60%"
-                    tone="dark"
-                    sizes="(min-width: 1024px) 30vw, 45vw"
-                  />
-                  <Figure
-                    image={BY_NAME['brows-12-p2']}
-                    alt="Oko z kreską na powiece i wypigmentowaną brwią"
-                    ratio="2 / 1"
-                    position="0% 50%"
-                    tone="dark"
-                    sizes="(min-width: 1024px) 30vw, 45vw"
-                  />
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
+    /* na telefonie próbnik sam jest górną linią komórki (hairline od md) */
+    <article className="as-cell border-t-0 pt-0 md:border-t">
+      {/* od md: pasek specyfikacji między hairline a próbnikiem —
+          typ · pojemność (+ wyróżnienie) po lewej, cena po prawej */}
+      <div className="hidden items-baseline justify-between gap-4 py-1.5 md:flex">
+        <p className="flex min-w-0 flex-wrap items-baseline gap-x-3">
+          <span className="as-kicker">
+            {product.type} · {product.capacity}
+          </span>
+          {badge && <span className="as-badge">{badge}</span>}
+        </p>
+        <span className="shrink-0">{price}</span>
       </div>
-    </section>
+
+      {/* próbnik koloru zamiast packshotu (brak zdjęć produktowych) —
+          pasek 8 px na pełną szerokość komórki; ring dla jasnych odcieni */}
+      <span
+        className="block h-2 w-full ring-1 ring-inset ring-ink/10"
+        style={{ backgroundColor: product.colorHex }}
+        aria-hidden="true"
+      />
+
+      <h3 className="as-title mt-3 text-ink">{product.name}</h3>
+      <p className="as-kicker mt-2 hidden md:block">{product.subtitle}</p>
+      <p className="mt-2 hidden max-w-[26rem] text-[0.9375rem] leading-[1.65] text-ink/75 md:block">
+        {product.description}
+      </p>
+
+      {/* telefon: karta = próbnik + nazwa + cena (z pojemnością i wyróżnieniem) */}
+      <div className="mt-3 flex items-baseline justify-between gap-4 md:hidden">
+        <span>
+          {price}
+          <span className="as-label ml-3 align-middle text-ink/55">{product.capacity}</span>
+        </span>
+        {badge && <span className="as-badge text-right">{badge}</span>}
+      </div>
+    </article>
   );
 }
 
-/* ================================================================== */
-/*  03 — KATALOG                                                       */
-/* ================================================================== */
-
-function Catalog() {
+function Palette() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
 
-  const q = searchQuery.trim().toLowerCase();
-  const filteredProducts = PRODUCTS.filter((product) => {
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    const matchesSearch =
-      !q ||
-      product.name.toLowerCase().includes(q) ||
-      product.description.toLowerCase().includes(q);
-    return matchesCategory && matchesSearch;
-  });
+  const filteredProducts = PRODUCTS.filter(
+    (product) => selectedCategory === 'all' || product.category === selectedCategory
+  );
 
   return (
-    <section id="katalog" className="as-section scroll-mt-24 bg-cream-100">
+    <section id="katalog" className="as-section scroll-mt-24 bg-cream-50">
       <div className="as-shell">
-        <Reveal>
-          <SectionLabel number="03">Katalog</SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-section as-text-balance text-ink">
-              Pełna
-              <br />
-              paleta.
-            </h2>
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <Reveal className="lg:col-span-8">
+            <SectionLabel number="02">Paleta</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">Pełna paleta.</h2>
           </Reveal>
-
-          <Reveal delay={80} className="lg:col-span-5">
-            {/* szukajka na wspólnym polu formularza — ta sama linia pod polem
-                co w kontakcie i dialogach */}
-            <Field
-              as="input"
-              id="szukaj"
-              label="Szukaj"
-              type="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Nazwa lub opis produktu…"
-              autoComplete="off"
-            />
+          {/* jedyne CTA sekcji (koszyka nie ma — zapytanie) */}
+          <Reveal delay={80} className="lg:col-span-4 lg:justify-self-end">
+            <ArrowLink href="/kontakt" className="w-fit">
+              Zapytaj o produkt
+            </ArrowLink>
           </Reveal>
         </div>
 
-        {/* filtry kategorii — rząd etykiet jak „Produkty AS" na stronie głównej */}
-        <Reveal delay={120} className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <span className="as-label text-ink/45">Kategoria</span>
-          {PIGMENT_CATEGORIES.map((cat) => {
-            const active = selectedCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(cat.id)}
-                aria-pressed={active}
-                className={cn(
-                  'as-label relative py-1 transition-colors',
-                  active ? 'text-ink' : 'text-ink/45 hover:text-ink'
-                )}
-              >
-                {cat.name}
-                <span
+        {/* filtr kategorii — zawsze jedna linia; na wąskim ekranie przewija się
+            w bok od krawędzi do krawędzi (-mx = padding .as-shell). Od xl licznik
+            wyników stoi w tej samej linii, po prawej. */}
+        <Reveal delay={120} className="mt-8 xl:flex xl:items-baseline xl:justify-between xl:gap-8">
+          <div
+            role="group"
+            aria-label="Kategoria"
+            className="as-noscrollbar -mx-5 flex min-w-0 items-center gap-x-7 overflow-x-auto whitespace-nowrap px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:gap-x-8 lg:px-0"
+          >
+            <span className="as-label hidden shrink-0 text-ink/55 md:inline">Kategoria</span>
+            {PIGMENT_CATEGORIES.map((cat) => {
+              const active = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  aria-pressed={active}
                   className={cn(
-                    'absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-300',
-                    active ? 'w-full' : 'w-0'
+                    'as-label relative shrink-0 py-1 transition-colors',
+                    active ? 'text-ink' : 'text-ink/55 hover:text-ink'
                   )}
-                />
-              </button>
-            );
-          })}
+                >
+                  {cat.name}
+                  <span
+                    className={cn(
+                      'absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-300',
+                      active ? 'w-full' : 'w-0'
+                    )}
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <p className="as-label mt-4 shrink-0 text-ink/55 xl:mt-0" aria-live="polite">
+            {filteredProducts.length === 0
+              ? 'Brak produktów w tej kategorii'
+              : `Produktów: ${filteredProducts.length}`}
+          </p>
         </Reveal>
 
-        <p className="as-label mt-6 text-ink/45" aria-live="polite">
-          {filteredProducts.length === 0
-            ? 'Brak produktów dla tych kryteriów'
-            : `Produktów: ${filteredProducts.length}`}
-        </p>
-
-        {/* karty jak „Efekty" na stronie głównej: kolumny rozdzielone pionową
-            złotą linią, bez border-top, bez zaokrągleń i cieni */}
-        <div className="mt-8 grid gap-y-10 md:grid-cols-2 md:gap-x-0 lg:grid-cols-3">
+        {/* komórki redakcyjne: hairline u góry, bez tła, bez kart */}
+        <div className="mt-6 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredProducts.map((product, i) => (
-            <Reveal key={product.id} delay={Math.min(i, 5) * 70}>
-              <article className="as-card-col group">
-                <div className="mb-5 flex items-center justify-between gap-4">
-                  {/* próbnik koloru zamiast packshotu (brak zdjęć produktowych) */}
-                  <span
-                    className="h-12 w-12 shrink-0 rounded-full border border-ink/10"
-                    style={{ backgroundColor: product.colorHex }}
-                    aria-hidden="true"
-                  />
-                  {product.badge && <span className="as-badge">{product.badge}</span>}
-                </div>
-
-                {/* kicker (linia / przeznaczenie) nad tytułem karty */}
-                <p className="as-kicker mb-2">{product.subtitle}</p>
-                <h3 className="font-display text-2xl leading-[1.1] text-ink sm:text-[1.75rem]">
-                  {product.name}
-                </h3>
-                <p className="as-caption mt-3 flex-1">{product.description}</p>
-
-                <dl className="mt-5 grid grid-cols-2 gap-y-2 border-t border-ink/10 pt-4 text-xs">
-                  <dt className="text-mocha-400">Rodzaj</dt>
-                  <dd className="text-right text-ink">{product.type}</dd>
-                  <dt className="text-mocha-400">Pojemność</dt>
-                  <dd className="text-right text-ink">{product.capacity}</dd>
-                </dl>
-
-                <div className="mt-5 flex items-end justify-between gap-4">
-                  <span className="font-display text-xl text-ink">{product.price} zł</span>
-                  <ArrowLink href="/kontakt" className="w-fit">
-                    Zapytaj
-                  </ArrowLink>
-                </div>
-              </article>
+            <Reveal key={product.id} delay={(i % 3) * 70}>
+              <ProductCell product={product} />
             </Reveal>
           ))}
         </div>
@@ -461,13 +416,104 @@ function Catalog() {
 }
 
 /* ================================================================== */
-/*  04 — ZAMÓWIENIA HURTOWE (CTA)                                      */
+/*  03 — EFEKT (jedyne makro na trasie)                                */
+/* ================================================================== */
+
+function Effect() {
+  /* brows-12-p3 (1638 × 820) w kadrze 1:1 — ostre przy 320 px;
+     lips-03-p3 (1206 × 494) w 4:5 było powiększone ~2× i miękkie */
+  const macro = MACROS.brows12p3;
+  return (
+    <section className="as-section border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+          <div className="lg:col-span-6">
+            <Reveal>
+              <SectionLabel number="03">Efekt</SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
+                Kolor, który goi się przewidywalnie.
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="as-body mt-6">
+                Wygojenie jest dowodem — to moment, w którym widać, czy formuła trzyma kolor.
+                Light Minerals to barwniki w 100% mineralne: #01 Blonde wychodzi ze skóry czysto
+                i przewidywalnie, bez czerwonych podtonów, a #05 Dark Espresso ma stabilną formułę
+                chroniącą przed szarzeniem.
+              </p>
+              <ArrowLink href="/uslugi" className="mt-8 w-fit">
+                Zobacz zabiegi
+              </ArrowLink>
+            </Reveal>
+          </div>
+
+          <Reveal delay={90} className="lg:col-span-4 lg:col-start-9">
+            <figure className="max-w-[20rem]">
+              <Figure
+                image={macro.image}
+                alt="Brwi po makijażu permanentnym metodą Super Natural Brows — zbliżenie"
+                ratio={macro.ratio}
+                position={macro.position}
+                tone="light"
+                zoom={false}
+                sizes="640px"
+              />
+              <figcaption className="as-caption mt-3">{macro.caption}</figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  04 — DOKUMENTACJA W SKRÓCIE (układ jak /certyfikaty 02)            */
+/* ================================================================== */
+
+function Documentation() {
+  return (
+    <section className="as-section border-t border-ink/10 bg-cream-50">
+      <div className="as-shell">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-4">
+            <Reveal>
+              <SectionLabel number="04">Dokumentacja</SectionLabel>
+              <h2 className="as-display-section as-text-balance mt-6 text-ink">
+                Dokumenty w komplecie.
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <ArrowLink href="/certyfikaty" className="mt-8 w-fit">
+                Zobacz dokumentację
+              </ArrowLink>
+            </Reveal>
+          </div>
+
+          {/* komórki dokumentów: hairline → numer (.as-kicker) → tytuł (.as-title) → opis 15 px */}
+          <ol className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:col-span-8 lg:col-start-5 xl:grid-cols-3">
+            {DOCS.map((d, i) => (
+              <Reveal as="li" key={d.number} delay={i * 80} className="as-cell">
+                <p className="as-kicker">{d.number}</p>
+                <h3 className="as-title as-text-balance mt-3 text-ink">{d.title}</h3>
+                <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">{d.desc}</p>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  05 — ZAMÓWIENIA HURTOWE (pas zamykający)                           */
 /* ================================================================== */
 
 function ClosingBand() {
   return (
     <ClosingCta
-      number="04"
+      number="05"
       label="Zamówienia"
       title="Zamówienie"
       titleAccent="hurtowe?"
@@ -484,8 +530,9 @@ export default function Pigments() {
   return (
     <>
       <Hero />
-      <HealedBand />
-      <Catalog />
+      <Palette />
+      <Effect />
+      <Documentation />
       <ClosingBand />
     </>
   );

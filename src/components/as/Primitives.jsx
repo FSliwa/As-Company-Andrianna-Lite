@@ -375,7 +375,7 @@ export function PageHero({
       <section className="relative overflow-hidden bg-espresso text-cream-50">
         <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.28} />
         <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
-          <Reveal className="max-w-4xl">{heading}</Reveal>
+          <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
             <div className="mt-12 grid gap-8 sm:grid-cols-3 lg:mt-16">
               {stats.map((st) => (
@@ -395,7 +395,7 @@ export function PageHero({
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
           <Reveal
             className={cn(
-              'lg:row-start-1',
+              'min-w-0 lg:row-start-1',
               imageSide === 'left' ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'
             )}
           >
@@ -405,7 +405,7 @@ export function PageHero({
           {image && (
             <div
               className={cn(
-                'lg:row-start-1',
+                'min-w-0 lg:row-start-1',
                 imageSide === 'left' ? 'lg:col-span-4 lg:col-start-2' : 'lg:col-span-4 lg:col-start-8'
               )}
             >

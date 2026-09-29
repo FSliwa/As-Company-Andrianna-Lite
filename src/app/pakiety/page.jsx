@@ -4,7 +4,7 @@ import Packages from '@/views/Packages';
 export const metadata = {
   title: 'Ścieżka zabiegowa',
   description:
-    'Od bezpłatnej konsultacji przez zabieg i korektę po odświeżenie — kolejność wizyt i ceny bez gwiazdek.',
+    'Od konsultacji przez zabieg i korektę po odświeżenie — kolejność wizyt i ceny każdego kroku.',
   alternates: { canonical: '/pakiety' },
 };
 

@@ -1,27 +1,23 @@
 'use client';
 
 /**
- * ZABIEGI — /uslugi
+ * ZABIEGI — /uslugi  („Numer 01")
  *
- * Zasady:
- *  • Wszystkie zdjęcia pochodzą wyłącznie z firmowego folderu (import z '@/lib/media').
- *  • Ze sklejek „przed/po" używamy WYŁĄCZNIE wyciętych paneli (BY_NAME['…-pN']),
- *    nigdy plików zbiorczych — panele są poziome, więc dostają poziome ramki.
- *    Makra skóry (BROWS[n]) najwyżej dwa na stronę, tylko w dużych kadrach.
- *  • W ciemnych sekcjach kadry dostają tone="dark", w kremowych tone="light";
- *    portrety STUDIO na kremie — bez korekty.
- *  • Nie podpisujemy zdjęcia jako czegoś, czym nie jest — sekcje, dla których nie ma
- *    realnego materiału (kreska permanentna, korekta, odświeżenie, usuwanie),
- *    zbudowane są typograficznie, bez „podstawionych” kadrów.
- *  • Ceny pochodzą z cennika marki (PRICING_PMU / PRICING_REFRESH / PRICING_REMOVAL
- *    w '@/lib/site'), żeby karty zabiegów i cennik nie mogły się rozjechać.
- *  • Opisy, cytaty, czasy trwania i FAQ zostały zachowane z poprzedniej wersji strony.
+ * Każda sekcja to rozkładówka: SectionLabel → H2 .as-display-section → treść →
+ * jedno wezwanie. Portret wyłącznie przez ROLES, makra wyłącznie przez MACROS
+ * (src/lib/roles.js) — na tej trasie dokładnie cztery makra, wszystkie w pasie
+ * efektów. Ceny zawsze z cennika marki (PRICING_* w src/lib/site.js).
  *
- * Rytm i skala: jak na stronie głównej — .as-section, SectionLabel → h2 (mt-6,
- * .as-display-section) → zajawka (.as-caption) → treść (mt-10) → CTA (mt-8).
- * Rytm tła: hero (cream-50) → 02 zabiegi + efekty (espresso) → 03 linia/korekty (cream-100)
- * → 04 cennik (espresso-900) → 05 pytania (cream-100) → 06 wizyta (ClosingCta, espresso-900).
- * Numeracja sekcji ciągła: 01 hero … 06 wizyta.
+ * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
+ * i wizyta (espresso — jedyny ciemny pas) → 04 odświeżenie i usuwanie (cream-50)
+ * → 05 cennik #cennik (cream-100, hairline) → 06 pytania (cream-50, hairline)
+ * → 07 ClosingCta + stopka (espresso-900, jeden blok).
+ *
+ * Korekta do 3 miesięcy występuje jako krok 03 wizyty (pas espresso), więc
+ * sekcja 04 obejmuje tylko zabiegi, których nie ma w indeksie ani w krokach.
+ *
+ * Telefon: cytaty technik i wstępy sekcji 04/06 ukryte (< sm); tabele refresh
+ * i usuwania zwinięte w <Faq> (< lg) — od lg stoją w pełni.
  */
 
 import React, { useState } from 'react';
@@ -38,18 +34,25 @@ import {
   ArrowLink,
   ClosingCta,
   CtaButton,
-  FactStrip,
   Faq,
   Field,
-  Figure,
   GoldArc,
+  NumberedItem,
   PageHero,
   PriceRow,
+  ResultStrip,
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { CONTACT, PRICING_PMU, PRICING_REFRESH, PRICING_REMOVAL } from '@/lib/site';
-import { BROWS, BY_NAME, STUDIO } from '@/lib/media';
+import {
+  ACHIEVEMENTS,
+  CONTACT,
+  FOUNDER,
+  PRICING_PMU,
+  PRICING_REFRESH,
+  PRICING_REMOVAL,
+} from '@/lib/site';
+import { MACROS, ROLES } from '@/lib/roles';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
@@ -62,190 +65,124 @@ const priceOf = (table, name) => {
   return row ? row.price : '';
 };
 
+/* Fakty w hero — z ACHIEVEMENTS (5× podium MŚ; salony „Katowice i Warszawa")
+   i CONTACT.city. Krótkie: FactStrip stoi w jednej linii i przy 375 px musi
+   zmieścić się w łamie (≤ 335 px, zmierzone 301 px).
+   Autorstwo Super Natural Brows stoi w wierszu 01 indeksu. */
+const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `Salon — ${CONTACT.city}`];
+
 /* ------------------------------------------------------------------ */
-/*  Zabiegi ze zdjęciami efektów (brwi + usta)                         */
-/*  Kadry: makro skóry w kwadracie (brew i oko zostają w kadrze),      */
-/*  pod nim poziomy panel ze sklejki — razem w jednej złotej ramce.    */
+/*  02 — cztery techniki (indeks typograficzny, bez zdjęć)             */
+/*  Nazwy jak w cenniku PMU; opisy, cytaty i czasy z poprzedniej        */
+/*  wersji strony. Cytaty 03/04 powtarzały opis — usunięte.             */
 /* ------------------------------------------------------------------ */
 
-const MAIN_TREATMENTS = [
+const TECHNIQUES = [
   {
     id: 'supernatural-brows',
     number: '01',
-    name: 'Włos Maszynowy „SuperNatural brows”',
-    tag: 'Autorska Technika Andriany',
-    duration: '1,5 - 2 godziny',
+    name: 'Super Natural Brows',
+    kind: 'Włos maszynowy · autorska technika Andriany',
+    duration: '1,5–2 godziny',
     price: priceOf(PRICING_PMU, 'Super Natural Brows'),
     description:
       'Efekt zadbanych, gęstych, dopasowanych brwi z delikatnym pogrubieniem oraz wyrównaniem kształtu.',
     quote:
-      'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę aby ktoś wiedział że mam zrobione brwi, mają wyglądać jak moje”',
-    shots: [
-      {
-        image: BROWS[8],
-        alt: 'Zbliżenie na oko i brew po makijażu permanentnym — pojedyncze, naturalnie ułożone włoski',
-        ratio: '1 / 1',
-        position: '50% 40%',
-      },
-      {
-        image: BY_NAME['brows-13-p1'],
-        alt: 'Pojedynczy łuk brwi po makijażu permanentnym — zbliżenie na włoski',
-        ratio: '5 / 2',
-        position: '50% 50%',
-      },
-    ],
+      'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę, aby ktoś wiedział, że mam zrobione brwi — mają wyglądać jak moje”.',
   },
   {
     id: 'perfect-brows',
     number: '02',
-    name: 'Pudrowa Technika „Perfect brows”',
-    tag: 'Efekt Cienia',
-    duration: '1,5 - 2 godziny',
+    name: 'Perfect Powder Brows',
+    kind: 'Technika pudrowa · efekt cienia',
+    duration: '1,5–2 godziny',
     price: priceOf(PRICING_PMU, 'Perfect Powder Brows'),
     description:
       'Efekt delikatnie podmalowanych brwi cieniem, z podkreślonym kształtem, ale nadal w delikatnej, transparentnej wersji bez przesady.',
     quote: 'Idealne przejścia tonalne (Ombre/Powder) dopasowane do karnacji.',
-    shots: [
-      {
-        image: BROWS[14],
-        alt: 'Oko i brew klientki po makijażu permanentnym — miękko wycieniowany, wyrazisty łuk',
-        ratio: '1 / 1',
-        position: '50% 45%',
-      },
-      {
-        image: BY_NAME['brows-12-p2'],
-        alt: 'Para oczu z wycieniowanymi, podkreślonymi brwiami po makijażu permanentnym',
-        ratio: '5 / 2',
-        position: '50% 50%',
-      },
-    ],
   },
   {
     id: 'perfect-lips',
     number: '03',
-    name: 'Usta Permanentne „Perfect lips”',
-    tag: 'Subtelność i Świeżość',
+    name: 'Perfect Lips',
+    kind: 'Usta permanentne · subtelność i świeżość',
     duration: '2 godziny',
     price: priceOf(PRICING_PMU, 'Perfect Lips'),
     description:
       'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
-    quote: 'Dobieramy kolory do natury, wyrównujemy koloryt i nadajemy świeżości.',
-    shots: [
-      {
-        image: BY_NAME['lips-01-p2'],
-        alt: 'Wygojone usta po makijażu permanentnym — równomierny, ciepły czerwony kolor',
-        ratio: '2 / 1',
-        position: '50% 55%',
-      },
-      {
-        image: BY_NAME['lips-01-p1'],
-        alt: 'Usta po makijażu permanentnym w jasnym, naturalnym odcieniu',
-        ratio: '2 / 1',
-        position: '50% 45%',
-      },
-    ],
+  },
+  {
+    id: 'perfect-eyes',
+    number: '04',
+    name: 'Perfect Eyeliners',
+    kind: 'Pigmentacja linii · zagęszczenie rzęs',
+    duration: '1–1,5 godziny',
+    price: priceOf(PRICING_PMU, 'Perfect Eyeliners'),
+    description:
+      'Efekt zagęszczania rzęs, pogrubienia górnej wodnej linii oka, uwydatnienie koloru tęczówki, bez kreski, bez ogonka i bez cienia na powiece.',
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Zabiegi bez materiału zdjęciowego — układ typograficzny            */
+/*  03 — efekty (makra z białej listy) i przebieg wizyty               */
 /* ------------------------------------------------------------------ */
 
-const SUPPORT_TREATMENTS = [
+const RESULTS = [
+  { macro: MACROS.brows15, alt: 'Brwi po makijażu permanentnym — zbliżenie' },
+  { macro: MACROS.brows08, alt: 'Brew i oko po makijażu permanentnym — zbliżenie' },
+  { macro: MACROS.brows17, alt: 'Łuk brwi po makijażu permanentnym — zbliżenie' },
+  { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym — zbliżenie' },
+].map(({ macro, alt }) => ({ image: macro.image, position: macro.position, alt }));
+
+const VISIT_STEPS = [
   {
-    id: 'perfect-eyes',
-    number: '04',
-    name: 'Pigmentacja Linii „Perfect eyes”',
-    tag: 'Zagęszczenie Rzęs',
-    duration: '1 - 1,5 godziny',
-    price: priceOf(PRICING_PMU, 'Perfect Eyeliners'),
-    description:
-      'Efekt zagęszczania rzęs, pogrubienia górnej wodnej linii oka, uwydatnienie koloru tęczówki, bez kreski, bez ogonka i bez cienia na powiece.',
-    quote: 'Niewidoczny akcent, który otwiera spojrzenie i uwypukla kolor tęczówki.',
+    number: '01',
+    title: 'Konsultacja i dobór techniki',
+    desc: 'Architektura twarzy i rysunek wstępny. Kolor dobieramy do karnacji, a kształt do Twoich rysów.',
   },
   {
-    id: 'korekta',
-    number: '05',
-    name: 'Korekta Makijażu Permanentnego',
-    tag: 'Dopracowanie Efektu (1-3 msc)',
-    duration: '1 godzina',
-    price: priceOf(PRICING_PMU, 'Korekta do 3 miesięcy'),
-    priceNote: 'Niezależnie od strefy pigmentacji.',
-    description:
-      'Zabieg, na którym uzupełnimy ubytki, które mogą wynikać z różnych przyczyn, najczęściej zależnych od samej skóry, procesu jej indywidualnej regeneracji lub stanu hormonalnego. A także wykonujemy ten zabieg najczęściej w celu wzmocnienia efektu, pogrubienia brwi lub dodatkowego zagęszczenia włosków.',
-    quote: 'Robi się po miesiącu do 3 od pierwotnego zabiegu.',
+    number: '02',
+    title: 'Zabieg',
+    desc: 'Zaczynamy dopiero, gdy zaakceptujesz rysunek wstępny. Zabieg trwa od 1 do 2 godzin, zależnie od techniki.',
   },
+  {
+    number: '03',
+    title: `Korekta do 3 miesięcy — ${priceOf(PRICING_PMU, 'Korekta do 3 miesięcy')}`,
+    desc: PRICING_PMU.footnote,
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/*  04 — odświeżenie i usuwanie (bez materiału zdjęciowego)            */
+/* ------------------------------------------------------------------ */
+
+const AFTERCARE = [
   {
     id: 'odswiezenie',
-    number: '06',
-    name: 'Odświeżenie Makijażu Permanentnego',
-    tag: 'Po 1-3 Latach',
+    number: '01',
+    tag: 'Po 1–3 latach',
+    name: 'Odświeżenie makijażu permanentnego',
     duration: '1,5 godziny',
     price: 'od ' + PRICING_REFRESH.items[0].price,
     priceNote: 'Stawka zależy od czasu, jaki minął od ostatniego zabiegu — pełne widełki w cenniku.',
     description:
-      'Zabieg, który wykonujemy raz na 1-3 lata, dla odnowienia efektu, uzupełnienia koloru, dodania gęstości, grubości i intensywności koloru.',
-    quote: 'Utrzymuje efekt idealnej świeżości przez kolejne lata.',
+      'Zabieg, który wykonujemy raz na 1–3 lata, dla odnowienia efektu, uzupełnienia koloru, dodania gęstości, grubości i intensywności koloru.',
   },
   {
     id: 'usuwanie',
-    number: '07',
-    name: 'Usuwanie Laserowe / Removerem',
-    tag: 'Bezpieczne Oczyszczanie',
-    duration: '30 - 45 minut',
+    number: '02',
+    tag: 'Bezpieczne oczyszczanie',
+    name: 'Usuwanie laserem lub removerem',
+    duration: '30–45 minut',
     price: priceOf(PRICING_REMOVAL, 'Usuwanie PMU brwi'),
     priceNote: 'Brwi lub usta. Kreski, tatuaże i stawki dla stałych klientek — w cenniku.',
     description:
-      'Zabieg polegający na usuwaniu starego, nieudanego PMU przed nową pigmentacją. Usuwamy jak laserem, tak i removerem, dobierając metodę indywidualnie według przypadku, zawsze staramy się zrobić tak, aby jak najszybciej i najbezpieczniej dla klienta pozbyć się niechcianego pigmentu.',
-    quote: 'Usuwanie bez blizn i bez poparzeń - przygotowanie skóry pod nowy PMU.',
+      'Usuwamy stary, nieudany makijaż permanentny przed nową pigmentacją. Metodę — laser albo remover — dobieramy indywidualnie, tak aby jak najszybciej i najbezpieczniej pozbyć się niechcianego pigmentu.',
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Galeria efektów — wyłącznie czyste panele „po" (bez szwów/napisów)  */
-/*  Panele są poziome (2:1–3:1), więc rząd górny ma ramkę 2/1,          */
-/*  a rząd szeroki 3/1; position dosuwa kadr od wypalonych napisów.     */
-/*  Kolaż stoi na końcu sekcji „Zabiegi" (espresso) — stąd tone="dark". */
-/* ------------------------------------------------------------------ */
-
-const GALLERY_PORTRAIT = [
-  {
-    image: BY_NAME['brows-01-p2'],
-    alt: 'Para oczu z naturalnie zagęszczonymi brwiami po makijażu permanentnym',
-    position: '50% 50%',
-  },
-  {
-    image: BY_NAME['brows-02-p1'],
-    alt: 'Oczy klientki z opaską na włosach — brwi po makijażu permanentnym',
-    position: '50% 70%',
-  },
-  {
-    image: BY_NAME['brows-01-p1'],
-    alt: 'Para oczu z brwiami po makijażu permanentnym — zbliżenie',
-    position: '50% 50%',
-  },
-  {
-    image: BY_NAME['brows-02-p3'],
-    alt: 'Oczy klientki z opaską na włosach, twarz prosto — brwi po makijażu permanentnym',
-    position: '50% 70%',
-  },
-];
-
-const GALLERY_WIDE = [
-  {
-    image: BY_NAME['brows-12-p1'],
-    alt: 'Para oczu z brwiami po makijażu permanentnym — szeroki kadr',
-    position: '50% 50%',
-  },
-  {
-    image: BY_NAME['lips-03-p3'],
-    alt: 'Usta po makijażu permanentnym — kadr po zabiegu',
-    position: '50% 100%',
-  },
-];
-
-/* ------------------------------------------------------------------ */
-/*  FAQ — treść zachowana bez zmian                                    */
+/*  06 — FAQ (treść zachowana bez zmian)                               */
 /* ------------------------------------------------------------------ */
 
 const FAQ_ITEMS = [
@@ -288,169 +225,116 @@ const FAQ_ITEMS = [
 ];
 
 /* ================================================================== */
-/*  02 — ZABIEGI ZE ZDJĘCIAMI EFEKTÓW + KOLAŻ WYGOJEŃ                  */
+/*  02 — TECHNIKI (cream-50)                                           */
 /* ================================================================== */
 
-function TreatmentsBand({ onBook }) {
+/* Wiersz indeksu — geometria IndexRow (numerał 64 | tytuł 28 | opis | cena
+   + link), rozpisana na 4 kolumny wyrównane do góry, żeby opis stał obok
+   tytułu, a nie pod nim (budżet wysokości trasy).
+   Lokalnie, bo IndexRow przyjmuje tylko `href`, a tu link otwiera dialog
+   rezerwacji — ArrowLink z onClick (semantyka <button>).
+   Telefon: numerał obok tytułu, opis i meta na pełną szerokość; blok meta
+   zawsze w kolumnie (czas + cena → „Umów wizytę"), cytat dopiero od sm. */
+function TechniqueRow({ t, onBook, last }) {
   return (
-    <section
-      id="zabiegi"
-      className="as-section relative overflow-hidden scroll-mt-24 bg-espresso text-cream-50"
+    <article
+      id={t.id}
+      className={cn(
+        'grid scroll-mt-28 grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-4 border-t border-ink/15 py-8 sm:grid-cols-[5rem_minmax(0,1fr)] lg:grid-cols-[6rem_20rem_minmax(0,1fr)_auto] lg:items-start lg:gap-8',
+        last && 'border-b'
+      )}
     >
+      <span className="as-display-md leading-none text-gold-dark">{t.number}</span>
+      <div>
+        <h3 className="as-title text-ink">{t.name}</h3>
+        <p className="as-kicker mt-2">{t.kind}</p>
+      </div>
+      <div className="col-span-2 sm:col-span-1 sm:col-start-2 lg:col-start-auto">
+        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{t.description}</p>
+        {t.quote && <p className="as-quote mt-3 hidden max-w-[34rem] text-mocha sm:block">{t.quote}</p>}
+      </div>
+      <div className="col-span-2 flex flex-col items-start gap-3 sm:col-span-1 sm:col-start-2 lg:col-start-auto lg:items-end lg:gap-4">
+        <p className="whitespace-nowrap">
+          <span className="as-label mr-4 text-ink/55">{t.duration}</span>
+          <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
+        </p>
+        <ArrowLink onClick={() => onBook(t)} className="w-fit">
+          Umów wizytę<span className="sr-only"> — {t.name}</span>
+        </ArrowLink>
+      </div>
+    </article>
+  );
+}
+
+function TechniquesBand({ onBook }) {
+  return (
+    <section id="zabiegi" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        <Reveal>
+          <SectionLabel number="02">Techniki</SectionLabel>
+          <h2 className="as-display-section as-text-balance mt-6 text-ink">
+            Cztery techniki, jeden standard.
+          </h2>
+        </Reveal>
+
+        <div className="mt-10">
+          {TECHNIQUES.map((t, i) => (
+            <Reveal key={t.id} delay={i * 60}>
+              <TechniqueRow t={t} onBook={onBook} last={i === TECHNIQUES.length - 1} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  03 — EFEKTY I WIZYTA (espresso — jedyny ciemny pas)                */
+/* ================================================================== */
+
+function ResultsBand() {
+  return (
+    <section className="as-section relative overflow-hidden bg-espresso text-cream-50">
       <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.28} />
 
       <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="02" tone="light">
-            Zabiegi
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-section as-text-balance">
-              Realne efekty,
-              <br />
-              <span className="italic text-gold-light">nie renderowane.</span>
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+          <Reveal>
+            <SectionLabel number="03" tone="light">
+              Efekty i wizyta
+            </SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+              Realne efekty, nie renderowane.
             </h2>
           </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
-            <p className="as-caption-invert">
-              Każdy zabieg zaczynamy od konsultacji, architektury twarzy i rysunku wstępnego. Kolor
-              dobieramy do karnacji, a kształt do Twoich rysów — dopiero potem sięgamy po maszynkę.
-            </p>
+          <Reveal delay={80} className="shrink-0">
+            <ArrowLink href={CONTACT.instagram} tone="light" className="w-fit" target="_blank" rel="noreferrer">
+              Więcej prac na Instagramie
+            </ArrowLink>
           </Reveal>
         </div>
 
-        <div className="mt-10 space-y-12">
-          {MAIN_TREATMENTS.map((t, idx) => (
-            <Reveal key={t.id}>
-              <article
-                id={t.id}
-                className="grid scroll-mt-24 gap-8 lg:grid-cols-12 lg:items-center lg:gap-16"
-              >
-                {/* — kadry: makro + panel w jednej złotej ramce — */}
-                <div className={cn('lg:col-span-4', idx % 2 === 1 && 'lg:order-2')}>
-                  <div className="as-photo-frame grid gap-1">
-                    <Figure
-                      image={t.shots[0].image}
-                      alt={t.shots[0].alt}
-                      ratio={t.shots[0].ratio}
-                      position={t.shots[0].position}
-                      tone="dark"
-                      sizes="(min-width: 1024px) 30vw, 90vw"
-                    />
-                    {t.shots[1] && (
-                      <Figure
-                        image={t.shots[1].image}
-                        alt={t.shots[1].alt}
-                        ratio={t.shots[1].ratio}
-                        position={t.shots[1].position}
-                        tone="dark"
-                        sizes="(min-width: 1024px) 30vw, 90vw"
-                      />
-                    )}
-                  </div>
-                </div>
+        {/* stykówka: cztery makra 1:1 na pełną szerokość łamu, jeden podpis paska */}
+        <Reveal delay={80} className="mt-10">
+          <ResultStrip
+            items={RESULTS}
+            tone="dark"
+            cols={4}
+            ratio="1 / 1"
+            caption="Brwi i usta — prace z naszego gabinetu."
+          />
+        </Reveal>
 
-                {/* — opis — */}
-                <div className={cn('lg:col-span-8', idx % 2 === 1 && 'lg:order-1')}>
-                  <div className="flex flex-wrap items-center gap-4">
-                    <span className="as-num">{t.number}</span>
-                    <span className="h-px w-10 bg-cream-200/25" aria-hidden="true" />
-                    <span className="as-kicker-invert">{t.tag}</span>
-                  </div>
-
-                  <h3 className="mt-5 font-display text-2xl text-cream-50 sm:text-[1.75rem]">
-                    {t.name}
-                  </h3>
-                  <p className="as-caption-invert mt-3">{t.description}</p>
-
-                  <blockquote className="as-quote-invert mt-6 max-w-md border-l border-gold/35 pl-5">
-                    {t.quote}
-                  </blockquote>
-
-                  <dl className="mt-6 flex flex-wrap gap-x-12 gap-y-4 border-t border-cream-200/15 pt-6">
-                    <div>
-                      <dt className="as-kicker-invert">Czas zabiegu</dt>
-                      <dd className="mt-2 font-display text-xl text-cream-50">{t.duration}</dd>
-                    </div>
-                    <div>
-                      <dt className="as-kicker-invert">Cena</dt>
-                      <dd className="mt-2 font-display text-xl text-gold-light">{t.price}</dd>
-                    </div>
-                  </dl>
-
-                  <div className="mt-8 flex flex-wrap items-center gap-4">
-                    <CtaButton onClick={() => onBook(t)} className="as-btn-gold">
-                      Zarezerwuj wizytę
-                    </CtaButton>
-                    <ArrowLink href="#cennik" tone="light">
-                      Pełny cennik
-                    </ArrowLink>
-                  </div>
-                </div>
-              </article>
+        {/* przebieg wizyty — trzy kroki pod stykówką */}
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {VISIT_STEPS.map((s, i) => (
+            <Reveal key={s.number} delay={i * 80} className="as-cell-invert">
+              <NumberedItem number={s.number} title={s.title} tone="light">
+                {s.desc}
+              </NumberedItem>
             </Reveal>
           ))}
-        </div>
-
-        {/* — efekty: kolaż wygojeń pod artykułami, jedna złota ramka (jak trójka
-            w „O nas" i kolaż w „Szkoleniach"); ciemna sekcja → tone="dark" — */}
-        <div className="mt-12 border-t border-cream-200/15 pt-10">
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-12">
-            <Reveal className="lg:col-span-7">
-              <h3 className="font-display text-2xl text-cream-50 sm:text-[1.75rem]">
-                Prace z naszego gabinetu.
-              </h3>
-            </Reveal>
-            <Reveal delay={90} className="lg:col-span-5">
-              <p className="as-caption-invert">
-                Zdjęcia pochodzą z prac wykonanych w naszym studiu. Najwięcej bieżących wygojeń
-                publikujemy na Instagramie.
-              </p>
-              <ArrowLink
-                href={CONTACT.instagram}
-                tone="light"
-                className="mt-5 w-fit"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {CONTACT.instagramHandle}
-              </ArrowLink>
-            </Reveal>
-          </div>
-
-          <Reveal className="mt-8">
-            <div className="as-photo-frame grid gap-1">
-              <div className="grid grid-cols-2 gap-1 lg:grid-cols-4">
-                {GALLERY_PORTRAIT.map((g) => (
-                  <Figure
-                    key={g.image.src}
-                    image={g.image}
-                    alt={g.alt}
-                    ratio="2 / 1"
-                    position={g.position}
-                    tone="dark"
-                    sizes="(min-width: 1024px) 22vw, 45vw"
-                  />
-                ))}
-              </div>
-              <div className="grid gap-1 sm:grid-cols-2">
-                {GALLERY_WIDE.map((g) => (
-                  <Figure
-                    key={g.image.src}
-                    image={g.image}
-                    alt={g.alt}
-                    ratio="3 / 1"
-                    position={g.position}
-                    tone="dark"
-                    sizes="(min-width: 640px) 46vw, 92vw"
-                  />
-                ))}
-              </div>
-            </div>
-          </Reveal>
         </div>
       </div>
     </section>
@@ -458,74 +342,47 @@ function TreatmentsBand({ onBook }) {
 }
 
 /* ================================================================== */
-/*  03 — LINIA, KOREKTY I USUWANIE (bez zdjęć — układ typograficzny)   */
+/*  04 — ODŚWIEŻENIE I USUWANIE (cream-50)                             */
 /* ================================================================== */
 
-function SupportBand({ onBook }) {
+function AftercareBand() {
   return (
-    <section className="as-section bg-cream-100">
+    <section className="as-section bg-cream-50">
       <div className="as-shell">
-        <Reveal>
-          <SectionLabel number="03">Linia, korekty i usuwanie</SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <Reveal className="lg:col-span-7">
-            {/* „dzieje się" nierozdzielne; jawne łamanie tylko od lg — na telefonie
-                łamałoby „się" do osobnego wiersza */}
-            <h2 className="as-display-section text-ink">
-              Wszystko, co dzieje&nbsp;się <br className="hidden lg:block" />
-              wokół pigmentacji.
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
+            <SectionLabel number="04">Odświeżenie i usuwanie</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
+              Odnowić albo zacząć od&nbsp;nowa.
             </h2>
-          </Reveal>
-          <Reveal delay={80} className="lg:col-span-5 lg:pt-1">
-            <p className="as-caption">
-              Zabiegi uzupełniające prowadzimy tym samym standardem co pigmentację: ocena skóry,
-              dobór metody, bezpieczne gojenie. Część z nich wykonujemy dopiero po obejrzeniu zdjęć
-              obecnego makijażu permanentnego.
+            <p className="as-body mt-6 hidden sm:block">
+              Zabiegi uzupełniające prowadzimy tym samym standardem co pigmentację: ocena skóry, dobór
+              metody, bezpieczne gojenie. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
+              makijażu permanentnego.
             </p>
+            <ArrowLink href="#cennik" className="mt-8 w-fit">
+              Zobacz cennik
+            </ArrowLink>
           </Reveal>
-        </div>
 
-        {/* karty jak w „Efektach" na stronie głównej: pionowa złota linia z lewej, bez ramek */}
-        <div className="mt-10 grid gap-y-10 sm:grid-cols-2 sm:gap-x-0 xl:grid-cols-4">
-          {SUPPORT_TREATMENTS.map((t, i) => (
-            <Reveal key={t.id} delay={(i % 4) * 80}>
-              <article id={t.id} className="as-card-col group scroll-mt-24 sm:pr-7">
-                <div className="mb-4 flex items-center gap-4">
-                  <span className="as-num">{t.number}</span>
-                  <span className="h-px w-10 bg-ink/15 transition-all duration-300 group-hover:w-16 group-hover:bg-gold" />
-                </div>
-                <span className="as-kicker">{t.tag}</span>
-
-                <h3 className="mt-3 font-display text-2xl text-ink sm:text-[1.75rem]">{t.name}</h3>
-                <p className="as-caption mt-3">{t.description}</p>
-
-                <p className="as-quote mt-5 max-w-[19rem] border-l border-gold/35 pl-5 text-mocha-600">
-                  {t.quote}
-                </p>
-
-                <div className="mt-auto pt-7">
-                  <span className="as-kicker">Czas / cena</span>
-                  <p className="mt-2 font-display text-xl text-ink">
-                    {t.duration} <span className="text-ink/30">·</span> {t.price}
+          <div className="grid gap-10 md:grid-cols-2 md:gap-8 lg:col-span-6 lg:col-start-7 lg:self-end">
+            {AFTERCARE.map((t, i) => (
+              <Reveal key={t.id} delay={i * 80}>
+                <article id={t.id} className="as-cell scroll-mt-28">
+                  <p className="as-kicker">
+                    {t.number} · {t.tag}
                   </p>
-                  {t.priceNote && (
-                    <p className="as-numbered-desc text-mocha-400">{t.priceNote}</p>
-                  )}
-                  <CtaButton
-                    onClick={() => onBook(t)}
-                    className="group as-arrow-dark mt-5"
-                  >
-                    <span>Zarezerwuj</span>
-                    <span className="as-arrow-glyph" aria-hidden="true">
-                      &#8594;
-                    </span>
-                  </CtaButton>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                  <h3 className="as-title mt-3 text-ink">{t.name}</h3>
+                  <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">{t.description}</p>
+                  <p className="mt-6 font-display text-[1.375rem] leading-none text-ink">
+                    {t.price}
+                    <span className="as-label ml-4 align-middle text-ink/55">{t.duration}</span>
+                  </p>
+                  <p className="as-caption mt-3">{t.priceNote}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -533,81 +390,90 @@ function SupportBand({ onBook }) {
 }
 
 /* ================================================================== */
-/*  04 — CENNIK                                                        */
+/*  05 — CENNIK (cream-100) — jedyny pełny cennik w serwisie           */
 /* ================================================================== */
 
-/* Tabela: PriceRow rysuje górną linię przy pierwszym wierszu (first:border-t),
-   więc wrapper nie dostaje własnego border-t — inaczej byłaby podwójna linia. */
+/* PriceRow rysuje górną linię przy pierwszym wierszu (first:border-t),
+   więc wrapper nie dostaje własnego border-t — inaczej byłaby podwójna linia.
+   Noty, które powtarzają podtytuł tabeli („Laser / remover") albo są wspólne
+   dla wszystkich pozycji („Niezależnie od strefy pigmentacji"), pokazujemy raz. */
+function PriceRows({ table }) {
+  const first = table.items[0] && table.items[0].note;
+  const shared = table.items.length > 1 && first && table.items.every((it) => it.note === first) ? first : null;
+  const noteOf = (it) => (it.note === table.subtitle || it.note === shared ? undefined : it.note);
+  return (
+    <>
+      {table.items.map((item) => (
+        <PriceRow key={item.name} name={item.name} note={noteOf(item)} price={item.price} />
+      ))}
+      {(shared || table.footnote) && (
+        <p className="as-caption mt-4 max-w-[36rem]">{shared ? `${shared}.` : table.footnote}</p>
+      )}
+    </>
+  );
+}
+
 function PriceBlock({ table }) {
   return (
     <div>
-      <h3 className="font-display text-2xl text-cream-50 sm:text-[1.75rem]">{table.title}</h3>
-      <p className="as-kicker-invert mt-2">{table.subtitle}</p>
-      <div className="mt-5">
-        {table.items.map((item) => (
-          <PriceRow
-            key={item.name}
-            name={item.name}
-            note={item.note}
-            price={item.price}
-            tone="light"
-          />
-        ))}
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+        <h3 className="as-title text-ink">{table.title}</h3>
+        <p className="as-kicker">{table.subtitle}</p>
       </div>
-      {table.footnote && (
-        <p className="mt-5 max-w-md text-xs leading-relaxed text-cream-200/55">{table.footnote}</p>
-      )}
+      <div className="mt-4">
+        <PriceRows table={table} />
+      </div>
     </div>
   );
 }
 
+/* Telefon: cennik PMU zostaje otwarty, a tabele uzupełniające (refresh,
+   siedem stawek usuwania) są zwinięte w akordeon — ten sam <Faq> co w pytaniach.
+   Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie. */
+const faqOf = (table) => ({
+  q: `${table.title} — ${table.subtitle.toLowerCase()}`,
+  a: <PriceRows table={table} />,
+});
+const MOBILE_PRICE_FAQ = [faqOf(PRICING_REFRESH), faqOf(PRICING_REMOVAL)];
+
 function PricingBand() {
   return (
-    <section
-      id="cennik"
-      className="as-section relative scroll-mt-24 overflow-hidden bg-espresso-900 text-cream-50"
-    >
-      <GoldArc className="top-0 left-[6%] h-[760px] w-[900px]" opacity={0.22} />
-
-      <div className="as-shell relative">
-        <Reveal>
-          <SectionLabel number="04" tone="light">
-            Cennik
-          </SectionLabel>
-        </Reveal>
-
-        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-section">
+    <section id="cennik" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        {/* lg: nagłówek i usuwanie w lewej kolumnie, PMU + refresh w prawej od góry;
+            telefon: nagłówek → PMU → nota → akordeon (refresh, usuwanie) */}
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
+          <Reveal className="lg:col-start-1 lg:row-start-1">
+            <SectionLabel number="05">Cennik</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Jasne stawki,
               <br />
               bez gwiazdek.
             </h2>
-          </Reveal>
-          <Reveal delay={90} className="lg:col-span-5 lg:pt-1">
-            <p className="as-caption-invert">
+            <p className="as-body mt-6">
               Wszystkie zabiegi zawierają konsultację, architekturę twarzy oraz rysunek wstępny.
             </p>
           </Reveal>
-        </div>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="space-y-12">
-            <PriceBlock table={PRICING_PMU} />
-            <PriceBlock table={PRICING_REFRESH} />
-          </Reveal>
-          <Reveal delay={90}>
-            <PriceBlock table={PRICING_REMOVAL} />
-            <div className="mt-10">
-              <FactStrip
-                tone="light"
-                items={['Konsultacja', 'Architektura twarzy', 'Rysunek wstępny', 'Dobór koloru']}
-              />
-              <p className="mt-5 max-w-md text-xs leading-relaxed text-cream-200/55">
-                Charytatywna rekonstrukcja dla osób po chorobach onkologicznych — darmowa
-                konsultacja.
+          <div className="space-y-10 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+            <Reveal>
+              <PriceBlock table={PRICING_PMU} />
+            </Reveal>
+            <Reveal>
+              <div className="mb-6 hidden lg:block">
+                <PriceBlock table={PRICING_REFRESH} />
+              </div>
+              <p className="as-caption max-w-[30rem]">
+                Charytatywna rekonstrukcja dla osób po chorobach onkologicznych — darmowa konsultacja.
               </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={80} className="lg:col-start-1 lg:row-start-2">
+            <div className="hidden lg:block">
+              <PriceBlock table={PRICING_REMOVAL} />
             </div>
+            <Faq items={MOBILE_PRICE_FAQ} className="lg:hidden" />
           </Reveal>
         </div>
       </div>
@@ -616,65 +482,30 @@ function PricingBand() {
 }
 
 /* ================================================================== */
-/*  05 — FAQ                                                           */
+/*  06 — PYTANIA (cream-50)                                            */
 /* ================================================================== */
 
 function FaqBand() {
   return (
-    <section className="as-section bg-cream-100">
+    <section className="as-section border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
-        <Reveal>
-          <SectionLabel number="05">Pytania</SectionLabel>
-        </Reveal>
-
-        {/* nagłówek jak w pozostałych sekcjach strony: h2 (7/12) + zajawka (5/12);
-            dwa wiersze w .as-display-section — w kolumnie 4/12 „Zanim usiądziesz"
-            (459 px przy 60 px) łamało się na trzy */}
-        <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <Reveal className="lg:col-span-7">
-            <h2 className="as-display-section text-ink">
-              Zanim usiądziesz
-              <br />
-              w fotelu.
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
+            <SectionLabel number="06">Pytania</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">
+              Zanim usiądziesz w&nbsp;fotelu.
             </h2>
-          </Reveal>
-          <Reveal delay={80} className="lg:col-span-5 lg:pt-1">
-            <p className="as-caption">
-              Szczegółowe odpowiedzi na wątpliwości, które najczęściej słyszymy przed zabiegiem —
-              o technikę, kolor, ból i usuwanie.
+            <p className="as-body mt-6 hidden sm:block">
+              Odpowiedzi na wątpliwości, które najczęściej słyszymy przed zabiegiem — o technikę,
+              kolor, ból i usuwanie.
             </p>
           </Reveal>
-        </div>
-
-        <div className="mt-10 grid lg:grid-cols-12 lg:gap-12">
-          <Reveal delay={90} className="lg:col-span-8">
+          <Reveal delay={80} className="lg:col-span-8 lg:col-start-5">
             <Faq items={FAQ_ITEMS} />
           </Reveal>
         </div>
       </div>
     </section>
-  );
-}
-
-/* ================================================================== */
-/*  06 — WIZYTA (pas zamykający)                                       */
-/* ================================================================== */
-
-function ClosingBand() {
-  return (
-    <ClosingCta
-      number="06"
-      label="Wizyta"
-      title="Zacznijmy od"
-      titleAccent="konsultacji."
-      lead={`${CONTACT.venue} — ${CONTACT.city}. ${CONTACT.venueNote}. Napisz, co chcesz zmienić, a dobierzemy technikę i termin.`}
-      primary={{ href: '/kontakt', label: 'Umów wizytę' }}
-      secondary={{ href: '#cennik', label: 'Zobacz cennik' }}
-      photos={[
-        { image: STUDIO[1], alt: 'Andriana Babushkina — portret z sesji wizerunkowej AS Company', position: '50% 20%' },
-        { image: STUDIO[2], alt: 'Andriana Babushkina — sesja wizerunkowa AS Company', position: '50% 15%' },
-      ]}
-    />
   );
 }
 
@@ -711,26 +542,38 @@ export default function Treatments() {
         title="Zabiegi makijażu"
         titleAccent="permanentnego."
         lead="Specjalizujemy się w uzyskaniu najbardziej realistycznego, subtelnego efektu. Bez przerysowanych konturów, bez bólu i bez kompromisów."
-        image={STUDIO[6]}
-        imageAlt="Portret z sesji wizerunkowej AS Company"
+        image={ROLES.heroTreatments.image}
+        imagePosition={ROLES.heroTreatments.position}
+        imageAlt={`${FOUNDER.name} — ${FOUNDER.signature}`}
         tone="cream"
-        facts={['Konsultacja', 'Architektura twarzy', 'Rysunek wstępny']}
+        imageSide="left"
+        facts={HERO_FACTS}
       >
-        <div className="flex flex-wrap gap-4">
-          <a href="#zabiegi" className="as-btn-solid">
-            Zobacz zabiegi
-          </a>
-          <a href="#cennik" className="as-btn-ghost">
-            Cennik
-          </a>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+          <CtaButton href="/kontakt" className="as-btn-solid">
+            Umów wizytę
+          </CtaButton>
+          <ArrowLink href="#cennik" className="w-fit">
+            Zobacz cennik
+          </ArrowLink>
         </div>
       </PageHero>
 
-      <TreatmentsBand onBook={setSelectedTreatment} />
-      <SupportBand onBook={setSelectedTreatment} />
+      <TechniquesBand onBook={setSelectedTreatment} />
+      <ResultsBand />
+      <AftercareBand />
       <PricingBand />
       <FaqBand />
-      <ClosingBand />
+
+      <ClosingCta
+        number="07"
+        label="Wizyta"
+        title="Zacznijmy od"
+        titleAccent="konsultacji."
+        lead={`${CONTACT.venue} — ${CONTACT.city}. Napisz, co chcesz zmienić, a dobierzemy technikę i termin.`}
+        primary={{ href: '/kontakt', label: 'Umów wizytę' }}
+        secondary={{ href: '#cennik', label: 'Zobacz cennik' }}
+      />
 
       {/* ——— Rezerwacja — dialog na brandowych klasach z ui/dialog, pola <Field> ——— */}
       <Dialog open={!!selectedTreatment} onOpenChange={(open) => !open && setSelectedTreatment(null)}>
@@ -780,7 +623,7 @@ export default function Treatments() {
             />
 
             <DialogFooter>
-              <button type="submit" className="as-btn-gold">
+              <button type="submit" className="as-btn-solid">
                 Wyślij zapytanie
               </button>
               <button
