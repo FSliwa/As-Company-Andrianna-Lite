@@ -7,11 +7,24 @@
  * src/lib/pigments.js) — tu jest tylko prezentacja.
  */
 
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { cn } from '@/lib/utils';
 import { collectionLabel, formatCapacity, formatPrice, zoneLabel } from '@/lib/pigments';
 
 export const NBSP = '\u00a0';
+
+/* ---------------- ceny: aktualne czy do potwierdzenia ---------------- */
+
+/**
+ * `true`, gdy ceny w danych są starsze niż PRICE_MAX_AGE_DAYS (src/lib/pigments.js)
+ * — wtedy zamiast kwot piszemy „cena do potwierdzenia”, a suma się nie liczy.
+ * Wartość ustala widok /pigmenty (serwer przy renderze + przeglądarka po
+ * zamontowaniu), komponenty tylko ją czytają.
+ */
+export const PricesStaleContext = createContext(false);
+export const usePricesStale = () => useContext(PricesStaleContext);
+
+export const PRICE_TBC = 'cena do potwierdzenia';
 
 /* ---------------- tekst ---------------- */
 
@@ -30,9 +43,13 @@ export function seriesLabel(series) {
   return series.charAt(0) + series.slice(1).toLowerCase();
 }
 
-/** „AS OPIUM · Colors” — kolekcja i seria nad nazwą. */
+/** „AS OPIUM · Colors” — kolekcja i seria nad nazwą. Seria powtarzająca nazwę
+    kolekcji („AS Classic · Classic”) jest pomijana. */
 export function kickerFor(product) {
-  return [collectionLabel(product.collection), seriesLabel(product.series)].filter(Boolean).join(' · ');
+  const collection = collectionLabel(product.collection);
+  const series = seriesLabel(product.series);
+  const repeats = series && fold(collection).split(/\s+/).includes(fold(series));
+  return [collection, repeats ? null : series].filter(Boolean).join(' · ');
 }
 
 /** „Brwi · Usta · Kreski” */
@@ -94,20 +111,32 @@ export function PaletteStrip({ colors, className }) {
  *
  * Cena jak `priceLabel()` z src/lib/pigments.js („6 ml 149 zł · 15 ml 219 zł”),
  * tylko złożona w spany: pojemność Jost 13 px, kwota Bodoni 22 px, każda para
- * nie łamie się w środku. Bez cen przekreślonych i bez „promocji”.
+ * nie łamie się w środku. Kropka rozdzielająca stoi PRZED parą i jest przycięta,
+ * gdy para zaczyna wiersz (wąska komórka: bez wiszącej „·” na końcu linii).
+ * Bez cen przekreślonych i bez „promocji”. Ceny przeterminowane → „cena do
+ * potwierdzenia” (pojemności zostają).
  */
 export function PriceLine({ variants, showStock = false, className }) {
+  const stale = usePricesStale();
   if (!variants?.length) return null;
+  const labels = variants.filter((v) => v.label);
+  if (stale) {
+    return (
+      <p className={cn('text-[0.8125rem] leading-relaxed text-mocha', className)}>
+        {labels.length > 0 && `${labels.map((v) => formatCapacity(v.label)).join(' · ')} — `}
+        {PRICE_TBC}
+      </p>
+    );
+  }
   return (
-    <p className={cn('flex flex-wrap items-baseline gap-x-2 gap-y-1 text-ink', className)}>
-      {variants.map((v, i) => (
-        <React.Fragment key={v.sourceId}>
-          {i > 0 && (
-            <span aria-hidden="true" className="text-ink/40">
+    /* -ml-4 + overflow-hidden: kropka pary, która zaczyna wiersz, wypada poza kadr */
+    <div className={cn('overflow-hidden', className)}>
+      <p className="-ml-4 flex flex-wrap items-baseline gap-y-1 py-0.5 text-ink">
+        {variants.map((v) => (
+          <span key={v.sourceId} className="relative whitespace-nowrap pl-4">
+            <span aria-hidden="true" className="absolute left-[0.3rem] text-ink/40">
               ·
             </span>
-          )}
-          <span className="whitespace-nowrap">
             {v.label && <span className="mr-1.5 text-[0.8125rem] text-mocha">{formatCapacity(v.label)}</span>}
             <span className="font-display text-[1.375rem] leading-none">{formatPrice(v.price)}</span>
             {showStock && !v.inStock && (
@@ -117,9 +146,9 @@ export function PriceLine({ variants, showStock = false, className }) {
               </span>
             )}
           </span>
-        </React.Fragment>
-      ))}
-    </p>
+        ))}
+      </p>
+    </div>
   );
 }
 
@@ -131,6 +160,7 @@ export function PriceLine({ variants, showStock = false, className }) {
  * pada zdanie, której butelki brakuje.
  */
 export function VariantPicker({ product, value, onChange, name, showPrice = false, note = true, className }) {
+  const stale = usePricesStale();
   return (
     <fieldset className={className}>
       <legend className="sr-only">Pojemność — {product.name}</legend>
@@ -159,7 +189,7 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
                 )}
               >
                 {formatCapacity(v.label)}
-                {showPrice && <span className="opacity-80">· {formatPrice(v.price)}</span>}
+                {showPrice && !stale && <span className="opacity-80">· {formatPrice(v.price)}</span>}
                 {!v.inStock && <span className="sr-only"> — brak w magazynie</span>}
               </span>
             </label>

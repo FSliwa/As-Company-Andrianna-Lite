@@ -12,12 +12,16 @@ import { isBookingEnabled } from '@/lib/booking/provider';
    i klucz witryny Cloudflare Turnstile, jeśli jest skonfigurowany. */
 export const dynamic = 'force-dynamic';
 
-export const metadata = pageMeta({
-  title: 'Umów wizytę',
-  description:
-    'Rezerwacja online w Babushkina Academy, Warszawa — wybierz zabieg makijażu permanentnego brwi, ust lub kresek, dzień i godzinę wizyty.',
-  path: '/umow-wizyte',
-});
+/* Bez skonfigurowanego kalendarza strona pokazuje tylko komunikat — noindex. */
+export function generateMetadata() {
+  return pageMeta({
+    title: 'Umów wizytę',
+    description:
+      'Rezerwacja online w Babushkina Academy, Warszawa — wybierz zabieg makijażu permanentnego brwi, ust lub kresek, dzień i godzinę wizyty.',
+    path: '/umow-wizyte',
+    noindex: !isBookingEnabled(),
+  });
+}
 
 export default function Page() {
   const enabled = isBookingEnabled();

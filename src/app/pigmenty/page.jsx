@@ -1,9 +1,11 @@
 import Pigments from '@/views/Pigments';
 import { pageMeta } from '@/lib/seo';
-import { stats } from '@/lib/pigments';
+import { pricesExpired, stats } from '@/lib/pigments';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim.
-   Liczby w opisie z danych katalogu (src/data/pigments.json). */
+   Liczby w opisie z danych katalogu (src/data/pigments.json).
+   `pricesStale` — czy ceny były już przeterminowane w chwili renderu
+   (build); widok sprawdza to ponownie w przeglądarce. */
 const s = stats();
 const full = `Katalog ${s.shades} odcieni i ${s.sets} zestawów pigmentów PMU w ${s.collections} kolekcjach — AS OPIUM, Light Minerals, AS Classic. Ceny, pojemności i zamówienie przez zapytanie.`;
 const short = `Katalog ${s.shades} odcieni pigmentów PMU: AS OPIUM, Light Minerals, AS Classic. Ceny, pojemności i zamówienie przez zapytanie.`;
@@ -15,5 +17,5 @@ export const metadata = pageMeta({
 });
 
 export default function Page() {
-  return <Pigments />;
+  return <Pigments pricesStale={pricesExpired()} />;
 }

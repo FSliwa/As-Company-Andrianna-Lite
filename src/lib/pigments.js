@@ -2,23 +2,26 @@
  * Katalog pigmentów — czyste funkcje nad src/data/pigments.json.
  *
  * Dane pochodzą WYŁĄCZNIE z publicznego Store API sklepu klienta (WooCommerce,
- * kategoria „Pigmenty”) i są odświeżane skryptem:
+ * kategoria „Pigmenty” + pigmenty spoza niej — zob. ZAKRES w skrypcie) i są
+ * odświeżane skryptem:
  *
  *   node scripts/sync-pigments.mjs
  *
- * Nie dopisujemy tu niczego ręcznie. Ceny są w groszach (PLN), `price` to cena
- * BIEŻĄCA ze sklepu. `regularPrice` jest w danych tylko do wiedzy — strona jej
- * NIE pokazuje (brak najniższej ceny z 30 dni, Omnibus), więc tu nie ma do niej
- * formatera.
+ * Nie dopisujemy tu niczego ręcznie. Ten plik trafia do paczki JS przeglądarki,
+ * więc skrypt zapisuje w nim tylko pola, które strona pokazuje. Ceny są
+ * w groszach (PLN); `price` to cena BIEŻĄCA ze sklepu. Ceny regularnej i flagi
+ * promocji tu NIE MA (są w scripts/pigments-sync-meta.json, tylko do wiedzy) —
+ * strona nie pokazuje przekreśleń ani „promocji” (brak najniższej ceny z 30 dni,
+ * Omnibus).
  *
  * `color` to odcień POGLĄDOWY wyznaczony z miniatury produktu (analiza lokalna;
  * zdjęć sklepu nie publikujemy) — `null`, gdy nie dało się go wiarygodnie ustalić
- * (zestawy, biały pigment). `colorMeta` w JSON służy tylko synchronizacji.
+ * (zestawy, biały pigment).
  *
  * Kształt produktu:
  *   { id, sourceId, name, fullName, collection, series, isSet, zones[],
- *     variants: [{ label, price, regularPrice, inStock, sourceId }],
- *     shortDesc, description, inStock, onSale, color, syncedAt }
+ *     variants: [{ label, price, inStock, sourceId }],
+ *     shortDesc, description, inStock, color }
  */
 
 import data from '@/data/pigments.json';
@@ -33,7 +36,22 @@ export const ZONES = data.zones;
 /** Data synchronizacji z API sklepu (ISO). */
 export const SYNCED_AT = data.syncedAt;
 
-/** Kolekcje: [{ id, name, count, shades, sets, zones[] }] (opis tylko, gdy sklep go ma). */
+/**
+ * Ile dni po synchronizacji ceny uznajemy za aktualne. Starsze → strona
+ * zamiast kwot pisze „cena do potwierdzenia” (sklep prowadzi akcje czasowe,
+ * a Store API nie podaje ich końca). WARTOŚĆ DO POTWIERDZENIA Z KLIENTEM;
+ * przy automatycznej synchronizacji (np. codziennej) nigdy nie zadziała.
+ */
+export const PRICE_MAX_AGE_DAYS = 14;
+
+/** Czy ceny z danych są starsze niż PRICE_MAX_AGE_DAYS (albo data jest nieczytelna). */
+export function pricesExpired(now = Date.now(), catalog = data) {
+  const synced = new Date(catalog.syncedAt).getTime();
+  if (!Number.isFinite(synced)) return true;
+  return now - synced > PRICE_MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
+}
+
+/** Kolekcje: [{ id, name, count, shades, sets, zones[] }]. */
 export function collections(catalog = data) {
   return catalog.collections;
 }
@@ -162,8 +180,9 @@ export function findVariant(product, label = null) {
 /**
  * Podsumowanie listy „Twoje zamówienie”.
  * @param {Array<{ productId: string|number, label?: string|null, qty: number }>} entries
- * @returns {{ lines: Array<{ product, variant, qty, total: number, text: string }>, total: number, count: number }}
- *   `text` np. „Japanese Garden (AS OPIUM), 6 ml × 2 — 298 zł”. Pozycje nieznane są pomijane.
+ * @returns {{ lines: Array<{ product, variant, qty, total: number, item: string, text: string }>, total: number, count: number }}
+ *   `item` np. „Japanese Garden (AS OPIUM), 6 ml × 2” (bez ceny), `text` = `item` + „ — 298 zł”.
+ *   Pozycje nieznane są pomijane.
  */
 export function orderSummary(entries, catalog = data) {
   const lines = [];
@@ -179,7 +198,8 @@ export function orderSummary(entries, catalog = data) {
     ]
       .filter(Boolean)
       .join(', ');
-    lines.push({ product, variant, qty, total, text: `${what} × ${qty} — ${formatPrice(total)}` });
+    const item = `${what} × ${qty}`;
+    lines.push({ product, variant, qty, total, item, text: `${item} — ${formatPrice(total)}` });
   }
   return {
     lines,
