@@ -58,7 +58,7 @@ import { SlotGrid, TakenNotice } from '@/components/booking/SlotGrid';
 import { Step } from '@/components/booking/Step';
 import { TreatmentPicker } from '@/components/booking/TreatmentPicker';
 import { Turnstile } from '@/components/booking/Turnstile';
-import { BOOKING_CONFIG, getTreatment } from '@/lib/booking/config';
+import { BOOKING_CONFIG, getTreatment, shownDurationMin } from '@/lib/booking/config';
 import { bookingSchema } from '@/lib/booking/schema';
 import { bookingWindow, workingHoursFor } from '@/lib/booking/slots';
 import { CONTACT } from '@/lib/site';
@@ -590,7 +590,11 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
     ? 'Najpierw wybierz zabieg – pokażemy dni z wolnymi godzinami.'
     : `Rezerwacja najpóźniej ${minLeadHours} ${plural(minLeadHours, 'godzinę', 'godziny', 'godzin')} przed wizytą, do ${maxDaysAhead} dni naprzód.${countsNote}`;
   const timeCaption =
-    [t ? `Godzina rozpoczęcia wizyty. ${t.name} trwa do ${t.durationMin} min.` : null, foreignZone ? SALON_TIME_NOTE : null]
+    /* D6: czas zabiegu tylko, gdy ma źródło (shownDurationMin) – robocze czasy nie są faktem dla klientki. */
+    [
+      t ? `Godzina rozpoczęcia wizyty.${shownDurationMin(t) ? ` ${t.name} trwa do ${shownDurationMin(t)} min.` : ''}` : null,
+      foreignZone ? SALON_TIME_NOTE : null,
+    ]
       .filter(Boolean)
       .join(' ') || undefined;
 
@@ -755,8 +759,10 @@ export default function BookAppointment({ initialEnabled = true, formToken = nul
     panelRef.current?.focus({ preventScroll: true });
   }, [panelFocus]);
 
+  /* D6 (Z15): „konsultacja” bez źródła – zostaje to, co podaje brief (FAQ: rysunek wstępny
+     dopasowany do architektury twarzy; usuwanie go nie wymaga, stąd „przed każdą pigmentacją”). */
   const lead =
-    'Każdy zabieg zaczyna się od konsultacji, architektury twarzy i rysunku wstępnego.' +
+    'Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury twarzy.' +
     (enabled && !booking ? ' Wybierz zabieg, dzień i godzinę – wizyta trafi od razu do kalendarza salonu.' : '');
 
   return (

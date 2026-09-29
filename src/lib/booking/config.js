@@ -36,9 +36,9 @@ export const BOOKING_CONFIG = Object.freeze({
    * dwiema pozycjami w kalendarzu zawsze jest co najmniej `bufferMin` wolnego.
    */
   bufferMin: 15,
-  /** Najwcześniejszy termin: teraz + N godzin. */
+  /** Najwcześniejszy termin: teraz + N godzin. ⚠️ DO POTWIERDZENIA przez klientkę (reguła robocza). */
   minLeadHours: 24,
-  /** Najpóźniejszy dzień: dzisiaj (czas salonu) + N dni kalendarzowych. */
+  /** Najpóźniejszy dzień: dzisiaj (czas salonu) + N dni kalendarzowych. ⚠️ DO POTWIERDZENIA przez klientkę. */
   maxDaysAhead: 60,
   workingHours: WORKING_HOURS,
   /**
@@ -91,46 +91,92 @@ export const BOOKING_CONFIG = Object.freeze({
 
 /* ---------------- ceny z cenników site.js ---------------- */
 
-function findPrice(pricing, name) {
-  const item = pricing.items.find((i) => i.name === name);
+/** Cena pozycji cennika po stałym `id` (nazwy widoczne mogą się zmieniać – D2). */
+function findPrice(pricing, id) {
+  const item = pricing.items.find((i) => i.id === id);
   return item ? item.price : null;
 }
 
-/** Najniższa kwota z cennika → „od 850 zł”. */
+/**
+ * Najniższa kwota z cennika → „od 850 zł”. D5: pomija stawki tylko dla naszych klientek
+ * (`forOwnClients`) – np. „Usuwanie brwi dla moich klientek 100 zł” nie może udawać
+ * ceny wyjściowej dla wszystkich; ta stawka idzie osobno do `priceNote`.
+ */
 function priceFrom(pricing) {
   const values = pricing.items
+    .filter((i) => !i.forOwnClients)
     .map((i) => Number(String(i.price).replace(/[^\d]/g, '')))
     .filter((n) => Number.isFinite(n) && n > 0);
   return values.length ? `od ${Math.min(...values)} zł` : null;
 }
 
+/** „100 zł – usuwanie brwi dla naszych klientek” (D5) albo null, gdy cennik nie ma takiej pozycji. */
+function ownClientsNote(pricing) {
+  const item = pricing.items.find((i) => i.forOwnClients);
+  if (!item) return null;
+  return `${item.price} – ${item.name.replace(/^Usuwanie/, 'usuwanie').replace(/moich klientek/, 'naszych klientek')}`;
+}
+
+/** Podpis techniki z cennika (brief), np. „Pigmentacja linii rzęs” przy Perfect Eyes. */
+function techniqueOf(id) {
+  const item = PRICING_PMU.items.find((i) => i.id === id);
+  return item && item.technique ? item.technique : null;
+}
+
+const KOREKTA = PRICING_PMU.items.find((i) => i.id === 'korekta');
+
 /**
- * Zabiegi dostępne w rezerwacji online. `durationMin` = czas blokady w kalendarzu
- * (górna granica z karty /uslugi). Każdy zabieg zawiera konsultację, architekturę
- * twarzy i rysunek wstępny – osobnej „konsultacji” nie oferujemy.
+ * Zabiegi dostępne w rezerwacji online.
+ *
+ * `id` – STAŁE (parametr ?zabieg=, zapisy w kalendarzu); D2 zmienia tylko nazwy widoczne:
+ * 'perfect-powder-brows' → „Perfect Brows”, 'perfect-eyeliners' → „Perfect Eyes”.
+ *
+ * `durationMin` – czas blokady w kalendarzu. ⚠️ DO POTWIERDZENIA przez klientkę: wartości
+ * robocze z poprzedniej wersji strony, bez źródła – z wyjątkiem Super Natural Brows (brief:
+ * Andriana wykonuje włos maszynowy w 1,5–2 godziny → 120 min). Tylko czasy ze źródłem mają
+ * `durationConfirmed: true` i tylko te UI rezerwacji pokazuje klientce (D6); pozostałe służą
+ * wyłącznie do liczenia slotów i blokady w kalendarzu salonu.
+ *
+ * `hint` – podpis techniki z briefu pod nazwą na liście wyboru.
  */
 export const TREATMENTS = Object.freeze(
   [
-    { id: 'super-natural-brows', name: 'Super Natural Brows', durationMin: 120, price: findPrice(PRICING_PMU, 'Super Natural Brows') },
-    { id: 'perfect-powder-brows', name: 'Perfect Powder Brows', durationMin: 120, price: findPrice(PRICING_PMU, 'Perfect Powder Brows') },
-    { id: 'perfect-lips', name: 'Perfect Lips', durationMin: 120, price: findPrice(PRICING_PMU, 'Perfect Lips') },
-    { id: 'perfect-eyeliners', name: 'Perfect Eyeliners', durationMin: 90, price: findPrice(PRICING_PMU, 'Perfect Eyeliners') },
-    { id: 'korekta', name: 'Korekta do 3 miesięcy', durationMin: 60, price: findPrice(PRICING_PMU, 'Korekta do 3 miesięcy') },
+    {
+      id: 'super-natural-brows',
+      name: 'Super Natural Brows',
+      hint: techniqueOf('super-natural-brows'),
+      durationMin: 120,
+      durationConfirmed: true,
+      price: findPrice(PRICING_PMU, 'super-natural-brows'),
+    },
+    { id: 'perfect-powder-brows', name: 'Perfect Brows', hint: techniqueOf('perfect-powder-brows'), durationMin: 120, price: findPrice(PRICING_PMU, 'perfect-powder-brows') },
+    { id: 'perfect-lips', name: 'Perfect Lips', hint: techniqueOf('perfect-lips'), durationMin: 120, price: findPrice(PRICING_PMU, 'perfect-lips') },
+    { id: 'perfect-eyeliners', name: 'Perfect Eyes', hint: techniqueOf('perfect-eyeliners'), durationMin: 90, price: findPrice(PRICING_PMU, 'perfect-eyeliners') },
+    {
+      id: 'korekta',
+      name: KOREKTA.name,
+      durationMin: 60,
+      price: KOREKTA.price,
+      /* D5: termin korekty z briefu. */
+      priceNote: KOREKTA.timing,
+    },
     {
       id: 'odswiezenie',
       name: 'Odświeżenie (Refresh)',
       durationMin: 90,
       price: priceFrom(PRICING_REFRESH),
-      priceNote: 'Cena zależy od czasu od ostatniego zabiegu',
+      /* D5: warunek z grafiki przy każdej cenie odświeżenia. */
+      priceNote: `${PRICING_REFRESH.condition}. Cena zależy od czasu od ostatniego zabiegu`,
     },
     {
       id: 'usuwanie',
       name: 'Usuwanie – laser / remover',
       durationMin: 45,
+      /* D5: cena dla wszystkich („od 200 zł”), stawka 100 zł tylko z warunkiem. */
       price: priceFrom(PRICING_REMOVAL),
-      priceNote: 'Cena zależy od strefy i wielkości',
+      priceNote: ['Cena zależy od strefy i wielkości', ownClientsNote(PRICING_REMOVAL)].filter(Boolean).join('. '),
     },
-  ].map((t) => Object.freeze(t))
+  ].map((t) => Object.freeze({ durationConfirmed: false, ...t }))
 );
 
 export const TREATMENT_IDS = Object.freeze(TREATMENTS.map((t) => t.id));
@@ -138,6 +184,14 @@ export const TREATMENT_IDS = Object.freeze(TREATMENTS.map((t) => t.id));
 /** @param {string} id */
 export function getTreatment(id) {
   return TREATMENTS.find((t) => t.id === id) || null;
+}
+
+/**
+ * Czas zabiegu do pokazania klientce – tylko potwierdzony źródłem (D6), inaczej null.
+ * @param {{ durationMin: number, durationConfirmed?: boolean } | null | undefined} treatment
+ */
+export function shownDurationMin(treatment) {
+  return treatment && treatment.durationConfirmed ? treatment.durationMin : null;
 }
 
 /** Adres salonu do wydarzenia i pliku .ics (tylko pola, które są uzupełnione w site.js). */

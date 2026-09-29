@@ -21,17 +21,17 @@ const ROOT_META = {
   pl: {
     title: 'Makijaż permanentny Warszawa i szkolenia PMU | AS COMPANY',
     description:
-      'Makijaż permanentny brwi, ust i kresek w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS PMU.',
+      'Makijaż permanentny brwi, ust i linii rzęs w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS COMPANY.',
   },
   en: {
     title: 'Permanent makeup in Warsaw and PMU training | AS COMPANY',
     description:
-      'Permanent makeup for brows, lips and eyeliner in Warsaw, and Super Natural Brows training at Babushkina Academy. AS PMU pigments and machines.',
+      'Permanent makeup for brows, lips and lash line in Warsaw, and Super Natural Brows training at Babushkina Academy. AS COMPANY pigments and machines.',
   },
   ru: {
     title: 'Перманентный макияж в Варшаве и обучение ПМ | AS COMPANY',
     description:
-      'Перманентный макияж бровей, губ и стрелок в Варшаве и обучение Super Natural Brows в Babushkina Academy. Пигменты и машинки AS PMU.',
+      'Перманентный макияж бровей, губ и межресничной линии в Варшаве и обучение Super Natural Brows в Babushkina Academy. Пигменты и машинки AS COMPANY.',
   },
 };
 

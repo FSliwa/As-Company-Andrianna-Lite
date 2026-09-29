@@ -24,7 +24,21 @@
  *     shortDesc, description, inStock, color }
  */
 
-import data from '@/data/pigments.json';
+import raw from '@/data/pigments.json';
+
+/* Myślnik: w danych ze sklepu bywa długi (U+2014); na stronie zawsze półpauza „–” (decyzja Filipa
+   z 29.09). Zamieniamy przy odczycie, nie w pliku – tłumaczenia opisów (pigments.i18n.json)
+   są przypięte do skrótu polskiego tekstu z pliku, więc plik zostaje taki, jak ze sklepu. */
+const EM_DASH = /\u2014/g;
+function withEnDash(value) {
+  if (typeof value === 'string') return value.replace(EM_DASH, '\u2013');
+  if (Array.isArray(value)) return value.map(withEnDash);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, withEnDash(v)]));
+  }
+  return value;
+}
+const data = withEnDash(raw);
 
 const NBSP = ' ';
 

@@ -75,7 +75,8 @@ export function siteJsonLd(locale = DEFAULT_LOCALE) {
         '@type': 'Person',
         '@id': `${SITE_URL}/#founder`,
         name: FOUNDER.name,
-        jobTitle: FOUNDER.role,
+        // D7: rola po polsku wg briefu (serwis pl-PL)
+        jobTitle: FOUNDER.rolePl,
         description: FOUNDER.signature,
         sameAs: [CONTACT.instagram],
         worksFor: { '@id': `${SITE_URL}/#organization` },
@@ -92,8 +93,14 @@ export function siteJsonLd(locale = DEFAULT_LOCALE) {
   };
 }
 
+/**
+ * Kursy (D4): wszystkie pozycje COURSES – także nowe z briefu. Wyłącznie pola ze źródeł:
+ *  - offers tylko przy kursie z ceną („Szyty na miarę” nie ma ceny → bez offers),
+ *  - VAT: valueAddedTaxIncluded: false tylko tam, gdzie plakat podaje „netto”
+ *    (dawne `category: 'netto'` nie było dla wyszukiwarek informacją o podatku),
+ *  - courseMode z pola `mode` ('blended' | 'online'); brak trybu w źródle → bez courseMode.
+ */
 export function coursesJsonLd(locale = DEFAULT_LOCALE) {
-  /* kwota zawsze z danych polskich (liczba), opisy w języku strony */
   const price = (p) => String(p).replace(/[^0-9]/g, '');
   const plCourses = getSite(DEFAULT_LOCALE).COURSES;
   const { COURSES } = getSite(locale);
@@ -101,18 +108,38 @@ export function coursesJsonLd(locale = DEFAULT_LOCALE) {
     '@context': 'https://schema.org',
     '@graph': COURSES.map((c, i) => ({
       '@type': 'Course',
-      name: c.title,
+      name: c.fullTitle || c.title,
       description: c.lead,
       inLanguage: LOCALE_META[locale].intl,
       provider: { '@id': `${SITE_URL}/#organization` },
-      offers: {
-        '@type': 'Offer',
-        price: price(plCourses[i].price),
-        priceCurrency: 'PLN',
-        category: c.priceNote,
-        url: `${SITE_URL}${localePath(ROUTES.training, locale)}`,
+      ...(c.level ? { educationalLevel: c.level } : {}),
+      ...(c.requirements ? { coursePrerequisites: c.requirements } : {}),
+      ...(plCourses[i].price
+        ? {
+            offers: {
+              '@type': 'Offer',
+              // cena, „netto” i id zawsze z danych PL (w EN/RU priceNote jest przetłumaczone)
+              price: price(plCourses[i].price),
+              priceCurrency: 'PLN',
+              ...(plCourses[i].priceNote === 'netto'
+                ? {
+                    priceSpecification: {
+                      '@type': 'PriceSpecification',
+                      price: price(plCourses[i].price),
+                      priceCurrency: 'PLN',
+                      valueAddedTaxIncluded: false,
+                    },
+                  }
+                : {}),
+              url: `${SITE_URL}${localePath('/szkolenia', locale)}#program-${plCourses[i].id}`,
+            },
+          }
+        : {}),
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        ...(plCourses[i].mode ? { courseMode: plCourses[i].mode } : {}),
+        description: c.format,
       },
-      hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'blended', description: c.format },
     })),
   };
 }

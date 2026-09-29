@@ -9,7 +9,7 @@ import { forwardRef, useEffect, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ArrowLink } from '@/components/as/Primitives';
 import { ROUTES } from '@/i18n/routes';
-import { SALON_LOCATION, getTreatment } from '@/lib/booking/config';
+import { SALON_LOCATION, getTreatment, shownDurationMin } from '@/lib/booking/config';
 import { buildBookingIcs, icsFileName } from '@/lib/booking/ics';
 import { CONTACT } from '@/lib/site';
 import { SALON_TIME_NOTE, browserTimeZoneDiffers, formatDateLong, formatDuration } from './format';
@@ -87,14 +87,16 @@ export const BookingDone = forwardRef(function BookingDone({ booking }, headingR
         <dl className="min-w-0 border-b border-ink/15 lg:col-span-5 lg:col-start-8 lg:self-end">
           <Row label="Zabieg">{t ? t.name : booking.treatment}</Row>
           <Row label="Termin">
-            {formatDateLong(date, { year: true })}, {from}–{to}
+            {/* D6: godzina końca tylko przy czasie potwierdzonym źródłem */}
+            {formatDateLong(date, { year: true })}, {from}
+            {shownDurationMin(t) ? `–${to}` : ''}
             {foreignZone && (
               <span className="mt-1 block text-[0.8125rem] leading-snug text-mocha">
                 {SALON_TIME_NOTE} Plik .ics doda wizytę w czasie Twojego urządzenia.
               </span>
             )}
           </Row>
-          {t && <Row label="Czas">{formatDuration(t.durationMin)}</Row>}
+          {shownDurationMin(t) && <Row label="Czas">{formatDuration(shownDurationMin(t))}</Row>}
           {t && t.price && (
             <Row label="Cena">
               {t.price}

@@ -15,11 +15,25 @@
  * `sendEnquiry` na fetch('/api/...') – reszta kodu się nie zmienia.
  */
 
-import { CONTACT } from '@/lib/site';
+import { CONTACT, COURSES } from '@/lib/site';
 import { LEGAL_PUBLISHED } from '@/lib/legal';
 
 /** Formularze przekazują dane (mailto) – jest adres i klauzula informacyjna. */
 export const ENQUIRY_LIVE = Boolean(CONTACT.email) && LEGAL_PUBLISHED;
+
+/**
+ * Opcje pola „Szkolenie” w zapytaniu o kurs (D4) – wszystkie kursy z briefu, w kolejności
+ * COURSES (nowe na końcu). `value` = pełna nazwa kursu (trafia do tematu wiadomości),
+ * `id` = COURSES[].id (preselekcja z karty kursu), `cta` = etykieta przycisku z danych kursu
+ * („Zapytaj o termin” / „Zapytaj o dostęp”), `requiresContact` = rezerwacja po wstępnym kontakcie.
+ */
+export const COURSE_ENQUIRY_OPTIONS = COURSES.map((c) => ({
+  id: c.id,
+  value: c.fullTitle || c.title,
+  label: c.fullTitle || c.title,
+  cta: c.cta,
+  requiresContact: Boolean(c.requiresContact),
+}));
 
 export const ENQUIRY_STATUS = {
   MAIL_OPENED: 'mail-opened',
