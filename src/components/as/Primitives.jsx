@@ -99,6 +99,8 @@ function buildSrcSet(webp) {
  *              zamiast na nim świecić (jak w makiecie); domyślnie bez korekty
  *  - sizes     atrybut sizes; bez niego przeglądarka zakłada 100vw i pobiera
  *              największy wariant
+ *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) —
+ *              dla pasów pełnej szerokości (Statement)
  */
 export function Figure({
   image,
@@ -112,19 +114,21 @@ export function Figure({
   sizes = DEFAULT_SIZES,
   position,
   tone = 'none',
+  fill = false,
 }) {
   if (!image) return null;
   const srcSet = buildSrcSet(image.webp);
   return (
-    <div className={cn(framed && 'as-frame', className)}>
+    <div className={cn(framed && 'as-frame', fill && 'absolute inset-0', className)}>
       <div
         className={cn(
           'as-media',
+          fill && 'h-full w-full',
           zoom && 'as-media-zoom',
           tone === 'dark' && 'as-media-dark',
           tone === 'light' && 'as-media-light'
         )}
-        style={{ aspectRatio: ratio }}
+        style={fill ? undefined : { aspectRatio: ratio }}
       >
         <picture>
           {srcSet && <source type="image/webp" srcSet={srcSet} sizes={sizes} />}
@@ -581,7 +585,7 @@ function ClosingPhotos({ photos }) {
     <div className="grid grid-cols-2 gap-3">
       {photos.slice(0, 2).map((ph, i) => (
         <Figure
-          key={ph.alt || i}
+          key={(ph.image && ph.image.src) || i}
           image={ph.image}
           alt={ph.alt}
           ratio="3 / 4"
@@ -656,5 +660,104 @@ export function Faq({ items, className }) {
         </AccordionItem>
       ))}
     </Accordion>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Pas „statement" — jeden wielki portret na całą szerokość i jedno   */
+/*  zdanie. Moment strony; jeden na trasę.                             */
+/* ------------------------------------------------------------------ */
+
+export function Statement({
+  image,
+  alt,
+  position = '50% 20%',
+  number,
+  label,
+  title,
+  titleAccent,
+  lead,
+  cta,
+  align = 'left',
+  className,
+}) {
+  const right = align === 'right';
+  return (
+    <section
+      className={cn(
+        'relative flex min-h-[80svh] items-end overflow-hidden bg-espresso-900 text-cream-50',
+        className
+      )}
+    >
+      <Figure image={image} alt={alt} position={position} tone="dark" zoom={false} fill sizes="100vw" />
+      {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          'absolute inset-0',
+          right
+            ? 'bg-gradient-to-l from-espresso-900/85 via-espresso-900/40 to-transparent'
+            : 'bg-gradient-to-r from-espresso-900/85 via-espresso-900/40 to-transparent'
+        )}
+      />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-espresso-900/70 to-transparent" />
+      <div className="as-shell relative w-full pb-16 pt-40 lg:pb-24 lg:pt-56">
+        <Reveal className={cn('max-w-xl', right && 'ml-auto')}>
+          {label && (
+            <SectionLabel number={number} tone="light">
+              {label}
+            </SectionLabel>
+          )}
+          <h2 className="as-display-lg as-text-balance mt-6">
+            {title}
+            {titleAccent && (
+              <>
+                {' '}
+                <span className="italic text-gold-light">{titleAccent}</span>
+              </>
+            )}
+          </h2>
+          {lead && <p className="as-body-invert mt-6 max-w-md">{lead}</p>}
+          {cta && (
+            <ArrowLink href={cta.href} tone="light" className="mt-8 w-fit">
+              {cta.label}
+            </ArrowLink>
+          )}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Pasek efektów — makra brwi/ust w kontrolowanej formie: małe,       */
+/*  jednolite kadry, hairline, bez mgiełki. Jedyne miejsce dla makr.   */
+/* ------------------------------------------------------------------ */
+
+export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, caption, className }) {
+  /* tone = ton SEKCJI, w której stoi pasek: 'dark' (espresso/mocha) albo 'light' (krem) */
+  const onDark = tone === 'dark';
+  const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
+  return (
+    <div className={className}>
+      <ul className={cn('grid gap-1', grid)}>
+        {items.map((it, i) => (
+          <li key={(it.image && it.image.src) || i} className="border border-gold/35 p-1">
+            <Figure
+              image={it.image}
+              alt={it.alt}
+              ratio={ratio}
+              position={it.position || '50% 45%'}
+              tone={onDark ? 'dark' : 'light'}
+              sizes="(min-width: 768px) 16vw, 33vw"
+            />
+            {it.caption && (
+              <p className={cn('mt-2 px-1 pb-1', onDark ? 'as-caption-invert' : 'as-caption')}>{it.caption}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+      {caption && <p className={cn('mt-3', onDark ? 'as-caption-invert' : 'as-caption')}>{caption}</p>}
+    </div>
   );
 }

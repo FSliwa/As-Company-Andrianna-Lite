@@ -324,6 +324,13 @@ function AboutBand() {
 
           {/* trzy kadry — jak w makiecie: cienka złota ramka wokół trójki, odstępy ~4 px */}
           <div className="lg:col-span-8">
+            {/* dopisek z makiety — nad ramką, do prawej; nie nachodzi na kadry */}
+            <Reveal className="mb-5 flex items-center justify-end gap-4">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-gold/40" aria-hidden="true">
+                <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+              </span>
+              <p className="font-display text-sm italic text-cream-100">Narzędzia. Wiedza. Techniki. Realne efekty.</p>
+            </Reveal>
             <div className="as-photo-frame grid gap-1 sm:grid-cols-3">
               {shots.map((s, i) => (
                 <Reveal key={i} delay={i * 90}>
@@ -363,22 +370,6 @@ function AboutBand() {
           </div>
         </div>
 
-        {/* dopisek — w makiecie stoi przy zdjęciach u góry, nie jako osobny wiersz */}
-        {/* right-14 = padding as-shell na lg; right-0 liczyłoby się od krawędzi paddingu i wchodziło w margines */}
-        <Reveal className="mt-8 flex items-center justify-end gap-5 lg:absolute lg:right-14 lg:top-0 lg:mt-0">
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-gold/40" aria-hidden="true">
-            <span className="h-2 w-2 rounded-full bg-gold" />
-          </span>
-          <p className="font-display text-sm italic leading-[1.65] text-cream-100">
-            Narzędzia.
-            <br />
-            Wiedza.
-            <br />
-            Techniki.
-            <br />
-            Realne efekty.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

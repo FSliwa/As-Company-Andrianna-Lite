@@ -287,8 +287,10 @@
      i mniej nasycone niż na kremie — siedzą w tle, nie świecą na nim.
      Mierzone: średnia luminancja moich zdjęć 107–170 przy tle 46 (espresso)
      i 90 (mocha). Filtr ściąga je o ok. 20–25% w dół. */
+  /* Kinowy, ciepły grading: portret siada w pasie espresso zamiast na nim leżeć
+     (porównanie trzech wariantów na studio-08 i academy-04: b.72 c1.12 s.8 sepia.22). */
   .as-media-dark img {
-    filter: brightness(0.8) contrast(1.05) saturate(0.9);
+    filter: brightness(0.74) contrast(1.12) saturate(0.8) sepia(0.22);
   }
 
   /* Ton jasnych (kremowych) sekcji. Makra skóry są 2× bardziej nasycone
@@ -296,17 +298,10 @@
      (cel: L≈166, nasycenie ≈27%; moje kadry: L 99–131, sat 47–55%).
      Filtr ściąga nasycenie i podnosi jasność, a kremowa „mgła" (22%)
      wtapia krawędzie kadru w tło — po tym L 140–165, sat 25–32%. */
+  /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) — tylko lekkie
+     zdjęcie nasycenia, żeby skóra nie była pomarańczowa na tle kremu. */
   .as-media-light img {
-    filter: saturate(0.72) brightness(1.12) contrast(0.92);
-  }
-
-  .as-media-light::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: #f6f1e8;
-    opacity: 0.22;
-    pointer-events: none;
+    filter: saturate(0.85) brightness(1.02);
   }
 
   /* ——— Numerowane pozycje 01 / 02 / 03 ——— */
