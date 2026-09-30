@@ -73,6 +73,7 @@ import {
 import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { COURSE_ENQUIRY_OPTIONS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
@@ -967,7 +968,8 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
             {/* legenda i klauzula PRZED stopką – stopka jest ostatnia w <form>, więc
                 przyklejona do dołu panelu nie zasłania ich na końcu formularza */}
             <div className="space-y-2">
-              <RequiredLegend />
+              {/* FormNotice zawiera już zdanie o polach wymaganych */}
+              {!LEGAL_PUBLIC && <RequiredLegend />}
               <FormNotice />
             </div>
 

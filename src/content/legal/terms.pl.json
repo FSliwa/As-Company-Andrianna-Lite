@@ -1,7 +1,8 @@
 {
   "slug": "regulamin",
   "title": "Regulamin serwisu",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
+  "effective": null,
   "intro": "Ten regulamin opisuje, jak działa strona {siteUrl}: co możesz na niej zrobić, jak przebiega rezerwacja wizyty online i jak zgłosić problem. Korzystanie ze strony jest bezpłatne i nie wymaga zakładania konta.",
   "sections": [
     {
@@ -9,7 +10,7 @@
       "heading": "1. Postanowienia ogólne",
       "blocks": [
         { "p": "Regulamin określa zasady świadczenia usług drogą elektroniczną w Serwisie, w tym w jego wersjach angielskiej i rosyjskiej. Jest regulaminem, o którym mowa w art. 8 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną." },
-        { "p": "Regulamin jest dostępny bezpłatnie pod adresem {siteUrl}/regulamin, zanim zaczniesz korzystać z Usług. Możesz go w każdej chwili wyświetlić, zapisać lub wydrukować, a na Twoją prośbę prześlemy go e-mailem." },
+        { "p": "Regulamin jest dostępny bezpłatnie pod adresem {siteUrl}/regulamin, zanim zaczniesz korzystać z Usług. Link do niego jest w stopce każdej strony i pod przyciskiem rezerwacji online. Możesz go w każdej chwili wyświetlić, zapisać lub wydrukować, a na Twoją prośbę prześlemy go e-mailem." },
         { "p": "Korzystając z Serwisu, akceptujesz Regulamin. Dotyczy on wszystkich Usług opisanych w pkt 4, także samego przeglądania strony. Jeśli go nie akceptujesz, nie korzystaj z Serwisu – możesz skontaktować się z nami bezpośrednio (pkt 3)." },
         { "p": "Regulamin nie ogranicza praw, które przysługują Ci na podstawie bezwzględnie obowiązujących przepisów, w szczególności praw konsumenta. Gdyby któreś postanowienie było z nimi sprzeczne, stosuje się przepisy." },
         { "p": "Wiążąca jest polska wersja Regulaminu, a wersje angielska i rosyjska są jej tłumaczeniem. Postanowienia niejednoznaczne tłumaczy się na korzyść konsumenta." }
@@ -21,11 +22,11 @@
       "blocks": [
         { "list": [
           "Serwis – strona internetowa AS COMPANY LOVELINESS i Babushkina Academy dostępna pod adresem {siteUrl}, wraz z wersjami językowymi.",
-          "Usługodawca, „my” – {company}; pełne dane podajemy w pkt 3.",
+          "Usługodawca, „my” – {company}; dane i kontakt podajemy w pkt 3.",
           "Użytkownik, „Ty” – każda osoba, która korzysta z Serwisu.",
           "Konsument – osoba fizyczna, która korzysta z Serwisu lub zawiera z nami umowę w celu niezwiązanym bezpośrednio z jej działalnością gospodarczą lub zawodową (art. 22¹ Kodeksu cywilnego).",
           "Usługi – bezpłatne usługi świadczone drogą elektroniczną w Serwisie, opisane w pkt 4.",
-          "Salon – salon i akademia makijażu permanentnego Babushkina Academy w Warszawie; adres salonu podajemy na stronie Kontakt.",
+          "Salon – salon i akademia makijażu permanentnego Babushkina Academy w Warszawie[[{?street}; adres salonu podajemy na stronie Kontakt]].",
           "Zabieg – usługa z cennika Salonu, wykonywana w Salonie.",
           "Rezerwacja – zapisanie wybranego terminu wizyty w kalendarzu Salonu za pomocą formularza na stronie „Umów wizytę”.",
           "Formularz – formularz kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki lub zapytanie o pigmenty.",
@@ -41,15 +42,15 @@
         { "p": "Serwis prowadzi:" },
         { "list": [
           "{company}",
-          "adres: {address}",
-          "NIP: {nip}",
-          "rejestr: {register}",
-          "e-mail: {email}",
-          "telefon: {phone}",
+          "siedziba: {seat}",
+          "[[NIP: {nip}]]",
+          "[[rejestr: {register}]]",
+          "[[e-mail: {email}]]",
+          "[[telefon: {phone}]]",
           "Instagram: {instagram}",
-          "sprawy danych osobowych: {privacyEmail}"
+          "[[sprawy danych osobowych: {privacyEmail}]]"
         ] },
-        { "p": "Na pytania najszybciej odpowiadamy telefonicznie, e-mailem i na Instagramie. Reklamacje i sprawy formalne kieruj e-mailem lub listownie." }
+        { "p": "Na pytania najszybciej odpowiadamy {{i|{?phone}telefonicznie|{?email}e-mailem|na Instagramie}}. Reklamacje i sprawy formalne kieruj {{lub|{?email}e-mailem|{?address}listownie|przez Instagram}}." }
       ]
     },
     {
@@ -63,7 +64,7 @@
           "Lista pigmentów – zestawienie wybranych odcieni, pojemności i ilości, które możesz wysłać jako zapytanie;",
           "rezerwacja wizyty online – wybór zabiegu, dnia i godziny oraz zapisanie wizyty w kalendarzu Salonu."
         ] },
-        { "p": "Rezerwacja online działa, gdy jest włączona. Jeśli strona „Umów wizytę” informuje, że jest chwilowo niedostępna, umówimy wizytę telefonicznie, e-mailem lub przez Instagram." },
+        { "p": "Rezerwacja online działa, gdy jest włączona. Jeśli strona „Umów wizytę” informuje, że jest chwilowo niedostępna, umówimy wizytę {{lub|{?phone}telefonicznie|{?email}e-mailem|przez Instagram}}." },
         { "p": "Serwis nie prowadzi sprzedaży i nie przyjmuje płatności. Nie zakładasz w nim konta i nie zapisujesz się do newslettera. Zakup produktów, udział w szkoleniu i wynajem maszynki wymagają odrębnych ustaleń z nami (pkt 11)." }
       ]
     },
@@ -123,9 +124,9 @@
       "id": "formularze-i-lista-pigmentow",
       "heading": "8. Formularze i Lista pigmentów",
       "blocks": [
-        { "p": "Formularze nie wysyłają danych na nasz serwer. Po kliknięciu przycisku wysyłki Serwis układa z wpisanych informacji gotową wiadomość i otwiera Twój program pocztowy z adresem {email}. Wiadomość trafia do nas dopiero wtedy, gdy ją wyślesz." },
+        { "p": "Formularze nie wysyłają danych na nasz serwer. Po kliknięciu przycisku wysyłki Serwis układa z wpisanych informacji gotową wiadomość i otwiera Twój program pocztowy[[ z adresem {email}]]. Wiadomość trafia do nas dopiero wtedy, gdy ją wyślesz." },
         { "p": "Jeśli na urządzeniu nie ma programu pocztowego, możesz skopiować lub przepisać treść i wysłać ją wiadomością na Instagramie ({instagram}). Wiadomość przesyła Twój dostawca poczty albo Instagram, na zasadach tych usług." },
-        { "p": "Zależnie od Formularza wiadomość zawiera: imię i nazwisko, telefon i adres e-mail, a do tego temat i treść wiadomości, wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym, nazwę salonu i wybrane urządzenie albo Listę pigmentów z orientacyjną sumą i uwagami. Podaj tylko to, co jest potrzebne do odpowiedzi." },
+        { "p": "Zależnie od Formularza wiadomość zawiera: imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o pigmenty wystarczy telefon albo e-mail), a do tego temat i treść wiadomości, wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym, nazwę salonu i wybrane urządzenie albo Listę pigmentów z orientacyjną sumą i uwagami. Podaj tylko to, co jest potrzebne do odpowiedzi." },
         { "p": "Wysłanie zapytania nie oznacza zawarcia umowy sprzedaży, umowy o szkolenie ani umowy wynajmu. W odpowiedzi przedstawimy dostępność i warunki, a umowę zawieramy odrębnie, jeśli obie strony tego chcą." },
         { "p": "Lista pigmentów jest zapisywana wyłącznie w pamięci przeglądarki na Twoim urządzeniu i nie trafia do nas, dopóki nie wyślesz zapytania. Przy cenach w katalogu podajemy datę, na którą są aktualne. Suma na liście jest orientacyjna, nie obejmuje kosztów dostawy i nie jest ceną do zapłaty – łączną kwotę potwierdzimy w odpowiedzi. Listę możesz w każdej chwili wyczyścić w oknie „Twoje zamówienie” albo usuwając dane strony w przeglądarce." }
       ]
@@ -146,8 +147,8 @@
         { "p": "Rezerwacja jest dokonana, gdy zobaczysz ekran „Wizyta zapisana” z numerem rezerwacji – termin jest już wtedy zapisany w kalendarzu Salonu. Jeśli zamiast potwierdzenia pojawi się komunikat o zajętym terminie, Rezerwacja nie doszła do skutku; wybierz wtedy inny termin. Jeśli pojawi się komunikat o błędzie, spróbuj ponownie – ponowna próba tego samego terminu nie utworzy drugiej wizyty – albo skontaktuj się z nami. Gdyby mimo błędu wizyta zapisała się w kalendarzu, skontaktujemy się z Tobą, aby ją potwierdzić lub odwołać." },
         { "p": "Potwierdzenie widzisz wyłącznie na ekranie. Możesz pobrać plik .ics i dodać wizytę do swojego kalendarza. Serwis nie wysyła SMS-ów ani e-maili z potwierdzeniem, dlatego zanotuj numer rezerwacji." },
         { "p": "Z jednego numeru telefonu lub adresu e-mail można mieć jednocześnie najwyżej dwie przyszłe wizyty zarezerwowane online, np. zabieg i korektę. Kolejne terminy umówisz, kontaktując się z nami." },
-        { "p": "Aby chronić kalendarz przed nadużyciami, Serwis ogranicza liczbę prób, sprawdza czas wypełniania formularza i – jeśli jest włączona – korzysta z weryfikacji Cloudflare Turnstile. Przy nietypowo dużej liczbie rezerwacji rezerwacja online może zostać czasowo wstrzymana; wtedy umów wizytę telefonicznie, e-mailem lub przez Instagram." },
-        { "p": "Rezerwacji online może dokonać osoba pełnoletnia. Możesz zarezerwować wizytę dla innej pełnoletniej osoby, jeśli się na to zgadza – podaj wtedy jej imię i nazwisko oraz dane kontaktowe i przekaż jej informacje z Polityki prywatności." }
+        { "p": "Aby chronić kalendarz przed nadużyciami, Serwis ogranicza liczbę prób, sprawdza czas wypełniania formularza i – jeśli jest włączona – korzysta z weryfikacji Cloudflare Turnstile. Przy nietypowo dużej liczbie rezerwacji rezerwacja online może zostać czasowo wstrzymana; wtedy umów wizytę {{lub|{?phone}telefonicznie|{?email}e-mailem|przez Instagram}}." },
+        { "p": "Rezerwacji online może dokonać wyłącznie osoba pełnoletnia. Możesz zarezerwować wizytę dla innej pełnoletniej osoby, jeśli się na to zgadza – podaj wtedy jej imię i nazwisko oraz dane kontaktowe i przekaż jej informacje z Polityki prywatności. Przy pierwszym kontakcie z tą osobą (najpóźniej w Salonie) sami przekażemy jej informację o przetwarzaniu jej danych." }
       ]
     },
     {
@@ -156,7 +157,7 @@
       "blocks": [
         { "p": "Każdy zabieg zaczyna się od konsultacji, architektury twarzy i rysunku wstępnego. Podczas konsultacji omawiamy Twoje oczekiwania, stan skóry i ewentualne przeciwwskazania oraz potwierdzamy zakres i cenę zabiegu." },
         { "p": "Umowę o wykonanie zabiegu zawieramy w Salonie – po konsultacji, a przed rozpoczęciem zabiegu. Jeśli po konsultacji zabieg nie może zostać wykonany tego dnia, np. z powodu przeciwwskazań, albo zdecydujesz się z niego zrezygnować, zaproponujemy inny termin lub rozwiązanie. Rezygnacja po konsultacji jest bezpłatna. Zabiegi wykonujemy wyłącznie u osób pełnoletnich." },
-        { "p": "Aby zmienić lub odwołać termin, skontaktuj się z nami telefonicznie ({phone}), e-mailem ({email}) lub przez Instagram ({instagram}). Podaj numer rezerwacji albo imię i nazwisko oraz termin wizyty. Prosimy o kontakt najpóźniej 24 godziny przed wizytą. Zmiana i odwołanie terminu są zawsze bezpłatne. Serwis nie umożliwia samodzielnego odwołania wizyty online." },
+        { "p": "Aby zmienić lub odwołać termin, skontaktuj się z nami {{lub|telefonicznie ({phone})|e-mailem ({email})|przez Instagram ({instagram})}}. Podaj numer rezerwacji albo imię i nazwisko oraz termin wizyty. Prosimy o kontakt najpóźniej 24 godziny przed wizytą. Zmiana i odwołanie terminu są zawsze bezpłatne. Serwis nie umożliwia samodzielnego odwołania wizyty online." },
         { "p": "Jeśli się spóźnisz, postaramy się przyjąć Cię tego samego dnia. Przy spóźnieniu powyżej 15 minut możemy zaproponować inny termin, aby zabieg nie odbywał się w pośpiechu ani kosztem kolejnych osób." },
         { "p": "Jeśli w ciągu 12 miesięcy dwukrotnie nie przyjdziesz na zarezerwowaną wizytę i jej nie odwołasz, kolejne wizyty możemy umawiać z Tobą wyłącznie telefonicznie, a nie przez rezerwację online." },
         { "p": "W wyjątkowych sytuacjach, np. choroby specjalistki lub awarii, możemy zmienić lub odwołać zapisaną wizytę. Skontaktujemy się wtedy z Tobą jak najszybciej, telefonicznie lub e-mailem, i zaproponujemy nowy termin." }
@@ -180,8 +181,9 @@
       "blocks": [
         { "p": "Jeśli Usługa w Serwisie nie działa prawidłowo lub zgodnie z Regulaminem, możesz złożyć reklamację:" },
         { "list": [
-          "e-mailem na adres {email};",
-          "listownie na adres {address}."
+          "[[e-mailem na adres {email};]]",
+          "[[listownie na adres {address};]]",
+          "wiadomością na Instagramie ({instagram})."
         ] },
         { "p": "W reklamacji podaj swoje imię i dane kontaktowe, opisz problem – co się stało, kiedy i na jakim urządzeniu lub w jakiej przeglądarce – a jeśli dotyczy Rezerwacji, podaj jej numer lub termin. Napisz też, czego oczekujesz. Jeśli czegoś zabraknie, poprosimy o uzupełnienie." },
         { "p": "Odpowiemy w ciągu 14 dni od otrzymania reklamacji – tą drogą, którą ją złożysz, chyba że poprosisz o inną. Jeśli jesteś konsumentem, a my nie odpowiemy w tym terminie, uważa się, że reklamację uwzględniliśmy." },
@@ -202,8 +204,8 @@
       "id": "dane-osobowe",
       "heading": "14. Dane osobowe i pamięć przeglądarki",
       "blocks": [
-        { "p": "Administratorem danych osobowych podanych w Serwisie jest {company}. Jakie dane zbieramy, w jakim celu, jak długo je przechowujemy, komu je powierzamy (np. dostawcy hostingu i Kalendarza Google) i jakie masz prawa – opisuje Polityka prywatności: {siteUrl}/polityka-prywatnosci. W sprawach danych osobowych napisz na {privacyEmail}." },
-        { "p": "Serwis nie korzysta z narzędzi analitycznych ani reklamowych i nie ustawia własnych plików cookies. W pamięci Twojej przeglądarki zapisuje tylko Listę pigmentów, jeśli z niej korzystasz, oraz Twoją decyzję w banerze cookies. Jeśli na stronie rezerwacji działa weryfikacja Cloudflare Turnstile, skrypt Cloudflare może zapisać w przeglądarce własne pliki cookies i dane techniczne. Szczegóły i sposób ich usunięcia opisuje Polityka cookies: {siteUrl}/polityka-cookies." }
+        { "p": "Administratorem danych osobowych podanych w Serwisie jest {company}, {seat}. Jakie dane zbieramy, w jakim celu, jak długo je przechowujemy, komu je powierzamy (np. dostawcy hostingu i Kalendarza Google) i jakie masz prawa – opisuje Polityka prywatności: {siteUrl}/polityka-prywatnosci. W sprawach danych osobowych napisz do nas[[ na adres {privacyEmail} albo]] na Instagramie ({instagram})." },
+        { "p": "Serwis nie korzysta z narzędzi analitycznych ani reklamowych i nie ustawia własnych plików cookies. W pamięci Twojej przeglądarki zapisuje tylko Listę pigmentów, jeśli z niej korzystasz, oraz Twoją decyzję w banerze cookies. Jeśli na stronach rezerwacji działa weryfikacja Cloudflare Turnstile, skrypt Cloudflare może zapisać w przeglądarce własne pliki cookies i dane techniczne. Szczegóły i sposób ich usunięcia opisuje Polityka cookies: {siteUrl}/polityka-cookies." }
       ]
     },
     {
@@ -240,13 +242,13 @@
   "decisions": [
     {
       "what": "Dane Usługodawcy i adres Salonu przed publikacją",
-      "proposal": "Uzupełnić w src/lib/site.js LEGAL.company, address, nip, register, privacyEmail oraz CONTACT.email, phone, street i postal; Regulaminu nie publikować z polami „[do uzupełnienia]”.",
-      "why": "Art. 5 ustawy o świadczeniu usług drogą elektroniczną wymaga podania nazwy, adresu, e-maila i numerów rejestrowych. Jeśli firma jest spółką z o.o., w polu {register} trzeba podać także sąd rejestrowy, numer KRS i wysokość kapitału zakładowego (art. 206 § 1 Kodeksu spółek handlowych). Regulamin (pkt 2) odsyła po adres Salonu na stronę Kontakt, a dziś ulica i kod pocztowy są puste."
+      "proposal": "Uzupełnić w src/lib/site.js LEGAL.company, address, nip, register, privacyEmail oraz CONTACT.email, phone, street i postal. Do tego czasu Regulamin jest publiczny bez tych danych (decyzja Filipa z 30.09.2026, LEGAL_PUBLIC w src/lib/legal.js): Usługodawcę wskazuje marka AS COMPANY LOVELINESS (Babushkina Academy) z siedzibą w Warszawie, kontakt i reklamacje kierujemy na Instagram, a pozycje z NIP-em, rejestrem, adresem, e-mailem i telefonem są pominięte; pola „[do uzupełnienia]” nigdy nie są widoczne publicznie.",
+      "why": "Art. 5 ustawy o świadczeniu usług drogą elektroniczną wymaga podania nazwy, adresu, e-maila i numerów rejestrowych. Jeśli firma jest spółką z o.o., w polu {register} trzeba podać także sąd rejestrowy, numer KRS i wysokość kapitału zakładowego (art. 206 § 1 Kodeksu spółek handlowych). Regulamin (pkt 2) odsyła po adres Salonu na stronę Kontakt dopiero wtedy, gdy wpisana jest ulica (CONTACT.street) – dziś ulica i kod pocztowy są puste."
     },
     {
       "what": "Link do Regulaminu przy formularzach",
-      "proposal": "Link „Regulamin” w stopce wszystkich wersji językowych oraz jedno zdanie przy przycisku „Zarezerwuj wizytę” (np. „Rezerwując, akceptujesz Regulamin i zasady z Polityki prywatności”), bez obowiązkowego pola wyboru.",
-      "why": "Art. 8 ust. 1 pkt 1 u.ś.u.d.e. wymaga udostępnienia regulaminu przed zawarciem umowy. Dziś pod przyciskiem rezerwacji jest tylko klauzula o danych osobowych, a akceptacja „przez korzystanie” (pkt 1) jest silniejsza, gdy link jest widoczny w chwili rezerwacji. Adres /regulamin trzeba też dopisać do tras EN/RU (src/i18n/routes.js) i do mapy strony."
+      "proposal": "Zrobione: link „Regulamin” w stopce wszystkich wersji językowych (trasy /regulamin, /en/terms, /ru/terms i mapa strony), zdanie pod przyciskiem „Zarezerwuj wizytę” („Klikając „Zarezerwuj wizytę”, akceptujesz Regulamin – zasady rezerwacji, zmiany i odwołania wizyty opisują jego pkt 9–10”), link do pkt 10 na ekranie „Wizyta zapisana” i zdanie z linkiem w klauzuli pod pozostałymi formularzami – bez obowiązkowego pola wyboru. Do potwierdzenia: brzmienie tych zdań.",
+      "why": "Art. 8 ust. 1 pkt 1 i ust. 2 u.ś.u.d.e.: regulamin trzeba udostępnić przed zawarciem umowy, a usługobiorca nie jest związany postanowieniami, których mu nie udostępniono; art. 384 § 1 i § 4 Kodeksu cywilnego wymaga udostępnienia wzorca przed zawarciem umowy tak, by można go było przechowywać i odtwarzać. Akceptacja „przez korzystanie” (pkt 1) jest silniejsza, gdy link jest widoczny w chwili rezerwacji. Klauzule pod formularzami i przy rezerwacji są widoczne od razu (LEGAL_PUBLIC w src/lib/legal.js); do czasu uzupełnienia danych firmy wskazują markę, miasto i Instagram."
     },
     {
       "what": "Status rezerwacji online",
@@ -281,7 +283,7 @@
     {
       "what": "Wiek klientek i rezerwacja dla innej osoby",
       "proposal": "Rezerwacja online i zabiegi wyłącznie dla osób pełnoletnich; rezerwacja dla innej pełnoletniej osoby za jej zgodą, z jej danymi kontaktowymi.",
-      "why": "Makijaż permanentny narusza ciągłość skóry; przy osobie niepełnoletniej potrzebna byłaby zgoda przedstawiciela ustawowego, której formularz online nie zapewnia. Przy rezerwacji dla innej osoby jej dane pozyskujemy pośrednio (art. 14 RODO), dlatego Regulamin prosi o przekazanie jej informacji z Polityki prywatności; formularz nie sprawdza wieku, więc zasada działa jako oświadczenie."
+      "why": "Makijaż permanentny narusza ciągłość skóry; przy osobie niepełnoletniej potrzebna byłaby zgoda przedstawiciela ustawowego, której formularz online nie zapewnia. Przy rezerwacji dla innej osoby jej dane pozyskujemy pośrednio (art. 14 RODO), dlatego Regulamin prosi o przekazanie jej informacji z Polityki prywatności, a Salon jako administrator sam przekazuje jej tę informację najpóźniej przy pierwszym kontakcie (art. 14 ust. 3 lit. b RODO; w praktyce przy telefonie w sprawie wizyty albo w Salonie); formularz nie sprawdza wieku, więc zasada działa jako oświadczenie."
     },
     {
       "what": "Ceny zabiegów",
@@ -315,18 +317,18 @@
     },
     {
       "what": "Tryb zmian Regulaminu",
-      "proposal": "Publikacja nowej wersji co najmniej 7 dni przed wejściem w życie; wizyty zarezerwowane wcześniej według wersji z chwili rezerwacji.",
+      "proposal": "Publikacja nowej wersji co najmniej 7 dni przed wejściem w życie; wizyty zarezerwowane wcześniej według wersji z chwili rezerwacji. Datę wejścia w życie wpisywać w polu „effective” dokumentu (strona pokazuje ją jako „Obowiązuje od”), a poprzednie wersje archiwizować z datami obowiązywania (np. w repozytorium).",
       "why": "Serwis nie ma kont użytkowników, więc nie da się nikogo powiadomić indywidualnie; wyprzedzenie i ochrona już zarezerwowanych wizyt zastępują powiadomienie."
     },
     {
       "what": "Wersje językowe Regulaminu",
-      "proposal": "Opublikować tłumaczenia EN i RU; wiążąca wersja polska, niejasności na korzyść konsumenta.",
-      "why": "Serwis ma wersje /en i /ru (rezerwacja także pod /en/book i /ru/book), a osoba korzystająca z nich powinna rozumieć warunki. Art. 385 § 2 Kodeksu cywilnego i tak nakazuje tłumaczyć niejasności na korzyść konsumenta. Dopóki tłumaczeń nie ma, klientka z wersji EN/RU widzi tylko polski Regulamin – to ryzyko przy sporze z konsumentką nieznającą polskiego."
+      "proposal": "Tłumaczenia EN i RU są opublikowane (/en/terms, /ru/terms); wiążąca wersja polska, niejasności na korzyść konsumenta. Każdą zmianę wersji polskiej wprowadzać jednocześnie w tłumaczeniach.",
+      "why": "Serwis ma wersje /en i /ru (rezerwacja także pod /en/book i /ru/book), a osoba korzystająca z nich powinna rozumieć warunki. Art. 385 § 2 Kodeksu cywilnego i tak nakazuje tłumaczyć niejasności na korzyść konsumenta. Widoki rezerwacji i katalogu pigmentów są dziś tylko po polsku, dlatego tłumaczenia przy pierwszym użyciu podają polskie nazwy przycisków i ekranów (np. „Wizyta zapisana”); po przetłumaczeniu widoków trzeba je zastąpić etykietami z interfejsu."
     },
     {
       "what": "Limit aktywnych rezerwacji online",
       "proposal": "Dwie przyszłe wizyty na jeden telefon lub e-mail (zgodnie z obecną konfiguracją).",
-      "why": "Limit chroni kalendarz przed blokowaniem terminów i jest opisany w Regulaminie – jeśli zmieni się w konfiguracji (src/lib/booking/config.js, abuse.maxActivePerContact), trzeba zmienić też pkt 9. To samo dotyczy 24 h wyprzedzenia i 60 dni naprzód (minLeadHours, maxDaysAhead)."
+      "why": "Limit chroni kalendarz przed blokowaniem terminów i jest opisany w Regulaminie – jeśli zmieni się w konfiguracji (src/lib/booking/config.js, abuse.maxActivePerContact), trzeba zmienić też pkt 9. To samo dotyczy 24 h wyprzedzenia i 60 dni naprzód (minLeadHours, maxDaysAhead). Test src/lib/legal.test.js sprawdza, czy liczby w pkt 9 zgadzają się z konfiguracją."
     },
     {
       "what": "Cloudflare Turnstile w Regulaminie",

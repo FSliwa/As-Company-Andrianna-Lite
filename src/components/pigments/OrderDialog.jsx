@@ -6,7 +6,7 @@
  * kupuje ani nie płaci).
  *
  * Dwa tryby, zawsze zgodne z tym, co naprawdę działa:
- *  - FORM_LIVE (jest CONTACT.email i klauzula RODO z LEGAL): formularz
+ *  - FORM_LIVE (jest CONTACT.email i obowiązują dokumenty prawne – klauzula RODO): formularz
  *    (imię + telefon LUB e-mail) → sendEnquiry() (src/lib/enquiry.js, mailto).
  *    Listy nie czyścimy sami – program pocztowy mógł się nie otworzyć;
  *    po wysyłce jest „Skopiuj listę” i „Wyczyść listę”.
@@ -37,17 +37,17 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ArrowLink, Field, FormNotice } from '@/components/as/Primitives';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { collectionLabel, formatCapacity, formatPrice, formatSyncedDate } from '@/lib/pigments';
 import { CONTACT } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
 import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
 /* Formularz zbiera dane osobowe tylko wtedy, gdy naprawdę je dostarczy
-   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO. */
-const NOTICE_READY = LEGAL_COMPLETE;
-export const FORM_LIVE = Boolean(CONTACT.email) && NOTICE_READY;
+   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO – dokumenty
+   prawne publiczne, LEGAL_PUBLIC (ENQUIRY_LIVE w src/lib/enquiry.js – wspólny warunek
+   wszystkich formularzy). Dziś bez CONTACT.email okno pokazuje wariant bez pól danych. */
+export const FORM_LIVE = ENQUIRY_LIVE;
 
 const SYNCED = formatSyncedDate();
 

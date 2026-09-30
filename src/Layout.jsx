@@ -490,8 +490,8 @@ function Footer({ year }) {
           />
         </div>
 
-        {/* Dokumenty zawsze; dane firmy – po uzupełnieniu LEGAL w site.js. Od lg dokumenty
-            i prawa autorskie w jednym wierszu. */}
+        {/* Dokumenty zawsze (publiczne – LEGAL_PUBLIC); wiersz z danymi firmy – po uzupełnieniu
+            LEGAL w site.js. Od lg dokumenty i prawa autorskie w jednym wierszu. */}
         <div className="mt-6 flex flex-col gap-y-2 lg:mt-8 lg:flex-row lg:items-center lg:justify-between lg:gap-x-10">
           <div className="flex flex-wrap items-center gap-x-6 text-[0.8125rem] text-cream-200/80">
             {LEGAL.company && (
@@ -504,13 +504,18 @@ function Footer({ year }) {
                 {t[key]}
               </Link>
             ))}
-            <button
-              type="button"
-              onClick={openConsentSettings}
+            {/* Link, nie przycisk: bez JavaScriptu (baner się wtedy nie pokazuje i nic nie jest
+                zapisywane) prowadzi do pkt 6 Polityki cookies; z JS otwiera baner z ustawieniami. */}
+            <Link
+              href={`${ROUTES.cookies}#zarzadzanie`}
+              onClick={(e) => {
+                e.preventDefault();
+                openConsentSettings();
+              }}
               className="inline-flex min-h-[2.75rem] items-center underline underline-offset-2 hover:text-cream-50"
             >
               {t.cookieSettings}
-            </button>
+            </Link>
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
@@ -605,7 +610,8 @@ export default function Layout({ children, year }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="flex min-h-screen flex-col bg-cream-50">
-      {/* baner zgody pierwszy w kolejności tabulacji; wizualnie przyklejony do dołu */}
+      {/* baner zgody pierwszy w kolejności tabulacji; wizualnie przyklejony do dołu.
+          Przy otwartym menu albo dialogu ukrywa go src/index.css (visibility). */}
       <CookieConsent />
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">

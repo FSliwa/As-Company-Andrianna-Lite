@@ -464,21 +464,21 @@
      prefers-reduced-motion wszystkie cztery klasy są wyłączone (koniec pliku).
      Opóźnienie ustawia widok: style={{ animationDelay: '120ms' }}. */
   .as-enter-rise {
-    animation: as-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: as-rise 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .as-enter-draw-x {
     transform-origin: left center;
-    animation: as-draw-x 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: as-draw-x 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .as-enter-draw-y {
     transform-origin: center top;
-    animation: as-draw-y 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: as-draw-y 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .as-enter-breathe {
-    animation: as-breathe 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: as-breathe 2200ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
 
@@ -546,8 +546,9 @@
    Tylko transform, bez zanikania. Używane wyłącznie przez klasy .as-enter-*
    powyżej (Home.jsx – hero; opóźnienia przez style={{ animationDelay }}). */
 @keyframes as-rise {
+  /* 36 px: ruch ma być widoczny („ma się coś dziać”), ale bez zanikania – tekst czytelny od klatki 0 */
   from {
-    transform: translateY(14px);
+    transform: translateY(36px);
   }
   to {
     transform: translateY(0);
@@ -592,11 +593,33 @@ body[data-scroll-locked] #as-sticky {
   pointer-events: none;
 }
 
-/* Baner cookies i komunikaty (toast) nad mobilnym paskiem CTA, gdy pasek jest
-   widoczny (bez sprzęgania komponentów w JS). */
+/* ––– Baner cookies (src/components/as/CookieConsent.jsx) –––
+   Bez sprzęgania komponentów w JS: położenie liczy CSS z atrybutów innych elementów.
+   --consent-bottom = odstęp od dołu okna. Maksymalna wysokość zostawia miejsce na
+   przyklejony nagłówek (h-20, od lg h-24) – przy niskim oknie (telefon w poziomie,
+   powiększenie 400 %) baner przewija się w sobie, zamiast wychodzić poza ekran (WCAG 1.4.10). */
+[data-consent-banner] {
+  --consent-bottom: 0.75rem;
+  bottom: var(--consent-bottom);
+  max-height: calc(100vh - var(--consent-bottom) - 5.75rem);
+  max-height: calc(100dvh - var(--consent-bottom) - 5.75rem);
+}
+@media (min-width: 640px) {
+  [data-consent-banner] {
+    --consent-bottom: 1.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  [data-consent-banner] {
+    max-height: calc(100vh - var(--consent-bottom) - 6.75rem);
+    max-height: calc(100dvh - var(--consent-bottom) - 6.75rem);
+  }
+}
+
+/* Baner cookies i komunikaty (toast) nad mobilnym paskiem CTA (#as-sticky, 56 px), gdy pasek jest widoczny. */
 @media (max-width: 1023px) {
   html:has(#as-sticky[aria-hidden='false']) [data-consent-banner] {
-    bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.75rem);
+    --consent-bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.75rem);
   }
 
   html:has(#as-sticky[aria-hidden='false']) [data-toast-viewport] {
@@ -607,5 +630,25 @@ body[data-scroll-locked] #as-sticky {
 /* Komunikat (toast) i baner cookies stoją w tym samym miejscu na dole ekranu –
    na czas komunikatu baner jest ukryty i wraca po jego zamknięciu (sam znika po 10 s). */
 html:has([data-toast-viewport] > li) [data-consent-banner] {
+  visibility: hidden;
+}
+
+/* Nad pływającym „Twoje zamówienie” (OrderFab, 48 px; ta sama wysokość co w OrderFab.jsx:
+   RESTING / LIFTED) – poniżej 768 px baner i przycisk zajmowałyby ten sam pas ekranu. */
+@media (max-width: 767px) {
+  html:has([data-order-fab]:not(.invisible)) [data-consent-banner] {
+    --consent-bottom: calc(env(safe-area-inset-bottom) + 1rem + 3rem + 0.75rem);
+  }
+  html:has(#as-sticky[aria-hidden='false']):has([data-order-fab]:not(.invisible)) [data-consent-banner] {
+    --consent-bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.75rem + 3rem + 0.75rem);
+  }
+}
+
+/* Otwarty dialog (Radix, z-50) albo pełnoekranowe menu (#as-menu, role=dialog): baner znika
+   na ten czas – nie zasłania ich, nie przechwytuje dotknięć i wypada z kolejności Tab
+   oraz z drzewa dostępności (visibility). Po zamknięciu dialogu wraca sam. */
+html:has([role='dialog'][data-state='open']) [data-consent-banner],
+html:has([role='alertdialog'][data-state='open']) [data-consent-banner],
+html:has(#as-menu:not([hidden])) [data-consent-banner] {
   visibility: hidden;
 }

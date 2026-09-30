@@ -32,7 +32,9 @@
  *    podsumowanie z przyciskiem obok kroków (przyklejone); telefon w poziomie
  *    zostaje w jednej kolumnie (przycisk pod krokiem 04),
  *  • anty-bot: podpisany znacznik formularza z serwera (nie zegar przeglądarki),
- *    opcjonalnie Cloudflare Turnstile; requestId na próbę rezerwacji terminu –
+ *    opcjonalnie Cloudflare Turnstile – skrypt Cloudflare ładujemy dopiero, gdy ktoś
+ *    zaczyna wypełniać krok 04 (albo wysyła formularz), a nie przy otwarciu strony;
+ *    requestId na próbę rezerwacji terminu –
  *    ponowienie po błędzie nie tworzy drugiego wpisu w kalendarzu,
  *  • bez pytań o zdrowie, bez obietnic SMS/e-mail (serwis ich nie wysyła).
  */
@@ -69,13 +71,15 @@ import { BOOKING_CONFIG, getTreatment, shownDurationMin } from '@/lib/booking/co
 import { bookingSchema } from '@/lib/booking/schema';
 import { bookingWindow, workingHoursFor } from '@/lib/booking/slots';
 import { CONTACT } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* BookingNotice (jak FormNotice, ale z celem „rezerwacja wizyty w Kalendarzu Google”)
-   renderuje się sam po uzupełnieniu LEGAL i zawiera zdanie o polach wymaganych –
-   do tego czasu legendę pokazuje RequiredLegend (jak /kontakt). */
-const NOTICE_READY = LEGAL_COMPLETE;
+   renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera zdanie
+   o polach wymaganych – bez niego legendę pokazuje RequiredLegend (jak /kontakt).
+   Bez publicznych dokumentów BookingRoute i tak nie włącza rezerwacji. */
+const NOTICE_READY = LEGAL_PUBLIC;
+const SUBMIT_LABEL = 'Zarezerwuj wizytę';
 
 const FIELD_ORDER = ['treatment', 'date', 'time', 'name', 'phone', 'email', 'note'];
 const CONTACT_FIELDS = ['name', 'phone', 'email', 'note'];
@@ -195,6 +199,12 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   const [foreignZone, setForeignZone] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaFailed, setCaptchaFailed] = useState(false);
+  /* Turnstile (gdy skonfigurowany) ładujemy dopiero przy pierwszej interakcji z krokiem 04
+     albo przy próbie wysłania – nie przy otwarciu strony (art. 399 PKE, polityka cookies). */
+  const [captchaArmed, setCaptchaArmed] = useState(false);
+  const armCaptcha = () => {
+    if (turnstileSiteKey) setCaptchaArmed(true);
+  };
   const [treatment, setTreatment] = useState(null);
   /* telefon: lista zabiegów zwinięta do wybranego (po wyborze wskaźnikiem albo ?zabieg=) */
   const [pickerCollapsed, setPickerCollapsed] = useState(false);
@@ -472,6 +482,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   };
 
   const onFieldChange = (name, value) => {
+    armCaptcha();
     const next = { ...values, [name]: value };
     setValues(next);
     if (name === 'website') return;
@@ -515,6 +526,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
       return;
     }
     if (turnstileSiteKey && !captchaToken) {
+      armCaptcha();
       setFormError({ kind: captchaFailed ? 'captcha_failed' : 'captcha_pending' });
       return;
     }
@@ -731,13 +743,16 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
           />
         </Step>
 
-        <Step id="b-step-contact" number="04" title="Twoje dane" caption="Potrzebujemy ich wyłącznie do kontaktu w sprawie wizyty.">
-          <ContactFields
-            values={values}
-            errors={Object.fromEntries(CONTACT_FIELDS.map((k) => [k, errors[k]]))}
-            onChange={onFieldChange}
-            onBlur={onFieldBlur}
-          />
+        <Step id="b-step-contact" number="04" title="Twoje dane" caption="Potrzebujemy ich, by zapisać wizytę i skontaktować się z Tobą w jej sprawie.">
+          {/* onFocus (w React bąbelkuje): pierwsze wejście w pole kroku 04 ładuje Turnstile */}
+          <div onFocus={armCaptcha}>
+            <ContactFields
+              values={values}
+              errors={Object.fromEntries(CONTACT_FIELDS.map((k) => [k, errors[k]]))}
+              onChange={onFieldChange}
+              onBlur={onFieldBlur}
+            />
+          </div>
         </Step>
       </div>
 
@@ -748,7 +763,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
               {formErrorMessage(formError)}
             </p>
           )}
-          {turnstileSiteKey && (
+          {turnstileSiteKey && captchaArmed && (
             <Turnstile
               ref={turnstileRef}
               siteKey={turnstileSiteKey}
@@ -767,9 +782,9 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
             aria-disabled={submitting || undefined}
             className={cn('as-btn-solid mt-6 w-full focus-visible:outline-ink', submitting && 'cursor-progress opacity-70')}
           >
-            {submitting ? 'Zapisujemy wizytę…' : 'Zarezerwuj wizytę'}
+            {submitting ? 'Zapisujemy wizytę…' : SUBMIT_LABEL}
           </button>
-          <BookingNotice className="mt-5" />
+          <BookingNotice className="mt-5" submitLabel={SUBMIT_LABEL} turnstile={Boolean(turnstileSiteKey)} />
           {!NOTICE_READY && <RequiredLegend className="mt-5" />}
         </BookingSummary>
       </div>

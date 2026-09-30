@@ -15,10 +15,11 @@
  * nie wchodzi pod niego: gdy baner zasłania kolumnę przycisku, przycisk stoi
  * 12 px nad banerem (baner jest nad nim w warstwach, z-[60]).
  *
- * z-30: nad treścią, ale POD pełnoekranowym menu (#as-menu, z-40) i pod
- * dialogami. Chowa się, gdy w kadrze jest pas zamykający ([data-sticky-hide]
- * w <main> – ma własny przycisk „Twoje zamówienie (n)”) albo stopka – nie
- * zasłania jej i nie dubluje przycisku.
+ * z-30: nad treścią, ale POD banerem cookies (z-35), pełnoekranowym menu
+ * (#as-menu, z-40) i dialogami. Baner cookies stoi nad przyciskiem (reguła
+ * z [data-order-fab] w src/index.css), więc się nie zasłaniają. Chowa się, gdy
+ * w kadrze jest pas zamykający ([data-sticky-hide] w <main> – ma własny przycisk
+ * „Twoje zamówienie (n)”) albo stopka – nie zasłania jej i nie dubluje przycisku.
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -179,6 +180,7 @@ export default function OrderFab({ count, onOpen }) {
           type="button"
           onClick={onOpen}
           aria-haspopup="dialog"
+          data-order-fab=""
           aria-label={`Twoje zamówienie, ${count}${NBSP}szt.`}
           tabIndex={atEnd ? -1 : undefined}
           style={{ bottom }}

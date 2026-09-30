@@ -1,4 +1,5 @@
-/** Teksty banera cookies (z src/content/legal/cookies.<język>.json → pole banner). */
+/** Teksty banera cookies – kopia pola "banner" z src/content/legal/cookies.<język>.json
+    (zgodność pilnuje src/lib/legal.test.js; zmieniaj oba miejsca naraz). */
 const BANNER = {
   "pl": {
     "title": "Prywatność i cookies",
@@ -39,7 +40,7 @@ const BANNER = {
     "categories": {
       "necessary": {
         "name": "Necessary",
-        "desc": "These remember your choice in this banner and the list of pigments added to your enquiry and, for online booking, if this protection is enabled, they protect the form against bots. Without them these features do not work properly."
+        "desc": "These remember your choice in this banner and the list of pigments added to your enquiry and, if this protection is enabled, protect the online booking form against bots. Without them these features do not work properly."
       },
       "analytics": {
         "name": "Analytics",

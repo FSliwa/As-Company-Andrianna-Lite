@@ -6,7 +6,9 @@
  */
 
 import { forwardRef, useEffect, useState } from 'react';
+import Link from '@/components/as/LocaleLink';
 import { ArrowLink } from '@/components/as/Primitives';
+import { ROUTES } from '@/i18n/routes';
 import { SALON_LOCATION, getTreatment, shownDurationMin } from '@/lib/booking/config';
 import { buildBookingIcs, icsFileName } from '@/lib/booking/ics';
 import { CONTACT } from '@/lib/site';
@@ -61,6 +63,13 @@ export const BookingDone = forwardRef(function BookingDone({ booking }, headingR
           <p className="as-body mt-6">
             Termin jest już w kalendarzu salonu. Zapisz go też u siebie – nie wysyłamy SMS-ów ani e-maili
             z potwierdzeniem. Jeśli termin będzie wymagał zmiany, salon skontaktuje się z Tobą.
+          </p>
+          <p className="mt-4 text-[0.875rem] leading-relaxed text-mocha">
+            Jak zmienić lub odwołać wizytę, opisuje{' '}
+            <Link href={`${ROUTES.terms}#wizyta-w-salonie`} className="underline underline-offset-2 hover:text-ink">
+              Regulamin (pkt 10)
+            </Link>
+            .
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-6">
             {icsUrl ? (

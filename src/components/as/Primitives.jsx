@@ -11,9 +11,10 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ChevronDown } from 'lucide-react';
 import { cn, nbspShort } from '@/lib/utils';
-import { useContent, useLocale, useSite } from '@/i18n/client';
+import { useContent, useLocale } from '@/i18n/client';
 import common from '@/content/common';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { LEGAL_PUBLIC } from '@/lib/legal';
+import LegalText from '@/components/as/LegalText';
 import {
   Accordion,
   AccordionContent,
@@ -817,23 +818,31 @@ export function Field({ as = 'input', label, id, hint, required, className, wrap
 }
 
 /* ------------------------------------------------------------------ */
-/*  Klauzula informacyjna RODO pod formularzem (art. 13).              */
-/*  Renderuje się dopiero, gdy klient uzupełni LEGAL w site.js –       */
-/*  bez danych administratora nie udajemy klauzuli.                    */
+/*  Klauzula informacyjna RODO pod formularzem (art. 13) + Regulamin.  */
+/*  Renderuje się, gdy dokumenty prawne są publiczne (LEGAL_PUBLIC –  */
+/*  decyzja Filipa z 30.09.2026). Administrator z noticeController     */
+/*  (src/content/common): do czasu uzupełnienia danych firmy marka,    */
+/*  miasto i Instagram, potem pełna nazwa, adres i e-mail – same.      */
 /* ------------------------------------------------------------------ */
 
 export function FormNotice({ tone = 'dark', className }) {
   const t = useContent(common);
-  const { LEGAL } = useSite();
-  if (!LEGAL_COMPLETE) return null;
+  const locale = useLocale();
+  if (!LEGAL_PUBLIC) return null;
   const onDark = tone === 'light';
+  const linkCls = cn('underline underline-offset-2', onDark ? 'hover:text-cream-50' : 'hover:text-ink');
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed', onDark ? 'text-cream-100/80' : 'text-mocha', className)}>
-      {t.noticeController} {LEGAL.company}. {t.noticePurpose}{' '}
-      <Link href="/polityka-prywatnosci" className="underline underline-offset-2 hover:text-ink">
-        {t.privacy}
+      <LegalText text={t.noticeController} locale={locale} linkClassName={linkCls} /> {t.noticePurpose}{' '}
+      {t.noticePrivacy.pre}
+      <Link href="/polityka-prywatnosci" className={linkCls}>
+        {t.noticePrivacy.link}
       </Link>
-      . {t.requiredLegend}
+      {t.noticePrivacy.post} {t.noticeTerms.pre}
+      <Link href="/regulamin" className={linkCls}>
+        {t.noticeTerms.link}
+      </Link>
+      {t.noticeTerms.post} {t.requiredLegend}
     </p>
   );
 }

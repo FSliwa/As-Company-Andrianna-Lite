@@ -6,15 +6,21 @@
  * komunikat „wysłano" i po cichu gubiły dane kontaktowe klientek.
  *
  * Rozwiązanie bez backendu: składamy wiadomość i otwieramy program pocztowy
- * użytkownika (mailto). Działa od razu, gdy w src/lib/site.js uzupełnisz
- * CONTACT.email. Dopóki jest `null`, formularz uczciwie mówi, że nie jest
- * podpięty, i kieruje na kanał, który realnie działa (Instagram).
+ * użytkownika (mailto). Działa, gdy w src/lib/site.js jest CONTACT.email ORAZ
+ * dokumenty prawne są publiczne (LEGAL_PUBLIC – pod formularzem stoi wtedy
+ * klauzula informacyjna z art. 13 RODO; decyzja Filipa z 30.09.2026: dokumenty
+ * publiczne także przed uzupełnieniem danych firmy). Bez adresu e-mail formularz
+ * uczciwie mówi, że nie jest podpięty, i kieruje na kanał, który realnie działa (Instagram).
  *
  * Gdy pojawi się prawdziwy endpoint, wystarczy podmienić treść
  * `sendEnquiry` na fetch('/api/...') – reszta kodu się nie zmienia.
  */
 
 import { CONTACT, COURSES } from '@/lib/site';
+import { LEGAL_PUBLIC } from '@/lib/legal';
+
+/** Formularze przekazują dane (mailto) – jest adres i klauzula informacyjna. */
+export const ENQUIRY_LIVE = Boolean(CONTACT.email) && LEGAL_PUBLIC;
 
 /**
  * Opcje pola „Szkolenie” w zapytaniu o kurs (D4) – wszystkie kursy z briefu, w kolejności
@@ -45,7 +51,7 @@ export function sendEnquiry({ subject, fields }) {
     .map(([label, value]) => `${label}: ${value}`)
     .join('\n');
 
-  if (!CONTACT.email) {
+  if (!ENQUIRY_LIVE) {
     return { status: ENQUIRY_STATUS.NO_CHANNEL };
   }
 
