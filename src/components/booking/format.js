@@ -97,3 +97,16 @@ export function plural(n, one, few, many) {
   if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
   return many;
 }
+
+/**
+ * Nazwa do wyświetlenia bez „wiszących” krótkich członów (twarde spacje):
+ * liczba trzyma się następnego słowa („do 3 miesięcy”), ukośnik obu sąsiadów
+ * („laser / remover”), a półpauza nie zaczyna wiersza. Tylko prezentacja –
+ * nazwa w kalendarzu (config.js, wpis w Kalendarzu Google) się nie zmienia.
+ */
+export function keepTogether(text) {
+  return String(text || '')
+    .replace(/ (\d+) /g, ' $1\u00a0')
+    .replace(/ \/ /g, '\u00a0/\u00a0')
+    .replace(/ – /g, '\u00a0– ');
+}

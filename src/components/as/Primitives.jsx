@@ -10,7 +10,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ChevronDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, nbspShort } from '@/lib/utils';
 import { useContent, useLocale, useSite } from '@/i18n/client';
 import common from '@/content/common';
 import { LEGAL_COMPLETE } from '@/lib/legal';
@@ -35,7 +35,9 @@ export function SectionLabel({ number, children, tone = 'dark', line = true, cla
         </span>
       )}
       {number && (
-        <span className={cn('as-label', isLight ? 'text-cream-200/40' : 'text-ink/30')}>/</span>
+        <span aria-hidden="true" className={cn('as-label', isLight ? 'text-cream-200/40' : 'text-ink/30')}>
+          /
+        </span>
       )}
       <span className={cn('as-label', isLight ? 'text-cream-100/85' : 'text-ink/70')}>{children}</span>
       {line && (
@@ -109,10 +111,9 @@ function buildSrcSet(webp) {
  *  - ratio     proporcja kadru, np. "3 / 4"; nadmiar jest przycinany (object-cover)
  *  - position  object-position, np. "50% 30%" – gdzie ma być środek ciężkości
  *              przy przycinaniu; domyślnie środek
- *  - tone      "dark" w sekcjach espresso/mocha (ciemniejszy, mniej nasycony),
- *              "light" w sekcjach kremowych (odsycony, jaśniejszy, z kremową
- *              mgłą) – w obu przypadkach po to, żeby zdjęcie siedziało w tle
- *              zamiast na nim świecić (jak w makiecie); domyślnie bez korekty
+ *  - tone      "dark" w sekcjach espresso/mocha (lekko przygaszony),
+ *              "light" w sekcjach kremowych (lekko odsycony, bez mgiełki) –
+ *              makra, panele, akademia; portrety STUDIO bez tonu (domyślnie)
  *  - sizes     atrybut sizes; bez niego przeglądarka zakłada 100vw i pobiera
  *              największy wariant
  *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) –
@@ -171,14 +172,16 @@ export function Figure({
 /*  Numerowana pozycja pod kadrem (01 · Produkty · opis · →)           */
 /* ------------------------------------------------------------------ */
 
+/* tone = ton TEKSTU jak w całym pliku: 'dark' na kremie (numer gold-deep),
+   'light' na ciemnym tle (numer gold-light). Numer 24 px (.as-num), tytuł 22/24 px. */
 export function NumberedItem({ number, title, children, href, tone = 'dark', className }) {
   const isLight = tone === 'light';
   const t = useContent(common);
   return (
     <div className={cn('flex flex-col gap-2', className)}>
       <div className="flex items-baseline gap-3">
-        <span className="as-num text-lg sm:text-xl">{number}</span>
-        <h3 className={cn('as-numbered-title', isLight ? 'text-cream-50' : 'text-ink')}>{title}</h3>
+        <span className={isLight ? 'as-num-invert' : 'as-num'}>{number}</span>
+        <h3 className={cn('as-numbered-title', isLight ? 'text-cream-50' : 'text-ink')}>{nbspShort(title)}</h3>
       </div>
       <p className={cn('as-numbered-desc', isLight ? 'text-cream-200/75' : 'text-mocha')}>{children}</p>
       {href && (
@@ -196,17 +199,33 @@ export function NumberedItem({ number, title, children, href, tone = 'dark', cla
 /*  Dekoracyjny złoty łuk (jak cienkie krzywe w makiecie)              */
 /* ------------------------------------------------------------------ */
 
-export function GoldArc({ className, flip = false, opacity = 0.35 }) {
+/* variant:
+ *  - 'arc' (domyślny) – dawna krzywa z makiety; kończy się na krawędziach
+ *    viewBox, więc pudełko SVG musi sięgać poza sekcję, inaczej łuk urywa się
+ *    w powietrzu.
+ *  - 'corner' – łuk narożny: wchodzi prawą krawędzią pudełka, wychodzi górną
+ *    (oba końce poza viewBox, overflow widoczny – tnie go dopiero krawędź sekcji
+ *    z overflow-hidden). Stawiać w prawym górnym rogu sekcji, w pustym polu obok
+ *    tekstu: right-0 top-0 i szerokość = wolne miejsce na prawo od nagłówka.
+ *    Łuk nigdy nie przecina tekstu – poniżej szerokości, na której jest na to
+ *    miejsce, ukrywać go (np. hidden xl:block). */
+const ARC_PATHS = {
+  arc: 'M-40 600C-40 600 40 210 300 90C520 -12 760 40 840 150',
+  corner: 'M860 560C760 300 560 60 120 -60',
+};
+
+export function GoldArc({ className, flip = false, opacity = 0.35, variant = 'arc' }) {
   return (
     <svg
       viewBox="0 0 800 600"
       fill="none"
       aria-hidden="true"
       preserveAspectRatio="none"
+      overflow={variant === 'corner' ? 'visible' : undefined}
       className={cn('pointer-events-none absolute', flip && 'scale-x-[-1]', className)}
     >
       <path
-        d="M-40 600C-40 600 40 210 300 90C520 -12 760 40 840 150"
+        d={ARC_PATHS[variant] || ARC_PATHS.arc}
         stroke="#B89768"
         strokeOpacity={opacity}
         strokeWidth="1"
@@ -247,6 +266,10 @@ const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : use
 
 /**
  * Pojawianie się przy przewijaniu.
+ *
+ * Bez wygaszania do zera: element „w drodze” ma krycie 0,6 i jest przesunięty
+ * o 12 px, więc po skoku (wstecz, pasek przewijania, Ctrl+F, kotwica) kadr nie
+ * jest pusty. Czas 400 ms, opóźnienie najwyżej 60 ms.
  *
  * WAŻNE: treść startuje WIDOCZNA. Ukrywamy ją dopiero w useLayoutEffect,
  * czyli już po stronie przeglądarki i jeszcze przed pierwszym malowaniem –
@@ -312,11 +335,11 @@ export function Reveal({ children, delay = 0, className, as: Tag = 'div' }) {
     <Tag
       ref={ref}
       className={cn(
-        'transition-[opacity,transform] duration-500 ease-as motion-reduce:transition-none',
-        hidden ? 'translate-y-3 opacity-0' : 'translate-y-0 opacity-100',
+        'transition-[opacity,transform] [transition-duration:400ms] ease-as motion-reduce:transition-none',
+        hidden ? 'translate-y-3 opacity-60' : 'translate-y-0 opacity-100',
         className
       )}
-      style={{ transitionDelay: hidden ? '0ms' : `${delay}ms` }}
+      style={{ transitionDelay: hidden ? '0ms' : `${Math.min(delay, 60)}ms` }}
     >
       {children}
     </Tag>
@@ -339,6 +362,7 @@ export function PageHero({
   imagePosition,
   facts,
   stats,
+  statsLayout = 'row',
   variant,
   imageSide = 'right',
   tone = 'cream',
@@ -346,7 +370,15 @@ export function PageHero({
 }) {
   /* variant: 'cover' (domyślny, gdy jest zdjęcie) – portret 2:3 po prawej, tekst
      wyśrodkowany w pionie; 'band' – pas espresso bez zdjęcia, H1 na całą szerokość
-     łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty). */
+     łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty, /pakiety).
+     Odstępy (góra/dół): telefon i tablet 96/56 px w obu wariantach (pod
+     przyklejonym nagłówkiem 80 px); od lg okładka 96/64, pas 128/80.
+     Telefon w poziomie (wariant short:) – ciaśniej, żeby przycisk był w pierwszym ekranie;
+     portret 2:3 nie wyższy niż 80% ekranu (poniżej md limit z wysokości ekranu, od md 14 rem).
+     Reguły short: stoją w CSS przed sm:/md:, więc limit powtarza short:sm: (wygrywa z sm:)
+     i short:md: (wygrywa z md:max-w-none).
+     statsLayout: 'row' – 3 liczby w rzędzie; 'list' – poniżej sm liczby jako lista
+     „wartość | podpis” (długie podpisy, np. /maszynki), od sm rząd jak 'row'. */
   const kind = variant || (image ? 'cover' : 'band');
   const isDark = kind === 'band' || tone !== 'cream';
 
@@ -355,17 +387,22 @@ export function PageHero({
       <SectionLabel number={number} tone={isDark ? 'light' : 'dark'}>
         {label}
       </SectionLabel>
-      <h1 className={cn('as-display-lg as-text-balance mt-6', isDark ? 'text-cream-100' : 'text-ink')}>
-        {title}
+      <h1
+        className={cn(
+          'as-display-lg as-text-balance mt-6 short:mt-4 short:text-[2.75rem]',
+          isDark ? 'text-cream-100' : 'text-ink'
+        )}
+      >
+        {nbspShort(title)}
         {titleAccent && (
           <>
             {' '}
-            <span className={cn('italic', isDark ? 'text-gold-light' : 'text-gold-dark')}>{titleAccent}</span>
+            <span className={cn('italic', isDark ? 'text-gold-light' : 'text-gold-dark')}>{nbspShort(titleAccent)}</span>
           </>
         )}
       </h1>
-      {lead && <p className={cn('mt-6', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>}
-      {children && <div className="mt-8">{children}</div>}
+      {lead && <p className={cn('mt-6 short:mt-4', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>}
+      {children && <div className="mt-8 short:mt-5">{children}</div>}
     </>
   );
 
@@ -379,15 +416,28 @@ export function PageHero({
     ) : null;
 
   if (kind === 'band') {
+    const list = statsLayout === 'list';
     return (
       <section className="relative overflow-hidden bg-espresso text-cream-50">
-        <GoldArc className="-top-24 right-[-10%] h-[560px] w-[760px]" opacity={0.28} />
-        <div className="as-shell relative pb-14 pt-28 sm:pt-32 lg:pb-20 lg:pt-40">
+        {/* Łuk narożny tylko w wolnym polu na prawo od H1 (max-w-4xl = 56 rem od
+            lewego marginesu łamu): szerokość = to pole minus 2 rem. Od xl – węższe
+            ekrany nie mają obok H1 miejsca i łuk przecinałby tytuł. */}
+        <GoldArc
+          variant="corner"
+          className="right-0 top-0 hidden h-[70%] w-[calc(min(100%-59.5rem,50%-14.5rem)-2rem)] xl:block"
+          opacity={0.28}
+        />
+        <div className="as-shell relative pb-14 pt-24 lg:pb-20 lg:pt-32 short:pb-10 short:pt-10">
           <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
-            <div className="mt-10 grid grid-cols-3 gap-3 max-[359px]:grid-cols-1 max-[359px]:gap-5 sm:gap-8 lg:mt-16">
+            <div
+              className={cn(
+                'mt-10 grid gap-3 sm:grid-cols-3 sm:gap-8 lg:mt-16 short:mt-8',
+                list ? 'grid-cols-1' : 'grid-cols-3 max-[359px]:grid-cols-1 max-[359px]:gap-5'
+              )}
+            >
               {stats.map((st) => (
-                <Stat key={st.label} value={st.value} label={st.label} tone="light" compact />
+                <Stat key={st.label} value={st.value} label={st.label} tone="light" compact inline={list} />
               ))}
             </div>
           )}
@@ -399,8 +449,8 @@ export function PageHero({
 
   return (
     <section className={cn('relative overflow-hidden', isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink')}>
-      <div className="as-shell relative pb-14 pt-24 sm:pt-28 lg:pb-16 lg:pt-24">
-        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
+      <div className="as-shell relative pb-14 pt-24 lg:pb-16 short:pb-10 short:pt-8">
+        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8 short:md:items-start">
           <Reveal
             className={cn(
               'min-w-0 md:row-start-1',
@@ -417,7 +467,7 @@ export function PageHero({
                 imageSide === 'left' ? 'md:col-span-5 md:col-start-1 lg:col-span-4 lg:col-start-2' : 'md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-8'
               )}
             >
-              <div className="mx-auto max-w-[17rem] sm:max-w-[22rem] md:max-w-none">
+              <div className="mx-auto max-w-[17rem] sm:max-w-[22rem] md:max-w-none short:max-w-[calc(80svh*2/3)] short:sm:max-w-[calc(80svh*2/3)] short:md:max-w-[14rem]">
                 <Figure
                   image={image}
                   alt={imageAlt || title}
@@ -441,43 +491,35 @@ export function PageHero({
 /*  Wiersz cennika                                                      */
 /* ------------------------------------------------------------------ */
 
-export function PriceRow({ name, note, price, tone = 'dark' }) {
+/* Wiersz: nazwa · kropki od końca nazwy do ceny · cena (Bodoni 22 px, kolor
+   tekstu – złoto tylko w liniach). Nota pod wierszem na całą szerokość, więc
+   nie ściska nazwy i nie odsuwa kropek. priceNote – dopisek pod ceną
+   (np. „netto”), w kapitalikach. tone = ton TEKSTU ('light' na ciemnym tle). */
+export function PriceRow({ name, note, price, priceNote, tone = 'dark' }) {
   const isLight = tone === 'light';
   return (
-    <div
-      className={cn(
-        'flex items-baseline gap-4 border-b py-5 first:border-t',
-        isLight ? 'border-cream-200/15' : 'border-ink/10'
-      )}
-    >
-      <div className="min-w-0 flex-1">
-        <span className={cn('block text-base', isLight ? 'text-cream-50' : 'text-ink')}>{name}</span>
-        {note && (
-          <span
-            className={cn(
-              'mt-1 block text-[0.8125rem] leading-relaxed',
-              isLight ? 'text-cream-100/85' : 'text-mocha'
-            )}
-          >
-            {note}
+    <div className={cn('border-b py-4 first:border-t sm:py-5', isLight ? 'border-cream-200/15' : 'border-ink/10')}>
+      <div className="flex items-baseline gap-4">
+        <span className={cn('min-w-0 text-[0.9375rem] leading-[1.5]', isLight ? 'text-cream-50' : 'text-ink')}>{name}</span>
+        <span
+          className={cn(
+            'min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted',
+            isLight ? 'border-cream-200/25' : 'border-ink/20'
+          )}
+          aria-hidden="true"
+        />
+        <span className="shrink-0 text-right">
+          <span className={cn('block whitespace-nowrap font-display text-[1.375rem]/7', isLight ? 'text-cream-50' : 'text-ink')}>
+            {price}
           </span>
-        )}
+          {priceNote && (
+            <span className={cn('as-label mt-1 block', isLight ? 'text-cream-100/85' : 'text-ink/65')}>{priceNote}</span>
+          )}
+        </span>
       </div>
-      <span
-        className={cn(
-          'hidden flex-1 translate-y-[-3px] border-b border-dotted sm:block',
-          isLight ? 'border-cream-200/20' : 'border-ink/15'
-        )}
-        aria-hidden="true"
-      />
-      <span
-        className={cn(
-          'whitespace-nowrap font-display text-xl sm:text-[1.375rem]',
-          isLight ? 'text-gold-light' : 'text-ink'
-        )}
-      >
-        {price}
-      </span>
+      {note && (
+        <p className={cn('mt-1 text-[0.8125rem] leading-relaxed', isLight ? 'text-cream-100/85' : 'text-mocha')}>{note}</p>
+      )}
     </div>
   );
 }
@@ -488,12 +530,23 @@ export function PriceRow({ name, note, price, tone = 'dark' }) {
 
 export function FactStrip({ items, tone = 'dark', className }) {
   const isLight = tone === 'light';
-  /* Do lg: siatka 2 kolumn bez ukośników (nic nie jest ucięte w pół słowa
-     i żaden wiersz nie zaczyna się od „/”). Od lg: jedna linia z ukośnikami. */
+  /* Do lg bez ukośników (żaden wiersz nie zaczyna się od „/”): parzysta liczba
+     faktów – siatka 2 kolumn (poniżej 360 px jedna); nieparzysta – wiersz
+     z zawijaniem, żeby ostatni fakt nie został sam. Fakty wyrównane do góry.
+     Od lg: jedna linia z ukośnikami. */
+  const even = items.length % 2 === 0;
   return (
-    <ul className={cn('grid grid-cols-2 gap-x-6 gap-y-3 lg:flex lg:flex-wrap lg:items-center lg:gap-x-5', className)}>
+    <ul
+      className={cn(
+        even
+          ? 'grid grid-cols-2 gap-x-6 gap-y-3 max-[359px]:grid-cols-1'
+          : 'flex flex-wrap gap-x-6 gap-y-3',
+        'lg:flex lg:flex-wrap lg:items-center lg:gap-x-5',
+        className
+      )}
+    >
       {items.map((item, i) => (
-        <li key={item} className="flex items-center gap-5">
+        <li key={item} className="flex items-start gap-5 lg:items-center">
           {i > 0 && (
             <span aria-hidden="true" className={cn('as-label hidden lg:inline', isLight ? 'text-cream-200/40' : 'text-ink/30')}>
               /
@@ -537,22 +590,39 @@ export function CtaButton({ href, onClick, children, className = 'as-btn-solid',
 /*  Liczba osiągnięcia: „5 000+” + podpis                              */
 /* ------------------------------------------------------------------ */
 
-export function Stat({ value, label, tone = 'dark', compact = false, className }) {
+/* Liczba + podpis w komórce z linią 1 px u góry (jak .as-cell) – bez pionowej
+   złotej kreski. compact = rząd w pasie nagłówka (liczby ≥ 22 px na telefonie).
+   inline = poniżej sm układ listy „wartość | podpis” (PageHero statsLayout="list").
+   Podpisy bez automatycznego dzielenia wyrazów (dzieliło nazwy, np. „PRIN-CESS”);
+   break-words zostaje, żeby długie słowo nie wyszło poza kolumnę. */
+export function Stat({ value, label, tone = 'dark', compact = false, inline = false, className }) {
   const isLight = tone === 'light';
   const locale = useLocale();
   return (
-    <div className={cn(compact ? 'border-l border-gold/35 pl-3 sm:pl-5' : 'as-card-col', className)}>
+    <div
+      className={cn(
+        'border-t',
+        isLight ? 'border-cream-200/15' : 'border-ink/15',
+        compact ? 'pt-4' : 'h-full pr-5 pt-6',
+        inline && 'max-sm:grid max-sm:grid-cols-[minmax(7.5rem,auto)_1fr] max-sm:items-baseline max-sm:gap-x-4 max-sm:py-3',
+        className
+      )}
+    >
       <p
         className={cn(
           compact
-            ? 'as-display text-[clamp(1.25rem,5.4vw,1.625rem)] leading-none [overflow-wrap:anywhere] sm:text-[2.25rem] lg:text-[clamp(2.5rem,4.4vw,4rem)]'
+            ? 'as-display text-[clamp(1.375rem,5.8vw,1.625rem)] leading-none [overflow-wrap:anywhere] sm:text-[2.25rem] lg:text-[clamp(2.5rem,4.4vw,4rem)]'
             : 'as-display-md leading-none',
+          inline && 'max-sm:whitespace-nowrap max-sm:[overflow-wrap:normal]',
           isLight ? 'text-cream-100' : 'text-ink'
         )}
       >
         {value}
       </p>
-      <p className={cn('mt-3 hyphens-auto break-words', isLight ? 'as-caption-invert' : 'as-caption')} lang={locale}>
+      <p
+        className={cn('mt-3 hyphens-manual break-words', inline && 'max-sm:mt-0', isLight ? 'as-caption-invert' : 'as-caption')}
+        lang={locale}
+      >
         {label}
       </p>
     </div>
@@ -560,9 +630,9 @@ export function Stat({ value, label, tone = 'dark', compact = false, className }
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas zamykający stronę – jeden na każdej trasie, ten sam układ      */
-/*  tło espresso-900, etykieta z numerem, h2 w skali sekcji,           */
-/*  lead as-body-invert, para gold + ghost-light, opcjonalnie kadr(y). */
+/*  Pas zamykający stronę – jeden na każdej trasie, ten sam układ:     */
+/*  tło espresso, etykieta z numerem i h2 w skali sekcji po lewej,     */
+/*  lead + para przycisków (kremowy + ghost-light) po prawej (od lg).  */
 /* ------------------------------------------------------------------ */
 
 export function ClosingCta({
@@ -577,9 +647,13 @@ export function ClosingCta({
   children,
   className,
 }) {
-  /* Pas zamykający = jeden blok ze stopką (espresso-900). Bez portretów –
-     założycielka nie może występować w każdym zakończeniu strony.
-     Etykieta domyślna („Kontakt”) – w języku strony. */
+  /* Pas zamykający + stopka = jeden ciemny blok (espresso → espresso-900). Bez
+     portretów – założycielka nie może występować w każdym zakończeniu strony.
+     Od lg rozkładówka 6 | 5 kolumn: nagłówek po lewej, lead i przyciski po
+     prawej, wyrównane do dołu – bez pustej prawej połowy pasa. Z `aside`
+     prawa kolumna to aside (lead i przyciski zostają pod nagłówkiem).
+     Telefon: przyciski jeden pod drugim na całą szerokość (równa krawędź).
+     Odstępy 56/80 px jak sekcje. Etykieta domyślna („Kontakt”) – w języku strony. */
   const t = useContent(common);
   const button = (btn, cls) => {
     if (!btn) return null;
@@ -590,35 +664,57 @@ export function ClosingCta({
       </CtaButton>
     );
   };
+  const head = (
+    <>
+      <SectionLabel number={number} tone="light">
+        {label === undefined ? t.closingLabel : label}
+      </SectionLabel>
+      <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+        {nbspShort(title)}
+        {titleAccent && (
+          <>
+            {' '}
+            <span className="italic text-gold-light">{nbspShort(titleAccent)}</span>
+          </>
+        )}
+      </h2>
+    </>
+  );
+  const body = (
+    <>
+      {lead && <p className="as-body-invert">{nbspShort(lead)}</p>}
+      {(primary || secondary) && (
+        <div className={cn('grid gap-3 sm:flex sm:flex-wrap sm:gap-4', lead && 'mt-8')}>
+          {button(primary, 'as-btn-invert')}
+          {button(secondary, 'as-btn-ghost-light')}
+        </div>
+      )}
+    </>
+  );
+  const hasBody = Boolean(lead || primary || secondary);
   return (
     <section data-sticky-hide className={cn('relative overflow-hidden bg-espresso text-cream-50', className)}>
-      <div className="as-shell relative py-16 lg:py-24">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
-          <Reveal className={aside ? 'lg:col-span-7' : 'lg:col-span-8'}>
-            <SectionLabel number={number} tone="light">
-              {label === undefined ? t.closingLabel : label}
-            </SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
-              {title}
-              {titleAccent && (
-                <>
-                  {' '}
-                  <span className="italic text-gold-light">{titleAccent}</span>
-                </>
+      <div className="as-shell relative py-14 lg:py-20">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-16">
+          {aside ? (
+            <>
+              <Reveal className="lg:col-span-7">
+                {head}
+                {hasBody && <div className="mt-6">{body}</div>}
+              </Reveal>
+              <Reveal delay={60} className="lg:col-span-4 lg:col-start-9">
+                {aside}
+              </Reveal>
+            </>
+          ) : (
+            <>
+              <Reveal className="lg:col-span-6">{head}</Reveal>
+              {hasBody && (
+                <Reveal delay={60} className="lg:col-span-5 lg:col-start-8">
+                  {body}
+                </Reveal>
               )}
-            </h2>
-            {lead && <p className="as-body-invert mt-6">{lead}</p>}
-            {(primary || secondary) && (
-              <div className="mt-8 flex flex-wrap gap-4">
-                {button(primary, 'as-btn-invert')}
-                {button(secondary, 'as-btn-ghost-light')}
-              </div>
-            )}
-          </Reveal>
-          {aside && (
-            <Reveal delay={90} className="lg:col-span-4 lg:col-start-9">
-              {aside}
-            </Reveal>
+            </>
           )}
         </div>
         {children}
@@ -637,7 +733,8 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
   return (
     <div
       className={cn(
-        'grid gap-4 border-t py-8 sm:grid-cols-[5rem_1fr] lg:grid-cols-[6rem_1fr_auto] lg:items-baseline lg:gap-8',
+        /* telefon: numerał | tytuł w jednym rzędzie (bez osobnego wiersza na numer) */
+        'grid grid-cols-[3.5rem_1fr] gap-4 border-t py-8 sm:grid-cols-[5rem_1fr] lg:grid-cols-[6rem_1fr_auto] lg:items-baseline lg:gap-8',
         onDark ? 'border-cream-200/15' : 'border-ink/15',
         className
       )}
@@ -648,7 +745,7 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
         {desc && <p className={cn('mt-3 max-w-[34rem] text-[0.9375rem] leading-[1.65]', onDark ? 'text-cream-200/85' : 'text-ink/75')}>{desc}</p>}
         {children}
       </div>
-      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3 sm:col-start-2 lg:col-start-auto lg:justify-end">
+      <div className="col-start-2 flex flex-wrap items-baseline gap-x-8 gap-y-3 lg:col-start-auto lg:justify-end">
         {meta && <span className={cn('whitespace-nowrap font-display text-[1.375rem]', onDark ? 'text-cream-100' : 'text-ink')}>{meta}</span>}
         {href && cta && (
           <ArrowLink href={href} tone={onDark ? 'light' : 'dark'} className="w-fit">
@@ -665,10 +762,13 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
 /*  (input / textarea / select). Jedna klasa dla całego serwisu.       */
 /* ------------------------------------------------------------------ */
 
-/* 16 px na telefonie (mniejsze pola iOS Safari powiększa przy fokusie),
-   linia pola ink/40 (≥ 3:1), fokus = linia 2 px w ink, placeholder w mocha. */
+/* 16 px na każdej szerokości (mniejsze pola iOS Safari powiększa przy fokusie –
+   także telefon w poziomie i tablet), linia pola ink/55 (3,8:1 na cream-50,
+   3,6:1 na cream-100 – próg 3:1 dla granicy kontrolki), fokus = linia 2 px
+   w ink, placeholder w mocha. Tej samej klasy używają pola spoza <Field>
+   (wyszukiwarka katalogu, rezerwacja) – import { FIELD_CLASS }. */
 export const FIELD_CLASS =
-  'block h-12 w-full rounded-none border-0 border-b border-ink/40 bg-transparent px-0 text-base text-ink shadow-none outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] focus-visible:ring-0 sm:text-[0.9375rem]';
+  'block h-12 w-full rounded-none border-0 border-b border-ink/55 bg-transparent px-0 text-base text-ink shadow-none outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] focus-visible:ring-0';
 
 export function Field({ as = 'input', label, id, hint, required, className, wrapperClassName, children, ...rest }) {
   const Tag = as;
@@ -748,16 +848,67 @@ export function RequiredLegend({ className }) {
 /*  FAQ – jeden akordeon dla całego serwisu                            */
 /* ------------------------------------------------------------------ */
 
-export function Faq({ items, className }) {
+/* contentClassName – klasy treści rozwinięcia (np. 'max-w-none pr-0' dla
+   akordeonu z cennikiem, żeby ceny stały w jednej osi z cennikiem nad nim). */
+export function Faq({ items, className, contentClassName }) {
   return (
     <Accordion type="single" collapsible className={cn('w-full border-t border-ink/10', className)}>
       {items.map((item, i) => (
         <AccordionItem key={item.q || i} value={`faq-${i}`}>
-          <AccordionTrigger>{item.q}</AccordionTrigger>
-          <AccordionContent>{item.a}</AccordionContent>
+          <AccordionTrigger>{nbspShort(item.q)}</AccordionTrigger>
+          <AccordionContent className={contentClassName}>{item.a}</AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  „Więcej” – rozwinięcie treści tylko na telefonie                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Przycisk rozwijania treści na telefonie (jeden wzorzec „Więcej” w serwisie).
+ * Stan trzyma widok: treść do schowania w JEDNYM kontenerze z id (aria-controls),
+ * np. <div id="bio-more" className={cn(!open && 'max-md:hidden')}>…</div>.
+ * Od progu `until` (domyślnie md) przycisk znika, a treść stoi zawsze – o tym
+ * decydują same klasy, więc SSR i desktop są identyczne, bez skoku po hydratacji.
+ *
+ * Props: open, onToggle, controls (id kontenera), label („Więcej o …”),
+ * openLabel („Zwiń”), tone ('dark' na kremie | 'light' na ciemnym tle),
+ * until ('md' | 'sm' | 'lg'), className.
+ * Hover bez złotego tekstu – zmienia się tylko linia.
+ */
+const MORE_UNTIL = { sm: 'sm:hidden', md: 'md:hidden', lg: 'lg:hidden' };
+
+export function MobileMore({ open, onToggle, controls, label, openLabel, tone = 'dark', until = 'md', className }) {
+  const isLight = tone === 'light';
+  const t = useContent(common);
+  return (
+    <button
+      type="button"
+      aria-expanded={open}
+      aria-controls={controls}
+      onClick={onToggle}
+      className={cn(
+        'flex min-h-[48px] w-full items-center justify-between gap-6 border-y py-3 text-left transition-colors',
+        isLight ? 'border-cream-200/15 hover:border-cream-200/40' : 'border-ink/15 hover:border-ink/40',
+        MORE_UNTIL[until] || MORE_UNTIL.md,
+        className
+      )}
+    >
+      <span className={cn('as-label', isLight ? 'text-cream-100' : 'text-ink')}>
+        {open ? openLabel || t.less : label || t.more}
+      </span>
+      <ChevronDown
+        aria-hidden="true"
+        className={cn(
+          'h-4 w-4 shrink-0 transition-transform duration-300 motion-reduce:transition-none',
+          isLight ? 'text-gold-light' : 'text-gold-deep',
+          open && 'rotate-180'
+        )}
+      />
+    </button>
   );
 }
 
@@ -783,12 +934,15 @@ export function Statement({
   return (
     <section
       className={cn(
-        'relative flex min-h-[80svh] items-end overflow-hidden bg-espresso-900 text-cream-50 lg:min-h-[70svh]',
+        'relative flex flex-col overflow-hidden bg-espresso-900 text-cream-50 md:min-h-[70svh] md:flex-row md:items-end short:min-h-0',
         className
       )}
     >
-      {/* od lg portret zajmuje połowę pasa (kadr ≈ 1:1 – cała głowa i dłonie, bez powiększania
-          pliku 2:3 do pasa 2:1), a lewą krawędź wygasza maska; poniżej lg pełny spad */}
+      {/* Od md portret zajmuje połowę pasa (kadr ≈ 1:1 – cała głowa i dłonie, bez
+          powiększania pliku 2:3 do pasa 2:1), a krawędź od strony tekstu wygasza maska.
+          Poniżej md portret 4:5 NAD tekstem – tekst nigdy nie leży na twarzy ani dłoniach.
+          Telefon w poziomie (short:, 640–767 px) – kadr 4:5 nie wyższy niż 80% ekranu,
+          wyśrodkowany (jak portrety na stronie głównej), zamiast 2 ekranów zdjęcia. */}
       <Figure
         image={image}
         alt={alt}
@@ -797,17 +951,18 @@ export function Statement({
         zoom={false}
         fill
         className={cn(
+          'max-md:relative max-md:inset-auto max-md:aspect-[4/5] max-md:w-full short:max-md:mx-auto short:max-md:max-w-[calc(80svh*4/5)]',
           right
-            ? 'lg:right-auto lg:w-[52%] lg:max-w-[50rem] lg:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%)] lg:[mask-image:linear-gradient(to_left,transparent,#000_28%)]'
-            : 'lg:left-auto lg:w-[52%] lg:max-w-[50rem] lg:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%)] lg:[mask-image:linear-gradient(to_right,transparent,#000_28%)]'
+            ? 'md:right-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%)] md:[mask-image:linear-gradient(to_left,transparent,#000_28%)]'
+            : 'md:left-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%)] md:[mask-image:linear-gradient(to_right,transparent,#000_28%)]'
         )}
-        sizes="(min-width: 1540px) 800px, (min-width: 1024px) 52vw, 100vw"
+        sizes="(min-width: 1540px) 800px, (min-width: 768px) 52vw, 100vw"
       />
-      {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej */}
+      {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej (od md) */}
       <div
         aria-hidden="true"
         className={cn(
-          'absolute inset-0 hidden lg:block',
+          'absolute inset-0 hidden md:block',
           right
             ? 'bg-gradient-to-l from-espresso-900/85 via-espresso-900/40 to-transparent'
             : 'bg-gradient-to-r from-espresso-900/85 via-espresso-900/40 to-transparent'
@@ -815,21 +970,22 @@ export function Statement({
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-espresso-900/90 via-espresso-900/55 to-transparent lg:h-40 lg:from-espresso-900/70 lg:via-transparent"
+        className="absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-espresso-900/70 via-transparent to-transparent md:block"
       />
-      <div className="as-shell relative w-full pb-16 pt-40 lg:pb-24 lg:pt-56">
-        <Reveal className={cn('max-w-xl lg:max-w-[44%]', right && 'ml-auto')}>
+      <div className="as-shell relative w-full pb-14 pt-8 md:pb-16 md:pt-40 lg:pb-24 lg:pt-56 short:pt-16">
+        <Reveal className={cn('max-w-xl md:max-w-[44%]', right && 'md:ml-auto')}>
           {label && (
             <SectionLabel number={number} tone="light">
               {label}
             </SectionLabel>
           )}
-          <h2 className="as-display-lg as-text-balance mt-6">
-            {title}
+          {/* H2 w skali sekcji (jeden rozmiar H2 w serwisie), nie H1 */}
+          <h2 className="as-display-section as-text-balance mt-6">
+            {nbspShort(title)}
             {titleAccent && (
               <>
                 {' '}
-                <span className="italic text-gold-light">{titleAccent}</span>
+                <span className="italic text-gold-light">{nbspShort(titleAccent)}</span>
               </>
             )}
           </h2>

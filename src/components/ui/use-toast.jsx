@@ -3,8 +3,10 @@
 // Inspired by react-hot-toast library
 import { useState, useEffect } from "react";
 
-const TOAST_LIMIT = 20;
-const TOAST_REMOVE_DELAY = 1000000;
+/* Jeden komunikat naraz (nowy zastępuje poprzedni); zamknięty znika z pamięci po 1 s.
+   Automatyczne zamykanie (10 s, z pauzą) – w Toasterze (toaster.jsx). */
+const TOAST_LIMIT = 1;
+const TOAST_REMOVE_DELAY = 1000;
 
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",

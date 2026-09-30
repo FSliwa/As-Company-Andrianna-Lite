@@ -8,6 +8,7 @@
  * katalogu) – doklejamy je w chwili kliknięcia. Zwykłe <a>, nie next/link: każdy
  * język ma własny root layout, więc przejście i tak jest pełnym przeładowaniem.
  * Pole dotyku 44 × 44 px; aktywny język podkreślony 1 px, aria-current="page".
+ * Miejsca: nagłówek od lg, górny pasek menu (telefon, tablet) i stopka.
  */
 
 import { usePathname } from 'next/navigation';
@@ -64,7 +65,8 @@ export default function LanguageSwitcher({ tone = 'dark', className }) {
               <span
                 className={cn(
                   active && 'underline decoration-1 underline-offset-[5px]',
-                  active && (light ? 'decoration-gold-light' : 'decoration-gold')
+                  /* wskaźnik stanu ≥ 3:1: gold-dark na kremie (3,7:1; gold miał 2,6:1), gold-light na espresso */
+                  active && (light ? 'decoration-gold-light' : 'decoration-gold-dark')
                 )}
               >
                 {LOCALE_META[l].label}

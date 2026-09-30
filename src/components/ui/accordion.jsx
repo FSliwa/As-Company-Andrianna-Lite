@@ -4,8 +4,10 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-/* Akordeon w stylu marki: pytanie w kroju display, złota strzałka,
-   odpowiedź w .as-body. Widoki nie nadpisują tych klas. */
+/* Akordeon w stylu marki: pytanie w kroju display (22 px na telefonie, 24 px
+   od sm – Bodoni nie schodzi poniżej 22 px), złota strzałka, odpowiedź w .as-body
+   (łam 36 rem). Hover bez złotego tekstu: złote jest tylko podkreślenie
+   (złoto tylko w linii). Fokus = obrys w kolorze tekstu (ink). */
 
 const Accordion = AccordionPrimitive.Root
 
@@ -19,7 +21,7 @@ const AccordionTrigger = React.forwardRef(({ className, children, ...props }, re
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between gap-6 py-5 text-left font-display text-xl font-normal leading-snug text-ink transition-colors hover:text-gold-dark sm:text-2xl [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between gap-6 py-5 text-left font-display text-[1.375rem] font-normal leading-snug text-ink decoration-gold decoration-1 underline-offset-[0.3em] [text-wrap:pretty] hover:underline sm:text-2xl [&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}>
@@ -36,7 +38,7 @@ const AccordionContent = React.forwardRef(({ className, children, ...props }, re
     ref={ref}
     className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}>
-    <div className={cn("as-body max-w-2xl pb-6 pr-6", className)}>{children}</div>
+    <div className={cn("as-body pb-6 pr-6", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName

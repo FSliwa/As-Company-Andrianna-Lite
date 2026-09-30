@@ -22,8 +22,9 @@
  * Układ (rytm tła):
  *   01 PageHero band (espresso) – liczby z danych, „Przeglądaj katalog” + „Jak zamówić”
  *   02 Katalog #katalog (cream-50) – filtry (chip kolekcji z paskiem jej odcieni),
- *      licznik (aria-live), siatka odcieni (pełne rzędy: 6 do xl, 8 od xl
- *      + „Pokaż wszystkie”), zestawy jako cennik, adnotacje
+ *      licznik (aria-live), siatka odcieni (pełne rzędy: 6 do xl, 8 od xl,
+ *      potem porcjami po 12 z licznikiem „Pokazano X z N”), zestawy jako cennik
+ *      (poniżej lg 4 pierwsze + „Pokaż wszystkie zestawy”), adnotacje
  *   03 Jak zamówić #zamowienie (cream-100, hairline) – 3 kroki + dokumentacja na prośbę
  *   04 ClosingCta – „Twoje zamówienie” (otwiera listę) + kontakt
  *   + pływający przycisk listy i dwa dialogi (szczegóły, zamówienie)
@@ -37,6 +38,7 @@ import {
   ArrowLink,
   ClosingCta,
   CtaButton,
+  MobileMore,
   NumberedItem,
   PageHero,
   Reveal,
@@ -79,10 +81,18 @@ const SYNCED = formatSyncedDate();
    2 kolumny (telefon) → 3 rzędy, 3 kolumny (md) → 2 rzędy = 6 odcieni;
    4 kolumny (xl) → 2 rzędy = 8. Siódmy i ósmy są w DOM, ale poniżej xl
    ukryte klasą (bez mierzenia w JS – ten sam HTML na serwerze i w przeglądarce).
-   Reszta po „Pokaż wszystkie”; wyszukiwanie pokazuje zawsze wszystkie trafienia. */
+   Dalej porcjami po 12 („Pokaż kolejne 12”): 6 + 12 = 18 i 8 + 12 = 20, więc
+   rzędy przy 2, 3 i 4 kolumnach zostają pełne. Jedno dotknięcie dodaje ~6 rzędów
+   na telefonie (ok. 2,5 tys. px), a nie całą setkę odcieni (~20 tys. px, 32 ekrany).
+   Ten sam limit dotyczy wyników wyszukiwania. Od lg dodatkowo „Pokaż wszystkie”. */
 const PAGE_NARROW = 6;
 const PAGE_WIDE = 8;
+const PAGE_STEP = 12;
 const WIDE_MQ = '(min-width: 1280px)';
+
+/* Zestawy: poniżej lg widać 4 pierwsze (cennik 14 pozycji to 2–4,5 ekranu
+   telefonu), reszta po „Pokaż wszystkie zestawy”. Od lg – wszystkie w kolumnach. */
+const SETS_PREVIEW = 4;
 
 const shadesWord = (n) => plural(n, 'odcień', 'odcienie', 'odcieni');
 const setsWord = (n) => plural(n, 'zestaw', 'zestawy', 'zestawów');
@@ -156,7 +166,8 @@ function Hero() {
       label="Pigmenty"
       number="01"
       title="Pigmenty"
-      titleAccent="AS COMPANY."
+      /* twarda spacja: nazwa marki nie łamie się między „AS” a „COMPANY” */
+      titleAccent={'AS\u00a0COMPANY.'}
       /* D2 („linia rzęs” zamiast „kresek”) dotyczy zabiegu Perfect Eyes; tu „kreski” to kategoria
          pigmentów ze sklepu (strefa „Kreski” w danych i w filtrze) – zostaje (raport INNE-03). */
       lead="Pigmenty do brwi, ust i kresek, modyfikatory oraz odcienie do areoli, kamuflażu i trychopigmentacji – AS OPIUM, Light Minerals, AS Classic i kolejne kolekcje. Wybierz odcienie i wyślij zapytanie."
@@ -186,8 +197,8 @@ function Catalog({
   setZone,
   query,
   setQuery,
-  expanded,
-  setExpanded,
+  extra,
+  setExtra,
   qtyByProduct,
   onAdd,
   onDetails,
@@ -196,6 +207,7 @@ function Catalog({
   const filtersRef = useRef(null);
   const focusIndex = useRef(null);
   const stale = React.useContext(PricesStaleContext);
+  const [setsOpen, setSetsOpen] = useState(false);
 
   const base = useMemo(() => filterProducts(PRODUCTS, { collection }), [collection]);
   const zones = useMemo(() => zonesIn(base), [base]);
@@ -213,24 +225,35 @@ function Catalog({
 
   const shades = useMemo(() => results.filter((p) => !p.isSet), [results]);
   const sets = useMemo(() => results.filter((p) => p.isSet), [results]);
-  const collapsible = !expanded && !q;
-  const limitedNarrow = collapsible && shades.length > PAGE_NARROW;
-  const limitedWide = collapsible && shades.length > PAGE_WIDE;
-  const visible = limitedNarrow ? shades.slice(0, PAGE_WIDE) : shades;
+  /* Limit widocznych odcieni: telefon/tablet (do xl) i xl+ – dwa progi, ten sam
+     HTML (odcienie między progami mają klasę „hidden xl:block”). */
+  const total = shades.length;
+  const shownNarrow = Math.min(total, PAGE_NARROW + extra);
+  const shownWide = Math.min(total, PAGE_WIDE + extra);
+  const moreNarrow = total > shownNarrow;
+  const moreWide = total > shownWide;
+  const visible = shades.slice(0, shownWide);
   const filtered = Boolean(collection || activeZone || q);
+  const setsCollapsible = sets.length > SETS_PREVIEW + 1;
 
-  /* po „Pokaż wszystkie” fokus na pierwszym nowo pokazanym odcieniu */
+  /* po „Pokaż kolejne” fokus na pierwszym nowo pokazanym odcieniu */
   useEffect(() => {
-    if (!expanded || focusIndex.current === null) return;
+    if (focusIndex.current === null) return;
     gridRef.current?.querySelector(`[data-i="${focusIndex.current}"]`)?.focus();
     focusIndex.current = null;
-  }, [expanded]);
+  }, [extra]);
+
+  const showMore = (all = false) => {
+    /* pierwszy NOWO pokazany odcień – zależy od szerokości (6 czy 8 na start) */
+    focusIndex.current = window.matchMedia?.(WIDE_MQ).matches ? shownWide : shownNarrow;
+    setExtra((n) => (all ? Infinity : n + PAGE_STEP));
+  };
 
   const reset = () => {
     setCollection(null);
     setZone(null);
     setQuery('');
-    setExpanded(false);
+    setExtra(0);
     /* przycisk, który to wywołał, znika – fokus na „Wszystkie” w rzędzie kolekcji */
     requestAnimationFrame(() => filtersRef.current?.querySelector('[role="group"] button')?.focus());
   };
@@ -248,7 +271,7 @@ function Catalog({
         (activeZone ? ` · ${zoneLabel(activeZone)}` : '');
 
   return (
-    <section id="katalog" className="as-section scroll-mt-24 bg-cream-50">
+    <section id="katalog" className="as-section bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <Reveal className="lg:col-span-7">
@@ -273,16 +296,19 @@ function Catalog({
             onCollection={(id) => {
               setCollection(id);
               if (!zoneFits(zone, id)) setZone(null);
-              setExpanded(false);
+              setExtra(0);
             }}
             zones={zones}
             zone={activeZone}
             onZone={(id) => {
               setZone(id);
-              setExpanded(false);
+              setExtra(0);
             }}
             query={query}
-            onQuery={setQuery}
+            onQuery={(value) => {
+              setQuery(value);
+              setExtra(0);
+            }}
             controls="katalog-wyniki"
           />
         </div>
@@ -306,6 +332,7 @@ function Catalog({
           {visible.length > 0 && (
             <ul
               ref={gridRef}
+              id="katalog-odcienie"
               aria-label="Odcienie"
               className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-4"
             >
@@ -314,7 +341,7 @@ function Catalog({
                   key={p.id}
                   data-i={i}
                   tabIndex={-1}
-                  className={cn('min-w-0', limitedNarrow && i >= PAGE_NARROW && 'hidden xl:block')}
+                  className={cn('min-w-0 focus-visible:outline-ink', i >= shownNarrow && 'hidden xl:block')}
                 >
                   <ProductCell product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
                 </li>
@@ -322,28 +349,34 @@ function Catalog({
             </ul>
           )}
 
-          {limitedNarrow && (
+          {/* Doładowanie porcjami: licznik „Pokazano X z N” + „Pokaż kolejne 12”.
+              Liczby dla telefonu/tabletu i dla xl w osobnych spanach (inny start: 6 / 8). */}
+          {moreNarrow && (
             <div
               className={cn(
                 'mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink/15 pt-6',
-                !limitedWide && 'xl:hidden'
+                !moreWide && 'xl:hidden'
               )}
             >
-              <p className="as-caption max-w-none">
-                Pokazano <span className="xl:hidden">{PAGE_NARROW}</span>
-                <span className="hidden xl:inline">{Math.min(PAGE_WIDE, shades.length)}</span> z{NBSP}
-                {shades.length} {plural(shades.length, 'odcienia', 'odcieni', 'odcieni')}.
+              <p className="as-caption max-w-none" aria-live="polite">
+                Pokazano <span className="xl:hidden">{shownNarrow}</span>
+                <span className="hidden xl:inline">{shownWide}</span> z{NBSP}
+                {total} {plural(total, 'odcienia', 'odcieni', 'odcieni')}.
               </p>
-              <ArrowLink
-                onClick={() => {
-                  /* fokus na pierwszym NOWO pokazanym odcieniu – zależy od szerokości */
-                  focusIndex.current = window.matchMedia?.(WIDE_MQ).matches ? PAGE_WIDE : PAGE_NARROW;
-                  setExpanded(true);
-                }}
-                className="w-fit"
-              >
-                Pokaż wszystkie odcienie ({shades.length})
+              <ArrowLink onClick={() => showMore()} aria-controls="katalog-odcienie" className="w-fit">
+                Pokaż kolejne <span className="xl:hidden">{Math.min(PAGE_STEP, total - shownNarrow)}</span>
+                <span className="hidden xl:inline">{Math.min(PAGE_STEP, total - shownWide)}</span>
               </ArrowLink>
+              {/* desktop: cały katalog jednym kliknięciem (13–16 ekranów, nie 32–52 jak na telefonie) */}
+              {total - shownNarrow > PAGE_STEP && (
+                <ArrowLink
+                  onClick={() => showMore(true)}
+                  aria-controls="katalog-odcienie"
+                  className="hidden w-fit lg:inline-flex"
+                >
+                  Pokaż wszystkie ({total})
+                </ArrowLink>
+              )}
             </div>
           )}
 
@@ -354,10 +387,29 @@ function Catalog({
                 <p className="as-caption max-w-none">Skład zestawu – po kliknięciu nazwy.</p>
               </div>
               <div className="mt-6 grid gap-x-10 lg:grid-cols-2 xl:grid-cols-3">
-                {sets.map((p) => (
+                {(setsCollapsible ? sets.slice(0, SETS_PREVIEW) : sets).map((p) => (
                   <SetRow key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
                 ))}
+                {/* reszta zestawów: poniżej lg zwinięta (MobileMore), od lg w tej samej siatce
+                    (display: contents – wiersze wchodzą w kolumny rodzica) */}
+                {setsCollapsible && (
+                  <div id="pig-sets-more" className={cn('contents', !setsOpen && 'max-lg:hidden')}>
+                    {sets.slice(SETS_PREVIEW).map((p) => (
+                      <SetRow key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
+                    ))}
+                  </div>
+                )}
               </div>
+              {setsCollapsible && (
+                <MobileMore
+                  open={setsOpen}
+                  onToggle={() => setSetsOpen((o) => !o)}
+                  controls="pig-sets-more"
+                  label={`Pokaż wszystkie zestawy (${sets.length})`}
+                  openLabel="Zwiń zestawy"
+                  until="lg"
+                />
+              )}
             </div>
           )}
 
@@ -390,7 +442,7 @@ function Catalog({
 
 function HowToOrder() {
   return (
-    <section id="zamowienie" className="as-section scroll-mt-24 border-t border-ink/10 bg-cream-100">
+    <section id="zamowienie" className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
@@ -446,7 +498,8 @@ export default function Pigments({ pricesStale = false }) {
   const [collection, setCollection] = useState(null);
   const [zone, setZone] = useState(null);
   const [query, setQuery] = useState('');
-  const [expanded, setExpanded] = useState(false);
+  /* ile odcieni ponad start (6 / 8) pokazać: +12 na „Pokaż kolejne”, Infinity = wszystkie */
+  const [extra, setExtra] = useState(0);
   const [detailsId, setDetailsId] = useState(null);
   const [orderOpen, setOrderOpen] = useState(false);
   const [announce, setAnnounce] = useState('');
@@ -526,8 +579,8 @@ export default function Pigments({ pricesStale = false }) {
         setZone={setZone}
         query={query}
         setQuery={setQuery}
-        expanded={expanded}
-        setExpanded={setExpanded}
+        extra={extra}
+        setExtra={setExtra}
         qtyByProduct={qtyByProduct}
         onAdd={onAdd}
         onDetails={onDetails}

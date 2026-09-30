@@ -4,6 +4,8 @@
  * Krok przepływu rezerwacji: hairline u góry, numer (as-num) + tytuł
  * (as-numbered-title) jako <legend><h2>, opcjonalny podpis i błąd.
  * `aside` (np. strzałki paska dni) stoi w prawym górnym rogu kroku.
+ * Odstęp pod przyklejonym nagłówkiem przy przewijaniu do kroku daje
+ * html { scroll-padding-top } (index.css) – krok nie ma własnego scroll-mt.
  */
 
 import { cn } from '@/lib/utils';
@@ -13,7 +15,7 @@ export function Step({ id, number, title, caption, error, aside, disabled = fals
   const errorId = error ? `${id}-error` : undefined;
   const describedBy = [captionId, errorId].filter(Boolean).join(' ') || undefined;
   return (
-    <div id={id} className={cn('relative scroll-mt-28 border-t border-ink/15 pt-6 lg:scroll-mt-32', className)}>
+    <div id={id} className={cn('relative border-t border-ink/15 pt-6', className)}>
       <fieldset disabled={disabled} aria-describedby={describedBy} className="min-w-0">
         <legend className={cn('w-full p-0', aside && 'pr-28')}>
           {/* Skrypt przenosi tu fokus (Enter w poprzednim kroku, błąd z API) – wskaźnik musi być widoczny. */}
@@ -29,7 +31,7 @@ export function Step({ id, number, title, caption, error, aside, disabled = fals
           </p>
         )}
         {error && (
-          <p id={errorId} className="mt-3 text-[0.875rem] leading-relaxed text-destructive">
+          <p id={errorId} className="mt-3 text-[0.9375rem] leading-relaxed text-destructive">
             {error}
           </p>
         )}

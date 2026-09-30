@@ -5,6 +5,8 @@
  * Stany: brak zabiegu / brak dnia / ładowanie / lista / brak slotów
  * (+ „najbliższy wolny dzień”) / błąd / limit zapytań; nad siatką
  * komunikat 409 „Ten termin właśnie się zajął”.
+ * `onPointerPick` – wybór godziny wskaźnikiem (detail ≥ 1): widok przewija do
+ * kroku 04. Strzałki i spacja nie przewijają.
  */
 
 import { forwardRef } from 'react';
@@ -33,7 +35,7 @@ function NextFree({ nextFree, onPick, windowChecked }) {
         href={CONTACT.instagram}
         target="_blank"
         rel="noreferrer noopener"
-        className="border-b border-ink/30 text-ink transition-colors hover:border-gold hover:text-gold-deep"
+        className="border-b border-ink/30 text-ink transition-colors hover:border-gold"
       >
         {CONTACT.instagramHandle}
         <span className="sr-only"> (otwiera się w nowej karcie)</span>
@@ -67,6 +69,7 @@ export function SlotGrid({
   nextFree,
   windowChecked,
   onPickNextFree,
+  onPointerPick,
   invalid,
 }) {
   if (status === 'no-treatment') return <Message>Najpierw wybierz zabieg i dzień.</Message>;
@@ -124,6 +127,9 @@ export function SlotGrid({
         return (
           <li key={time}>
             <label
+              onClick={(e) => {
+                if (e.detail > 0) onPointerPick?.(time);
+              }}
               className={cn(
                 'relative flex h-12 cursor-pointer items-center justify-center border text-[0.9375rem] tabular-nums transition-colors',
                 'has-[:focus-visible]:[outline:2px_solid_#241B14] has-[:focus-visible]:[outline-offset:2px]',

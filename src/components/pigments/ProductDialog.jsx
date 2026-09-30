@@ -6,9 +6,16 @@
  * zamówienia. Potwierdzenie „Dodano…” stoi nad przyciskami – przy długim
  * opisie nie wypada poza dolną krawędź przewijanego panelu.
  * Jeden dialog na stronę (sterowany `productId`), nie jeden na komórkę.
+ *
+ * Stopka (DialogFooter) jest bezpośrednim dzieckiem DialogContent, więc
+ * przykleja się do dołu panelu – „Dodaj” jest zawsze w kadrze. Wybór pojemności
+ * stoi pod opisem, dlatego przycisk mówi, co doda („Dodaj · 6 ml”). Telefon:
+ * w stopce tylko przycisk główny (para w dwóch rzędach zabierała ~150 px
+ * arkusza); „Wróć do katalogu” – link na końcu treści, a zamyka też ×.
  */
 
 import React, { useRef, useState } from 'react';
+import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
@@ -20,12 +27,14 @@ import {
 import { ArrowLink } from '@/components/as/Primitives';
 import { findVariant, formatCapacity, formatPrice, formatSyncedDate, productById } from '@/lib/pigments';
 import {
+  DOT,
   Description,
   NBSP,
   PRICE_TBC,
   Swatch,
   VariantPicker,
   defaultLabel,
+  displayName,
   kickerFor,
   usePricesStale,
   zonesText,
@@ -41,6 +50,8 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const variant = findVariant(product, label);
   const multi = product.variants.length > 1;
   const canAdd = Boolean(product.inStock && variant?.inStock);
+  /* pojemność w przycisku tylko przy wyborze (kilka butelek) – wybór stoi wyżej w treści */
+  const capLabel = multi && variant?.label ? formatCapacity(variant.label) : null;
 
   const handleAdd = () => {
     if (!canAdd) return;
@@ -54,10 +65,10 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
     <>
       <DialogHeader>
         <p className="as-kicker">{kickerFor(product)}</p>
-        <DialogTitle>{product.name}</DialogTitle>
+        <DialogTitle>{displayName(product.name)}</DialogTitle>
         <DialogDescription>
           {product.zones.length > 1 ? 'Strefy' : 'Strefa'}: {zonesText(product)}
-          {!multi && product.variants[0]?.label ? ` · ${formatCapacity(product.variants[0].label)}` : ''}
+          {!multi && product.variants[0]?.label ? `${DOT}${formatCapacity(product.variants[0].label)}` : ''}
         </DialogDescription>
       </DialogHeader>
 
@@ -121,13 +132,25 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
         )}
       </div>
 
+      {/* telefon: powrót jako link na końcu treści (w stopce zostaje sam przycisk główny) */}
+      {canAdd && (
+        <ArrowLink onClick={onClose} className="mt-8 w-fit sm:hidden">
+          Wróć do katalogu
+        </ArrowLink>
+      )}
+
       <DialogFooter>
         {canAdd && (
           <button type="button" onClick={handleAdd} className="as-btn-solid">
-            Dodaj do zamówienia
+            {/* jeden element w przycisku (inline-flex z gap) – tekst bez dodatkowych odstępów */}
+            <span>
+              <span className="sm:hidden">Dodaj</span>
+              <span className="hidden sm:inline">Dodaj do zamówienia</span>
+              {capLabel && ` · ${capLabel}`}
+            </span>
           </button>
         )}
-        <button type="button" onClick={onClose} className="as-btn-ghost">
+        <button type="button" onClick={onClose} className={cn('as-btn-ghost', canAdd && 'max-sm:hidden')}>
           {canAdd ? 'Wróć do katalogu' : 'Zamknij'}
         </button>
       </DialogFooter>

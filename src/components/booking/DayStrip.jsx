@@ -5,6 +5,8 @@
  * Natywne radio (strzałki pomijają dni wyłączone), przewijany w bok; przyciski
  * ←/→ przewijają o szerokość paska. Dni zamknięte i bez wolnych godzin są
  * wyszarzone i wyłączone (poza aktualnie wybranym).
+ * `onPointerPick` – wybór wskaźnikiem (detail ≥ 1), nie strzałkami: widok
+ * przewija wtedy do kroku 03.
  */
 
 import { useCallback, useEffect, useState } from 'react';
@@ -93,12 +95,15 @@ export function StripControls({ strip, controls }) {
   );
 }
 
-export function DayStrip({ id, days, counts, value, onChange, onEnter, strip, busy, invalid }) {
+export function DayStrip({ id, days, counts, value, onChange, onEnter, onPointerPick, strip, busy, invalid, className }) {
   return (
     <div
       ref={strip.ref}
       id={id}
-      className="as-noscrollbar relative -mx-5 overflow-x-auto overscroll-x-contain scroll-px-5 px-5 py-1 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:-mx-1 lg:scroll-px-1 lg:px-1"
+      className={cn(
+        'as-noscrollbar relative -mx-5 overflow-x-auto overscroll-x-contain scroll-px-5 px-5 py-1 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:-mx-1 lg:scroll-px-1 lg:px-1',
+        className
+      )}
       aria-busy={busy || undefined}
     >
       <ul className="flex w-max snap-x snap-proximity">
@@ -112,6 +117,9 @@ export function DayStrip({ id, days, counts, value, onChange, onEnter, strip, bu
           return (
             <li key={date} data-date={date} className={cn('shrink-0 snap-start', i > 0 && (monday ? 'ml-4' : 'ml-2'))}>
               <label
+                onClick={(e) => {
+                  if (e.detail > 0 && !disabled) onPointerPick?.(date);
+                }}
                 className={cn(
                   'relative flex h-[5.5rem] w-[4.25rem] flex-col items-center justify-center gap-1.5 border transition-colors',
                   'has-[:focus-visible]:[outline:2px_solid_#241B14] has-[:focus-visible]:[outline-offset:2px]',

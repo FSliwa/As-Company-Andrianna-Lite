@@ -3,21 +3,25 @@
 /**
  * /o-nas – „Numer 01".
  *
- * Rozkładówki: okładka (studio-11) → Droga zawodowa na espresso (jeden portret
- * studio-08 + biografia z inicjałem) → Liczby (cream-50) → Cytat (cream-100)
- * → Salon i akademia (cream-50, typograficznie; link do /uslugi) → ClosingCta.
+ * Rozkładówki: okładka (studio-11) → Droga zawodowa na espresso (od md jeden portret
+ * studio-08 + biografia z inicjałem; na telefonie bez portretu, biografia zwinięta
+ * pod „Więcej”) → Liczby (cream-50) → Cytat (cream-100) → Salon i akademia
+ * (cream-50, typograficznie; link do /uslugi) → ClosingCta.
+ * Złącza tekst–tekst (Liczby | Cytat | Salon) od lg ciaśniejsze (.as-section-tight*),
+ * przed pasem zamykającym pełny odstęp.
  * Portrety wyłącznie przez ROLES (src/lib/roles.js); zdjęcia grupowe są na /szkolenia.
  * D7: biografia i salon z briefu – FOUNDER.facts / FOUNDER.podiums / SALON (src/lib/site.js).
  * Zdjęć salonu i parkingu (brief: „Na tej podstronie dodajemy zdjęcia salonu, parkingu”)
  * brak w /Graphics – sekcja 05 jest typograficzna do czasu dostarczenia materiału.
  */
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
+import Link from '@/components/as/LocaleLink';
 import {
   ArrowLink,
   ClosingCta,
   Figure,
+  MobileMore,
   NumberedItem,
   PageHero,
   PriceRow,
@@ -27,6 +31,7 @@ import {
 } from '@/components/as/Primitives';
 import { ACHIEVEMENTS, BOOKING_URL, BRAND, FOUNDER, SALON } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
+import { cn } from '@/lib/utils';
 
 /* Wyróżnienia w biografii – marka pisze lekko, więc tylko font-medium. */
 const Em = ({ children }) => <strong className="font-medium text-cream-50">{children}</strong>;
@@ -114,8 +119,8 @@ function Hero() {
       imageAlt={`${FOUNDER.name} – ${BRAND.academy}, portret z sesji wizerunkowej`}
       tone="cream"
       /* Wszystkie cztery role z briefu (także prelegentka, BIO-11) są w leadzie (FOUNDER.rolePl).
-         Pasek zostaje z trzema: czwarta pozycja przy 1024–1060 px łamie pasek i wiersz zaczyna
-         się od „/” (kolumna 433 px, pasek 449 px – pomiar). */
+         Pasek zostaje z trzema: od lg stoi w jednej linii z ukośnikami, a czwarta pozycja
+         przy 1024–1060 px zawijała się i wiersz zaczynał od „/” (kolumna 433 px, pasek 449 px). */
       facts={['Linergistka', 'Trenerka', 'Sędzia']}
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -132,12 +137,21 @@ function Hero() {
 
 /* ================================================================== */
 /*  02 – DROGA ZAWODOWA (espresso)                                     */
-/*  Jeden portret 4:5 po lewej (przyklejony przy przewijaniu), po      */
-/*  prawej etykieta, H2 i biografia z inicjałem – jedyny taki detal    */
-/*  w serwisie. Na telefonie: etykieta → H2 → portret → tekst.         */
+/*  Od md: jeden portret 4:5 po lewej (przyklejony przy przewijaniu,   */
+/*  tylko na ekranie ≥ 640 px wysokości – w poziomie się nie mieści),  */
+/*  po prawej etykieta, H2 i biografia z inicjałem – jedyny taki detal */
+/*  w serwisie.                                                        */
+/*  Telefon (< md): etykieta → H2 → biografia, bez portretu (ten sam   */
+/*  kadr z tej samej sesji stoi tuż wyżej w okładce; ukryta kolumna    */
+/*  z loading=lazy nie pobiera obrazu). Z biografii widać akapit o     */
+/*  podiach i o technice (H2 obiecuje oba), reszta pod „Więcej”        */
+/*  (MobileMore) – nic nie jest usuwane; od md całość jak dotąd.       */
 /* ================================================================== */
 
 function StoryBand() {
+  const [open, setOpen] = useState(false);
+  /* Klasa ukrywająca akapity biografii na telefonie (stan zwinięty). */
+  const folded = !open && 'max-md:hidden';
   return (
     <section className="as-section bg-espresso text-cream-50">
       <div className="as-shell">
@@ -146,17 +160,19 @@ function StoryBand() {
             <SectionLabel number="02" tone="light">
               Droga zawodowa
             </SectionLabel>
-            <h2 className="as-display-section mt-6 text-cream-100">
-              Od podium
-              <br />
-              Mistrzostw Świata
-              <br />
+            {/* Łamania wierszy dopiero od 360 px (przy 320 dawały 5 linii i samotne
+                „Świata”); spacje obok <br>, żeby po ich ukryciu słowa się nie skleiły. */}
+            <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+              Od podium{' '}
+              <br className="max-[359px]:hidden" />
+              Mistrzostw Świata{' '}
+              <br className="max-[359px]:hidden" />
               do własnej techniki.
             </h2>
           </Reveal>
 
-          <div className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
-            <Reveal className="md:sticky md:top-28">
+          <div className="max-md:hidden md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
+            <Reveal className="tall:md:sticky md:top-28">
               <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
                 {/* ciasna ramka jak portret na espresso na stronie głównej */}
                 <div className="as-photo-frame">
@@ -175,7 +191,9 @@ function StoryBand() {
             </Reveal>
           </div>
 
-          <Reveal delay={80} className="md:col-span-7 md:col-start-6 md:row-start-2 lg:col-span-6 lg:col-start-7">
+          <Reveal delay={60} className="md:col-span-7 md:col-start-6 md:row-start-2 lg:col-span-6 lg:col-start-7">
+            {/* Kolejność akapitów bez zmian; na telefonie zwinięte są akapit 2
+                (#bio-more-a) i 4–6 (#bio-more-b) – po rozwinięciu wracają na swoje miejsce. */}
             <div className="as-body-invert space-y-5">
               <p className="as-dropcap">
                 Kilkakrotnie stanęła na podium Mistrzostw Świata: w kategorii{' '}
@@ -183,10 +201,25 @@ function StoryBand() {
                 <Em>brwi pudrowe (dwukrotnie 1. miejsce)</Em>, a także w kategorii{' '}
                 <Em>usta (1. miejsce)</Em>.
               </p>
-              {BIO.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
+              <p id="bio-more-a" className={cn(folded)}>
+                {BIO[0]}
+              </p>
+              <p>{BIO[1]}</p>
+              <div id="bio-more-b" className={cn('space-y-5', folded)}>
+                {BIO.slice(2).map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             </div>
+            <MobileMore
+              open={open}
+              onToggle={() => setOpen((v) => !v)}
+              controls="bio-more-a bio-more-b"
+              label="Więcej o drodze zawodowej"
+              openLabel="Zwiń"
+              tone="light"
+              className="mt-8"
+            />
           </Reveal>
         </div>
       </div>
@@ -198,12 +231,14 @@ function StoryBand() {
 /*  03 – LICZBY (cream-50)                                             */
 /* ================================================================== */
 
+/* Tablet (md): nagłówek | kategorie obok siebie i cztery liczby w jednym rzędzie –
+   bez tego sekcja była rozciągniętym telefonem (jedna kolumna, liczby 2 × 2). */
 function NumbersBand() {
   return (
-    <section className="as-section bg-cream-50">
+    <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-5">
             <Reveal>
               <SectionLabel number="03">Osiągnięcia</SectionLabel>
               <h2 className="as-display-section mt-6 text-ink">
@@ -222,8 +257,9 @@ function NumbersBand() {
           </div>
 
           {/* kategorie mistrzowskie jako wiersze cennikowe: kategoria | leader | miejsce */}
-          <Reveal delay={80} className="lg:col-span-6 lg:col-start-7 lg:pt-10">
-            <h3 className="as-kicker">Kategorie mistrzowskie – Mistrzostwa Świata</h3>
+          <Reveal delay={60} className="md:col-span-6 md:col-start-7 md:pt-10">
+            {/* twarda spacja: „Świata” nie zostaje samo w drugiej linii (320–390 px) */}
+            <h3 className="as-kicker">Kategorie mistrzowskie – Mistrzostwa{'\u00a0'}Świata</h3>
             <div className="mt-5">
               {/* D7: kategorie i miejsca dokładnie wg briefu (FOUNDER.podiums) */}
               {FOUNDER.podiums.map((t) => (
@@ -233,9 +269,10 @@ function NumbersBand() {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-y-10 lg:mt-16 lg:grid-cols-4">
+        {/* gap-x: podpis kolumny nie dochodzi do linii sąsiedniej (jak Home) */}
+        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 lg:mt-16">
           {ACHIEVEMENTS.map((a, i) => (
-            <Reveal key={a.label} delay={i * 60}>
+            <Reveal key={a.label} delay={Math.min(i * 20, 60)}>
               <Stat value={a.value} label={a.label} />
             </Reveal>
           ))}
@@ -251,7 +288,7 @@ function NumbersBand() {
 
 function QuoteBand() {
   return (
-    <section className="as-section border-y border-ink/10 bg-cream-100">
+    <section className="as-section-tight border-y border-ink/10 bg-cream-100">
       <div className="as-shell">
         <Reveal className="mx-auto flex max-w-[40rem] flex-col items-center text-center">
           <SectionLabel number="04" line={false} className="justify-center">
@@ -282,7 +319,8 @@ function QuoteBand() {
 
 function SalonBand() {
   return (
-    <section id="salon" className="as-section scroll-mt-24 bg-cream-50 lg:scroll-mt-32">
+    /* #salon: odstęp kotwicy daje html { scroll-padding-top } – bez scroll-mt na celu */
+    <section id="salon" className="as-section as-section-tight-top bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">

@@ -1,7 +1,14 @@
+const plugin = require('tailwindcss/plugin');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
     content: ["./src/**/*.{ts,tsx,js,jsx}"],
+    /* hover: tylko na urządzeniach z kursorem (@media (hover: hover) and (pointer: fine)) –
+       na dotyku stan hover „przyklejał się” po stuknięciu (akordeony, „Więcej”). */
+    future: {
+      hoverOnlyWhenSupported: true,
+    },
   theme: {
   	extend: {
   		fontFamily: {
@@ -10,8 +17,8 @@ module.exports = {
   		},
   		colors: {
   			/* ——— Paleta marki AS COMPANY (wyprowadzona z makiety) ——— */
+  			/* bez DEFAULT: dawny #F6F1E8 był spoza palety (body ma teraz bg-cream-50) */
   			cream: {
-  				DEFAULT: '#F6F1E8',
   				50: '#FBF8F3',
   				100: '#F3EBE0',
   				200: '#EBE1D2',
@@ -85,15 +92,15 @@ module.exports = {
   			label: '0.18em',
   			wider2: '0.14em',
   		},
+  		/* --radius = 0 (src/index.css): rounded-lg/md/sm w komponentach ui/ dają
+  		   prostokąt. Jedyny zaokrąglony element serwisu to pigułka (rounded-full). */
   		borderRadius: {
   			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			md: 'max(0px, calc(var(--radius) - 2px))',
+  			sm: 'max(0px, calc(var(--radius) - 4px))'
   		},
   		maxWidth: {
-  			/* 1440 zamykało układ w wyspie pośrodku szerokich ekranów;
-  			   makieta była projektowana na ~1320, ale kompozycja jest
-  			   procentowa i skaluje się — pozwalamy jej rosnąć do 1800. */
+  			/* Łam treści 1440 px (makieta ~1320 px); szersze ekrany dostają marginesy. */
   			shell: '1440px',
   		},
   		keyframes: {
@@ -105,22 +112,34 @@ module.exports = {
   				from: { height: 'var(--radix-accordion-content-height)' },
   				to: { height: '0' }
   			},
-  			'as-rise': {
-  				from: { opacity: '0', transform: 'translateY(18px)' },
-  				to: { opacity: '1', transform: 'none' }
-  			},
-  			'as-fade': {
+  			/* Dialog, nakładka i komunikat (toast): samo zanikanie, bez przesunięć
+  			   i powiększeń (zasada 9). Dawne as-rise/as-fade usunięte – były martwe,
+  			   a as-rise kolidowało z @keyframes wejścia hero w src/index.css. */
+  			'as-in': {
   				from: { opacity: '0' },
   				to: { opacity: '1' }
+  			},
+  			'as-out': {
+  				from: { opacity: '1' },
+  				to: { opacity: '0' }
   			},
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-  			'as-rise': 'as-rise 0.8s cubic-bezier(0.22,1,0.36,1) both',
-  			'as-fade': 'as-fade 1.1s ease-out both',
+  			'as-in': 'as-in 200ms ease-out both',
+  			'as-out': 'as-out 150ms ease-in both',
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    /* Warianty wysokości ekranu. NIE jako theme.screens: ekran typu { raw } wyłącza
+       w Tailwind 3 wszystkie warianty max-* (max-sm:, max-md: …), których serwis używa.
+       short: telefon w poziomie (niski ekran < lg) · tall: ekran co najmniej 640 px wysokości. */
+    plugin(function ({ addVariant }) {
+      addVariant('short', '@media (max-width: 1023px) and (max-height: 500px)');
+      addVariant('tall', '@media (min-height: 640px)');
+    }),
+  ],
 }
