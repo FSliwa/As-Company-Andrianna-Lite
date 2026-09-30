@@ -24,11 +24,15 @@
  * Rytm tła: 01 hero band (cream-100) → 02 kroki (cream-50) → 03 Statement
  * (portret ROLES.statementPackages w ramce, cream-75) → 04 cennik (cream-100,
  * jasny oddech – Statement nie może stykać się z ClosingCta) → 05 ClosingCta
- * + stopka (cream-90 → cream-100).
+ * + stopka (cream-90 → cream-200).
+ * Kroki 02 – wzorzec numerowanych pozycji serwisu: numer .as-num obok tytułu
+ * .as-numbered-title, pod nim kicker „kiedy”, opis, cena Bodoni 22 px (na telefonie
+ * w wierszu numeru – przy nazwie kroku, od sm pod opisem).
+ * Statement bez kursywnego akcentu – kursywa H2 zostaje w hero i pasie zamykającym.
  */
 
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel, Statement } from '@/components/as/Primitives';
 import { BOOKING_URL, FOUNDER, PRICING_PMU, PRICING_REFRESH } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
@@ -65,7 +69,9 @@ const REFRESH_CONDITION = PRICING_REFRESH.condition.replace(/^D/, 'd');
 
 /* Rząd Stat w hero – wartości z cennika. Podpisy: 1700 zł to zabieg brwi lub ust
    (Perfect Eyes kosztuje 1500 zł – krok 01), korekta z terminem z briefu (D5),
-   odświeżenie z warunkiem z grafiki (D5). */
+   odświeżenie z warunkiem z grafiki (D5). Podpis odświeżenia jest długi (6 linii
+   w kolumnie 1/3 przy 390 px), więc poniżej sm liczby stoją listą „wartość | podpis”
+   (PageHero statsLayout="list"). */
 const HERO_STATS = [
   { value: zl(SNB.price), label: 'zabieg brwi lub ust' },
   { value: zl(CORRECTION.price), label: 'korekta po 1–3 miesiącach' },
@@ -116,6 +122,7 @@ function Hero() {
       /* Z12: bez „to nie jedna wizyta, tylko kilka kroków” – terminy z briefu */
       lead={'Zabieg, w razie potrzeby korekta po 1–3 miesiącach i\u00a0odświeżenie raz na 1–3 lata.'}
       stats={HERO_STATS}
+      statsLayout="list"
     >
       <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
         <Link href={BOOKING_URL} className="as-btn-solid">
@@ -144,8 +151,10 @@ function StepsBand() {
           </h2>
         </Reveal>
 
-        {/* trzy komórki redakcyjne: hairline u góry, numer, tytuł, kiedy, opis, cena;
-            sm: 2 + 1 (ostatnia na całą szerokość łamu), lg: trzy kolumny */}
+        {/* trzy komórki redakcyjne: hairline u góry, numer + tytuł (+ cena na telefonie),
+            kiedy, opis, cena (od sm); sm: 2 + 1 (ostatnia na całą szerokość łamu),
+            lg: trzy kolumny. Cena w wierszu numeru tylko poniżej sm – w węższych
+            kolumnach (sm–lg) tytuł obok ceny by się nie zmieścił. */}
         <ol className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
           {PATH.map((step, i) => (
             <Reveal
@@ -157,11 +166,20 @@ function StepsBand() {
                 i === PATH.length - 1 && PATH.length % 2 === 1 && 'sm:col-span-2 lg:col-span-1'
               )}
             >
-              <p className="as-kicker">{step.number}</p>
-              <h3 className="as-title mt-3 text-ink">{step.title}</h3>
+              <div className="flex items-baseline gap-3">
+                <span className="as-num">{step.number}</span>
+                <h3 className="as-numbered-title flex-1 text-ink">{step.title}</h3>
+                {step.price && (
+                  <p className="whitespace-nowrap font-display text-[1.375rem] leading-none text-ink sm:hidden">
+                    {step.price}
+                  </p>
+                )}
+              </div>
               <p className="as-kicker mt-3">{step.when}</p>
-              <p className="as-numbered-desc mt-4 flex-1 text-mocha">{step.desc}</p>
-              {step.price && <p className="mt-5 font-display text-xl text-ink">{step.price}</p>}
+              <p className="as-numbered-desc mt-3 flex-1 text-mocha">{step.desc}</p>
+              {step.price && (
+                <p className="mt-5 hidden font-display text-[1.375rem] leading-none text-ink sm:block">{step.price}</p>
+              )}
             </Reveal>
           ))}
         </ol>
@@ -183,9 +201,9 @@ function StatementBand() {
       alt={`${FOUNDER.name} – portret z sesji wizerunkowej marki`}
       number="03"
       label="Rozłożone w czasie"
-      /* Z12: zamiast „Nie jedna wizyta, tylko kilka kroków” – rytm z briefu (odświeżenie raz na 1–3 lata) */
-      title="Zabieg dziś,"
-      titleAccent="odświeżenie za 1–3 lata."
+      /* Z12: zamiast „Nie jedna wizyta, tylko kilka kroków” – rytm z briefu (odświeżenie raz na 1–3 lata).
+         Bez titleAccent: kursywa H2 zostaje w hero i pasie zamykającym (jedna fraza na pas). */
+      title="Zabieg dziś, odświeżenie za 1–3 lata."
     />
   );
 }

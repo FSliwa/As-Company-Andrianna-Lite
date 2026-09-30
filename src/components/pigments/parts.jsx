@@ -13,6 +13,10 @@ import { collectionLabel, formatCapacity, formatPrice, zoneLabel } from '@/lib/p
 
 export const NBSP = '\u00a0';
 
+/* Separator list „A · B · C”: twarda spacja PRZED kropką – wiersz łamie się
+   tylko po „·”, więc żadna linia nie zaczyna się od kropki. */
+export const DOT = `${NBSP}· `;
+
 /* ---------------- ceny: aktualne czy do potwierdzenia ---------------- */
 
 /**
@@ -49,12 +53,18 @@ export function kickerFor(product) {
   const collection = collectionLabel(product.collection);
   const series = seriesLabel(product.series);
   const repeats = series && fold(collection).split(/\s+/).includes(fold(series));
-  return [collection, repeats ? null : series].filter(Boolean).join(' · ');
+  return [collection, repeats ? null : series].filter(Boolean).join(DOT);
 }
 
-/** „Brwi · Usta · Kreski” */
+/** „Brwi · Usta · Kreski” (bez kropki na początku linii – DOT) */
 export function zonesText(product) {
-  return product.zones.map((z) => zoneLabel(z)).join(' · ');
+  return product.zones.map((z) => zoneLabel(z)).join(DOT);
+}
+
+/** Nazwa do wyświetlenia: „+” między słowami nie zostaje sam w linii
+    („Hybrid + Organic” → twarde spacje). Dane (i tekst do schowka) bez zmian. */
+export function displayName(name) {
+  return String(name || '').replace(/ \+ /g, `${NBSP}+${NBSP}`);
 }
 
 /** Porównanie bez wielkości liter i polskich znaków (wyszukiwarka). */

@@ -22,8 +22,19 @@
  *    okno jest przeliczane (karta otwarta przez północ); ?zabieg=<id> wybiera zabieg,
  *  • klawiatura: natywne radio (Tab = grupa, strzałki = wybór, Enter = wybór, a na
  *    wybranym – następny krok),
+ *  • wskaźnik (mysz, palec): po wyborze zabiegu, dnia i godziny strona płynnie
+ *    przewija do następnego kroku (tuż pod przyklejonym nagłówkiem – scroll-padding
+ *    w index.css; przy prefers-reduced-motion od razu), a fokus przechodzi na
+ *    nagłówek tego kroku. Strzałki w grupie radio nie przewijają (kliknięcie
+ *    z klawiatury ma detail 0). Na telefonie lista zabiegów zwija się do wybranego
+ *    („Zmień zabieg” ją przywraca) – krok 02 stoi zaraz pod nim,
+ *  • tablet (768–1023 px, ekran ≥ 640 px wysokości): dwie kolumny jak na desktopie –
+ *    podsumowanie z przyciskiem obok kroków (przyklejone); telefon w poziomie
+ *    zostaje w jednej kolumnie (przycisk pod krokiem 04),
  *  • anty-bot: podpisany znacznik formularza z serwera (nie zegar przeglądarki),
- *    opcjonalnie Cloudflare Turnstile; requestId na próbę rezerwacji terminu –
+ *    opcjonalnie Cloudflare Turnstile – skrypt Cloudflare ładujemy dopiero, gdy ktoś
+ *    zaczyna wypełniać krok 04 (albo wysyła formularz), a nie przy otwarciu strony;
+ *    requestId na próbę rezerwacji terminu –
  *    ponowienie po błędzie nie tworzy drugiego wpisu w kalendarzu,
  *  • bez pytań o zdrowie, bez obietnic SMS/e-mail (serwis ich nie wysyła).
  */
@@ -59,14 +70,16 @@ import { Turnstile } from '@/components/booking/Turnstile';
 import { BOOKING_CONFIG, getTreatment, shownDurationMin } from '@/lib/booking/config';
 import { bookingSchema } from '@/lib/booking/schema';
 import { bookingWindow, workingHoursFor } from '@/lib/booking/slots';
-import { CONTACT, LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { CONTACT } from '@/lib/site';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* BookingNotice (jak FormNotice, ale z celem „rezerwacja wizyty w Kalendarzu Google”)
-   renderuje się sam po uzupełnieniu LEGAL i zawiera zdanie o polach wymaganych –
-   do tego czasu legendę pokazuje RequiredLegend (jak /kontakt). */
-const NOTICE_READY = LEGAL_COMPLETE;
+   renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera zdanie
+   o polach wymaganych – bez niego legendę pokazuje RequiredLegend (jak /kontakt).
+   Bez publicznych dokumentów BookingRoute i tak nie włącza rezerwacji. */
+const NOTICE_READY = LEGAL_PUBLIC;
+const SUBMIT_LABEL = 'Zarezerwuj wizytę';
 
 const FIELD_ORDER = ['treatment', 'date', 'time', 'name', 'phone', 'email', 'note'];
 const CONTACT_FIELDS = ['name', 'phone', 'email', 'note'];
@@ -90,6 +103,21 @@ const SERVER_FIELD_MESSAGES = {
   email: 'Sprawdź adres e-mail',
   note: 'Sprawdź uwagi (maks. 500 znaków, bez linków)',
 };
+
+/* Tablet w pionie (768–1023 px szerokości, ≥ 640 px wysokości): dwie kolumny –
+   kroki | podsumowanie 296 px przyklejone obok (przycisk widoczny od pierwszego
+   ekranu). Stała szerokość podsumowania, bo 5/12 przy 704 px dawało ~270 px
+   i przycisk „Zarezerwuj wizytę” się nie mieścił. Wariant z zamkniętym zakresem
+   szerokości, więc nie konkuruje z klasami lg:. Telefon w poziomie (niski ekran)
+   zostaje w jednej kolumnie: przyklejone podsumowanie (~450 px) nie zmieściłoby
+   się w 390 px wysokości. */
+const TWO_COL_FORM =
+  '[@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:grid [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:grid-cols-[minmax(0,1fr)_18.5rem] [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:gap-x-8';
+const TWO_COL_SUMMARY =
+  '[@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:sticky [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:top-28 [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:mt-0 [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:self-start';
+/* pasek dni w węższej kolumnie: bez wyjścia na prawy margines (pod podsumowanie) */
+const TWO_COL_STRIP =
+  '[@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:mr-0 [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:pr-1 [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:640px)]:scroll-pr-1';
 
 const RETRY_SECONDS_FALLBACK = 60;
 /** Różnica zegara urządzenia i serwera, od której liczymy okno od czasu serwera. */
@@ -171,7 +199,16 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   const [foreignZone, setForeignZone] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [captchaFailed, setCaptchaFailed] = useState(false);
+  /* Turnstile (gdy skonfigurowany) ładujemy dopiero przy pierwszej interakcji z krokiem 04
+     albo przy próbie wysłania – nie przy otwarciu strony (art. 399 PKE, polityka cookies). */
+  const [captchaArmed, setCaptchaArmed] = useState(false);
+  const armCaptcha = () => {
+    if (turnstileSiteKey) setCaptchaArmed(true);
+  };
   const [treatment, setTreatment] = useState(null);
+  /* telefon: lista zabiegów zwinięta do wybranego (po wyborze wskaźnikiem albo ?zabieg=) */
+  const [pickerCollapsed, setPickerCollapsed] = useState(false);
+  const advanceFrame = useRef(0);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
 
@@ -194,7 +231,10 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   /* – montaż: ?zabieg=, strefa przeglądarki – */
   useEffect(() => {
     const preset = new URLSearchParams(window.location.search).get('zabieg');
-    if (preset && getTreatment(preset)) setTreatment(preset);
+    if (preset && getTreatment(preset)) {
+      setTreatment(preset);
+      setPickerCollapsed(true);
+    }
     setForeignZone(browserTimeZoneDiffers());
   }, []);
 
@@ -379,6 +419,22 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
 
   const focusStepTitle = (id) => document.getElementById(`${id}-title`)?.focus();
 
+  /* Po wyborze wskaźnikiem: przewiń do następnego kroku i przenieś fokus na jego
+     nagłówek. W następnej klatce – po zatwierdzeniu wyboru (zdarzenie change przychodzi
+     po kliknięciu etykiety) i po zwinięciu listy, więc pozycja kroku jest już ostateczna.
+     Jedno przewinięcie na klatkę (handler etykiety bywa wołany dwa razy). */
+  const advanceTo = useCallback((id) => {
+    cancelAnimationFrame(advanceFrame.current);
+    advanceFrame.current = requestAnimationFrame(() => {
+      const step = document.getElementById(id);
+      if (!step) return;
+      step.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' });
+      document.getElementById(`${id}-title`)?.focus({ preventScroll: true });
+    });
+  }, []);
+
+  useEffect(() => () => cancelAnimationFrame(advanceFrame.current), []);
+
   /* Krok 03: pierwsza godzina, a gdy jeszcze się ładują – nagłówek (fokus przejdzie na godzinę po załadowaniu). */
   const focusTimeStep = () => {
     if (focusGroup('time')) return;
@@ -426,6 +482,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
   };
 
   const onFieldChange = (name, value) => {
+    armCaptcha();
     const next = { ...values, [name]: value };
     setValues(next);
     if (name === 'website') return;
@@ -469,6 +526,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
       return;
     }
     if (turnstileSiteKey && !captchaToken) {
+      armCaptcha();
       setFormError({ kind: captchaFailed ? 'captcha_failed' : 'captcha_pending' });
       return;
     }
@@ -592,7 +650,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
       onSubmit={onSubmit}
       noValidate
       aria-label="Rezerwacja wizyty"
-      className="lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16"
+      className={cn('lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16', TWO_COL_FORM)}
     >
       <p className="sr-only" role="status" aria-live="polite">
         {announcement}
@@ -604,6 +662,15 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
             value={treatment}
             onChange={chooseTreatment}
             onEnter={() => focusGroup('date') || focusStepTitle('b-step-date')}
+            onPointerPick={() => {
+              setPickerCollapsed(true);
+              advanceTo('b-step-date');
+            }}
+            collapsed={pickerCollapsed}
+            onExpand={() => {
+              setPickerCollapsed(false);
+              requestAnimationFrame(() => focusGroup('treatment'));
+            }}
             invalid={Boolean(errors.treatment)}
           />
         </Step>
@@ -619,7 +686,7 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
         >
           {(countsStatus === 'error' || countsStatus === 'rate_limited') && (
             <div className="mb-5 flex flex-wrap items-baseline gap-x-6 gap-y-3">
-              <p className="text-[0.875rem] leading-relaxed text-ink/80">
+              <p className="text-[0.9375rem] leading-relaxed text-ink/80">
                 {countsStatus === 'rate_limited'
                   ? 'Za dużo zapytań w krótkim czasie – dostępność dni pokażemy za chwilę.'
                   : 'Nie udało się sprawdzić, które dni są wolne. Wybierz dzień, a sprawdzimy godziny.'}
@@ -638,6 +705,9 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
                 value={date}
                 onChange={chooseDate}
                 onEnter={focusTimeStep}
+                onPointerPick={() => advanceTo('b-step-time')}
+                /* tablet w dwóch kolumnach: pasek nie wychodzi pod podsumowanie */
+                className={TWO_COL_STRIP}
                 strip={strip}
                 busy={countsStatus === 'loading'}
                 invalid={Boolean(errors.date)}
@@ -668,28 +738,32 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
             nextFree={nextFree}
             windowChecked={countsStatus === 'ready'}
             onPickNextFree={pickNextFree}
+            onPointerPick={() => advanceTo('b-step-contact')}
             invalid={Boolean(errors.time)}
           />
         </Step>
 
-        <Step id="b-step-contact" number="04" title="Twoje dane" caption="Potrzebujemy ich wyłącznie do kontaktu w sprawie wizyty.">
-          <ContactFields
-            values={values}
-            errors={Object.fromEntries(CONTACT_FIELDS.map((k) => [k, errors[k]]))}
-            onChange={onFieldChange}
-            onBlur={onFieldBlur}
-          />
+        <Step id="b-step-contact" number="04" title="Twoje dane" caption="Potrzebujemy ich, by zapisać wizytę i skontaktować się z Tobą w jej sprawie.">
+          {/* onFocus (w React bąbelkuje): pierwsze wejście w pole kroku 04 ładuje Turnstile */}
+          <div onFocus={armCaptcha}>
+            <ContactFields
+              values={values}
+              errors={Object.fromEntries(CONTACT_FIELDS.map((k) => [k, errors[k]]))}
+              onChange={onFieldChange}
+              onBlur={onFieldBlur}
+            />
+          </div>
         </Step>
       </div>
 
-      <div className="mt-14 lg:sticky lg:top-32 lg:col-span-4 lg:mt-0 lg:self-start">
+      <div className={cn('mt-14 lg:sticky lg:top-32 lg:col-span-4 lg:mt-0 lg:self-start', TWO_COL_SUMMARY)}>
         <BookingSummary treatment={treatment} date={date} time={time}>
           {formError && (
-            <p role="alert" className="mt-6 border-l-2 border-destructive bg-cream-50 px-4 py-3 text-[0.875rem] leading-relaxed text-ink">
+            <p role="alert" className="mt-6 border-l-2 border-destructive bg-cream-50 px-4 py-3 text-[0.9375rem] leading-relaxed text-ink">
               {formErrorMessage(formError)}
             </p>
           )}
-          {turnstileSiteKey && (
+          {turnstileSiteKey && captchaArmed && (
             <Turnstile
               ref={turnstileRef}
               siteKey={turnstileSiteKey}
@@ -708,9 +782,9 @@ function BookingFlow({ onDone, onDisabled, formToken, serverNow, turnstileSiteKe
             aria-disabled={submitting || undefined}
             className={cn('as-btn-solid mt-6 w-full focus-visible:outline-ink', submitting && 'cursor-progress opacity-70')}
           >
-            {submitting ? 'Zapisujemy wizytę…' : 'Zarezerwuj wizytę'}
+            {submitting ? 'Zapisujemy wizytę…' : SUBMIT_LABEL}
           </button>
-          <BookingNotice className="mt-5" />
+          <BookingNotice className="mt-5" submitLabel={SUBMIT_LABEL} turnstile={Boolean(turnstileSiteKey)} />
           {!NOTICE_READY && <RequiredLegend className="mt-5" />}
         </BookingSummary>
       </div>
@@ -752,7 +826,8 @@ export default function BookAppointment({ initialEnabled = true, formToken = nul
 
   return (
     <section className="bg-cream-50">
-      <div className="as-shell pb-16 pt-24 sm:pt-28 lg:pb-24">
+      {/* góra 96 px na telefonie i tablecie – jak PageHero podstron (pod nagłówkiem 80 px) */}
+      <div className="as-shell pb-16 pt-24 lg:pb-24 lg:pt-28">
         <Reveal className="max-w-3xl">
           <SectionLabel number="01">Rezerwacja</SectionLabel>
           <h1 className="as-display-lg as-text-balance mt-6 text-ink">
@@ -761,7 +836,8 @@ export default function BookAppointment({ initialEnabled = true, formToken = nul
           <p className="as-body mt-6">{lead}</p>
         </Reveal>
 
-        <div ref={flowTopRef} className="mt-12 scroll-mt-28 lg:mt-16 lg:scroll-mt-32">
+        {/* odstęp pod nagłówkiem przy przewijaniu do panelu: html { scroll-padding-top } */}
+        <div ref={flowTopRef} className="mt-10 lg:mt-16">
           {!enabled ? (
             <BookingUnavailable ref={panelRef} />
           ) : booking ? (

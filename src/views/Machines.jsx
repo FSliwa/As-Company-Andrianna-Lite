@@ -10,32 +10,38 @@
  * Rytm tła (Lite – same jasne tony, sąsiednie różnią się tonem):
  *   01 PageHero band (cream-100, bez zdjęcia, 3 Stat z karty AS PRINCESS)
  *   02 Katalog #katalog (cream-50) – model = wiersz pełnej szerokości,
- *      w wierszu parametry z karty produktu + „Zapytaj o dostępność” (/kontakt;
- *      bez linków do sklepu – prośba klientki); na telefonie
- *      parametry zwinięte w „Parametry”, od md widoczne od razu
- *   03 Parametry (cream-75) – 7 prędkości AS PRINCESS + skok i wysuw igły
- *   04 Wynajem (cream-100) – warunki ze sklepu, wniosek w dialogu (Field)
- *   05 ClosingCta (cream-90) + stopka (cream-100)
+ *      w wierszu parametry z karty produktu + „Zapytaj o dostępność”
+ *      (/kontakt?temat=produkty; bez linków do sklepu – prośba klientki);
+ *      na telefonie opis i parametry pod JEDNYM przyciskiem „Opis i parametry”
+ *      (wzorzec MobileMore), od md parametry widoczne od razu
+ *   03 Parametry (cream-75) – 7 prędkości AS PRINCESS (wiersze z linią u góry,
+ *      bez ramek) + skok i wysuw igły
+ *   04 Wynajem (cream-100) – warunki ze sklepu, wniosek w dialogu (Field);
+ *      po wysłaniu potwierdzenie W DIALOGU (jak zapytanie o termin na /szkolenia),
+ *      bez komunikatu nad stroną
+ *   05 ClosingCta (cream-90) + stopka (cream-200)
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść.
  * Prostokątne przyciski tylko w hero (jeden), ClosingCta i formularzu;
  * w sekcjach akcje to ArrowLink (z onClick, gdy otwierają dialog).
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import {
   ArrowLink,
   ClosingCta,
   CtaButton,
   Field,
   FormNotice,
+  MobileMore,
   PageHero,
   PriceRow,
   Reveal,
   RequiredLegend,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BRAND, LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { BRAND, CONTACT } from '@/lib/site';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
@@ -46,7 +52,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { useToast } from '@/components/ui/use-toast';
 
 /* ================================================================== */
 /*  DANE – przepisane ze sklepu klienta (as-loveliness.eu), 29.09.2026  */
@@ -191,16 +196,18 @@ const RENTAL_MATH = [
 
 const RENTAL_FIELDS = [
   { id: 'name', label: 'Imię i nazwisko', placeholder: 'np. Anna Kowalska', autoComplete: 'name', required: true },
-  { id: 'phone', label: 'Numer telefonu', placeholder: '+48 600 000 000', type: 'tel', autoComplete: 'tel', required: true },
-  { id: 'email', label: 'Adres e-mail', placeholder: 'salon@example.com', type: 'email', autoComplete: 'email', required: true },
+  /* „np.” jak w pozostałych polach – puste pole nie wygląda na wypełnione */
+  { id: 'phone', label: 'Numer telefonu', placeholder: 'np. +48 600 000 000', type: 'tel', autoComplete: 'tel', required: true },
+  { id: 'email', label: 'Adres e-mail', placeholder: 'np. salon@example.com', type: 'email', autoComplete: 'email', required: true },
   { id: 'salonName', label: 'Nazwa salonu / działalności', placeholder: 'np. Studio Beauty Katowice', autoComplete: 'organization' },
 ];
 
 const EMPTY_RENTAL_FORM = { name: '', phone: '', email: '', salonName: '' };
 
-/* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
-   o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend. */
-const NOTICE_READY = LEGAL_COMPLETE;
+/* FormNotice renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera
+   już zdanie o polach wymaganych – bez niego legendę pokazuje RequiredLegend.
+   Wysyłkę wniosku bez adresu e-mail blokuje sam sendEnquiry (ENQUIRY_LIVE). */
+const NOTICE_READY = LEGAL_PUBLIC;
 
 const pad = (n) => String(n).padStart(2, '0');
 const isRentable = (machine) => machine.id === PRINCESS.id;
@@ -210,31 +217,22 @@ const isRentable = (machine) => machine.id === PRINCESS.id;
 /* ================================================================== */
 
 /* Wiersz katalogu – rozwinięcie IndexRow o parametry i drugą akcję (wynajem).
-   Rozwijany opis stoi w kolumnie modelu, żeby zwinięty wiersz miał wysokość
-   samych parametrów.
-     < md   numerał 56 | model + „Opis i cechy” + „Parametry” (zwinięte) + cena
-            i akcje – telefon widzi od razu nazwę, podtytuł, cenę i akcje.
-     md     numerał | model, pod nim cena i akcje | parametry (2 kolumny).
+     < md   numerał 56 | model + JEDEN przycisk „Opis i parametry” (MobileMore –
+            ten sam wzorzec „Więcej” co na innych trasach) + cena i akcje;
+            po rozwinięciu opis, cechy i parametry pod modelem.
+     md     numerał | model („Opis i cechy”), pod nim cena i akcje | parametry
+            (2 kolumny, zawsze widoczne).
      lg+    numerał | model | parametry (2 kol., 3 na xl) | cena + akcje.
-   Parametry siedzą w jednym <details>: poniżej md działa jak akordeon, od md
-   summary znika, a treść jest widoczna mimo zamkniętego <details>
-   (::details-content) – bez migania przed hydracją i bez dublowania siatki.
-   Przeglądarki bez ::details-content (Safari < 18.4, Firefox < 143) dostają
-   otwarcie skryptem po wejściu w md. */
-const MD_UP = '(min-width: 768px)';
+   Jeden stan `open` na wiersz: poniżej md steruje opisem i parametrami, od md
+   tylko opisem (parametry stoją zawsze – klasa max-md:hidden). Bez <details>
+   i bez skryptu z matchMedia – SSR i przeglądarka renderują to samo. */
+const TOGGLE_MD =
+  'as-label hidden min-h-[44px] items-end gap-3 border-b border-ink/20 pb-1.5 text-ink/70 transition-colors hover:border-ink hover:text-ink md:inline-flex';
 
 function MachineRow({ machine, onRent, last }) {
-  const specsRef = useRef(null);
-
-  useEffect(() => {
-    const mq = window.matchMedia(MD_UP);
-    const sync = () => {
-      if (mq.matches && specsRef.current) specsRef.current.open = true;
-    };
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
+  const [open, setOpen] = useState(false);
+  const descId = `${machine.id}-opis`;
+  const specsId = `${machine.id}-parametry`;
 
   return (
     <article
@@ -255,22 +253,35 @@ function MachineRow({ machine, onRent, last }) {
         <h3 className="as-title as-text-balance text-ink">{machine.name}</h3>
         <p className="as-kicker mt-3">{machine.subtitle}</p>
 
-        {/* Opis i cechy – zwinięte, żeby indeks czytał się jak spis modeli
-            (parametry i cena na wierzchu), a treść nie znikała z widoku.
-            Summary ma 44 px wysokości (cel dotykowy), tekst przy dolnej linii. */}
-        <details className="group/more mt-1">
-          <summary className="as-label inline-flex min-h-[44px] cursor-pointer list-none items-end gap-3 border-b border-ink/20 pb-1.5 text-ink/70 transition-colors hover:text-ink [&::-webkit-details-marker]:hidden">
-            Opis i cechy
-            <span
-              aria-hidden="true"
-              className="text-gold-deep transition-transform duration-300 group-open/more:rotate-45"
-            >
-              +
-            </span>
-          </summary>
-          <p className="mt-5 max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">
-            {machine.description}
-          </p>
+        {/* telefon: jeden przełącznik dla opisu i parametrów */}
+        <MobileMore
+          open={open}
+          onToggle={() => setOpen((o) => !o)}
+          controls={`${descId} ${specsId}`}
+          label="Opis i parametry"
+          openLabel="Zwiń opis i parametry"
+          className="mt-4"
+        />
+        {/* od md: opis i cechy zwinięte (indeks czyta się jak spis modeli) */}
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={descId}
+          onClick={() => setOpen((o) => !o)}
+          className={cn(TOGGLE_MD, 'mt-1')}
+        >
+          {open ? 'Zwiń opis' : 'Opis i cechy'}
+          <ChevronDown
+            aria-hidden="true"
+            className={cn(
+              'h-4 w-4 shrink-0 text-gold-deep transition-transform duration-300 motion-reduce:transition-none',
+              open && 'rotate-180'
+            )}
+          />
+        </button>
+
+        <div id={descId} className={cn(!open && 'hidden')}>
+          <p className="mt-5 max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{machine.description}</p>
           <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe – ${machine.name}`}>
             {machine.features.map((feat) => (
               <li key={feat} className="flex gap-4">
@@ -279,27 +290,22 @@ function MachineRow({ machine, onRent, last }) {
               </li>
             ))}
           </ul>
-        </details>
+        </div>
       </div>
 
-      {/* Parametry – na telefonie -mt-4 dosuwa „Parametry” do „Opis i cechy”
-          (ten sam odstęp co podtytuł → „Opis i cechy”). Na md prawa kolumna
-          przez oba rzędy (model | parametry, pod modelem cena i akcje); 7fr,
-          żeby „6 000–10 000 obr./min” mieściło się w jednej linii przy 768 px. */}
-      <details
-        ref={specsRef}
-        className="group/specs col-start-2 -mt-4 self-start md:col-start-3 md:mt-0 md:row-span-2 md:[&::details-content]:[content-visibility:visible] lg:col-start-auto lg:row-auto"
+      {/* Parametry – poniżej md pod opisem (po rozwinięciu), od md prawa kolumna przez
+          oba rzędy (model | parametry, pod modelem cena i akcje); 7fr, żeby
+          „6 000–10 000 obr./min” mieściło się w jednej linii przy 768 px.
+          Etykiety dt ink/65 (5,2:1), dopiski ink/70 (6,1:1) – AA dla 11/15 px. */}
+      <div
+        id={specsId}
+        className={cn(
+          'col-start-2 -mt-1 self-start md:col-start-3 md:row-span-2 md:mt-0 lg:col-start-auto lg:row-auto',
+          !open && 'max-md:hidden'
+        )}
       >
-        <summary className="as-label inline-flex min-h-[44px] cursor-pointer list-none items-end gap-3 border-b border-ink/20 pb-1.5 text-ink/70 transition-colors hover:text-ink md:hidden [&::-webkit-details-marker]:hidden">
-          Parametry
-          <span
-            aria-hidden="true"
-            className="text-gold-deep transition-transform duration-300 group-open/specs:rotate-45"
-          >
-            +
-          </span>
-        </summary>
-        <dl className="mt-5 grid grid-cols-2 content-start gap-x-4 gap-y-5 sm:gap-x-6 md:mt-0 xl:grid-cols-3">
+        <h4 className="sr-only">Parametry – {machine.name}</h4>
+        <dl className="grid grid-cols-2 content-start gap-x-4 gap-y-5 sm:gap-x-6 xl:grid-cols-3">
           {machine.specs.map((spec) => (
             <div key={spec.label} className={spec.span}>
               <dt className="as-label text-ink/65">{spec.label}</dt>
@@ -314,13 +320,13 @@ function MachineRow({ machine, onRent, last }) {
             </div>
           ))}
         </dl>
-      </details>
+      </div>
 
-      <div className="col-start-2 flex flex-col items-start gap-4 lg:col-start-auto lg:items-end lg:text-right">
-        <p className="whitespace-nowrap font-display text-[1.375rem] leading-[1.2] text-ink">
-          {zl(machine.price)}
-        </p>
-        <ArrowLink href="/kontakt" className="w-fit whitespace-nowrap">
+      {/* cena i akcje: odstęp 20 px między linkami – pola dotyku (::before) nie nachodzą;
+          od ~390 px cena i pierwszy link w jednym rzędzie */}
+      <div className="col-start-2 flex flex-wrap items-baseline gap-x-6 gap-y-5 lg:col-start-auto lg:flex-col lg:items-end lg:gap-5 lg:text-right">
+        <p className="whitespace-nowrap font-display text-[1.375rem] leading-[1.2] text-ink">{zl(machine.price)}</p>
+        <ArrowLink href="/kontakt?temat=produkty" className="w-fit whitespace-nowrap">
           Zapytaj o dostępność
         </ArrowLink>
         {isRentable(machine) && (
@@ -336,15 +342,26 @@ function MachineRow({ machine, onRent, last }) {
 /* ================================================================== */
 
 export default function Machines() {
-  const { toast } = useToast();
   const [selectedMachineForRental, setSelectedMachineForRental] = useState(null);
   const [rentalForm, setRentalForm] = useState(EMPTY_RENTAL_FORM);
+  /* Po wysłaniu: status z sendEnquiry (null = formularz). Potwierdzenie zostaje
+     w dialogu – komunikat nad stroną zasłaniał na telefonie nagłówek i menu. */
+  const [rentalSent, setRentalSent] = useState(null);
   /* Przycisk, który otworzył dialog – po zamknięciu fokus wraca na niego. */
   const rentalTriggerRef = useRef(null);
+  const rentalContentRef = useRef(null);
+  const rentalTitleRef = useRef(null);
 
   const openRental = (machine = PRINCESS) => {
     rentalTriggerRef.current = typeof document !== 'undefined' ? document.activeElement : null;
+    setRentalSent(null);
     setSelectedMachineForRental(machine);
+  };
+
+  const closeRental = () => {
+    setSelectedMachineForRental(null);
+    /* formularz czyścimy dopiero po wysłaniu – zamknięcie w trakcie nie gubi danych */
+    if (rentalSent) setRentalForm(EMPTY_RENTAL_FORM);
   };
 
   // W projekcie nie ma koszyka ani backendu – wniosek idzie tą samą drogą
@@ -361,11 +378,14 @@ export default function Machines() {
         ['Urządzenie', selectedMachineForRental ? selectedMachineForRental.name : ''],
       ],
     });
-    const msg = enquiryMessage(status);
-    toast({ title: msg.title, description: msg.body });
-    setSelectedMachineForRental(null);
-    setRentalForm(EMPTY_RENTAL_FORM);
+    setRentalSent(status);
+    /* panel na górę, fokus na tytule – czytnik ogłasza nowy tytuł i opis */
+    requestAnimationFrame(() => {
+      rentalContentRef.current?.scrollTo({ top: 0 });
+      rentalTitleRef.current?.focus({ preventScroll: true });
+    });
   };
+  const sentMessage = rentalSent ? enquiryMessage(rentalSent) : null;
 
   return (
     <>
@@ -382,6 +402,9 @@ export default function Machines() {
           'Trzy maszynki PMU: rotacyjna AS\u00a0HERO, hybrydowa AS\u00a0HERO\u00a02 i\u00a0bezprzewodowa AS\u00a0PRINCESS.'
         }
         stats={HERO_STATS}
+        /* długie podpisy (nazwa, zakres, jednostki): poniżej sm lista „wartość | podpis”
+           zamiast trzech kolumn po ~105 px (wartość „2,1–3,0 mm” w jednej linii) */
+        statsLayout="list"
       >
         <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
           <CtaButton href="#katalog" className="as-btn-solid">
@@ -397,7 +420,7 @@ export default function Machines() {
       {/*  02 – KATALOG (cream-50): model = wiersz pełnej szerokości    */}
       {/* ============================================================ */}
 
-      <section id="katalog" className="as-section scroll-mt-24 bg-cream-50">
+      <section id="katalog" className="as-section bg-cream-50">
         <div className="as-shell">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-8">
             <Reveal className="lg:col-span-7">
@@ -436,9 +459,10 @@ export default function Machines() {
               <SectionLabel number="03">
                 Prędkości
               </SectionLabel>
+              {/* złamanie wiersza od sm; na telefonie tekst łamie się sam (przy 320 px
+                  3 linie zamiast 4 z wymuszonym <br />) */}
               <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                Siedem prędkości,
-                <br />
+                Siedem prędkości, <br className="max-sm:hidden" />
                 siedem stopni skoku.
               </h2>
             </Reveal>
@@ -452,21 +476,24 @@ export default function Machines() {
             </Reveal>
           </div>
 
-          {/* – siedem prędkości (nazwy i obroty 1:1 ze sklepu) – */}
+          {/* – siedem prędkości (nazwy i obroty 1:1 ze sklepu) –
+              Komórki z linią u góry, bez pełnych ramek (zasada 6). Telefon: tabela
+              wierszy „numer | nazwa | obroty”; od sm komórki w 4, od lg w 7 kolumnach. */}
           <Reveal delay={60} className="mt-10">
             <ol
               aria-label="Prędkości AS PRINCESS"
-              className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7"
+              className="grid grid-cols-1 border-b border-ink/15 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-8 sm:border-b-0 lg:grid-cols-7 lg:gap-x-5"
             >
               {SPEED_LEVELS.map((speed) => (
                 <li
                   key={speed.level}
-                  className="flex flex-col items-start gap-2 border border-ink/15 px-4 py-4 last:col-span-2 sm:px-5 lg:last:col-span-1"
+                  className="grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-baseline gap-x-4 border-t border-ink/15 py-3 sm:flex sm:flex-col sm:items-start sm:gap-2 sm:pb-0 sm:pt-5"
                 >
                   <span className="as-num">{pad(speed.level)}</span>
-                  <span className="text-base text-ink">{speed.name}</span>
-                  <span className="as-caption">
-                    <span className="whitespace-nowrap">{fmt(speed.rpm)}</span> obr./min
+                  <span className="text-[0.9375rem] text-ink">{speed.name}</span>
+                  <span className="as-caption whitespace-nowrap">
+                    {fmt(speed.rpm)}
+                    {'\u00a0'}obr./min
                   </span>
                 </li>
               ))}
@@ -499,7 +526,7 @@ export default function Machines() {
       {/*  04 – WYNAJEM (cream-100): warunki ze sklepu + wyliczenie      */}
       {/* ============================================================ */}
 
-      <section id="wynajem" className="as-section scroll-mt-24 bg-cream-100">
+      <section id="wynajem" className="as-section bg-cream-100">
         <div className="as-shell">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-5">
@@ -570,7 +597,7 @@ export default function Machines() {
         title="Przetestuj maszynę"
         titleAccent="na żywo."
         lead={`Maszynę AS\u00a0PRINCESS przetestujesz na miejscu podczas szkolenia w\u00a0${BRAND.academy}. Napisz, jeśli chcesz porównać modele przed zakupem.`}
-        primary={{ href: '/kontakt', label: 'Zapytaj o maszynkę' }}
+        primary={{ href: '/kontakt?temat=produkty', label: 'Zapytaj o maszynkę' }}
         secondary={{ href: '/szkolenia', label: 'Zapytaj o termin' }}
       />
 
@@ -581,57 +608,97 @@ export default function Machines() {
       <Dialog
         open={!!selectedMachineForRental}
         onOpenChange={(open) => {
-          if (!open) setSelectedMachineForRental(null);
+          if (!open) closeRental();
         }}
       >
         <DialogContent
+          ref={rentalContentRef}
           onCloseAutoFocus={(e) => {
             e.preventDefault();
             rentalTriggerRef.current?.focus();
           }}
         >
           <DialogHeader>
-            <DialogTitle>Zapytanie o wynajem</DialogTitle>
+            {/* Fokus trafia tu tylko ze skryptu (po wysłaniu) – bez obrysu, jak nagłówek
+                potwierdzenia rezerwacji (BookingDone); obrys na całą szerokość wchodził pod ×. */}
+            <DialogTitle ref={rentalTitleRef} tabIndex={-1} className="focus-visible:outline-none">
+              {sentMessage ? sentMessage.title : 'Zapytanie o wynajem'}
+            </DialogTitle>
             <DialogDescription>
-              {selectedMachineForRental?.name ?? PRINCESS.name}: {RENTAL_PRICE}, zwrotna kaucja{' '}
-              {RENTAL_DEPOSIT}. Zostaw kontakt – odpowiemy z&nbsp;warunkami umowy.
+              {sentMessage ? (
+                sentMessage.body
+              ) : (
+                <>
+                  {selectedMachineForRental?.name ?? PRINCESS.name}: {RENTAL_PRICE}, zwrotna kaucja{' '}
+                  {RENTAL_DEPOSIT}. Zostaw kontakt – odpowiemy z&nbsp;warunkami umowy.
+                </>
+              )}
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleRentalSubmit} className="mt-8">
-            <div className="space-y-6">
-              {RENTAL_FIELDS.map((field) => (
-                <Field
-                  key={field.id}
-                  as="input"
-                  id={`rental-${field.id}`}
-                  name={field.id}
-                  label={field.label}
-                  type={field.type}
-                  autoComplete={field.autoComplete}
-                  required={field.required}
-                  placeholder={field.placeholder}
-                  value={rentalForm[field.id]}
-                  onChange={(e) => setRentalForm({ ...rentalForm, [field.id]: e.target.value })}
-                />
-              ))}
-            </div>
+          {sentMessage ? (
+            /* potwierdzenie w dialogu – ten sam wzorzec co zapytanie o termin na /szkolenia */
+            <>
+              <div className="mt-8 border border-ink/15 bg-cream-100/70 p-6">
+                <dl className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <dt className="as-kicker">Urządzenie</dt>
+                    <dd className="mt-2 text-[0.9375rem] text-ink">
+                      {selectedMachineForRental?.name ?? PRINCESS.name}, {RENTAL_PRICE}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="as-kicker">Kontakt</dt>
+                    <dd className="mt-2 text-[0.9375rem] text-ink">
+                      {rentalForm.name}
+                      {rentalForm.phone ? ` · ${rentalForm.phone}` : ''}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <DialogFooter>
+                <a href={CONTACT.instagram} target="_blank" rel="noreferrer noopener" className="as-btn-solid">
+                  {CONTACT.instagramHandle}
+                  <span className="sr-only"> (Instagram, otwiera się w nowej karcie)</span>
+                </a>
+                <button type="button" onClick={closeRental} className="as-btn-ghost">
+                  Zamknij
+                </button>
+              </DialogFooter>
+            </>
+          ) : (
+            <form onSubmit={handleRentalSubmit} className="mt-8">
+              <div className="space-y-6">
+                {RENTAL_FIELDS.map((field) => (
+                  <Field
+                    key={field.id}
+                    as="input"
+                    id={`rental-${field.id}`}
+                    name={field.id}
+                    label={field.label}
+                    type={field.type}
+                    autoComplete={field.autoComplete}
+                    required={field.required}
+                    placeholder={field.placeholder}
+                    value={rentalForm[field.id]}
+                    onChange={(e) => setRentalForm({ ...rentalForm, [field.id]: e.target.value })}
+                  />
+                ))}
+              </div>
 
-            <DialogFooter>
-              <button type="submit" className="as-btn-solid">
-                Wyślij zapytanie
-              </button>
-              <button
-                type="button"
-                onClick={() => setSelectedMachineForRental(null)}
-                className="as-btn-ghost"
-              >
-                Anuluj
-              </button>
-            </DialogFooter>
-            <FormNotice className="mt-6" />
-            {!NOTICE_READY && <RequiredLegend className="mt-6" />}
-          </form>
+              <FormNotice className="mt-6" />
+              {!NOTICE_READY && <RequiredLegend className="mt-6" />}
+
+              <DialogFooter>
+                <button type="submit" className="as-btn-solid">
+                  Wyślij zapytanie
+                </button>
+                <button type="button" onClick={closeRental} className="as-btn-ghost">
+                  Anuluj
+                </button>
+              </DialogFooter>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
     </>

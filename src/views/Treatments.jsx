@@ -13,6 +13,10 @@
  * → 05 cennik #cennik (cream-100, hairline) → 06 pytania (cream-50, hairline)
  * → 07 cennik do pobrania (cream-100, hairline; D8 – miniatury grafik cennika)
  * → 08 ClosingCta (cream-90) + stopka (cream-200).
+ * Złącza tekst–tekst 04 | 05 | 06 od lg ciaśniejsze (.as-section-tight*); przed
+ * miniaturami 07 i przed pasem zamykającym pełny odstęp.
+ * Kotwice (#zabiegi, #cennik, wiersze technik, karty 04): odstęp pod nagłówkiem
+ * daje wyłącznie html { scroll-padding-top } (index.css) – bez scroll-mt na celach.
  *
  * Korekta (od miesiąca do 3 miesięcy od zabiegu – brief, D5) występuje jako
  * krok 03 wizyty (pas 03), więc sekcja 04 obejmuje tylko zabiegi, których
@@ -26,9 +30,11 @@
  * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
  * z przyciskiem „Więcej” (aria-expanded), który rozwija pełny opis, cytat
  * techniki i notę ceny; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
- * zwinięte w <Faq> (< lg) – od lg stoją w pełni.
+ * zwinięte w <Faq> (< lg) – od lg stoją w pełni; link do Instagramu w 03 pod
+ * stykówką (po treści, nie przed nią); pytania 06: cztery + MobileMore.
  * Tablet (md): wiersz techniki w dwóch kolumnach (numerał + tytuł | opis + meta),
- * nagłówek 04 w dwóch kolumnach, kroki wizyty 2 + 1 (trzeci na całą szerokość).
+ * nagłówek 04 w dwóch kolumnach, kroki wizyty 2 + 1 (trzeci na całą szerokość),
+ * cennik 05 w dwóch kolumnach (nagłówek + akordeony | cennik PMU).
  * Desktop (≥ lg) bez zmian.
  *
  * „Umów wizytę” prowadzi do rezerwacji online (/umow-wizyte, Kalendarz Google);
@@ -39,7 +45,7 @@
  */
 
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/as/LocaleLink';
 import { ChevronDown } from 'lucide-react';
 import {
   ArrowLink,
@@ -48,6 +54,7 @@ import {
   Faq,
   Figure,
   GoldArc,
+  MobileMore,
   NumberedItem,
   PageHero,
   PriceRow,
@@ -96,12 +103,6 @@ const priceOf = (table, name) => {
 /* Pozycja cennika PMU po stałym `id` (site.js) – nazwy widoczne mogą się zmieniać (D2). */
 const pmuItem = (id) => PRICING_PMU.items.find((item) => item.id === id) || {};
 const pmuPrice = (id) => fmt(pmuItem(id).price || '');
-
-/* Fakty w hero – z ACHIEVEMENTS (5× podium MŚ; salony „Katowice i Warszawa")
-   i CONTACT.city. Krótkie: FactStrip stoi w jednej linii i przy 375 px musi
-   zmieścić się w łamie (≤ 335 px, zmierzone 301 px).
-   Autorstwo Super Natural Brows stoi w wierszu 01 indeksu. */
-const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, `Salon – ${CONTACT.city}`];
 
 /* ------------------------------------------------------------------ */
 /*  02 – cztery techniki (indeks typograficzny, bez zdjęć)             */
@@ -159,6 +160,19 @@ const TECHNIQUES = [
     description:
       'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki – bez kreski, bez ogonka i bez cienia na powiece.',
   },
+];
+
+/* Fakty w hero (3) – wyłącznie z danych: ACHIEVEMENTS (5× podium MŚ), liczba technik
+   z indeksu 02 (TECHNIQUES; odmiana 2–4 „techniki”, 5+ „technik”) i CONTACT.city.
+   Krótkie, bo od lg pasek stoi w jednej linii z ukośnikami w kolumnie okładki:
+   przy 1024 px kolumna ma 440 px, pasek 419 px (zmierzone; „4 techniki PMU”
+   dawało 455 px i zawijało wiersz od „/”). Do lg zawija się bez ukośników.
+   Autorstwo Super Natural Brows stoi w wierszu 01 indeksu. */
+const TECHNIQUE_COUNT = TECHNIQUES.length;
+const HERO_FACTS = [
+  `${ACHIEVEMENTS[0].value} podium MŚ`,
+  `${TECHNIQUE_COUNT} ${TECHNIQUE_COUNT >= 2 && TECHNIQUE_COUNT <= 4 ? 'techniki' : 'technik'}`,
+  `Salon – ${CONTACT.city}`,
 ];
 
 /* ------------------------------------------------------------------ */
@@ -231,7 +245,8 @@ const AFTERCARE = [
     id: 'usuwanie',
     number: '02',
     tag: 'Przed nową pigmentacją',
-    name: 'Usuwanie laserem lub removerem',
+    /* twarda spacja: „lub” nie zostaje na końcu linii („Usuwanie laserem / lub removerem”) */
+    name: 'Usuwanie laserem lub\u00a0removerem',
     price: `od${NBSP}${fmt(`${REMOVAL_FROM} zł`)}`,
     condition: REMOVAL_OWN
       ? `${fmt(REMOVAL_OWN.price)} – ${fmt(REMOVAL_OWN.name).replace(/^Usuwanie/, 'usuwanie')}.`
@@ -325,7 +340,11 @@ function useMobileMore(hasHidden) {
 }
 
 /* Tekstowy przełącznik w stylu .as-label; pole dotyku powiększone
-   pseudo-elementem (≥ 44 px wysokości) bez zmiany rytmu wiersza. */
+   pseudo-elementem (≥ 44 px wysokości) bez zmiany rytmu wiersza.
+   To rozwinięcie JEDNEGO wiersza (opis przycięty line-clamp), więc zostaje
+   w linii tekstu – pełnoszeroki MobileMore (dla całych list) dokładałby pas
+   48 px w każdym z sześciu wierszy. Hover jak w MobileMore: tekst ink,
+   złote jest tylko podkreślenie (złoto tylko w linii). */
 function MoreButton({ more, controls, name, className }) {
   if (!more.showButton) return null;
   return (
@@ -335,7 +354,7 @@ function MoreButton({ more, controls, name, className }) {
       aria-expanded={more.open}
       aria-controls={controls}
       className={cn(
-        "as-label relative inline-flex items-center gap-1.5 leading-none text-ink/70 transition-colors after:absolute after:-inset-x-2 after:-inset-y-4 after:content-[''] hover:text-gold-dark sm:hidden",
+        "as-label relative inline-flex items-center gap-1.5 leading-none text-ink/70 decoration-gold underline-offset-4 transition-colors after:absolute after:-inset-x-2 after:-inset-y-4 after:content-[''] hover:text-ink hover:underline sm:hidden",
         className
       )}
     >
@@ -343,7 +362,7 @@ function MoreButton({ more, controls, name, className }) {
       <span className="sr-only"> – {name}</span>
       <ChevronDown
         aria-hidden="true"
-        className={cn('h-3.5 w-3.5 text-gold-dark transition-transform duration-300', more.open && 'rotate-180')}
+        className={cn('h-3.5 w-3.5 text-gold-deep transition-transform duration-300 motion-reduce:transition-none', more.open && 'rotate-180')}
       />
     </button>
   );
@@ -365,7 +384,7 @@ function TechniqueRow({ t, last }) {
     <article
       id={t.id}
       className={cn(
-        'grid scroll-mt-28 grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-ink/15 py-5',
+        'grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-ink/15 py-5',
         'sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-y-4 sm:py-8',
         'md:grid-cols-[4.5rem_minmax(0,5fr)_minmax(0,7fr)] md:items-start md:gap-x-6',
         'lg:grid-cols-[6rem_20rem_minmax(0,1fr)_auto] lg:gap-8',
@@ -403,7 +422,7 @@ function TechniqueRow({ t, last }) {
 
 function TechniquesBand() {
   return (
-    <section id="zabiegi" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+    <section id="zabiegi" className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <Reveal>
           <SectionLabel number="02">Techniki</SectionLabel>
@@ -431,7 +450,11 @@ function TechniquesBand() {
 function ResultsBand() {
   return (
     <section className="as-section relative overflow-hidden bg-cream-75 text-ink">
-      <GoldArc className="-top-32 left-[-6%] h-[720px] w-[900px]" opacity={0.45} />
+      {/* Łuk narożny tylko w górnym marginesie sekcji (h-20 = lg:pt-20), w prawym
+          rogu – nad linkiem do Instagramu, na prawo od etykiety. Dawny łuk (-top-32,
+          900 px) przecinał etykietę i H2 (AD4). Poniżej lg nagłówek stoi w kolumnie
+          i łuk nie ma wolnego pola – ukryty. */}
+      <GoldArc variant="corner" className="right-0 top-0 hidden h-20 w-[45%] lg:block" opacity={0.35} />
 
       <div className="as-shell relative">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
@@ -443,15 +466,17 @@ function ResultsBand() {
               Realne efekty, nie renderowane.
             </h2>
           </Reveal>
-          <Reveal delay={80} className="shrink-0">
+          {/* od lg: link obok nagłówka; do lg – pod stykówką (po treści, nie przed nią) */}
+          <Reveal delay={60} className="hidden shrink-0 lg:block">
             <ArrowLink href={CONTACT.instagram} className="w-fit" target="_blank" rel="noreferrer">
               Więcej prac na Instagramie
+              <span className="sr-only"> (otwiera się w nowej karcie)</span>
             </ArrowLink>
           </Reveal>
         </div>
 
         {/* stykówka: cztery makra 1:1 na pełną szerokość łamu, jeden podpis paska */}
-        <Reveal delay={80} className="mt-10">
+        <Reveal delay={60} className="mt-10">
           <ResultStrip
             items={RESULTS}
             cols={4}
@@ -460,6 +485,15 @@ function ResultsBand() {
                akademii) – podpis bez „naszego gabinetu”. */
             caption="Brwi i usta po makijażu permanentnym."
           />
+          <ArrowLink
+            href={CONTACT.instagram}
+            className="mt-6 w-fit lg:hidden"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Więcej prac na Instagramie
+            <span className="sr-only"> (otwiera się w nowej karcie)</span>
+          </ArrowLink>
         </Reveal>
 
         {/* przebieg wizyty – trzy kroki pod stykówką; tablet: 2 + 1 (ostatni
@@ -490,17 +524,21 @@ function ResultsBand() {
 /*  04 – ODŚWIEŻENIE I USUWANIE (cream-50)                             */
 /* ================================================================== */
 
-/* Karta zabiegu 04. Telefon: opis 2 linie + „Więcej”; nota ceny dopiero
-   po rozwinięciu. Od sm pełna treść. */
+/* Karta zabiegu 04 – numer jak 01/02/03 w serwisie (.as-num, Bodoni 24 px) w jednym
+   wierszu z kickerem „kiedy”, tytuł pod nimi na pełną szerokość karty (karty mają
+   204 px przy 1024 px – tytuł obok numeru nie mieścił „permanentnego”). Meta jak
+   w wierszu techniki: cena + „Umów wizytę” (rezerwacja z już wybranym zabiegiem).
+   Telefon: opis 2 linie + „Więcej”; nota ceny dopiero po rozwinięciu. Od sm pełna treść. */
 function AftercareCard({ t }) {
   const more = useMobileMore(true);
   const descId = `${t.id}-opis`;
   const noteId = `${t.id}-nota`;
   return (
-    <article id={t.id} className="as-cell scroll-mt-28">
-      <p className="as-kicker">
-        {t.number} · {t.tag}
-      </p>
+    <article id={t.id} className="as-cell">
+      <div className="flex items-baseline gap-3">
+        <span className="as-num">{t.number}</span>
+        <p className="as-kicker">{t.tag}</p>
+      </div>
       <h3 className="as-title mt-3 text-ink">{t.name}</h3>
       <p
         id={descId}
@@ -510,10 +548,15 @@ function AftercareCard({ t }) {
         {t.description}
       </p>
       <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
-      <p className="mt-5 font-display text-[1.375rem] leading-none text-ink sm:mt-6">
-        {t.price}
-        {t.duration && <span className="as-label ml-4 align-middle text-ink/70">{t.duration}</span>}
-      </p>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:mt-6">
+        <p className="whitespace-nowrap">
+          {t.duration && <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>}
+          <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
+        </p>
+        <ArrowLink href={bookingHref(t.id)} className="w-fit">
+          Umów wizytę<span className="sr-only"> – {t.name}</span>
+        </ArrowLink>
+      </div>
       {/* D5: warunek ceny stoi zawsze – także na telefonie, bez „Więcej” */}
       {t.condition && <p className="as-caption mt-3">{t.condition}</p>}
       <p id={noteId} className={cn('as-caption', t.condition ? 'mt-1' : 'mt-3', more.hiddenClass)}>
@@ -525,7 +568,7 @@ function AftercareCard({ t }) {
 
 function AftercareBand() {
   return (
-    <section className="as-section bg-cream-50">
+    <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-8">
           {/* tablet: etykieta nad całością, pod nią tytuł | wstęp + link obok
@@ -602,7 +645,9 @@ function PriceBlock({ table }) {
 }
 
 /* Telefon: cennik PMU zostaje otwarty, a tabele uzupełniające (refresh,
-   siedem stawek usuwania) są zwinięte w akordeon – ten sam <Faq> co w pytaniach.
+   siedem stawek usuwania) są zwinięte w akordeon – ten sam <Faq> co w pytaniach,
+   ale treść rozwinięcia bez łamu i prawego odstępu odpowiedzi (contentClassName),
+   żeby ceny stały w jednej osi z cennikiem PMU.
    Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie. */
 const faqOf = (table) => ({
   q: `${table.title} – ${fmt(table.subtitle).toLowerCase()}`,
@@ -612,12 +657,13 @@ const MOBILE_PRICE_FAQ = [faqOf(PRICING_REFRESH), faqOf(PRICING_REMOVAL)];
 
 function PricingBand() {
   return (
-    <section id="cennik" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+    <section id="cennik" className="as-section-tight border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
-        {/* lg: nagłówek i usuwanie w lewej kolumnie, PMU + refresh w prawej od góry;
+        {/* od md: nagłówek i usuwanie w lewej kolumnie, PMU (+ refresh od lg) w prawej
+            od góry; md–lg refresh i usuwanie w akordeonach pod nagłówkiem.
             telefon: nagłówek → PMU → nota → akordeon (refresh, usuwanie) */}
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
-          <Reveal className="lg:col-start-1 lg:row-start-1">
+        <div className="grid gap-12 md:grid-cols-2 md:gap-x-10 md:gap-y-10 lg:gap-x-16 lg:gap-y-12">
+          <Reveal className="md:col-start-1 md:row-start-1">
             <SectionLabel number="05">Cennik</SectionLabel>
             {/* „bez gwiazdek” obiecywało brak zastrzeżeń, a cennik ma warunki (dla naszych
                 klientek, wycena indywidualna) – stoją jawnie przy pozycjach */}
@@ -633,7 +679,7 @@ function PricingBand() {
             </p>
           </Reveal>
 
-          <div className="space-y-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:space-y-10">
+          <div className="space-y-6 md:col-start-2 md:row-span-2 md:row-start-1 lg:space-y-10">
             <Reveal>
               <PriceBlock table={PRICING_PMU} />
             </Reveal>
@@ -652,11 +698,11 @@ function PricingBand() {
             </Reveal>
           </div>
 
-          <Reveal delay={80} className="lg:col-start-1 lg:row-start-2">
+          <Reveal delay={60} className="md:col-start-1 md:row-start-2">
             <div className="hidden lg:block">
               <PriceBlock table={PRICING_REMOVAL} />
             </div>
-            <Faq items={MOBILE_PRICE_FAQ} className="lg:hidden" />
+            <Faq items={MOBILE_PRICE_FAQ} contentClassName="max-w-none pr-0" className="lg:hidden" />
           </Reveal>
         </div>
       </div>
@@ -668,9 +714,9 @@ function PricingBand() {
 /*  06 – PYTANIA (cream-50)                                            */
 /* ================================================================== */
 
-/* Telefon (< sm): pierwsze cztery pytania, reszta za przyciskiem „Pokaż
-   wszystkie pytania” – po rozwinięciu fokus przechodzi na pierwsze odsłonięte
-   pytanie, a przycisk znika. Od sm lista stoi w pełni, jak dotąd.
+/* Telefon (< sm): pierwsze cztery pytania, reszta za MobileMore („Pokaż
+   wszystkie pytania”, wspólny wzorzec rozwinięcia) – po rozwinięciu fokus
+   przechodzi na pierwsze odsłonięte pytanie. Od sm lista stoi w pełni, jak dotąd.
    Klasa ukrywająca musi odpowiadać FAQ_MOBILE (literał dla Tailwinda). */
 const FAQ_MOBILE = 4;
 const FAQ_MOBILE_CLASS = 'max-sm:[&>*:nth-child(n+5)]:hidden';
@@ -688,7 +734,7 @@ function FaqBand() {
   }, [all]);
 
   return (
-    <section className="as-section border-t border-ink/10 bg-cream-50">
+    <section className="as-section as-section-tight-top border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
@@ -705,19 +751,19 @@ function FaqBand() {
             <div ref={listRef} id="pytania-lista">
               <Faq items={FAQ_ITEMS} className={cn(!all && FAQ_MOBILE_CLASS)} />
             </div>
-            {!all && FAQ_ITEMS.length > FAQ_MOBILE && (
-              <button
-                type="button"
-                onClick={() => {
-                  focusNext.current = true;
-                  setAll(true);
+            {FAQ_ITEMS.length > FAQ_MOBILE && (
+              <MobileMore
+                open={all}
+                onToggle={() => {
+                  focusNext.current = !all;
+                  setAll((v) => !v);
                 }}
-                aria-controls="pytania-lista"
-                className="as-label relative mt-6 inline-flex items-center gap-1.5 text-ink/70 transition-colors after:absolute after:-inset-x-2 after:-inset-y-4 after:content-[''] hover:text-gold-dark sm:hidden"
-              >
-                Pokaż wszystkie pytania ({FAQ_ITEMS.length})
-                <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-gold-dark" />
-              </button>
+                controls="pytania-lista"
+                label={`Pokaż wszystkie pytania (${FAQ_ITEMS.length})`}
+                openLabel="Zwiń pytania"
+                until="sm"
+                className="mt-6"
+              />
             )}
           </Reveal>
         </div>
@@ -759,7 +805,7 @@ const PRICE_SHEETS = [
 
 function PriceSheetsBand() {
   return (
-    <section id="cennik-do-pobrania" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+    <section id="cennik-do-pobrania" className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-4">

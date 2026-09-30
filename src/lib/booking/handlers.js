@@ -9,6 +9,11 @@
  *        | 503 disabled / paused | 500 server
  *
  * W logach wyłącznie nazwa/rodzaj błędu i status – nigdy dane osobowe, IP ani klucz.
+ *
+ * Rezerwacja zbiera dane osobowe, więc domyślny dostawca jest dostępny tylko, gdy
+ * dokumenty prawne są publiczne (LEGAL_PUBLIC, src/lib/legal.js – decyzja Filipa
+ * z 30.09.2026: także przed uzupełnieniem danych firmy) – inaczej 503 disabled,
+ * tak jak przy braku konfiguracji kalendarza. Testy podają własne `getProvider`.
  */
 
 import { bookingSecret, checkFormToken, turnstileKeys, verifyTurnstile } from './abuse.js';
@@ -21,6 +26,7 @@ import {
   SlotTakenError,
   describeError,
 } from './errors.js';
+import { LEGAL_PUBLIC } from '../legal.js';
 import { getBookingProvider } from './provider.js';
 import { clientKey, sharedLimiter } from './ratelimit.js';
 import { bookingSchema, issueFields, parseSlotsQuery } from './schema.js';
@@ -124,6 +130,11 @@ function isJsonContentType(value) {
 
 /* ---------------- wspólne ---------------- */
 
+/** Dostawca kalendarza – tylko przy publicznych dokumentach prawnych (klauzula przy formularzu). */
+export function defaultProvider(env = process.env, { legalPublic = LEGAL_PUBLIC } = {}) {
+  return legalPublic ? getBookingProvider(env) : null;
+}
+
 function resolveProvider(getProvider) {
   try {
     return { provider: getProvider() };
@@ -162,7 +173,7 @@ export async function handleSlotsGet(request, deps = {}) {
     env = process.env,
     config = BOOKING_CONFIG,
     now = () => new Date(),
-    getProvider = () => getBookingProvider(env),
+    getProvider = () => defaultProvider(env),
     limiter = sharedLimiter('get', config.rateLimit.get),
   } = deps;
 
@@ -207,7 +218,7 @@ export async function handleBookingPost(request, deps = {}) {
     env = process.env,
     config = BOOKING_CONFIG,
     now = () => new Date(),
-    getProvider = () => getBookingProvider(env),
+    getProvider = () => defaultProvider(env),
     limiter = sharedLimiter('post', config.rateLimit.post),
     secret = bookingSecret(env),
     turnstile = turnstileKeys(env),

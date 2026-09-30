@@ -26,12 +26,14 @@
  *
  * Trasa bez packshotów, więc cała jest typograficzna – bez portretów i makr.
  * Rytm tła: 01 pas cream-100 (PageHero band) → 02 cream-50 → hairline →
- * 03 cream-100 → 04 ClosingCta (cream-90) → stopka (cream-100).
+ * 03 cream-100 → 04 ClosingCta (cream-90) → stopka (cream-200).
+ * Złącze tekst–tekst 02 | 03 od lg ciaśniejsze (.as-section-tight*), przed pasem
+ * zamykającym pełny odstęp.
  * Każda sekcja: SectionLabel → H2 .as-display-section (mt-6) → treść → max 1 ArrowLink.
  */
 
 import React from 'react';
-import Link from 'next/link';
+import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
 
 /* Kolekcje z kartą charakterystyki – lista 1:1 ze sklepu klientki (6 PDF-ów, zob. nagłówek).
@@ -48,6 +50,10 @@ const SDS_COLLECTIONS = [
 ];
 
 const SDS_LABEL = 'Karta charakterystyki (SDS)';
+
+/* Miękki dywiz w długiej nazwie („Tricho-pigmentation”): w komórce 239 px (lg, 1024 px)
+   słowo w Bodoni 28 px (≈ 256 px) wychodziło poza kolumnę; łamie się tylko w razie potrzeby. */
+const softName = (name) => name.replace(/^Tricho(?=pigmentation$)/, 'Tricho\u00ad');
 
 /* Zamiast „komplet dokumentów do zamówienia hurtowego / wersja papierowa” (bez źródła):
    jedyna obietnica to udostępnienie na prośbę (D10). */
@@ -100,7 +106,7 @@ function Hero() {
 
 function DocumentsBand() {
   return (
-    <section className="as-section bg-cream-50">
+    <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
@@ -112,7 +118,7 @@ function DocumentsBand() {
                 sześć kart.
               </h2>
             </Reveal>
-            <Reveal delay={80}>
+            <Reveal delay={60}>
               {/* D9: „pigmenty zgodne z rozporządzeniem REACH” – zawężone do kolekcji z listy obok */}
               <p className="as-body mt-6 max-w-[24rem]">
                 Pigmenty zgodne z rozporządzeniem REACH: do każdej kolekcji z tej listy mamy kartę
@@ -121,13 +127,16 @@ function DocumentsBand() {
             </Reveal>
           </div>
 
-          {/* 01–06 jako komórki dokumentów (ten sam układ co /pigmenty 04):
-              hairline u góry → numer (.as-kicker) → kolekcja (.as-title) → rodzaj dokumentu (.as-kicker) */}
+          {/* 01–06 jako komórki dokumentów – wzorzec numerowanych pozycji serwisu:
+              hairline u góry → numer (.as-num, Bodoni 24 px) obok kolekcji (.as-title)
+              → rodzaj dokumentu (.as-kicker) */}
           <ol className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
             {SDS_COLLECTIONS.map((name, i) => (
-              <Reveal as="li" key={name} delay={(i % 2) * 90} className="as-cell">
-                <p className="as-kicker">{String(i + 1).padStart(2, '0')}</p>
-                <h3 className="as-title as-text-balance mt-3 text-ink">{name}</h3>
+              <Reveal as="li" key={name} delay={(i % 2) * 60} className="as-cell">
+                <div className="flex items-baseline gap-3">
+                  <span className="as-num">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="as-title as-text-balance min-w-0 text-ink">{softName(name)}</h3>
+                </div>
                 <p className="as-kicker mt-3">{SDS_LABEL}</p>
               </Reveal>
             ))}
@@ -144,7 +153,7 @@ function DocumentsBand() {
 
 function OnRequestBand() {
   return (
-    <section className="as-section border-t border-ink/10 bg-cream-100">
+    <section className="as-section as-section-tight-top border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         {/* mobile: nagłówek → lista → link; lg: link wraca pod nagłówek w lewej kolumnie */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
@@ -157,7 +166,7 @@ function OnRequestBand() {
             </h2>
           </Reveal>
 
-          <Reveal delay={80} className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
+          <Reveal delay={60} className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
             <ul className="border-t border-ink/10">
               {ON_REQUEST.map((item) => (
                 <li key={item} className="flex gap-5 border-b border-ink/10 py-5">
@@ -168,7 +177,7 @@ function OnRequestBand() {
             </ul>
           </Reveal>
 
-          <Reveal delay={140} className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start">
+          <Reveal delay={60} className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start">
             <ArrowLink href="/kontakt?temat=produkty" className="w-fit">
               Poproś o kartę charakterystyki
             </ArrowLink>

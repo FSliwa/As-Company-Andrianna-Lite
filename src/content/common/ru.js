@@ -19,11 +19,21 @@ const common = {
   goTo: 'Перейти:',
   closingLabel: 'Контакты',
   requiredLegend: 'Поля, отмеченные *, обязательны для заполнения.',
-  noticeController: 'Администратор данных –',
+  noticeController: 'Администратор данных – {company}, {seat} (связь:[[ {privacyEmail} или]] Instagram {instagram}).',
   noticePurpose: 'Данные из формы мы обрабатываем, чтобы ответить на ваш запрос и – если вы попросите – подготовить предложение.',
+  noticePrivacy: { pre: 'Подробнее – в ', link: 'Политике конфиденциальности', post: '.' },
+  noticeTerms: { pre: 'Правила использования форм описаны в ', link: 'Правилах пользования сайтом', post: '.' },
+  bookingPurpose:
+    'Данные из формы мы обрабатываем, чтобы записать вас на визит и провести его; время визита и ваши контактные данные сохраняются в Google Календаре салона.',
+  bookingTerms: {
+    pre: 'Нажимая «{button}», вы принимаете ',
+    link: 'Правила пользования сайтом',
+    post: ': порядок записи, переноса и отмены визита описан в их пунктах 9–10.',
+  },
+  bookingTurnstile: { pre: 'Форму защищает Cloudflare Turnstile – подробнее в ', link: 'Политике cookie', post: '.' },
   documents: 'Документы',
   cookiesPolicy: 'Политика cookie',
-  terms: 'Условия пользования',
+  terms: 'Правила пользования сайтом',
   cookieSettings: 'Настройки cookie',
   notFound: {
     metaTitle: 'Страница не найдена',

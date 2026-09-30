@@ -11,10 +11,15 @@
  * z ukrytą treścią wygasza maska – tylko gdy po tej stronie naprawdę coś
  * jest. Od lg rzędy się zawijają: bez ukrytych chipów i bez przewijania
  * w bok, którego mysz bez gładzika nie obsłuży.
+ *
+ * Telefon (< sm): bez etykiet rzędów („Kolekcja”, „Strefa”, „Szukaj”) – rząd
+ * opisuje pierwszy chip („Wszystkie kolekcje” / „Wszystkie strefy”), a grupy
+ * mają aria-label. Po „Przeglądaj katalog” pierwszy odcień jest o ~60 px wyżej.
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
+import { FIELD_CLASS } from '@/components/as/Primitives';
 import { cn } from '@/lib/utils';
 
 function Chip({ pressed, onClick, children, controls, palette }) {
@@ -89,7 +94,7 @@ function Row({ label, children, scroll = false, fadeRef, fadeStyle }) {
   return (
     /* baseline: etykieta w linii z PIERWSZYM rzędem chipów, gdy się zawijają */
     <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)] lg:items-baseline lg:gap-6">
-      <p className="as-kicker" aria-hidden="true">
+      <p className="as-kicker max-sm:hidden" aria-hidden="true">
         {label}
       </p>
       <div
@@ -146,7 +151,7 @@ export default function CatalogFilters({
     <div className="space-y-5">
       <Row label="Kolekcja" scroll fadeRef={fadeC.ref} fadeStyle={fadeC.style}>
         <Chip pressed={!collection} onClick={() => onCollection(null)} controls={controls}>
-          Wszystkie
+          Wszystkie<span className="sm:hidden">{'\u00a0'}kolekcje</span>
         </Chip>
         {collections.map((c) => (
           <Chip
@@ -164,7 +169,7 @@ export default function CatalogFilters({
       {/* strefy: tylko te, które występują w wybranej kolekcji */}
       <Row label="Strefa" scroll fadeRef={fadeZ.ref} fadeStyle={fadeZ.style}>
         <Chip pressed={!zone} onClick={() => onZone(null)} controls={controls}>
-          Wszystkie
+          Wszystkie<span className="sm:hidden">{'\u00a0'}strefy</span>
         </Chip>
         {zones.map((z) => (
           <Chip key={z.id} pressed={zone === z.id} onClick={() => onZone(z.id)} controls={controls}>
@@ -174,7 +179,7 @@ export default function CatalogFilters({
       </Row>
 
       <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)] lg:items-center lg:gap-6">
-        <label htmlFor="pig-search" className="as-kicker">
+        <label htmlFor="pig-search" className="as-kicker max-sm:sr-only">
           Szukaj
         </label>
         <div className="relative max-w-[26rem]">
@@ -188,7 +193,9 @@ export default function CatalogFilters({
             autoComplete="off"
             enterKeyHint="search"
             aria-controls={controls}
-            className="block h-11 w-full rounded-none border-0 border-b border-ink/40 bg-transparent pl-7 pr-0 text-base text-ink outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] sm:text-[0.9375rem]"
+            /* wspólna klasa pól: linia ink/55 (≥ 3:1), 16 px na każdej szerokości
+               (iOS nie powiększa strony przy fokusie – także telefon w poziomie) */
+            className={cn(FIELD_CLASS, 'pl-7')}
           />
         </div>
       </div>

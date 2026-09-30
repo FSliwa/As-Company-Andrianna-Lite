@@ -25,11 +25,18 @@
  * – linku brak (do dostarczenia przez klientkę).
  *
  * Telefon (< md): program każdego kursu i korzyści pokazują początek listy, resztę
- * chowa rozwinięcie (MobileMore) – nic nie jest usuwane. Od md wszystko otwarte.
+ * chowa rozwinięcie (MobileMore z Primitives – jeden wzorzec „Więcej” w serwisie)
+ * – nic nie jest usuwane. Poniżej sm podgląd programu to same tytuły pozycji (indeks),
+ * opisy po rozwinięciu. Od md wszystko otwarte.
+ *
+ * Numery kursów i pozycji – wzorzec 01/02/03 serwisu: .as-num (Bodoni 24 px, bez
+ * nadpisywania rozmiaru) obok tytułu. Złącza tekst–tekst (02 | 03, 05 | 06) od lg
+ * ciaśniejsze (.as-section-tight*); przed zdjęciami 04 i pasem zamykającym pełny odstęp.
+ * Kotwice (#kursy, #program, #program-<id>, #pytania): odstęp pod nagłówkiem daje
+ * wyłącznie html { scroll-padding-top } (index.css) – bez scroll-mt na celach.
  */
 
 import React, { useRef, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -46,6 +53,7 @@ import {
   Field,
   Figure,
   FormNotice,
+  MobileMore,
   PageHero,
   Reveal,
   RequiredLegend,
@@ -65,6 +73,7 @@ import {
 import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { COURSE_ENQUIRY_OPTIONS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
@@ -124,11 +133,13 @@ const BENEFITS = [
   { text: 'Lunch, napoje i przekąski zapewnione' },
 ];
 
-/* Fakty w hero – dwa krótkie. Do lg FactStrip układa je w dwie kolumny (≈ 170 px każda
-   na telefonie), więc muszą być krótkie.
+/* Fakty w hero (3) – krótkie, bo od lg pasek stoi w jednej linii z ukośnikami
+   w kolumnie okładki (440 px przy 1024 px; „Wpis do RIS i BUR” dawało 450 px
+   i zawijało wiersz od „/”); do lg zawija się bez ukośników.
    D7 / SZK-18: samo „100+ kursantek” gubiło kontekst (brief: setki kursantek łącznie,
-   ponad 100 z włosa maszynowego w ostatnim roku) – w hero „setki kursantek” z briefu. */
-const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, 'Setki kursantek'];
+   ponad 100 z włosa maszynowego w ostatnim roku) – w hero „setki kursantek” z briefu.
+   Trzeci fakt – wpis do rejestru z pytań tej strony („Jesteśmy wpisani do RIS…”). */
+const HERO_FACTS = [`${ACHIEVEMENTS[0].value} podium MŚ`, 'Setki kursantek', 'Wpis do RIS'];
 
 /* D8: opisowe alt-y oryginalnych grafik (treść wg transkrypcji), klucz = indeks w COURSE
    (course-0N.jpg → N−1). Przypisanie plakatów do kursów: COURSES[].posters. */
@@ -196,35 +207,9 @@ const collapsedClass = (i, n) => {
   return undefined;
 };
 
-/* Rozwinięcie tylko na telefonie (< md). Od md lista jest zawsze otwarta,
-   a przycisk znika – decydują same klasy responsywne (max-md:hidden), więc
-   SSR i desktop renderują dokładnie to samo co dotąd, bez skoku po hydratacji.
-   (<details> nie da się otworzyć samym CSS od md – wymagałby JS po starcie.) */
-function MobileMore({ open, onToggle, controls, label, openLabel, className }) {
-  return (
-    <button
-      type="button"
-      aria-expanded={open}
-      aria-controls={controls}
-      onClick={onToggle}
-      className={cn(
-        'group flex min-h-[48px] w-full items-center justify-between gap-6 border-y border-ink/15 py-3 text-left md:hidden',
-        className
-      )}
-    >
-      <span className="as-label text-ink transition-colors group-hover:text-gold-deep">
-        {open ? openLabel : label}
-      </span>
-      <ChevronDown
-        aria-hidden="true"
-        className={cn(
-          'h-4 w-4 shrink-0 text-gold-deep transition-transform duration-300 motion-reduce:transition-none',
-          open && 'rotate-180'
-        )}
-      />
-    </button>
-  );
-}
+/* Rozwinięcie tylko na telefonie (< md): MobileMore z Primitives. Od md lista jest
+   zawsze otwarta, a przycisk znika – decydują same klasy responsywne (max-md:hidden),
+   więc SSR i desktop renderują dokładnie to samo, bez skoku po hydratacji. */
 
 /* ================================================================== */
 /*  01 – HERO                                                          */
@@ -282,12 +267,14 @@ function CourseCard({ number, course, delay, onBook }) {
   const audience = !course.requirements && course.id !== 'kurs-podstawowy' ? course.audience : null;
 
   return (
-    <div id={hasProgram ? undefined : `program-${course.id}`} className="scroll-mt-28">
+    <div id={hasProgram ? undefined : `program-${course.id}`}>
       <Reveal delay={delay} className="as-cell flex h-full flex-col">
-        <p className="as-kicker">
-          {number} · {course.type}
-        </p>
-        <h3 className="as-title mt-3 text-ink">{course.title}</h3>
+        {/* numer .as-num obok tytułu (wzorzec 01/02/03), rodzaj kursu jako kicker pod nim */}
+        <div className="flex items-baseline gap-3">
+          <span className="as-num">{number}</span>
+          <h3 className="as-title text-ink">{course.title}</h3>
+        </div>
+        <p className="as-kicker mt-3">{course.type}</p>
         <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">
           {course.price ? nb(course.price) : NO_PRICE}
           {course.price && course.priceNote && (
@@ -335,7 +322,7 @@ function CourseCard({ number, course, delay, onBook }) {
 
 function CoursesBand({ onBook }) {
   return (
-    <section id="kursy" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+    <section id="kursy" className="as-section as-section-tight-bottom border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <Reveal className="lg:col-span-6">
@@ -344,7 +331,7 @@ function CoursesBand({ onBook }) {
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Kurs na każdy poziom.</h2>
           </Reveal>
           {/* SZK-16: opis systemu szkoleń z briefu (sekcja „Szkolenia”), po korekcie językowej */}
-          <Reveal delay={80} className="lg:col-span-5 lg:col-start-8">
+          <Reveal delay={60} className="lg:col-span-5 lg:col-start-8">
             <p className="as-body">{TRAINING_INTRO.system}</p>
             <p className="as-body mt-4">{TRAINING_INTRO.practice}</p>
           </Reveal>
@@ -354,12 +341,12 @@ function CoursesBand({ onBook }) {
             domykają siatkę (md 3 × 2, lg 2 × 3). */}
         <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
           {COURSE_LIST.map(({ number, course }, i) => (
-            <CourseCard key={course.id} number={number} course={course} delay={(i % 3) * 80} onBook={onBook} />
+            <CourseCard key={course.id} number={number} course={course} delay={(i % 3) * 30} onBook={onBook} />
           ))}
 
           {/* Dofinansowanie – jedno zdanie; szczegóły w pytaniach (#pytania).
               RIS i BUR to rejestry, KFS to fundusz (audyt TRESC-6); bez „m.in.” (SZK-15). */}
-          <Reveal delay={160} className="as-cell flex flex-col">
+          <Reveal delay={60} className="as-cell flex flex-col">
             <p className="as-kicker">RIS · BUR · KFS</p>
             <h3 className="as-title mt-3 text-ink">Dofinansowanie</h3>
             <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">
@@ -402,7 +389,7 @@ function OfferDownloads({ course }) {
   return (
     <div className="mt-8 border-t border-ink/10 pt-5 md:mt-10">
       <p className="as-kicker">Oferta do pobrania</p>
-      <p className="as-caption mt-2 max-w-none">
+      <p className="as-caption mt-2 max-w-[36rem]">
         Oryginalne grafiki {BRAND.academy} (JPG) – pełny obraz otwiera się w nowej karcie.
       </p>
       <ul className="mt-5 flex flex-wrap gap-4 sm:gap-6">
@@ -418,12 +405,13 @@ function OfferDownloads({ course }) {
                   sizes="160px"
                   className="border border-ink/10"
                 />
-                <span className="mt-2 flex items-baseline justify-between gap-2 text-[0.8125rem] leading-snug text-ink transition-colors group-hover:text-gold-deep">
-                  <span>
+                {/* hover: złote podkreślenie, tekst zostaje w ink (złoto tylko w linii) */}
+                <span className="mt-2 flex items-baseline justify-between gap-2 text-[0.8125rem] leading-snug text-ink">
+                  <span className="decoration-gold underline-offset-2 group-hover:underline">
                     {p.caption}
                     <span className="sr-only"> (JPG, otwiera się w nowej karcie)</span>
                   </span>
-                  <span aria-hidden="true" className="text-mocha transition-colors group-hover:text-gold-deep">
+                  <span aria-hidden="true" className="text-mocha transition-colors group-hover:text-ink">
                     ↗
                   </span>
                 </span>
@@ -437,8 +425,12 @@ function OfferDownloads({ course }) {
 }
 
 /* < md: tytuł, linia ceny/formatu i PROGRAM_PREVIEW pierwszych pozycji (sm–md: 4,
-   pełne dwa rzędy); reszta za „Pełny program (N pozycji)". Od md cały program
-   otwarty. Pod programem „Oferta do pobrania” (D8). */
+   pełne dwa rzędy); reszta za „Pełny program (N pozycji)". Poniżej sm podgląd to
+   same tytuły pozycji – opisy dopiero po rozwinięciu. Od md cały program otwarty.
+   Linia rodzaj · cena · format łamie się tylko przed formatem: format to
+   inline-block – przechodzi do nowej linii w całości, a zawija się w środku tylko
+   wtedy, gdy sam jest szerszy niż łam.
+   Pod programem „Oferta do pobrania” (D8). */
 function ProgramArticle({ number, course, onBook }) {
   const [open, setOpen] = useState(false);
   const listId = `program-lista-${course.id}`;
@@ -448,14 +440,15 @@ function ProgramArticle({ number, course, onBook }) {
   return (
     <article
       id={`program-${course.id}`}
-      className="mt-10 scroll-mt-28 border-t border-ink/15 pt-6 md:mt-12 lg:mt-14"
+      className="mt-10 border-t border-ink/15 pt-6 md:mt-12 lg:mt-14"
     >
       <Reveal className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between md:gap-8">
-        <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-          <span className="as-kicker">{number}</span>
-          <h3 className="as-title text-ink">{course.title}</h3>
-          <p className="as-kicker">
-            {course.type} · {priceLabel(course)} · {course.format}
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+          <span className="as-num">{number}</span>
+          <h3 className="as-title mr-2 text-ink">{course.title}</h3>
+          <p className="as-kicker basis-full sm:basis-auto">
+            {course.type} · {priceLabel(course)} ·{' '}
+            <span className="inline-block">{course.format}</span>
           </p>
         </div>
         <ArrowLink onClick={(e) => onBook(course, e)} className="w-fit shrink-0">
@@ -472,7 +465,9 @@ function ProgramArticle({ number, course, onBook }) {
               className={cn('border-t border-ink/10 pt-4', !open && collapsedClass(i, PROGRAM_PREVIEW))}
             >
               <dt className="as-numbered-title text-ink">{item.label}</dt>
-              {item.detail && <dd className="as-numbered-desc text-mocha">{item.detail}</dd>}
+              {item.detail && (
+                <dd className={cn('as-numbered-desc text-mocha', !open && 'max-sm:hidden')}>{item.detail}</dd>
+              )}
             </div>
           ))}
         </dl>
@@ -496,14 +491,14 @@ function ProgramBand({ onBook }) {
   /* Tylko kursy z programem w źródłach (plakaty): od podstaw i dla linergistek. */
   const withProgram = COURSE_LIST.filter(({ course }) => course.program.length > 0);
   return (
-    <section id="program" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-50">
+    <section id="program" className="as-section as-section-tight-top border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <Reveal className="lg:col-span-7">
             <SectionLabel number="03">Program</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Program krok po kroku.</h2>
           </Reveal>
-          <Reveal delay={80} className="lg:col-span-5 lg:col-start-8">
+          <Reveal delay={60} className="lg:col-span-5 lg:col-start-8">
             {/* Brief: opis linii Super Natural Brows. SZK-14: bez „Terminy części stacjonarnej
                 ustalamy indywidualnie” – źródła tego nie mówią. */}
             <p className="as-body">{TRAINING_INTRO.snbLine}</p>
@@ -528,7 +523,9 @@ function ProgramBand({ onBook }) {
 /* Stykówka: trzy kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
    < sm: academy-01 (bliższy plan) na całą szerokość, pod nim dwa kadry obok siebie –
    twarze nie spadają do rozmiaru ikon; wszystkie nadal 4:5.
-   Od sm: trzy równe kadry w rzędzie, bliższy plan w środku (06 · 01 · 08).
+   Od sm: trzy równe kadry w rzędzie, bliższy plan w środku (06 · 01 · 08); tak samo
+   telefon w poziomie poniżej sm (short:, np. 568×320) – kadr na całą szerokość byłby
+   wyższy niż dwa ekrany.
    Opisy tylko tego, co widać w kadrze (liczba osób i certyfikatów). */
 const GRADUATE_TILES = [
   {
@@ -582,7 +579,7 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-3">
+              <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-3 short:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
@@ -592,7 +589,9 @@ function GraduatesBand() {
                     position={group.position}
                     tone="light"
                     zoom={false}
-                    className={['col-span-2 sm:col-span-1 sm:order-2', 'sm:order-1', 'sm:order-3'][i]}
+                    className={
+                      ['col-span-2 sm:col-span-1 sm:order-2 short:col-span-1 short:order-2', 'sm:order-1 short:order-1', 'sm:order-3 short:order-3'][i]
+                    }
                     sizes={
                       i === 0
                         ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 92vw'
@@ -633,7 +632,7 @@ const SCHEDULE_ITEMS = COURSE_SCHEDULE.map((day) => ({
 function IncludedBand() {
   const [allBenefits, setAllBenefits] = useState(false);
   return (
-    <section className="as-section bg-cream-50">
+    <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-10 md:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
@@ -656,7 +655,8 @@ function IncludedBand() {
                       !allBenefits && collapsedClass(i, BENEFITS_PREVIEW)
                     )}
                   >
-                    <span className="as-num w-8 shrink-0 text-lg text-gold-deep sm:text-xl">{pad(i + 1)}</span>
+                    {/* .as-num bez nadpisania rozmiaru (24 px, gold-deep); w-9 mieści „08” */}
+                    <span className="as-num w-9 shrink-0">{pad(i + 1)}</span>
                     <span className="text-[0.9375rem] leading-[1.65] text-ink/80">
                       {benefit.text}
                       {benefit.only && (
@@ -705,7 +705,7 @@ function IncludedBand() {
 
 function QuestionsBand() {
   return (
-    <section id="pytania" className="as-section scroll-mt-28 border-t border-ink/10 bg-cream-100">
+    <section id="pytania" className="as-section as-section-tight-top border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
@@ -823,9 +823,11 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
           </DialogDescription>
         </DialogHeader>
 
+        {/* DialogFooter stoi bezpośrednio w DialogContent (potwierdzenie) albo w <form> –
+            wtedy przykleja się do dołu panelu (dialog.jsx); nie w dodatkowym <div>. */}
         {sent ? (
-          <div className="mt-8">
-            <div className="border border-ink/15 bg-cream-100/70 p-6">
+          <>
+            <div className="mt-8 border border-ink/15 bg-cream-100/70 p-6">
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="as-kicker">Szkolenie</dt>
@@ -855,12 +857,13 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
             <DialogFooter>
               <a href={CONTACT.instagram} target="_blank" rel="noreferrer noopener" className="as-btn-solid">
                 {CONTACT.instagramHandle}
+                <span className="sr-only"> (otwiera się w nowej karcie)</span>
               </a>
               <button type="button" onClick={onClose} className="as-btn-ghost">
                 Zamknij
               </button>
             </DialogFooter>
-          </div>
+          </>
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <Field
@@ -887,6 +890,8 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
                 type="text"
                 label="Imię i nazwisko"
                 autoComplete="name"
+                autoCapitalize="words"
+                enterKeyHint="next"
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -898,6 +903,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
                 label="Telefon"
                 autoComplete="tel"
                 inputMode="tel"
+                enterKeyHint="next"
                 value={form.phone}
                 onChange={handleChange}
                 required
@@ -908,6 +914,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
                 type="email"
                 label="E-mail"
                 autoComplete="email"
+                enterKeyHint="next"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -918,6 +925,7 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
                 type="text"
                 label="Miasto"
                 autoComplete="address-level2"
+                enterKeyHint="next"
                 value={form.city}
                 onChange={handleChange}
               />
@@ -956,6 +964,14 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
               sposób rozliczenia potwierdzamy w rozmowie.
             </p>
 
+            {/* legenda i klauzula PRZED stopką – stopka jest ostatnia w <form>, więc
+                przyklejona do dołu panelu nie zasłania ich na końcu formularza */}
+            <div className="space-y-2">
+              {/* FormNotice zawiera już zdanie o polach wymaganych */}
+              {!LEGAL_PUBLIC && <RequiredLegend />}
+              <FormNotice />
+            </div>
+
             <DialogFooter>
               <button type="submit" className="as-btn-solid">
                 Wyślij zapytanie
@@ -964,11 +980,6 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
                 Anuluj
               </button>
             </DialogFooter>
-
-            <div className="space-y-2">
-              <RequiredLegend />
-              <FormNotice />
-            </div>
           </form>
         )}
       </DialogContent>

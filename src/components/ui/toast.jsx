@@ -7,32 +7,42 @@ import { cn } from "@/lib/utils";
 import { useContent } from "@/i18n/client";
 import common from "@/content/common";
 
-const ToastProvider = React.forwardRef(({ ...props }, ref) => (
-  <div
-    ref={ref}
-    className="pointer-events-none fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"
-    {...props}
-  />
-));
+/* Komunikat (toast) w stylu marki: prostokąt bez zaokrągleń i cieni, krem z linią
+   1 px, tytuł w Bodoni 22 px, opis Jost 15 px. Stoi NA DOLE ekranu (na telefonie
+   na całą szerokość, nad mobilnym paskiem CTA – src/index.css, data-toast-viewport;
+   od sm w prawym dolnym rogu), więc nigdy nie zasłania nagłówka ani menu.
+   Zamknięcie × 44 px zawsze widoczne; znika sam (Toaster – po 10 s, z pauzą,
+   gdy kursor lub fokus jest na komunikacie). */
+
+/* Wcześniej osobny kontener fixed – teraz jeden kontener (ToastViewport). */
+const ToastProvider = ({ children }) => <>{children}</>;
 ToastProvider.displayName = "ToastProvider";
 
-const ToastViewport = React.forwardRef(({ ...props }, ref) => (
-  <div
+/* Region na żywo (aria-live) istnieje od początku, więc nowy komunikat jest
+   odczytywany przez czytniki ekranu. */
+const ToastViewport = React.forwardRef(({ className, ...props }, ref) => (
+  <ol
     ref={ref}
-    className="pointer-events-none fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"
+    data-toast-viewport=""
+    aria-live="polite"
+    aria-relevant="additions text"
+    className={cn(
+      "pointer-events-none fixed inset-x-0 bottom-0 z-[100] flex flex-col gap-2 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:left-auto sm:max-w-[420px]",
+      className
+    )}
     {...props}
   />
 ));
 ToastViewport.displayName = "ToastViewport";
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
+  "pointer-events-auto relative w-full rounded-none border p-5 pr-14 shadow-none data-[state=open]:animate-as-in",
   {
     variants: {
       variant: {
-        default: "border bg-background text-foreground",
-        destructive:
-          "destructive group border-destructive bg-destructive text-destructive-foreground",
+        default: "border-ink/15 bg-cream-50 text-ink",
+        /* w palecie marki: ciemny komunikat zamiast czerwieni */
+        destructive: "destructive border-espresso-900 bg-espresso-900 text-cream-100",
       },
     },
     defaultVariants: {
@@ -43,8 +53,9 @@ const toastVariants = cva(
 
 const Toast = React.forwardRef(({ className, variant, ...props }, ref) => {
   return (
-    <div
+    <li
       ref={ref}
+      data-state="open"
       className={cn(toastVariants({ variant }), className)}
       {...props}
     />
@@ -53,50 +64,50 @@ const Toast = React.forwardRef(({ className, variant, ...props }, ref) => {
 Toast.displayName = "Toast";
 
 const ToastAction = React.forwardRef(({ className, ...props }, ref) => (
-  <div
+  <button
     ref={ref}
-    className={cn(
-      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
-      className
-    )}
+    type="button"
+    className={cn("as-btn-ghost mt-4 px-5 py-3", className)}
     {...props}
   />
 ));
 ToastAction.displayName = "ToastAction";
 
-/* Przycisk bez tekstu – nazwa dostępna „Zamknij” w języku strony (src/content/common). */
+/* Przycisk bez tekstu – nazwa dostępna „Zamknij” w języku strony (src/content/common).
+   Pole 44 × 44 px, zawsze widoczny (na dotyku nie ma hover). */
 const ToastClose = React.forwardRef(({ className, ...props }, ref) => {
   const t = useContent(common);
   return (
-  <button
-    ref={ref}
-    aria-label={t.close}
-    className={cn(
-      "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600",
-      className
-    )}
-    toast-close=""
-    {...props}
-  >
-    <X className="h-4 w-4" />
-  </button>
-);
+    <button
+      ref={ref}
+      type="button"
+      aria-label={t.close}
+      className={cn(
+        "absolute right-1 top-1 grid h-11 w-11 place-items-center text-current opacity-70 transition-opacity hover:opacity-100",
+        className
+      )}
+      toast-close=""
+      {...props}
+    >
+      <X className="h-4 w-4" aria-hidden="true" />
+    </button>
+  );
 });
 ToastClose.displayName = "ToastClose";
 
 const ToastTitle = React.forwardRef(({ className, ...props }, ref) => (
-  <div
+  <p
     ref={ref}
-    className={cn("text-sm font-semibold", className)}
+    className={cn("font-display text-[1.375rem] leading-7", className)}
     {...props}
   />
 ));
 ToastTitle.displayName = "ToastTitle";
 
 const ToastDescription = React.forwardRef(({ className, ...props }, ref) => (
-  <div
+  <p
     ref={ref}
-    className={cn("text-sm opacity-90", className)}
+    className={cn("mt-2 text-[0.9375rem] leading-[1.6] opacity-80", className)}
     {...props}
   />
 ));
@@ -110,4 +121,4 @@ export {
   ToastDescription,
   ToastClose,
   ToastAction,
-}; 
+};

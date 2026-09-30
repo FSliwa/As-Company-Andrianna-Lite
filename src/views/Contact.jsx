@@ -8,10 +8,15 @@
  *                           (CONTACT.venueNote), kanały i tryb umawiania (CONTACT.hours);
  *                           prawa: formularz na <Field> (panel cream-100; md 7/12,
  *                           lg 6/12 z pustą kolumną odstępu).
- *                           Na telefonie formularz stoi zaraz pod leadem, a dane
- *                           lokalizacji pod formularzem.
+ *                           Na telefonie formularz stoi zaraz pod leadem (panel na całą
+ *                           szerokość ekranu, przycisk na całą szerokość), a dane
+ *                           lokalizacji pod formularzem. Dopóki formularz nie wysyła
+ *                           (!FORM_LIVE), pod leadem stoi link do Instagramu – działający
+ *                           kanał jest w pierwszym ekranie, nie dopiero pod formularzem.
+ *                           Odstępy jak nagłówek podstrony (PageHero): 96/56, od lg 96/64.
  * 02 Wizyta (cream-100)   – trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce;
- *                           od md portret obok kroków, na telefonie pod nimi.
+ *                           od md portret obok kroków, na telefonie NAD nimi, w rozmiarze
+ *                           okładki (17/22 rem) – sekcja kończy się wezwaniem, nie kadrem.
  * → stopka. Formularz jest CTA tej strony, więc nie ma pasa zamykającego (ClosingCta);
  *   jasna sekcja 02 oddziela też formularz od ciemnej stopki.
  *
@@ -39,18 +44,19 @@ import {
   Reveal,
   SectionLabel,
 } from '@/components/as/Primitives';
-import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER, LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER } from '@/lib/site';
+import { LEGAL_PUBLIC } from '@/lib/legal';
 import { ROLES } from '@/lib/roles';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
 /* Formularz naprawdę dostarcza wiadomość dopiero wtedy, gdy jest adres e-mail
-   (mailto w src/lib/enquiry.js). */
-const FORM_LIVE = Boolean(CONTACT.email);
+   (mailto w src/lib/enquiry.js) i dokumenty prawne są publiczne (klauzula z art. 13 RODO
+   pod formularzem, LEGAL_PUBLIC) – ten sam warunek co w OrderDialog. */
+const FORM_LIVE = ENQUIRY_LIVE;
 
-/* FormNotice renderuje się sam po uzupełnieniu LEGAL i zawiera już zdanie
-   o polach wymaganych – do tego czasu legendę pokazuje RequiredLegend. */
-const NOTICE_READY = LEGAL_COMPLETE;
+/* FormNotice renderuje się sam, gdy dokumenty są publiczne (LEGAL_PUBLIC), i zawiera
+   już zdanie o polach wymaganych – bez niego legendę pokazuje RequiredLegend. */
+const NOTICE_READY = LEGAL_PUBLIC;
 
 /* Adres składamy tylko z pól, które są faktycznie uzupełnione. */
 const ADDRESS_LINE = [CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ');
@@ -126,7 +132,7 @@ function LocationDetails() {
               href={c.href}
               target={c.external ? '_blank' : undefined}
               rel={c.external ? 'noreferrer noopener' : undefined}
-              className="relative border-b border-ink/25 transition-colors before:absolute before:-inset-x-2 before:-inset-y-3 before:content-[''] hover:border-gold hover:text-gold-deep"
+              className="relative border-b border-ink/25 transition-colors before:absolute before:-inset-x-2 before:-inset-y-3 before:content-[''] hover:border-gold"
             >
               {c.value}
               {c.external && <span className="sr-only"> (otwiera się w nowej karcie)</span>}
@@ -186,8 +192,10 @@ function EnquiryForm() {
   return (
     /* od md: panel wypełnia wysokość obu rzędów siatki; przy wyższej kolumnie
        po lewej rośnie pole wiadomości, nie odstępy. Na tablecie (md–lg) panel
-       ma 7/12 szerokości, więc padding i siatka pól są ciaśniejsze. */
-    <div className="border border-ink/15 bg-cream-100 p-7 sm:p-10 md:flex md:h-full md:flex-col md:p-8 lg:p-10">
+       ma 7/12 szerokości, więc padding i siatka pól są ciaśniejsze.
+       Telefon (< sm): pas cream-100 na całą szerokość ekranu (-mx-5 = margines łamu),
+       linie tylko u góry i u dołu – pola mają szerokość łamu, a nie 75 % ekranu. */
+    <div className="-mx-5 border-y border-ink/15 bg-cream-100 px-5 py-7 sm:mx-0 sm:border sm:p-10 md:flex md:h-full md:flex-col md:p-8 lg:p-10">
       {message ? (
         <div role="status" aria-live="polite">
           <h2 className="as-title text-ink">{message.title}</h2>
@@ -213,45 +221,51 @@ function EnquiryForm() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 md:flex md:flex-1 md:flex-col"
+          className="space-y-5 sm:space-y-6 md:flex md:flex-1 md:flex-col"
           aria-label="Formularz kontaktowy"
         >
           {/* Pary pól: sm 2 kolumny; md–lg (panel ~400 px na tablecie) jedna, żeby
               e-mail i „Telefon (opcjonalnie)” miały pełną szerokość; lg znowu 2.
-              items-end: gdy „Telefon (opcjonalnie)” łamie się w wąskiej kolumnie
-              (lg ~1024 px), linie pól i tak stoją na jednej wysokości */}
-          <div className="grid gap-6 sm:grid-cols-2 sm:items-end sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
+              Kolejność: najpierw pola wymagane (imię | e-mail), potem opcjonalny
+              telefon | temat. items-end: gdy „Telefon (opcjonalnie)” łamie się
+              w wąskiej kolumnie (lg ~1024 px), linie pól i tak stoją na jednej wysokości.
+              enterKeyHint „dalej” na klawiaturze ekranowej przeprowadza przez pola. */}
+          <div className="grid gap-5 sm:grid-cols-2 sm:items-end sm:gap-6 sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
             <Field
               id="c-name"
               label="Imię i nazwisko"
               type="text"
               name="name"
               autoComplete="name"
+              autoCapitalize="words"
+              enterKeyHint="next"
               value={formData.name}
               onChange={handleChange}
               required
             />
-            <Field
-              id="c-phone"
-              label="Telefon (opcjonalnie)"
-              type="tel"
-              name="phone"
-              autoComplete="tel"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
             <Field
               id="c-email"
               label="Adres e-mail"
               type="email"
               name="email"
               autoComplete="email"
+              enterKeyHint="next"
               value={formData.email}
               onChange={handleChange}
               required
+            />
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 sm:items-end sm:gap-6 sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
+            <Field
+              id="c-phone"
+              label="Telefon (opcjonalnie)"
+              type="tel"
+              name="phone"
+              autoComplete="tel"
+              enterKeyHint="next"
+              value={formData.phone}
+              onChange={handleChange}
             />
             <Field
               as="select"
@@ -284,7 +298,7 @@ function EnquiryForm() {
           />
 
           <div className="pt-2">
-            <button type="submit" className="as-btn-solid">
+            <button type="submit" className="as-btn-solid w-full sm:w-auto">
               Wyślij zapytanie
             </button>
             <FormNotice className="mt-5 max-w-[32rem]" />
@@ -303,7 +317,7 @@ function Hero() {
      DOM daje: wstęp → formularz → lokalizacja. */
   return (
     <section className="bg-cream-50">
-      <div className="as-shell pb-14 pt-24 lg:pb-20 lg:pt-28">
+      <div className="as-shell pb-14 pt-24 lg:pb-16 short:pb-10 short:pt-8">
         <div className="grid gap-12 md:grid-cols-12 md:grid-rows-[auto_1fr] md:gap-x-8 md:gap-y-0">
           <Reveal className="md:col-span-5 md:col-start-1 md:row-start-1">
             <SectionLabel number="01">Kontakt</SectionLabel>
@@ -314,18 +328,30 @@ function Hero() {
               Zabiegi, szkolenia, pytania o produkty – napisz, a wrócimy do Ciebie z konkretną
               odpowiedzią i wolnym terminem.
             </p>
+            {!FORM_LIVE && (
+              <ArrowLink
+                href={CONTACT.instagram}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-6 w-fit"
+              >
+                Napisz na Instagramie
+                <span className="sr-only"> (otwiera się w nowej karcie)</span>
+              </ArrowLink>
+            )}
           </Reveal>
 
+          {/* #formularz: odstęp kotwicy daje html { scroll-padding-top } – bez scroll-mt */}
           <div
             id="formularz"
-            className="scroll-mt-24 md:col-span-7 md:col-start-6 md:row-span-2 md:row-start-1 lg:col-span-6 lg:col-start-7 lg:scroll-mt-32"
+            className="md:col-span-7 md:col-start-6 md:row-span-2 md:row-start-1 lg:col-span-6 lg:col-start-7"
           >
-            <Reveal delay={80} className="md:h-full">
+            <Reveal delay={60} className="md:h-full">
               <EnquiryForm />
             </Reveal>
           </div>
 
-          <Reveal delay={120} className="md:col-span-5 md:col-start-1 md:row-start-2 md:mt-12">
+          <Reveal delay={60} className="md:col-span-5 md:col-start-1 md:row-start-2 md:mt-12">
             <LocationDetails />
           </Reveal>
         </div>
@@ -341,16 +367,32 @@ function Hero() {
 /* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi) i briefu (FAQ).
    Krok 01 wskazuje formularz dopiero wtedy, gdy formularz faktycznie wysyła; zdanie
    o zdjęciu starego makijażu – brief (FAQ „czy można robić nowy zabieg na starym…”).
+   Uchwyt Instagrama w kroku 01 to link (::before powiększa pole dotyku do ≥ 44 px,
+   jak w LocationDetails); hover bez złotego tekstu – złota tylko linia.
    Krok 03: zamiast „Konsultacji” (bez źródła – INNE-11, BIO-14) rysunek wstępny z briefu. */
+const INSTAGRAM_LINK = (
+  <a
+    href={CONTACT.instagram}
+    target="_blank"
+    rel="noreferrer noopener"
+    className="relative border-b border-ink/25 text-ink transition-colors before:absolute before:-inset-x-2 before:-inset-y-3 before:content-[''] hover:border-gold"
+  >
+    {CONTACT.instagramHandle}
+    <span className="sr-only"> (otwiera się w nowej karcie)</span>
+  </a>
+);
+
 const BOOKING_STEPS = [
   {
     number: '01',
     title: 'Wiadomość',
-    desc: `${
-      FORM_LIVE
-        ? 'Napisz przez formularz na tej stronie albo na Instagramie.'
-        : `Napisz na Instagramie – ${CONTACT.instagramHandle}.`
-    } Przy starym makijażu permanentnym dołącz zdjęcie brwi lub ust.`,
+    desc: FORM_LIVE ? (
+      'Napisz przez formularz na tej stronie albo na Instagramie. Przy starym makijażu permanentnym dołącz zdjęcie brwi lub ust.'
+    ) : (
+      <>
+        Napisz na Instagramie – {INSTAGRAM_LINK}. Przy starym makijażu permanentnym dołącz zdjęcie brwi lub ust.
+      </>
+    ),
   },
   { number: '02', title: 'Termin', desc: 'Wrócimy z konkretną odpowiedzią i wolnym terminem.' },
   {
@@ -360,8 +402,18 @@ const BOOKING_STEPS = [
   },
 ];
 
+/* „Umów wizytę” w sekcji 02: rezerwacja online, gdy działa; bez niej – formularz,
+   gdy wysyła; w przeciwnym razie Instagram (kanał z kroku 01). Link na '#formularz'
+   przy niepodpiętym formularzu prowadziłby do formularza, który niczego nie wysyła. */
+const VISIT_CTA = BOOKING_ENABLED
+  ? { href: BOOKING_URL }
+  : FORM_LIVE
+    ? { href: '#formularz' }
+    : { href: CONTACT.instagram, target: '_blank', rel: 'noreferrer noopener', external: true };
+
 function VisitBand() {
   const portrait = ROLES.contactSection;
+  const { external, ...cta } = VISIT_CTA;
   return (
     <section className="as-section border-t border-ink/10 bg-cream-90">
       <div className="as-shell">
@@ -384,18 +436,22 @@ function VisitBand() {
               ))}
             </ol>
 
-            <Reveal delay={200}>
-              {/* bez rezerwacji online link prowadziłby do tej samej strony – wtedy do formularza */}
-              <ArrowLink href={BOOKING_ENABLED ? BOOKING_URL : '#formularz'} className="mt-10 w-fit">
+            <Reveal delay={60}>
+              <ArrowLink {...cta} className="mt-10 w-fit">
                 Umów wizytę
+                {external && <span className="sr-only"> (Instagram, otwiera się w nowej karcie)</span>}
               </ArrowLink>
             </Reveal>
           </div>
 
-          {/* – jeden kadr: portret z sesji marki, w złotej ramce – */}
+          {/* – jeden kadr: portret z sesji marki, w złotej ramce. Telefon: na początku
+                rozkładówki, w rozmiarze okładki podstron (17/22 rem) – sekcja kończy się
+                wezwaniem „Umów wizytę”, a nie kadrem na pół ekranu. Od md obok kroków.
+                Telefon w poziomie (short:) – kadr 4:5 nie wyższy niż 80% ekranu, jak w Statement
+                (short:sm:/short:md: – reguły short: stoją w CSS przed sm:/md:). – */}
           <Reveal
-            delay={90}
-            className="mx-auto w-full max-w-[26rem] md:col-span-6 md:col-start-1 md:row-start-1 md:max-w-none lg:col-span-5 lg:col-start-2"
+            delay={60}
+            className="mx-auto w-full max-w-[17rem] max-md:order-first sm:max-w-[22rem] md:col-span-6 md:col-start-1 md:row-start-1 md:max-w-none lg:col-span-5 lg:col-start-2 short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]"
           >
             <Figure
               image={portrait?.image}

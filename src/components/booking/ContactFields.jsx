@@ -4,6 +4,8 @@
  * 04 Dane – imię i nazwisko*, telefon*, e-mail*, uwagi (bez pytań o zdrowie)
  * + niewidoczne pole-pułapka „website” (honeypot; API odrzuca wypełnione).
  * Błędy: tekst pod polem, powiązany przez aria-describedby, aria-invalid.
+ * Klawiatura ekranowa: „Dalej” (enterKeyHint) w polach jednowierszowych,
+ * imię i nazwisko z wielkiej litery (autoCapitalize).
  */
 
 import { Field } from '@/components/as/Primitives';
@@ -53,6 +55,8 @@ export function ContactFields({ values, errors, onChange, onBlur }) {
         label="Imię i nazwisko"
         type="text"
         autoComplete="name"
+        autoCapitalize="words"
+        enterKeyHint="next"
         maxLength={FIELD_LIMITS.nameMax}
         required
       />
@@ -62,6 +66,7 @@ export function ContactFields({ values, errors, onChange, onBlur }) {
         type="tel"
         inputMode="tel"
         autoComplete="tel"
+        enterKeyHint="next"
         maxLength={24}
         required
       />
@@ -72,6 +77,7 @@ export function ContactFields({ values, errors, onChange, onBlur }) {
         inputMode="email"
         autoComplete="email"
         autoCapitalize="none"
+        enterKeyHint="next"
         spellCheck={false}
         maxLength={FIELD_LIMITS.emailMax}
         required

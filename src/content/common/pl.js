@@ -23,10 +23,24 @@ const common = {
   goTo: 'Przejdź:',
   closingLabel: 'Kontakt',
   requiredLegend: 'Pola oznaczone * są wymagane.',
-  noticeController: 'Administratorem danych jest',
+  /* klauzula pod formularzami i przy rezerwacji (FormNotice, BookingNotice): zdanie o administratorze
+     ze znacznikami danych firmy – składnia jak w dokumentach prawnych (src/lib/legal.js): bez danych
+     firmy marka + miasto + Instagram, po uzupełnieniu site.js pełna nazwa, adres i e-mail */
+  noticeController: 'Administratorem danych jest {company}, {seat} (kontakt:[[ {privacyEmail} lub]] Instagram {instagram}).',
   noticePurpose: 'Dane z formularza przetwarzamy, by odpowiedzieć na zapytanie i – jeśli o to poprosisz – przygotować ofertę.',
+  /* zdania z linkiem: pre + <link> + post */
+  noticePrivacy: { pre: 'Więcej w ', link: 'Polityce prywatności', post: '.' },
+  noticeTerms: { pre: 'Zasady korzystania z formularzy opisuje ', link: 'Regulamin', post: '.' },
+  /* klauzula pod przyciskiem rezerwacji (BookingNotice); {button} = etykieta przycisku */
+  bookingPurpose:
+    'Dane z formularza przetwarzamy, by zarezerwować i obsłużyć Twoją wizytę; termin z danymi kontaktowymi zapisujemy w Kalendarzu Google salonu.',
+  bookingTerms: {
+    pre: 'Klikając „{button}”, akceptujesz ',
+    link: 'Regulamin',
+    post: ' – zasady rezerwacji, zmiany i odwołania wizyty opisują jego pkt 9–10.',
+  },
+  bookingTurnstile: { pre: 'Formularz chroni Cloudflare Turnstile – szczegóły w ', link: 'Polityce cookies', post: '.' },
   documents: 'Dokumenty',
-  /* Polityka prywatności jeszcze nieprzetłumaczona – treść po polsku (tylko EN/RU) */
   cookiesPolicy: 'Polityka cookies',
   terms: 'Regulamin',
   cookieSettings: 'Ustawienia cookies',

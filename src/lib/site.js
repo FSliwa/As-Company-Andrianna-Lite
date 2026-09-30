@@ -136,9 +136,14 @@ export const SHOP = {
 /**
  * Dane prawne – do uzupełnienia przez klienta (art. 5 u.ś.u.d.e., art. 13 RODO).
  * Podstawiane w polityce prywatności, polityce cookies i regulaminie
- * (src/content/legal/*.json, src/lib/legal.js). Dopóki pola są null, dokumenty są
- * projektem (pas „Projekt dokumentu”, braki oznaczone, noindex), stopka nie pokazuje
- * wiersza z danymi firmy, a klauzule pod formularzami się nie renderują.
+ * (src/content/legal/*.json, src/lib/legal.js). Dokumenty w pełni obowiązują, gdy są
+ * uzupełnione dane (także CONTACT.email i CONTACT.phone) ORAZ documentsApproved
+ * (LEGAL_PUBLISHED). Decyzja Filipa (30.09.2026): dokumenty i klauzule pod formularzami
+ * są publiczne już teraz (LEGAL_PUBLIC) – bez danych firmy zamiast nazwy stoi marka
+ * (BRAND.full + BRAND.academy), zamiast siedziby miasto (CONTACT.city), kontakt przez
+ * Instagram, a zdania z NIP-em, rejestrem, adresem, e-mailem i telefonem znikają.
+ * Po wpisaniu danych tutaj pełne brzmienie pojawi się samo. Stopka pokazuje wiersz
+ * z danymi firmy dopiero po wpisaniu company.
  */
 export const LEGAL = {
   company: null, // pełna nazwa z rejestru, np. „… sp. z o.o." albo imię i nazwisko + nazwa firmy z CEIDG
@@ -146,6 +151,10 @@ export const LEGAL = {
   nip: null,
   register: null, // np. „KRS 0000…, Sąd Rejonowy …" albo „CEIDG"
   privacyEmail: null, // e-mail do spraw danych osobowych
+  /* Data zatwierdzenia treści dokumentów przez klientkę (albo prawnika), np. '2026-10-15'.
+     Wpisuje się ją dopiero po przejrzeniu decyzji z docs/dokumenty-prawne.md; tę samą
+     datę ustaw w polu "updated" dokumentów (src/content/legal/*.json). */
+  documentsApproved: null,
 };
 
 /** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA). */

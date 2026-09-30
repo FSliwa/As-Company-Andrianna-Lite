@@ -1,30 +1,39 @@
 'use client';
 
-/* Strona 404 w języku marki – ta sama typografia, jeden komunikat, dwa wyjścia.
+/* Strona 404 w języku marki – ta sama typografia, jeden komunikat, dwa wyjścia:
+   przycisk (strona główna) i link ze strzałką (kontakt) – jak w nagłówkach podstron.
+   Etykieta przez SectionLabel (numer gold-deep, ukośnik aria-hidden), odstępy jak
+   PageHero: 96/56 px, od lg 96/80. Na telefonie i tablecie treść od góry (96 px pod
+   nagłówkiem jak na pozostałych podstronach, bez wyśrodkowania w pionie zależnego od
+   wysokości ekranu); od lg wyśrodkowana w min. 60svh.
    Teksty: src/content/common (notFound), język z adresu (/en/…, /ru/…, reszta = pl). */
 import Link from '@/components/as/LocaleLink';
+import { ArrowLink, SectionLabel } from '@/components/as/Primitives';
 import { useContent } from '@/i18n/client';
 import common from '@/content/common';
+
+/* Twarda spacja przed ostatnim słowem akcentu – „ma.” / „exist.” nie zostaje samo w linii. */
+const keepLastWord = (text) => String(text).replace(/ (\S+)$/, ' $1');
 
 export default function NotFoundView() {
   const t = useContent(common).notFound;
   return (
-    <section className="as-section bg-cream-50">
-      <div className="as-shell flex min-h-[60svh] flex-col justify-center py-16">
-        <p className="as-label text-ink/70">
-          <span className="text-gold-deep">404</span> <span className="text-ink/30">/</span> {t.label}
-        </p>
-        <h1 className="as-display-lg mt-6 max-w-3xl text-ink">
-          {t.title} <span className="italic text-gold-dark">{t.accent}</span>
+    <section className="bg-cream-50">
+      <div className="as-shell flex flex-col pb-14 pt-24 lg:min-h-[60svh] lg:justify-center lg:pb-20 short:pb-10 short:pt-8">
+        <SectionLabel number="404" line={false}>
+          {t.label}
+        </SectionLabel>
+        <h1 className="as-display-lg as-text-balance mt-6 max-w-3xl text-ink">
+          {t.title} <span className="italic text-gold-dark">{keepLastWord(t.accent)}</span>
         </h1>
         <p className="as-body mt-6">{t.body}</p>
-        <div className="mt-8 flex flex-wrap gap-4">
+        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
           <Link href="/" className="as-btn-solid">
             {t.home}
           </Link>
-          <Link href="/kontakt" className="as-btn-ghost">
+          <ArrowLink href="/kontakt" className="w-fit">
             {t.contact}
-          </Link>
+          </ArrowLink>
         </div>
       </div>
     </section>

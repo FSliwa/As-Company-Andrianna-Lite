@@ -1,7 +1,7 @@
 {
   "slug": "polityka-prywatnosci",
   "title": "Privacy Policy",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. This policy explains what personal data we collect on the {siteUrl} website (including its English and Russian pages), why we do so, whom we entrust it to and what rights you have. We describe only what the website actually does. We apply Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 (the General Data Protection Regulation, “GDPR”; in Polish “RODO”). The rules for using the website are set out in the Terms of Use ({siteUrl}/regulamin), and the information stored in your browser is described in the Cookie Policy ({siteUrl}/polityka-cookies).",
   "sections": [
     {
@@ -25,7 +25,7 @@
       "heading": "2. Data controller",
       "blocks": [
         {
-          "p": "The controller of your personal data is {company}, {address}, Tax ID (NIP) {nip}, {register}. We run a permanent make-up salon and training academy in Warsaw under the brands AS COMPANY LOVELINESS and Babushkina Academy. In this policy we refer to ourselves as “we” or “us”."
+          "p": "The controller of your personal data is {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. We run a permanent make-up salon and training academy in Warsaw under the brands AS COMPANY LOVELINESS and Babushkina Academy. In this policy we refer to ourselves as “we” or “us”."
         }
       ]
     },
@@ -34,7 +34,7 @@
       "heading": "3. Contacting us about personal data",
       "blocks": [
         {
-          "p": "For any matter concerning personal data, write to {privacyEmail} or by post to {address}. You can also use our general contact details: {email}, tel. {phone}."
+          "p": "For any matter concerning personal data, write to us {{or|at {privacyEmail}|by post at {address}|on Instagram ({instagram})}}.[[ You can also use our general contact details: {{|{email}|tel. {phone}}}.]]"
         },
         {
           "p": "We have not appointed a data protection officer. Given the scale and nature of our business, the law does not require one (Article 37 GDPR)."
@@ -46,13 +46,13 @@
       "heading": "4. Contact forms, email and Instagram",
       "blocks": [
         {
-          "p": "The website has four forms: a contact form, a training date enquiry, a machine hire enquiry and a pigment enquiry (a list of selected shades). None of them sends data to our server. When you click the button, your browser turns the completed fields into a ready-made message and opens your email program addressed to {email}. We receive the data only once you send that message yourself. You can also write to us on Instagram, and you can copy the pigment list using the button in the order window and paste it into a message. The message is delivered by your email provider or by Instagram, on their own terms."
+          "p": "The website has four forms: a contact form, a training date enquiry, a machine hire enquiry and a pigment enquiry (a list of selected shades). None of them sends data to our server. When you click the button, your browser turns the completed fields into a ready-made message and opens your email program[[ addressed to {email}]]. We receive the data only once you send that message yourself. You can also write to us on Instagram, and you can copy the pigment list using the button in the order window and paste it into a message. The message is delivered by your email provider or by Instagram, on their own terms."
         },
         {
-          "p": "Depending on the form, the message contains your first name or full name, phone number and email address and, in addition: in the contact form, the subject and content of your message; in the training enquiry, the chosen course, city, preferred date and your experience in permanent make-up; in the hire enquiry, the name of your salon and the chosen device; in the pigment enquiry, the name of your salon, the list of shades with an approximate total and any comments. The same rules apply to data you give us by emailing us directly, calling us or writing to us on Instagram."
+          "p": "Depending on the form, the message contains your first name or full name, phone number and email address (for the pigment enquiry, a phone number or an email address is enough) and, in addition: in the contact form, the subject and content of your message; in the training enquiry, the chosen course, city, preferred date and your experience in permanent make-up; in the hire enquiry, the name of your salon and the chosen device; in the pigment enquiry, the name of your salon, the list of shades with an approximate total and any comments. The same rules apply to data you give us by emailing us directly, calling us or writing to us on Instagram."
         },
         {
-          "p": "Please do not send information about your health in your messages. We will discuss it during the consultation at the salon."
+          "p": "Please do not send information about your health in your messages – we will discuss it during the consultation at the salon. If you send it to us anyway, we will delete it from our correspondence."
         },
         {
           "p": "Purposes and legal bases:"
@@ -75,7 +75,7 @@
       "heading": "5. Booking an appointment online",
       "blocks": [
         {
-          "p": "On the “Book an appointment” page you can book a time for a treatment. You provide your full name, phone number and email address and, if you wish, a short note. You choose the treatment, the day and the time. Every treatment begins with a consultation at the salon. The form does not ask about your health, and we ask you not to enter such information in the notes. The rules for booking, rescheduling and cancelling an appointment are set out in sections 9 and 10 of the Terms of Use."
+          "p": "On the “Book a visit” page you can book a time for a treatment. You provide your full name, phone number and email address and, if you wish, a short note. You choose the treatment, the day and the time. Every treatment begins with a consultation at the salon. The form does not ask about your health, and we ask you not to enter such information in the notes. If you enter it anyway, we will delete it from the appointment description in the calendar and discuss it at the salon. The rules for booking, rescheduling and cancelling an appointment are set out in sections 9 and 10 of the Terms of Use."
         },
         {
           "p": "When you submit the form, our server saves the booking as an event in the salon’s Google Calendar. The event title contains the name of the treatment and your full name, and the description contains the duration and price of the treatment from the price list, your phone number and email address, your notes and the booking number. The event is set for the date and time of the appointment. The website does not send calendar invitations or automatic text messages or emails. You see the confirmation on screen and can download an .ics file (generated in your browser) to add the appointment to your own calendar. If the appointment needs to be rescheduled, we will contact you ourselves by phone or email."
@@ -95,7 +95,7 @@
           ]
         },
         {
-          "p": "If you book an appointment for someone else (section 9 of the Terms of Use), we receive that person’s full name, phone number and email address from you. We process them for the same purposes, on the same legal bases and for the same period as data from other bookings. Please pass on the information in this policy to that person before you give us their details. Online bookings may be made only by an adult and only for an adult."
+          "p": "If you book an appointment for someone else (section 9 of the Terms of Use), we receive that person’s full name, phone number and email address from you. We process them for the same purposes, on the same legal bases and for the same period as data from other bookings. Please pass on the information in this policy to that person before you give us their details. When we first contact that person (at the latest at the salon), we will also provide them with information about the processing of their data ourselves. Online bookings may be made only by an adult and only for an adult."
         },
         {
           "p": "We collect health information, consent to treatment and treatment records only at the salon. We will inform you there of how they are processed."
@@ -114,7 +114,7 @@
             "Contact hashes. In hidden fields of the event, separate from the title and description, we store one-way cryptographic hashes of your phone number and email address, and a hash of the entire submission. Without the secret key, which only our server holds, it is impossible to read the number, address or content from them. They allow us to check whether the same person already has too many future online bookings (the limit is set out in section 9 of the Terms of Use) and to recognise a repeat submission of the same form, for example after a connection error, so that no duplicate entry is created. The hashes are still personal data (in pseudonymised form), so we protect them in the same way as other data and delete them together with the booking.",
             "Limit on attempts from a single IP address. The server counts how many times within a short period the form has been submitted or availability checked from a given IP address (for IPv6 addresses, the network to which the address belongs is counted). The counter exists only in the server’s working memory. We do not store IP addresses in the calendar or in our application logs (hosting logs are described in section 7), and the counter disappears by itself, at the latest when the server restarts.",
             "Completion time and a honeypot field. The server checks how much time has passed between the form being displayed and it being submitted, and the form contains an invisible field that only bots fill in. These safeguards do not collect any additional information about you.",
-            "Cloudflare Turnstile, if enabled. The booking page may use the Turnstile service provided by Cloudflare, Inc., which tells humans and bots apart without asking you to type in codes from images. In that case, as soon as the page opens, it loads a script from challenges.cloudflare.com, and Cloudflare analyses technical data about the connection, browser and device, including your IP address, and may store in your browser cookies or other technical data needed for verification. Our server passes Cloudflare only a one-time verification token, without any data from the form. Turnstile does not run on any other page."
+            "Cloudflare Turnstile, if enabled. The booking pages (/umow-wizyte, /en/book, /ru/book) may use the Turnstile service provided by Cloudflare, Inc. (USA), which tells humans and bots apart without asking you to type in codes from images. In that case the page loads a script from challenges.cloudflare.com only once you start entering your details in the form (step 04) or submit it. Cloudflare analyses technical data about the connection, browser and device, including your IP address, and may store in your browser cookies or other technical data needed for verification. Our server passes Cloudflare only a one-time verification token, without any data from the form. For the verification itself, Cloudflare acts on our behalf as a processor. It also uses some of this data (so-called signals) to improve the Turnstile service – to that extent it is a separate controller and applies its own rules: www.cloudflare.com/turnstile-privacy-policy. Turnstile does not run on any other page."
           ]
         },
         {
@@ -133,7 +133,7 @@
           "p": "We use the logs only to keep the website running and secure, including protecting it against attacks, and to investigate errors. We do not compile visitor statistics from them or combine them with other data. The legal basis is our legitimate interest (Article 6(1)(f) GDPR)."
         },
         {
-          "p": "Fonts are hosted on our own server, and the website contains no content embedded from other services, such as videos, maps or Instagram posts. Simply browsing the website therefore does not pass your IP address to other companies. The only exception is Cloudflare on the booking page, if we enable Turnstile."
+          "p": "Fonts are hosted on our own server, and the website contains no content embedded from other services, such as videos, maps or Instagram posts. Simply browsing the website therefore does not pass your IP address to any company other than our hosting provider (Vercel). The exception is Cloudflare on the booking pages (section 6), if we enable Turnstile."
         }
       ]
     },
@@ -163,7 +163,7 @@
           ]
         },
         {
-          "p": "This information stays on your device and is not sent to us. If Cloudflare Turnstile is running on the booking page, it may store cookies or other technical data in your browser (section 6). Details, including how to delete this information, can be found in the Cookie Policy ({siteUrl}/polityka-cookies)."
+          "p": "This information stays on your device and is not sent to us. If Cloudflare Turnstile is running on the booking pages, it may store cookies or other technical data in your browser (section 6). Details, including how to delete this information, can be found in the Cookie Policy ({siteUrl}/polityka-cookies)."
         }
       ]
     },
@@ -178,13 +178,13 @@
           "list": [
             "Vercel Inc. (USA): website hosting and handling of the booking form;",
             "Google Ireland Limited and Google LLC (USA): Google Calendar, in which we save bookings;",
-            "our email provider: storage of correspondence sent to {email};",
-            "Cloudflare, Inc. (USA): protection of the booking form (Turnstile), only if enabled;",
+            "our email provider: storage of correspondence sent to our email address[[ {email}]];",
+            "Cloudflare, Inc. (USA): verification in the booking form (Turnstile), only if enabled; for improving the Turnstile service, Cloudflare is a separate controller (section 6);",
             "our accounting firm: accounting records, if we enter into a contract."
           ]
         },
         {
-          "p": "If you use training funding (e.g. KFS, BUR or RIS – Rejestr Instytucji Szkoleniowych, the Register of Training Institutions), we will pass the data required under the programme’s rules to the relevant institution or programme operator. We may also disclose data to public authorities where the law requires it. We do not sell data or pass it to anyone for marketing purposes."
+          "p": "If you use training funding (e.g. from the KFS fund or for services booked through the BUR database), we will pass the data required under the programme’s rules to the relevant institution or programme operator. We may also disclose data to public authorities where the law requires it. We do not sell data or pass it to anyone for marketing purposes."
         }
       ]
     },
@@ -193,7 +193,7 @@
       "heading": "11. Transfers of data outside the European Economic Area",
       "blocks": [
         {
-          "p": "Vercel, Google and Cloudflare are US companies or belong to US groups, so your data may be processed in the United States. The basis for the transfer is the European Commission’s decision of 10 July 2023 finding an adequate level of data protection under the EU-U.S. Data Privacy Framework (Article 45 GDPR), in respect of companies certified under that framework. As an additional safeguard, standard contractual clauses adopted by the European Commission (Article 46(2)(c) GDPR) are included in these providers’ data processing agreements. You can obtain a copy of these safeguards by writing to {privacyEmail}."
+          "p": "Vercel, Google and Cloudflare are US companies or belong to US groups, so your data may be processed in the United States. The basis for the transfer is the European Commission’s decision of 10 July 2023 finding an adequate level of data protection under the EU-U.S. Data Privacy Framework (Article 45 GDPR), in respect of companies certified under that framework. As an additional safeguard, standard contractual clauses adopted by the European Commission (Article 46(2)(c) GDPR) are included in these providers’ data processing agreements. You can obtain a copy of these safeguards by writing to us[[ at {privacyEmail} or]] on Instagram ({instagram}). Data that Cloudflare processes as a separate controller (section 6) is transferred on the terms described in its own policy."
         }
       ]
     },
@@ -233,14 +233,20 @@
             "have your data erased (Article 17 GDPR);",
             "have the processing of your data restricted (Article 18 GDPR);",
             "data portability, i.e. to receive data processed by automated means in order to conclude or perform a contract, for example data from an online booking (Article 20 GDPR);",
-            "object to processing based on our legitimate interest, on grounds relating to your particular situation (Article 21 GDPR)."
+            "object to processing based on our legitimate interest (Article 21 GDPR) – this right is described separately below."
           ]
+        },
+        {
+          "h3": "Right to object"
+        },
+        {
+          "p": "You may object at any time, on grounds relating to your particular situation, to the processing of your data based on our legitimate interest (Article 6(1)(f) GDPR; Article 21(1) GDPR). This covers the processing described in sections 4–7 and 13, for example correspondence, protection of the booking form, recording missed appointments that were not cancelled and server logs. After you object, we will stop processing the data for that purpose unless we demonstrate compelling legitimate grounds which override your interests, rights and freedoms, or the data is needed to establish, pursue or defend legal claims. Send your objection[[ to {privacyEmail} or]] as a message on Instagram ({instagram})."
         },
         {
           "p": "We do not rely on your consent for any processing on the website, so there is no consent to withdraw. If we ask for your consent in future, you will be able to withdraw it at any time, without affecting the lawfulness of processing carried out before its withdrawal."
         },
         {
-          "p": "To exercise these rights, write to {privacyEmail}. We will reply without undue delay and at the latest within one month. In particularly complex cases this period may be extended by a further two months, and we will let you know if so. If we have any doubt as to whether a request comes from you, we may ask for additional confirmation, for example from the email address or phone number given when booking. Handling requests is free of charge. Only where requests are manifestly unfounded or excessive, in particular because they are repetitive, may we charge a reasonable fee or refuse to act (Article 12(5) GDPR)."
+          "p": "To exercise these rights, write to us[[ at {privacyEmail} or]] on Instagram ({instagram}). We will reply without undue delay and at the latest within one month. In particularly complex cases this period may be extended by a further two months, and we will let you know if so. If we have any doubt as to whether a request comes from you, we may ask for additional confirmation, for example from the email address or phone number given when booking. Handling requests is free of charge. Only where requests are manifestly unfounded or excessive, in particular because they are repetitive, may we charge a reasonable fee or refuse to act (Article 12(5) GDPR)."
         },
         {
           "p": "We keep your request and our reply for 3 years so that we can demonstrate compliance with the law. The legal basis is our legitimate interest (Article 6(1)(f) GDPR)."
@@ -266,12 +272,12 @@
         {
           "list": [
             "without contact details we cannot reply to your enquiry;",
-            "without your full name, phone number and email address we cannot accept an online booking, but you can book with us by phone, by email or on Instagram;",
+            "without your full name, phone number and email address we cannot accept an online booking, but you can book with us {{or|{?phone}by phone|{?email}by email|on Instagram}};",
             "if we enter into a contract, the data is needed to conclude it, and data for accounting records and for settling training funding is required by law or by the programme rules."
           ]
         },
         {
-          "p": "Every browser sends its IP address and browser information automatically. Without them the page cannot be displayed."
+          "p": "Your IP address and browser information are sent automatically by every browser. Without them the page cannot be displayed."
         }
       ]
     },
@@ -280,7 +286,7 @@
       "heading": "16. Profiling and automated decisions",
       "blocks": [
         {
-          "p": "We do not profile you or take decisions about you based solely on automated processing that produce legal effects concerning you or similarly significantly affect you (Article 22 GDPR). The automated safeguards on the booking form (section 6) may reject a submission that looks like abuse or exceeds the online booking limit. In that case, please book with us by phone, by email or on Instagram."
+          "p": "We do not profile you or take decisions about you based solely on automated processing that produce legal effects concerning you or similarly significantly affect you (Article 22 GDPR). The automated safeguards on the booking form (section 6) may reject a submission that looks like abuse or exceeds the online booking limit. In that case, please book with us {{or|{?phone}by phone|{?email}by email|on Instagram}}."
         }
       ]
     },
@@ -292,7 +298,7 @@
           "p": "We update this policy when the way the website works changes, for example when we add a new tool, or when the law changes. The current version is always available at this address, and the date of the latest change is shown at the top. We will also announce significant changes on the website."
         },
         {
-          "p": "This policy applies to the entire website, including its English and Russian pages. Where translations of it are made available, such as this English version, the Polish version prevails in the event of any discrepancy."
+          "p": "This policy applies to the entire website, including its English and Russian pages. We make it available in English and Russian translations, such as this one; in the event of any discrepancy, the Polish version prevails."
         }
       ]
     }
@@ -301,7 +307,7 @@
     {
       "what": "Controller and contact details (in src/lib/site.js: LEGAL.company, address, nip, register, privacyEmail; CONTACT.email, phone; website address NEXT_PUBLIC_SITE_URL)",
       "proposal": "Fill these in exactly as shown in the CEIDG entry (Centralna Ewidencja i Informacja o Działalności Gospodarczej, the Central Register and Information on Economic Activity) or the KRS entry (Krajowy Rejestr Sądowy, the National Court Register). The data protection address (privacyEmail) can be the same as the contact address, provided someone reads it regularly.",
-      "why": "Without these details the policy does not meet Article 13(1)(a) GDPR or Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną). The forms open the email program only once the contact address has been set."
+      "why": "Without these details the policy does not meet Article 13(1)(a) GDPR or Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną). The forms open the email program only once the contact address has been set. Decision by Filip (30 September 2026): the policy is public before these details are provided – until then the controller is identified by the brand AS COMPANY LOVELINESS (Babushkina Academy) and the city (Warsaw), and data protection contact goes via Instagram; the passages with the tax ID, register entry, address, email and phone appear automatically once site.js is filled in (src/lib/legal.js, LEGAL_PUBLIC)."
     },
     {
       "what": "Data protection officer (DPO)",
@@ -329,7 +335,7 @@
       "why": "The GDPR requires stating the period or the criteria used to determine it; “until the limitation period expires” without any figures is not very clear to the reader. Accounting records have a separate, longer period under tax legislation."
     },
     {
-      "what": "Records of funded training (KFS, BUR, RIS)",
+      "what": "Records of funded training (KFS, BUR)",
       "proposal": "Check in the agreements with the operator or the office how long attendance lists, questionnaires and participant data must be kept, and enter that period in section 12 instead of the general reference to the programme rules. Establish whether the obligation arises from the law (Article 6(1)(c) GDPR) or only from the agreement.",
       "why": "Publicly funded programmes often require records to be kept for several years after settlement. The period depends on the specific programme and cannot be determined without the owner’s documents."
     },
@@ -360,8 +366,8 @@
     },
     {
       "what": "Cloudflare Turnstile",
-      "proposal": "Enable it only if spam bookings occur (consistent with the Cookie Policy). If it stays permanently disabled, remove the references to Cloudflare from sections 6, 7, 9, 10 and 11 and from the Cookie Policy and the Terms of Use. Once it is enabled, accept Cloudflare’s data processing terms for Turnstile and check whether under them Cloudflare acts solely as a processor; if in some respects (e.g. improving bot detection) it acts as a separate controller, add this to sections 6 and 10.",
-      "why": "The policy must describe what the website actually does. Turnstile is the only point at which a visitor’s browser connects to an outside company, and Cloudflare’s role follows from its current terms, which cannot be determined from the code."
+      "proposal": "Enable it only if spam bookings occur (consistent with the Cookie Policy). If it stays permanently disabled, remove the references to Cloudflare from sections 6, 7, 9, 10 and 11 and from the Cookie Policy and the Terms of Use. Once it is enabled, accept Cloudflare’s data processing terms for Turnstile. The policy already describes Cloudflare as a processor for the verification and as a separate controller for improving Turnstile (sections 6, 10 and 11), and the script loads only once someone starts entering their details in the booking form; the notice under the booking button then adds a sentence about Turnstile with a link to the Cookie Policy.",
+      "why": "The policy must describe what the website actually does. Turnstile is the only point at which a visitor’s browser connects to an outside company. Under the Turnstile Privacy Addendum (www.cloudflare.com/turnstile-privacy-policy), Cloudflare acts on behalf of the website owner only for the verification itself, and processes the signals used to improve Turnstile as a controller – before enabling it, check that these terms have not changed."
     },
     {
       "what": "Data Privacy Framework check",
@@ -369,7 +375,7 @@
       "why": "Section 11 relies on the DPF in respect of certified companies. Certification status can change."
     },
     {
-      "what": "Training funding (KFS, BUR, RIS): recipients",
+      "what": "Training funding (KFS, BUR): recipients",
       "proposal": "Confirm which programmes the academy actually uses and to whom it passes participants’ data (e.g. the BUR operator, the district labour office (powiatowy urząd pracy) via the employer, a regional operator). If necessary, name the institutions in section 10.",
       "why": "Passing data to a funding institution is a separate category of recipient. The programme abbreviations come from the owner’s brief and have not been verified."
     },
@@ -385,8 +391,8 @@
     },
     {
       "what": "Language versions of the policy",
-      "proposal": "Translate the policy into English and Russian and link to it from the /en and /ru pages. The Polish version is binding.",
-      "why": "Article 12 GDPR requires information to be provided in an intelligible form. A person using the Russian version of the website may not understand a Polish document."
+      "proposal": "The English and Russian translations are published (/en/privacy-policy, /ru/privacy-policy) and linked from the footer; in the event of any discrepancy, the Polish version prevails. Make every change to the Polish version in the translations at the same time, with the same update date.",
+      "why": "Article 12 GDPR requires information to be provided in an intelligible form, and a person using the Russian or English version of the website may not understand a Polish document. An outdated translation would be inaccurate information."
     }
   ]
 }

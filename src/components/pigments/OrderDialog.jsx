@@ -6,7 +6,7 @@
  * kupuje ani nie płaci).
  *
  * Dwa tryby, zawsze zgodne z tym, co naprawdę działa:
- *  - FORM_LIVE (jest CONTACT.email i klauzula RODO z LEGAL): formularz
+ *  - FORM_LIVE (jest CONTACT.email i obowiązują dokumenty prawne – klauzula RODO): formularz
  *    (imię + telefon LUB e-mail) → sendEnquiry() (src/lib/enquiry.js, mailto).
  *    Listy nie czyścimy sami – program pocztowy mógł się nie otworzyć;
  *    po wysyłce jest „Skopiuj listę” i „Wyczyść listę”.
@@ -19,6 +19,11 @@
  * Dostępność: „−”/„+” na granicy zakresu zostają fokusowalne (aria-disabled),
  * po „Usuń” fokus przechodzi na „Usuń” następnej pozycji (albo poprzedniej,
  * albo „Przejdź do katalogu”), a czytnik słyszy „Usunięto: …”.
+ *
+ * Przyciski główne (DialogFooter) stoją zawsze na końcu, jako BEZPOŚREDNIE
+ * dziecko DialogContent – stopka przykleja się do dołu panelu przez całe
+ * przewijanie („Skopiuj listę” w kadrze także przy kilku pozycjach). Przycisk
+ * wysyłki formularza jest w stopce poza <form> (atrybut form=…).
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -32,17 +37,17 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ArrowLink, Field, FormNotice } from '@/components/as/Primitives';
-import { ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
+import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { collectionLabel, formatCapacity, formatPrice, formatSyncedDate } from '@/lib/pigments';
-import { CONTACT, LEGAL } from '@/lib/site';
-import { LEGAL_COMPLETE } from '@/lib/legal';
+import { CONTACT } from '@/lib/site';
 import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
 /* Formularz zbiera dane osobowe tylko wtedy, gdy naprawdę je dostarczy
-   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO. */
-const NOTICE_READY = LEGAL_COMPLETE;
-export const FORM_LIVE = Boolean(CONTACT.email) && NOTICE_READY;
+   (adres e-mail do mailto) i gdy nad przyciskiem stoi klauzula RODO – dokumenty
+   prawne publiczne, LEGAL_PUBLIC (ENQUIRY_LIVE w src/lib/enquiry.js – wspólny warunek
+   wszystkich formularzy). Dziś bez CONTACT.email okno pokazuje wariant bez pól danych. */
+export const FORM_LIVE = ENQUIRY_LIVE;
 
 const SYNCED = formatSyncedDate();
 
@@ -126,7 +131,7 @@ function Line({ line, stale, onQty, onRemove }) {
   const label = variant.label ?? null;
   const what = lineName(line);
   return (
-    <li className="grid grid-cols-[0.5rem_minmax(0,1fr)] gap-x-4 border-b border-ink/10 py-5">
+    <li className="grid grid-cols-[0.5rem_minmax(0,1fr)] gap-x-4 border-b border-ink/10 py-4 sm:py-5">
       <Swatch color={product.color} className="h-full min-h-[3rem] w-2" />
       <div className="min-w-0">
         <div className="flex items-baseline justify-between gap-4">
@@ -141,7 +146,7 @@ function Line({ line, stale, onQty, onRemove }) {
           {stale ? ` · ${PRICE_TBC}` : ` · ${formatPrice(variant.price)}${NBSP}/${NBSP}szt.`}
           {!variant.inStock && ' · brak w magazynie'}
         </p>
-        <div className="mt-3 flex items-center justify-between gap-4">
+        <div className="mt-2 flex items-center justify-between gap-4">
           <Stepper qty={qty} name={what} onChange={(q) => onQty(product.id, label, q)} />
           <button
             type="button"
@@ -310,14 +315,23 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
 
         {message ? (
           /* po wysyłce (tylko FORM_LIVE); komunikat ogłasza region `announce` */
-          <div className="mt-8">
-            <p className="as-title text-ink">{message.title}</p>
-            <p className="as-body mt-4">{message.body}</p>
-            <p className="as-body mt-3">
-              {sentToMail
-                ? `Jeśli program pocztowy się nie otworzył – skopiuj listę i wyślij ją na Instagramie (${CONTACT.instagramHandle}).`
-                : 'Twoja lista czeka tutaj – skopiuj ją i wklej w wiadomości.'}
-            </p>
+          <>
+            <div className="mt-8">
+              <p className="as-title text-ink">{message.title}</p>
+              <p className="as-body mt-4">{message.body}</p>
+              <p className="as-body mt-3">
+                {sentToMail
+                  ? `Jeśli program pocztowy się nie otworzył – skopiuj listę i wyślij ją na Instagramie (${CONTACT.instagramHandle}).`
+                  : 'Twoja lista czeka tutaj – skopiuj ją i wklej w wiadomości.'}
+              </p>
+            </div>
+            <CopyFeedback copy={copy} text={clipboardText(summary, stale, form.notes)} />
+            <ArrowLink
+              onClick={() => (sentToMail ? handleOpenChange(false) : setResult(null))}
+              className="mt-8 w-fit"
+            >
+              {sentToMail ? 'Wróć do katalogu' : 'Wróć do zamówienia'}
+            </ArrowLink>
             <DialogFooter>
               <button type="button" onClick={copyText} className="as-btn-solid">
                 {copy === 'ok' ? 'Skopiowano' : 'Skopiuj listę'}
@@ -330,14 +344,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
                 instagramButton
               )}
             </DialogFooter>
-            <CopyFeedback copy={copy} text={clipboardText(summary, stale, form.notes)} />
-            <ArrowLink
-              onClick={() => (sentToMail ? handleOpenChange(false) : setResult(null))}
-              className="mt-8 w-fit"
-            >
-              {sentToMail ? 'Wróć do katalogu' : 'Wróć do zamówienia'}
-            </ArrowLink>
-          </div>
+          </>
         ) : empty ? (
           <div className="mt-8 border-t border-ink/10 pt-6">
             <p className="as-body">
@@ -379,62 +386,65 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
             </p>
 
             {FORM_LIVE ? (
-              <form
-                onSubmit={handleSubmit}
-                className="mt-10 border-t border-ink/10 pt-8"
-                aria-label="Dane do zapytania"
-              >
-                <div className="space-y-6">
-                  {FIELDS.map((f) => (
+              <>
+                <form
+                  id="pig-order-form"
+                  onSubmit={handleSubmit}
+                  className="mt-10 border-t border-ink/10 pt-8"
+                  aria-label="Dane do zapytania"
+                >
+                  <div className="space-y-6">
+                    {FIELDS.map((f) => (
+                      <Field
+                        key={f.id}
+                        id={`ord-${f.id}`}
+                        name={f.id}
+                        label={f.label}
+                        type={f.type || 'text'}
+                        autoComplete={f.autoComplete}
+                        required={f.required}
+                        hint={f.hint}
+                        value={form[f.id]}
+                        onChange={set(f.id)}
+                      />
+                    ))}
                     <Field
-                      key={f.id}
-                      id={`ord-${f.id}`}
-                      name={f.id}
-                      label={f.label}
-                      type={f.type || 'text'}
-                      autoComplete={f.autoComplete}
-                      required={f.required}
-                      hint={f.hint}
-                      value={form[f.id]}
-                      onChange={set(f.id)}
+                      as="textarea"
+                      id="ord-notes"
+                      name="notes"
+                      label="Uwagi (opcjonalnie)"
+                      rows={3}
+                      value={form.notes}
+                      onChange={set('notes')}
+                      placeholder="np. sposób dostawy, pytanie o odcień"
                     />
-                  ))}
-                  <Field
-                    as="textarea"
-                    id="ord-notes"
-                    name="notes"
-                    label="Uwagi (opcjonalnie)"
-                    rows={3}
-                    value={form.notes}
-                    onChange={set('notes')}
-                    placeholder="np. sposób dostawy, pytanie o odcień"
-                  />
-                </div>
-                {/* klauzula przed przyciskiem wysyłki */}
-                <FormNotice className="mt-8" />
+                  </div>
+                  {/* klauzula przed przyciskiem wysyłki */}
+                  <FormNotice className="mt-8" />
+                </form>
+                {/* telefon: powrót jako link (w stopce zostaje sam przycisk wysyłki) */}
+                <ArrowLink onClick={() => handleOpenChange(false)} className="mt-8 w-fit sm:hidden">
+                  Wróć do katalogu
+                </ArrowLink>
                 <DialogFooter>
-                  <button type="submit" className="as-btn-solid">
+                  <button type="submit" form="pig-order-form" className="as-btn-solid">
                     Wyślij zapytanie
                   </button>
-                  <button type="button" onClick={() => handleOpenChange(false)} className="as-btn-ghost">
+                  <button type="button" onClick={() => handleOpenChange(false)} className="as-btn-ghost max-sm:hidden">
                     Wróć do katalogu
                   </button>
                 </DialogFooter>
-              </form>
+              </>
             ) : (
               /* bez działającej wysyłki: bez pól danych osobowych */
-              <div className="mt-10 border-t border-ink/10 pt-8">
-                <h3 className="as-title text-ink">Wyślij listę na Instagramie</h3>
-                <p className="as-body mt-4">
-                  Wysyłka zapytania z tej strony nie jest jeszcze uruchomiona. Skopiuj listę i wklej ją
-                  w{NBSP}wiadomości do {CONTACT.instagramHandle} – odpowiemy z dostępnością i łączną kwotą.
-                </p>
-                <DialogFooter>
-                  <button type="button" onClick={copyText} className="as-btn-solid">
-                    {copy === 'ok' ? 'Skopiowano' : 'Skopiuj listę'}
-                  </button>
-                  {instagramButton}
-                </DialogFooter>
+              <>
+                <div className="mt-10 border-t border-ink/10 pt-8">
+                  <h3 className="as-title text-ink">Wyślij listę na Instagramie</h3>
+                  <p className="as-body mt-4">
+                    Wysyłka zapytania z tej strony nie jest jeszcze uruchomiona. Skopiuj listę i wklej ją
+                    w{NBSP}wiadomości do {CONTACT.instagramHandle} – odpowiemy z dostępnością i łączną kwotą.
+                  </p>
+                </div>
                 <CopyFeedback copy={copy} text={clipboardText(summary, stale)} />
                 <div className="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
                   <ArrowLink onClick={() => handleOpenChange(false)} className="w-fit">
@@ -447,7 +457,13 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
                     </button>
                   )}
                 </div>
-              </div>
+                <DialogFooter>
+                  <button type="button" onClick={copyText} className="as-btn-solid">
+                    {copy === 'ok' ? 'Skopiowano' : 'Skopiuj listę'}
+                  </button>
+                  {instagramButton}
+                </DialogFooter>
+              </>
             )}
           </>
         )}
