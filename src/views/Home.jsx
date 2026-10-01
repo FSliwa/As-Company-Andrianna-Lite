@@ -13,7 +13,6 @@ import React from 'react';
 import Link from 'next/link';
 import {
   ArrowLink,
-  FactStrip,
   Figure,
   IndexRow,
   PriceRow,
@@ -45,8 +44,8 @@ import { cn, nbspShort } from '@/lib/utils';
    Jeden blok, układ zależy od ORIENTACJI ekranu (portret jest pionowy 2:3):
    · ekran pionowy (telefony, tablety w pionie, obrócone monitory) – zdjęcie wypełnia
      pierwszy ekran (także pod przezroczystym nagłówkiem), hasło, claim i przyciski leżą
-     na dole kadru, na jasnej tkaninie, na kremowym wygaszeniu od dołu; kolofon i fakty –
-     pod zdjęciem, w tym samym kremie, w który przechodzi wygaszenie (bez szwu);
+     na dole kadru, na jasnej tkaninie, na kremowym wygaszeniu od dołu; kolofon (imię
+     i role) – pod zdjęciem, w tym samym kremie, w który przechodzi wygaszenie (bez szwu);
    · ekran poziomy (laptopy, monitory, tablety i telefony w poziomie) – zdjęcie spadem
      od prawej krawędzi przez całą wysokość (60% szerokości, maks. 1200 px – plik ma
      1068 px szerokości, szerszy kadr byłby mocno powiększony), jego lewa część
@@ -67,17 +66,9 @@ import { cn, nbspShort } from '@/lib/utils';
 
 const HERO_PHOTO = ROLES.heroHome.image;
 
-/* Fakty z briefu i ACHIEVEMENTS (src/lib/site.js), spójne z /o-nas („Opis”: „wykonała tysiące
-   pigmentacji”, „przeszkoliła setki kursantek”). D7: zamiast „100+ kursantek w roku” (brzmiało
-   jak średnia roczna – BIO-06) i wyliczonej sumy „10 lat salonów” (BIO-03) – sformułowania
-   briefu; 100+ z włosa w ostatnim roku i lata salonów (7 + 3) z pełnym opisem są
-   w statystykach sekcji 02. */
-const HERO_FACTS = [
-  `${ACHIEVEMENTS[0].value} podium Mistrzostw Świata`,
-  'Setki kursantek',
-  'Tysiące pigmentacji',
-  BRAND.city,
-];
+/* Bez paska faktów w hero (30.09.2026): te same liczby (5× podium, 100+, 50+, lata salonów)
+   stoją w sekcji 02 tuż pod zdjęciem – hero ze zdjęciem na tle zostaje czyste; w kolofonie
+   imię i role. */
 
 /* D7: cztery role z briefu po polsku („Linergista, Trener, Prelegent oraz Sędzia”) zamiast
    angielskiego FOUNDER.role bez źródła (BIO-12). Pełne brzmienie (FOUNDER.rolePl) jest w alt
@@ -165,13 +156,10 @@ function Hero() {
       <p className="as-label mt-2 text-ink/65">{ROLE_SHORT}</p>
     </div>
   );
-  const factsBlock = (
-    <>
-      <div data-hero-colophon className="max-w-[20rem]">
-        {colophon}
-      </div>
-      <FactStrip items={HERO_FACTS} />
-    </>
+  const colophonBlock = (
+    <div data-hero-colophon className="max-w-[20rem]">
+      {colophon}
+    </div>
   );
 
   return (
@@ -230,27 +218,25 @@ function Hero() {
               {nbspShort(BRAND.claim)}
             </p>
             {/* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta
-                < 640 px); od lg „Umów wizytę” jest w nagłówku, więc w hero zostaje link
-                jak w makiecie. D9: bez skrótu „AS” (makieta: „Discover AS”). */}
+                < 640 px); od lg „Umów wizytę” jest w nagłówku. Drugi link prowadzi do zabiegów
+                (30.09.2026) – „Poznaj nas” dublował „Poznaj nasze podejście” z sekcji 02 tuż
+                pod hero (oba na /o-nas). */}
             <div className={cn(GAP, 'flex flex-wrap items-center gap-x-8 gap-y-5')}>
               <Link href={BOOKING_URL} className="as-btn-solid lg:hidden">
                 Umów wizytę
               </Link>
-              <ArrowLink href="/o-nas" className="w-fit">
-                Poznaj nas
+              <ArrowLink href="/uslugi" className="w-fit">
+                Zobacz zabiegi
               </ArrowLink>
             </div>
           </div>
-          {/* poziom: kolofon i fakty pod tekstem (w telefonie w poziomie – pod pierwszym
-              ekranem, sekcja się wydłuża) */}
-          <div className="mt-[clamp(1.5rem,5svh,3rem)] hidden max-w-[48rem] gap-6 landscape:grid">{factsBlock}</div>
+          {/* poziom: kolofon pod tekstem (w telefonie w poziomie – pod pierwszym ekranem) */}
+          <div className="mt-[clamp(1.5rem,5svh,3rem)] hidden landscape:block">{colophonBlock}</div>
         </div>
       </div>
 
-      {/* pion: kolofon i fakty pod zdjęciem */}
-      <div className="as-shell grid gap-8 pb-14 pt-4 landscape:hidden">
-        {factsBlock}
-      </div>
+      {/* pion: kolofon pod zdjęciem */}
+      <div className="as-shell pb-12 pt-4 landscape:hidden">{colophonBlock}</div>
     </section>
   );
 }
@@ -292,22 +278,21 @@ function AboutBand() {
             </Reveal>
           </div>
 
-          {/* kolumna 2 – jeden portret, inna poza niż w hero. Telefon (H2): portret po filarach
-              (order-last), żeby dwa portrety założycielki nie stały ekran po ekranie; od md
-              w siatce obok zdania. Telefon w poziomie: portret nie wyższy niż 80% ekranu (H8) –
-              short:sm: / short:md:, bo w CSS warianty sm/md stoją po short i by go nadpisały. */}
+          {/* kolumna 2 – jeden portret, inna poza niż w hero, bez ramki (jak zdjęcie hero –
+              prośba klientki „nie w ramce”). Telefon (H2): portret po filarach (order-last),
+              żeby dwa portrety założycielki nie stały ekran po ekranie; od md w siatce obok
+              zdania. Telefon w poziomie: portret nie wyższy niż 80% ekranu (H8) – short:sm: /
+              short:md:, bo w CSS warianty sm/md stoją po short i by go nadpisały. */}
           <Reveal delay={60} className="order-last md:order-none md:col-span-6 lg:col-span-4">
             <div className="mx-auto max-w-[16rem] sm:max-w-[20rem] md:max-w-none short:max-w-[calc(80svh*3/4)] short:sm:max-w-[calc(80svh*3/4)] short:md:max-w-[calc(80svh*3/4)]">
-              <div className="as-photo-frame">
-                <Figure
-                  image={ROLES.aboutHome.image}
-                  alt={`${FOUNDER.name} – ${FOUNDER.rolePl}`}
-                  ratio="3 / 4"
-                  position={ROLES.aboutHome.position}
-                  tone="dark"
-                  sizes="(min-width: 1024px) 28vw, 320px"
-                />
-              </div>
+              <Figure
+                image={ROLES.aboutHome.image}
+                alt={`${FOUNDER.name} – ${FOUNDER.rolePl}`}
+                ratio="3 / 4"
+                position={ROLES.aboutHome.position}
+                tone="dark"
+                sizes="(min-width: 1440px) 400px, (min-width: 1024px) 28vw, (min-width: 768px) 46vw, 320px"
+              />
               {/* H5: Jost italic zamiast Bodoni 16 px (Bodoni nie schodzi poniżej 22 px) */}
               <p className="as-quote-invert as-text-balance mt-4 text-right">
                 Narzędzia. Wiedza. Techniki. Realne efekty.
@@ -401,8 +386,9 @@ function ProductsBand() {
 function TreatmentsBand() {
   const portrait = ROLES.treatmentsHome;
   return (
-    /* H14: linia na styku cream-100 → cream-50 (dwa jasne pasy z rzędu) */
-    <section className="as-section border-t border-ink/10 bg-cream-50">
+    /* H14: linia na styku cream-100 → cream-50 (dwa jasne pasy z rzędu);
+       overflow-hidden – portret wychodzi do lewej krawędzi ekranu (bleed) */
+    <section className="as-section overflow-hidden border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
         {/* telefon: nagłówek → portret → cennik; od lg: portret po lewej na całą wysokość */}
         <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 md:gap-y-10">
@@ -422,16 +408,20 @@ function TreatmentsBand() {
           </Reveal>
 
           <Reveal delay={60} className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start">
-            {/* telefon w poziomie: portret nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas) */}
-            <figure className="mx-auto max-w-[16rem] sm:max-w-[22rem] md:max-w-none short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]">
-              <Figure
-                image={portrait.image}
-                alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
-                ratio="4 / 5"
-                position={portrait.position}
-                framed
-                sizes="(min-width: 1024px) 37vw, (min-width: 640px) 384px, 320px"
-              />
+            {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
+                od md do lewej krawędzi (Figure bleed); wysokość 4:5 z kolumny. Telefon
+                w poziomie: kadr nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
+            <figure className="short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]">
+              <div className="relative" style={{ aspectRatio: '4 / 5' }}>
+                <Figure
+                  image={portrait.image}
+                  alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
+                  bleed="start"
+                  position={portrait.position}
+                  zoom={false}
+                  sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
+                />
+              </div>
               <figcaption className="as-caption mt-6 lg:mt-8">
                 {FOUNDER.name} – {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
               </figcaption>
@@ -503,16 +493,18 @@ function TrainingBand() {
           {/* grupa z telefonu mniejsza niż portrety sesji; kolumna 6/12 jak kadr w sekcji 06 */}
           <div className="md:col-span-7 lg:col-span-6 lg:col-start-7">
             <Reveal>
-              {/* telefon w poziomie: kadr 3:2 nie wyższy niż 80% ekranu (jak portrety, H8) */}
-              <div className="as-photo-frame short:mx-auto short:max-w-[calc(80svh*3/2)]">
+              {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
+                  od md do prawej krawędzi (Figure bleed); wysokość 3:2 z kolumny. Telefon
+                  w poziomie: kadr nie wyższy niż 80% ekranu (jak portrety, H8). */}
+              <div className="relative short:ml-auto short:max-w-[calc(80svh*3/2)]" style={{ aspectRatio: '3 / 2' }}>
                 <Figure
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}
-                  ratio="3 / 2"
+                  bleed="end"
                   position={GROUPS.trainingHome.position}
                   tone="dark"
                   zoom={false}
-                  sizes="(min-width: 1024px) 44vw, (min-width: 768px) 55vw, 92vw"
+                  sizes="(min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
                 />
               </div>
             </Reveal>
@@ -577,15 +569,47 @@ function TrainingBand() {
 }
 
 /* ================================================================== */
-/*  06 – ZAPROSZENIE (cream-50)                                        */
+/*  06 – ZAPROSZENIE (cream-50) – klamra z hero                        */
 /* ================================================================== */
+
+/* Ostatnia sekcja powtarza język hero: jedyny poziomy kadr z sesji (studio-14 – uśmiech,
+   dłoń pod brodą) jako tło, napis i przyciski na zdjęciu, bez ramki.
+   · pion: zdjęcie na całą sekcję (rysowane z wysokości – twarz na środku kadru), treść
+     na dole na kremowym wygaszeniu;
+   · poziom: zdjęcie spadem od LEWEJ krawędzi (lustro hero), prawa część przechodzi
+     w krem, tekst po prawej; kadr przesunięty w prawo (object-position 100%), żeby twarz
+     stała przed wygaszeniem.
+   data-sticky-hide: pasek CTA chowa się przy tej sekcji (ma własne przyciski). */
+const INVITATION_SIZES =
+  '(orientation: portrait) 132vh, (max-aspect-ratio: 9/5) 120vh, (min-width: 1940px) 1280px, 66vw';
 
 function InvitationBand() {
   return (
-    <section data-sticky-hide className="as-section bg-cream-50">
-      <div className="as-shell">
-        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
-          <Reveal className="md:col-span-5">
+    <section data-sticky-hide className="relative overflow-hidden bg-cream-50">
+      <div className="relative flex min-h-[88svh] flex-col justify-end landscape:min-h-[min(80svh,52rem)] landscape:justify-center">
+        <div className="absolute inset-0 overflow-hidden landscape:right-auto landscape:w-[min(66%,80rem)]">
+          <Figure
+            fill
+            image={ROLES.closingHome.image}
+            alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
+            zoom={false}
+            imgClassName="object-[50%_35%] landscape:object-[100%_40%]"
+            sizes={INVITATION_SIZES}
+          />
+          {/* pion: krem od dołu pod treścią */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[34%] via-cream-50/70 via-[48%] to-transparent to-[66%] landscape:hidden"
+          />
+          {/* poziom: prawa krawędź zdjęcia w krem (tekst po prawej) */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 via-cream-50/55 via-[18%] to-transparent to-[42%] landscape:block"
+          />
+        </div>
+
+        <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] landscape:py-[clamp(3rem,8svh,5rem)]">
+          <Reveal className="landscape:ml-auto landscape:max-w-[min(40%,30rem)]">
             <SectionLabel number="06">Kontakt</SectionLabel>
             {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
@@ -602,18 +626,6 @@ function InvitationBand() {
                 Zapytaj o termin szkolenia
               </ArrowLink>
             </div>
-          </Reveal>
-
-          <Reveal delay={90} className="md:col-span-7 lg:col-span-6 lg:col-start-7">
-            <Figure
-              image={ROLES.closingHome.image}
-              alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
-              ratio="3 / 2"
-              position={ROLES.closingHome.position}
-              framed
-              className="short:mx-auto short:max-w-[calc(80svh*3/2)]"
-              sizes="(min-width: 1024px) 46vw, 92vw"
-            />
           </Reveal>
         </div>
       </div>

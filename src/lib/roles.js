@@ -35,12 +35,12 @@ const pick = (name) => {
 export const ROLES = {
   heroHome: { image: pick('studio-05'), position: '50% 4%' }, // zdjęcie na tle hero (Home ustawia własne pozycje: ekran pionowy / poziomy)
   aboutHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka – „firma", inna poza niż hero
-  closingHome: { image: pick('studio-14'), position: '50% 50%' }, // jedyny poziomy kadr; 3:2 w 3:2 – position bez efektu
+  closingHome: { image: pick('studio-14'), position: '50% 50%' }, // jedyny poziomy kadr – tło sekcji 06 na home (Home ustawia pozycje: pion / poziom)
   treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów
-  heroAbout: { image: pick('studio-01'), position: '50% 50%' }, // dłoń na ramieniu, głowa przechylona; 2:3 w 2:3 (studio-11 = ta sama poza co studio-02)
+  heroAbout: { image: pick('studio-01'), position: '50% 18%' }, // dłoń na ramieniu, głowa przechylona; tło PageHero – w poziomie kadr szerszy niż 2:3, 18% trzyma głowę w kadrze (studio-11 = ta sama poza co studio-02)
   storyAbout: { image: pick('studio-08'), position: '50% 5%' },
   heroTreatments: { image: pick('studio-13'), position: '50% 20%' },
-  heroTraining: { image: pick('studio-10'), position: '50% 50%' }, // marynarka, inna poza niż O nas na home (studio-04); 2:3 w 2:3
+  heroTraining: { image: pick('studio-10'), position: '50% 30%' }, // marynarka, inna poza niż O nas na home (studio-04); tło PageHero – cała postać
   contactSection: { image: pick('studio-16'), position: '50% 30%' }, // /kontakt „Jak umówić wizytę" (zamiast sceny absolwentek)
   statementPackages: { image: pick('studio-12'), position: '50% 8%' }, // /pakiety – Statement: od lg prawa połowa pasa (≈1:1), poniżej lg pełny spad
 };
