@@ -33,7 +33,7 @@ const pick = (name) => {
 
 /* Portrety – { image, position } */
 export const ROLES = {
-  heroHome: { image: pick('studio-05'), position: '50% 4%' }, // zdjęcie na tle hero (Home ustawia własne pozycje: telefon / od md)
+  heroHome: { image: pick('studio-05'), position: '50% 4%' }, // zdjęcie na tle hero (Home ustawia własne pozycje: ekran pionowy / poziomy)
   aboutHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka – „firma", inna poza niż hero
   closingHome: { image: pick('studio-14'), position: '50% 50%' }, // jedyny poziomy kadr; 3:2 w 3:2 – position bez efektu
   treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów
