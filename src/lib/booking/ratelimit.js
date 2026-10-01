@@ -63,7 +63,7 @@ export function createRateLimiter({ limit, windowMs, maxKeys = 10_000 }) {
 
 /* ---------------- klucz klienta ---------------- */
 
-const WARN_STORE = Symbol.for('as-company.booking.ratelimit.warned');
+const WARN_STORE = Symbol.for('babushkina-academy.booking.ratelimit.warned');
 
 function warnOnce(message) {
   if (globalThis[WARN_STORE]) return;
@@ -162,7 +162,7 @@ export function clientKey(headers, env = process.env) {
   return normalizeIpKey(raw) || 'invalid';
 }
 
-const STORE_KEY = Symbol.for('as-company.booking.ratelimit');
+const STORE_KEY = Symbol.for('babushkina-academy.booking.ratelimit');
 
 /** Współdzielone limitery (globalThis – jedna instancja na proces, także w dev). */
 export function sharedLimiter(name, options) {

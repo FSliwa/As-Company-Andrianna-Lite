@@ -2,11 +2,12 @@ import Machines from '@/views/Machines';
 import { pageMeta } from '@/lib/seo';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim.
-   D9: bez wariantu nazwy „sklep AS”; strona nie linkuje do sklepu (zamówienie przez zapytanie). */
+   Tylko AS PRINCESS (klientka sprzedaje tylko tę maszynkę, 30.09.2026); strona nie linkuje
+   do sklepu (zamówienie przez zapytanie). */
 export const metadata = pageMeta({
-  title: 'Maszynki PMU AS HERO i AS PRINCESS',
+  title: 'Maszynka PMU AS PRINCESS',
   description:
-    'Maszynki do makijażu permanentnego AS HERO i AS PRINCESS – modele, parametry, ceny i wynajem dla salonów.',
+    'Bezprzewodowa maszynka do makijażu permanentnego AS PRINCESS – parametry, cena i wynajem dla salonów.',
   path: '/maszynki',
 });
 

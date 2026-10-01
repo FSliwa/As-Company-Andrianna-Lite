@@ -8,7 +8,7 @@
       "id": "kto-odpowiada",
       "heading": "1. Who runs the website",
       "blocks": [
-        { "p": "The website is run by {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. Under the brands AS COMPANY LOVELINESS and Babushkina Academy we run a permanent make-up salon and academy in Warsaw (“we”)." },
+        { "p": "The website is run by {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. We run a permanent make-up salon and academy in Warsaw[[{?entity} under the Babushkina Academy brand]] (“we”)." },
         { "p": "For matters concerning this policy, write to us[[ at {privacyEmail} or]] on Instagram ({instagram}).[[ You can also {{or|use {email}|call us on {phone}}}.]]" }
       ]
     },
@@ -156,7 +156,7 @@
     },
     {
       "what": "Publishing the policy before the company details are filled in",
-      "proposal": "Decision by Filip (30 September 2026): the documents are public now, without the company details (LEGAL_PUBLIC in src/lib/legal.js) – no “Draft document” banner, no noindex, included in the sitemap, with the notices under the forms and at booking. Until LEGAL.company, address, nip and register (as well as CONTACT.email and phone) are filled in in src/lib/site.js, the brand AS COMPANY LOVELINESS (Babushkina Academy) stands in for the company name and the city for the registered address, contact sentences point to Instagram, and passages with the tax ID, register entry, address, email and phone are left out (never “[do uzupełnienia]”). Once the details and the approval date (LEGAL.documentsApproved) are entered, the documents apply in full (LEGAL_PUBLISHED) and the full details appear automatically. Launch the /polityka-cookies page and the banner together, from the first day the website is live, with a link in the footer and in the sitemap.",
+      "proposal": "Decision by Filip (30 September 2026): the documents are public now, without the company details (LEGAL_PUBLIC in src/lib/legal.js) – no “Draft document” banner, no noindex, included in the sitemap, with the notices under the forms and at booking. Until LEGAL.company, address, nip and register (as well as CONTACT.email and phone) are filled in in src/lib/site.js, the Babushkina Academy brand stands in for the company name and the city for the registered address, contact sentences point to Instagram, and passages with the tax ID, register entry, address, email and phone are left out (never “[do uzupełnienia]”). Once the details and the approval date (LEGAL.documentsApproved) are entered, the documents apply in full (LEGAL_PUBLISHED) and the full details appear automatically. Launch the /polityka-cookies page and the banner together, from the first day the website is live, with a link in the footer and in the sitemap.",
       "why": "The service provider’s details are required by Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną), and the controller’s details by Article 13 GDPR (also for data processed by Cloudflare during verification); the brand, city and Instagram are a temporary solution that does not fully meet these requirements, so the company details should be added as soon as possible. Strictly necessary storage is exempt from the obligations in Article 399(1) of the Electronic Communications Law (paragraph 3), but the banner and the Cookie Policy describe it from the first visit."
     },
     {

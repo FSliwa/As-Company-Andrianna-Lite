@@ -7,7 +7,7 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   title: 'Dokumentacja produktów',
   description:
-    'Dokumentacja produktów AS COMPANY: pigmenty zgodne z rozporządzeniem REACH i ich karty charakterystyki.',
+    'Dokumentacja produktów z naszej oferty: pigmenty zgodne z rozporządzeniem REACH i ich karty charakterystyki.',
   path: '/certyfikaty',
 });
 

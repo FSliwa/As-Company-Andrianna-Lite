@@ -16,7 +16,7 @@ module.exports = {
   			sans: ['var(--font-sans)', 'Jost', 'Inter', 'system-ui', 'sans-serif'],
   		},
   		colors: {
-  			/* ——— Paleta marki AS COMPANY (wyprowadzona z makiety) ——— */
+  			/* ——— Paleta marki (wyprowadzona z makiety) ——— */
   			/* Wersja Lite: cała strona na jasnym papierze, jak w makiecie. Tony pasów
   			   zmierzone z makiety: hero #FAF7F0 (≈ 50), „Szkolenia" #F7F0E6 (75),
   			   „O nas" #F5EEE4 (90), „Produkty" #F3EBE0 (100). */

@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'pl',
   route: 'privacy',
   title: doc.title,
-  description: 'Zasady przetwarzania danych osobowych w serwisie AS COMPANY i Babushkina Academy: formularze, rezerwacja online, hosting, Twoje prawa.',
+  description: 'Zasady przetwarzania danych osobowych w serwisie Babushkina Academy: formularze, rezerwacja online, hosting, Twoje prawa.',
   noindex: !LEGAL_PUBLIC,
 });
 

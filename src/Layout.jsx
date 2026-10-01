@@ -14,7 +14,7 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { usePathname } from 'next/navigation';
-import { Instagram, Menu, X } from 'lucide-react';
+import { ChevronDown, Instagram, Menu, X } from 'lucide-react';
 import Logo from '@/components/as/Logo';
 import LanguageSwitcher from '@/components/as/LanguageSwitcher';
 import { BOOKING_PAGE } from '@/lib/site';
@@ -66,10 +66,14 @@ function useDialogOpen() {
   return open;
 }
 
+/* Podkategorie pozycji głównej (NAV_MAIN[i].group → NAV_ALL[group].links) – „Produkty”:
+   pigmenty, maszynka, dokumentacja (prośba klientki: „podkategoria na produkty”). */
+const subLinks = (item, NAV_ALL) => (Number.isInteger(item.group) ? NAV_ALL[item.group]?.links || [] : []);
+
 /* Strony spoza nawigacji głównej (bez kotwic do sekcji) – druga, drobniejsza lista
-   w menu. Pozycje główne i kursy (kotwice /szkolenia#…) się nie powtarzają. */
+   w menu. Pozycje główne, ich podkategorie i kursy (kotwice /szkolenia#…) się nie powtarzają. */
 function extraPages(NAV_ALL, NAV_MAIN) {
-  const seen = new Set(NAV_MAIN.map((m) => m.href));
+  const seen = new Set(NAV_MAIN.flatMap((m) => [m.href, ...subLinks(m, NAV_ALL).map((l) => l.href)]));
   return NAV_ALL.flatMap((g) => g.links).filter((l) => {
     if (l.href.includes('#') || seen.has(l.href)) return false;
     seen.add(l.href);
@@ -80,6 +84,113 @@ function extraPages(NAV_ALL, NAV_MAIN) {
 /* ------------------------------------------------------------------ */
 /*  Nagłówek + menu (telefon, tablet)                                  */
 /* ------------------------------------------------------------------ */
+
+/* Pozycja nawigacji z podkategoriami (od lg). Nazwa zostaje linkiem do strony głównej
+   działu; lista rozwija się po najechaniu myszą, a przycisk ze strzałką (aria-expanded)
+   otwiera i zamyka ją z klawiatury i dotykiem (najechanie liczy się tylko dla myszy –
+   na dotyku pierwsze stuknięcie otwiera, drugie zamyka). Escape (także przy liście
+   otwartej najechaniem), wyjście fokusem i kliknięcie poza pozycją zamykają listę.
+   `strong` – pełny kolor ink (nagłówek nad zdjęciem hero na stronie głównej). */
+function NavDropdown({ item, links, canonical, label, className, strong }) {
+  const [open, setOpen] = useState(false);
+  const [hover, setHover] = useState(false);
+  const root = useRef(null);
+  const button = useRef(null);
+  const id = useId();
+  const active = canonical === item.href || links.some((l) => l.href === canonical);
+  const shown = open || hover;
+
+  const close = () => {
+    setOpen(false);
+    setHover(false);
+  };
+
+  useEffect(() => {
+    if (!shown) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      const inside = root.current?.contains(document.activeElement);
+      setOpen(false);
+      setHover(false);
+      if (inside) button.current?.focus({ preventScroll: true });
+    };
+    const onDown = (e) => {
+      if (root.current && !root.current.contains(e.target)) {
+        setOpen(false);
+        setHover(false);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onDown);
+    };
+  }, [shown]);
+
+  return (
+    <div
+      ref={root}
+      className="relative flex items-center"
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setHover(true)}
+      onPointerLeave={(e) => e.pointerType === 'mouse' && close()}
+      onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setOpen(false)}
+    >
+      <Link
+        href={item.href}
+        aria-current={canonical === item.href ? 'page' : undefined}
+        className={cn('group relative py-1', className, active || strong ? 'text-ink' : 'text-ink/65 hover:text-ink')}
+      >
+        {item.label}
+        <span
+          aria-hidden="true"
+          className={cn(
+            'absolute -bottom-0.5 left-0 h-px bg-gold-dark transition-all duration-300',
+            active ? 'w-full' : 'w-0 group-hover:w-full'
+          )}
+        />
+      </Link>
+      <button
+        ref={button}
+        type="button"
+        /* `open`, nie `shown`: klik w strzałkę przy liście otwartej najechaniem ją utrwala,
+           drugi klik zamyka */
+        onClick={() => (open ? close() : setOpen(true))}
+        aria-expanded={shown}
+        aria-controls={id}
+        aria-label={label}
+        className="-mr-2 ml-0.5 grid h-8 w-6 place-items-center text-ink/60 transition-colors hover:text-ink"
+      >
+        <ChevronDown className={cn('h-3.5 w-3.5 transition-transform duration-200', shown && 'rotate-180')} aria-hidden="true" />
+      </button>
+      {/* pt-4 = most nad szczeliną między nagłówkiem a listą (hover nie gaśnie w drodze) */}
+      <div id={id} hidden={!shown} className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4">
+        <ul className="min-w-[16rem] border border-ink/10 bg-cream-50 py-2 shadow-[0_18px_40px_-24px_rgba(36,27,20,0.45)]">
+          {links.map((link) => {
+            const current = canonical === link.href;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  /* „Produkty” prowadzi tam co „Pigmenty” – bieżącą stronę oznacza wtedy tylko
+                     pozycja główna (jedno aria-current w nawigacji) */
+                  aria-current={current && link.href !== item.href ? 'page' : undefined}
+                  onClick={close}
+                  className={cn(
+                    'flex min-h-[2.75rem] items-center whitespace-nowrap px-5 text-[0.875rem] transition-colors hover:bg-cream-100',
+                    current ? 'text-ink underline decoration-gold-dark underline-offset-4' : 'text-ink/75 hover:text-ink'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 function Header({ menuOpen, setMenuOpen }) {
   const pathname = usePathname();
@@ -92,6 +203,9 @@ function Header({ menuOpen, setMenuOpen }) {
   const longLabels = locale !== 'pl';
   const bookingHref = useBookingHref();
   const [scrolled, setScrolled] = useState(false);
+  /* strona główna przed przewinięciem: przezroczysty nagłówek na zdjęciu hero – pozycje
+     nawigacji w pełnym ink (ink/65 na jasnych włosach dawało 2,4–3,8:1, poniżej AA) */
+  const overPhoto = canonical === '/' && !scrolled;
   const menuButton = useRef(null);
   const closeButton = useRef(null);
   const skipLink = useRef(null);
@@ -100,6 +214,10 @@ function Header({ menuOpen, setMenuOpen }) {
      false = zamknięcie przez nawigację – fokus przejmuje nowa strona. */
   const returnFocus = useRef(false);
   const extra = extraPages(NAV_ALL, NAV_MAIN);
+  /* podkategorie w prawej kolumnie menu – tylko telefon w poziomie (short:sm) */
+  const landscapeSub = NAV_MAIN.flatMap((m) =>
+    subLinks(m, NAV_ALL).map((l) => ({ ...l, landscapeOnly: true, sameAsMain: l.href === m.href }))
+  );
 
   const closeMenu = useCallback(
     (refocus) => {
@@ -171,15 +289,20 @@ function Header({ menuOpen, setMenuOpen }) {
         ref={headerRef}
         className={cn(
           'sticky top-0 z-50 transition-colors duration-300',
-          scrolled ? 'border-b border-ink/10 bg-cream-50' : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
+          scrolled
+            ? 'border-b border-ink/10 bg-cream-50'
+            : /* strona główna: hero ma zdjęcie na tle (także pod nagłówkiem) – nagłówek przezroczysty,
+                 bez rozmycia, które odcinało górny pas zdjęcia jak ramka; po przewinięciu kremowy */
+              canonical === '/'
+              ? 'border-b border-transparent bg-transparent'
+              : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
         )}
       >
         {/* short: telefon w poziomie – nagłówek 64 px zamiast 80 (logo 48 px) */}
         <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24 short:h-16">
-          {/* D9: „AS COMPANY POLAND” to napis w logo (plik marki z makiety i sklepu) – nazwa
-              dostępna opisuje logo, więc zostaje; w tekstach strony: AS COMPANY / AS COMPANY LOVELINESS. */}
+          {/* Znak słowny Babushkina Academy (aria-hidden) – nazwę dostępną daje aria-label linku */}
           <Link href="/" className="shrink-0" aria-label={t.homeAria}>
-            <Logo priority className="short:h-12 short:w-12" />
+            <Logo className="short:text-[1.1875rem]" />
           </Link>
 
           <nav
@@ -187,6 +310,22 @@ function Header({ menuOpen, setMenuOpen }) {
             aria-label={t.mainNavAria}
           >
             {NAV_MAIN.map((item) => {
+              const links = subLinks(item, NAV_ALL);
+              if (links.length)
+                return (
+                  <NavDropdown
+                    key={item.href}
+                    item={item}
+                    links={links}
+                    canonical={canonical}
+                    label={`${t.subnav}: ${item.label}`}
+                    strong={overPhoto}
+                    className={cn(
+                      'text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors',
+                      longLabels && 'whitespace-nowrap'
+                    )}
+                  />
+                );
               const active = canonical === item.href;
               return (
                 <Link
@@ -195,7 +334,7 @@ function Header({ menuOpen, setMenuOpen }) {
                   aria-current={active ? 'page' : undefined}
                   className={cn(
                     'group relative py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors',
-                    active ? 'text-ink' : 'text-ink/65 hover:text-ink',
+                    active || overPhoto ? 'text-ink' : 'text-ink/65 hover:text-ink',
                     longLabels && 'whitespace-nowrap'
                   )}
                 >
@@ -251,8 +390,12 @@ function Header({ menuOpen, setMenuOpen }) {
           ograniczony do dialogu ma je pod ręką).
           Kolejność: 5 pozycji głównych → „Umów wizytę” → strony spoza nawigacji głównej
           → salon i Instagram. Kursy (kotwice /szkolenia#…) są w stopce i na /szkolenia.
-          Mieści się bez przewijania przy 390×844, 375×667 i 844×390; od 640 px dwie kolumny
-          (telefon w poziomie i tablet). Pola dotyku ≥ 44 px.
+          Podkategorie „Produkty” stoją wcięte pod nazwą; w telefonie w poziomie (short:sm)
+          przechodzą do prawej kolumny, przed strony spoza nawigacji (inaczej „O nas”
+          i „Kontakt” spadały pod krawędź ekranu).
+          Mieści się bez przewijania przy 390×844 i 844×390 (także 812×375); przy 375×667
+          wiersz salonu i Instagramu jest pod krawędzią (menu się przewija). Od 640 px dwie
+          kolumny (telefon w poziomie i tablet). Pola dotyku ≥ 44 px.
           Uwaga: short:X stoi w CSS PRZED sm:/md:X – przy konflikcie z sm: trzeba short:sm:X. */}
       <div
         id="as-menu"
@@ -265,7 +408,7 @@ function Header({ menuOpen, setMenuOpen }) {
         <div className="sticky top-0 z-10 border-b border-ink/10 bg-cream-50">
           <div className="as-shell flex h-20 items-center justify-between gap-4 short:h-16">
             <Link href="/" className="shrink-0" aria-label={t.homeAria} onClick={() => closeMenu(false)}>
-              <Logo className="short:h-12 short:w-12" />
+              <Logo className="short:text-[1.1875rem]" />
             </Link>
             <div className="flex items-center gap-2 sm:gap-4">
               {/* przełącznik języka na górze menu (renderuje się, gdy języków jest więcej niż 1) */}
@@ -288,6 +431,7 @@ function Header({ menuOpen, setMenuOpen }) {
             <ul>
               {NAV_MAIN.map((item, i) => {
                 const active = canonical === item.href;
+                const links = subLinks(item, NAV_ALL);
                 return (
                   <li key={item.href}>
                     <Link
@@ -310,6 +454,30 @@ function Header({ menuOpen, setMenuOpen }) {
                         {item.label}
                       </span>
                     </Link>
+                    {/* podkategorie (np. Produkty → pigmenty, maszynka, dokumentacja): wcięte pod
+                        nazwą, drobniejsze – ta sama kolumna co tytuł pozycji */}
+                    {links.length > 0 && (
+                      <ul className="mb-1.5 ml-11 border-l border-ink/10 pl-4 short:sm:hidden" aria-label={`${t.subnav}: ${item.label}`}>
+                        {links.map((link) => {
+                          const current = canonical === link.href;
+                          return (
+                            <li key={link.href}>
+                              <Link
+                                href={link.href}
+                                aria-current={current && !active ? 'page' : undefined}
+                                onClick={() => closeMenu(false)}
+                                className={cn(
+                                  'flex min-h-[2.75rem] items-center py-1 text-[0.9375rem] leading-snug transition-colors hover:text-ink',
+                                  current ? 'text-ink underline decoration-gold decoration-1 underline-offset-4' : 'text-ink/75'
+                                )}
+                              >
+                                {link.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </li>
                 );
               })}
@@ -321,15 +489,15 @@ function Header({ menuOpen, setMenuOpen }) {
               {t.book}
             </Link>
 
-            {extra.length > 0 && (
+            {(extra.length > 0 || landscapeSub.length > 0) && (
               <ul className="grid grid-cols-1 gap-x-6 border-t border-ink/10 pt-2 min-[360px]:grid-cols-2 sm:grid-cols-1 short:sm:grid-cols-2">
-                {extra.map((link) => {
+                {[...landscapeSub, ...extra].map((link) => {
                   const active = canonical === link.href;
                   return (
-                    <li key={link.href}>
+                    <li key={link.href} className={link.landscapeOnly ? 'hidden short:sm:block' : undefined}>
                       <Link
                         href={link.href}
-                        aria-current={active ? 'page' : undefined}
+                        aria-current={active && !link.sameAsMain ? 'page' : undefined}
                         onClick={() => closeMenu(false)}
                         className={cn(
                           'flex min-h-[2.75rem] items-center py-1 text-[0.9375rem] leading-snug transition-colors hover:text-ink',
@@ -485,7 +653,7 @@ function Footer({ year }) {
             dekoracja poza drzewem dostępności i poza testem kontrastu (axe liczył go jako błąd). */}
         <div aria-hidden="true" className="mt-12 hidden border-t border-gold/30 pt-8 lg:block">
           <span
-            className="as-display block select-none text-gold/[0.22] before:content-['AS_COMPANY']"
+            className="as-display block select-none text-gold/[0.22] before:content-['BABUSHKINA']"
             style={{ fontSize: 'clamp(2.5rem, 10vw, 9rem)', lineHeight: 0.85 }}
           />
         </div>

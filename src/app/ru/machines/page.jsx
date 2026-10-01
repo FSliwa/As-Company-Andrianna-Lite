@@ -6,9 +6,9 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   locale: 'ru',
   route: 'machines',
-  title: 'Машинки для ПМ AS HERO и AS PRINCESS',
+  title: 'Машинка для ПМ AS PRINCESS',
   description:
-    'Машинки для перманентного макияжа AS HERO и AS PRINCESS – модели, характеристики, покупка в магазине AS и аренда для студий.',
+    'Беспроводная машинка для перманентного макияжа AS PRINCESS – характеристики, цена и аренда для студий.',
 });
 
 export default function Page() {

@@ -159,7 +159,7 @@ function EnquiryForm() {
   });
   const [sent, setSent] = useState(null); // null | ENQUIRY_STATUS
 
-  /* ?temat=produkty (np. z /maszynki „Zapytaj o zakup”) – wstępny wybór tematu.
+  /* ?temat=produkty (np. z /maszynki „Zapytaj o dostępność”) – wstępny wybór tematu.
      window.location zamiast useSearchParams: strona zostaje statyczna. */
   useEffect(() => {
     const t = new URLSearchParams(window.location.search).get('temat');

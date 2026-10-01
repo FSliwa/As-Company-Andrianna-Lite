@@ -23,7 +23,7 @@ const site = {
   NAV_ALL: [
     {
       title: 'Products',
-      links: [{ label: 'AS OPIUM pigments' }, { label: 'AS PRINCESS & AS HERO machines' }, { label: 'Certificates & REACH compliance' }],
+      links: [{ label: 'AS OPIUM pigments' }, { label: 'AS PRINCESS machine' }, { label: 'Certificates & REACH compliance' }],
     },
     {
       title: 'Education',
@@ -181,9 +181,9 @@ const site = {
       cta: 'See pigments',
     },
     {
-      title: 'Equipment',
-      desc: 'Reliable PMU machines designed for precision, comfort and maximum control over your work.',
-      cta: 'See equipment',
+      title: 'Machine',
+      desc: 'The cordless AS PRINCESS machine – light, quiet, with precise stroke and needle depth adjustment.',
+      cta: 'See the machine',
     },
     {
       title: 'Certificates & quality',

@@ -21,7 +21,7 @@
       "heading": "2. Definitions",
       "blocks": [
         { "list": [
-          "Website – the AS COMPANY LOVELINESS and Babushkina Academy website available at {siteUrl}, together with its language versions.",
+          "Website – the Babushkina Academy website available at {siteUrl}, together with its language versions.",
           "Service Provider, “we” – {company}; details and contact information are given in section 3.",
           "User, “you” – any person who uses the Website.",
           "Consumer – a natural person who uses the Website or enters into a contract with us for a purpose not directly related to their business or professional activity (Article 22¹ of the Civil Code (Kodeks cywilny)).",
@@ -59,7 +59,7 @@
       "blocks": [
         { "p": "We provide the following Services on the Website free of charge:" },
         { "list": [
-          "browsing content – information about treatments, price lists and the treatment journey, training courses and their funding, pigments, machines and certificates, and contact details;",
+          "browsing content – information about treatments, price lists and the treatment journey, training courses and their funding, pigments, the machine and certificates, and contact details;",
           "Forms – preparing a message to us: a general question, or an enquiry about a training date, machine hire or pigments;",
           "Pigment List – a selection of shades, bottle sizes and quantities that you can send as an enquiry;",
           "online appointment booking – choosing a Treatment, a day and a time and saving the appointment in the Salon’s calendar."
@@ -169,7 +169,7 @@
       "blocks": [
         { "p": "Prices on the Website are given in Polish zloty (PLN). Treatment prices are final (gross) prices, including any VAT due, payable at the Salon." },
         { "p": "The price of a Treatment is the price in the price list, which you also see when making a Booking. For Treatments with a “from” price or an individual quote, we give the exact amount during the consultation. If after the consultation it turns out that a different scope is needed from the one booked, we will tell you the price before the Treatment begins, and you decide whether you agree to it. A touch-up is a separate item in the price list; in some cases, e.g. with oily or porous skin or after removal of old permanent make-up, it is necessary – we will tell you about this during the consultation." },
-        { "p": "Information about treatments, training courses, pigments and machines and about machine hire, including prices, is an invitation to treat, i.e. an invitation to contact us and to enter into a contract (Article 71 of the Civil Code), and not an offer within the meaning of Article 66 of the Civil Code. The terms of a purchase, training course or hire are agreed individually before the contract is concluded." },
+        { "p": "Information about treatments, training courses, pigments and the machine and about machine hire, including prices, is an invitation to treat, i.e. an invitation to contact us and to enter into a contract (Article 71 of the Civil Code), and not an offer within the meaning of Article 66 of the Civil Code. The terms of a purchase, training course or hire are agreed individually before the contract is concluded." },
         { "p": "Where a price is marked as a net amount (e.g. for training courses), we add VAT at the applicable rate, if due. Before a contract is concluded, we always state the price payable." },
         { "p": "The Website does not accept payments. Online booking is free of charge and does not require a deposit or prepayment." },
         { "p": "Information about our entry in the Register of Training Institutions (Rejestr Instytucji Szkoleniowych, RIS) and in the Development Services Database (Baza Usług Rozwojowych, BUR), and about the possibility of funding training from sources including the National Training Fund (Krajowy Fundusz Szkoleniowy, KFS), is provided for information only. Decisions on funding are made by the competent office or operator according to its own rules." }
@@ -242,7 +242,7 @@
   "decisions": [
     {
       "what": "Service Provider details and the Salon’s address before publication",
-      "proposal": "Fill in LEGAL.company, address, nip, register, privacyEmail and CONTACT.email, phone, street and postal in src/lib/site.js. Until then the Terms are public without these details (decision by Filip of 30 September 2026, LEGAL_PUBLIC in src/lib/legal.js): the Service Provider is identified by the brand AS COMPANY LOVELINESS (Babushkina Academy) based in Warsaw, contact and complaints go via Instagram, and the items with the tax ID, register entry, address, email and phone are left out; “[do uzupełnienia]” (“to be completed”) fields are never shown publicly.",
+      "proposal": "Fill in LEGAL.company, address, nip, register, privacyEmail and CONTACT.email, phone, street and postal in src/lib/site.js. Until then the Terms are public without these details (decision by Filip of 30 September 2026, LEGAL_PUBLIC in src/lib/legal.js): the Service Provider is identified by the Babushkina Academy brand based in Warsaw, contact and complaints go via Instagram, and the items with the tax ID, register entry, address, email and phone are left out; “[do uzupełnienia]” (“to be completed”) fields are never shown publicly.",
       "why": "Article 5 of the Act on Providing Services by Electronic Means requires the name, address, email address and registration numbers to be given. If the company is a limited liability company (spółka z o.o.), the {register} field must also state the registry court, the KRS number (Krajowy Rejestr Sądowy, the National Court Register) and the amount of share capital (Article 206 § 1 of the Commercial Companies Code (Kodeks spółek handlowych)). The Terms (section 2) refer to the Contact page for the Salon’s address only once the street is filled in (CONTACT.street) – today the street and postcode are empty."
     },
     {

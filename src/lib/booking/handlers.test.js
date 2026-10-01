@@ -178,7 +178,7 @@ describe('POST /api/booking', () => {
   test('Origin zgodny z X-Forwarded-Host (proxy) lub NEXT_PUBLIC_SITE_URL', () => {
     const behindProxy = new Request('http://10.0.0.5:3000/api/booking', {
       method: 'POST',
-      headers: { host: '10.0.0.5:3000', 'x-forwarded-host': 'as-loveliness.eu', origin: 'https://as-loveliness.eu' },
+      headers: { host: '10.0.0.5:3000', 'x-forwarded-host': 'babushkina-academy.pl', origin: 'https://babushkina-academy.pl' },
     });
     assert.equal(isAllowedOrigin(behindProxy, { required: true, env: {} }), true);
     const viaSiteUrl = new Request('http://internal/api/booking', { method: 'POST', headers: { origin: 'https://www.example.pl' } });

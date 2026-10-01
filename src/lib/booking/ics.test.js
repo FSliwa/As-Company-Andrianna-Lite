@@ -26,7 +26,7 @@ describe('ics', () => {
       uid: 'abc@example.com',
       start: '2026-10-26T10:00:00+01:00',
       end: '2026-10-26T12:00:00+01:00',
-      summary: 'Perfect Lips – AS COMPANY',
+      summary: 'Perfect Lips – Babushkina Academy',
       location: 'Babushkina Academy, Warszawa',
       now: Date.parse('2026-10-19T08:00:00Z'),
     });
@@ -44,11 +44,16 @@ describe('ics', () => {
       { bookingId: 'b-1', treatment: 'perfect-lips', start: '2026-10-26T10:00:00+01:00', end: '2026-10-26T12:00:00+01:00' },
       { now: Date.parse('2026-10-19T08:00:00Z') }
     );
-    assert.match(ics, /SUMMARY:Perfect Lips – AS COMPANY/);
+    assert.match(ics, /SUMMARY:Perfect Lips – Babushkina Academy/);
+    assert.match(ics, /\r\nPRODID:-\/\/Babushkina Academy\/\/Rezerwacja online\/\/PL\r\n/);
+    // opis zawinięty do 75 oktetów – porównanie po rozwinięciu linii
+    assert.match(ics.replace(/\r\n /g, ''), /DESCRIPTION:Wizyta zarezerwowana na stronie Babushkina Academy\./);
+    assert.ok(!/AS\s*COMPANY|LOVE\s*LINESS/i.test(ics), 'bez nazwy dawnej firmy klientki');
     assert.match(ics, /UID:b-1@/);
     assert.ok(!/Telefon|E-mail/.test(ics));
   });
   test('icsFileName: data lokalna z ISO z offsetem', () => {
     assert.equal(icsFileName('2026-10-26T10:00:00+01:00'), 'wizyta-2026-10-26.ics');
+    assert.equal(icsFileName('bez daty'), 'wizyta-babushkina-academy.ics');
   });
 });

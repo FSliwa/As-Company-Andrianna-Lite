@@ -1,11 +1,12 @@
 /** Nakładka EN na src/content/common/pl.js (te same klucze). */
 const common = {
   skipLink: 'Skip to content',
-  homeAria: 'AS COMPANY POLAND – home page',
+  homeAria: 'Babushkina Academy – home page',
   mainNavAria: 'Main navigation',
   book: 'Book a visit',
   menuOpen: 'Open menu',
   menuClose: 'Close menu',
+  subnav: 'Subcategories',
   menuAria: 'Menu',
   shortcutsAria: 'Shortcuts',
   languageAria: 'Language',

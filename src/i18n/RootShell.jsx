@@ -11,27 +11,29 @@
 import '@/styles-fonts.css';
 import '@/index.css';
 import Layout from '@/Layout';
-import { SITE_URL } from '@/lib/site';
+import { BRAND, SITE_URL } from '@/lib/site';
 import { JsonLd, pageMeta, siteJsonLd } from '@/lib/seo';
 import { Toaster } from '@/components/ui/toaster';
 
 /* Tytuł domyślny (strona główna) i opis strony głównej w każdym języku.
-   Szablon tytułu podstron – nazwa marki, ta sama we wszystkich językach. */
+   Szablon tytułu podstron – nazwa marki (BRAND.name), ta sama we wszystkich językach.
+   D2: „linia rzęs” zamiast „kresek”. Marka: Babushkina Academy (prośba klientki z 30.09.2026);
+   z maszynek w ofercie jest tylko AS PRINCESS. */
 const ROOT_META = {
   pl: {
-    title: 'Makijaż permanentny Warszawa i szkolenia PMU | AS COMPANY',
+    title: `Makijaż permanentny Warszawa i szkolenia PMU | ${BRAND.name}`,
     description:
-      'Makijaż permanentny brwi, ust i linii rzęs w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS COMPANY.',
+      'Makijaż permanentny brwi, ust i linii rzęs w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty PMU i maszynka AS PRINCESS.',
   },
   en: {
-    title: 'Permanent makeup in Warsaw and PMU training | AS COMPANY',
+    title: `Permanent makeup in Warsaw and PMU training | ${BRAND.name}`,
     description:
-      'Permanent makeup for brows, lips and lash line in Warsaw, and Super Natural Brows training at Babushkina Academy. AS COMPANY pigments and machines.',
+      'Permanent makeup for brows, lips and lash line in Warsaw, and Super Natural Brows training at Babushkina Academy. PMU pigments and the AS PRINCESS machine.',
   },
   ru: {
-    title: 'Перманентный макияж в Варшаве и обучение ПМ | AS COMPANY',
+    title: `Перманентный макияж в Варшаве и обучение ПМ | ${BRAND.name}`,
     description:
-      'Перманентный макияж бровей, губ и межресничной линии в Варшаве и обучение Super Natural Brows в Babushkina Academy. Пигменты и машинки AS COMPANY.',
+      'Перманентный макияж бровей, губ и межресничной линии в Варшаве и обучение Super Natural Brows в Babushkina Academy. Пигменты для ПМ и машинка AS PRINCESS.',
   },
 };
 
@@ -43,7 +45,7 @@ export function rootMetadata(locale) {
     metadataBase: new URL(SITE_URL),
     title: {
       default: ROOT_META[locale].title,
-      template: '%s | AS COMPANY LOVELINESS',
+      template: `%s | ${BRAND.name}`,
     },
     ...pageMeta({ locale, route: 'home', description: ROOT_META[locale].description }),
   };

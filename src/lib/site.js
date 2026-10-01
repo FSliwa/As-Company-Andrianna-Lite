@@ -15,9 +15,13 @@
  *    do czasu uzupełnienia nie są wyświetlane na stronie.
  */
 
+/* Marka serwisu: Babushkina Academy (prośba klientki, 30.09.2026) – nazwa jej dawnej firmy
+   nie może pojawiać się nigdzie na stronie. `name`/`full`/`academy` zostają osobnymi
+   polami (używają ich SEO, stopka, dokumenty), ale dziś mają tę samą wartość. Nazwy produktów
+   (AS OPIUM, AS PRINCESS) to nazwy towarów, które klientka sprzedaje – zostają. */
 export const BRAND = {
-  name: 'AS COMPANY',
-  full: 'AS COMPANY LOVELINESS',
+  name: 'Babushkina Academy',
+  full: 'Babushkina Academy',
   academy: 'Babushkina Academy',
   tagline: 'Beauty with precision.',
   claim: 'Profesjonalne produkty PMU, edukacja i doświadczenie tworzone przez praktyków.',
@@ -99,10 +103,10 @@ export const CONTACT = {
 
 /**
  * Adres serwisu (canonical, sitemap, OG). Ustawiany przy wdrożeniu przez
- * NEXT_PUBLIC_SITE_URL – domena docelowa czeka na decyzję klienta
- * (dziś pod as-loveliness.eu działa sklep WooCommerce).
+ * NEXT_PUBLIC_SITE_URL; domyślnie domena klientki babushkina-academy.pl (klientka podała
+ * 30.09.2026: babushkina-academy.pl, babushkina-academy-sklep.pl, babushkina-academy-szkolenia.pl).
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://as-loveliness.eu').replace(/\/$/, '');
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://babushkina-academy.pl').replace(/\/$/, '');
 
 /**
  * Rezerwacja online (Kalendarz Google) – cel wszystkich przycisków „Umów wizytę”.
@@ -116,20 +120,15 @@ export const BOOKING_PAGE = '/umow-wizyte';
 export const BOOKING_URL = BOOKING_ENABLED ? BOOKING_PAGE : '/kontakt';
 
 /**
- * Sklep internetowy klienta (WooCommerce) – produkty kupuje się tam.
- * Adresy sprawdzone 29.09.2026; zmienią się, jeśli sklep przeniesie się
- * na subdomenę (decyzja klienta).
+ * Sklep internetowy – babushkina-academy-sklep.pl (domena podana przez klientkę 30.09.2026).
+ * Adresy kategorii i produktów nowego sklepu nie są jeszcze znane, więc strona do sklepu
+ * nie linkuje (zapytania idą przez formularz). Sklepu dawnej firmy klientki nie linkujemy
+ * (prośba klientki).
  */
 export const SHOP = {
-  url: 'https://as-loveliness.eu/shop/',
-  browPigments: 'https://as-loveliness.eu/pigmenty-do-brwi/',
-  lipPigments: 'https://as-loveliness.eu/pigmenty-do-ust/',
-  linerPigments: 'https://as-loveliness.eu/pigmenty-do-kresek/',
-  machine: 'https://as-loveliness.eu/maszynka/',
-  rental: 'https://as-loveliness.eu/wspolpraca-wynajem/',
-  /* D4: brief – „(Tutaj link na online w sklepie)”, ale produktu-kursu w sklepie brak
-     (sprawdzone 29.09.2026). Do czasu podania adresu przez klientkę: null → przycisk
-     „Zapytaj o dostęp” (formularz), bez zmyślonego linku. */
+  url: null, // 'https://babushkina-academy-sklep.pl/' – gdy sklep ruszy
+  /* D4: brief – „(Tutaj link na online w sklepie)”; do czasu podania adresu przez klientkę:
+     null → przycisk „Zapytaj o dostęp” (formularz), bez zmyślonego linku. */
   perfectLipsCourse: null,
 };
 
@@ -140,7 +139,8 @@ export const SHOP = {
  * uzupełnione dane (także CONTACT.email i CONTACT.phone) ORAZ documentsApproved
  * (LEGAL_PUBLISHED). Decyzja Filipa (30.09.2026): dokumenty i klauzule pod formularzami
  * są publiczne już teraz (LEGAL_PUBLIC) – bez danych firmy zamiast nazwy stoi marka
- * (BRAND.full + BRAND.academy), zamiast siedziby miasto (CONTACT.city), kontakt przez
+ * (BRAND.full; nazwa akademii w nawiasie tylko, gdy inna – fallbackCompanyName w src/lib/legal.js),
+ * zamiast siedziby miasto (CONTACT.city), kontakt przez
  * Instagram, a zdania z NIP-em, rejestrem, adresem, e-mailem i telefonem znikają.
  * Po wpisaniu danych tutaj pełne brzmienie pojawi się samo. Stopka pokazuje wiersz
  * z danymi firmy dopiero po wpisaniu company.
@@ -157,9 +157,11 @@ export const LEGAL = {
   documentsApproved: null,
 };
 
-/** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA). */
+/** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA).
+ * `group` – pozycja z podkategoriami (prośba klientki 30.09.2026: „podkategoria na produkty”):
+ * menu rozwijane w nagłówku i podpozycje w menu na telefonie biorą linki z NAV_ALL[group]. */
 export const NAV_MAIN = [
-  { label: 'Produkty', href: '/pigmenty' },
+  { label: 'Produkty', href: '/pigmenty', group: 0 },
   { label: 'Szkolenia', href: '/szkolenia' },
   { label: 'Zabiegi', href: '/uslugi' },
   { label: 'O nas', href: '/o-nas' },
@@ -172,7 +174,8 @@ export const NAV_ALL = [
     title: 'Produkty',
     links: [
       { label: 'Pigmenty AS OPIUM', href: '/pigmenty' },
-      { label: 'Maszynki AS PRINCESS & AS HERO', href: '/maszynki' },
+      /* Klientka sprzedaje tylko AS PRINCESS (30.09.2026). */
+      { label: 'Maszynka AS PRINCESS', href: '/maszynki' },
       { label: 'Certyfikaty i zgodność REACH', href: '/certyfikaty' },
     ],
   },
@@ -518,7 +521,7 @@ export const COURSE_SCHEDULE = [
   },
 ];
 
-/** Linia produktowa dystrybuowana przez AS COMPANY. */
+/** Produkty dostępne w Babushkina Academy. */
 export const PRODUCT_LINES = [
   {
     id: 'pigmenty',
@@ -531,10 +534,11 @@ export const PRODUCT_LINES = [
   {
     id: 'urzadzenia',
     number: '02',
-    title: 'Urządzenia',
+    title: 'Maszynka',
     href: '/maszynki',
-    desc: 'Niezawodne maszyny PMU zaprojektowane z myślą o precyzji, komforcie i maksymalnej kontroli pracy.',
-    cta: 'Zobacz urządzenia',
+    /* Tylko AS PRINCESS (prośba klientki) – opis z karty modelu na /maszynki (107 g, aluminium). */
+    desc: 'Bezprzewodowa maszynka AS PRINCESS – lekka, cicha, z precyzyjną regulacją skoku i wysuwu igły.',
+    cta: 'Zobacz maszynkę',
   },
   {
     id: 'certyfikaty',

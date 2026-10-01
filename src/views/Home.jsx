@@ -40,60 +40,31 @@ import { nbspShort } from '@/lib/utils';
 /* ==================================================================
    01 – HERO
 
-   Desktop (od lg): geometria przeniesiona 1:1 z makiety (zmierzonej na
-   oryginale 1320×2868 px). Wartości to ułamki szerokości kadru treści (W)
-   przeliczone na procenty kontenera o proporcji W : 0.682W.
+   Prośba klientki (30.09.2026): „zdjęcie na tło, napisy na nim, aby nie wyglądało
+   jak w ramce”. Portret z sesji jest więc tłem, bez ramki i linii konstrukcyjnych:
 
-   Telefon i tablet: ta sama kompozycja obrócona do pionu (MobileComposition
-   niżej) – duża typografia na krawędziach portretu, złote linie
-   konstrukcyjne, kolofon i pasek faktów.
+   · telefon w pionie – zdjęcie wypełnia pierwszy ekran (także pod półprzezroczystym
+     nagłówkiem), hasło, claim i przyciski leżą na dole kadru, na jasnej tkaninie,
+     na kremowym wygaszeniu od dołu; kolofon i fakty – pod zdjęciem, w tym samym kremie,
+     w który przechodzi wygaszenie (bez szwu);
+   · od tabletu (md) i telefon w poziomie (short) – zdjęcie spadem od prawej krawędzi
+     przez całą wysokość, jego lewa część przechodzi w krem tła, a tekst stoi
+     na tym przejściu (hasło wchodzi na zdjęcie).
 
-   Ruch przy wejściu (obie wersje): słowa wjeżdżają kolejno, linie się
-   rysują (scaleX / scaleY), portret „oddycha” 1,06 → 1. Wyłącznie transform
-   (klasy .as-enter-* z src/index.css) – bez zanikania, więc portret (LCP)
-   i tekst są widoczne od pierwszej klatki; przy prefers-reduced-motion ruch
-   jest wyłączony w CSS.
+   Portret: studio-05 (tiul) – jasne tło sesji i biała tkanina na dole kadru dają
+   miejsce na ciemny tekst. Ruch przy wejściu jak dotąd: słowa wjeżdżają kolejno
+   (as-enter-rise), portret „oddycha” 1,06 → 1 (as-enter-breathe); tylko transform,
+   więc zdjęcie (LCP) i tekst są widoczne od pierwszej klatki; prefers-reduced-motion
+   wyłącza ruch w CSS.
    ================================================================== */
 
-const HERO_RATIO = 1 / 0.682; // szerokość : wysokość kadru hero
 const HERO_PHOTO = ROLES.heroHome.image;
-
-/* pozycje w % kontenera – x względem szerokości, y względem wysokości */
-const G = {
-  photo: { left: '33.7%', right: '33.5%', top: '12.6%', bottom: '19.0%' },
-  /* słowa 4 pp wyżej niż w pierwszej wersji – złota linia (50,6%) biegnie
-     pod literami, a nie przez nie (audyt AD-1) */
-  beauty: { left: '0%', top: '32.3%' },
-  with: { left: '71.4%', top: '33.0%' },
-  precision: { left: '71.4%', top: '38.6%' },
-  rule: { top: '50.6%' },
-  lead: { left: '0%', top: '54.6%' },
-  colophon: { left: '0%', top: '72.0%', width: '28%' },
-  facts: { top: '89.6%' },
-};
-
-/* Typografia w cqw (1% szerokości kadru hero) – kompozycja skaluje się
-   w całości i zawsze mieści się w pierwszym ekranie. */
-const TYPE = {
-  beauty: 'clamp(2.5rem, 12.2cqw, 14rem)',
-  precision: 'clamp(1.5rem, 7.46cqw, 8.6rem)',
-  with: 'clamp(1rem, 4.72cqw, 5.4rem)',
-};
-
-/* 6rem = wysokość nagłówka na lg */
-const HERO_BOX = {
-  width: `min(100%, calc((100svh - 6rem) * ${HERO_RATIO}))`,
-  aspectRatio: HERO_RATIO,
-  containerType: 'inline-size',
-  marginInline: 'auto',
-};
 
 /* Fakty z briefu i ACHIEVEMENTS (src/lib/site.js), spójne z /o-nas („Opis”: „wykonała tysiące
    pigmentacji”, „przeszkoliła setki kursantek”). D7: zamiast „100+ kursantek w roku” (brzmiało
    jak średnia roczna – BIO-06) i wyliczonej sumy „10 lat salonów” (BIO-03) – sformułowania
    briefu; 100+ z włosa w ostatnim roku i lata salonów (7 + 3) z pełnym opisem są
-   w statystykach sekcji 02. Długość paska jak dotąd (≈ 710 px): mieści się w jednej linii
-   także przy niskim oknie laptopa (kadr hero zależy od wysokości ekranu). */
+   w statystykach sekcji 02. */
 const HERO_FACTS = [
   `${ACHIEVEMENTS[0].value} podium Mistrzostw Świata`,
   'Setki kursantek',
@@ -103,154 +74,69 @@ const HERO_FACTS = [
 
 /* D7: cztery role z briefu po polsku („Linergista, Trener, Prelegent oraz Sędzia”) zamiast
    angielskiego FOUNDER.role bez źródła (BIO-12). Pełne brzmienie (FOUNDER.rolePl) jest w alt
-   portretu i na /o-nas; w kolofonie skrót mieszczący się w dwóch liniach jak dotąd (przy
-   1280 × 600 trzecia linia dotykała paska faktów – pomiar). */
-const ROLE_SHORT = 'Linergistka, trenerka, prelegentka i\u00a0sędzia';
+   portretu i na /o-nas; w kolofonie skrót mieszczący się w dwóch liniach. */
+const ROLE_SHORT = 'Linergistka, trenerka, prelegentka i sędzia';
 
 /* Opóźnienie wejścia (klasy .as-enter-* mają animation-fill-mode: both). */
 const delay = (ms) => ({ animationDelay: `${ms}ms` });
 
-/* ---------- Telefon i tablet: kompozycja w pionie ----------
-   Desktop: „Beauty” | portret | „with precision.” w jednym poziomym pasie,
-   ogonek „y” wchodzi na lewą krawędź kadru. Tu ten sam układ obrócony do pionu:
-   · „Beauty” stoi nad GÓRNĄ krawędzią portretu, kulka ogonka „y” dotyka linii
-     ramki (w kadrze byłaby ciemną kropką na włosach; twarzy nic nie zasłania),
-   · „with precision.” siedzi na DOLNEJ krawędzi, wewnątrz kadru (jasna tkanina
-     i ramię – ciemny tekst czytelny),
-   · złote linie przedłużają krawędzie ramki: poziome biegną pod literami
-     (jak linia pod „Beauty” na desktopie), pionowe wychodzą poza kadr tylko
-     tam, gdzie nie ma liter.
-   Wszystkie wymiary w cqw (1% szerokości kompozycji), więc układ skaluje się
-   w całości od 320 px do tabletu. Metryki Bodoni Moda (pomiar w przeglądarce,
-   obie odmiany): przy line-height 1 linia bazowa leży 0,86 em od góry pudełka,
-   ogonek „y” schodzi 0,265 em pod linię bazową. */
-const M = {
-  photoLeft: 30, // lewa krawędź portretu; kolumna słów 0–30
-  top: 24, // górna krawędź portretu (ogonek „y” w „Beauty” kończy się na niej)
-  photoH: 87.5, // szerokość 70 × 5/4 (kadr 4:5)
-  beauty: 22, // rozmiar „Beauty” (3,05 em = 67 cqw szerokości)
-  precision: 14.5, // proporcja do „Beauty” jak na desktopie (7,46 / 12,2 ≈ 0,61–0,66)
-  with: 9.2, // „with” : „precision.” jak na desktopie (4,72 / 7,46)
-  height: 119, // wysokość kompozycji razem z liniami wychodzącymi pod kadr
+/* Rozmiary hasła. Telefon: od szerokości ekranu. Od md: od szerokości, ale nie więcej,
+   niż pozwala wysokość (niski laptop, telefon w poziomie) – cały tekst mieści się
+   w pierwszym ekranie; poniżej 640 px wysokości (wariant tall) odstępy hero są ciaśniejsze,
+   żeby fakty i „Umów wizytę” zostały w pierwszym ekranie.
+   „with precision.” : „Beauty” jak w makiecie (7,46 / 12,2 ≈ 0,61). */
+const WORDS = {
+  phone: { beauty: 'clamp(4rem, 21vw, 7rem)', line2: 'clamp(2.5rem, 12.8vw, 4.25rem)' },
+  split: {
+    beauty: 'clamp(3.5rem, min(10.2vw, 16svh), 11.5rem)',
+    line2: 'clamp(2.125rem, min(6.2vw, 9.8svh), 7rem)',
+  },
 };
-const M_BASELINE = 0.86;
-const M_DESCENT = 0.265;
-const M_BEAUTY_TOP = M.top - M_DESCENT * M.beauty - M_BASELINE * M.beauty;
-const M_BOTTOM = M.top + M.photoH; // dolna krawędź portretu = linia bazowa „precision.”
-const M_PRECISION_TOP = M_BOTTOM - M_BASELINE * M.precision;
-/* „with” nad „precision.” w tym samym odstępie co na desktopie (0,51 wysokości „precision.”);
-   pozycja liczona od linii bazowej, bo rozmiar ma próg 22 px (Bodoni nie mniej – małe
-   kompozycje przy telefonie w poziomie) i przy progu pudełko jest wyższe niż 9,2 cqw. */
-const M_WITH_BASELINE = M_PRECISION_TOP - 0.51 * M.precision + M_BASELINE * M.with;
-const M_WITH_SIZE = `max(1.375rem, ${M.with}cqw)`;
-const cqw = (v) => `${+v.toFixed(3)}cqw`;
 
-/* Szerokość kompozycji:
-   · telefon w pionie – cała szerokość łamu, ale nie więcej, niż pozwala wysokość
-     ekranu: pod kompozycją muszą się zmieścić claim i przycisk „Umów wizytę”
-     (15,25 rem = odstęp pod nagłówkiem 6 rem + claim + przycisk + zapas);
-   · tablet (md) i telefon w poziomie (short) – kolumna obok tekstu: 58% łamu,
-     ograniczone wysokością ekranu (6,5 rem = nagłówek + odstęp).
-   Bez obsługi svh deklaracja odpada i kompozycja ma szerokość łamu. */
-const M_WIDTH =
-  'w-[min(100%,calc((100svh-15.25rem)/1.19))] ' +
-  'md:w-[min(calc((100vw-4rem)*0.58),calc((100svh-6.5rem)/1.19))] ' +
-  'short:w-[min(calc((100vw-4rem)*0.58),calc((100svh-6.5rem)/1.19))]';
-
-/* Portret hero – ten sam plik i te same sizes w obu układach (przeglądarka
-   pobiera jeden wariant). Bez lazy i bez opacity: to element LCP. */
-function HeroPicture() {
+/* Portret – ten sam plik i te same sizes w obu układach (przeglądarka pobiera jeden
+   wariant). Bez lazy i bez opacity: to element LCP. */
+function HeroPicture({ position }) {
+  const sizes = '(min-width: 1024px) 60vw, (min-width: 768px) 56vw, 100vw';
   return (
     <picture>
       <source
         type="image/webp"
         srcSet={Object.entries(HERO_PHOTO.webp).map(([w, src]) => `${src} ${w}w`).join(', ')}
-        sizes="(min-width: 1024px) 27vw, (min-width: 768px) 41vw, 70vw"
+        sizes={sizes}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={HERO_PHOTO.src}
-        /* bez „założycielki AS Company” – brak źródła (BIO-18, SRC-20); brief: prowadzi salon i akademię */
         alt={`${FOUNDER.name} – prowadzi salon i akademię ${BRAND.academy} w Warszawie`}
         width={HERO_PHOTO.w}
         height={HERO_PHOTO.h}
         loading="eager"
         fetchPriority="high"
         decoding="sync"
-        sizes="(min-width: 1024px) 27vw, (min-width: 768px) 41vw, 70vw"
-        className="as-enter-breathe"
-        style={{ objectPosition: ROLES.heroHome.position }}
+        sizes={sizes}
+        className="as-enter-breathe absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: position }}
       />
     </picture>
   );
 }
 
-function MobileComposition() {
-  const word = 'as-display as-enter-rise absolute left-0 block whitespace-nowrap leading-none';
+/* Hasło „Beauty / with precision.” – wersja wizualna h1 (aria-hidden, h1 jest w sr-only). */
+function HeroWords({ size }) {
+  const s = WORDS[size];
   return (
-    <div
-      className={`relative ${M_WIDTH}`}
-      style={{ containerType: 'inline-size', aspectRatio: `100 / ${M.height}` }}
-    >
-      {/* portret 4:5 w prawej części kompozycji */}
-      <div className="absolute right-0" style={{ left: cqw(M.photoLeft), top: cqw(M.top), height: cqw(M.photoH) }}>
-        <div className="as-media h-full w-full border border-gold/50">
-          <HeroPicture />
-        </div>
-      </div>
-
-      {/* linie konstrukcyjne: przedłużenia krawędzi ramki */}
-      <span
-        aria-hidden="true"
-        className="as-enter-draw-y absolute right-0 w-px bg-gold/45"
-        style={{ top: cqw(M.top - 14), height: cqw(M.photoH + 21), ...delay(0) }}
-      />
-      <span
-        aria-hidden="true"
-        className="as-enter-draw-x absolute left-0 h-px bg-gold/45"
-        style={{ top: cqw(M.top), width: cqw(104), ...delay(200) }}
-      />
-      <span
-        aria-hidden="true"
-        className="as-enter-draw-y absolute w-px bg-gold/45"
-        style={{ left: cqw(M.photoLeft), top: cqw(M.top), height: cqw(M.photoH + 7), ...delay(350) }}
-      />
-      <span
-        aria-hidden="true"
-        className="as-enter-draw-x absolute left-0 h-px bg-gold/45"
-        style={{ top: `calc(${cqw(M_BOTTOM)} - 1px)`, width: cqw(104), ...delay(500) }}
-      />
-
-      {/* słowa – wersja wizualna h1 (aria-hidden, h1 jest w sr-only) */}
-      <p aria-hidden="true" className="pointer-events-none absolute inset-0 z-20 text-ink">
-        <span
-          data-hero-word
-          className={word}
-          style={{ top: cqw(M_BEAUTY_TOP), fontSize: cqw(M.beauty), ...delay(0) }}
-        >
-          Beauty
-        </span>
-        <span
-          data-hero-word
-          className={`${word} font-normal italic`}
-          style={{ top: `calc(${cqw(M_WITH_BASELINE)} - ${M_BASELINE} * ${M_WITH_SIZE})`, fontSize: M_WITH_SIZE, ...delay(150) }}
-        >
-          with
-        </span>
-        <span
-          data-hero-word
-          className={word}
-          style={{ top: cqw(M_PRECISION_TOP), fontSize: cqw(M.precision), ...delay(300) }}
-        >
-          precision.
-        </span>
-      </p>
-    </div>
+    <p aria-hidden="true" className="text-ink">
+      <span data-hero-word className="as-display as-enter-rise block whitespace-nowrap leading-[0.9]" style={{ fontSize: s.beauty, ...delay(0) }}>
+        Beauty
+      </span>
+      <span data-hero-word className="as-enter-rise mt-[0.12em] block whitespace-nowrap" style={{ fontSize: s.line2, ...delay(150) }}>
+        <span className="as-display italic">with</span> <span className="as-display">precision.</span>
+      </span>
+    </p>
   );
 }
 
 function Hero() {
-  /* Kolofon zamiast miniatur makr – makra z telefonu nie wytrzymują hero. */
   const colophon = (
     <div className="border-t border-gold/40 pt-4">
       <p className="as-label text-ink">{FOUNDER.name}</p>
@@ -258,130 +144,95 @@ function Hero() {
     </div>
   );
 
-  /* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza */
-  const claim = <p className="as-caption max-w-[17rem] leading-[1.9]">{nbspShort(BRAND.claim)}</p>;
+  /* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza.
+     Claim na zdjęciu: ink/80 zamiast mocha (na wygaszeniu kontrast ≥ 7:1). */
+  const claim = <p className="max-w-[19rem] text-[0.875rem] leading-[1.75] text-ink/80">{nbspShort(BRAND.claim)}</p>;
 
-  /* Desktop: link jak w makiecie (przycisk „Umów wizytę” jest w nagłówku).
-     D9: bez skrótu „AS” (makieta: „Discover AS”) – /o-nas opowiada o Andrianie i salonie. */
-  const lead = (
-    <>
-      {claim}
-      <ArrowLink href="/o-nas" className="mt-7 w-fit">
+  /* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta < 640 px);
+     od lg „Umów wizytę” jest w nagłówku, więc w hero zostaje link jak w makiecie. */
+  const actions = (
+    <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-5 short:mt-4 lg:tall:mt-8">
+      <Link href={BOOKING_URL} className="as-btn-solid lg:hidden">
+        Umów wizytę
+      </Link>
+      {/* D9: bez skrótu „AS” (makieta: „Discover AS”) – /o-nas opowiada o Andrianie i salonie. */}
+      <ArrowLink href="/o-nas" className="w-fit">
         Poznaj nas
       </ArrowLink>
-    </>
-  );
-
-  /* Desktop: linie konstrukcyjne wychodzące poza kadr (makieta), rysują się przy wejściu */
-  const photo = (
-    <div className="relative h-full w-full">
-      <span aria-hidden="true" className="as-enter-draw-y absolute -top-[5.5%] bottom-[-3.5%] left-0 w-px bg-gold/45" style={delay(100)} />
-      <span aria-hidden="true" className="as-enter-draw-y absolute -top-[5.5%] bottom-[-3.5%] right-0 w-px bg-gold/45" style={delay(100)} />
-      <span aria-hidden="true" className="as-enter-draw-x absolute -left-[11%] -right-[11%] top-[-4%] h-px bg-gold/45" style={delay(250)} />
-      <span aria-hidden="true" className="as-enter-draw-x absolute -left-[11%] -right-[11%] bottom-0 h-px bg-gold/45" style={delay(400)} />
-
-      <div className="as-media h-full w-full border border-gold/50">
-        <HeroPicture />
-      </div>
     </div>
   );
 
   return (
-    <section className="relative -mt-20 overflow-hidden bg-cream-50 lg:-mt-24">
-      {/* jeden h1 w DOM – wersje wizualne (telefon / desktop) są aria-hidden */}
+    /* cofnięcie o pełną wysokość nagłówka razem z linią 1 px (--as-header-h, src/index.css) –
+       przy -mt-20 / -24 / -16 nad zdjęciem zostawała jasna kreska 1 px */
+    <section className="relative mt-[calc(var(--as-header-h)*-1)] overflow-hidden bg-cream-50">
+      {/* jeden h1 w DOM – wersje wizualne (telefon / od md) są aria-hidden */}
       <h1 className="sr-only">
         {BRAND.tagline} {BRAND.full} – makijaż permanentny i szkolenia PMU w Warszawie
       </h1>
 
-      {/* ================= TELEFON / TABLET ================= */}
-      {/* telefon w pionie: kompozycja, pod nią claim + „Umów wizytę” (pierwszy ekran
-          od 375 × 667) i kolofon; tablet (md) i telefon w poziomie (short):
-          kompozycja | claim, przyciski i kolofon wyrównane do dołu */}
-      <div className="as-shell pb-14 pt-24 lg:hidden">
-        <div className="md:grid md:grid-cols-[auto_minmax(0,1fr)] md:items-end md:gap-x-10 short:grid short:grid-cols-[auto_minmax(0,1fr)] short:items-end short:gap-x-10">
-          <MobileComposition />
-
-          <div data-hero-lead className="mt-4 md:mt-0 short:mt-0">
-            {claim}
-            {/* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta < 640 px) */}
-            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-5">
-              <Link href={BOOKING_URL} className="as-btn-solid">
-                Umów wizytę
-              </Link>
-              <ArrowLink href="/o-nas" className="w-fit">
-                Poznaj nas
-              </ArrowLink>
-            </div>
-            <div data-hero-colophon className="mt-10 max-w-[20rem] short:mt-6">
-              {colophon}
-            </div>
+      {/* ================= TELEFON W PIONIE: zdjęcie na cały ekran ================= */}
+      <div className="md:hidden short:hidden">
+        <div className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden">
+          <HeroPicture position="52% 0%" />
+          {/* kremowe wygaszenie od dołu: pod tekstem krem, w połowie kadru już przezroczyste
+              (twarz bez zmian); górny pas – pod półprzezroczystym nagłówkiem */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[6%] via-cream-50/80 via-[30%] to-transparent to-[58%]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-cream-50/90 via-cream-50/50 to-transparent"
+          />
+          {/* odstęp: połowa ekranu, ale na niskich telefonach (Safari z paskami ≈ 550 px)
+              mniej – treść (≈ 300 px) + pb-8 = 21rem, więc „Umów wizytę” zostaje w pierwszym ekranie */}
+          <div data-hero-lead className="as-shell relative z-10 pb-8 pt-[min(52svh,calc(100svh-21rem))]">
+            <HeroWords size="phone" />
+            <div className="mt-5">{claim}</div>
+            {actions}
           </div>
         </div>
 
-        <div className="mt-10 border-t border-ink/10 pt-6">
-          <FactStrip items={HERO_FACTS} />
+        <div className="as-shell pb-14 pt-4">
+          <div data-hero-colophon className="max-w-[20rem]">
+            {colophon}
+          </div>
+          <div className="mt-8 border-t border-ink/10 pt-6">
+            <FactStrip items={HERO_FACTS} />
+          </div>
         </div>
       </div>
 
-      {/* ================= UKŁAD DESKTOPOWY (wg makiety) ================= */}
-      <div className="as-shell hidden lg:block">
-        <div className="relative" style={HERO_BOX}>
+      {/* ================= OD TABLETU I TELEFON W POZIOMIE: zdjęcie spadem od prawej ================= */}
+      <div className="relative hidden min-h-[100svh] md:flex short:flex">
+        {/* overflow-hidden: wejście as-breathe skaluje zdjęcie 1,06 → 1 – bez przycięcia
+            wystawało poza wygaszenia na krem obok */}
+        <div className="absolute inset-y-0 right-0 w-[56%] overflow-hidden lg:w-[60%]">
+          <HeroPicture position="50% 8%" />
+          {/* lewa część zdjęcia przechodzi w krem tła – na tym przejściu stoi hasło */}
           <div
-            className="absolute"
-            style={{ left: G.photo.left, right: G.photo.right, top: G.photo.top, bottom: G.photo.bottom }}
-          >
-            {photo}
-          </div>
-
-          <span
             aria-hidden="true"
-            className="as-enter-draw-x absolute left-0 h-px bg-gold/40"
-            style={{ top: G.rule.top, width: '31%', ...delay(300) }}
+            className="absolute inset-0 bg-gradient-to-r from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%]"
           />
-          <span
-            aria-hidden="true"
-            className="as-enter-draw-x absolute h-px bg-gold/40"
-            style={{ top: G.rule.top, left: '66.5%', width: '4.5%', ...delay(450) }}
-          />
+          {/* góra kadru pod przezroczystym nagłówkiem (nawigacja czytelna na zdjęciu) */}
+          {/* 80% kremu + nawigacja w pełnym ink (Layout, overPhoto): „O nas” i „Kontakt” na włosach ≥ 5,4:1 */}
+          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-cream-50/80 to-transparent" />
+          {/* dół kadru łagodnie w krem – fakty i kolofon czytelne także na zdjęciu */}
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent" />
+        </div>
 
-          {/* wejście tytułu: trzy wyrazy, 0 / 150 / 300 ms */}
-          <p aria-hidden="true" className="pointer-events-none absolute inset-0 z-20 text-ink">
-            <span
-              data-hero-word
-              className="as-display as-enter-rise absolute block whitespace-nowrap leading-none"
-              style={{ left: G.beauty.left, top: G.beauty.top, fontSize: TYPE.beauty, ...delay(0) }}
-            >
-              Beauty
-            </span>
-            <span
-              data-hero-word
-              className="as-display as-enter-rise absolute block whitespace-nowrap font-normal italic leading-none"
-              style={{ left: G.with.left, top: G.with.top, fontSize: TYPE.with, ...delay(150) }}
-            >
-              with
-            </span>
-            <span
-              data-hero-word
-              className="as-display as-enter-rise absolute block whitespace-nowrap leading-none"
-              style={{ left: G.precision.left, top: G.precision.top, fontSize: TYPE.precision, ...delay(300) }}
-            >
-              precision.
-            </span>
-          </p>
-
-          <div data-hero-lead className="absolute z-20" style={{ left: G.lead.left, top: G.lead.top }}>
-            {lead}
+        <div className="as-shell relative z-10 flex w-full flex-col justify-center pb-10 pt-28 short:pb-6 short:pt-20 lg:tall:pt-32">
+          <div data-hero-lead className="max-w-[46rem]">
+            <HeroWords size="split" />
+            <div className="mt-6 short:mt-4 lg:tall:mt-8">{claim}</div>
+            {actions}
           </div>
-
-          <div
-            data-hero-colophon
-            className="absolute z-20"
-            style={{ left: G.colophon.left, top: G.colophon.top, width: G.colophon.width }}
-          >
-            {colophon}
-          </div>
-
-          <div className="absolute inset-x-0 z-20" style={{ top: G.facts.top }}>
+          {/* telefon w poziomie: kolofon i fakty pod pierwszym ekranem (sekcja się wydłuża) */}
+          <div className="mt-10 grid max-w-[48rem] gap-6 short:mt-6 lg:mt-8 lg:tall:mt-12">
+            <div data-hero-colophon className="max-w-[20rem]">
+              {colophon}
+            </div>
             <FactStrip items={HERO_FACTS} />
           </div>
         </div>

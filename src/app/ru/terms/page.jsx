@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'ru',
   route: 'terms',
   title: doc.title,
-  description: 'Правила пользования сайтом AS COMPANY и Babushkina Academy: формы, список пигментов, онлайн-запись, рекламации.',
+  description: 'Правила пользования сайтом Babushkina Academy: формы, список пигментов, онлайн-запись, рекламации.',
   noindex: !LEGAL_PUBLIC,
 });
 

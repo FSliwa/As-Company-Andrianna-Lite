@@ -15,7 +15,7 @@
 import crypto from 'node:crypto';
 import { normalizePrivateKey } from './google.js';
 
-const SECRET_STORE = Symbol.for('as-company.booking.secret');
+const SECRET_STORE = Symbol.for('babushkina-academy.booking.secret');
 const MIN_SECRET_LENGTH = 16;
 
 /* ---------------- sekret ---------------- */
@@ -28,7 +28,7 @@ export function bookingSecret(env = process.env) {
   const explicit = String(env.BOOKING_SECRET || '').trim();
   if (explicit.length >= MIN_SECRET_LENGTH) return explicit;
   const key = normalizePrivateKey(env.GOOGLE_PRIVATE_KEY || '');
-  if (key) return crypto.createHash('sha256').update('as-company/booking/v1\u0000').update(key).digest('hex');
+  if (key) return crypto.createHash('sha256').update('babushkina-academy/booking/v1\u0000').update(key).digest('hex');
   if (!globalThis[SECRET_STORE]) globalThis[SECRET_STORE] = crypto.randomBytes(32).toString('hex');
   return globalThis[SECRET_STORE];
 }

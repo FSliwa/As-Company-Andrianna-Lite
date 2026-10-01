@@ -20,7 +20,7 @@
  * dodaj na razie bez tego” – dokumenty są publiczne już teraz, zanim klientka poda dane
  * firmy (PUBLIC_BEFORE_COMPANY_DATA). Do czasu uzupełnienia danych:
  *  - zamiast nazwy firmy stoi marka, a zamiast adresu siedziby – miasto
- *    (legalFallbacks: BRAND.full + BRAND.academy, CONTACT.city w języku strony),
+ *    (legalFallbacks: BRAND.full – dziś „Babushkina Academy” – i CONTACT.city w języku strony),
  *  - fragmenty z NIP-em, rejestrem, telefonem, ulicą i e-mailem znikają (segmenty [[…]]),
  *  - zdania o kontakcie kierują na Instagram (CONTACT.instagram).
  * Nigdy nie pokazujemy publicznie „[do uzupełnienia: …]”. Po wpisaniu danych w site.js
@@ -37,6 +37,10 @@ export const LEGAL_VALUES = {
   company: LEGAL.company,
   // siedziba: pełny adres z rejestru; zastępczo (legalFallbacks) miasto
   seat: LEGAL.address,
+  // nazwa firmy BEZ wartości zastępczej – tylko jako warunek {?entity}: zdanie „pod marką
+  // Babushkina Academy” pokazuje się dopiero przy prawdziwej nazwie firmy (dziś {company}
+  // to sama marka i zdanie powtarzałoby ją dwa razy z rzędu)
+  entity: LEGAL.company,
   // adres do korespondencji (listy, reklamacje): ten sam adres, ale BEZ wartości zastępczej
   address: LEGAL.address,
   nip: LEGAL.nip,
@@ -82,6 +86,14 @@ export const PUBLIC_BEFORE_COMPANY_DATA = true;
 export const LEGAL_PUBLIC = PUBLIC_BEFORE_COMPANY_DATA || LEGAL_PUBLISHED;
 
 /**
+ * Marka w miejscu nazwy firmy: BRAND.full, a nazwa akademii w nawiasie tylko wtedy,
+ * gdy jest inna (dziś obie to „Babushkina Academy” – bez „X (X)”).
+ */
+export function fallbackCompanyName({ full, academy } = {}) {
+  return academy && academy !== full ? `${full} (${academy})` : full;
+}
+
+/**
  * Wartości zastępcze w danym języku – wyłącznie fakty z site.js (przez getSite):
  * administrator/usługodawca = marka, siedziba = miasto. Używane tylko przy LEGAL_PUBLIC
  * i tylko wtedy, gdy prawdziwej wartości brak. Telefonu, e-maila, NIP-u ani adresu
@@ -90,7 +102,7 @@ export const LEGAL_PUBLIC = PUBLIC_BEFORE_COMPANY_DATA || LEGAL_PUBLISHED;
 export function legalFallbacks(locale = 'pl') {
   const { BRAND, CONTACT: C } = getSite(locale);
   return {
-    company: `${BRAND.full} (${BRAND.academy})`,
+    company: fallbackCompanyName(BRAND),
     seat: C.city,
   };
 }
@@ -106,6 +118,7 @@ export const LEGAL_FALLBACKS = {
 export const FIELD_LABELS = {
   pl: {
     company: 'nazwa firmy',
+    entity: 'nazwa firmy',
     seat: 'adres siedziby',
     address: 'adres siedziby',
     nip: 'NIP',
@@ -120,6 +133,7 @@ export const FIELD_LABELS = {
   },
   en: {
     company: 'company name',
+    entity: 'company name',
     seat: 'registered address',
     address: 'registered address',
     nip: 'tax ID (NIP)',
@@ -134,6 +148,7 @@ export const FIELD_LABELS = {
   },
   ru: {
     company: 'название компании',
+    entity: 'название компании',
     seat: 'юридический адрес',
     address: 'юридический адрес',
     nip: 'ИНН (NIP)',

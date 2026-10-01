@@ -55,6 +55,8 @@ export function pageMeta({ locale = DEFAULT_LOCALE, route, path = '/', title, de
 
 export function siteJsonLd(locale = DEFAULT_LOCALE) {
   const { BRAND, CONTACT, FOUNDER } = getSite(locale);
+  // inne nazwy marki – tylko różne od głównej (dziś name = full = academy, więc brak pola)
+  const alternateName = [...new Set([BRAND.name, BRAND.academy])].filter((n) => n && n !== BRAND.full);
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -62,10 +64,10 @@ export function siteJsonLd(locale = DEFAULT_LOCALE) {
         '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
         name: BRAND.full,
-        alternateName: [BRAND.name, BRAND.academy],
+        ...(alternateName.length ? { alternateName } : {}),
         url: SITE_URL,
         slogan: BRAND.tagline,
-        logo: `${SITE_URL}/brand/as-company-logo.png`,
+        logo: `${SITE_URL}/brand/babushkina-academy-logo.png`,
         description: BRAND.claim,
         sameAs: [CONTACT.instagram],
         founder: { '@id': `${SITE_URL}/#founder` },

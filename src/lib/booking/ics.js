@@ -4,7 +4,7 @@
  * więc plik jest poprawny w każdej strefie bez sekcji VTIMEZONE.
  */
 
-import { SITE_URL } from '../site.js';
+import { BRAND, SITE_URL } from '../site.js';
 import { BOOKING_CONFIG, SALON_LOCATION, getTreatment } from './config.js';
 import { toMs, utcToZoned } from './time.js';
 
@@ -66,7 +66,7 @@ export function buildIcs({ uid, start, end, summary, description, location, url,
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//AS COMPANY//Rezerwacja online//PL',
+    `PRODID:-//${BRAND.name}//Rezerwacja online//PL`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
@@ -105,8 +105,8 @@ export function buildBookingIcs({ bookingId, treatment, start, end }, { now } = 
     uid: `${bookingId}@${siteHost()}`,
     start,
     end,
-    summary: `${name} – AS COMPANY`,
-    description: 'Wizyta zarezerwowana na stronie AS COMPANY. W razie zmian salon skontaktuje się z Tobą.',
+    summary: `${name} – ${BRAND.name}`,
+    description: `Wizyta zarezerwowana na stronie ${BRAND.name}. W razie zmian salon skontaktuje się z Tobą.`,
     location: SALON_LOCATION || undefined,
     url: SITE_URL,
     now,
@@ -119,6 +119,6 @@ export function icsFileName(start) {
   if (typeof start === 'string' && /^\d{4}-\d{2}-\d{2}/.test(start)) return `wizyta-${start.slice(0, 10)}.ics`;
   // Date / ms → data w strefie salonu (00:30 w Warszawie to jeszcze poprzedni dzień w UTC).
   const ms = toMs(start);
-  const date = Number.isFinite(ms) ? utcToZoned(ms, BOOKING_CONFIG.timeZone).date : 'as-company';
+  const date = Number.isFinite(ms) ? utcToZoned(ms, BOOKING_CONFIG.timeZone).date : 'babushkina-academy';
   return `wizyta-${date}.ics`;
 }

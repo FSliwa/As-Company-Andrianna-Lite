@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Wspólne elementy systemu wizualnego AS COMPANY.
+ * Wspólne elementy systemu wizualnego serwisu (Babushkina Academy).
  * Wszystkie podstrony budujemy z tych klocków, żeby styl był spójny.
  * Wersje językowe: linki wewnętrzne przez LocaleLink (polska ścieżka → adres
  * bieżącego języka), napisy własne prymitywów z src/content/common.
@@ -729,7 +729,7 @@ export function ClosingCta({
 
 /* ------------------------------------------------------------------ */
 /*  Wiersz indeksu: numerał 64 | tytuł 28 + opis | meta/cena | link    */
-/*  (produkty na home, zabiegi na /uslugi, modele na /maszynki)        */
+/*  (produkty na home, zabiegi na /uslugi)                             */
 /* ------------------------------------------------------------------ */
 
 export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', className, children }) {
@@ -997,7 +997,8 @@ export function Statement({
 
 /* ------------------------------------------------------------------ */
 /*  Pasek efektów – makra brwi/ust w kontrolowanej formie: małe,       */
-/*  jednolite kadry, hairline, bez mgiełki. Jedyne miejsce dla makr.   */
+/*  jednolite kadry, hairline, bez mgiełki (poza nim makra tylko      */
+/*  przy technikach na /uslugi – TechniquePhoto w Treatments.jsx).     */
 /* ------------------------------------------------------------------ */
 
 export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, caption, className }) {
