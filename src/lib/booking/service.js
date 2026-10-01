@@ -215,7 +215,7 @@ async function listWwwEvents(provider, nowMs, config, signal) {
   return (events || []).filter((e) => e && e.status !== 'cancelled');
 }
 
-const FUSE_STORE = Symbol.for('as-company.booking.fuse');
+const FUSE_STORE = Symbol.for('babushkina-academy.booking.fuse');
 
 function warnFuse(window, log) {
   const s = globalThis[FUSE_STORE] || (globalThis[FUSE_STORE] = { lastWarnAt: 0 });

@@ -40,8 +40,6 @@ function walk(over, base, path, out) {
 
 /* Teksty, które zostają bez tłumaczenia: nazwy własne, hasło marki, liczby, adresy. */
 const KEEP = new Set([
-  'AS COMPANY',
-  'AS COMPANY LOVELINESS',
   'Babushkina Academy',
   'Beauty with precision.',
   'Andriana Babushkina',

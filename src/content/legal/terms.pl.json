@@ -21,7 +21,7 @@
       "heading": "2. Definicje",
       "blocks": [
         { "list": [
-          "Serwis – strona internetowa AS COMPANY LOVELINESS i Babushkina Academy dostępna pod adresem {siteUrl}, wraz z wersjami językowymi.",
+          "Serwis – strona internetowa Babushkina Academy dostępna pod adresem {siteUrl}, wraz z wersjami językowymi.",
           "Usługodawca, „my” – {company}; dane i kontakt podajemy w pkt 3.",
           "Użytkownik, „Ty” – każda osoba, która korzysta z Serwisu.",
           "Konsument – osoba fizyczna, która korzysta z Serwisu lub zawiera z nami umowę w celu niezwiązanym bezpośrednio z jej działalnością gospodarczą lub zawodową (art. 22¹ Kodeksu cywilnego).",
@@ -59,7 +59,7 @@
       "blocks": [
         { "p": "W Serwisie bezpłatnie świadczymy następujące Usługi:" },
         { "list": [
-          "przeglądanie treści – informacji o zabiegach, cennikach i ścieżce zabiegowej, o szkoleniach i ich dofinansowaniu, o pigmentach, maszynkach i certyfikatach oraz danych kontaktowych;",
+          "przeglądanie treści – informacji o zabiegach, cennikach i ścieżce zabiegowej, o szkoleniach i ich dofinansowaniu, o pigmentach, maszynce i certyfikatach oraz danych kontaktowych;",
           "Formularze – przygotowanie wiadomości do nas: pytania ogólnego, zapytania o termin szkolenia, o wynajem maszynki albo o pigmenty;",
           "Lista pigmentów – zestawienie wybranych odcieni, pojemności i ilości, które możesz wysłać jako zapytanie;",
           "rezerwacja wizyty online – wybór zabiegu, dnia i godziny oraz zapisanie wizyty w kalendarzu Salonu."
@@ -169,7 +169,7 @@
       "blocks": [
         { "p": "Ceny w Serwisie podajemy w złotych polskich. Ceny zabiegów są cenami końcowymi (brutto), płatnymi w Salonie." },
         { "p": "Cena zabiegu to cena z cennika, którą widzisz także przy Rezerwacji. Przy zabiegach z ceną „od” lub z wyceną indywidualną dokładną kwotę podajemy podczas konsultacji. Jeśli po konsultacji okaże się, że potrzebny jest inny zakres niż zarezerwowany, przedstawimy cenę przed rozpoczęciem zabiegu, a Ty zdecydujesz, czy się na niego zgadzasz. Korekta jest osobną pozycją cennika; w niektórych przypadkach, np. przy skórze tłustej lub porowatej albo po usuwaniu starego makijażu permanentnego, jest konieczna – powiemy Ci o tym podczas konsultacji." },
-        { "p": "Informacje o zabiegach, szkoleniach, pigmentach i maszynkach oraz o ich wynajmie, w tym ceny, są zaproszeniem do kontaktu i do zawarcia umowy (art. 71 Kodeksu cywilnego), a nie ofertą w rozumieniu art. 66 Kodeksu cywilnego. Warunki zakupu, szkolenia lub wynajmu ustalamy indywidualnie przed zawarciem umowy." },
+        { "p": "Informacje o zabiegach, szkoleniach, pigmentach i maszynce oraz o jej wynajmie, w tym ceny, są zaproszeniem do kontaktu i do zawarcia umowy (art. 71 Kodeksu cywilnego), a nie ofertą w rozumieniu art. 66 Kodeksu cywilnego. Warunki zakupu, szkolenia lub wynajmu ustalamy indywidualnie przed zawarciem umowy." },
         { "p": "Jeśli przy cenie zaznaczono, że jest to kwota netto (np. przy szkoleniach), doliczamy do niej podatek VAT według obowiązującej stawki, o ile jest należny. Przed zawarciem umowy zawsze podajemy cenę do zapłaty." },
         { "p": "Serwis nie przyjmuje płatności. Rezerwacja online jest bezpłatna i nie wymaga zadatku ani przedpłaty." },
         { "p": "Informacje o wpisie do Rejestru Instytucji Szkoleniowych (RIS) i Bazy Usług Rozwojowych (BUR) oraz o możliwości sfinansowania szkolenia m.in. ze środków Krajowego Funduszu Szkoleniowego (KFS) mają charakter informacyjny. O przyznaniu dofinansowania decyduje właściwy urząd lub operator według swoich zasad." }
@@ -242,7 +242,7 @@
   "decisions": [
     {
       "what": "Dane Usługodawcy i adres Salonu przed publikacją",
-      "proposal": "Uzupełnić w src/lib/site.js LEGAL.company, address, nip, register, privacyEmail oraz CONTACT.email, phone, street i postal. Do tego czasu Regulamin jest publiczny bez tych danych (decyzja Filipa z 30.09.2026, LEGAL_PUBLIC w src/lib/legal.js): Usługodawcę wskazuje marka AS COMPANY LOVELINESS (Babushkina Academy) z siedzibą w Warszawie, kontakt i reklamacje kierujemy na Instagram, a pozycje z NIP-em, rejestrem, adresem, e-mailem i telefonem są pominięte; pola „[do uzupełnienia]” nigdy nie są widoczne publicznie.",
+      "proposal": "Uzupełnić w src/lib/site.js LEGAL.company, address, nip, register, privacyEmail oraz CONTACT.email, phone, street i postal. Do tego czasu Regulamin jest publiczny bez tych danych (decyzja Filipa z 30.09.2026, LEGAL_PUBLIC w src/lib/legal.js): Usługodawcę wskazuje marka Babushkina Academy z siedzibą w Warszawie, kontakt i reklamacje kierujemy na Instagram, a pozycje z NIP-em, rejestrem, adresem, e-mailem i telefonem są pominięte; pola „[do uzupełnienia]” nigdy nie są widoczne publicznie.",
       "why": "Art. 5 ustawy o świadczeniu usług drogą elektroniczną wymaga podania nazwy, adresu, e-maila i numerów rejestrowych. Jeśli firma jest spółką z o.o., w polu {register} trzeba podać także sąd rejestrowy, numer KRS i wysokość kapitału zakładowego (art. 206 § 1 Kodeksu spółek handlowych). Regulamin (pkt 2) odsyła po adres Salonu na stronę Kontakt dopiero wtedy, gdy wpisana jest ulica (CONTACT.street) – dziś ulica i kod pocztowy są puste."
     },
     {

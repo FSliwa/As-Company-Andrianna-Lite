@@ -5,8 +5,10 @@
  *
  * Każda sekcja to rozkładówka: SectionLabel → H2 .as-display-section → treść →
  * jedno wezwanie. Portret wyłącznie przez ROLES, makra wyłącznie przez MACROS
- * (src/lib/roles.js) – na tej trasie dokładnie cztery makra, wszystkie w pasie
- * efektów. Ceny zawsze z cennika marki (PRICING_* w src/lib/site.js).
+ * (src/lib/roles.js) – na tej trasie dokładnie sześć makr: cztery w pasie efektów
+ * (03) i dwa przy technikach (02 – tylko przy technikach, które na zdjęciu znamy
+ * na pewno: Super Natural Brows i Perfect Lips). Ceny zawsze z cennika marki
+ * (PRICING_* w src/lib/site.js).
  *
  * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
  * i wizyta (espresso – jedyny ciemny pas) → 04 odświeżenie i usuwanie (cream-50)
@@ -29,10 +31,12 @@
  *
  * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
  * z przyciskiem „Więcej” (aria-expanded), który rozwija pełny opis, cytat
- * techniki i notę ceny; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
+ * techniki i notę ceny; zdjęcie techniki (02) stoi zawsze – pod tytułem, nad
+ * opisem; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
  * zwinięte w <Faq> (< lg) – od lg stoją w pełni; link do Instagramu w 03 pod
  * stykówką (po treści, nie przed nią); pytania 06: cztery + MobileMore.
- * Tablet (md): wiersz techniki w dwóch kolumnach (numerał + tytuł | opis + meta),
+ * Tablet (md): wiersz techniki w dwóch kolumnach (numerał + tytuł ze zdjęciem
+ * pod nim | opis + meta),
  * nagłówek 04 w dwóch kolumnach, kroki wizyty 2 + 1 (trzeci na całą szerokość),
  * cennik 05 w dwóch kolumnach (nagłówek + akordeony | cennik PMU).
  * Desktop (≥ lg) bez zmian.
@@ -105,14 +109,20 @@ const pmuItem = (id) => PRICING_PMU.items.find((item) => item.id === id) || {};
 const pmuPrice = (id) => fmt(pmuItem(id).price || '');
 
 /* ------------------------------------------------------------------ */
-/*  02 – cztery techniki (indeks typograficzny, bez zdjęć)             */
+/*  02 – cztery techniki (indeks; zdjęcia tam, gdzie technika pewna)   */
 /*  D2: nazwy widoczne wg briefu („Perfect Brows”, „Perfect Eyes”);     */
 /*  id wierszy i rezerwacji bez zmian (linki ?zabieg=). Opisy z briefu. */
 /*  D6: czas tylko przy SNB – jedyny czas w źródłach (brief: Andriana   */
 /*  wykonuje włos maszynowy w 1,5–2 godziny); pozostałe czasy (z dawnej */
 /*  wersji strony, bez źródła) usunięte do potwierdzenia przez klientkę. */
-/*  D8: zdjęć prac obok technik nie dodajemy – układ indeksu technik    */
-/*  czeka na decyzję użytkownika (materiał: raport).                    */
+/*  D8 (decyzja 30.09.2026, klientka: „Brakuje mi też zdjęć przy opisie */
+/*  zabiegów”): zdjęcie przy technice tylko wtedy, gdy wiemy, że kadr   */
+/*  ją przedstawia – napis na sklejce źródłowej: brows-13 „Supernatural */
+/*  brows”, lips-03 „Perfect lips” (MACROS, src/lib/roles.js). Perfect  */
+/*  Brows i Perfect Eyes: w /Graphics brak takich zdjęć – cudzych       */
+/*  kadrów nie podpisujemy ich nazwą; wiersz stoi bez zdjęcia (zdjęcie  */
+/*  należy do bloku tytułu, więc jego brak nie zostawia pustego pola).  */
+/*  Gdy klientka dośle zdjęcia – `photo` w wierszu, makro w MACROS.     */
 /* ------------------------------------------------------------------ */
 
 const TECHNIQUES = [
@@ -128,6 +138,10 @@ const TECHNIQUES = [
       'Efekt zadbanych, gęstych, dopasowanych brwi z delikatnym pogrubieniem oraz wyrównaniem kształtu.',
     quote:
       'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę, aby ktoś wiedział, że mam zrobione brwi – mają wyglądać jak moje”.',
+    photo: {
+      macro: MACROS.brows13p2,
+      alt: 'Brew i oko po makijażu permanentnym techniką Super Natural Brows – widoczne pojedyncze włoski',
+    },
   },
   {
     id: 'perfect-brows',
@@ -141,6 +155,7 @@ const TECHNIQUES = [
        o technice pudrowej. „Combo” z tego zdania zostaje w tekście o salonie (/o-nas): ceny
        combo źródła nie podają, więc nie stawiamy go przy wierszu z ceną (D10, pytanie do klientki). */
     quote: 'Dla osób, które chcą mocniej podkreślić kształt brwi, ale nadal w naturalnej wersji.',
+    /* bez `photo` – D8: brak zdjęcia, o którym wiemy, że przedstawia technikę pudrową */
   },
   {
     id: 'perfect-lips',
@@ -150,6 +165,10 @@ const TECHNIQUES = [
     price: pmuPrice('perfect-lips'),
     description:
       'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
+    photo: {
+      macro: MACROS.lips03p3,
+      alt: 'Usta po makijażu permanentnym Perfect Lips – efekt po zabiegu',
+    },
   },
   {
     id: 'perfect-eyes',
@@ -159,6 +178,7 @@ const TECHNIQUES = [
     price: pmuPrice('perfect-eyeliners'), // D2: id stałe (dawniej „Perfect Eyeliners”)
     description:
       'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki – bez kreski, bez ogonka i bez cienia na powiece.',
+    /* bez `photo` – D8: brak zdjęcia, o którym wiemy, że przedstawia pigmentację linii rzęs */
   },
 ];
 
@@ -368,15 +388,66 @@ function MoreButton({ more, controls, name, className }) {
   );
 }
 
+/* Zdjęcie techniki (D8): panel ze sklejki w poziomej proporcji 12:5,
+   na szerokość kolumny tytułu, maks. 20rem (320 px); na telefonie (375 px) stoi pod
+   tytułem, nad opisem. Niski kadr poziomy nie wydłuża wiersza ponad miarę obok dwóch
+   linii opisu, a makra z telefonu nie są powiększane ponad ~360 px. Ton „light” i zoom={false} jak makra
+   na kremie (ResultStrip na kremie, dawne /pigmenty 03); złota ramka .as-photo-frame
+   jak pozostałe małe kadry tej trasy (pas efektów 03, miniatury cennika 05).
+   Podpis faktyczny: nazwa techniki z napisu na sklejce źródłowej (MACROS.caption).
+   `sizes` = szerokość RENDEROWANEGO obrazu, nie kadru: gdy panel jest szerszy niż
+   kadr (np. 2,44:1 w 12:5), wypełnia wysokość i wystaje poza kadr – coverWidth
+   liczy tę szerokość, żeby przeglądarka nie wzięła za małego pliku.
+   Szerokości kadru muszą odpowiadać klasom max-w figure (literały dla Tailwinda);
+   ramka zabiera z nich TECHNIQUE_FRAME_PX (border 1 px + p-1 z obu stron). */
+const TECHNIQUE_PHOTO_PX = 320; // max-w-[20rem] (na telefonie kolumna tytułu jest węższa – kadr ją wypełnia)
+const TECHNIQUE_PHOTO_PX_LG = 320; // lg: kolumna tytułu 20rem
+const TECHNIQUE_FRAME_PX = 10; // .as-photo-frame: 2 × (1 px + 4 px)
+const coverWidth = (image, ratio, boxPx) => {
+  const [rw, rh] = String(ratio).split('/').map(Number);
+  const scale = Math.max(1, image.w / image.h / (rw / rh));
+  return `${Math.ceil((boxPx - TECHNIQUE_FRAME_PX) * scale)}px`;
+};
+const techniquePhotoSizes = (image, ratio) =>
+  `(min-width: 1024px) ${coverWidth(image, ratio, TECHNIQUE_PHOTO_PX_LG)}, ${coverWidth(image, ratio, TECHNIQUE_PHOTO_PX)}`;
+
+function TechniquePhoto({ photo }) {
+  const { macro, alt } = photo;
+  if (!macro || !macro.image) return null;
+  return (
+    <figure className="mt-4 w-full max-w-[20rem] sm:mt-5">
+      <Figure
+        image={macro.image}
+        alt={alt}
+        ratio={macro.ratio}
+        position={macro.position}
+        tone="light"
+        zoom={false}
+        sizes={techniquePhotoSizes(macro.image, macro.ratio)}
+        className="as-photo-frame"
+      />
+      <figcaption className="as-caption mt-2">{macro.caption}</figcaption>
+    </figure>
+  );
+}
+
 /* Wiersz indeksu – geometria IndexRow (numerał 64 | tytuł 28 | opis | cena
    + link), rozpisana na 4 kolumny wyrównane do góry, żeby opis stał obok
    tytułu, a nie pod nim (budżet wysokości trasy).
    Lokalnie, bo IndexRow nie ma przycinania opisu na telefonie; „Umów wizytę”
    prowadzi do rezerwacji z już wybranym zabiegiem.
-   Telefon: numerał obok tytułu, opis (2 linie + „Więcej”) na pełną szerokość,
-   meta w jednym rzędzie (czas + cena | „Umów wizytę”), cytat po rozwinięciu.
-   Tablet (md): numerał + tytuł w lewej kolumnie, opis i meta w prawej.
-   Desktop (lg): cztery kolumny jak dotąd, meta w kolumnie do prawej. */
+   Zdjęcie (tylko wiersze z `photo`) należy do bloku tytułu: stoi pod kickerem
+   w kolumnie tytułu na każdej szerokości, więc wiersz bez zdjęcia jest po prostu
+   krótszy – bez pustego pola w siatce.
+   Telefon: numerał obok tytułu, pod tytułem zdjęcie (zawsze widoczne, nad
+   opisem), opis (2 linie + „Więcej”) na pełną szerokość, meta w jednym rzędzie
+   (czas + cena | „Umów wizytę”), cytat po rozwinięciu.
+   Tablet (md): numerał + tytuł (ze zdjęciem) w lewej kolumnie, opis i meta w prawej.
+   Lewa kolumna obejmuje trzy rzędy (auto | auto | 1fr): nadmiar wysokości bloku
+   ze zdjęciem trafia do trzeciego, pustego rzędu, więc meta stoi tuż pod opisem,
+   a nie w połowie wysokości zdjęcia.
+   Desktop (lg): cztery kolumny jak dotąd w jednym rzędzie, meta w kolumnie do
+   prawej (grid-rows-none – bez pustych rzędów i ich odstępów). */
 function TechniqueRow({ t, last }) {
   const more = useMobileMore(Boolean(t.quote));
   const bodyId = `${t.id}-opis`;
@@ -387,14 +458,23 @@ function TechniqueRow({ t, last }) {
         'grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-ink/15 py-5',
         'sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-y-4 sm:py-8',
         'md:grid-cols-[4.5rem_minmax(0,5fr)_minmax(0,7fr)] md:items-start md:gap-x-6',
+        t.photo && 'md:grid-rows-[auto_auto_1fr] lg:grid-rows-none',
         'lg:grid-cols-[6rem_20rem_minmax(0,1fr)_auto] lg:gap-8',
         last && 'border-b'
       )}
     >
-      <span className="as-display-md leading-none text-gold-dark md:row-span-2 lg:row-span-1">{t.number}</span>
-      <div className="md:row-span-2 lg:row-span-1">
+      <span
+        className={cn(
+          'as-display-md leading-none text-gold-dark lg:row-span-1',
+          t.photo ? 'md:row-span-3' : 'md:row-span-2'
+        )}
+      >
+        {t.number}
+      </span>
+      <div className={cn('lg:row-span-1', t.photo ? 'md:row-span-3' : 'md:row-span-2')}>
         <h3 className="as-title text-ink">{t.name}</h3>
         <p className="as-kicker mt-2">{t.kind}</p>
+        {t.photo && <TechniquePhoto photo={t.photo} />}
       </div>
       <div id={bodyId} className="col-span-2 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-1">
         <p

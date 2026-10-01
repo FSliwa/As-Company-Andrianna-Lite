@@ -16,7 +16,7 @@ module.exports = {
   			sans: ['var(--font-sans)', 'Jost', 'Inter', 'system-ui', 'sans-serif'],
   		},
   		colors: {
-  			/* ——— Paleta marki AS COMPANY (wyprowadzona z makiety) ——— */
+  			/* ——— Paleta marki (wyprowadzona z makiety) ——— */
   			/* bez DEFAULT: dawny #F6F1E8 był spoza palety (body ma teraz bg-cream-50) */
   			cream: {
   				50: '#FBF8F3',

@@ -5,11 +5,13 @@
  */
 const common = {
   skipLink: 'Przejdź do treści',
-  homeAria: 'AS COMPANY POLAND – strona główna',
+  homeAria: 'Babushkina Academy – strona główna',
   mainNavAria: 'Nawigacja główna',
   book: 'Umów wizytę',
   menuOpen: 'Otwórz menu',
   menuClose: 'Zamknij menu',
+  /* etykieta przycisku i listy podkategorii w nawigacji (np. „Podkategorie: Produkty”) */
+  subnav: 'Podkategorie',
   menuAria: 'Menu',
   shortcutsAria: 'Skróty',
   languageAria: 'Język',

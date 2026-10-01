@@ -444,7 +444,7 @@ Formularz jest publiczny, więc ktoś mógłby napisać skrypt, który zarezerwu
 
 **Jak włączyć Turnstile (bezpłatnie, ok. 10 minut):**
 1. Załóż konto na **dash.cloudflare.com** (nie trzeba przenosić domeny) → **Turnstile** → **Add widget**.
-2. Nazwa dowolna. W **Hostnames** wpisz domenę strony, np. `as-loveliness.eu`. Tryb (*Widget mode*): **Managed**.
+2. Nazwa dowolna. W **Hostnames** wpisz domenę strony, np. `babushkina-academy.pl`. Tryb (*Widget mode*): **Managed**.
 3. Skopiuj **Site Key** do `TURNSTILE_SITE_KEY`, a **Secret Key** do `TURNSTILE_SECRET_KEY` na hostingu, potem zrób **Redeploy**.
 4. Do testów lokalnych Cloudflare udostępnia klucze testowe, które zawsze przepuszczają: site key `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`.
 
@@ -478,7 +478,7 @@ Czas podaje się w czasie polskim. Plik `.env.local` musi zawierać te same zmie
 - Dane przechodzą też przez **serwer hostingu** (np. Vercel). Hosting to kolejny podmiot przetwarzający. Strona nie zapisuje danych klientek w logach ani w żadnej własnej bazie.
 - W wydarzeniu zapisujemy też **skróty (HMAC) telefonu i e-maila**. Służą wyłącznie do limitu „2 wizyty na osobę” i nie da się z nich odczytać danych.
 - Jeśli włączony jest **Cloudflare Turnstile**, Cloudflare przetwarza dane techniczne przeglądarki (m.in. adres IP) w celu ochrony formularza przed robotami. To kolejny podmiot, który trzeba wpisać do polityki.
-- **Podstawa prawna:** art. 6 ust. 1 lit. b RODO, czyli działania na żądanie osoby przed zawarciem umowy. **Checkbox ze zgodą nie jest potrzebny.** Potrzebna jest za to **klauzula informacyjna** (art. 13 RODO) i link do Regulaminu. Pod przyciskiem rezerwacji wyświetlają się automatycznie, gdy dokumenty prawne są publiczne (`LEGAL_PUBLIC` w `src/lib/legal.js`). Decyzja Filipa z 30.09.2026: dokumenty i klauzula są publiczne już przed uzupełnieniem danych firmy – do tego czasu klauzula wskazuje markę AS COMPANY LOVELINESS (Babushkina Academy), miasto i Instagram, a po wpisaniu `LEGAL` (firma, adres, NIP, rejestr) i `CONTACT` (e-mail, telefon) w `src/lib/site.js` pokaże pełne dane sama. Rezerwacja online włącza się więc po ustawieniu zmiennych Google; bez nich strona pokazuje „chwilowo niedostępna”, API odpowiada 503, a przyciski „Umów wizytę” prowadzą do /kontakt. Dokumenty w pełni obowiązują po uzupełnieniu danych i wpisaniu `LEGAL.documentsApproved` (`LEGAL_PUBLISHED`).
+- **Podstawa prawna:** art. 6 ust. 1 lit. b RODO, czyli działania na żądanie osoby przed zawarciem umowy. **Checkbox ze zgodą nie jest potrzebny.** Potrzebna jest za to **klauzula informacyjna** (art. 13 RODO) i link do Regulaminu. Pod przyciskiem rezerwacji wyświetlają się automatycznie, gdy dokumenty prawne są publiczne (`LEGAL_PUBLIC` w `src/lib/legal.js`). Decyzja Filipa z 30.09.2026: dokumenty i klauzula są publiczne już przed uzupełnieniem danych firmy – do tego czasu klauzula wskazuje markę Babushkina Academy, miasto i Instagram, a po wpisaniu `LEGAL` (firma, adres, NIP, rejestr) i `CONTACT` (e-mail, telefon) w `src/lib/site.js` pokaże pełne dane sama. Rezerwacja online włącza się więc po ustawieniu zmiennych Google; bez nich strona pokazuje „chwilowo niedostępna”, API odpowiada 503, a przyciski „Umów wizytę” prowadzą do /kontakt. Dokumenty w pełni obowiązują po uzupełnieniu danych i wpisaniu `LEGAL.documentsApproved` (`LEGAL_PUBLISHED`).
 
 ### Umowa powierzenia z Google
 

@@ -25,7 +25,7 @@
       "heading": "2. Administrator danych",
       "blocks": [
         {
-          "p": "Administratorem Twoich danych osobowych jest {company}, {seat}[[, NIP {nip}]][[, {register}]]. Prowadzimy salon makijażu permanentnego i akademię szkoleniową działające w Warszawie pod markami AS COMPANY LOVELINESS i Babushkina Academy. W tej polityce piszemy o sobie „my”."
+          "p": "Administratorem Twoich danych osobowych jest {company}, {seat}[[, NIP {nip}]][[, {register}]]. Prowadzimy salon makijażu permanentnego i akademię szkoleniową działające w Warszawie[[{?entity} pod marką Babushkina Academy]]. W tej polityce piszemy o sobie „my”."
         }
       ]
     },
@@ -307,7 +307,7 @@
     {
       "what": "Dane administratora i kontaktowe (w src/lib/site.js: LEGAL.company, address, nip, register, privacyEmail; CONTACT.email, phone; adres serwisu NEXT_PUBLIC_SITE_URL)",
       "proposal": "Uzupełnić dokładnie według wpisu w CEIDG lub KRS. Adres do spraw danych (privacyEmail) może być tym samym adresem co kontaktowy, jeśli ktoś go regularnie czyta.",
-      "why": "Bez tych danych polityka nie spełnia art. 13 ust. 1 lit. a RODO ani art. 5 ustawy o świadczeniu usług drogą elektroniczną. Formularze otwierają pocztę dopiero po ustawieniu adresu kontaktowego. Decyzja Filipa (30.09.2026): polityka jest publiczna jeszcze przed podaniem tych danych – do tego czasu administratora wskazuje marka AS COMPANY LOVELINESS (Babushkina Academy) i miasto (Warszawa), a kontakt w sprawie danych prowadzi przez Instagram; fragmenty z NIP-em, wpisem do rejestru, adresem, e-mailem i telefonem pojawią się same po uzupełnieniu site.js (src/lib/legal.js, LEGAL_PUBLIC)."
+      "why": "Bez tych danych polityka nie spełnia art. 13 ust. 1 lit. a RODO ani art. 5 ustawy o świadczeniu usług drogą elektroniczną. Formularze otwierają pocztę dopiero po ustawieniu adresu kontaktowego. Decyzja Filipa (30.09.2026): polityka jest publiczna jeszcze przed podaniem tych danych – do tego czasu administratora wskazuje marka Babushkina Academy i miasto (Warszawa), a kontakt w sprawie danych prowadzi przez Instagram; fragmenty z NIP-em, wpisem do rejestru, adresem, e-mailem i telefonem pojawią się same po uzupełnieniu site.js (src/lib/legal.js, LEGAL_PUBLIC)."
     },
     {
       "what": "Inspektor ochrony danych (IOD)",

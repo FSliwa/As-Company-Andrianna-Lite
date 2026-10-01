@@ -165,9 +165,9 @@ function Hero() {
       variant="band"
       label="Pigmenty"
       number="01"
-      title="Pigmenty"
-      /* twarda spacja: nazwa marki nie łamie się między „AS” a „COMPANY” */
-      titleAccent={'AS\u00a0COMPANY.'}
+      /* bez nazwy dawnej firmy klientki (prośba z 30.09.2026) – układ jak w hero /uslugi */
+      title="Pigmenty do makijażu"
+      titleAccent="permanentnego."
       /* D2 („linia rzęs” zamiast „kresek”) dotyczy zabiegu Perfect Eyes; tu „kreski” to kategoria
          pigmentów ze sklepu (strefa „Kreski” w danych i w filtrze) – zostaje (raport INNE-03). */
       lead="Pigmenty do brwi, ust i kresek, modyfikatory oraz odcienie do areoli, kamuflażu i trychopigmentacji – AS OPIUM, Light Minerals, AS Classic i kolejne kolekcje. Wybierz odcienie i wyślij zapytanie."

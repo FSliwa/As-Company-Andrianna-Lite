@@ -6,9 +6,9 @@ import { pageMeta } from '@/lib/seo';
 export const metadata = pageMeta({
   locale: 'en',
   route: 'machines',
-  title: 'AS HERO and AS PRINCESS PMU machines',
+  title: 'AS PRINCESS PMU machine',
   description:
-    'AS HERO and AS PRINCESS permanent makeup machines – models, specifications, purchase in the AS shop and rental for studios.',
+    'AS PRINCESS wireless permanent makeup machine – specifications, price and rental for studios.',
 });
 
 export default function Page() {

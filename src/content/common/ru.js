@@ -1,11 +1,12 @@
 /** Nakładka RU na src/content/common/pl.js (te same klucze). */
 const common = {
   skipLink: 'Перейти к содержанию',
-  homeAria: 'AS COMPANY POLAND – главная страница',
+  homeAria: 'Babushkina Academy – главная страница',
   mainNavAria: 'Основная навигация',
   book: 'Записаться',
   menuOpen: 'Открыть меню',
   menuClose: 'Закрыть меню',
+  subnav: 'Подкатегории',
   menuAria: 'Меню',
   shortcutsAria: 'Разделы',
   languageAria: 'Язык',

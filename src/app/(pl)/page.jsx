@@ -1,13 +1,10 @@
 import Home from '@/views/Home';
 import { pageMeta } from '@/lib/seo';
+import { homeDescription } from '@/i18n/RootShell';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim.
-   D2: „linia rzęs” zamiast „kresek”; D9: „AS COMPANY” zamiast wariantu bez źródła „AS PMU”. */
-export const metadata = pageMeta({
-  description:
-    'Makijaż permanentny brwi, ust i linii rzęs w Warszawie oraz szkolenia Super Natural Brows w Babushkina Academy. Pigmenty i maszynki AS COMPANY.',
-  path: '/',
-});
+   Tytuł domyślny i opis (ten sam co w <head> całego serwisu) – src/i18n/RootShell.jsx. */
+export const metadata = pageMeta({ description: homeDescription('pl'), path: '/' });
 
 export default function Page() {
   return <Home />;

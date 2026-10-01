@@ -33,7 +33,7 @@ const pick = (name) => {
 
 /* Portrety – { image, position } */
 export const ROLES = {
-  heroHome: { image: pick('studio-05'), position: '50% 4%' }, // 4:5 < lg – powietrze nad włosami
+  heroHome: { image: pick('studio-05'), position: '50% 4%' }, // zdjęcie na tle hero (Home ustawia własne pozycje: telefon / od md)
   aboutHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka – „firma", inna poza niż hero
   closingHome: { image: pick('studio-14'), position: '50% 50%' }, // jedyny poziomy kadr; 3:2 w 3:2 – position bez efektu
   treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów
@@ -56,12 +56,19 @@ export const GROUPS = {
 };
 
 /* Makra – biała lista. Renderować ≤ 360 px, zoom={false}.
-   ratio = proporcja RENDEROWANA w widoku (/uslugi ResultStrip i /pigmenty: 1:1).
-   Limity: /uslugi 4, /pigmenty 1, pozostałe trasy 0 (home: portret zamiast makra –
-   makro z telefonu nie pasowało jakością ani kolorem do sesji studyjnej).
+   ratio = proporcja RENDEROWANA w widoku (/uslugi ResultStrip: 1:1; /uslugi
+   techniki 02: panel w poziomej proporcji 12:5).
+   Limity: /uslugi 6 (4 w pasie efektów 03 + 2 przy technikach 02: brows13p2,
+   lips03p3), pozostałe trasy 0 (home: portret zamiast makra – makro z telefonu
+   nie pasowało jakością ani kolorem do sesji studyjnej; /pigmenty od katalogu
+   produktów bez makra – brows12p3 wolne; brows13p3 w rezerwie).
    `ratio` + `position` wycinają znaki wodne i napisy ze sklejek.
-   Podpisy tylko faktyczne: technikę znamy wyłącznie dla brows-12/13 (napis
-   „Supernatural brows" w sklejce źródłowej).
+   Podpisy tylko faktyczne: technikę znamy wyłącznie dla brows-13 (napis
+   „Supernatural brows” w sklejce źródłowej) i lips-03 (napis „Perfect lips”
+   w panelu „Sketch” tej sklejki). Sklejka brows-12 takiego napisu NIE ma
+   (sprawdzone na pliku z /Graphics – tylko znak BABUSHKINA ACADEMY), więc
+   brows12p3 ma podpis neutralny; nazwę techniki można wpisać dopiero po
+   potwierdzeniu przez klientkę.
    Sprawdzone renderem: brows-14 to duplikat brows-09, lips-01-p1 ma znak wodny
    w każdym kadrze ≤ 3:2 – oba poza listą. */
 export const MACROS = {
@@ -70,10 +77,21 @@ export const MACROS = {
   brows08: { image: pick('brows-08'), ratio: '1 / 1', position: '50% 45%', caption: 'Brwi – makijaż permanentny' },
   brows17: { image: pick('brows-17'), ratio: '1 / 1', position: '58% 40%', // X 55–62%: kolczyk poza kadrem, prawe oko w kadrze
     caption: 'Brwi – makijaż permanentny' },
-  brows13p3: { image: pick('brows-13-p3'), ratio: '1 / 1', position: '50% 50%', caption: 'Super Natural Brows' },
+  /* Rezerwa – nieużywane (wiersz SNB na /uslugi 02 bierze brows13p2). Tylko 4:5: przy 4:5 X 60–69% (kadr 507 px
+     z 1638) mieści się między napisem „Supernatural brows” (lewy górny róg, do x ≈ 668)
+     a „ACADEMY” (od x ≈ 1297); 1:1 (634 px) zawsze łapie któryś napis. */
+  brows13p3: { image: pick('brows-13-p3'), ratio: '4 / 5', position: '64% 50%', caption: 'Super Natural Brows' },
+  /* /uslugi 02, wiersz Super Natural Brows – panel brwi z okiem (1638 × 840) w 12:5 od góry
+     (Y ≤ 35%): kadr kończy się nad napisami „Supernatural brows” / „BABUSHKINA” (od y ≈ 754),
+     które przy 2:1 były ucięte w pół. Pasek brwi bez oka (brows13p3) w kadrze 4:5
+     pokazywał na telefonie głównie skórę. */
+  brows13p2: { image: pick('brows-13-p2'), ratio: '12 / 5', position: '50% 35%', caption: 'Super Natural Brows' },
   brows12p3: { image: pick('brows-12-p3'), ratio: '1 / 1', position: '50% 50%', // 50% = skrajna pozycja w prawo (znak wodny tuż za kadrem) – nie poszerzać proporcji
-    caption: 'Super Natural Brows' },
-  lips03p3: { image: pick('lips-03-p3'), ratio: '4 / 5', position: '50% 60%', caption: 'Usta – makijaż permanentny' },
+    caption: 'Brwi – makijaż permanentny' }, // technika niepotwierdzona – patrz komentarz nad listą
+  /* /uslugi 02, wiersz Perfect Lips – cały panel „After” (1206 × 494 ≈ 2,44:1) w 12:5:
+     napis „After” i znak „Perfect lips” zostają (znak = nazwa techniki, marka klientki),
+     za to widać całe usta, a nie wycinek łuku Kupidyna. */
+  lips03p3: { image: pick('lips-03-p3'), ratio: '12 / 5', position: '50% 50%', caption: 'Perfect Lips' },
   lips05: { image: pick('lips-05'), ratio: '1 / 1', position: '45% 50%', // przy 1:1 X ≤ 57% – dalej wchodzi pionowy znak wodny
     caption: 'Usta – makijaż permanentny' },
 };

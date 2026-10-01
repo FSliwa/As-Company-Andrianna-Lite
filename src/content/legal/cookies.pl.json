@@ -8,7 +8,7 @@
       "id": "kto-odpowiada",
       "heading": "1. Kto odpowiada za serwis",
       "blocks": [
-        { "p": "Serwis prowadzi {company}, {seat}[[, NIP {nip}]][[, {register}]]. Pod markami AS COMPANY LOVELINESS i Babushkina Academy prowadzimy w Warszawie salon i akademię makijażu permanentnego (dalej: „my”)." },
+        { "p": "Serwis prowadzi {company}, {seat}[[, NIP {nip}]][[, {register}]]. Prowadzimy w Warszawie salon i akademię makijażu permanentnego[[{?entity} pod marką Babushkina Academy]] (dalej: „my”)." },
         { "p": "W sprawach tej polityki napisz do nas[[ na adres {privacyEmail} albo]] na Instagramie ({instagram}).[[ Możesz też {{lub|skorzystać z adresu {email}|zadzwonić pod numer {phone}}}.]]" }
       ]
     },
@@ -156,7 +156,7 @@
     },
     {
       "what": "Publikacja polityki przed uzupełnieniem danych firmy",
-      "proposal": "Decyzja Filipa (30.09.2026): dokumenty są publiczne już teraz, bez danych firmy (LEGAL_PUBLIC w src/lib/legal.js) – bez pasa „Projekt dokumentu”, bez noindex, w sitemap, z klauzulami pod formularzami i przy rezerwacji. Do czasu uzupełnienia w src/lib/site.js LEGAL.company, address, nip, register oraz CONTACT.email i phone w miejscu nazwy firmy stoi marka AS COMPANY LOVELINESS (Babushkina Academy), w miejscu siedziby – miasto, zdania o kontakcie kierują na Instagram, a fragmenty z NIP-em, rejestrem, adresem, e-mailem i telefonem są pominięte (nigdy „[do uzupełnienia]”). Po wpisaniu danych i daty zatwierdzenia treści (LEGAL.documentsApproved) dokumenty w pełni obowiązują (LEGAL_PUBLISHED), a pełne dane pokazują się same. Stronę /polityka-cookies i baner wdrożyć razem, od pierwszego dnia działania serwisu, z linkiem w stopce i w sitemap.",
+      "proposal": "Decyzja Filipa (30.09.2026): dokumenty są publiczne już teraz, bez danych firmy (LEGAL_PUBLIC w src/lib/legal.js) – bez pasa „Projekt dokumentu”, bez noindex, w sitemap, z klauzulami pod formularzami i przy rezerwacji. Do czasu uzupełnienia w src/lib/site.js LEGAL.company, address, nip, register oraz CONTACT.email i phone w miejscu nazwy firmy stoi marka Babushkina Academy, w miejscu siedziby – miasto, zdania o kontakcie kierują na Instagram, a fragmenty z NIP-em, rejestrem, adresem, e-mailem i telefonem są pominięte (nigdy „[do uzupełnienia]”). Po wpisaniu danych i daty zatwierdzenia treści (LEGAL.documentsApproved) dokumenty w pełni obowiązują (LEGAL_PUBLISHED), a pełne dane pokazują się same. Stronę /polityka-cookies i baner wdrożyć razem, od pierwszego dnia działania serwisu, z linkiem w stopce i w sitemap.",
       "why": "Dane usługodawcy są wymagane przez art. 5 u.ś.u.d.e., a dane administratora – przez art. 13 RODO (także przy danych przetwarzanych przez Cloudflare podczas weryfikacji); marka, miasto i Instagram to rozwiązanie przejściowe, które tych wymogów w pełni nie spełnia, więc dane firmy trzeba uzupełnić jak najszybciej. Zapisy konieczne są wprawdzie zwolnione z obowiązków z art. 399 ust. 1 PKE (ust. 3), ale baner i polityka cookies informują o nich od pierwszej wizyty."
     },
     {

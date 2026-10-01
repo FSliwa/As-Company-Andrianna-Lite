@@ -39,6 +39,7 @@ import {
   LEGAL_VALUES,
   PUBLIC_BEFORE_COMPANY_DATA,
   REQUIRED,
+  fallbackCompanyName,
   isBlank,
   missingFields,
   parseLegalText,
@@ -208,7 +209,9 @@ describe('dokumenty prawne – render bez danych i z danymi', () => {
         assertClean(rendered, `${doc}.${locale} (brak danych)`);
         const all = rendered.map((b) => b.text).join('\n');
         const { company, seat } = LEGAL_FALLBACKS[locale];
-        assert.ok(all.includes(`${company}, ${seat}`) || all.includes(company), `${doc}.${locale}: brak marki w miejscu nazwy firmy`);
+        // marka stoi też w zwykłym tekście („pod marką …”) – sprawdzamy samo pole {company}
+        const hasBrand = rendered.flatMap((b) => b.parts).some((p) => p.field === 'company' && p.fallback && p.value === company);
+        assert.ok(hasBrand, `${doc}.${locale}: brak marki w miejscu nazwy firmy`);
         assert.ok(all.includes(seat), `${doc}.${locale}: brak miasta w miejscu siedziby`);
         assert.ok(all.includes(CONTACT.instagramHandle), `${doc}.${locale}: brak Instagrama jako kanału kontaktu`);
         assert.doesNotMatch(all, /\bNIP\b|Tax ID|ИНН|KRS 0|@example/, `${doc}.${locale}: dane firmy w wariancie bez danych`);
@@ -256,7 +259,8 @@ describe('dokumenty prawne – render bez danych i z danymi', () => {
     const all = rendered.map((b) => b.text).join('\n');
     assert.match(all, /\[do uzupełnienia: nazwa firmy\]/);
     assert.match(all, /\[do uzupełnienia: NIP\]/);
-    assert.ok(!all.includes(LEGAL_FALLBACKS.pl.company), 'w trybie projektu bez marki w miejscu nazwy firmy');
+    const fallback = rendered.flatMap((b) => b.parts).filter((p) => p.fallback);
+    assert.deepEqual(fallback, [], 'w trybie projektu bez marki w miejscu nazwy firmy');
   });
 });
 
@@ -363,8 +367,16 @@ describe('publikacja dokumentów', () => {
   test('wartości zastępcze tylko z site.js: marka i miasto; nic za e-mail, telefon, NIP ani adres', () => {
     for (const locale of LOCALES) {
       const { BRAND, CONTACT: C } = getSite(locale);
-      assert.deepEqual(LEGAL_FALLBACKS[locale], { company: `${BRAND.full} (${BRAND.academy})`, seat: C.city });
+      const company = BRAND.academy && BRAND.academy !== BRAND.full ? `${BRAND.full} (${BRAND.academy})` : BRAND.full;
+      assert.deepEqual(LEGAL_FALLBACKS[locale], { company, seat: C.city });
+      assert.ok(!LEGAL_FALLBACKS[locale].company.includes(`(${BRAND.full})`), `${locale}: marka powtórzona w nawiasie`);
     }
+  });
+
+  test('marka w miejscu nazwy firmy: nawias z akademią tylko przy innej nazwie', () => {
+    assert.equal(fallbackCompanyName({ full: 'Babushkina Academy', academy: 'Babushkina Academy' }), 'Babushkina Academy');
+    assert.equal(fallbackCompanyName({ full: 'Babushkina Academy' }), 'Babushkina Academy');
+    assert.equal(fallbackCompanyName({ full: 'Salon', academy: 'Akademia' }), 'Salon (Akademia)');
   });
 
   test('rezerwacja: bez publicznych dokumentów domyślny dostawca = null (API → 503 disabled)', async () => {

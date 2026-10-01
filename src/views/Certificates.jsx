@@ -12,8 +12,8 @@
  * i dla salonów, które powołałyby się na nie podczas kontroli Sanepidu.
  *
  * D9/D10 (raport zgodności INNE-01, INNE-02): strona mówi WYŁĄCZNIE o tym, co ma
- * źródło – karty charakterystyki pigmentów. Sklep klientki (as-loveliness.eu/certyfikaty/,
- * „Certyfikaty do pobrania”, stan 29.09.2026) publikuje 6 PDF-ów: AS CLASSIC, AS OPIUM,
+ * źródło – karty charakterystyki pigmentów. Dawny sklep klientki (strona „Certyfikaty
+ * do pobrania”, stan 29.09.2026) publikuje 6 PDF-ów: AS CLASSIC, AS OPIUM,
  * AS OPIUM LIGHT MINERALS, Harley Quinn, PARADISE, TRICHO. Każdy to „KARTA
  * CHARAKTERYSTYKI zgodnie z rozporządzeniem (WE) nr 1907/2006” (REACH).
  * Usunięte jako bez źródła: „deklaracja zgodności” z rozporządzeniem o tuszach
@@ -36,7 +36,7 @@ import React from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
 
-/* Kolekcje z kartą charakterystyki – lista 1:1 ze sklepu klientki (6 PDF-ów, zob. nagłówek).
+/* Kolekcje z kartą charakterystyki – lista 1:1 ze strony dawnego sklepu klientki (6 PDF-ów, zob. nagłówek).
    Nazwy jak w katalogu /pigmenty (w sklepie „TRICHO” = kolekcja Trichopigmentation).
    D9: bez rozszerzania na linie, których dokumenty nie obejmują – Hairstrokes
    i Areola/Camouflage w sklepie nie mają PDF-u, więc ich tu nie wymieniamy. */
@@ -84,7 +84,7 @@ function Hero() {
       titleAccent="pigmentów."
       /* D9: REACH tylko w zakresie dokumentów ze sklepu (karty wg rozporządzenia 1907/2006);
          „dokumentacja wymagana przy pracy z PMU” i „deklaracje zgodności” – bez źródła, usunięte. */
-      lead={'Karty charakterystyki sześciu kolekcji pigmentów AS\u00a0COMPANY, sporządzone zgodnie z\u00a0rozporządzeniem REACH. Udostępniamy je na prośbę.'}
+      lead={'Karty charakterystyki sześciu kolekcji pigmentów z\u00a0naszej oferty, sporządzone zgodnie z\u00a0rozporządzeniem REACH. Udostępniamy je na prośbę.'}
       stats={HERO_STATS}
     >
       {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
@@ -202,7 +202,8 @@ function ClosingBand() {
       /* D10: bez „dokumentacji dla tej partii” – brak źródła */
       lead="Napisz, o którą kolekcję pigmentów chodzi – odeślemy jej kartę charakterystyki."
       primary={{ href: '/kontakt?temat=produkty', label: 'Napisz do nas' }}
-      secondary={{ href: '/maszynki', label: 'Zobacz maszynki' }}
+      /* klientka sprzedaje już tylko jedną maszynkę (30.09.2026) – liczba pojedyncza, z nazwą */
+      secondary={{ href: '/maszynki', label: 'Zobacz maszynkę AS\u00a0PRINCESS' }}
     />
   );
 }

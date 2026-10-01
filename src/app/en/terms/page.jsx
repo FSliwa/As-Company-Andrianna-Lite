@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'en',
   route: 'terms',
   title: doc.title,
-  description: 'Terms of Use of the AS COMPANY and Babushkina Academy website: forms, pigment list, online booking, complaints.',
+  description: 'Terms of Use of the Babushkina Academy website: forms, pigment list, online booking, complaints.',
   noindex: !LEGAL_PUBLIC,
 });
 

@@ -115,7 +115,7 @@ function Hero() {
       lead={`${FOUNDER.rolePl}. ${FOUNDER.signature}.`}
       image={ROLES.heroAbout.image}
       imagePosition={ROLES.heroAbout.position}
-      /* bez „założycielki AS COMPANY” – brak źródła (BIO-18); brief: prowadzi salon i akademię */
+      /* bez „założycielki” firmy – brak źródła (BIO-18); brief: prowadzi salon i akademię */
       imageAlt={`${FOUNDER.name} – ${BRAND.academy}, portret z sesji wizerunkowej`}
       tone="cream"
       /* Wszystkie cztery role z briefu (także prelegentka, BIO-11) są w leadzie (FOUNDER.rolePl).

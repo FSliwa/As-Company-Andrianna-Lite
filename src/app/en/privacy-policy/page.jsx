@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'en',
   route: 'privacy',
   title: doc.title,
-  description: 'How personal data is processed on the AS COMPANY and Babushkina Academy website: forms, online booking, hosting and your rights.',
+  description: 'How personal data is processed on the Babushkina Academy website: forms, online booking, hosting and your rights.',
   noindex: !LEGAL_PUBLIC,
 });
 

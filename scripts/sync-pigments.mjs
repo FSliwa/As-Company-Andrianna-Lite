@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Synchronizacja katalogu pigmentów z publicznego Store API sklepu klienta
- * (WooCommerce, AS LOVELINESS) → dwa pliki:
+ * Synchronizacja katalogu pigmentów z publicznego Store API dawnego sklepu
+ * (WooCommerce, adres w API niżej) → dwa pliki:
  *   src/data/pigments.json          — dane STRONY (trafiają do paczki JS przeglądarki):
  *                                     tylko pola, które strona pokazuje
  *   scripts/pigments-sync-meta.json — dane SKRYPTU (nie importuje ich kod strony):
@@ -45,12 +45,16 @@
  *  - Blokada Omnibus: nazwa, krótki opis i opis nie mogą mówić o promocji,
  *    rabacie ani obniżce (strona nie pokazuje najniższej ceny z 30 dni).
  *    Trafienie przerywa zapis (exit 1) — decyzję podejmuje człowiek.
+ *  - Dawna firma klientki (prośba z 30.09.2026): jej nazwa nie może pojawić się na
+ *    stronie. Znane zwroty z opisów sklepu usuwa stripFormerBrand (FORMER_BRAND_RULES);
+ *    jeśli nazwa mimo to zostanie w nazwie lub opisie produktu – zapis jest przerywany
+ *    (exit 1), trzeba dopisać regułę albo poprawić tekst w sklepie.
  *
  * Zdjęć produktów ze sklepu NIE zapisujemy w danych strony ani w public/.
  */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, realpathSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -61,7 +65,7 @@ const PIGMENTS_SLUG = 'pigmenty';
 const SETS_SLUG = 'base-set'; // „Sety Pigmentów”
 const PACKAGES_SLUG = 'pakiety'; // „Pakiety” — tylko jako źródło wiedzy o zestawach
 const DELAY_MS = 350;
-const UA = 'AS-COMPANY-site-sync/1.0 (+catalog sync; contact via site owner)';
+const UA = 'pigment-catalog-sync/1.0 (+catalog sync; contact via site owner)';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'src/data/pigments.json');
@@ -221,17 +225,45 @@ export function decodeEntities(s) {
     .replace(/[​‌‍﻿]/g, '');
 }
 
-const SHOP_URL_RE = /https?:\/\/(?:www\.)?as-loveliness\.eu\S*/gi;
+/** Linki do sklepu w opisach (host z API – tylko jedno miejsce z adresem sklepu). */
+const SHOP_HOST = new URL(API).hostname.replace(/^www\./, '').replace(/\./g, '\\.');
+const SHOP_URL_RE = new RegExp(`https?://(?:www\\.)?${SHOP_HOST}\\S*`, 'gi');
+
+/* Dawna firma klientki – nazwa nie może trafić na stronę (prośba klientki z 30.09.2026).
+   Wzorce bez dosłownej nazwy (AS\s*COMPANY…), żeby wyszukiwanie w repozytorium jej nie
+   znajdowało. FORMER_BRAND_RULES usuwają znane zwroty z opisów sklepu tak, by zdanie
+   zostało poprawne; FORMER_BRAND_RE wyłapuje to, czego reguły nie objęły (blokada zapisu). */
+const FORMER_BRAND = String.raw`\bAS[\s_-]*COMPANY(?:\s*POLAND)?(?:\s*LOVE\s*LINESS)?[^\S\n]*[™®]?`;
+const FORMER_BRAND_RULES = [
+  // „…, niespotykane na rynku, pochodzą od firmy X.” → „…, niespotykane na rynku.”
+  [new RegExp(String.raw`,?[^\S\n]*pochodz\p{L}*[^\S\n]+od[^\S\n]+firmy[^\S\n]+${FORMER_BRAND}`, 'giu'), ''],
+  // „Pigmenty do makijażu permanentnego firmy X.” → „Pigmenty do makijażu permanentnego.”
+  [new RegExp(String.raw`[^\S\n]+(?:firmy|marki)[^\S\n]+${FORMER_BRAND}`, 'giu'), ''],
+  // „Opracowano we współpracy z X i Anastasią Spiridonową” → „… we współpracy z Anastasią Spiridonową”
+  [new RegExp(String.raw`${FORMER_BRAND}[^\S\n]+(?:i|oraz)[^\S\n]+`, 'giu'), ''],
+  // „…receptury naszej firmy…” (głos producenta; na stronie akademii sugerowałby, że to ona
+  // produkuje pigmenty) → „…receptury producenta…”
+  [/receptury[^\S\n]+naszej[^\S\n]+firmy/giu, 'receptury producenta'],
+];
+export const FORMER_BRAND_RE = /\bAS[\s_-]*COMPANY|LOVE\s*LINESS|АС[\s_-]*КОМПАН/iu;
+
+/** Usuwa z tekstu produktu znane zwroty z nazwą dawnej firmy klientki. */
+export function stripFormerBrand(text) {
+  let s = String(text ?? '');
+  for (const [re, to] of FORMER_BRAND_RULES) s = s.replace(re, to);
+  return s;
+}
 
 /** HTML → tekst jednoliniowy. */
 export function htmlToLine(html) {
   const text = decodeEntities(String(html ?? '').replace(/<[^>]+>/g, ' '));
-  return text.replace(SHOP_URL_RE, '').replace(/\s+/g, ' ').trim();
+  return stripFormerBrand(text.replace(SHOP_URL_RE, '')).replace(/\s+/g, ' ').trim();
 }
 
 /**
  * HTML → tekst z akapitami: akapity rozdzielone "\n\n", punkty listy jako
- * osobne linie "• …" w jednym akapicie. Bez tagów, bez linków do sklepu.
+ * osobne linie "• …" w jednym akapicie. Bez tagów, bez linków do sklepu
+ * i bez zwrotów z nazwą dawnej firmy klientki (stripFormerBrand).
  */
 export function htmlToText(html) {
   let s = String(html ?? '');
@@ -244,7 +276,7 @@ export function htmlToText(html) {
   s = s.replace(/<\/(p|div|h[1-6]|table|tr|blockquote)>/gi, '\n\n');
   s = s.replace(/<(p|div|h[1-6]|table|tr|blockquote)\b[^>]*>/gi, '\n\n');
   s = s.replace(/<[^>]+>/g, '');
-  s = decodeEntities(s).replace(SHOP_URL_RE, '');
+  s = stripFormerBrand(decodeEntities(s).replace(SHOP_URL_RE, ''));
   const blocks = s
     .split(/\n{2,}/)
     .map((block) =>
@@ -771,6 +803,18 @@ async function main() {
     }
   }
 
+  /* ---------- dawna firma klientki: nazwa nie może trafić na stronę ---------- */
+  const brandHits = [];
+  for (const it of items) {
+    for (const [field, text] of [['nazwa', it.fullName], ['krótki opis', it.shortDesc], ['opis', it.description]]) {
+      const m = FORMER_BRAND_RE.exec(text || '');
+      if (m) {
+        const at = Math.max(0, m.index - 40);
+        brandHits.push(`${it.sourceId} ${it.fullName} – ${field}: „…${text.slice(at, m.index + m[0].length + 40).replace(/\s+/g, ' ')}…”`);
+      }
+    }
+  }
+
   /* ---------- kolekcje ---------- */
   const collections = COLLECTIONS.map((c) => {
     const cat = need(c.slug);
@@ -897,6 +941,19 @@ async function main() {
     }
   }
 
+  // Kolekcje (nazwy kategorii sklepu) – ta sama blokada co teksty produktów.
+  for (const c of collections) if (FORMER_BRAND_RE.test(c.name)) brandHits.push(`kolekcja ${c.id}: „${c.name}”`);
+  if (brandHits.length) {
+    console.error(`\n✗ Nazwa dawnej firmy klientki w tekstach produktów (${brandHits.length}):`);
+    for (const h of brandHits) console.error(`  - ${h}`);
+    console.error('  Klientka nie chce, by ta nazwa pojawiała się na stronie (30.09.2026).');
+    console.error('  Dopisz regułę w FORMER_BRAND_RULES albo popraw tekst w sklepie, potem uruchom sync ponownie.');
+    if (!DRY) {
+      console.error('  Nie zapisano.');
+      process.exit(1);
+    }
+  }
+
   if (DRY) {
     console.log('(--dry) nie zapisano.');
     return;
@@ -907,7 +964,19 @@ async function main() {
   console.log(`✓ zapisano ${path.relative(ROOT, OUT)} i ${path.relative(ROOT, META)}`);
 }
 
-main().catch((err) => {
-  console.error('✗', err.message);
-  process.exit(1);
-});
+/* Uruchomienie z wiersza poleceń. Import (test reguł tekstu: src/lib/brand.test.js)
+   niczego nie pobiera ani nie zapisuje. */
+function invokedDirectly() {
+  try {
+    return Boolean(process.argv[1]) && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (invokedDirectly()) {
+  main().catch((err) => {
+    console.error('✗', err.message);
+    process.exit(1);
+  });
+}

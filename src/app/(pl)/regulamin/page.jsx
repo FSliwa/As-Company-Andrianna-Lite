@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'pl',
   route: 'terms',
   title: doc.title,
-  description: 'Regulamin serwisu AS COMPANY i Babushkina Academy: formularze, lista pigmentów, rezerwacja wizyty online, reklamacje.',
+  description: 'Regulamin serwisu Babushkina Academy: formularze, lista pigmentów, rezerwacja wizyty online, reklamacje.',
   noindex: !LEGAL_PUBLIC,
 });
 

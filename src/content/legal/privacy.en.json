@@ -25,7 +25,7 @@
       "heading": "2. Data controller",
       "blocks": [
         {
-          "p": "The controller of your personal data is {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. We run a permanent make-up salon and training academy in Warsaw under the brands AS COMPANY LOVELINESS and Babushkina Academy. In this policy we refer to ourselves as “we” or “us”."
+          "p": "The controller of your personal data is {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. We run a permanent make-up salon and training academy in Warsaw[[{?entity} under the Babushkina Academy brand]]. In this policy we refer to ourselves as “we” or “us”."
         }
       ]
     },
@@ -307,7 +307,7 @@
     {
       "what": "Controller and contact details (in src/lib/site.js: LEGAL.company, address, nip, register, privacyEmail; CONTACT.email, phone; website address NEXT_PUBLIC_SITE_URL)",
       "proposal": "Fill these in exactly as shown in the CEIDG entry (Centralna Ewidencja i Informacja o Działalności Gospodarczej, the Central Register and Information on Economic Activity) or the KRS entry (Krajowy Rejestr Sądowy, the National Court Register). The data protection address (privacyEmail) can be the same as the contact address, provided someone reads it regularly.",
-      "why": "Without these details the policy does not meet Article 13(1)(a) GDPR or Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną). The forms open the email program only once the contact address has been set. Decision by Filip (30 September 2026): the policy is public before these details are provided – until then the controller is identified by the brand AS COMPANY LOVELINESS (Babushkina Academy) and the city (Warsaw), and data protection contact goes via Instagram; the passages with the tax ID, register entry, address, email and phone appear automatically once site.js is filled in (src/lib/legal.js, LEGAL_PUBLIC)."
+      "why": "Without these details the policy does not meet Article 13(1)(a) GDPR or Article 5 of the Act on Providing Services by Electronic Means (ustawa o świadczeniu usług drogą elektroniczną). The forms open the email program only once the contact address has been set. Decision by Filip (30 September 2026): the policy is public before these details are provided – until then the controller is identified by the Babushkina Academy brand and the city (Warsaw), and data protection contact goes via Instagram; the passages with the tax ID, register entry, address, email and phone appear automatically once site.js is filled in (src/lib/legal.js, LEGAL_PUBLIC)."
     },
     {
       "what": "Data protection officer (DPO)",

@@ -16,7 +16,7 @@ import { BOOKING_CONFIG } from './config.js';
 import { createGoogleCalendar } from './google.js';
 import { createMemoryCalendar } from './memory.js';
 
-const STORE_KEY = Symbol.for('as-company.booking.provider');
+const STORE_KEY = Symbol.for('babushkina-academy.booking.provider');
 
 function store() {
   if (!globalThis[STORE_KEY]) globalThis[STORE_KEY] = { google: null, googleKey: null, memory: null, warned: false };

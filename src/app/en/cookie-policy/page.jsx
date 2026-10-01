@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'en',
   route: 'cookies',
   title: doc.title,
-  description: 'What the AS COMPANY website stores in your browser, why, and how you can manage it.',
+  description: 'What the Babushkina Academy website stores in your browser, why, and how you can manage it.',
   noindex: !LEGAL_PUBLIC,
 });
 

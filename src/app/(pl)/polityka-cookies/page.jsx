@@ -11,7 +11,7 @@ export const metadata = pageMeta({
   locale: 'pl',
   route: 'cookies',
   title: doc.title,
-  description: 'Jakie informacje serwis AS COMPANY zapisuje w Twojej przeglądarce, po co i jak możesz nimi zarządzać.',
+  description: 'Jakie informacje serwis Babushkina Academy zapisuje w Twojej przeglądarce, po co i jak możesz nimi zarządzać.',
   noindex: !LEGAL_PUBLIC,
 });
 
