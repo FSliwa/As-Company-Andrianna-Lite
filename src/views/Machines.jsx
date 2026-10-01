@@ -4,17 +4,26 @@
  * /maszynki – „Numer 01”.
  *
  * Jedna maszynka: AS PRINCESS (klientka sprzedaje tylko ten model, 30.09.2026).
- * W /Graphics nie ma jej packshotu, kartridży ani akcesoriów, więc trasa jest
- * w 100% typograficzna – świadoma decyzja do czasu sesji packshotowej, nie brak.
+ * Zdjęcia: dwa packshoty z 29.09.2026 (PRODUCTS w media.js) – AS PRINCESS Gold
+ * i Pink, 1080×1080 na białym tle, bez gradingu. Stoją tylko w karcie modelu (02),
+ * na kremie z mix-blend-multiply. Trzeci kolor (Champagne Gold) nie ma zdjęcia –
+ * żadnego z dwóch plików nie podpisujemy tą nazwą, a pod zdjęciami stoi zawsze
+ * widoczna adnotacja „Również w kolorze Champagne Gold (bez zdjęcia).” (nagłówek
+ * mówi o trzech kolorach, a na telefonie parametr „Kolory” jest zwinięty).
+ * Packshoty kartridży Satellite i lamp pierścieniowych z /Graphics pipeline pomija
+ * (NEW_SKIP w scripts/przygotuj-grafiki.py), więc ta trasa ich nie pokazuje.
  * Zero portretów, zero makr.
+ * Hero zostaje typograficzne: na espresso białe tło packshotu nie da się wtopić
+ * (multiply ściemnia cały korpus), a wersji z przezroczystym tłem pipeline nie ma.
  *
  * Rytm tła (max 2 ciemne pasy, nigdy dwa ciemne obok siebie):
  *   01 PageHero band (espresso, bez zdjęcia, 3 Stat z karty AS PRINCESS)
  *   02 Model #katalog (cream-50) – karta AS PRINCESS jako wiersz pełnej
- *      szerokości: parametry z karty produktu + „Zapytaj o dostępność”
- *      (/kontakt?temat=produkty; bez linków do sklepu – prośba klientki);
- *      na telefonie opis i parametry pod JEDNYM przyciskiem „Opis i parametry”
- *      (wzorzec MobileMore), od md opis i parametry widoczne od razu
+ *      szerokości: packshoty Gold i Pink z podpisami kolorów i adnotacją
+ *      o Champagne Gold bez zdjęcia, parametry z karty produktu + „Zapytaj
+ *      o dostępność” (/kontakt?temat=produkty; bez linków do sklepu – prośba
+ *      klientki); na telefonie opis i parametry pod JEDNYM przyciskiem „Opis
+ *      i parametry” (wzorzec MobileMore), od md widoczne od razu
  *   03 Parametry (espresso) – 7 prędkości AS PRINCESS (wiersze z linią u góry,
  *      bez ramek) + skok i wysuw igły
  *   04 Wynajem (cream-100) – warunki z karty wynajmu, wniosek w dialogu (Field);
@@ -32,6 +41,7 @@ import {
   ClosingCta,
   CtaButton,
   Field,
+  Figure,
   FormNotice,
   MobileMore,
   PageHero,
@@ -41,6 +51,7 @@ import {
   SectionLabel,
 } from '@/components/as/Primitives';
 import { BRAND, CONTACT } from '@/lib/site';
+import { PRODUCTS } from '@/lib/media';
 import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
@@ -77,6 +88,10 @@ const zl = (n) => `${fmt(n)}\u00a0zł`;
    `span` = szerokość w siatce parametrów. */
 const WIDE = 'col-span-2 xl:col-span-3';
 
+/* Kolory z kart produktu – parametr „Kolory” i adnotacja pod packshotami
+   (kolory bez zdjęcia) biorą je z jednej listy. */
+const PRINCESS_COLORS = ['Champagne Gold', 'Gold', 'Pink'];
+
 const PRINCESS = {
   id: 'as-princess',
   number: '01',
@@ -97,8 +112,16 @@ const PRINCESS = {
     { label: 'Waga', v: '107', u: 'g', n: 'korpus z aluminium' },
     { label: 'Wysuw igły', v: '0–3,2', u: 'mm' },
     { label: 'Zasilanie', text: '2 wymienne baterie + ładowarka', n: 'lub praca na kablu USB', span: 'col-span-2' },
-    { label: 'Kolory', text: 'Champagne Gold, Gold, Pink', span: WIDE },
+    { label: 'Kolory', text: PRINCESS_COLORS.join(', '), span: WIDE },
   ],
+  colors: PRINCESS_COLORS,
+  /* Packshoty z 29.09.2026 – podpis = kolor widoczny na zdjęciu (złoty korpus = Gold,
+     różowy = Pink); Champagne Gold bez zdjęcia – MachinePhotos dopisuje go
+     w adnotacji pod zdjęciami. */
+  photos: [
+    { image: PRODUCTS['product-as-princess-gold'], color: 'Gold' },
+    { image: PRODUCTS['product-as-princess-pink'], color: 'Pink' },
+  ].filter((p) => p.image),
 };
 
 /* Prędkości AS PRINCESS – nazwy i obroty 1:1 z listy na stronie maszynki w dawnym
@@ -166,22 +189,76 @@ const pad = (n) => String(n).padStart(2, '0');
 /*  Lokalne klocki                                                     */
 /* ================================================================== */
 
-/* Karta modelu – rozwinięcie IndexRow o opis, parametry i drugą akcję (wynajem).
-   Jeden model na stronie, więc od md opis i cechy stoją od razu (bez przełącznika
-   „Opis i cechy” – ten miał sens w spisie kilku modeli), a karta układa się
-   jak strona produktu: tekst po lewej, dane i zakup po prawej.
-     < md   numerał 56 | model + JEDEN przycisk „Opis i parametry” (MobileMore –
-            ten sam wzorzec „Więcej” co na innych trasach) + cena i akcje;
-            po rozwinięciu opis, cechy i parametry pod modelem.
-     md+    numerał | model, opis i cechy (przez oba rzędy) | parametry
-            (2 kol., 3 na xl), pod nimi linia i cena + akcje – prawa kolumna
-            nie zostaje pusta pod parametrami.
+/* Packshoty kolorów obok siebie, pod każdym linia i nazwa koloru, a pod siatką
+   adnotacja o kolorach z karty bez zdjęcia (dziś Champagne Gold) – zawsze widoczna,
+   także na telefonie, bo nagłówek sekcji mówi o trzech kolorach, a parametr „Kolory”
+   stoi tam w zwiniętym panelu. Bez „zdjęcie wkrótce” – tego nikt nie obiecał.
+   Plik jest kwadratem z wąskim, pionowym korpusem pośrodku (ok. 1/9 szerokości kadru),
+   więc kadr ma stałą WYSOKOŚĆ, a nie proporcję: przy kadrze węższym niż wysoki
+   object-cover skaluje plik do wysokości i przycina tylko białe boki – korpus zostaje
+   cały na każdej szerokości. Od md wysokość ogranicza też 72svh – w telefonie
+   w poziomie maszynka z podpisem mieści się w jednym ekranie pod nagłówkiem.
+   Białe tło przechodzi w krem przez mix-blend-multiply. Tło kadru = tło sekcji
+   (cream-50, zamiast cream-200 z .as-media): Reveal zostawia transform, czyli własny
+   kontekst mieszania – bez tła kadru multiply nie miałby z czym się zmieszać i biel
+   by została. Bez ramki, bez tonu (wierna barwa korpusu), bez powiększenia. */
+function MachinePhotos({ machine, className }) {
+  if (!machine.photos?.length) return null;
+  const withoutPhoto = (machine.colors ?? []).filter((c) => !machine.photos.some((p) => p.color === c));
+  /* twarde spacje w nazwach kolorów i po „(bez” – „Champagne Gold” i „(bez zdjęcia)”
+     nie łamią się w środku */
+  const list = new Intl.ListFormat('pl', { type: 'conjunction' }).format(
+    withoutPhoto.map((c) => c.replace(/ /g, '\u00a0'))
+  );
+  return (
+    <div className={cn('max-w-[22rem]', className)}>
+      <div className="grid grid-cols-2 gap-4 sm:gap-6">
+        {machine.photos.map((photo) => (
+          <figure key={photo.color} className="min-w-0">
+            <div className="relative h-72 sm:h-80 md:h-[min(26rem,72svh)] lg:h-[min(28rem,72svh)]">
+              <Figure
+                fill
+                image={photo.image}
+                alt={`Maszynka ${machine.name} w kolorze ${photo.color}`}
+                zoom={false}
+                sizes="(min-width: 1024px) 28rem, (min-width: 768px) 26rem, (min-width: 640px) 20rem, 18rem"
+                className="[&_.as-media]:bg-cream-50"
+                imgClassName="mix-blend-multiply"
+              />
+            </div>
+            <figcaption className="as-kicker mt-3 border-t border-ink/15 pt-3 text-center">
+              {photo.color}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      {withoutPhoto.length > 0 && (
+        <p className="as-caption as-text-balance mx-auto mt-4 text-center">
+          {withoutPhoto.length === 1
+            ? `Również w kolorze ${list} (bez\u00a0zdjęcia).`
+            : `Również w kolorach ${list} (bez\u00a0zdjęć).`}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* Karta modelu – rozwinięcie IndexRow o zdjęcia, opis, parametry i drugą akcję
+   (wynajem). Jeden model na stronie, więc od md opis i cechy stoją od razu (bez
+   przełącznika – ten miał sens w spisie kilku modeli), a karta układa się jak
+   strona produktu: model i zdjęcia po lewej, opis, dane i zakup po prawej.
+     < md   numerał 56 | model, packshoty Gold / Pink z adnotacją o Champagne
+            Gold, JEDEN przycisk „Opis i parametry” (MobileMore – ten sam wzorzec
+            „Więcej” co na innych trasach) + cena i akcje; po rozwinięciu opis,
+            cechy i parametry.
+     md+    numerał | model, packshoty i adnotacja (przez oba rzędy) | opis,
+            cechy, linia i parametry (2 kol., 3 na xl), pod nimi linia i cena
+            + akcje.
    Stan `open` działa tylko poniżej md (klasy max-md:hidden). Bez <details>
    i bez skryptu z matchMedia – SSR i przeglądarka renderują to samo. */
 function MachineRow({ machine, onRent }) {
   const [open, setOpen] = useState(false);
-  const descId = `${machine.id}-opis`;
-  const specsId = `${machine.id}-parametry`;
+  const detailsId = `${machine.id}-opis-parametry`;
 
   return (
     <article
@@ -201,39 +278,39 @@ function MachineRow({ machine, onRent }) {
         <h3 className="as-title as-text-balance text-ink">{machine.name}</h3>
         <p className="as-kicker mt-3">{machine.subtitle}</p>
 
+        <MachinePhotos machine={machine} className="mt-4 md:mt-6" />
+
         {/* telefon: jeden przełącznik dla opisu i parametrów */}
         <MobileMore
           open={open}
           onToggle={() => setOpen((o) => !o)}
-          controls={`${descId} ${specsId}`}
+          controls={detailsId}
           label="Opis i parametry"
           openLabel="Zwiń opis i parametry"
-          className="mt-4"
+          className="mt-6"
         />
-
-        <div id={descId} className={cn(!open && 'max-md:hidden')}>
-          <p className="mt-5 max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{machine.description}</p>
-          <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe – ${machine.name}`}>
-            {machine.features.map((feat) => (
-              <li key={feat} className="flex gap-4">
-                <span aria-hidden="true" className="as-dash" />
-                <span className="text-[0.9375rem] leading-[1.65] text-ink/75">{feat}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
-      {/* Parametry – poniżej md pod opisem (po rozwinięciu), od md prawa kolumna
-          (pierwszy rząd, pod nimi cena i akcje); 7fr, żeby „6 000–10 000 obr./min”
-          mieściło się w jednej linii przy 768 px.
+      {/* Opis, cechy i parametry – poniżej md pod przyciskiem (po rozwinięciu), od md
+          prawa kolumna (pierwszy rząd, pod nimi cena i akcje); 7fr, żeby
+          „6 000–10 000 obr./min” mieściło się w jednej linii przy 768 px.
           Etykiety dt ink/65 (5,2:1), dopiski ink/70 (6,1:1) – AA dla 11/15 px. */}
       <div
-        id={specsId}
-        className={cn('col-start-2 -mt-1 self-start md:col-start-3 md:row-start-1 md:mt-0', !open && 'max-md:hidden')}
+        id={detailsId}
+        className={cn('col-start-2 self-start md:col-start-3 md:row-start-1', !open && 'max-md:hidden')}
       >
+        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{machine.description}</p>
+        <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe – ${machine.name}`}>
+          {machine.features.map((feat) => (
+            <li key={feat} className="flex gap-4">
+              <span aria-hidden="true" className="as-dash" />
+              <span className="text-[0.9375rem] leading-[1.65] text-ink/75">{feat}</span>
+            </li>
+          ))}
+        </ul>
+
         <h4 className="sr-only">Parametry – {machine.name}</h4>
-        <dl className="grid grid-cols-2 content-start gap-x-4 gap-y-5 sm:gap-x-6 xl:grid-cols-3">
+        <dl className="mt-6 grid grid-cols-2 content-start gap-x-4 gap-y-5 border-t border-ink/15 pt-6 sm:gap-x-6 md:mt-8 xl:grid-cols-3">
           {machine.specs.map((spec) => (
             <div key={spec.label} className={spec.span}>
               <dt className="as-label text-ink/65">{spec.label}</dt>

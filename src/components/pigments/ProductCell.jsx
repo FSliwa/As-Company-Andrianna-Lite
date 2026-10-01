@@ -6,8 +6,12 @@
  * Obie w React.memo: dostają stabilne `onAdd` / `onDetails` (useCallback)
  * i liczbę sztuk TEGO produktu w zamówieniu – zmiana listy renderuje
  * od nowa tylko komórkę, której dotyczy, a nie całą siatkę.
- * Bez zdjęć ze sklepu: kolor to odcień poglądowy z danych (pasek 12 px na
- * telefonie, 8 px od sm).
+ * Komórka odcienia zaczyna się kwadratowym polem (prośba klientki: „brakuje zdjęć
+ * buteleczek”): packshot butelki z /Graphics (31 odcieni; 2 zestawy mają zdjęcie tylko
+ * w „Szczegółach” – wiersz zestawu jest bez zdjęcia; src/lib/productPhotos.js), a bez
+ * zdjęcia – w tym samym polu – próbka koloru poglądowego z danych (ProductTile
+ * w parts.jsx). Pole ma wysokość z szerokości kolumny, więc rzędy są równe. Zdjęć ze
+ * sklepu nie pokazujemy.
  *
  * Telefon (< sm): komórka odcienia bez opisu (pełny opis jest w „Szczegółach”),
  * więc sześć odcieni startowych zajmuje ~1 ekran mniej. Wiersz zestawu: nazwa
@@ -27,7 +31,7 @@ import {
   DOT,
   NBSP,
   PriceLine,
-  Swatch,
+  ProductTile,
   VariantPicker,
   defaultLabel,
   displayName,
@@ -53,6 +57,10 @@ function OutOfStock({ className }) {
 /*  Odcień                                                             */
 /* ================================================================== */
 
+/* Szerokość pola w siatce katalogu (Pigments.jsx): 2 kolumny, od md 3, od xl 4;
+   łam maks. 1440 px (od 1440 px kolumna ok. 308 px). */
+const TILE_SIZES = '(min-width: 1440px) 310px, (min-width: 1280px) 22vw, (min-width: 768px) 29vw, 45vw';
+
 function ProductCellBase({ product, qty, onAdd, onDetails }) {
   const [label, setLabel] = useState(() => defaultLabel(product));
   const variant = findVariant(product, label);
@@ -62,18 +70,14 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
   const addName = [product.name, variant?.label ? formatCapacity(variant.label) : null].filter(Boolean).join(', ');
 
   return (
-    <article aria-labelledby={titleId} className="as-cell flex h-full min-w-0 flex-col">
-      <p className="as-kicker">{kickerFor(product)}</p>
+    <article aria-labelledby={titleId} className="flex h-full min-w-0 flex-col">
+      {/* zdjęcie butelki albo (bez zdjęcia) próbka koloru – to samo pole; pole zastępuje
+          dawną hairline .as-cell i pasek próbki pod nazwą (kolor jest już w polu) */}
+      <ProductTile product={product} sizes={TILE_SIZES} />
+      <p className="as-kicker mt-5">{kickerFor(product)}</p>
       <h3 id={titleId} className="as-title as-text-balance mt-3 break-words text-ink">
         {displayName(product.name)}
       </h3>
-
-      {/* próbka: pasek pod nazwą (12 px na telefonie – bez opisu to główna informacja
-          o kolorze, 8 px od sm); bez koloru – kreskowanie i podpis */}
-      <div className="mt-4 flex items-center gap-3">
-        <Swatch color={product.color} className="h-3 flex-1 sm:h-2" />
-        {!product.color && <span className="as-label shrink-0 text-ink/65">bez próbki</span>}
-      </div>
 
       {/* opis od sm; na telefonie pełny opis w „Szczegółach” */}
       {product.shortDesc && (

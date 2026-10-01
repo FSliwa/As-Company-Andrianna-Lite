@@ -1,8 +1,9 @@
 'use client';
 
 /**
- * „Szczegóły” odcienia albo zestawu: pełny opis ze sklepu (czysty tekst),
- * strefy, pojemności z cenami (z datą cen), stan magazynowy i dodanie do
+ * „Szczegóły” odcienia albo zestawu: zdjęcie butelki (packshot z /Graphics, większe
+ * niż w komórce katalogu; bez zdjęcia – pasek próbki koloru), pełny opis ze sklepu
+ * (czysty tekst), strefy, pojemności z cenami (z datą cen), stan magazynowy i dodanie do
  * zamówienia. Potwierdzenie „Dodano…” stoi nad przyciskami – przy długim
  * opisie nie wypada poza dolną krawędź przewijanego panelu.
  * Jeden dialog na stronę (sterowany `productId`), nie jeden na komórkę.
@@ -26,11 +27,13 @@ import {
 } from '@/components/ui/dialog';
 import { ArrowLink } from '@/components/as/Primitives';
 import { findVariant, formatCapacity, formatPrice, formatSyncedDate, productById } from '@/lib/pigments';
+import { productPhoto } from '@/lib/productPhotos';
 import {
   DOT,
   Description,
   NBSP,
   PRICE_TBC,
+  ProductPhoto,
   Swatch,
   VariantPicker,
   defaultLabel,
@@ -42,6 +45,18 @@ import {
 
 const SYNCED = formatSyncedDate();
 
+/* Pole zdjęcia: 4:3 na szerokość treści panelu (od sm 560 px minus 2 × 40 px; telefon – arkusz
+   na całą szerokość minus 2 × 20 px). Niski ekran (short:, telefon w poziomie): panel ma ok.
+   350 px, z czego stopka z dwoma przyciskami zabiera ok. 150 – kadr 4:3 (ok. 360 px) zasłaniał
+   cały widoczny obszar, a opis i ceny były dopiero za nim. Tam pole ma stałe 9 rem wysokości
+   (aspect-auto zdejmuje proporcję z Figure), packshot stoi w nim pośrodku (object-contain). */
+const PHOTO_FIELD = 'short:[&_.as-media]:!aspect-auto short:[&_.as-media]:h-36';
+const PHOTO_SIZES = '(max-width: 1023px) and (max-height: 500px) 170px, (min-width: 640px) 480px, calc(100vw - 2.5rem)';
+
+/* Na zdjęciach: odcień – butelka z opakowaniem; zestaw – pudełko i butelki. */
+const photoAlt = (product) =>
+  product.isSet ? `${product.name} – opakowanie i butelki zestawu` : `${product.name} – butelka i opakowanie`;
+
 function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const [label, setLabel] = useState(() => defaultLabel(product));
   const [added, setAdded] = useState(false);
@@ -50,6 +65,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const variant = findVariant(product, label);
   const multi = product.variants.length > 1;
   const canAdd = Boolean(product.inStock && variant?.inStock);
+  const hasPhoto = Boolean(productPhoto(product.id));
   /* pojemność w przycisku tylko przy wyborze (kilka butelek) – wybór stoi wyżej w treści */
   const capLabel = multi && variant?.label ? formatCapacity(variant.label) : null;
 
@@ -72,15 +88,31 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
         </DialogDescription>
       </DialogHeader>
 
-      {!product.isSet && (
+      {/* zdjęcie (4:3, na niskim ekranie niższe pole – PHOTO_FIELD; packshot w środku, białe
+          tło znika w kremie) albo, bez zdjęcia, pasek próbki jak dotąd – pusty duży kadr
+          tylko wydłużałby panel */}
+      {hasPhoto ? (
         <div className="mt-6">
-          <Swatch color={product.color} className="h-10 w-full" />
-          <p className="as-caption mt-2 max-w-none">
-            {product.color
-              ? 'Odcień poglądowy – kolor na ekranie różni się od pigmentu.'
-              : 'Bez próbki – tego odcienia nie da się wiarygodnie pokazać na ekranie.'}
-          </p>
+          <ProductPhoto
+            product={product}
+            ratio="4 / 3"
+            sizes={PHOTO_SIZES}
+            alt={photoAlt(product)}
+            className={PHOTO_FIELD}
+          />
+          <p className="as-caption mt-2 max-w-none">Kolor na zdjęciu i na ekranie może różnić się od pigmentu.</p>
         </div>
+      ) : (
+        !product.isSet && (
+          <div className="mt-6">
+            <Swatch color={product.color} className="h-10 w-full" />
+            <p className="as-caption mt-2 max-w-none">
+              {product.color
+                ? 'Odcień poglądowy – kolor na ekranie różni się od pigmentu.'
+                : 'Bez próbki – tego odcienia nie da się wiarygodnie pokazać na ekranie.'}
+            </p>
+          </div>
+        )
       )}
 
       <Description text={product.description || product.shortDesc} className="mt-6" />

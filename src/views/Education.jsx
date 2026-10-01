@@ -11,7 +11,9 @@
  * Zdjęcia: portret wyłącznie przez ROLES, grupy wyłącznie przez GROUPS
  * (src/lib/roles.js). Makra na tej trasie: 0.
  * D8: plakaty COURSE nie są dużymi obrazami w treści – przy kursie, który ma plakaty,
- * stoi rząd miniatur (≤ 160 px) „Oferta do pobrania” z linkiem do pełnego JPG.
+ * stoi „Pełna oferta kursu”: siatka WSZYSTKICH jego grafik (prośba klientki 30.09:
+ * „Tu dodać pełne oferty”), 2 w rzędzie na telefonie, 3 od sm, 4 od lg (ok. 13–15rem).
+ * Kliknięcie grafiki otwiera podgląd w dialogu, link „JPG ↗” – pełny plik w nowej karcie.
  *
  * Dane: COURSES / COURSE_SCHEDULE / TRAINING_INTRO z '@/lib/site'.
  * D4: pięć kursów z briefu – karty w „Kursach” (02), program krok po kroku (03) tylko
@@ -39,11 +41,13 @@
 import React, { useRef, useState } from 'react';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   ArrowLink,
@@ -152,12 +156,6 @@ const POSTER_ALT = {
   5: 'Harmonogram kursu od podstaw Super Natural Brows: przygotowanie online i 4 dni stacjonarne godzina po godzinie',
   6: 'Plakat kursu od podstaw Super Natural Brows: maszynowy włos – najbardziej wymagająca, nowoczesna i ekskluzywna technika',
 };
-
-/* D1: plakaty course-04 (Program) i course-06 (Harmonogram) podają „16 dni online”, a brief
-   (obowiązujący) – 30 dni. Do czasu nowych grafik od klientki nie pokazujemy ich w „Ofercie
-   do pobrania” (sprzeczna liczba tuż obok tekstu strony). Ich treść jest na stronie tekstem:
-   program kursu i harmonogram dni stacjonarnych. Po dostarczeniu grafik: usunąć indeksy. */
-const POSTERS_HIDDEN = new Set([3, 5]);
 
 const FAQ_ITEMS = [
   {
@@ -380,47 +378,128 @@ function CoursesBand({ onBook }) {
 /*  (menu, stopka, JSON-LD) – id na <article> każdego programu.        */
 /* ================================================================== */
 
-/* D8: „Oferta do pobrania” – rząd miniatur (≤ 160 px szerokości) oryginalnych grafik
-   kursu; kliknięcie otwiera pełny JPG w nowej karcie. Plakaty COURSE bez tonu (system),
-   hairline zamiast złotej ramki stykówki. */
-function OfferDownloads({ course }) {
-  const posters = (course.posters || []).filter((p) => COURSE[p.index] && !POSTERS_HIDDEN.has(p.index));
+/* D8: „Pełna oferta kursu” – WSZYSTKIE oryginalne grafiki kursu, w kolejności
+   COURSES[].posters (prośba klientki 30.09: „Tu dodać pełne oferty”; dawniej rząd
+   miniatur ≤ 160 px). Siatka: 2 kolumny < sm (ok. 167 px przy 390), 3 od sm (ok. 219 px
+   przy 768), 4 od lg; od lg najwyżej 66rem szerokości, więc grafika ma ok. 12,75–15rem
+   (204 px przy 1024, 240 px przy 1440).
+   Plakaty COURSE bez tonu (system), hairline zamiast złotej ramki stykówki.
+   Każda grafika to przycisk podglądu (OfferPoster), pod nią nazwa i link „JPG ↗”.
+   afterMore: nad blokiem stoi MobileMore (< md) – jego dolna linia dzieli program od
+   grafik, więc poniżej md bez własnej górnej linii (inaczej dwie linie 32 px od siebie).
+   D1 (do potwierdzenia u klientki): grafiki course-04 i course-06 kursu od podstaw podają
+   „16 dni online”, a brief i tekst strony – 30 dni; pokazujemy je w pełnej ofercie, liczb
+   w tekście nie zmieniamy do jej odpowiedzi. */
+function OfferDownloads({ course, afterMore = false }) {
+  const posters = (course.posters || []).filter((p) => COURSE[p.index]);
   if (!posters.length) return null;
+  const name = shortName(course);
   return (
-    <div className="mt-8 border-t border-ink/10 pt-5 md:mt-10">
-      <p className="as-kicker">Oferta do pobrania</p>
-      <p className="as-caption mt-2 max-w-[36rem]">
-        Oryginalne grafiki {BRAND.academy} (JPG) – pełny obraz otwiera się w nowej karcie.
+    <div
+      className={cn(
+        'mt-8 border-t border-ink/10 pt-5 md:mt-10',
+        afterMore && 'max-md:mt-6 max-md:border-t-0 max-md:pt-0'
+      )}
+    >
+      <p className="as-kicker">Pełna oferta kursu</p>
+      <p className="as-caption as-text-balance mt-2 max-w-[36rem]">
+        Oryginalne grafiki {BRAND.academy}. Kliknij grafikę, aby ją powiększyć; pełny plik JPG
+        otwiera się w nowej karcie.
       </p>
-      <ul className="mt-5 flex flex-wrap gap-4 sm:gap-6">
-        {posters.map((p) => {
-          const image = COURSE[p.index];
-          return (
-            <li key={image.src} className="w-[6.5rem] sm:w-[8.5rem] lg:w-[10rem]">
-              <a href={image.src} target="_blank" rel="noopener noreferrer" className="group block">
-                <Figure
-                  image={image}
-                  alt={POSTER_ALT[p.index] || `${p.caption} – ${course.fullTitle}`}
-                  ratio="9 / 16"
-                  sizes="160px"
-                  className="border border-ink/10"
-                />
-                {/* hover: złote podkreślenie, tekst zostaje w ink (złoto tylko w linii) */}
-                <span className="mt-2 flex items-baseline justify-between gap-2 text-[0.8125rem] leading-snug text-ink">
-                  <span className="decoration-gold underline-offset-2 group-hover:underline">
-                    {p.caption}
-                    <span className="sr-only"> (JPG, otwiera się w nowej karcie)</span>
-                  </span>
-                  <span aria-hidden="true" className="text-mocha transition-colors group-hover:text-ink">
-                    ↗
-                  </span>
-                </span>
-              </a>
-            </li>
-          );
-        })}
+      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:max-w-[66rem] lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
+        {posters.map((p) => (
+          <OfferPoster key={p.index} poster={p} course={course} name={name} />
+        ))}
       </ul>
     </div>
+  );
+}
+
+/* Podgląd grafiki: dialog Radix z własnym DialogTrigger – fokus zostaje w panelu, Esc
+   zamyka, po zamknięciu fokus wraca na grafikę (bez ręcznego onCloseAutoFocus).
+   Na starcie fokus na panelu (czytnik zaczyna od tytułu) – pierwszy link stoi
+   w przyklejonej stopce i przewinąłby panel na dół grafiki. Grafika w panelu ma pełną
+   szerokość (do 560 px) – tekst plakatu jest czytelny, a panel sam się przewija.
+   Przycisk ma krótką nazwę (aria-label); opisowy alt (POSTER_ALT) zostaje na obrazie
+   w siatce i w podglądzie. */
+function OfferPoster({ poster, course, name }) {
+  const contentRef = useRef(null);
+  const image = COURSE[poster.index];
+  const alt = POSTER_ALT[poster.index] || `${poster.caption} – ${course.fullTitle}`;
+  return (
+    <li>
+      <Dialog>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            aria-label={`Powiększ grafikę: ${poster.caption} – ${name}`}
+            className="block w-full cursor-zoom-in"
+          >
+            <Figure
+              image={image}
+              alt={alt}
+              ratio="9 / 16"
+              sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 46vw"
+              className="border border-ink/10"
+            />
+          </button>
+        </DialogTrigger>
+        {/* hover: złote podkreślenie, tekst zostaje w ink (złoto tylko w linii);
+            py-1.5 – pole dotyku ≥ 24 px przy etykiecie 11 px */}
+        <div className="mt-2 flex items-baseline justify-between gap-3">
+          <span className="text-[0.875rem] leading-snug text-ink">{poster.caption}</span>
+          <a
+            href={image.src}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="as-label -my-1.5 shrink-0 py-1.5 text-mocha decoration-gold underline-offset-4 transition-colors hover:text-ink hover:underline"
+          >
+            JPG <span aria-hidden="true">↗</span>
+            <span className="sr-only">
+              {' '}
+              – {poster.caption}, {name} (otwiera się w nowej karcie)
+            </span>
+          </a>
+        </div>
+
+        <DialogContent
+          ref={contentRef}
+          className="sm:max-w-[640px]"
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            contentRef.current?.focus();
+          }}
+        >
+          <DialogHeader>
+            {/* nazwa kursu jest w opisie (pełna) – kicker bez powtórzenia */}
+            <span className="as-kicker">Pełna oferta kursu</span>
+            <DialogTitle>{poster.caption}</DialogTitle>
+            <DialogDescription>
+              {course.fullTitle} – oryginalna grafika {BRAND.academy}.
+            </DialogDescription>
+          </DialogHeader>
+          <Figure
+            image={image}
+            alt={alt}
+            ratio="9 / 16"
+            zoom={false}
+            priority
+            sizes="(min-width: 640px) 560px, 100vw"
+            className="mt-6 border border-ink/10"
+          />
+          <DialogFooter>
+            <a href={image.src} target="_blank" rel="noopener noreferrer" className="as-btn-solid">
+              Otwórz JPG<span className="sr-only"> w nowej karcie</span>
+            </a>
+            <DialogClose asChild>
+              <button type="button" className="as-btn-ghost">
+                Zamknij
+              </button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </li>
   );
 }
 
@@ -430,7 +509,7 @@ function OfferDownloads({ course }) {
    Linia rodzaj · cena · format łamie się tylko przed formatem: format to
    inline-block – przechodzi do nowej linii w całości, a zawija się w środku tylko
    wtedy, gdy sam jest szerszy niż łam.
-   Pod programem „Oferta do pobrania” (D8). */
+   Pod programem „Pełna oferta kursu” – wszystkie grafiki kursu (D8). */
 function ProgramArticle({ number, course, onBook }) {
   const [open, setOpen] = useState(false);
   const listId = `program-lista-${course.id}`;
@@ -481,7 +560,7 @@ function ProgramArticle({ number, course, onBook }) {
             className="mt-6"
           />
         )}
-        <OfferDownloads course={course} />
+        <OfferDownloads course={course} afterMore={total > PROGRAM_PREVIEW} />
       </Reveal>
     </article>
   );
@@ -700,8 +779,8 @@ function IncludedBand() {
 /* ================================================================== */
 /*  06 – PYTANIA (cream-100)                                           */
 /*  Układ jak pytania na /uslugi: nagłówek w wąskiej kolumnie, lista   */
-/*  w szerokiej. Dawna lista „Program do pobrania” → miniatury przy    */
-/*  kursach (D8).                                                      */
+/*  w szerokiej. Dawna lista „Program do pobrania” → „Pełna oferta     */
+/*  kursu” przy programach (D8).                                       */
 /* ================================================================== */
 
 function QuestionsBand() {

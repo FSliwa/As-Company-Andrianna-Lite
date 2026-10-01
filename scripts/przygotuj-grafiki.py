@@ -39,7 +39,19 @@ i w oryginale. Biel 255/255/255 -> 248/234/219 (kremowy ton tła).
 Dopasowanie jasności do CIEMNYCH sekcji robi komponent Figure (prop `tone`)
 przez CSS — jeden plik, dwa konteksty.
 
+Grafiki z 29.09.2026 (produkty i prace z buteleczką)
+-----------------------------------------------------
+Przypisane po NAZWIE pliku (NEW_PRODUCTS, NEW_WORKS), nie po numerze – numery starszych
+plików zostają bez zmian. Produkty (packshoty na białym tle) bez gradingu: barwa
+pigmentu na butelce ma zostać wierna; białe tło dopasowuje do kremu strony CSS
+(mix-blend-mode: multiply). Prace przycięte (CROP) tak, by w kadrze nie było
+doklejonej butelki z etykietą producenta. Pliki spoza list – NEW_SKIP (lampy,
+kartridże, kosmetyki spoza katalogu, prace z logo innych studiów, duplikat).
+
 Uruchomienie:  python3 scripts/przygotuj-grafiki.py
+               GRAPHICS_ONLY=product,work python3 scripts/przygotuj-grafiki.py
+               (tylko nowe grupy – bez kasowania i przeliczania pozostałych plików;
+               manifest jest uzupełniany)
 """
 
 import glob
@@ -71,6 +83,62 @@ GROUPS = {
 SPECIAL = {32: 'cennik-refresh', 33: 'cennik-usuwanie', 34: 'cennik-pmu'}
 SKIP = {56, 58, 60, 61, 62}
 
+# --- grafiki z 29.09.2026 – po nazwie pliku -----------------------------------
+NEW_PREFIX = 'WhatsApp Image 2026-09-29 at '
+# product-<id pigmentu z src/data/pigments.json> albo product-<nazwa>
+NEW_PRODUCTS = {
+    'product-as-princess-gold': '23.05.38 (1)',
+    'product-as-princess-pink': '23.05.38 (2)',
+    'product-as-opium-pigments-whiskey': '23.06.47 (1)',
+    'product-as-opium-pigments-pecan': '23.07.07',
+    'product-as-opium-pigments-soil': '23.07.24 (1)',
+    'product-as-opium-pigments-wood': '23.07.50 (1)',
+    'product-as-opium-pigments-brick': '23.09.06',
+    'product-as-opium-pigments-devil': '23.09.22 (1)',
+    'product-as-classic-pigments-deep-black': '23.09.45 (1)',
+    'product-as-classic-pigments-for-purple-eyebrows': '23.09.57',
+    'product-as-classic-pigments-orange': '23.10.21',
+    'product-as-classic-pigments-blond-brown': '23.10.22',
+    'product-as-classic-pigments-deep-brown': '23.10.23 (1)',
+    'product-as-classic-pigments-dark-brown': '23.10.23 (2)',
+    'product-as-classic-pigments-brown-haired': '23.10.23',
+    'product-as-classic-pigments-black-brown': '23.10.24 (1)',
+    'product-as-classic-pigments-base': '23.10.24',
+    'product-e5-dark-brown-6-ml-opium-light': '23.10.25',
+    'product-joker-harley-quinn-6ml': '23.30.46 (1)',
+    'product-doll-harley-quinn-6ml': '23.30.46 (2)',
+    'product-set-harley-quinn-do-ust': '23.30.46',
+    'product-set-paradise-do-ust': '23.30.47 (2)',
+    'product-maria-magdalena-6-ml-paradise': '23.30.47 (3)',  # Mona Liza (id ze sklepu)
+    'product-deva-maria-6-ml-paradise': '23.30.47 (4)',
+    'product-harley-harley-quinn-6ml-kopia': '23.30.47',
+    'product-as-opium-pigments-carrot': '23.30.48 (1)',
+    'product-as-opium-pigments-naomi': '23.30.48 (2)',
+    'product-as-opium-pigments-japanese-garden': '23.30.48 (3)',
+    'product-as-opium-pigments-pure-magenta': '23.30.48 (4)',
+    'product-as-opium-pigments-guava': '23.30.48 (5)',
+    'product-as-opium-pigments-sindy': '23.30.48',
+    'product-as-classic-pigments-pink-paradise': '23.30.49 (1)',
+    'product-as-classic-pigments-plum-dessert': '23.30.49 (2)',
+    'product-as-classic-pigments-coral': '23.30.49 (3)',
+    'product-as-classic-pigments-watermelon-ice': '23.30.49',
+}
+# work-<technika>-NN: (plik, przycięcie (l, t, r, b) w ułamkach – bez doklejonej butelki)
+NEW_WORKS = {
+    'work-snb-01': ('23.07.06', (0.0, 0.05, 0.78, 0.88)),   # włos maszynowy, znak Super Natural Brows / BABUSHKINA
+    'work-powder-01': ('23.07.50', (0.20, 0.0, 1.0, 1.0)),  # technika pudrowa
+    'work-eyes-01': ('23.09.45', (0.0, 0.02, 1.0, 0.66)),   # linia rzęs
+}
+NEW_SKIP = {
+    '23.05.37', '23.05.37 (1)', '23.05.37 (2)', '23.05.38', '23.05.38 (3)', '23.05.38 (4)',
+    '23.05.38 (5)', '23.05.38 (6)', '23.05.38 (7)', '23.05.38 (8)', '23.05.39', '23.05.39 (1)',
+    '23.05.39 (2)', '23.05.39 (3)',  # kosmetyki spoza katalogu, lampy, kartridże
+    '23.06.47',      # praca z logo innego studia („ART brows”)
+    '23.07.24',      # praca – technika niepewna
+    '23.09.22',      # praca z logo innego studia („Z”)
+    '23.30.47 (1)',  # Joker – drugi packshot
+}
+
 # --- sklejki do rozcięcia (nazwy po przypisaniu do grup) ---------------------
 COLLAGES = {
     'brows-01', 'brows-02', 'brows-10', 'brows-12', 'brows-13', 'brows-18',
@@ -93,7 +161,8 @@ SEAM_JUMP = 8.0            # skok średniej jasności między sąsiednimi wiersz
 SEAM_RGB_DIFF = 12.0       # różnica koloru 60 px nad i pod szwem
 
 # --- siła gradingu per grupa --------------------------------------------------
-STRENGTH = {'studio': 1.0, 'academy': 1.0, 'brows': 1.0, 'lips': 1.0, 'course': 0.45, 'cennik': 0.45}
+STRENGTH = {'studio': 1.0, 'academy': 1.0, 'brows': 1.0, 'lips': 1.0, 'work': 1.0, 'course': 0.45, 'cennik': 0.45}
+# 'product' celowo bez gradingu (wierna barwa pigmentu)
 SRC_MEAN = np.array([207.8, 172.0, 156.5], dtype=np.float32)
 DST_MEAN = np.array([200.2, 158.4, 132.6], dtype=np.float32)
 SCALE = np.array([46.0 / 44.8, 54.1 / 58.8, 59.9 / 67.7], dtype=np.float32)
@@ -223,11 +292,17 @@ def main():
     if not files:
         raise SystemExit(f'Brak plików w {SRC_DIR}/')
     os.makedirs(OUT_DIR, exist_ok=True)
-    for old in glob.glob(os.path.join(OUT_DIR, '*.webp')):
-        os.remove(old)
-
-    manifest = {}
+    only = {g for g in os.environ.get('GRAPHICS_ONLY', '').split(',') if g}
+    if only:
+        with open(MANIFEST, encoding='utf-8') as f:
+            manifest = json.load(f)
+    else:
+        for old in glob.glob(os.path.join(OUT_DIR, '*.webp')):
+            os.remove(old)
+        manifest = {}
     panel_report = {}
+    by_suffix = {os.path.basename(p)[len(NEW_PREFIX):-len('.jpeg')]: i
+                 for i, p in enumerate(files, 1) if os.path.basename(p).startswith(NEW_PREFIX)}
 
     def load(idx):
         im = Image.open(files[idx - 1]).convert('RGB')
@@ -249,13 +324,32 @@ def main():
                     save_all(p, f'{name}-p{n}', group, manifest)
 
     used = set()
-    for group, idxs in GROUPS.items():
-        for n, i in enumerate(idxs, 1):
-            process(i, f'{group}-{n:02d}', group)
+    if not only:
+        for group, idxs in GROUPS.items():
+            for n, i in enumerate(idxs, 1):
+                process(i, f'{group}-{n:02d}', group)
+                used.add(i)
+        for i, name in SPECIAL.items():
+            process(i, name, 'cennik')
             used.add(i)
-    for i, name in SPECIAL.items():
-        process(i, name, 'cennik')
-        used.add(i)
+
+    if not only or 'product' in only:
+        for name, suffix in NEW_PRODUCTS.items():
+            i = by_suffix[suffix]
+            save_all(load(i), name, 'product', manifest)
+            used.add(i)
+    if not only or 'work' in only:
+        for name, (suffix, box) in NEW_WORKS.items():
+            i = by_suffix[suffix]
+            im = load(i)
+            if box:
+                l, t, r, b = box
+                im = im.crop((round(im.width * l), round(im.height * t), round(im.width * r), round(im.height * b)))
+            save_all(im, name, 'work', manifest)
+            used.add(i)
+    used |= {by_suffix[s] for s in NEW_SKIP if s in by_suffix}
+    if only:
+        used |= {i for i in range(1, len(files) + 1) if not os.path.basename(files[i - 1]).startswith(NEW_PREFIX)}
 
     missing = [i for i in range(1, len(files) + 1) if i not in used and i not in SKIP]
     if missing:
@@ -265,6 +359,8 @@ def main():
         json.dump(manifest, f, indent=1, ensure_ascii=False)
 
     print(f'Zapisano {len(manifest)} pozycji do {OUT_DIR}/')
+    if only:
+        return
     print('Rozcięte sklejki:', ', '.join(f'{k}→{v} paneli' for k, v in panel_report.items()) or 'brak')
     nie = COLLAGES - set(panel_report)
     if nie:

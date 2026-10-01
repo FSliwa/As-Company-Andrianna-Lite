@@ -1,15 +1,18 @@
 'use client';
 
 /**
- * Drobne klocki katalogu pigmentów: próbka koloru, pasek palety kolekcji,
- * wybór pojemności, opis produktu, cena i odmiana liczebników.
+ * Drobne klocki katalogu pigmentów: próbka koloru, pole zdjęcia butelki, pasek palety
+ * kolekcji, wybór pojemności, opis produktu, cena i odmiana liczebników.
  * Wszystkie teksty i liczby pochodzą z src/data/pigments.json (przez
- * src/lib/pigments.js) – tu jest tylko prezentacja.
+ * src/lib/pigments.js), zdjęcia – z /Graphics (src/lib/productPhotos.js) –
+ * tu jest tylko prezentacja.
  */
 
 import React, { createContext, useContext } from 'react';
+import { Figure } from '@/components/as/Primitives';
 import { cn } from '@/lib/utils';
 import { collectionLabel, formatCapacity, formatPrice, zoneLabel } from '@/lib/pigments';
+import { productPhoto } from '@/lib/productPhotos';
 
 export const NBSP = '\u00a0';
 
@@ -98,6 +101,65 @@ export function Swatch({ color, className }) {
       className={cn('block', !color && 'border border-ink/20', className)}
       style={color ? { backgroundColor: color, ...RING } : HATCH}
     />
+  );
+}
+
+/* ---------------- zdjęcie butelki albo próbka w polu karty ---------------- */
+
+/* Tło pola: cream-100 na kremie sekcji (cream-50). Packshot mnożony przez ten ton
+   (mix-blend-multiply) traci białe tło, a barwa pigmentu przesuwa się minimalnie
+   (cream-200 z .as-media ocieplał ją wyraźniej). Widoczne pole jest potrzebne:
+   rozmaz koloru na zdjęciach dochodzi do lewej krawędzi kadru – na niewidocznym
+   polu wyglądałby na ucięty. Ten sam ton w polu bez zdjęcia (ProductTile). */
+
+/**
+ * Zdjęcie produktu w polu o proporcji `ratio` (object-contain – nic nie ucina;
+ * mix-blend-multiply, gdy packshot jest na białym tle). `null`, gdy zdjęcia nie ma.
+ * `!object-contain`: reguła `.as-media img` (index.css) ma object-cover i wyższą
+ * specyficzność niż sama klasa narzędziowa – bez `!` kadr inny niż kwadrat (dialog 4:3)
+ * ucinał górę i dół packshotu.
+ * Zdjęcie na czarnym tle (blend: false) dostaje czarne pole – przy proporcji innej
+ * niż kwadrat (dialog) boki nie odcinają się kremem.
+ */
+export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', className }) {
+  const photo = productPhoto(product.id);
+  if (!photo) return null;
+  return (
+    <Figure
+      image={photo.image}
+      alt={alt}
+      ratio={ratio}
+      sizes={sizes}
+      zoom={false}
+      className={cn(photo.blend ? '[&_.as-media]:bg-cream-100' : '[&_.as-media]:bg-black', className)}
+      imgClassName={cn('!object-contain', photo.blend && 'mix-blend-multiply')}
+    />
+  );
+}
+
+/**
+ * Pole na górze komórki katalogu: zdjęcie butelki, a bez zdjęcia – w tym samym polu
+ * i tej samej proporcji – próbka koloru: koło na środku (tam, gdzie na zdjęciu stoi
+ * butelka) w złotej linii jak .as-photo-frame i podpis „próbka koloru” (bez koloru:
+ * kreskowanie i „bez próbki” – ten podpis czyta też czytnik). Wysokość pola zależy
+ * tylko od szerokości kolumny, więc rzędy siatki się nie rozjeżdżają.
+ */
+export function ProductTile({ product, sizes, className }) {
+  const photo = productPhoto(product.id);
+  if (photo) return <ProductPhoto product={product} sizes={sizes} className={className} />;
+  return (
+    <div className={cn('relative flex aspect-square items-center justify-center bg-cream-100', className)}>
+      <Swatch
+        color={product.color}
+        className="aspect-square w-[42%] rounded-full outline outline-1 outline-offset-[6px] outline-gold/40"
+      />
+      <span
+        aria-hidden={product.color ? 'true' : undefined}
+        className="as-label absolute inset-x-2 bottom-[7%] text-center text-ink/65"
+      >
+        {product.color ? 'próbka koloru' : 'bez próbki'}
+      </span>
+    </div>
   );
 }
 
