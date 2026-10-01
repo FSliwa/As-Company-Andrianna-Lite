@@ -14,7 +14,10 @@
  *                           (!FORM_LIVE), pod leadem stoi link do Instagramu – działający
  *                           kanał jest w pierwszym ekranie, nie dopiero pod formularzem.
  *                           Odstępy jak nagłówek podstrony (PageHero): 96/56, od lg 96/64.
- * 02 Wizyta (cream-100)   – trzy kroki wizyty + portret ROLES.contactSection 4:5 w ramce;
+ * 02 Wizyta (cream-100)   – dwa kroki wizyty (wiadomość, termin) + portret
+ *                           ROLES.contactSection 4:5 bez ramki (prośba klientki „nie w ramce”);
+ *                           bez kroku „Rysunek wstępny”
+ *                           (zdjęty na prośbę klientki – opisują go /uslugi i strona główna);
  *                           od md portret obok kroków, na telefonie NAD nimi, w rozmiarze
  *                           okładki (17/22 rem) – sekcja kończy się wezwaniem, nie kadrem.
  * → stopka. Formularz jest CTA tej strony, więc nie ma pasa zamykającego (ClosingCta);
@@ -361,15 +364,17 @@ function Hero() {
 }
 
 /* ================================================================== */
-/*  02 – WIZYTA (cream-100): trzy kroki wizyty + portret 4:5           */
+/*  02 – WIZYTA (cream-100): dwa kroki wizyty + portret 4:5            */
 /* ================================================================== */
 
-/* Treść kroków złożona z istniejących zdań serwisu (kontakt + zabiegi) i briefu (FAQ).
+/* Treść kroków złożona z istniejących zdań tej strony (kontakt) i briefu (FAQ).
    Krok 01 wskazuje formularz dopiero wtedy, gdy formularz faktycznie wysyła; zdanie
    o zdjęciu starego makijażu – brief (FAQ „czy można robić nowy zabieg na starym…”).
    Uchwyt Instagrama w kroku 01 to link (::before powiększa pole dotyku do ≥ 44 px,
    jak w LocationDetails); hover bez złotego tekstu – złota tylko linia.
-   Krok 03: zamiast „Konsultacji” (bez źródła – INNE-11, BIO-14) rysunek wstępny z briefu. */
+   Dwa kroki: dawny krok 03 „Rysunek wstępny” klientka zdjęła z tej sekcji (uwaga: „zdjąć”) –
+   rysunek wstępny opisują /uslugi (przebieg wizyty, FAQ) i strona główna. Kroki stoją
+   w jednej kolumnie (lista, nie siatka), więc po zdjęciu trzeciego nie zostaje dziura. */
 const INSTAGRAM_LINK = (
   <a
     href={CONTACT.instagram}
@@ -395,11 +400,6 @@ const BOOKING_STEPS = [
     ),
   },
   { number: '02', title: 'Termin', desc: 'Wrócimy z konkretną odpowiedzią i wolnym terminem.' },
-  {
-    number: '03',
-    title: 'Rysunek wstępny',
-    desc: 'Przed pigmentacją dopasowujemy go do architektury twarzy i poprawiamy według Twoich uwag.',
-  },
 ];
 
 /* „Umów wizytę” w sekcji 02: rezerwacja online, gdy działa; bez niej – formularz,
@@ -418,7 +418,8 @@ function VisitBand() {
     <section className="as-section border-t border-ink/10 bg-cream-90">
       <div className="as-shell">
         <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
-          {/* – etykieta, nagłówek i kroki (w DOM przed kadrem: na telefonie czytamy je pierwsze;
+          {/* – etykieta, nagłówek i kroki (w DOM przed kadrem – czytnik ekranu czyta je pierwsze
+                na każdej szerokości; wizualnie na telefonie kadr stoi nad nimi (max-md:order-first),
                 od md stoją po prawej, obok portretu) – */}
           <div className="md:col-span-6 md:col-start-7 md:row-start-1 lg:col-span-5 lg:col-start-8">
             <Reveal>
@@ -444,7 +445,7 @@ function VisitBand() {
             </Reveal>
           </div>
 
-          {/* – jeden kadr: portret z sesji marki, w złotej ramce. Telefon: na początku
+          {/* – jeden kadr: portret z sesji marki, bez ramki. Telefon: na początku
                 rozkładówki, w rozmiarze okładki podstron (17/22 rem) – sekcja kończy się
                 wezwaniem „Umów wizytę”, a nie kadrem na pół ekranu. Od md obok kroków.
                 Telefon w poziomie (short:) – kadr 4:5 nie wyższy niż 80% ekranu, jak w Statement
@@ -458,7 +459,6 @@ function VisitBand() {
               alt={`${FOUNDER.name} – portret z sesji wizerunkowej marki`}
               ratio="4 / 5"
               position={portrait?.position}
-              framed
               zoom={false}
               sizes="(min-width: 1024px) 37vw, (min-width: 768px) 44vw, 92vw"
             />

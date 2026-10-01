@@ -293,7 +293,7 @@ export const PRICING_REMOVAL = {
  *                podaje je plakat; '' gdy źródło nie mówi netto/brutto,
  *  format, lead, program (pusta lista, gdy źródła nie podają programu – nie wymyślamy),
  *  posters     – plakaty z /Graphics: { index: pozycja w COURSE z src/lib/media.js
- *                (course-0N.jpg → N−1), caption } – do „Oferty do pobrania” (D8),
+ *                (course-0N.jpg → N−1), caption } – do „Pełnej oferty kursu” (D8, Education.jsx),
  *  cta         – etykieta przycisku („Zapytaj o termin” / „Zapytaj o dostęp”),
  *  requiresContact – true: rezerwacja tylko po wstępnym kontakcie (brief),
  *  home        – true: pozycja w cenniku szkoleń na stronie głównej (maks. 3, D4).

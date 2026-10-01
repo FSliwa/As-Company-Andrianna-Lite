@@ -5,9 +5,9 @@
  *
  * Każda sekcja to rozkładówka: SectionLabel → H2 .as-display-section → treść →
  * jedno wezwanie. Portret wyłącznie przez ROLES, makra wyłącznie przez MACROS
- * (src/lib/roles.js) – na tej trasie dokładnie sześć makr: cztery w pasie efektów
- * (03) i dwa przy technikach (02 – tylko przy technikach, które na zdjęciu znamy
- * na pewno: Super Natural Brows i Perfect Lips). Ceny zawsze z cennika marki
+ * (src/lib/roles.js) – na tej trasie dokładnie osiem makr: cztery w pasie efektów
+ * (03) i po jednym przy każdej z czterech technik (02 – tylko zdjęcia, o których
+ * wiemy, że przedstawiają daną technikę). Ceny zawsze z cennika marki
  * (PRICING_* w src/lib/site.js).
  *
  * Rytm tła: 01 hero (cream-50) → 02 techniki (cream-100, hairline) → 03 efekty
@@ -31,12 +31,12 @@
  *
  * Telefon (< sm): opisy technik i zabiegów 04 przycięte do dwóch linii
  * z przyciskiem „Więcej” (aria-expanded), który rozwija pełny opis, cytat
- * techniki i notę ceny; zdjęcie techniki (02) stoi zawsze – pod tytułem, nad
- * opisem; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
+ * techniki i notę ceny; zdjęcie techniki (02) stoi zawsze – kwadrat obok numeru
+ * i tytułu, nad opisem; wstępy sekcji 04/06 ukryte; tabele refresh i usuwania
  * zwinięte w <Faq> (< lg) – od lg stoją w pełni; link do Instagramu w 03 pod
  * stykówką (po treści, nie przed nią); pytania 06: cztery + MobileMore.
- * Tablet (md): wiersz techniki w dwóch kolumnach (numerał + tytuł ze zdjęciem
- * pod nim | opis + meta),
+ * Tablet (md): wiersz techniki w trzech kolumnach (zdjęcie | numer + tytuł |
+ * opis + meta),
  * nagłówek 04 w dwóch kolumnach, kroki wizyty 2 + 1 (trzeci na całą szerokość),
  * cennik 05 w dwóch kolumnach (nagłówek + akordeony | cennik PMU).
  * Desktop (≥ lg) bez zmian.
@@ -78,7 +78,7 @@ import {
 } from '@/lib/site';
 import { CENNIK } from '@/lib/media';
 import { MACROS, ROLES } from '@/lib/roles';
-import { cn } from '@/lib/utils';
+import { cn, nbspShort } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Ceny – zawsze z cennika marki                                      */
@@ -109,20 +109,21 @@ const pmuItem = (id) => PRICING_PMU.items.find((item) => item.id === id) || {};
 const pmuPrice = (id) => fmt(pmuItem(id).price || '');
 
 /* ------------------------------------------------------------------ */
-/*  02 – cztery techniki (indeks; zdjęcia tam, gdzie technika pewna)   */
+/*  02 – cztery techniki (indeks; przy każdej zdjęcie techniki)        */
 /*  D2: nazwy widoczne wg briefu („Perfect Brows”, „Perfect Eyes”);     */
 /*  id wierszy i rezerwacji bez zmian (linki ?zabieg=). Opisy z briefu. */
 /*  D6: czas tylko przy SNB – jedyny czas w źródłach (brief: Andriana   */
 /*  wykonuje włos maszynowy w 1,5–2 godziny); pozostałe czasy (z dawnej */
 /*  wersji strony, bez źródła) usunięte do potwierdzenia przez klientkę. */
-/*  D8 (decyzja 30.09.2026, klientka: „Brakuje mi też zdjęć przy opisie */
-/*  zabiegów”): zdjęcie przy technice tylko wtedy, gdy wiemy, że kadr   */
-/*  ją przedstawia – napis na sklejce źródłowej: brows-13 „Supernatural */
-/*  brows”, lips-03 „Perfect lips” (MACROS, src/lib/roles.js). Perfect  */
-/*  Brows i Perfect Eyes: w /Graphics brak takich zdjęć – cudzych       */
-/*  kadrów nie podpisujemy ich nazwą; wiersz stoi bez zdjęcia (zdjęcie  */
-/*  należy do bloku tytułu, więc jego brak nie zostawia pustego pola).  */
-/*  Gdy klientka dośle zdjęcia – `photo` w wierszu, makro w MACROS.     */
+/*  D8 (30.09.2026, „Brakuje mi też zdjęć przy opisie zabiegów”) i      */
+/*  poprawka klientki 1.10.2026 (ramki w miejscu numerów 01–04,         */
+/*  „Zdjęcia techniki”): zdjęcie przy KAŻDEJ technice, w lewej kolumnie */
+/*  wiersza. Tylko kadry, o których wiemy, że przedstawiają technikę:   */
+/*  prace z 29.09.2026 opisane przez klientkę (work-snb-01 włos         */
+/*  maszynowy, work-powder-01 technika pudrowa, work-eyes-01 linia      */
+/*  rzęs) i lips-03 z napisem „Perfect lips” na sklejce (MACROS,        */
+/*  src/lib/roles.js). Bez `photo` lewa kolumna wiersza zostaje pusta – */
+/*  nowa technika potrzebuje zdjęcia (wpis w MACROS).                   */
 /* ------------------------------------------------------------------ */
 
 const TECHNIQUES = [
@@ -139,7 +140,7 @@ const TECHNIQUES = [
     quote:
       'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę, aby ktoś wiedział, że mam zrobione brwi – mają wyglądać jak moje”.',
     photo: {
-      macro: MACROS.brows13p2,
+      macro: MACROS.snb01,
       alt: 'Brew i oko po makijażu permanentnym techniką Super Natural Brows – widoczne pojedyncze włoski',
     },
   },
@@ -155,7 +156,10 @@ const TECHNIQUES = [
        o technice pudrowej. „Combo” z tego zdania zostaje w tekście o salonie (/o-nas): ceny
        combo źródła nie podają, więc nie stawiamy go przy wierszu z ceną (D10, pytanie do klientki). */
     quote: 'Dla osób, które chcą mocniej podkreślić kształt brwi, ale nadal w naturalnej wersji.',
-    /* bez `photo` – D8: brak zdjęcia, o którym wiemy, że przedstawia technikę pudrową */
+    photo: {
+      macro: MACROS.powder01,
+      alt: 'Brew po makijażu permanentnym techniką pudrową – miękki efekt cienia, obok rzęsy',
+    },
   },
   {
     id: 'perfect-lips',
@@ -178,7 +182,10 @@ const TECHNIQUES = [
     price: pmuPrice('perfect-eyeliners'), // D2: id stałe (dawniej „Perfect Eyeliners”)
     description:
       'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki – bez kreski, bez ogonka i bez cienia na powiece.',
-    /* bez `photo` – D8: brak zdjęcia, o którym wiemy, że przedstawia pigmentację linii rzęs */
+    photo: {
+      macro: MACROS.eyes01,
+      alt: 'Oko po pigmentacji linii rzęs Perfect Eyes – zbliżenie górnej linii rzęs i tęczówki',
+    },
   },
 ];
 
@@ -199,10 +206,14 @@ const HERO_FACTS = [
 /*  03 – efekty (makra z białej listy) i przebieg wizyty               */
 /* ------------------------------------------------------------------ */
 
+/* Trzecie zdjęcie: technika pudrowa (klientka 1.10.2026 – w miejscu brows17: „Na miejscu
+   tego zdjęcia zdjęcie techniki pudrowej”); ten sam plik co w wierszu Perfect Brows (02),
+   w szerszym kadrze (MACROS.powder01Wide: cała szerokość pliku, w 02 × 1,1). Plik nie daje
+   wyraźnie innej kompozycji z całą brwią – drugie zdjęcie techniki pudrowej od klientki. */
 const RESULTS = [
   { macro: MACROS.brows15, alt: 'Brwi po makijażu permanentnym – zbliżenie' },
   { macro: MACROS.brows08, alt: 'Brew i oko po makijażu permanentnym – zbliżenie' },
-  { macro: MACROS.brows17, alt: 'Łuk brwi po makijażu permanentnym – zbliżenie' },
+  { macro: MACROS.powder01Wide, alt: 'Brwi wykonane techniką pudrową – zbliżenie' },
   { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym – zbliżenie' },
 ].map(({ macro, alt }) => ({ image: macro.image, position: macro.position, alt }));
 
@@ -210,7 +221,8 @@ const RESULTS = [
    wstępny (brief, FAQ). Zdanie „Zabieg trwa od 1 do 2 godzin” bez źródła – usunięte;
    w jego miejscu zdanie z FAQ briefu (żel chłodzący; brzmienie złagodzone jak w FAQ – D3).
    D5 (Z10): korekta od miesiąca do 3 miesięcy od zabiegu i jej opis z briefu – widoczne
-   także na telefonie (warunki z grafiki stoją pod cennikiem PMU). */
+   także na telefonie (warunki z grafiki stoją pod cennikiem PMU). Cena korekty tylko
+   w cenniku (#cennik) – klientka 1.10.2026 skreśliła „500 zł” w tytule kroku 03. */
 const KOREKTA = pmuItem('korekta');
 
 const VISIT_STEPS = [
@@ -226,7 +238,7 @@ const VISIT_STEPS = [
   },
   {
     number: '03',
-    title: `Korekta – ${fmt(KOREKTA.price || '')}`,
+    title: 'Korekta',
     desc: `${KOREKTA.timing}. Uzupełniamy ubytki – najczęściej zależne od skóry, jej regeneracji lub stanu hormonalnego – albo wzmacniamy efekt, pogrubiamy brwi i zagęszczamy włoski.`,
   },
 ];
@@ -325,7 +337,7 @@ const FAQ_ITEMS = [
 ];
 
 /* ================================================================== */
-/*  02 – TECHNIKI (cream-50)                                           */
+/*  02 – TECHNIKI (cream-100, hairline)                               */
 /* ================================================================== */
 
 /* Telefon (< sm): opis przycięty do dwóch linii i przycisk „Więcej”
@@ -388,34 +400,43 @@ function MoreButton({ more, controls, name, className }) {
   );
 }
 
-/* Zdjęcie techniki (D8): panel ze sklejki w poziomej proporcji 12:5,
-   na szerokość kolumny tytułu, maks. 20rem (320 px); na telefonie (375 px) stoi pod
-   tytułem, nad opisem. Niski kadr poziomy nie wydłuża wiersza ponad miarę obok dwóch
-   linii opisu, a makra z telefonu nie są powiększane ponad ~360 px. Ton „light” i zoom={false} jak makra
-   na kremie (ResultStrip na kremie, dawne /pigmenty 03); złota ramka .as-photo-frame
-   jak pozostałe małe kadry tej trasy (pas efektów 03, miniatury cennika 05).
-   Podpis faktyczny: nazwa techniki z napisu na sklejce źródłowej (MACROS.caption).
-   `sizes` = szerokość RENDEROWANEGO obrazu, nie kadru: gdy panel jest szerszy niż
-   kadr (np. 2,44:1 w 12:5), wypełnia wysokość i wystaje poza kadr – coverWidth
-   liczy tę szerokość, żeby przeglądarka nie wzięła za małego pliku.
-   Szerokości kadru muszą odpowiadać klasom max-w figure (literały dla Tailwinda);
-   ramka zabiera z nich TECHNIQUE_FRAME_PX (border 1 px + p-1 z obu stron). */
-const TECHNIQUE_PHOTO_PX = 320; // max-w-[20rem] (na telefonie kolumna tytułu jest węższa – kadr ją wypełnia)
-const TECHNIQUE_PHOTO_PX_LG = 320; // lg: kolumna tytułu 20rem
-const TECHNIQUE_FRAME_PX = 10; // .as-photo-frame: 2 × (1 px + 4 px)
-const coverWidth = (image, ratio, boxPx) => {
+/* Zdjęcie techniki (D8, poprawka klientki 1.10.2026): kwadrat w lewej kolumnie wiersza,
+   w miejscu dawnego dużego numerału (klientka narysowała tam ramki: „Zdjęcia techniki”).
+   Bok kadru: telefon 6rem, sm–md 7,5rem, lg 9rem, xl 10rem – przy dwóch–trzech liniach
+   opisu i cytacie wiersz nie rośnie ponad dawną wysokość wiersza ze zdjęciem 12:5.
+   Bez ramki (styl „nie w ramce”, jak portrety po 30.09) – kadr porządkują hairline’y
+   wiersza; ton „light” i zoom={false} jak makra na kremie (ResultStrip na kremie).
+   Bez podpisu pod zdjęciem: nazwą techniki jest tytuł obok, opis kadru – w alt.
+   `scale` + `origin` z MACROS (dociśnięcie kadru) idą do obrazu przez zmienne CSS,
+   bo Figure nie przyjmuje stylu obrazu, a klasy Tailwinda muszą być literałami.
+   `sizes` = szerokość RENDEROWANEGO obrazu, nie kadru: plik szerszy niż kwadrat
+   (lips-03-p3 ≈ 2,44:1, work-eyes-01 1,25:1) wypełnia wysokość i wystaje w poziomie,
+   a `scale` go dodatkowo powiększa – coverWidth liczy obie rzeczy, żeby przeglądarka
+   nie wzięła za małego pliku. Progi muszą odpowiadać klasom kolumny w TechniqueRow. */
+const TECHNIQUE_PHOTO_PX = [
+  [1280, 160], // xl: 10rem
+  [1024, 144], // lg: 9rem
+  [640, 120], // sm i md: 7,5rem
+  [0, 96], // telefon: 6rem
+];
+const coverWidth = ({ image, ratio, scale = 1 }, boxPx) => {
   const [rw, rh] = String(ratio).split('/').map(Number);
-  const scale = Math.max(1, image.w / image.h / (rw / rh));
-  return `${Math.ceil((boxPx - TECHNIQUE_FRAME_PX) * scale)}px`;
+  const cover = Math.max(1, image.w / image.h / (rw / rh));
+  return `${Math.ceil(boxPx * cover * scale)}px`;
 };
-const techniquePhotoSizes = (image, ratio) =>
-  `(min-width: 1024px) ${coverWidth(image, ratio, TECHNIQUE_PHOTO_PX_LG)}, ${coverWidth(image, ratio, TECHNIQUE_PHOTO_PX)}`;
+const techniquePhotoSizes = (macro) =>
+  TECHNIQUE_PHOTO_PX.map(([min, px]) =>
+    min ? `(min-width: ${min}px) ${coverWidth(macro, px)}` : coverWidth(macro, px)
+  ).join(', ');
 
-function TechniquePhoto({ photo }) {
-  const { macro, alt } = photo;
+function TechniquePhoto({ photo, className }) {
+  const { macro, alt } = photo || {};
   if (!macro || !macro.image) return null;
+  const crop = macro.scale
+    ? { '--as-crop-scale': String(macro.scale), '--as-crop-origin': macro.origin || '50% 50%' }
+    : undefined;
   return (
-    <figure className="mt-4 w-full max-w-[20rem] sm:mt-5">
+    <div className={className} style={crop}>
       <Figure
         image={macro.image}
         alt={alt}
@@ -423,31 +444,28 @@ function TechniquePhoto({ photo }) {
         position={macro.position}
         tone="light"
         zoom={false}
-        sizes={techniquePhotoSizes(macro.image, macro.ratio)}
-        className="as-photo-frame"
+        sizes={techniquePhotoSizes(macro)}
+        imgClassName={macro.scale ? 'origin-[var(--as-crop-origin)] scale-[var(--as-crop-scale)]' : undefined}
       />
-      <figcaption className="as-caption mt-2">{macro.caption}</figcaption>
-    </figure>
+    </div>
   );
 }
 
-/* Wiersz indeksu – geometria IndexRow (numerał 64 | tytuł 28 | opis | cena
-   + link), rozpisana na 4 kolumny wyrównane do góry, żeby opis stał obok
-   tytułu, a nie pod nim (budżet wysokości trasy).
+/* Wiersz indeksu – zdjęcie | numer + tytuł | opis | cena + link, wyrównane do góry,
+   żeby opis stał obok tytułu, a nie pod nim (budżet wysokości trasy).
    Lokalnie, bo IndexRow nie ma przycinania opisu na telefonie; „Umów wizytę”
-   prowadzi do rezerwacji z już wybranym zabiegiem.
-   Zdjęcie (tylko wiersze z `photo`) należy do bloku tytułu: stoi pod kickerem
-   w kolumnie tytułu na każdej szerokości, więc wiersz bez zdjęcia jest po prostu
-   krótszy – bez pustego pola w siatce.
-   Telefon: numerał obok tytułu, pod tytułem zdjęcie (zawsze widoczne, nad
-   opisem), opis (2 linie + „Więcej”) na pełną szerokość, meta w jednym rzędzie
-   (czas + cena | „Umów wizytę”), cytat po rozwinięciu.
-   Tablet (md): numerał + tytuł (ze zdjęciem) w lewej kolumnie, opis i meta w prawej.
-   Lewa kolumna obejmuje trzy rzędy (auto | auto | 1fr): nadmiar wysokości bloku
-   ze zdjęciem trafia do trzeciego, pustego rzędu, więc meta stoi tuż pod opisem,
-   a nie w połowie wysokości zdjęcia.
-   Desktop (lg): cztery kolumny jak dotąd w jednym rzędzie, meta w kolumnie do
-   prawej (grid-rows-none – bez pustych rzędów i ich odstępów). */
+   prowadzi do rezerwacji z już wybranym zabiegiem. Numer techniki mniejszy niż
+   dawny numerał – .as-num (Bodoni 24 px, jak karty 04 i kroki wizyty) nad tytułem.
+   Telefon: zdjęcie obok numeru z tytułem, pod nimi opis (2 linie + „Więcej”) na pełną
+   szerokość, meta w jednym rzędzie (czas + cena | „Umów wizytę”), cytat po rozwinięciu.
+   sm: zdjęcie w lewej kolumnie przez trzy rzędy (tytuł | opis | meta po prawej).
+   Tablet (md): zdjęcie | numer + tytuł | opis i meta w trzeciej kolumnie.
+   Rzędy sm/md kończą się rzędem 1fr, w którym stoi meta: gdyby zdjęcie było wyższe niż
+   treść obok, nadmiar trafia pod metę, a nie między opis i metę.
+   Desktop (lg): cztery kolumny w jednym rzędzie (grid-rows-none), meta w kolumnie
+   do prawej. Kolumna tytułu ma stałą szerokość (14rem, od xl 18rem – „Super Natural
+   Brows” w jednej linii), żeby opisy wszystkich wierszy zaczynały się w jednej osi:
+   każdy wiersz to osobna siatka, a meta (auto) jest przy SNB szersza o czas zabiegu. */
 function TechniqueRow({ t, last }) {
   const more = useMobileMore(Boolean(t.quote));
   const bodyId = `${t.id}-opis`;
@@ -455,38 +473,39 @@ function TechniqueRow({ t, last }) {
     <article
       id={t.id}
       className={cn(
-        'grid grid-cols-[3.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-ink/15 py-5',
-        'sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-y-4 sm:py-8',
-        'md:grid-cols-[4.5rem_minmax(0,5fr)_minmax(0,7fr)] md:items-start md:gap-x-6',
-        t.photo && 'md:grid-rows-[auto_auto_1fr] lg:grid-rows-none',
-        'lg:grid-cols-[6rem_20rem_minmax(0,1fr)_auto] lg:gap-8',
+        'grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-x-4 gap-y-4 border-t border-ink/15 py-6',
+        'sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:grid-rows-[auto_auto_1fr] sm:gap-x-6 sm:py-8',
+        'md:grid-cols-[7.5rem_minmax(0,5fr)_minmax(0,7fr)] md:grid-rows-[auto_1fr]',
+        'lg:grid-cols-[9rem_14rem_minmax(0,1fr)_auto] lg:grid-rows-none lg:gap-8',
+        'xl:grid-cols-[10rem_18rem_minmax(0,1fr)_auto]',
         last && 'border-b'
       )}
     >
-      <span
-        className={cn(
-          'as-display-md leading-none text-gold-dark lg:row-span-1',
-          t.photo ? 'md:row-span-3' : 'md:row-span-2'
-        )}
-      >
-        {t.number}
-      </span>
-      <div className={cn('lg:row-span-1', t.photo ? 'md:row-span-3' : 'md:row-span-2')}>
-        <h3 className="as-title text-ink">{t.name}</h3>
-        <p className="as-kicker mt-2">{t.kind}</p>
-        {t.photo && <TechniquePhoto photo={t.photo} />}
+      <TechniquePhoto
+        photo={t.photo}
+        className="col-start-1 row-start-1 sm:row-span-3 md:row-span-2 lg:row-span-1"
+      />
+      <div className="col-start-2 row-start-1 md:row-span-2 lg:row-span-1">
+        <span className="as-num">{t.number}</span>
+        <h3 className="as-title mt-3 text-ink">{t.name}</h3>
+        <p className="as-kicker mt-2">{nbspShort(t.kind)}</p>
       </div>
-      <div id={bodyId} className="col-span-2 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-1">
+      <div
+        id={bodyId}
+        className="col-span-2 row-start-2 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-1"
+      >
         <p
           ref={more.textRef}
           className={cn('max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
         >
-          {t.description}
+          {nbspShort(t.description)}
         </p>
-        {t.quote && <p className={cn('as-quote mt-3 max-w-[34rem] text-mocha', more.hiddenClass)}>{t.quote}</p>}
+        {t.quote && (
+          <p className={cn('as-quote mt-3 max-w-[34rem] text-mocha', more.hiddenClass)}>{nbspShort(t.quote)}</p>
+        )}
         <MoreButton more={more} controls={bodyId} name={t.name} className="mt-1.5" />
       </div>
-      <div className="col-span-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-2 lg:col-start-4 lg:row-start-1 lg:flex-col lg:flex-nowrap lg:items-end lg:justify-start lg:gap-4">
+      <div className="col-span-2 row-start-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-2 lg:col-start-4 lg:row-start-1 lg:flex-col lg:flex-nowrap lg:items-end lg:justify-start lg:gap-4">
         <p className="whitespace-nowrap">
           {/* D6: czas tylko przy technice ze źródłem czasu (SNB) */}
           {t.duration && <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>}

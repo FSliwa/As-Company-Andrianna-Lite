@@ -3,16 +3,17 @@
 /**
  * /o-nas – „Numer 01".
  *
- * Rozkładówki: okładka (studio-11) → Droga zawodowa na cream-90 (od md jeden portret
+ * Rozkładówki: okładka (studio-01) → Droga zawodowa na cream-90 (od md jeden portret
  * studio-08 + biografia z inicjałem; na telefonie bez portretu, biografia zwinięta
  * pod „Więcej”) → Liczby (cream-50) → Cytat (cream-100) → Salon i akademia
- * (cream-50, typograficznie; link do /uslugi) → ClosingCta.
+ * (cream-50; kolaż trzech prac – włos maszynowy, technika pudrowa, usta; link do /uslugi)
+ * → ClosingCta.
  * Złącza tekst–tekst (Liczby | Cytat | Salon) od lg ciaśniejsze (.as-section-tight*),
  * przed pasem zamykającym pełny odstęp.
  * Portrety wyłącznie przez ROLES (src/lib/roles.js); zdjęcia grupowe są na /szkolenia.
  * D7: biografia i salon z briefu – FOUNDER.facts / FOUNDER.podiums / SALON (src/lib/site.js).
  * Zdjęć salonu i parkingu (brief: „Na tej podstronie dodajemy zdjęcia salonu, parkingu”)
- * brak w /Graphics – sekcja 05 jest typograficzna do czasu dostarczenia materiału.
+ * nadal brak w /Graphics – sekcja 05 pokazuje do tego czasu kolaż prac (COLLAGE).
  */
 
 import React, { useState } from 'react';
@@ -30,7 +31,7 @@ import {
   Stat,
 } from '@/components/as/Primitives';
 import { ACHIEVEMENTS, BOOKING_URL, BRAND, FOUNDER, SALON } from '@/lib/site';
-import { ROLES } from '@/lib/roles';
+import { MACROS, ROLES } from '@/lib/roles';
 import { cn } from '@/lib/utils';
 
 /* Wyróżnienia w biografii – marka pisze lekko, więc tylko font-medium. */
@@ -100,6 +101,71 @@ const SPECIALTIES = [
   { number: '02', title: 'Technika pudrowa lub combo', desc: SALON.powder },
   { number: '03', title: 'Usta', desc: SALON.lips },
 ];
+
+/* Kolaż w sekcji 05 (klientka 30.09: owal z krzyżem i „Kolaż” pod nagłówkiem) – po jednej
+   pracy do każdej specjalizacji: włos maszynowy (work-snb-01, Super Natural Brows), technika
+   pudrowa (work-powder-01), usta (lips-02-p2, panel „Healed” – kadr bez napisów).
+   Kadry w pudełku 5:4, pozycje w % – kompozycja skaluje się bez zmian; proporcja slotu
+   = szer. × 1,25 / wys.: włos 3:4 (plik 3:4, bez cięcia), puder 3:5 (od lewej – za
+   x ≈ 596 pliku jest rozmazany pas), usta 2,1:1. Bez ramek („nie w ramce”): usta nachodzą
+   na dolne rogi obu portretów, a obwódka w kolorze tła (ring cream-50) tylko oddziela kadry.
+   Usta (plik 1204 × 729): kontur warg ok. y 152–668, nad nim napis „Healed” (do y ≈ 124),
+   pod nim szary pasek (od y ≈ 718). Przy 2,1:1 widać 573 px wysokości pliku, po scale 1,02
+   ok. 562; Y 82% = okno ok. 133–695 – ok. 20 px skóry nad łukiem Kupidyna i ok. 27 pod
+   dolną wargą, bez napisu i paska (przy 2,2:1 kontur górnej wargi dotykał krawędzi kadru;
+   Y < 80% zbliża okno do „Healed”, Y > 85% – usta do górnej krawędzi). scale 1,02 od
+   prawej chowa szary pasek 4 px przy lewej krawędzi pliku. Kadry od 1440 px: portrety
+   ≤ 300 px (pliki 599 / 614 px), usta ok. 330 px (plik 1204 px) – ostre przy 2×;
+   zoom={false} jak makra. Podpisy: brak – techniki nazywa lista 01–03 tuż pod kolażem;
+   alt – tylko to, co wiemy o kadrze. */
+const COLLAGE = [
+  {
+    key: 'snb',
+    image: MACROS.snbCollage.image,
+    alt: 'Brwi po makijażu permanentnym techniką włosa maszynowego Super Natural Brows – zbliżenie twarzy',
+    box: 'right-0 top-[7%] h-[93%] w-[56%]',
+    position: MACROS.snbCollage.position,
+    sizes: '(min-width: 1024px) 300px, (min-width: 640px) 290px, 56vw',
+  },
+  {
+    key: 'powder',
+    image: MACROS.powderCollage.image,
+    alt: 'Brew po makijażu permanentnym techniką pudrową – zbliżenie łuku brwi nad okiem',
+    box: 'left-0 top-0 h-[79%] w-[38%]',
+    position: MACROS.powderCollage.position,
+    sizes: '(min-width: 1024px) 205px, (min-width: 640px) 195px, 38vw',
+  },
+  {
+    key: 'lips',
+    image: MACROS.lipsCollage.image,
+    alt: 'Usta po makijażu permanentnym, wygojone – zbliżenie',
+    box: 'bottom-0 left-0 z-10 h-[36.9%] w-[62%] ring-[6px] ring-cream-50 lg:ring-8',
+    position: MACROS.lipsCollage.position,
+    imgClassName: 'origin-right scale-[1.02]',
+    sizes: '(min-width: 1024px) 335px, (min-width: 640px) 320px, 62vw',
+  },
+];
+
+function SalonCollage() {
+  return (
+    <div className="relative aspect-[5/4] w-full">
+      {COLLAGE.map((c) => (
+        <div key={c.key} className={cn('absolute', c.box)}>
+          <Figure
+            image={c.image}
+            alt={c.alt}
+            fill
+            position={c.position}
+            imgClassName={c.imgClassName}
+            tone="light"
+            zoom={false}
+            sizes={c.sizes}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 /* ================================================================== */
 /*  01 – OKŁADKA                                                       */
@@ -311,8 +377,9 @@ function QuoteBand() {
 
 /* ================================================================== */
 /*  05 – SALON I AKADEMIA (cream-50) – tekst „Salon” z briefu (SALON,  */
-/*  D7), typograficznie; link /uslugi. Zdjęcia salonu i parkingu –     */
-/*  do dostarczenia przez klientkę (brak w /Graphics).                 */
+/*  D7), kolaż trzech prac (włos maszynowy, technika pudrowa, usta),   */
+/*  link /uslugi. Zdjęcia salonu i parkingu – do dostarczenia przez    */
+/*  klientkę (brak w /Graphics).                                       */
 /* ================================================================== */
 
 function SalonBand() {
@@ -320,8 +387,12 @@ function SalonBand() {
     /* #salon: odstęp kotwicy daje html { scroll-padding-top } – bez scroll-mt na celu */
     <section id="salon" className="as-section as-section-tight-top bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="lg:col-span-5">
+        {/* Od lg: nagłówek (wiersz 1) i kolaż (wiersz 2) w lewej kolumnie, tekst po prawej
+            przez oba wiersze. Wiersz 2 = 1fr – nadmiar wysokości tekstu trafia pod kolaż,
+            nie między nagłówek a kolaż. Poniżej lg kolejność z DOM: nagłówek → tekst →
+            kolaż (zdjęcia tuż nad listą 01–03, którą ilustrują). */}
+        <div className="grid gap-8 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-0">
+          <Reveal className="lg:col-span-5 lg:row-start-1">
             <SectionLabel number="05">Salon i akademia</SectionLabel>
             <h2 className="as-display-section mt-6 text-ink">
               Subtelnie,
@@ -333,7 +404,10 @@ function SalonBand() {
           </Reveal>
           {/* studio z parkingiem, podejście (kobiety i mężczyźni), opieka charytatywna – brief
               „Salon” (BIO-05, BIO-08, BIO-23, STR-14); D3: brzmienia ostrożne z SALON */}
-          <Reveal delay={80} className="lg:col-span-6 lg:col-start-7 lg:pt-10">
+          <Reveal
+            delay={80}
+            className="lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:pt-10"
+          >
             <div className="as-body space-y-5">
               <p>{SALON.intro}</p>
               <p>
@@ -344,6 +418,15 @@ function SalonBand() {
             <ArrowLink href="/uslugi" className="mt-8 w-fit">
               Zobacz zabiegi
             </ArrowLink>
+          </Reveal>
+          {/* telefon: pełna szerokość łamu; tablet: najwyżej 32rem (kolaż 5:4 ≈ 410 px wysokości
+              zamiast ~560 przy pełnym łamie, portret SNB ≤ 290 px – ostry przy 2× z pliku
+              599 px); od lg: kolumna nagłówka (361–535 px) */}
+          <Reveal
+            delay={120}
+            className="mt-4 max-w-[32rem] lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:max-w-none"
+          >
+            <SalonCollage />
           </Reveal>
         </div>
 
