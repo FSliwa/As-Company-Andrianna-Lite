@@ -66,6 +66,13 @@ function useDialogOpen() {
   return open;
 }
 
+/* Trasy, na których pierwszy ekran to zdjęcie na tle (hero strony głównej i PageHero
+   'cover' na /o-nas, /uslugi, /szkolenia): przed przewinięciem nagłówek jest przezroczysty
+   (zdjęcie zaczyna się pod nim – sekcja cofa się o --as-header-h), a nawigacja ma pełny
+   kolor ink (ink/65 na jasnych włosach dawało 2,4–3,8:1, poniżej AA). Nowa strona
+   z PageHero ze zdjęciem = dopisać ją tutaj (adres polski – canonical). */
+const PHOTO_HERO_ROUTES = new Set(['/', '/o-nas', '/uslugi', '/szkolenia']);
+
 /* Podkategorie pozycji głównej (NAV_MAIN[i].group → NAV_ALL[group].links) – „Produkty”:
    pigmenty, maszynka, dokumentacja (prośba klientki: „podkategoria na produkty”). */
 const subLinks = (item, NAV_ALL) => (Number.isInteger(item.group) ? NAV_ALL[item.group]?.links || [] : []);
@@ -203,9 +210,8 @@ function Header({ menuOpen, setMenuOpen }) {
   const longLabels = locale !== 'pl';
   const bookingHref = useBookingHref();
   const [scrolled, setScrolled] = useState(false);
-  /* strona główna przed przewinięciem: przezroczysty nagłówek na zdjęciu hero – pozycje
-     nawigacji w pełnym ink (ink/65 na jasnych włosach dawało 2,4–3,8:1, poniżej AA) */
-  const overPhoto = canonical === '/' && !scrolled;
+  /* przed przewinięciem nad zdjęciem na tle: przezroczysty nagłówek, nawigacja w pełnym ink */
+  const overPhoto = PHOTO_HERO_ROUTES.has(canonical) && !scrolled;
   const menuButton = useRef(null);
   const closeButton = useRef(null);
   const skipLink = useRef(null);
@@ -291,9 +297,9 @@ function Header({ menuOpen, setMenuOpen }) {
           'sticky top-0 z-50 transition-colors duration-300',
           scrolled
             ? 'border-b border-ink/10 bg-cream-50'
-            : /* strona główna: hero ma zdjęcie na tle (także pod nagłówkiem) – nagłówek przezroczysty,
-                 bez rozmycia, które odcinało górny pas zdjęcia jak ramka; po przewinięciu kremowy */
-              canonical === '/'
+            : /* zdjęcie na tle także pod nagłówkiem – nagłówek przezroczysty, bez rozmycia,
+                 które odcinało górny pas zdjęcia jak ramka; po przewinięciu kremowy */
+              PHOTO_HERO_ROUTES.has(canonical)
               ? 'border-b border-transparent bg-transparent'
               : 'border-b border-transparent bg-cream-50/70 backdrop-blur-sm'
         )}

@@ -35,11 +35,25 @@
        źródło odstępu kotwic: html { scroll-padding-top } poniżej – cele kotwic NIE
        mają scroll-mt-*. Zmiana wysokości nagłówka = zmiana tej zmiennej. */
     --as-header-h: calc(5rem + 1px); /* 80 px + linia 1 px pod nagłówkiem */
+
+    /* Margines łamu (.as-shell: px-5 / sm:px-8 / lg:px-14) i odległość treści od krawędzi
+       ekranu (łam ma maks. 1440 px, nadmiar dzieli się na dwie strony). Z nich liczą się
+       zdjęcia „do krawędzi” (.as-bleed-start / .as-bleed-end). 100vw obejmuje pasek
+       przewijania – sekcje ze spadem mają overflow-hidden, więc nadwyżka jest przycięta. */
+    --as-pad: 1.25rem;
+    --as-gutter: calc(max(0px, (100vw - 1440px) / 2) + var(--as-pad));
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --as-pad: 2rem;
+    }
   }
 
   @media (min-width: 1024px) {
     :root {
       --as-header-h: calc(6rem + 1px);
+      --as-pad: 3.5rem;
     }
   }
 
@@ -156,6 +170,22 @@
     @apply as-display;
     line-height: 0.95;
     font-size: clamp(2.25rem, 4.2vw, 3.75rem);
+  }
+
+  /* Od 1440 px nagłówki rosną dalej z szerokością (do ok. 1920 px), żeby skala sekcji
+     nadążała za hasłem hero (--hw w Home.jsx rośnie do 14rem). Poniżej 1440 px bez zmian. */
+  @media (min-width: 1440px) {
+    .as-display-lg {
+      font-size: clamp(5.5rem, 6.1vw, 7.25rem);
+    }
+
+    .as-display-md {
+      font-size: clamp(4rem, 4.45vw, 5rem);
+    }
+
+    .as-display-section {
+      font-size: clamp(3.75rem, 4.17vw, 5rem);
+    }
   }
 
   /* Wycofane warianty – aliasy, żeby stare użycia zbiegły się do skali. */
@@ -399,6 +429,29 @@
 
   .as-media img {
     @apply absolute inset-0 h-full w-full object-cover;
+  }
+
+  /* Zdjęcie „do krawędzi ekranu” (Figure bleed="start" | "end"): kadr ma wysokość z kolumny
+     (rodzic z aspect-ratio), a w poziomie wychodzi poza łam. Telefon (kolumna na całą
+     szerokość): do obu krawędzi. Od md: tylko po swojej stronie – do krawędzi ekranu, ale
+     najwyżej 20rem poza margines łamu (na monitorach 2560 px pionowy portret w zbyt
+     szerokim kadrze zostałby przycięty do paska). */
+  .as-bleed-start,
+  .as-bleed-end {
+    left: calc(-1 * var(--as-pad));
+    right: calc(-1 * var(--as-pad));
+  }
+
+  @media (min-width: 768px) {
+    .as-bleed-start {
+      left: calc(-1 * min(var(--as-gutter), var(--as-pad) + 20rem));
+      right: 0;
+    }
+
+    .as-bleed-end {
+      left: 0;
+      right: calc(-1 * min(var(--as-gutter), var(--as-pad) + 20rem));
+    }
   }
 
   .as-media-zoom img {

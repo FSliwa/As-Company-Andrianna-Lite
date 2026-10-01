@@ -119,6 +119,10 @@ function buildSrcSet(webp) {
  *              największy wariant
  *  - fill      kadr wypełnia rodzica (absolute inset-0, bez aspect-ratio) –
  *              dla pasów pełnej szerokości (Statement)
+ *  - bleed     'start' | 'end' – jak fill (wysokość z rodzica z aspect-ratio), ale kadr
+ *              wychodzi poza łam do krawędzi ekranu: na telefonie w obie strony, od md
+ *              po swojej stronie (.as-bleed-start / .as-bleed-end w index.css); sekcja
+ *              potrzebuje overflow-hidden
  */
 export function Figure({
   image,
@@ -133,20 +137,29 @@ export function Figure({
   position,
   tone = 'none',
   fill = false,
+  bleed,
 }) {
   if (!image) return null;
   const srcSet = buildSrcSet(image.webp);
+  const filled = fill || Boolean(bleed);
   return (
-    <div className={cn(framed && 'as-frame', fill && 'absolute inset-0', className)}>
+    <div
+      className={cn(
+        framed && 'as-frame',
+        fill && !bleed && 'absolute inset-0',
+        bleed && cn('absolute inset-y-0', bleed === 'end' ? 'as-bleed-end' : 'as-bleed-start'),
+        className
+      )}
+    >
       <div
         className={cn(
           'as-media',
-          fill && 'h-full w-full',
+          filled && 'h-full w-full',
           zoom && 'as-media-zoom',
           tone === 'dark' && 'as-media-dark',
           tone === 'light' && 'as-media-light'
         )}
-        style={fill ? undefined : { aspectRatio: ratio }}
+        style={filled ? undefined : { aspectRatio: ratio }}
       >
         <picture>
           {srcSet && <source type="image/webp" srcSet={srcSet} sizes={sizes} />}
@@ -366,25 +379,25 @@ export function PageHero({
   statsLayout = 'row',
   variant,
   imageSide = 'right',
-  tone = 'cream',
   children,
 }) {
-  /* variant: 'cover' (domyślny, gdy jest zdjęcie) – portret 2:3 po prawej, tekst
-     wyśrodkowany w pionie; 'band' – jasny pas (cream-100) bez zdjęcia, H1 na całą
-     szerokość łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty, /certyfikaty, /pakiety).
-     Odstępy (góra/dół): telefon i tablet 96/56 px w obu wariantach (pod
-     przyklejonym nagłówkiem 80 px); od lg okładka 96/64, pas 128/80.
-     Telefon w poziomie (wariant short:) – ciaśniej, żeby przycisk był w pierwszym ekranie;
-     portret 2:3 nie wyższy niż 80% ekranu (poniżej md limit z wysokości ekranu, od md 14 rem).
-     Reguły short: stoją w CSS przed sm:/md:, więc limit powtarza short:sm: (wygrywa z sm:)
-     i short:md: (wygrywa z md:max-w-none).
+  /* variant: 'cover' (domyślny, gdy jest zdjęcie) – zdjęcie na tle jak hero strony
+     głównej (opis przy wariancie niżej); 'band' – jasny pas (cream-100) bez zdjęcia, H1
+     na całą szerokość łamu + rząd Stat (trasy bez packshotów: /maszynki, /pigmenty,
+     /certyfikaty, /pakiety).
+     Odstępy pasa rosną z wysokością ekranu (clamp, svh) – ok. 100/70 px na telefonie,
+     do 128/80 px na wysokim ekranie, 40–48 px w telefonie w poziomie (przycisk w pierwszym
+     ekranie) – bez progów short:/short:sm:, których kolejność w CSS była krucha.
      statsLayout: 'row' – 3 liczby w rzędzie; 'list' – poniżej sm liczby jako lista
      „wartość | podpis” (długie podpisy, np. /maszynki), od sm rząd jak 'row'. */
   const kind = variant || (image ? 'cover' : 'band');
-  const isDark = tone !== 'cream';
+  /* Lite: pas i okładka ze zdjęciem są jasne (krem + ink) */
+  const isDark = false;
 
+  /* Telefon w poziomie (short:): lead stoi POD przyciskami (short:order-last) – w niskim
+     oknie długi lead w wąskiej kolumnie spychał główny przycisk pod pierwszy ekran. */
   const heading = (
-    <>
+    <div className="flex flex-col">
       <SectionLabel number={number} tone={isDark ? 'light' : 'dark'}>
         {label}
       </SectionLabel>
@@ -402,9 +415,9 @@ export function PageHero({
           </>
         )}
       </h1>
-      {lead && <p className={cn('mt-6 short:mt-4', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>}
+      {lead && <p className={cn('mt-6 short:order-last short:mt-4', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>}
       {children && <div className="mt-8 short:mt-5">{children}</div>}
-    </>
+    </div>
   );
 
   const factStrip =
@@ -428,7 +441,7 @@ export function PageHero({
           className="right-0 top-0 hidden h-[70%] w-[calc(min(100%-59.5rem,50%-14.5rem)-2rem)] xl:block"
           opacity={0.35}
         />
-        <div className="as-shell relative pb-14 pt-24 lg:pb-20 lg:pt-32 short:pb-10 short:pt-10">
+        <div className="as-shell relative pb-[clamp(2.5rem,8svh,5rem)] pt-[clamp(2.5rem,12svh,8rem)]">
           <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
           {stats && stats.length > 0 && (
             <div
@@ -448,45 +461,94 @@ export function PageHero({
     );
   }
 
+  /* Wariant 'cover' – zdjęcie na tle, jak hero strony głównej (prośba klientki: „nie
+     w ramce”); układ zależy od orientacji ekranu:
+     · pion (telefon, tablet w pionie): zdjęcie na cały pierwszy ekran, także pod
+       przezroczystym nagłówkiem (Layout: PHOTO_HERO_ROUTES), treść na dole – na kremowym
+       wygaszeniu, które zaczyna się pod twarzą (42svh), więc twarz zostaje odsłonięta;
+     · poziom: zdjęcie spadem od krawędzi po stronie imageSide (52%, maks. 68rem), jego
+       wewnętrzna część przechodzi w krem, tekst w drugiej połowie; wysokość
+       min(92svh, 60rem) – spod pierwszego ekranu wystaje już następna sekcja.
+     Zawsze jasny (krem + ink); `tone` dotyczy tylko pasa. */
+  const left = imageSide === 'left';
   return (
-    <section className={cn('relative overflow-hidden', isDark ? 'bg-espresso text-cream-50' : 'bg-cream-50 text-ink')}>
-      <div className="as-shell relative pb-14 pt-24 lg:pb-16 short:pb-10 short:pt-8">
-        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-8 short:md:items-start">
+    <section className="relative mt-[calc(var(--as-header-h)*-1)] overflow-hidden bg-cream-50 text-ink">
+      <div className="relative flex min-h-[100svh] flex-col justify-end landscape:min-h-[min(92svh,60rem)] landscape:justify-center">
+        {image && (
+          <div
+            className={cn(
+              'absolute inset-0 overflow-hidden landscape:w-[min(52%,68rem)]',
+              left ? 'landscape:right-auto' : 'landscape:left-auto'
+            )}
+          >
+            <Figure
+              fill
+              image={image}
+              alt={imageAlt || title}
+              position={imagePosition || '50% 20%'}
+              tone={imageTone}
+              zoom={false}
+              priority
+              className="as-enter-breathe"
+              sizes={PAGE_HERO_SIZES}
+            />
+            {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[44%] via-cream-50/70 via-[56%] to-transparent to-[72%] landscape:hidden"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-cream-50/90 via-cream-50/50 to-transparent landscape:hidden"
+            />
+            {/* poziom: wewnętrzna krawędź zdjęcia w krem, pas pod nagłówkiem, dół łagodnie */}
+            <div
+              aria-hidden="true"
+              className={cn(
+                'absolute inset-0 hidden from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] landscape:block',
+                left ? 'bg-gradient-to-l' : 'bg-gradient-to-r'
+              )}
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-cream-50/80 to-transparent landscape:block"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent landscape:block"
+            />
+          </div>
+        )}
+
+        {/* odstęp górny: pion – pod twarzą (42svh), ale na niskich telefonach (Safari
+            ≈ 550 px) mniej: treść do przycisków ≈ 360 px (tytuł w 3 liniach przy 320 px)
+            + dół = 25,5rem, więc główny przycisk zostaje w pierwszym ekranie; poziom –
+            wysokość nagłówka + zapas zależny od wysokości ekranu (w telefonie w poziomie
+            ok. 8 px – tam liczy się każdy piksel) */}
+        <div className="as-shell relative z-10 pb-[clamp(2.5rem,7svh,4rem)] pt-[min(42svh,calc(100svh-25.5rem))] landscape:pt-[calc(var(--as-header-h)+clamp(0.5rem,6svh-1rem,4rem))]">
+          {/* kolumna tekstu w poziomie: 46% (maks. 38rem); w telefonie w poziomie 60% – w niskim
+              oknie tytuł w wąskiej kolumnie łamał się na 4 linie i spychał przycisk */}
           <Reveal
             className={cn(
-              'min-w-0 md:row-start-1',
-              imageSide === 'left' ? 'md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7' : 'md:col-span-7 md:col-start-1 lg:col-span-6'
+              'min-w-0 landscape:max-w-[min(46%,38rem)] short:landscape:max-w-[60%]',
+              left && 'landscape:ml-auto'
             )}
           >
             {heading}
             {factStrip}
           </Reveal>
-          {image && (
-            <div
-              className={cn(
-                'min-w-0 md:row-start-1',
-                imageSide === 'left' ? 'md:col-span-5 md:col-start-1 lg:col-span-4 lg:col-start-2' : 'md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-8'
-              )}
-            >
-              <div className="mx-auto max-w-[17rem] sm:max-w-[22rem] md:max-w-none short:max-w-[calc(80svh*2/3)] short:sm:max-w-[calc(80svh*2/3)] short:md:max-w-[14rem]">
-                <Figure
-                  image={image}
-                  alt={imageAlt || title}
-                  ratio="2 / 3"
-                  position={imagePosition || '50% 20%'}
-                  tone={imageTone}
-                  framed
-                  priority
-                  sizes="(min-width: 1440px) 432px, (min-width: 1024px) 30vw, (min-width: 768px) 36vw, 90vw"
-                />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>
   );
 }
+
+/* Szerokość RYSOWANEGO zdjęcia w PageHero 'cover' (object-fit: cover), nie kadru:
+   pion – cały ekran (węższy niż 2:3 → 2/3 wysokości); poziom – kadr min(52vw, 68rem)
+   × min(92vh, 60rem), przy proporcji ekranu < 6:5 rysunek wyznacza wysokość. */
+const PAGE_HERO_SIZES =
+  '(orientation: portrait) and (max-aspect-ratio: 2/3) 67vh, (orientation: portrait) 100vw, ' +
+  '(max-aspect-ratio: 6/5) 62vh, (min-width: 2100px) 1088px, 52vw';
 
 /* ------------------------------------------------------------------ */
 /*  Wiersz cennika                                                      */
