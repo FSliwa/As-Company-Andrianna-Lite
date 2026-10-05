@@ -210,12 +210,12 @@ function Hero() {
               w pierwszym ekranie;
             · poziom: wysokość nagłówka (--as-header-h, także wariant short) + odstęp
               zależny od wysokości ekranu. */}
-        <div className="as-shell relative z-10 pb-8 pt-[min(52svh,calc(100svh-21rem))] land:pb-[clamp(1.5rem,4svh,2.5rem)] land:pt-[calc(var(--as-header-h)+clamp(0.75rem,4svh,2.5rem))]">
+        <div className="as-shell relative z-10 pb-8 pt-[max(calc(var(--as-header-h)+1rem),min(52svh,calc(100svh-21rem)))] land:pb-[clamp(1.5rem,4svh,2.5rem)] land:pt-[calc(var(--as-header-h)+clamp(0.75rem,4svh,2.5rem))]">
           <div data-hero-lead className={HERO_TYPE}>
             <HeroWords />
             {/* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza.
                 Claim na zdjęciu: ink/80 zamiast mocha (na wygaszeniu kontrast ≥ 7:1). */}
-            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(0.875rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80')}>
+            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(0.875rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
               {nbspShort(BRAND.claim)}
             </p>
             {/* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta
@@ -316,7 +316,7 @@ function AboutBand() {
                       &#8594;
                     </span>
                   </div>
-                  <p className="as-numbered-desc hidden text-mocha sm:block">{p.desc}</p>
+                  <p className="as-numbered-desc hidden text-mocha sm:block">{nbspShort(p.desc)}</p>
                 </Link>
               </Reveal>
             ))}
@@ -556,7 +556,7 @@ function TrainingBand() {
                 <span className="as-num">{p.number}</span>
                 <h3 className="as-numbered-title text-ink">{p.title}</h3>
               </div>
-              <p className="as-numbered-desc text-mocha">{p.desc}</p>
+              <p className="as-numbered-desc text-mocha">{nbspShort(p.desc)}</p>
             </Reveal>
           ))}
         </div>

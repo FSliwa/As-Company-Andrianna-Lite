@@ -473,7 +473,9 @@ function TechniqueRow({ t, last }) {
     <article
       id={t.id}
       className={cn(
-        'grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-x-4 gap-y-4 border-t border-ink/15 py-6',
+        /* < 360 px węższe zdjęcie (4rem): „Natural Brows” (twarda spacja) potrzebuje ok. 157 px,
+           a przy 6rem kolumna tytułu miała 128 px i strona przewijała się w poziomie (280 px) */
+        'grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-x-4 gap-y-4 border-t border-ink/15 py-6 max-[359px]:grid-cols-[4rem_minmax(0,1fr)] max-[359px]:gap-x-3',
         'sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:grid-rows-[auto_auto_1fr] sm:gap-x-6 sm:py-8',
         'md:grid-cols-[7.5rem_minmax(0,5fr)_minmax(0,7fr)] md:grid-rows-[auto_1fr]',
         'lg:grid-cols-[9rem_14rem_minmax(0,1fr)_auto] lg:grid-rows-none lg:gap-8',
@@ -496,7 +498,7 @@ function TechniqueRow({ t, last }) {
       >
         <p
           ref={more.textRef}
-          className={cn('max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
+          className={cn('max-w-[34rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
         >
           {nbspShort(t.description)}
         </p>
@@ -642,9 +644,9 @@ function AftercareCard({ t }) {
       <p
         id={descId}
         ref={more.textRef}
-        className={cn('mt-3 text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
+        className={cn('mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
       >
-        {t.description}
+        {nbspShort(t.description)}
       </p>
       <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
       <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:mt-6">

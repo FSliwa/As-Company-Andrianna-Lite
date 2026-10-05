@@ -80,7 +80,7 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
 
       {/* opis od sm; na telefonie pełny opis w „Szczegółach” */}
       {product.shortDesc && (
-        <p className="mt-4 line-clamp-2 hidden text-[0.9375rem] leading-[1.6] text-ink/75 sm:block">
+        <p className="mt-4 line-clamp-2 hidden text-[0.9375rem] leading-[1.6] text-ink/75 max-sm:text-[1rem] short:text-[1rem] sm:block">
           {product.shortDesc}
         </p>
       )}

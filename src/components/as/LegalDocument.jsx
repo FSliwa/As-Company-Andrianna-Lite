@@ -102,7 +102,12 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
               <ol className="mt-4 space-y-1 border-t border-ink/10 pt-4">
                 {doc.sections.map((s) => (
                   <li key={s.id}>
-                    <a href={`#${s.id}`} className="block py-1 text-[0.875rem] leading-snug text-ink/75 hover:text-ink">
+                    {/* poniżej lg wiersz min. 44 px (pole dotyku, brief etap 6 pkt 8); od lg py-1 – spis mieści
+                        się w kolumnie sticky; na ekranie dotykowym od lg też 44 px (coarse:lg:) */}
+                    <a
+                      href={`#${s.id}`}
+                      className="flex items-center py-1 text-[0.875rem] leading-snug text-ink/75 hover:text-ink max-lg:min-h-11 coarse:lg:min-h-11"
+                    >
                       {s.heading}
                     </a>
                   </li>

@@ -153,6 +153,8 @@ module.exports = {
          trafia do układu pionowego. */
       addVariant('port', ['@media (orientation: portrait)', '@media (max-width: 559.98px)']);
       addVariant('land', '@media (orientation: landscape) and (min-width: 560px)');
+      // coarse: ekran dotykowy (tablety od lg dostają nawigację desktopową – większe pola dotyku)
+      addVariant('coarse', '@media (pointer: coarse)');
     }),
   ],
 }

@@ -332,7 +332,7 @@ function Catalog({
         </div>
 
         <div className="mt-8 flex min-h-[2.75rem] flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-ink/15 pt-4">
-          <p role="status" aria-live="polite" className="text-[0.9375rem] text-ink">
+          <p role="status" aria-live="polite" className="text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">
             {summary}
           </p>
           {filtered && (

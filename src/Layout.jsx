@@ -146,7 +146,12 @@ function NavDropdown({ item, links, canonical, label, className, strong }) {
       <Link
         href={item.href}
         aria-current={canonical === item.href ? 'page' : undefined}
-        className={cn('group relative py-1', className, active || strong ? 'text-ink' : 'text-ink/65 hover:text-ink')}
+        className={cn(
+          /* z-[51]: przy otwartej liście jej przezroczysty most (pt-4, z-50) nie przycina pola dotyku */
+          "group relative z-[51] py-1 before:absolute before:-inset-y-2.5 before:inset-x-0 before:content-['']",
+          className,
+          active || strong ? 'text-ink' : 'text-ink/65 hover:text-ink'
+        )}
       >
         {item.label}
         <span
@@ -166,7 +171,9 @@ function NavDropdown({ item, links, canonical, label, className, strong }) {
         aria-expanded={shown}
         aria-controls={id}
         aria-label={label}
-        className="-mr-2 ml-0.5 grid h-8 w-6 place-items-center text-ink/60 transition-colors hover:text-ink"
+        /* pole dotyku 44 × 44 pseudoelementem (jak .as-arrow::before) – bez zmiany wymiarów,
+           więc lista podkategorii nie zjeżdża; z-[51]: nad przezroczystym mostem pt-4 listy */
+        className="relative z-[51] -mr-2 ml-0.5 grid h-8 w-6 place-items-center text-ink/60 transition-colors hover:text-ink before:absolute before:-inset-y-1.5 before:-left-0.5 before:-right-[1.125rem] before:content-['']"
       >
         <ChevronDown className={cn('h-3.5 w-3.5 transition-transform duration-200', shown && 'rotate-180')} aria-hidden="true" />
       </button>
@@ -339,7 +346,7 @@ function Header({ menuOpen, setMenuOpen }) {
                   href={item.href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'group relative py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors',
+                    "group relative z-[51] py-1 text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors before:absolute before:-inset-y-2.5 before:inset-x-0 before:content-['']",
                     active || overPhoto ? 'text-ink' : 'text-ink/65 hover:text-ink',
                     longLabels && 'whitespace-nowrap'
                   )}
@@ -451,9 +458,11 @@ function Header({ menuOpen, setMenuOpen }) {
                       </span>
                       {/* bieżąca strona: złota linia pod nazwą (+ aria-current); hover: cienka
                           linia ink – tekst nie zmienia koloru */}
+                      {/* pointer-events-none: pole pisma Bodoni 40 px (interlinia 0,92) wystaje poza wiersz
+                          i przechwytywało stuknięcia sąsiedniej pozycji – trafienie bierze cały wiersz (≥ 44 px) */}
                       <span
                         className={cn(
-                          'as-display-md decoration-1 underline-offset-[0.14em]',
+                          'as-display-md pointer-events-none decoration-1 underline-offset-[0.14em]',
                           active ? 'underline decoration-gold' : 'decoration-ink/30 group-hover:underline'
                         )}
                       >

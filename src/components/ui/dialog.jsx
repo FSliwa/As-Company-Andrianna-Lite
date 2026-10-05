@@ -47,7 +47,22 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => {
+/* Pułapka fokusu Radix przenosi fokus z preventScroll (zawinięcie Tab z ostatniego elementu
+   na pierwszy i odwrotnie) – panel się wtedy nie przewijał, a pole z fokusem zostawało poza
+   widoczną częścią panelu (np. 390 × 844: −286 px). Gdy fokus trafia poza widoczny obszar
+   panelu, przewijamy do niego (scrollIntoView respektuje scroll-pt / scroll-pb panelu,
+   więc pole nie chowa się pod × ani pod przyklejoną stopką). Zwykłe przejścia Tab
+   przeglądarka przewija sama – wtedy element jest już w kadrze i nic się nie dzieje. */
+function revealFocused(event) {
+  const panel = event.currentTarget
+  const el = event.target
+  if (!el || el === panel || typeof el.getBoundingClientRect !== "function") return
+  const p = panel.getBoundingClientRect()
+  const r = el.getBoundingClientRect()
+  if (r.top < p.top || r.bottom > p.bottom) el.scrollIntoView({ block: "nearest" })
+}
+
+const DialogContent = React.forwardRef(({ className, children, onFocus, ...props }, ref) => {
   /* „Zamknij” w języku strony (src/content/common) */
   const t = useContent(common)
   return (
@@ -63,6 +78,10 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
         "data-[state=open]:animate-as-in data-[state=closed]:animate-as-out",
         className
       )}
+      onFocus={(e) => {
+        revealFocused(e)
+        onFocus?.(e)
+      }}
       {...props}>
       {children}
       {/* × przyklejony 8 px od górnej krawędzi panelu. Sticky liczy się od krawędzi
@@ -123,7 +142,7 @@ DialogTitle.displayName = DialogPrimitive.Title.displayName
 const DialogDescription = React.forwardRef(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("as-caption max-w-none", className)}
+    className={cn("as-caption max-w-none max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]", className)}
     {...props} />
 ))
 DialogDescription.displayName = DialogPrimitive.Description.displayName

@@ -108,7 +108,7 @@ function DetailRow({ label, children }) {
   return (
     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t border-ink/15 py-3">
       <dt className="as-label whitespace-nowrap text-ink/65">{label}</dt>
-      <dd className="text-right text-[0.9375rem] text-ink">{children}</dd>
+      <dd className="text-right text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">{children}</dd>
     </div>
   );
 }
@@ -117,11 +117,11 @@ function LocationDetails() {
   return (
     <div className="max-w-[28rem]">
       <p className="as-title text-ink">{CONTACT.venue}</p>
-      <p className="mt-1 text-[0.9375rem] text-ink/80">{ADDRESS_LINE}</p>
+      <p className="mt-1 text-[0.9375rem] text-ink/80 max-sm:text-[1rem] short:text-[1rem]">{ADDRESS_LINE}</p>
       {/* D7: opis miejsca z briefu („Salon”: prestiżowe, ładnie wykończone studio w wolnostojącym
           budynku z prywatnym parkingiem). D6: usunięte „adres ustalamy indywidualnie” –
           procedura bez źródła (BIO-16, INNE-15); adres pojawi się sam po uzupełnieniu CONTACT. */}
-      <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/70">
+      <p className="mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/70">
         Prestiżowe, starannie wykończone studio –{' '}
         {CONTACT.venueNote.charAt(0).toLowerCase() + CONTACT.venueNote.slice(1)}.
       </p>
