@@ -240,7 +240,7 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
         {product.variants.map((v, i) => {
           const id = `${name}-${i}`;
           return (
-            <label key={v.sourceId} htmlFor={id} className={cn('relative', i > 0 && '-ml-px')}>
+            <label key={v.sourceId} htmlFor={id} className={cn('relative scroll-mb-24 sm:scroll-mb-40', i > 0 && '-ml-px')}>
               <input
                 id={id}
                 type="radio"
@@ -249,6 +249,7 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
                 checked={value === v.label}
                 disabled={!v.inStock}
                 onChange={() => onChange(v.label)}
+                onFocus={(e) => e.currentTarget.parentElement.scrollIntoView({ block: 'nearest' })}
                 className="peer sr-only"
               />
               <span

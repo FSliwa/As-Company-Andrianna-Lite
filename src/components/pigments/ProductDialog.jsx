@@ -196,12 +196,19 @@ export default function ProductDialog({ productId, onClose, onAdd, qtyByProduct,
   const last = useRef(null);
   if (product) last.current = product;
   const shown = product || last.current;
+  const contentRef = useRef(null);
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
+        ref={contentRef}
         data-sticky-hide
         onCloseAutoFocus={onCloseAutoFocus}
+        /* fokus na panelu (tytuł produktu czytany pierwszy), nie na radiu pojemności poza kadrem */
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          contentRef.current?.focus();
+        }}
       >
         {shown && (
           <Body

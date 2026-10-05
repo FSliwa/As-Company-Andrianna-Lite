@@ -473,12 +473,12 @@ export function PageHero({
   const left = imageSide === 'left';
   return (
     <section className="relative mt-[calc(var(--as-header-h)*-1)] overflow-hidden bg-cream-50 text-ink">
-      <div className="relative flex min-h-[100svh] flex-col justify-end landscape:min-h-[min(92svh,60rem)] landscape:justify-center">
+      <div className="relative flex min-h-[100svh] flex-col justify-end land:min-h-[min(92svh,60rem)] land:justify-center">
         {image && (
           <div
             className={cn(
-              'absolute inset-0 overflow-hidden landscape:w-[min(52%,68rem)]',
-              left ? 'landscape:right-auto' : 'landscape:left-auto'
+              'absolute inset-0 overflow-hidden land:w-[min(52%,68rem)]',
+              left ? 'land:right-auto' : 'land:left-auto'
             )}
           >
             <Figure
@@ -495,27 +495,27 @@ export function PageHero({
             {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[44%] via-cream-50/70 via-[56%] to-transparent to-[72%] landscape:hidden"
+              className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[44%] via-cream-50/70 via-[56%] to-transparent to-[72%] land:hidden"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-cream-50/90 via-cream-50/50 to-transparent landscape:hidden"
+              className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-cream-50/90 via-cream-50/50 to-transparent land:hidden"
             />
             {/* poziom: wewnętrzna krawędź zdjęcia w krem, pas pod nagłówkiem, dół łagodnie */}
             <div
               aria-hidden="true"
               className={cn(
-                'absolute inset-0 hidden from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] landscape:block',
+                'absolute inset-0 hidden from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] land:block',
                 left ? 'bg-gradient-to-l' : 'bg-gradient-to-r'
               )}
             />
             <div
               aria-hidden="true"
-              className="absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-cream-50/80 to-transparent landscape:block"
+              className="absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-cream-50/80 to-transparent land:block"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent landscape:block"
+              className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent land:block"
             />
           </div>
         )}
@@ -525,13 +525,13 @@ export function PageHero({
             + dół = 25,5rem, więc główny przycisk zostaje w pierwszym ekranie; poziom –
             wysokość nagłówka + zapas zależny od wysokości ekranu (w telefonie w poziomie
             ok. 8 px – tam liczy się każdy piksel) */}
-        <div className="as-shell relative z-10 pb-[clamp(2.5rem,7svh,4rem)] pt-[min(42svh,calc(100svh-25.5rem))] landscape:pt-[calc(var(--as-header-h)+clamp(0.5rem,6svh-1rem,4rem))]">
+        <div className="as-shell relative z-10 pb-[clamp(2.5rem,7svh,4rem)] pt-[min(42svh,calc(100svh-25.5rem))] land:pt-[calc(var(--as-header-h)+clamp(0.5rem,6svh-1rem,4rem))]">
           {/* kolumna tekstu w poziomie: 46% (maks. 38rem); w telefonie w poziomie 60% – w niskim
               oknie tytuł w wąskiej kolumnie łamał się na 4 linie i spychał przycisk */}
           <Reveal
             className={cn(
-              'min-w-0 landscape:max-w-[min(46%,38rem)] short:landscape:max-w-[60%]',
-              left && 'landscape:ml-auto'
+              'min-w-0 land:max-w-[min(46%,38rem)] short:land:max-w-[60%]',
+              left && 'land:ml-auto'
             )}
           >
             {heading}
@@ -834,7 +834,7 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
    w ink, placeholder w mocha. Tej samej klasy używają pola spoza <Field>
    (wyszukiwarka katalogu, rezerwacja) – import { FIELD_CLASS }. */
 export const FIELD_CLASS =
-  'block h-12 w-full rounded-none border-0 border-b border-ink/55 bg-transparent px-0 text-base text-ink shadow-none outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] focus-visible:ring-0';
+  'scroll-mt-8 block h-12 w-full rounded-none border-0 border-b border-ink/55 bg-transparent px-0 text-base text-ink shadow-none outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] focus-visible:ring-0';
 
 export function Field({ as = 'input', label, id, hint, required, className, wrapperClassName, children, ...rest }) {
   const Tag = as;

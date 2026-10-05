@@ -103,6 +103,18 @@
     }
   }
 
+  /* Elementy przyklejonego nagłówka leżą w strefie scroll-padding-top – bez tego każdy
+     Tab w nagłówku przewijał przewiniętą stronę o pół ekranu w górę (etap 5, grupa C). */
+  header :is(a, button) {
+    scroll-margin-top: calc(-1 * var(--as-header-h));
+  }
+
+  /* Otwarty baner cookies (199–254 px) + pływający przycisk zamówienia: element z fokusem
+     nie chowa się pod nimi (WCAG 2.4.11) – zapas przewijania od dołu, póki baner jest. */
+  html:has([data-consent-banner]) {
+    scroll-padding-bottom: 18rem;
+  }
+
   body {
     @apply bg-cream-50 text-ink font-sans;
     font-feature-settings: "kern" 1, "liga" 1;

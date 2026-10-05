@@ -28,7 +28,6 @@ import { cn } from '@/lib/utils';
 import { collectionLabel, findVariant, formatCapacity } from '@/lib/pigments';
 import {
   ADD_BTN,
-  DOT,
   NBSP,
   PriceLine,
   ProductTile,
@@ -137,11 +136,23 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
       {/* nazwa: na telefonie cała szerokość; sm–lg kurczy się do treści, a kropki
           prowadzą wzrok do ceny; od lg zajmuje wolne miejsce kolumny */}
       <div className="min-w-0 sm:shrink lg:flex-1">
-        <p className="as-kicker">
-          {collectionLabel(product.collection)}
-          {DOT}
-          {zonesText(product)}
-        </p>
+        {/* -ml-4 + overflow-hidden (wzorzec PriceLine): kropka segmentu, który zaczyna wiersz,
+            wypada poza kadr – kicker nie wystaje z wąskiej kolumny (1280 px) i nie łamie się
+            w środku wyrazu („Trichopigmentation”). */}
+        <div className="overflow-hidden">
+          <p className="as-kicker -ml-4 flex flex-wrap">
+            {[collectionLabel(product.collection), ...String(zonesText(product) || '').split(/\u00a0· /)]
+              .filter(Boolean)
+              .map((seg, i) => (
+              <span key={i} className="relative pl-4">
+                <span aria-hidden="true" className="absolute left-[0.3rem]">
+                  ·
+                </span>
+                {seg}
+              </span>
+            ))}
+          </p>
+        </div>
         {/* h4: zestawy stoją pod nagłówkiem „Zestawy” (h3) */}
         <h4 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">
           {/* pole dotyku ≥ 44 px także przy nazwie w jednej linii (23 + 2 × 12 px) */}

@@ -102,12 +102,15 @@ function Row({ label, children, scroll = false, fadeRef, fadeStyle }) {
         aria-label={label}
         ref={fadeRef}
         style={fadeStyle}
+        onFocus={(e) => {
+          if (scroll && e.target !== e.currentTarget) e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }}
         className={cn(
           'flex gap-2',
           scroll
             /* py-1.5: przewijany rząd przycina też w pionie – zostaw miejsce na obwódkę fokusu;
                od lg: zawijanie, bez przewijania i bez przycinania */
-            ? 'as-noscrollbar -mx-5 -my-1.5 overflow-x-auto px-5 py-1.5 sm:-mx-8 sm:px-8 lg:m-0 lg:flex-wrap lg:overflow-visible lg:p-0'
+            ? 'as-noscrollbar -mx-5 -my-1.5 scroll-px-12 overflow-x-auto px-5 py-1.5 sm:-mx-8 sm:px-8 lg:m-0 lg:flex-wrap lg:overflow-visible lg:p-0'
             : 'flex-wrap'
         )}
       >

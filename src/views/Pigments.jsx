@@ -169,9 +169,10 @@ const prefersReducedMotion = () =>
    768–1440 px – 3 linie, od 1680 px – 4; zawsze większy niż H2 sekcji (.as-display-section).
    Telefon w poziomie (short:) – 1,875 rem (568 × 320: tytuł w 4 liniach, przycisk w ekranie). Poniżej 640 px lead stoi POD przyciskami
    (max-sm:[&_h1+p]:order-last – lead to akapit tuż po H1; PageHero robi to samo w short:),
-   więc przycisk zostaje w pierwszym ekranie. Wrapper `contents` nie tworzy boxu. */
+   więc przycisk zostaje w pierwszym ekranie. Wrapper jest zwykłym blokiem (nie `contents`):
+   Next 14 przy nawigacji linkiem pomija element bez boxu i przewijał stronę do #katalog. */
 const HERO_TITLE_SIZE =
-  'contents [&_h1]:[font-size:clamp(2rem,6.2vw,4.25rem)] min-[1440px]:[&_h1]:[font-size:clamp(4.25rem,4.7vw,5.5rem)] short:[&_h1]:[font-size:1.875rem] max-sm:[&_h1+p]:order-last';
+  'block [&_h1]:[font-size:clamp(2rem,6.2vw,4.25rem)] min-[1440px]:[&_h1]:[font-size:clamp(4.25rem,4.7vw,5.5rem)] short:[&_h1]:[font-size:1.875rem] max-sm:[&_h1+p]:order-last';
 
 function Hero() {
   return (
