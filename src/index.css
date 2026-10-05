@@ -293,6 +293,13 @@
     @apply border border-gold/35 p-1;
   }
 
+  /* Wartość Stat (5×, 100+, 50+): przy opsz = rozmiar (40–80 px) Bodoni rysuje × i + samą kreską
+     włosową – od 1440 px liczby czytały się jako „5”, „100”, „50”. opsz 18 pogrubia włos cyfr
+     i znaków bez zmiany rozmiaru, koloru i kroju (audyt rundy 2, home-a 02). */
+  .as-stat-value {
+    font-variation-settings: 'opsz' 18;
+  }
+
   /* Mikro-etykiety w kapitalikach: „02 / O NAS" – 11 px */
   .as-label {
     @apply font-sans text-[0.6875rem] font-medium uppercase tracking-label;

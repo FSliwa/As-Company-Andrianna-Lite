@@ -679,7 +679,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, inline = fa
         className={cn(
           compact
             ? 'as-display text-[clamp(1.375rem,5.8vw,1.625rem)] leading-none [overflow-wrap:anywhere] sm:text-[2.25rem] lg:text-[clamp(2.5rem,4.4vw,4rem)]'
-            : 'as-display-md leading-none',
+            : 'as-display-md as-stat-value leading-none',
           inline && 'max-sm:whitespace-nowrap max-sm:[overflow-wrap:normal]',
           isLight ? 'text-cream-100' : 'text-ink'
         )}

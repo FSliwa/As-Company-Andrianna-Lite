@@ -240,17 +240,16 @@ function StoryBand() {
           <div className="max-md:hidden md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
             <Reveal className="tall:md:sticky md:top-28">
               <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
-                {/* ciasna ramka jak portret w sekcji „O nas” na stronie głównej */}
-                <div className="as-photo-frame">
-                  <Figure
-                    image={ROLES.storyAbout.image}
-                    alt={`${FOUNDER.name} – portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
-                    ratio="4 / 5"
-                    position={ROLES.storyAbout.position}
-                    zoom={false}
-                    sizes="(min-width: 1024px) 36vw, (min-width: 768px) 40vw, 90vw"
-                  />
-                </div>
+                {/* portret bez ramki (klientka: „portrety bez ramek”; ramka .as-photo-frame zostaje
+                    dla stykówek absolwentek i cenników) */}
+                <Figure
+                  image={ROLES.storyAbout.image}
+                  alt={`${FOUNDER.name} – portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
+                  ratio="4 / 5"
+                  position={ROLES.storyAbout.position}
+                  zoom={false}
+                  sizes="(min-width: 1024px) 36vw, (min-width: 768px) 40vw, 90vw"
+                />
                 <figcaption className="as-caption mt-3">{FOUNDER.signature}</figcaption>
               </figure>
             </Reveal>

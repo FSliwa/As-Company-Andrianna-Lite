@@ -606,7 +606,10 @@ function InvitationBand() {
         </div>
 
         <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] land:py-[clamp(3rem,8svh,5rem)]">
-          <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)]">
+          {/* port: warstwa kremu przypięta do treści (4rem przejścia nad etykietą, pod nią pełny krem) –
+              gradient sekcji liczony od jej wysokości nie zawsze krył etykietę „06” (11 px): na 375×667
+              kontrast spadał do 1,70:1, „KONTAKT” do 3,18:1 (audyt rundy 2, home-b 06). */}
+          <Reveal className="relative land:ml-auto land:max-w-[min(40%,30rem)] port:before:pointer-events-none port:before:absolute port:before:-top-16 port:before:bottom-0 port:before:-z-10 port:before:inset-x-[calc(-1*var(--as-pad))] port:before:bg-gradient-to-b port:before:from-cream-50/0 port:before:to-cream-50 port:before:to-[4rem] port:before:content-['']">
             <SectionLabel number="06">Kontakt</SectionLabel>
             {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
