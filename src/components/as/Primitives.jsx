@@ -10,7 +10,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ChevronDown } from 'lucide-react';
-import { cn, nbspShort } from '@/lib/utils';
+import { cn, groupPrice, nbspShort } from '@/lib/utils';
 import { useContent, useLocale } from '@/i18n/client';
 import common from '@/content/common';
 import { LEGAL_PUBLIC } from '@/lib/legal';
@@ -598,19 +598,22 @@ export function PriceRow({ name, note, price, priceNote, tone = 'dark' }) {
   const isLight = tone === 'light';
   return (
     <div className={cn('border-b py-4 first:border-t sm:py-5', isLight ? 'border-cream-200/15' : 'border-ink/10')}>
-      {/* poniżej 360 px nazwa nad ceną (obok ceny i kropek nazwa dostawała 80–110 px i 4 linie) */}
+      {/* poniżej 360 px wiersz może się złamać, ale tylko gdy się nie mieści: długa nazwa
+          sama w pierwszej linii, kropki i cena (do prawej) w drugiej; krótkie wiersze zostają
+          w jednej linii (obok ceny i kropek długa nazwa dostawała 80–110 px i 3–4 linie).
+          Wariant z sesji Lite – ten sam komponent w obu wersjach. */}
       <div className="flex items-baseline gap-4 max-[359px]:flex-wrap max-[359px]:gap-y-1">
         <span className={cn('min-w-0 text-[0.9375rem] leading-[1.5] max-sm:text-[1rem] short:text-[1rem]', isLight ? 'text-cream-50' : 'text-ink')}>{name}</span>
         <span
           className={cn(
-            'min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted max-[359px]:hidden',
+            'min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted',
             isLight ? 'border-cream-200/25' : 'border-ink/20'
           )}
           aria-hidden="true"
         />
-        <span className="shrink-0 text-right max-[359px]:basis-full max-[359px]:text-left">
+        <span className="ml-auto shrink-0 text-right">
           <span className={cn('block whitespace-nowrap font-display text-[1.375rem]/7', isLight ? 'text-cream-50' : 'text-ink')}>
-            {price}
+            {groupPrice(price)}
           </span>
           {priceNote && (
             <span className={cn('as-label mt-1 block', isLight ? 'text-cream-100/85' : 'text-ink/65')}>{priceNote}</span>
@@ -985,12 +988,12 @@ export function FormNotice({ tone = 'dark', className }) {
   const linkCls = cn('underline underline-offset-2', onDark ? 'hover:text-cream-50' : 'hover:text-ink');
   return (
     <p className={cn('text-[0.8125rem] leading-relaxed', onDark ? 'text-cream-100/80' : 'text-mocha', className)}>
-      <LegalText text={t.noticeController} locale={locale} linkClassName={linkCls} /> {t.noticePurpose}{' '}
+      <LegalText text={t.noticeController} locale={locale} linkClassName={linkCls} /> {nbspShort(t.noticePurpose)}{' '}
       {t.noticePrivacy.pre}
       <Link href="/polityka-prywatnosci" className={linkCls}>
         {t.noticePrivacy.link}
       </Link>
-      {t.noticePrivacy.post} {t.noticeTerms.pre}
+      {t.noticePrivacy.post} {nbspShort(t.noticeTerms.pre)}
       <Link href="/regulamin" className={linkCls}>
         {t.noticeTerms.link}
       </Link>

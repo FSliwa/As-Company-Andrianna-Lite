@@ -246,7 +246,7 @@
 
   @media (min-width: 1440px) {
     .as-display-fit {
-      font-size: min(clamp(5.5rem, 6.1vw, 7.25rem), 14cqi);
+      font-size: min(clamp(5.5rem, 6.1vw, 6.5rem), 14cqi);
     }
   }
 
@@ -273,12 +273,15 @@
   }
 
   /* Podpisy pod zdjęciami, opisy pozycji 01/02/03, noty cennika */
+  /* text-wrap: pretty – noty i podpisy nie kończą się samotnym wyrazem („w / cenniku.”) */
   .as-caption {
     @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha;
+    text-wrap: pretty;
   }
 
   .as-caption-invert {
     @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-cream-200/85;
+    text-wrap: pretty;
   }
 
   /* Numer + tytuł w jednej linii + drobny opis (pozycje 01/02/03 z makiety).

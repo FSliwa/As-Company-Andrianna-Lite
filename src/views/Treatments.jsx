@@ -731,7 +731,7 @@ function PriceRows({ table }) {
         <PriceRow key={item.name} name={fmt(item.name)} note={noteOf(item)} price={fmt(item.price)} />
       ))}
       {(shared || table.footnote) && (
-        <p className="as-caption mt-4 max-w-[36rem]">{shared ? `${shared}.` : table.footnote}</p>
+        <p className="as-caption mt-4 max-w-[36rem]">{nbspShort(shared ? `${shared}.` : table.footnote)}</p>
       )}
     </>
   );

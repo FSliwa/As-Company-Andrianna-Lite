@@ -49,6 +49,7 @@ import {
 } from '@/components/as/Primitives';
 import { BOOKING_ENABLED, BOOKING_URL, CONTACT, FOUNDER } from '@/lib/site';
 import { LEGAL_PUBLIC } from '@/lib/legal';
+import { nbspShort } from '@/lib/utils';
 import { ROLES } from '@/lib/roles';
 import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 
@@ -123,7 +124,7 @@ function LocationDetails() {
           procedura bez źródła (BIO-16, INNE-15); adres pojawi się sam po uzupełnieniu CONTACT. */}
       <p className="mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/70">
         Prestiżowe, starannie wykończone studio –{' '}
-        {CONTACT.venueNote.charAt(0).toLowerCase() + CONTACT.venueNote.slice(1)}.
+        {nbspShort(CONTACT.venueNote.charAt(0).toLowerCase() + CONTACT.venueNote.slice(1))}.
       </p>
 
       <dl className="mt-8 border-b border-ink/15">
@@ -331,8 +332,9 @@ function Hero() {
               Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
             </h1>
             <p className="as-body mt-6">
-              Zabiegi, szkolenia, pytania o produkty – napisz, a wrócimy do Ciebie z konkretną
-              odpowiedzią i wolnym terminem.
+              {nbspShort(
+                'Zabiegi, szkolenia, pytania o produkty – napisz, a wrócimy do Ciebie z konkretną odpowiedzią i wolnym terminem.'
+              )}
             </p>
             {!FORM_LIVE && (
               <ArrowLink

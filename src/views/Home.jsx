@@ -275,8 +275,9 @@ function AboutBand() {
             </Reveal>
             <Reveal delay={80}>
               <p className="as-body-invert mt-6">
-                Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości
-                produkty, zaawansowaną edukację i realną praktykę.
+                {nbspShort(
+                  'Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości produkty, zaawansowaną edukację i realną praktykę.'
+                )}
               </p>
               <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
                 Poznaj nasze podejście
@@ -408,8 +409,9 @@ function TreatmentsBand() {
             {/* Z15/BIO-14: „zabiegi zawierają konsultację” – bez źródła; brief (FAQ) potwierdza
                 rysunek wstępny dopasowany do architektury twarzy i poprawki według uwag klientki */}
             <p className="as-body mt-6">
-              Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury Twojej
-              twarzy i wprowadzamy w nim zmiany według Twoich uwag. Kolor dobieramy do karnacji.
+              {nbspShort(
+                'Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury Twojej twarzy i wprowadzamy w nim zmiany według Twoich uwag. Kolor dobieramy do karnacji.'
+              )}
             </p>
           </Reveal>
 
@@ -442,7 +444,7 @@ function TreatmentsBand() {
                 <PriceRow key={item.id || item.name} name={item.name} note={item.note || item.technique} price={item.price} />
               ))}
             </Reveal>
-            <p className="as-caption mt-6 max-w-[36rem]">{PRICING_PMU.footnote}</p>
+            <p className="as-caption mt-6 max-w-[36rem]">{nbspShort(PRICING_PMU.footnote)}</p>
             <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
               Zobacz cennik
             </ArrowLink>
@@ -485,9 +487,9 @@ function TrainingBand() {
               {/* Tekst makiety; D9: szkolenia pod nazwą akademii (brief, wszystkie plakaty kursów:
                   „Babushkina Academy”) zamiast „AS”. D4: zdanie o poziomach z briefu (TRAINING_INTRO) */}
               <p className="as-body-invert mt-6 max-w-[26rem]">
-                Autorskie szkolenia {BRAND.academy} to połączenie zaawansowanej techniki,
-                wieloletniego doświadczenia i realnej praktyki. {TRAINING_INTRO.levels} Uczysz się od
-                ekspertów i dostajesz wsparcie na każdym etapie swojej drogi.
+                {nbspShort(
+                  `Autorskie szkolenia ${BRAND.academy} to połączenie zaawansowanej techniki, wieloletniego doświadczenia i realnej praktyki. ${TRAINING_INTRO.levels} Uczysz się od ekspertów i dostajesz wsparcie na każdym etapie swojej drogi.`
+                )}
               </p>
               {/* H3: na telefonie link stoi pod cenami kursów (niżej), tu od md */}
               <ArrowLink href="/szkolenia" tone="light" className="mt-8 hidden w-fit md:inline-flex">
@@ -625,13 +627,15 @@ function InvitationBand() {
 
         <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] land:py-[clamp(3rem,8svh,5rem)]">
           <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)] short:land:max-w-[55%]">
-            <SectionLabel number="06">Kontakt</SectionLabel>
+            {/* numer 11 px na wygaszeniu zdjęcia: gold-deep miał 3,3–4,1:1 (telefon w pionie) –
+                w pionie ink/80 (≥ 7:1), w poziomie (tekst na kremie) gold-deep jak w innych sekcjach */}
+            <SectionLabel number={<span className="text-ink/80 land:text-gold-deep">06</span>}>Kontakt</SectionLabel>
             {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
             </h2>
             <p className="as-body mt-6">
-              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.
+              {nbspShort('Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.')}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
               <Link href={BOOKING_URL} className="as-btn-solid">

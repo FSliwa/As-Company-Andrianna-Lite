@@ -36,7 +36,7 @@ import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel, Statement } from '@/components/as/Primitives';
 import { BOOKING_URL, FOUNDER, PRICING_PMU, PRICING_REFRESH } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
-import { cn, nbspShort } from '@/lib/utils';
+import { cn, groupPrice, nbspShort } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Ceny – wyłącznie z cennika (site.js); PMU po stałym `id` (D2 zmienia */
@@ -47,7 +47,7 @@ const pick = (list, name) => list.items.find((item) => item.name === name) || { 
 const pickId = (list, id) => list.items.find((item) => item.id === id) || { id, name: '', price: '' };
 
 /** Twarda spacja przed „zł” – cena nie łamie się na końcu wiersza. */
-const zl = (price) => String(price || '').replace(/\s+zł$/, '\u00a0zł');
+const zl = (price) => groupPrice(String(price || ''));
 
 const SNB = pickId(PRICING_PMU, 'super-natural-brows');
 const EYES = pickId(PRICING_PMU, 'perfect-eyeliners'); // D2: „Perfect Eyes” (dawniej „Perfect Eyeliners”)

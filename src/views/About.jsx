@@ -240,8 +240,9 @@ function StoryBand() {
           <div className="max-md:hidden md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
             <Reveal className="tall:md:sticky md:top-28 short:md:sticky short:md:top-[calc(var(--as-header-h)+1rem)]">
               <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none short:md:mx-0 short:md:max-w-[calc((100svh-var(--as-header-h)-4.5rem)*4/5)]">
-                {/* ciasna ramka jak portret na espresso na stronie głównej */}
-                <div className="as-photo-frame">
+                {/* bez ramki – prośba klientki „nie w ramce” (jak portret na stronie głównej);
+                    lewa krawędź zdjęcia w osi łamu (ramka z paddingiem przesuwała ją o 5 px) */}
+                <div>
                   <Figure
                     image={ROLES.storyAbout.image}
                     alt={`${FOUNDER.name} – portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
