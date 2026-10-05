@@ -469,15 +469,18 @@ function OfferPoster({ poster, course, name }) {
           </a>
         </div>
 
+        {/* Propozycja SZK-03-B: od 1024 px w poziomie plakat na wysokość panelu, opis
+            i przyciski w kolumnie obok (.as-poster-dialog w index.css) – przy 1440 × 900
+            widać 100% grafiki zamiast 58%; telefon i tablet w pionie bez zmian. */}
         <DialogContent
           ref={contentRef}
-          className="sm:max-w-[640px]"
+          className="as-poster-dialog sm:max-w-[640px]"
           onOpenAutoFocus={(e) => {
             e.preventDefault();
             contentRef.current?.focus();
           }}
         >
-          <DialogHeader>
+          <DialogHeader className="as-poster-head">
             {/* nazwa kursu jest w opisie (pełna) – kicker bez powtórzenia */}
             <span className="as-kicker">Pełna oferta kursu</span>
             <DialogTitle>{poster.caption}</DialogTitle>
@@ -492,9 +495,9 @@ function OfferPoster({ poster, course, name }) {
             zoom={false}
             priority
             sizes="(min-width: 640px) 560px, 100vw"
-            className="mt-6 border border-ink/10"
+            className="as-poster-figure mt-6 border border-ink/10"
           />
-          <DialogFooter>
+          <DialogFooter className="as-poster-foot">
             <a href={image.src} target="_blank" rel="noopener noreferrer" className="as-btn-solid">
               Otwórz JPG<span className="sr-only"> w nowej karcie</span>
             </a>
