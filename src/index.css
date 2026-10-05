@@ -509,6 +509,20 @@
      szerokość): do obu krawędzi. Od md: tylko po swojej stronie – do krawędzi ekranu, ale
      najwyżej 20rem poza margines łamu (na monitorach 2560 px pionowy portret w zbyt
      szerokim kadrze zostałby przycięty do paska). */
+  /* Sekcja ze spadem zdjęcia i kolumną sticky: przycina tylko w poziomie. overflow: hidden
+     robi z sekcji kontener przewijania i wyłącza position: sticky w środku; overflow-x: clip
+     nie (Safari 16+, Chrome 90+, Firefox 81+). Starsze przeglądarki: hidden (bez sticky). */
+  .as-clip-x {
+    overflow: hidden;
+  }
+
+  @supports (overflow: clip) {
+    .as-clip-x {
+      overflow: visible;
+      overflow-x: clip;
+    }
+  }
+
   .as-bleed-start,
   .as-bleed-end {
     left: calc(-1 * var(--as-pad));
@@ -561,6 +575,14 @@
   /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) – tylko lekkie
      zdjęcie nasycenia, żeby skóra nie była pomarańczowa na tle kremu
      (makra, panele, zdjęcia akademii; portrety STUDIO bez tonu). */
+  /* Zdjęcia z akademii (telefon, chłodne białe ściany) na mocha/espresso: lekko cieplej
+     i ciemniej, żeby biel ściany zbliżyła się do kremu palety (pomiar Lite: ściana #959C99,
+     ΔE ok. 41 do tła sekcji). Słaba sepia (0,1) – skóra nie szarzeje; do akceptacji klientki
+     (brief, zasada 4: korekta kolorów nie może zmieniać wyglądu skóry). */
+  .as-media-academy img {
+    filter: sepia(0.1) saturate(0.9) brightness(0.93) contrast(1.03);
+  }
+
   .as-media-light img {
     filter: saturate(0.85) brightness(1.02);
   }
@@ -683,6 +705,21 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+
+/* Złota linia etykiety sekcji (SectionLabel) rysuje się od lewej, gdy etykieta wchodzi
+   w kadr – postęp przewijania, nie czas (animation-timeline: view()). Tylko transform,
+   bez wpływu na układ (CLS) i bez JS. Fallback: przeglądarki bez scroll-driven animations
+   i prefers-reduced-motion: reduce widzą pełną linię. Motyw T5 (propozycja). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .as-label-rule {
+      transform-origin: left center;
+      animation: as-draw-x linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
   }
 }
 
