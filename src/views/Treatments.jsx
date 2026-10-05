@@ -473,7 +473,9 @@ function TechniqueRow({ t, last }) {
     <article
       id={t.id}
       className={cn(
-        'grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-x-4 gap-y-4 border-t border-ink/15 py-6',
+        /* < 360 px węższe zdjęcie (4rem): „Natural Brows” (twarda spacja) potrzebuje ok. 157 px,
+           a przy 6rem kolumna tytułu miała 128 px i strona przewijała się w poziomie (280 px) */
+        'grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-x-4 gap-y-4 border-t border-ink/15 py-6 max-[359px]:grid-cols-[4rem_minmax(0,1fr)] max-[359px]:gap-x-3',
         'sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:grid-rows-[auto_auto_1fr] sm:gap-x-6 sm:py-8',
         'md:grid-cols-[7.5rem_minmax(0,5fr)_minmax(0,7fr)] md:grid-rows-[auto_1fr]',
         'lg:grid-cols-[9rem_14rem_minmax(0,1fr)_auto] lg:grid-rows-none lg:gap-8',
