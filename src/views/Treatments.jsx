@@ -640,21 +640,26 @@ function AftercareCard({ t }) {
   const descId = `${t.id}-opis`;
   const noteId = `${t.id}-nota`;
   return (
-    <article id={t.id} className="as-cell">
+    /* Propozycja usl-04-a: od md karty dzielą wiersze siatki (subgrid) – cena i „Umów wizytę”
+       stoją w jednej linii w obu kartach mimo opisów różnej długości (było Δ17–50 px).
+       Pięć dzieci = pięć wierszy: numer, tytuł, opis, cena, noty. */
+    <article id={t.id} className="as-cell md:row-span-5 md:grid md:grid-rows-subgrid">
       <div className="flex items-baseline gap-3">
         <span className="as-num">{t.number}</span>
         <p className="as-kicker">{t.tag}</p>
       </div>
       <h3 className="as-title mt-3 text-ink">{nbspBrand(t.name)}</h3>
-      <p
-        id={descId}
-        ref={more.textRef}
-        className={cn('mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
-      >
-        {nbspShort(t.description)}
-      </p>
-      <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:mt-6">
+      <div>
+        <p
+          id={descId}
+          ref={more.textRef}
+          className={cn('mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
+        >
+          {nbspShort(t.description)}
+        </p>
+        <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
+      </div>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 self-start sm:mt-6">
         <p className="whitespace-nowrap">
           {t.duration && <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>}
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
@@ -664,10 +669,12 @@ function AftercareCard({ t }) {
         </ArrowLink>
       </div>
       {/* D5: warunek ceny stoi zawsze – także na telefonie, bez „Więcej” */}
-      {t.condition && <p className="as-caption mt-3">{t.condition}</p>}
-      <p id={noteId} className={cn('as-caption', t.condition ? 'mt-1' : 'mt-3', more.hiddenClass)}>
-        {t.priceNote}
-      </p>
+      <div>
+        {t.condition && <p className="as-caption mt-3">{t.condition}</p>}
+        <p id={noteId} className={cn('as-caption', t.condition ? 'mt-1' : 'mt-3', more.hiddenClass)}>
+          {t.priceNote}
+        </p>
+      </div>
     </article>
   );
 }
@@ -700,9 +707,9 @@ function AftercareBand() {
             </div>
           </Reveal>
 
-          <div className="grid gap-10 md:grid-cols-2 md:gap-8 xl:col-span-8 xl:col-start-5 xl:self-end">
+          <div className="grid gap-10 md:grid-cols-2 md:grid-rows-[auto_auto_1fr_auto_auto] md:gap-x-8 md:gap-y-0 xl:col-span-8 xl:col-start-5 xl:self-end">
             {AFTERCARE.map((t, i) => (
-              <Reveal key={t.id} delay={i * 80}>
+              <Reveal key={t.id} delay={i * 80} className="md:row-span-5 md:grid md:grid-rows-subgrid">
                 <AftercareCard t={t} />
               </Reveal>
             ))}
