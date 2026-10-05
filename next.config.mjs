@@ -49,6 +49,9 @@ const nextConfig = {
   async headers() {
     return [
       { source: '/:path*', headers: SECURITY_HEADERS },
+      // Wdrożenia testowe (*.vercel.app – w nazwie projektu stoi dawna marka) nie trafiają do
+      // wyszukiwarek; domena klientki (babushkina-academy.pl) tego nagłówka nie dostaje.
+      { source: '/:path*', has: [{ type: 'host', value: '(?<host>.+)\\.vercel\\.app' }], headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
       { source: '/fonts/:file*', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
       { source: '/graphics/:file*', headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }] },
       { source: '/brand/:file*', headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }] },

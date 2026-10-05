@@ -40,6 +40,11 @@ const ROOT_META = {
 /** Opis strony głównej w danym języku (używają go też trasy /, /en, /ru). */
 export const homeDescription = (locale) => ROOT_META[locale].description;
 
+function withoutCanonical(meta) {
+  const { alternates, openGraph, ...rest } = meta;
+  return { ...rest, openGraph: { ...openGraph, url: undefined } };
+}
+
 export function rootMetadata(locale) {
   return {
     metadataBase: new URL(SITE_URL),
@@ -47,7 +52,10 @@ export function rootMetadata(locale) {
       default: ROOT_META[locale].title,
       template: `%s | ${BRAND.name}`,
     },
-    ...pageMeta({ locale, route: 'home', description: ROOT_META[locale].description }),
+    /* Z pageMeta strony głównej tylko części wspólne: canonical i og:url NIE są dziedziczone –
+       trasa bez własnych metadanych (Next scala metadane płytko) wskazywałaby stronę główną
+       jako kanoniczną. Canonical strony głównej ustawiają (pl)/page.jsx, en/page.jsx, ru/page.jsx. */
+    ...withoutCanonical(pageMeta({ locale, route: 'home', description: ROOT_META[locale].description })),
   };
 }
 

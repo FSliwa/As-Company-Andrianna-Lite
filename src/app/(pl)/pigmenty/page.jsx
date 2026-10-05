@@ -1,5 +1,5 @@
 import Pigments from '@/views/Pigments';
-import { pageMeta } from '@/lib/seo';
+import { JsonLd, breadcrumbJsonLd, pageMeta } from '@/lib/seo';
 import { pricesExpired, stats } from '@/lib/pigments';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim.
@@ -17,5 +17,10 @@ export const metadata = pageMeta({
 });
 
 export default function Page() {
-  return <Pigments pricesStale={pricesExpired()} />;
+  return (
+    <>
+      <JsonLd data={breadcrumbJsonLd({ path: '/pigmenty', name: 'Pigmenty' })} />
+      <Pigments pricesStale={pricesExpired()} />
+    </>
+  );
 }

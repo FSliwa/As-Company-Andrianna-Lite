@@ -3,7 +3,8 @@ import { LEGAL_PUBLIC } from '@/lib/legal';
 import { PUBLIC_LOCALES } from '@/i18n/config';
 import { ROUTES, languageAlternates, localePath } from '@/i18n/routes';
 
-/** sitemap.xml – publiczne trasy w trzech językach (pl, /en, /ru) z hreflang; data = data buildu. */
+/** sitemap.xml – publiczne trasy w trzech językach (pl, /en, /ru) z hreflang. Bez lastmod: data buildu
+    oznaczała każdy adres jako zmieniony przy każdym wdrożeniu (Google przestaje ufać takiemu polu). */
 // Rezerwacja (/umow-wizyte, /en/book, /ru/book) tylko przy włączonej rezerwacji online –
 // inaczej to strona z komunikatem. Dokumenty prawne, gdy są publiczne (LEGAL_PUBLIC – decyzja Filipa z 30.09.2026:
 // także przed uzupełnieniem danych firmy; w pełni obowiązują po LEGAL_PUBLISHED).
@@ -24,7 +25,6 @@ const KEYS = [
 const absolute = (path) => `${SITE_URL}${path === '/' ? '' : path}`;
 
 export default function sitemap() {
-  const lastModified = new Date();
   const keys = LEGAL_PUBLIC ? [...KEYS, 'privacy', 'cookies', 'terms'] : KEYS;
   return keys.flatMap((key) => {
     const canonical = ROUTES[key];
@@ -33,7 +33,6 @@ export default function sitemap() {
     // tylko języki publiczne (PUBLIC_LOCALES) – /en i /ru dołączą po przetłumaczeniu treści
     return PUBLIC_LOCALES.map((locale) => ({
       url: absolute(localePath(canonical, locale)),
-      lastModified,
       changeFrequency: key === 'home' ? 'weekly' : 'monthly',
       priority: key === 'home' ? 1 : 0.7,
       ...(languages ? { alternates: { languages } } : {}),

@@ -61,7 +61,9 @@ export function siteJsonLd(locale = DEFAULT_LOCALE) {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Organization',
+        // akademia prowadzi kursy (Course.provider wskazuje na ten węzeł) – stąd EducationalOrganization;
+        // BeautySalon/LocalBusiness dopiero z adresem od klienta
+        '@type': ['Organization', 'EducationalOrganization'],
         '@id': `${SITE_URL}/#organization`,
         name: BRAND.full,
         ...(alternateName.length ? { alternateName } : {}),
@@ -146,7 +148,82 @@ export function coursesJsonLd(locale = DEFAULT_LOCALE) {
   };
 }
 
+/**
+ * Okruszki (BreadcrumbList) podstron: strona główna → podstrona. `name` = krótka nazwa
+ * z menu/stopki, nie tytuł SEO.
+ */
+export function breadcrumbJsonLd({ locale = DEFAULT_LOCALE, path, name }) {
+  const { BRAND } = getSite(locale);
+  const home = localePath('/', locale);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: BRAND.full, item: `${SITE_URL}${home === '/' ? '' : home}` },
+      { '@type': 'ListItem', position: 2, name, item: `${SITE_URL}${localePath(path, locale)}` },
+    ],
+  };
+}
+
+/**
+ * Zabiegi z cennika (/uslugi): Service + Offer dla każdej pozycji PRICING_PMU, PRICING_REFRESH
+ * i PRICING_REMOVAL ze stałą ceną – wyłącznie nazwy i ceny z site.js (te same, które stoją na
+ * stronie). Usuwanie: bez pozycji „dla naszych klientek” (warunek) i bez ceny „powyżej …”
+ * (wycena indywidualna). Katalog jest częścią węzła Organization (hasOfferCatalog). Bez adresu
+ * i godzin (BeautySalon dopiero po danych od klienta – patrz wyżej).
+ */
+export function treatmentsJsonLd(locale = DEFAULT_LOCALE) {
+  const { CONTACT, PRICING_PMU, PRICING_REFRESH, PRICING_REMOVAL, NAV_ALL } = getSite(locale);
+  const pl = getSite(DEFAULT_LOCALE);
+  const price = (p) => String(p).replace(/[^0-9]/g, '');
+  const url = `${SITE_URL}${localePath('/uslugi', locale)}`;
+  // rodzaj usługi = fraza ze strony (nie tytuł cennika ani warunek)
+  const serviceType = locale === DEFAULT_LOCALE ? 'Makijaż permanentny' : BRAND_SERVICE[locale];
+  const offer = (item, plItem, condition) => ({
+    '@type': 'Offer',
+    // cena zawsze z danych PL (w EN/RU cena jest sformatowana w języku strony)
+    price: price(plItem.price),
+    priceCurrency: 'PLN',
+    url: `${url}#cennik`,
+    ...(condition ? { description: condition } : {}),
+    itemOffered: {
+      '@type': 'Service',
+      name: item.name,
+      ...(item.technique || item.note ? { description: item.technique || item.note } : {}),
+      serviceType,
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: CONTACT.city,
+    },
+  });
+  const fixedRemoval = PRICING_REMOVAL.items
+    .map((item, i) => [item, pl.PRICING_REMOVAL.items[i]])
+    .filter(([, p]) => !p.forOwnClients && /^\d[\d\s\u00a0]*zł$/.test(String(p.price).trim()));
+  // nazwa katalogu = etykieta z mapy serwisu („Zabiegi i cennik”), bo obejmuje też Refresh i usuwanie
+  const catalogName = NAV_ALL.flatMap((g) => g.links).find((l) => l.href === '/uslugi')?.label || PRICING_PMU.title;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@id': `${SITE_URL}/#organization`, hasOfferCatalog: { '@id': `${url}#cennik` } },
+      {
+        '@type': 'OfferCatalog',
+        '@id': `${url}#cennik`,
+        name: catalogName,
+        url,
+        itemListElement: [
+          ...PRICING_PMU.items.map((item, i) => offer(item, pl.PRICING_PMU.items[i])),
+          ...PRICING_REFRESH.items.map((item, i) => offer(item, pl.PRICING_REFRESH.items[i], PRICING_REFRESH.condition)),
+          ...fixedRemoval.map(([item, p]) => offer(item, p)),
+        ],
+      },
+    ],
+  };
+}
+
+/* Rodzaj usługi w EN/RU (fraza z tłumaczeń strony). */
+const BRAND_SERVICE = { en: 'Permanent makeup', ru: 'Перманентный макияж' };
+
 export function JsonLd({ data }) {
   // eslint-disable-next-line react/no-danger
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  // „<” jako \u003c – tekst w danych nie zamknie skryptu (np. „</script>” w przyszłych treściach)
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />;
 }

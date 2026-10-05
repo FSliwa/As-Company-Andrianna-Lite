@@ -1,5 +1,5 @@
 import About from '@/views/About';
-import { pageMeta } from '@/lib/seo';
+import { JsonLd, breadcrumbJsonLd, pageMeta } from '@/lib/seo';
 
 /* Wrapper serwerowy: metadata trasy; sam widok jest komponentem klienckim.
    D7: role wg briefu (także prelegentka); trasa zawiera też salon i akademię. */
@@ -11,5 +11,10 @@ export const metadata = pageMeta({
 });
 
 export default function Page() {
-  return <About />;
+  return (
+    <>
+      <JsonLd data={breadcrumbJsonLd({ path: '/o-nas', name: 'O nas' })} />
+      <About />
+    </>
+  );
 }
