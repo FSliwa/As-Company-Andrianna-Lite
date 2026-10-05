@@ -687,7 +687,7 @@ function AftercareBand() {
                 Odnowić albo zacząć od&nbsp;nowa.
               </h2>
               <div>
-                <p className="as-body mt-6 hidden sm:block md:mt-0 xl:mt-6">
+                <p className="as-body mt-6 md:mt-0 xl:mt-6">
                   Zabiegi uzupełniające prowadzimy w tym samym standardzie co pigmentację: zaczynamy od oceny
                   skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
                   makijażu permanentnego.
@@ -852,7 +852,7 @@ function FaqBand() {
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zanim usiądziesz w&nbsp;fotelu.
             </h2>
-            <p className="as-body mt-6 hidden sm:block">
+            <p className="as-body mt-6">
               Odpowiedzi na wątpliwości, które najczęściej słyszymy przed zabiegiem – o technikę,
               kolor, ból i usuwanie.
             </p>

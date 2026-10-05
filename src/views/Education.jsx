@@ -802,7 +802,7 @@ function QuestionsBand() {
           <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
             <SectionLabel number="06">Pytania</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Zanim się zapiszesz.</h2>
-            <p className="as-body mt-6 hidden sm:block">
+            <p className="as-body mt-6">
               Najczęściej zadawane pytania – o pracę z klientkami, produkty, dofinansowanie i opiekę
               po szkoleniu.
             </p>
