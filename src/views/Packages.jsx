@@ -230,21 +230,18 @@ function PricingLinkBand() {
   return (
     <section className="as-section bg-cream-100">
       <div className="as-shell">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-8">
-          <Reveal className="lg:col-span-7">
-            <SectionLabel number="04">Cennik</SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">Wszystkie ceny w{'\u00a0'}jednym miejscu.</h2>
-            <p className="as-body mt-6 max-w-xl">
-              Makijaż permanentny, korekta, odświeżenie i{'\u00a0'}usuwanie – pełny cennik jest na stronie zabiegów.
-            </p>
-          </Reveal>
-
-          <Reveal delay={80} className="lg:col-span-4 lg:col-start-9 lg:justify-self-end">
-            <ArrowLink href="/uslugi#cennik" className="w-fit">
-              Zobacz cennik
-            </ArrowLink>
-          </Reveal>
-        </div>
+        {/* Propozycja pak-04-a: link 32 px pod leadem (jak w pozostałych pasach) – wcześniej stał
+            sam w prawym rogu łamu, ok. 620 px od tekstu przy 1440 */}
+        <Reveal className="lg:max-w-[calc((100%-11*2rem)*7/12+6*2rem)]">
+          <SectionLabel number="04">Cennik</SectionLabel>
+          <h2 className="as-display-section as-text-balance mt-6 text-ink">Wszystkie ceny w{'\u00a0'}jednym miejscu.</h2>
+          <p className="as-body mt-6 max-w-xl">
+            Makijaż permanentny, korekta, odświeżenie i{'\u00a0'}usuwanie – pełny cennik jest na stronie zabiegów.
+          </p>
+          <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
+            Zobacz cennik
+          </ArrowLink>
+        </Reveal>
       </div>
     </section>
   );
