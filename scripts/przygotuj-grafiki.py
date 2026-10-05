@@ -161,7 +161,21 @@ SEAM_JUMP = 8.0            # skok średniej jasności między sąsiednimi wiersz
 SEAM_RGB_DIFF = 12.0       # różnica koloru 60 px nad i pod szwem
 
 # --- siła gradingu per grupa --------------------------------------------------
-STRENGTH = {'studio': 1.0, 'academy': 1.0, 'brows': 1.0, 'lips': 1.0, 'work': 1.0, 'course': 0.45, 'cennik': 0.45}
+# Lite (kremowa strona): BEZ korekty barwnej. LUT poniżej był dobrany pod ciemną wersję
+# (przyciemniał i ocieplał: L* −4…−5, b* +5…+8, ΔE 6–9). Na kremie robił z jasnego tła
+# portretów beżowy prostokąt, a na zdjęciach efektów zmieniał kolor skóry i pigmentu
+# (zasada: efekty zabiegów autentyczne). Plakaty kursów i cenniki to oryginalne grafiki
+# klientki – też bez zmian koloru. Wartości Dark: studio/academy/brows/lips/work 1.0,
+# course/cennik 0.45.
+STRENGTH = {'studio': 0.0, 'academy': 0.0, 'brows': 0.0, 'lips': 0.0, 'work': 0.0, 'course': 0.0, 'cennik': 0.0}
+# Siłę gradingu można nadpisać z otoczenia, np. GRAPHICS_STRENGTH="studio=0,brows=0,lips=0,work=0"
+# (grupy niewymienione zostają jak wyżej; „all=0” ustawia wszystkie naraz).
+for _pair in filter(None, os.environ.get('GRAPHICS_STRENGTH', '').split(',')):
+    _k, _v = _pair.split('=')
+    if _k.strip() == 'all':
+        STRENGTH = {g: float(_v) for g in STRENGTH}
+    else:
+        STRENGTH[_k.strip()] = float(_v)
 # 'product' celowo bez gradingu (wierna barwa pigmentu)
 SRC_MEAN = np.array([207.8, 172.0, 156.5], dtype=np.float32)
 DST_MEAN = np.array([200.2, 158.4, 132.6], dtype=np.float32)
