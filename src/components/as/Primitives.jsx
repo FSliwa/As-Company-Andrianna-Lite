@@ -200,7 +200,7 @@ export function NumberedItem({ number, title, children, href, tone = 'dark', cla
         <span className={isLight ? 'as-num-invert' : 'as-num'}>{number}</span>
         <h3 className={cn('as-numbered-title', isLight ? 'text-cream-50' : 'text-ink')}>{nbspShort(title)}</h3>
       </div>
-      <p className={cn('as-numbered-desc', isLight ? 'text-cream-200/75' : 'text-mocha')}>{children}</p>
+      <p className={cn('as-numbered-desc', isLight ? 'text-cream-200/75' : 'text-mocha')}>{nbspShort(children)}</p>
       {href && (
         <ArrowLink href={href} tone={tone} className="mt-1 self-start border-b-0 pb-0">
           <span className="sr-only">
@@ -600,7 +600,7 @@ export function PriceRow({ name, note, price, priceNote, tone = 'dark' }) {
     <div className={cn('border-b py-4 first:border-t sm:py-5', isLight ? 'border-cream-200/15' : 'border-ink/10')}>
       {/* poniżej 360 px nazwa nad ceną (obok ceny i kropek nazwa dostawała 80–110 px i 4 linie) */}
       <div className="flex items-baseline gap-4 max-[359px]:flex-wrap max-[359px]:gap-y-1">
-        <span className={cn('min-w-0 text-[0.9375rem] leading-[1.5]', isLight ? 'text-cream-50' : 'text-ink')}>{name}</span>
+        <span className={cn('min-w-0 text-[0.9375rem] leading-[1.5] max-sm:text-[1rem] short:text-[1rem]', isLight ? 'text-cream-50' : 'text-ink')}>{name}</span>
         <span
           className={cn(
             'min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted max-[359px]:hidden',
@@ -857,7 +857,7 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
       <span className={cn('as-display-md leading-none', onDark ? 'text-gold-light' : 'text-gold-dark')}>{number}</span>
       <div>
         <h3 className={cn('as-title', onDark ? 'text-cream-100' : 'text-ink')}>{title}</h3>
-        {desc && <p className={cn('mt-3 max-w-[34rem] text-[0.9375rem] leading-[1.65]', onDark ? 'text-cream-200/85' : 'text-ink/75')}>{desc}</p>}
+        {desc && <p className={cn('mt-3 max-w-[34rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem]', onDark ? 'text-cream-200/85' : 'text-ink/75')}>{nbspShort(desc)}</p>}
         {children}
       </div>
       <div className="col-start-2 flex flex-wrap items-baseline gap-x-8 gap-y-3 xl:col-start-auto xl:justify-end">
@@ -885,20 +885,49 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
 export const FIELD_CLASS =
   'scroll-mt-8 block h-12 w-full rounded-none border-0 border-b border-ink/55 bg-transparent px-0 text-base text-ink shadow-none outline-none transition-[border-color,box-shadow] placeholder:text-mocha focus:border-ink focus:shadow-[0_1px_0_0_#241B14] focus-visible:ring-0';
 
+/* Błąd walidacji: formularze zapytań (kontakt, szkolenia, wynajem, zamówienie) korzystają
+   z walidacji przeglądarki – po nieudanej wysyłce pod KAŻDYM błędnym polem stoi jej komunikat
+   (validationMessage – bez nowych tekstów), pole ma aria-invalid i opis przez aria-describedby,
+   a linia pola zmienia kolor (wzorzec ErrorText z formularza rezerwacji). Komunikat znika,
+   gdy pole jest już poprawne. Pola z własną obsługą błędów (rezerwacja) przekazują
+   aria-invalid/aria-describedby same – mają pierwszeństwo. Podpowiedź (hint) jest opisem pola. */
 export function Field({ as = 'input', label, id, hint, required, className, wrapperClassName, children, ...rest }) {
   const Tag = as;
+  const [nativeError, setNativeError] = useState('');
+  const { onInvalid, onInput, onChange, 'aria-invalid': ariaInvalid, 'aria-describedby': describedBy, ...other } = rest;
+  const hintId = hint && id ? `${id}-hint` : undefined;
+  const errorId = nativeError && id ? `${id}-error` : undefined;
+  const ids = [describedBy, hintId, errorId].filter(Boolean).join(' ') || undefined;
+  const clearIfValid = (e) => {
+    if (nativeError && e.target.validity && e.target.validity.valid) setNativeError('');
+  };
   const control = (
     <Tag
       id={id}
       required={required}
       aria-required={required || undefined}
+      aria-invalid={ariaInvalid ?? (nativeError ? true : undefined)}
+      aria-describedby={ids}
+      onInvalid={(e) => {
+        setNativeError(e.target.validationMessage || '');
+        onInvalid?.(e);
+      }}
+      onInput={(e) => {
+        clearIfValid(e);
+        onInput?.(e);
+      }}
+      onChange={(e) => {
+        clearIfValid(e);
+        onChange?.(e);
+      }}
       className={cn(
         FIELD_CLASS,
         as === 'textarea' && 'h-auto min-h-[7.5rem] resize-y py-3',
         as === 'select' && 'cursor-pointer appearance-none pr-8',
+        nativeError && 'border-destructive',
         className
       )}
-      {...rest}
+      {...other}
     >
       {as === 'select' ? children : undefined}
     </Tag>
@@ -926,7 +955,16 @@ export function Field({ as = 'input', label, id, hint, required, className, wrap
       ) : (
         control
       )}
-      {hint && <p className="mt-2 text-[0.8125rem] leading-relaxed text-mocha">{hint}</p>}
+      {hint && (
+        <p id={hintId} className="mt-2 text-[0.8125rem] leading-relaxed text-mocha">
+          {hint}
+        </p>
+      )}
+      {nativeError && (
+        <p id={errorId} className="mt-2 text-[0.8125rem] leading-relaxed text-destructive">
+          {nativeError}
+        </p>
+      )}
     </div>
   );
 }

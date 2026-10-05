@@ -36,7 +36,7 @@ import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel, Statement } from '@/components/as/Primitives';
 import { BOOKING_URL, FOUNDER, PRICING_PMU, PRICING_REFRESH } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
-import { cn } from '@/lib/utils';
+import { cn, nbspShort } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Ceny – wyłącznie z cennika (site.js); PMU po stałym `id` (D2 zmienia */
@@ -188,7 +188,7 @@ function StepsBand() {
                 )}
               </div>
               <p className="as-kicker mt-3">{step.when}</p>
-              <p className="as-numbered-desc mt-3 flex-1 text-mocha">{step.desc}</p>
+              <p className="as-numbered-desc mt-3 flex-1 text-mocha">{nbspShort(step.desc)}</p>
               {step.price && (
                 <p className="mt-5 hidden font-display text-[1.375rem] leading-none text-ink max-[359px]:block sm:block">
                   {step.price}

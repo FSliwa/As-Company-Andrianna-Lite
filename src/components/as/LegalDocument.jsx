@@ -69,13 +69,14 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
   const intro = doc.intro ? partsOf(doc.intro, locale) : null;
 
   /* Pozycje spisu – te same w <details> (poniżej lg) i w kolumnie sticky (od lg).
-     Poniżej lg py-2 (pole dotyku ok. 35 px zamiast 27); od lg py-1, a na niskich
-     laptopach (≤ 820 px wysokości) py-0.5 – spis mieści się w oknie bez przewijania. */
+     Poniżej lg wiersz min. 44 px (pole dotyku); od lg py-1, a na niskich laptopach
+     (≤ 820 px wysokości) py-0.5 – spis mieści się w oknie bez przewijania; na ekranie
+     dotykowym od lg też 44 px (coarse:lg:, kolejność wariantów jak w stopce). */
   const tocItems = doc.sections.map((s) => (
     <li key={s.id} className="break-inside-avoid">
       <a
         href={`#${s.id}`}
-        className="block py-2 text-[0.875rem] leading-snug text-ink/75 hover:text-ink lg:py-1 lg:[@media(max-height:820px)]:py-0.5"
+        className="flex items-center py-2 text-[0.875rem] leading-snug text-ink/75 hover:text-ink max-lg:min-h-11 lg:py-1 lg:[@media(max-height:820px)]:py-0.5 coarse:lg:min-h-11"
       >
         {nbspShort(s.heading)}
       </a>

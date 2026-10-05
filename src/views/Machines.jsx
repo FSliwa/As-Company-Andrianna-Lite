@@ -301,12 +301,12 @@ function MachineRow({ machine, onRent }) {
         id={detailsId}
         className={cn('col-start-2 self-start md:col-start-3 md:row-start-1', !open && 'max-md:hidden')}
       >
-        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{nbspShort(machine.description)}</p>
+        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75">{nbspShort(machine.description)}</p>
         <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe – ${machine.name}`}>
           {machine.features.map((feat) => (
             <li key={feat} className="flex gap-4">
               <span aria-hidden="true" className="as-dash" />
-              <span className="text-[0.9375rem] leading-[1.65] text-ink/75">{nbspShort(feat)}</span>
+              <span className="text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75">{nbspShort(feat)}</span>
             </li>
           ))}
         </ul>
@@ -316,10 +316,10 @@ function MachineRow({ machine, onRent }) {
           {machine.specs.map((spec) => (
             <div key={spec.label} className={spec.span}>
               <dt className="as-label text-ink/65">{spec.label}</dt>
-              <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink">
+              <dd className="mt-2 text-[0.9375rem] leading-[1.5] text-ink max-sm:text-[1rem] short:text-[1rem]">
                 {spec.text ?? (
                   <>
-                    <span className="whitespace-nowrap">{spec.v}</span> {spec.u}
+                    <span className="min-[360px]:whitespace-nowrap">{spec.v}</span> {spec.u}
                   </>
                 )}
                 {spec.n && <span className="block text-ink/70">{spec.n}</span>}
@@ -493,7 +493,7 @@ export default function Machines() {
                   className="grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-baseline gap-x-4 border-t border-cream-200/15 py-3 sm:flex sm:flex-col sm:items-start sm:gap-2 sm:pb-0 sm:pt-5"
                 >
                   <span className="as-num-invert">{pad(speed.level)}</span>
-                  <span className="text-[0.9375rem] text-cream-50">{speed.name}</span>
+                  <span className="text-[0.9375rem] text-cream-50 max-sm:text-[1rem] short:text-[1rem]">{speed.name}</span>
                   <span className="as-caption-invert whitespace-nowrap">
                     {fmt(speed.rpm)}
                     {'\u00a0'}obr./min
@@ -558,12 +558,12 @@ export default function Machines() {
                   {RENTAL_POINTS.map((point) => (
                     <li key={point} className="flex gap-4">
                       <span aria-hidden="true" className="as-dash" />
-                      <span className="text-[0.9375rem] leading-[1.65] text-ink/80">{nbspShort(point)}</span>
+                      <span className="text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/80">{nbspShort(point)}</span>
                     </li>
                   ))}
                 </ul>
-                <p className="mt-6 text-[0.9375rem] leading-[1.65] text-ink/80">
-                  Pozostałe warunki określa umowa wynajmu – zapytaj o nie przed zamówieniem.
+                <p className="mt-6 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/80">
+                  Pozostałe warunki określa umowa wynajmu – zapytaj o&nbsp;nie przed zamówieniem.
                 </p>
                 <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
                   <ArrowLink onClick={openRental} className="w-fit">
@@ -649,13 +649,13 @@ export default function Machines() {
                 <dl className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <dt className="as-kicker">Urządzenie</dt>
-                    <dd className="mt-2 text-[0.9375rem] text-ink">
+                    <dd className="mt-2 text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">
                       {PRINCESS.name}, {RENTAL_PRICE}
                     </dd>
                   </div>
                   <div>
                     <dt className="as-kicker">Kontakt</dt>
-                    <dd className="mt-2 text-[0.9375rem] text-ink">
+                    <dd className="mt-2 text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">
                       {rentalForm.name}
                       {rentalForm.phone ? ` · ${rentalForm.phone}` : ''}
                     </dd>

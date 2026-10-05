@@ -79,8 +79,9 @@ const HERO_STATS = [
    na tej stronie, jak HERO_TITLE_SIZE w Pigments.jsx: przy 6,1vw od ok. 1536 px tytuł łamał
    się na „Karty / charakterystyki / pigmentów.” z samotnym „Karty” w pierwszej linii
    („Karty charakterystyki” ma 9,65 em: 850 px przy 88 px, 965 px przy 100 px).
-   Wrapper `contents` nie tworzy boxu. */
-const HERO_TITLE_SIZE = 'contents min-[1440px]:[&_h1]:[font-size:clamp(5.5rem,5.2vw,6.25rem)]';
+   Wrapper jest zwykłym blokiem: przy `contents` (bez boxu) Next po nawigacji nie przewijał
+   strony do góry (to samo co /pigmenty, 0e1b9db). */
+const HERO_TITLE_SIZE = 'block min-[1440px]:[&_h1]:[font-size:clamp(5.5rem,5.2vw,6.25rem)]';
 
 function Hero() {
   return (

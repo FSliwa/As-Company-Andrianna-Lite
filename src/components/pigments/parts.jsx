@@ -325,7 +325,7 @@ export function Description({ text, className }) {
     });
   });
   return (
-    <div className={cn('space-y-3 text-[0.9375rem] leading-[1.65] text-ink/80', className)}>
+    <div className={cn('space-y-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/80', className)}>
       {blocks.map((b, i) =>
         b.type === 'ul' ? (
           <ul key={i} className="space-y-1.5">

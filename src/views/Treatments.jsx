@@ -498,7 +498,7 @@ function TechniqueRow({ t, last }) {
       >
         <p
           ref={more.textRef}
-          className={cn('max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
+          className={cn('max-w-[34rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
         >
           {nbspShort(t.description)}
         </p>
@@ -649,9 +649,9 @@ function AftercareCard({ t }) {
       <p
         id={descId}
         ref={more.textRef}
-        className={cn('mt-3 text-[0.9375rem] leading-[1.65] text-ink/75', more.clampClass)}
+        className={cn('mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
       >
-        {t.description}
+        {nbspShort(t.description)}
       </p>
       <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
       <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:mt-6">
