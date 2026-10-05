@@ -57,7 +57,7 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
       ref={ref}
       className={cn(
         /* telefon: arkusz od dołu */
-        "fixed inset-x-0 bottom-0 z-[70] flex max-h-[92vh] w-full flex-col overflow-y-auto overscroll-contain rounded-none border-t border-ink/15 bg-cream-50 px-5 pb-6 pt-6 text-ink shadow-none supports-[height:1svh]:max-h-[92svh] [&>*]:shrink-0",
+        "fixed inset-x-0 bottom-0 z-[70] flex max-h-[92vh] w-full flex-col overflow-y-auto overscroll-contain scroll-pt-[3.25rem] scroll-pb-[6.5rem] rounded-none border-t border-ink/15 bg-cream-50 px-5 pb-6 pt-6 text-ink shadow-none supports-[height:1svh]:max-h-[92svh] [&>*]:shrink-0",
         /* od sm: panel wyśrodkowany */
         "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[90vh] sm:w-[calc(100%-2rem)] sm:max-w-[560px] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:border sm:px-10 sm:pb-10 sm:pt-10 sm:supports-[height:1svh]:max-h-[90svh]",
         "data-[state=open]:animate-as-in data-[state=closed]:animate-as-out",
@@ -72,7 +72,7 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
           więc tytuł stoi obok niego. */}
       <div className="pointer-events-none sticky -top-4 z-20 order-first -mb-7 -mr-3 -mt-4 flex justify-end sm:-top-8 sm:-mb-3 sm:-mr-8 sm:-mt-8">
         <DialogPrimitive.Close
-          className="pointer-events-auto grid h-11 w-11 place-items-center bg-cream-50 text-ink/70 transition-colors hover:text-ink disabled:pointer-events-none">
+          className="pointer-events-auto grid h-11 w-11 scroll-mt-[-3.25rem] place-items-center bg-cream-50 text-ink/70 transition-colors hover:text-ink disabled:pointer-events-none">
           <X className="h-4 w-4" aria-hidden="true" />
           <span className="sr-only">{t.close}</span>
         </DialogPrimitive.Close>

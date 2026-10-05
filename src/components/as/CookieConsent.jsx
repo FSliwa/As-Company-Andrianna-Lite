@@ -133,6 +133,19 @@ export default function CookieConsent() {
     [close]
   );
 
+  // pierwsza wizyta (baner informacyjny): Escape działa jak „Rozumiem” – tylko niezbędne
+  useEffect(() => {
+    if (!open || manual) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      // Escape zamykający menu mobilne albo dialog nie może po cichu zamknąć banera
+      if (document.querySelector('[role="dialog"][data-state="open"], [role="alertdialog"][data-state="open"], #as-menu:not([hidden])')) return;
+      decide({});
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, manual, decide]);
+
   if (!open) return null;
 
   const all = Object.fromEntries(OPTIONAL_CATEGORIES.map((c) => [c, true]));

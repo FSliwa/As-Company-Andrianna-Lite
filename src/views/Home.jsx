@@ -108,7 +108,7 @@ function HeroPicture() {
         fetchPriority="high"
         decoding="sync"
         sizes={HERO_SIZES}
-        className="as-enter-breathe absolute inset-0 h-full w-full object-cover object-[52%_0%] landscape:object-[50%_8%]"
+        className="as-enter-breathe absolute inset-0 h-full w-full object-cover object-[52%_0%] land:object-[50%_8%]"
       />
     </picture>
   );
@@ -121,7 +121,7 @@ function HeroPicture() {
    · poziom: 10,2vw, do 16svh, od 3rem (telefon w poziomie 568 × 320 – tekst i przycisk
      w pierwszym ekranie) do 14rem (monitor 2560 px – hasło nadal wchodzi na zdjęcie). */
 const HERO_TYPE =
-  '[--hw:clamp(4rem,min(21vw,13.5svh),11rem)] landscape:[--hw:clamp(3rem,min(10.2vw,16svh),14rem)]';
+  '[--hw:clamp(4rem,min(21vw,13.5svh),11rem)] land:[--hw:clamp(3rem,min(10.2vw,16svh),14rem)]';
 
 /* Hasło „Beauty / with precision.” – wersja wizualna h1 (aria-hidden, h1 jest w sr-only). */
 function HeroWords() {
@@ -171,35 +171,35 @@ function Hero() {
       </h1>
 
       {/* pierwszy ekran: w pionie tekst na dole kadru, w poziomie na środku wysokości */}
-      <div className="relative flex min-h-[100svh] flex-col justify-end landscape:justify-center">
+      <div className="relative flex min-h-[100svh] flex-col justify-end land:justify-center">
         {/* zdjęcie: w pionie cały ekran, w poziomie spad od prawej (60%, maks. 1200 px);
             overflow-hidden przycina „oddech” as-breathe (1,06 → 1) */}
-        <div className="absolute inset-0 overflow-hidden landscape:left-auto landscape:w-[min(60%,75rem)]">
+        <div className="absolute inset-0 overflow-hidden land:left-auto land:w-[min(60%,75rem)]">
           <HeroPicture />
           {/* pion: kremowe wygaszenie od dołu (pod tekstem krem, w połowie kadru już
               przezroczyste – twarz bez zmian) i górny pas pod nagłówkiem */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[6%] via-cream-50/80 via-[30%] to-transparent to-[58%] landscape:hidden"
+            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[6%] via-cream-50/80 via-[30%] to-transparent to-[58%] land:hidden"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-cream-50/90 via-cream-50/50 to-transparent landscape:hidden"
+            className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-cream-50/90 via-cream-50/50 to-transparent land:hidden"
           />
           {/* poziom: lewa część zdjęcia przechodzi w krem tła (na tym przejściu stoi hasło);
               u góry 80% kremu + nawigacja w pełnym ink (Layout, overPhoto) – „O nas”
               i „Kontakt” na włosach ≥ 5,4:1; dół kadru łagodnie w krem (fakty i kolofon) */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] landscape:block"
+            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] land:block"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-cream-50/80 to-transparent landscape:block"
+            className="absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-cream-50/80 to-transparent land:block"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent landscape:block"
+            className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent land:block"
           />
         </div>
 
@@ -209,7 +209,7 @@ function Hero() {
               w pierwszym ekranie;
             · poziom: wysokość nagłówka (--as-header-h, także wariant short) + odstęp
               zależny od wysokości ekranu. */}
-        <div className="as-shell relative z-10 pb-8 pt-[min(52svh,calc(100svh-21rem))] landscape:pb-[clamp(1.5rem,4svh,2.5rem)] landscape:pt-[calc(var(--as-header-h)+clamp(0.75rem,4svh,2.5rem))]">
+        <div className="as-shell relative z-10 pb-8 pt-[min(52svh,calc(100svh-21rem))] land:pb-[clamp(1.5rem,4svh,2.5rem)] land:pt-[calc(var(--as-header-h)+clamp(0.75rem,4svh,2.5rem))]">
           <div data-hero-lead className={HERO_TYPE}>
             <HeroWords />
             {/* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza.
@@ -231,12 +231,12 @@ function Hero() {
             </div>
           </div>
           {/* poziom: kolofon pod tekstem (w telefonie w poziomie – pod pierwszym ekranem) */}
-          <div className="mt-[clamp(1.5rem,5svh,3rem)] hidden landscape:block">{colophonBlock}</div>
+          <div className="mt-[clamp(1.5rem,5svh,3rem)] hidden land:block">{colophonBlock}</div>
         </div>
       </div>
 
       {/* pion: kolofon pod zdjęciem */}
-      <div className="as-shell pb-12 pt-4 landscape:hidden">{colophonBlock}</div>
+      <div className="as-shell pb-12 pt-4 land:hidden">{colophonBlock}</div>
     </section>
   );
 }
@@ -586,30 +586,30 @@ const INVITATION_SIZES =
 function InvitationBand() {
   return (
     <section data-sticky-hide className="relative overflow-hidden bg-cream-50">
-      <div className="relative flex min-h-[88svh] flex-col justify-end landscape:min-h-[min(80svh,52rem)] landscape:justify-center">
-        <div className="absolute inset-0 overflow-hidden landscape:right-auto landscape:w-[min(66%,80rem)]">
+      <div className="relative flex min-h-[88svh] flex-col justify-end land:min-h-[min(80svh,52rem)] land:justify-center">
+        <div className="absolute inset-0 overflow-hidden land:right-auto land:w-[min(66%,80rem)]">
           <Figure
             fill
             image={ROLES.closingHome.image}
             alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
             zoom={false}
-            imgClassName="object-[50%_35%] landscape:object-[100%_40%]"
+            imgClassName="object-[50%_35%] land:object-[100%_40%]"
             sizes={INVITATION_SIZES}
           />
           {/* pion: krem od dołu pod treścią */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[34%] via-cream-50/70 via-[48%] to-transparent to-[66%] landscape:hidden"
+            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[34%] via-cream-50/70 via-[48%] to-transparent to-[66%] land:hidden"
           />
           {/* poziom: prawa krawędź zdjęcia w krem (tekst po prawej) */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 via-cream-50/55 via-[18%] to-transparent to-[42%] landscape:block"
+            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 via-cream-50/55 via-[18%] to-transparent to-[42%] land:block"
           />
         </div>
 
-        <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] landscape:py-[clamp(3rem,8svh,5rem)]">
-          <Reveal className="landscape:ml-auto landscape:max-w-[min(40%,30rem)]">
+        <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] land:py-[clamp(3rem,8svh,5rem)]">
+          <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)]">
             <SectionLabel number="06">Kontakt</SectionLabel>
             {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">

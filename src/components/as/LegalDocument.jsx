@@ -97,7 +97,7 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
         <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-12">
           <nav aria-label={t.toc} className="lg:col-span-4 xl:col-span-3">
             {/* długi spis (RU) nie wychodzi poza okno – przewija się w sobie */}
-            <div className="lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-2">
+            <div className="lg:sticky lg:top-28 lg:-ml-2 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pb-2 lg:pl-2 lg:pr-2">
               <p className="as-label text-ink/65">{t.toc}</p>
               <ol className="mt-4 space-y-1 border-t border-ink/10 pt-4">
                 {doc.sections.map((s) => (
