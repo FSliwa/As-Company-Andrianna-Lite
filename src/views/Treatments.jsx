@@ -925,7 +925,9 @@ function PriceSheetsBand() {
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Cennik do&nbsp;pobrania.</h2>
             <p className="as-body mt-6">Grafiki cennika salonu w pełnym rozmiarze otwierają się w nowej karcie.</p>
           </Reveal>
-          <Reveal delay={80} className="lg:col-span-7 lg:col-start-6 lg:self-end">
+          {/* Propozycja usl-07-a / usl-07-b: miniatury bez złotej ramki, od lg przy prawej
+              krawędzi łamu (jak ceny w #cennik) – wcześniej 233 px pustego pola po prawej */}
+          <Reveal delay={80} className="lg:col-span-7 lg:col-start-6 lg:self-end lg:justify-self-end">
             <ul className="grid max-w-[33rem] grid-cols-3 gap-3 sm:gap-6">
               {PRICE_SHEETS.map((sheet) => (
                 <li key={sheet.key} className="min-w-0 max-w-[160px]">
@@ -941,7 +943,6 @@ function PriceSheetsBand() {
                       ratio="9 / 16"
                       zoom={false}
                       sizes="160px"
-                      className="as-photo-frame"
                     />
                     <span className="as-caption mt-2 block transition-colors group-hover:text-ink">
                       {/* telefon: numer części w osobnej linii (równa wysokość trzech podpisów,

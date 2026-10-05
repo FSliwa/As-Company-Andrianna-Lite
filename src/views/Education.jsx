@@ -669,7 +669,8 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
+              {/* Propozycja SZK-04-A: kolaż bez złotej ramki (klientka: „nie w ramce”) */}
+              <div className="grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
