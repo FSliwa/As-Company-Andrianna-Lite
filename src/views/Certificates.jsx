@@ -35,6 +35,7 @@
 import React from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
+import { nbspShort } from '@/lib/utils';
 
 /* Kolekcje z kartą charakterystyki – lista 1:1 ze strony dawnego sklepu klientki (6 PDF-ów, zob. nagłówek).
    Nazwy jak w katalogu /pigmenty (w sklepie „TRICHO” = kolekcja Trichopigmentation).
@@ -74,29 +75,38 @@ const HERO_STATS = [
 /*  01 – NAGŁÓWEK (pas espresso, bez zdjęcia)                          */
 /* ================================================================== */
 
+/* Od 1440 px H1 rośnie wolniej niż .as-display-lg (5,2vw, maks. 100 zamiast 104 px) – tylko
+   na tej stronie, jak HERO_TITLE_SIZE w Pigments.jsx: przy 6,1vw od ok. 1536 px tytuł łamał
+   się na „Karty / charakterystyki / pigmentów.” z samotnym „Karty” w pierwszej linii
+   („Karty charakterystyki” ma 9,65 em: 850 px przy 88 px, 965 px przy 100 px).
+   Wrapper `contents` nie tworzy boxu. */
+const HERO_TITLE_SIZE = 'contents min-[1440px]:[&_h1]:[font-size:clamp(5.5rem,5.2vw,6.25rem)]';
+
 function Hero() {
   return (
-    <PageHero
-      variant="band"
-      number="01"
-      label="Dokumentacja"
-      title="Karty charakterystyki"
-      titleAccent="pigmentów."
-      /* D9: REACH tylko w zakresie dokumentów ze sklepu (karty wg rozporządzenia 1907/2006);
-         „dokumentacja wymagana przy pracy z PMU” i „deklaracje zgodności” – bez źródła, usunięte. */
-      lead={'Karty charakterystyki sześciu kolekcji pigmentów z\u00a0naszej oferty, sporządzone zgodnie z\u00a0rozporządzeniem REACH. Udostępniamy je na prośbę.'}
-      stats={HERO_STATS}
-    >
-      {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
-      <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-        <Link href="/kontakt?temat=produkty" className="as-btn-invert">
-          Poproś o dokumentację
-        </Link>
-        <ArrowLink href="/pigmenty" tone="light" className="w-fit">
-          Zobacz pigmenty
-        </ArrowLink>
-      </div>
-    </PageHero>
+    <div className={HERO_TITLE_SIZE}>
+      <PageHero
+        variant="band"
+        number="01"
+        label="Dokumentacja"
+        title="Karty charakterystyki"
+        titleAccent="pigmentów."
+        /* D9: REACH tylko w zakresie dokumentów ze sklepu (karty wg rozporządzenia 1907/2006);
+           „dokumentacja wymagana przy pracy z PMU” i „deklaracje zgodności” – bez źródła, usunięte. */
+        lead={'Karty charakterystyki sześciu kolekcji pigmentów z\u00a0naszej oferty, sporządzone zgodnie z\u00a0rozporządzeniem REACH. Udostępniamy je na prośbę.'}
+        stats={HERO_STATS}
+      >
+        {/* jeden prostokątny przycisk + ArrowLink jako druga akcja */}
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+          <Link href="/kontakt?temat=produkty" className="as-btn-invert">
+            Poproś o dokumentację
+          </Link>
+          <ArrowLink href="/pigmenty" tone="light" className="w-fit">
+            Zobacz pigmenty
+          </ArrowLink>
+        </div>
+      </PageHero>
+    </div>
   );
 }
 
@@ -109,7 +119,9 @@ function DocumentsBand() {
     <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-4">
+          {/* od 1440 px nagłówek 5/12 (535 px), lista 6/12: „Sześć kolekcji,” przy 68 px ma
+              ok. 428 px i w kolumnie 4/12 (421 px) łamał się na 3 linie */}
+          <div className="lg:col-span-4 min-[1440px]:col-span-5">
             <Reveal>
               <SectionLabel number="02">Co udostępniamy</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">
@@ -121,7 +133,7 @@ function DocumentsBand() {
             <Reveal delay={60}>
               {/* D9: „pigmenty zgodne z rozporządzeniem REACH” – zawężone do kolekcji z listy obok */}
               <p className="as-body mt-6 max-w-[24rem]">
-                Pigmenty zgodne z rozporządzeniem REACH: do każdej kolekcji z tej listy mamy kartę
+                Pigmenty zgodne z&nbsp;rozporządzeniem REACH: do każdej kolekcji z&nbsp;tej listy mamy kartę
                 charakterystyki sporządzoną według rozporządzenia (WE) nr&nbsp;1907/2006.
               </p>
             </Reveal>
@@ -129,8 +141,10 @@ function DocumentsBand() {
 
           {/* 01–06 jako komórki dokumentów – wzorzec numerowanych pozycji serwisu:
               hairline u góry → numer (.as-num, Bodoni 24 px) obok kolekcji (.as-title)
-              → rodzaj dokumentu (.as-kicker) */}
-          <ol className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
+              → rodzaj dokumentu (.as-kicker). Dwie kolumny już od 480 px (kolumna ≥ 200 px,
+              „Tricho-pigmentation” ma miękki dywiz) – w telefonie w poziomie jedna kolumna
+              zostawiała ok. 55% szerokości pustej. */}
+          <ol className="grid gap-x-10 gap-y-12 min-[480px]:grid-cols-2 lg:col-span-7 lg:col-start-6 min-[1440px]:col-span-6 min-[1440px]:col-start-7">
             {SDS_COLLECTIONS.map((name, i) => (
               <Reveal as="li" key={name} delay={(i % 2) * 60} className="as-cell">
                 <div className="flex items-baseline gap-3">
@@ -157,7 +171,8 @@ function OnRequestBand() {
       <div className="as-shell">
         {/* mobile: nagłówek → lista → link; lg: link wraca pod nagłówek w lewej kolumnie */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="lg:col-span-4">
+          {/* od 1440 px 5/12 | 6/12 – jak w sekcji 02 */}
+          <Reveal className="lg:col-span-4 min-[1440px]:col-span-5">
             <SectionLabel number="03">Jak otrzymać</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Dokumenty
@@ -166,18 +181,21 @@ function OnRequestBand() {
             </h2>
           </Reveal>
 
-          <Reveal delay={60} className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
+          <Reveal
+            delay={60}
+            className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1 min-[1440px]:col-span-6 min-[1440px]:col-start-7"
+          >
             <ul className="border-t border-ink/10">
               {ON_REQUEST.map((item) => (
                 <li key={item} className="flex gap-5 border-b border-ink/10 py-5">
                   <span aria-hidden="true" className="as-dash" />
-                  <span className="as-body">{item}</span>
+                  <span className="as-body">{nbspShort(item)}</span>
                 </li>
               ))}
             </ul>
           </Reveal>
 
-          <Reveal delay={60} className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start">
+          <Reveal delay={60} className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start min-[1440px]:col-span-5">
             <ArrowLink href="/kontakt?temat=produkty" className="w-fit">
               Poproś o kartę charakterystyki
             </ArrowLink>

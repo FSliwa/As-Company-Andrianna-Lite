@@ -148,6 +148,11 @@ module.exports = {
          trafia do układu pionowego. */
       addVariant('port', ['@media (orientation: portrait)', '@media (max-width: 559.98px)']);
       addVariant('land', '@media (orientation: landscape) and (min-width: 560px)');
+      // coarse: ekran dotykowy (tablety od lg dostają nawigację desktopową – większe pola dotyku)
+      addVariant('coarse', '@media (pointer: coarse)');
+      // low: niski widok pionowy (< 720 px wysokości; także wąski widok jak port) – PageHero 'cover':
+      // tekst nie może leżeć na twarzy
+      addVariant('low', ['@media (orientation: portrait) and (max-height: 719px)', '@media (max-width: 559.98px) and (max-height: 719px)']);
     }),
   ],
 }

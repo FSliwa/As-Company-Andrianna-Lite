@@ -180,7 +180,7 @@
      Stat i numerały indeksu (64/40 px) · title = tytuły wierszy/kart (28/24 px)
      · numbered-title = 24/22 px italic · as-num = numery 01/02/03 (24 px)
      · ceny, pytania FAQ = 22–24 px. Bodoni nigdy poniżej 22 px i nigdy w tekście ciągłym. */
-  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi */
+  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi; poniżej 320 px – niżej */
   .as-display-lg {
     @apply as-display;
     font-size: clamp(2.4rem, 6.2vw, 5.5rem);
@@ -198,15 +198,32 @@
     font-size: clamp(2.25rem, 4.2vw, 3.75rem);
   }
 
-  /* Od 1440 px nagłówki rosną dalej z szerokością (do ok. 1920 px), żeby skala sekcji
-     nadążała za hasłem hero (--hw w Home.jsx rośnie do 14rem). Poniżej 1440 px bez zmian. */
+  /* Poniżej 320 px (Galaxy Fold złożony, łam 240 px): H1 2,125 rem – „permanentnego.”,
+     „charakterystyki” wychodziły o 22–28 px; H2 2 rem – przy 36 px „charakterystyki?”
+     wchodził 14 px w margines, a H2 był prawie tak duży jak H1. Blok stoi ZA definicjami
+     obu klas – wcześniej w kodzie przegrałby z nimi (ta sama specyficzność). */
+  @media (max-width: 319px) {
+    .as-display-lg {
+      font-size: 2.125rem;
+    }
+
+    .as-display-section {
+      font-size: 2rem;
+    }
+  }
+
+  /* Od 1440 px nagłówki rosną dalej z szerokością, żeby skala nadążała za hasłem hero
+     (--hw w Home.jsx rośnie do 14rem) – ale z limitem, bo łam ma stałe 1440 px i kolumny
+     od 1440 px już nie rosną (pomiar 5.10.2026 na 1728–3440 px): H1 podstron maks. 104 px
+     („permanentnego.” przy 116 px wychodziło z kolumny 717 px), liczby Stat bez wzrostu
+     (64 px – „100+” i „10 lat” przy 77–80 px nie mieściły się w kolumnach 155–176 px). */
   @media (min-width: 1440px) {
     .as-display-lg {
-      font-size: clamp(5.5rem, 6.1vw, 7.25rem);
+      font-size: clamp(5.5rem, 6.1vw, 6.5rem);
     }
 
     .as-display-md {
-      font-size: clamp(4rem, 4.45vw, 5rem);
+      font-size: 4rem;
     }
 
     /* H2 sekcji NIE rośnie powyżej 1440 px (zostaje 60 px): kontener ma stałe 1440 px,
@@ -732,6 +749,14 @@ body[data-scroll-locked] #as-sticky {
 
   html:has(#as-sticky[aria-hidden='false']) [data-toast-viewport] {
     bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Telefon w pionie: baner na całą szerokość przylega do paska CTA – jedna dolna karta
+   zamiast dwóch warstw z 12 px przerwą (CookieConsent.jsx: max-sm:inset-x-0). */
+@media (max-width: 639px) {
+  html:has(#as-sticky[aria-hidden='false']) [data-consent-banner] {
+    --consent-bottom: calc(3.5rem + env(safe-area-inset-bottom));
   }
 }
 

@@ -227,13 +227,14 @@ function EnquiryForm() {
           className="space-y-5 sm:space-y-6 md:flex md:flex-1 md:flex-col"
           aria-label="Formularz kontaktowy"
         >
-          {/* Pary pól: sm 2 kolumny; md–lg (panel ~400 px na tablecie) jedna, żeby
-              e-mail i „Telefon (opcjonalnie)” miały pełną szerokość; lg znowu 2.
+          {/* Pary pól: sm 2 kolumny; md–xl (panel ~400 px na tablecie, 6/12 z p-10 przy
+              1024–1279) jedna, żeby e-mail i „Telefon (opcjonalnie)” miały pełną szerokość
+              (przy lg pole miało 163 px); od xl znowu 2.
               Kolejność: najpierw pola wymagane (imię | e-mail), potem opcjonalny
               telefon | temat. items-end: gdy „Telefon (opcjonalnie)” łamie się
               w wąskiej kolumnie (lg ~1024 px), linie pól i tak stoją na jednej wysokości.
               enterKeyHint „dalej” na klawiaturze ekranowej przeprowadza przez pola. */}
-          <div className="grid gap-5 sm:grid-cols-2 sm:items-end sm:gap-6 sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2 sm:items-end sm:gap-6 sm:gap-x-8 md:grid-cols-1 xl:grid-cols-2">
             <Field
               id="c-name"
               label="Imię i nazwisko"
@@ -259,7 +260,7 @@ function EnquiryForm() {
             />
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 sm:items-end sm:gap-6 sm:gap-x-8 md:grid-cols-1 lg:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2 sm:items-end sm:gap-6 sm:gap-x-8 md:grid-cols-1 xl:grid-cols-2">
             <Field
               id="c-phone"
               label="Telefon (opcjonalnie)"
@@ -301,7 +302,7 @@ function EnquiryForm() {
           />
 
           <div className="pt-2">
-            <button type="submit" className="as-btn-solid w-full sm:w-auto">
+            <button type="submit" className="as-btn-solid w-full min-[480px]:w-auto">
               Wyślij zapytanie
             </button>
             <FormNotice className="mt-5 max-w-[32rem]" />
@@ -320,11 +321,13 @@ function Hero() {
      DOM daje: wstęp → formularz → lokalizacja. */
   return (
     <section className="bg-cream-50">
-      <div className="as-shell pb-14 pt-24 lg:pb-16 short:pb-10 short:pt-8">
-        <div className="grid gap-12 md:grid-cols-12 md:grid-rows-[auto_1fr] md:gap-x-8 md:gap-y-0">
+      <div className="as-shell pb-14 pt-[clamp(2.5rem,10svh,6rem)] lg:pb-16 short:pb-10 short:pt-8">
+        <div className="grid gap-10 md:grid-cols-12 md:grid-rows-[auto_1fr] md:gap-x-8 md:gap-y-0">
           <Reveal className="md:col-span-5 md:col-start-1 md:row-start-1">
             <SectionLabel number="01">Kontakt</SectionLabel>
-            <h1 className="as-display-lg as-text-balance mt-6 text-ink">
+            {/* od 1440 px H1 w rozmiarze z 1440 (88 px): łam już nie rośnie, a przy 105–116 px
+                „od” zostawało samo w środkowej linii */}
+            <h1 className="as-display-lg as-text-balance mt-6 text-ink min-[1440px]:text-[5.5rem]">
               Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
             </h1>
             <p className="as-body mt-6">

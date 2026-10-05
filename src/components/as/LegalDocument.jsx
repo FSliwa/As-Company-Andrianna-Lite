@@ -12,12 +12,16 @@
  * listy, z której po usunięciu segmentów nic nie zostaje (np. „[[NIP: {nip}]]”), nie renderuje się.
  * Pole "effective" (data wejścia w życie, np. nowej wersji Regulaminu) pokazujemy obok
  * daty aktualizacji, gdy jest wpisane.
+ * Spis treści: od lg przyklejony w lewej kolumnie, poniżej lg zwinięty w natywnym
+ * <details> (bez JS – komponent zostaje serwerowy), żeby 16–17 pozycji nie spychało
+ * początku dokumentu pod pierwszy ekran. Tekst w mierze .as-body (36 rem, ok. 80 znaków).
  */
 
 import { LegalParts } from '@/components/as/LegalText';
 import { SectionLabel } from '@/components/as/Primitives';
 import { LOCALE_META } from '@/i18n/config';
 import { FIELD_LABELS, LEGAL_COMPLETE, LEGAL_MISSING, LEGAL_PUBLIC, isBlank, tokenize } from '@/lib/legal';
+import { nbspShort } from '@/lib/utils';
 
 const UI = {
   pl: {
@@ -64,22 +68,38 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
   const effective = formatDate(doc.effective);
   const intro = doc.intro ? partsOf(doc.intro, locale) : null;
 
+  /* Pozycje spisu – te same w <details> (poniżej lg) i w kolumnie sticky (od lg).
+     Poniżej lg py-2 (pole dotyku ok. 35 px zamiast 27); od lg py-1, a na niskich
+     laptopach (≤ 820 px wysokości) py-0.5 – spis mieści się w oknie bez przewijania. */
+  const tocItems = doc.sections.map((s) => (
+    <li key={s.id} className="break-inside-avoid">
+      <a
+        href={`#${s.id}`}
+        className="block py-2 text-[0.875rem] leading-snug text-ink/75 hover:text-ink lg:py-1 lg:[@media(max-height:820px)]:py-0.5"
+      >
+        {nbspShort(s.heading)}
+      </a>
+    </li>
+  ));
+
   return (
     <section className="as-section bg-cream-50">
       <div className="as-shell pt-10 lg:pt-14">
         <SectionLabel>{t.label}</SectionLabel>
         {/* hyphens-auto (html lang ustawione): długie słowa, np. RU „конфиденциальности”, nie wychodzą poza ekran telefonu */}
-        <h1 className="as-display-lg as-text-balance mt-6 max-w-4xl hyphens-auto break-words text-ink">{doc.title}</h1>
+        <h1 className="as-display-lg as-text-balance mt-6 max-w-4xl hyphens-auto break-words text-ink">{nbspShort(doc.title)}</h1>
         {(updated || effective) && (
           <p className="as-label mt-6 flex flex-wrap gap-x-6 gap-y-1 text-ink/65">
+            {/* data w nowrap: przy 280–344 px łamała się w środku („30” / „września 2026”) –
+                teraz przechodzi do drugiej linii w całości */}
             {updated && (
               <span>
-                {t.updated}: {updated}
+                {t.updated}: <span className="whitespace-nowrap">{updated}</span>
               </span>
             )}
             {effective && (
               <span>
-                {t.effective}: {effective}
+                {t.effective}: <span className="whitespace-nowrap">{effective}</span>
               </span>
             )}
           </p>
@@ -96,22 +116,27 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
 
         <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-12">
           <nav aria-label={t.toc} className="lg:col-span-4 xl:col-span-3">
-            {/* długi spis (RU) nie wychodzi poza okno – przewija się w sobie */}
-            <div className="lg:sticky lg:top-28 lg:-ml-2 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pb-2 lg:pl-2 lg:pr-2">
+            {/* poniżej lg: spis zwinięty, od md w dwóch kolumnach (tablet w pionie bez
+                wąskiego paska przy lewej krawędzi i pustej reszty szerokości) */}
+            <details className="group border-y border-ink/10 lg:hidden">
+              <summary className="as-label flex min-h-11 cursor-pointer list-none items-center justify-between text-ink/65 [&::-webkit-details-marker]:hidden">
+                {t.toc}
+                <span aria-hidden="true" className="text-base leading-none transition-transform group-open:rotate-45 motion-reduce:transition-none">
+                  +
+                </span>
+              </summary>
+              <ol className="space-y-1 pb-4 md:columns-2 md:gap-x-10">{tocItems}</ol>
+            </details>
+            {/* od lg: długi spis (RU) nie wychodzi poza okno – przewija się w sobie */}
+            <div className="hidden lg:sticky lg:top-28 lg:-ml-2 lg:block lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pb-2 lg:pl-2 lg:pr-2">
               <p className="as-label text-ink/65">{t.toc}</p>
-              <ol className="mt-4 space-y-1 border-t border-ink/10 pt-4">
-                {doc.sections.map((s) => (
-                  <li key={s.id}>
-                    <a href={`#${s.id}`} className="block py-1 text-[0.875rem] leading-snug text-ink/75 hover:text-ink">
-                      {s.heading}
-                    </a>
-                  </li>
-                ))}
-              </ol>
+              <ol className="mt-4 space-y-1 border-t border-ink/10 pt-4">{tocItems}</ol>
             </div>
           </nav>
 
-          <article className="min-w-0 lg:col-span-8 xl:col-span-7">
+          {/* miara tekstu jak .as-body (36 rem): na tabletach kolumna miała cały łam
+              (704–868 px), od xl 755 px – 85–126 znaków w wierszu */}
+          <article className="min-w-0 max-w-[36rem] lg:col-span-8 xl:col-span-7">
             {intro && (
               <p className="text-[1.0625rem] leading-[1.7] text-ink/85">
                 <LegalParts parts={intro} locale={locale} />
@@ -119,7 +144,7 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
             )}
             {doc.sections.map((s) => (
               <section key={s.id} id={s.id} className="border-t border-ink/10 pt-8 [&:not(:first-child)]:mt-10 first:mt-10">
-                <h2 className="as-title text-ink">{s.heading}</h2>
+                <h2 className="as-title text-ink">{nbspShort(s.heading)}</h2>
                 <div className="mt-4 space-y-4 text-base leading-[1.75] text-ink/80">
                   {s.blocks.map((b, i) => {
                     if (b.list) {
@@ -128,8 +153,10 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
                       return (
                         <ul key={i} className="space-y-2">
                           {items.map((parts, j) => (
-                            <li key={j} className="flex gap-4">
-                              <span className="as-dash" aria-hidden="true" />
+                            /* poniżej 360 px krótsza kreska i mniejszy odstęp – tekst listy
+                               zyskuje 22 px (przy 280 px miał ok. 25 znaków w wierszu) */
+                            <li key={j} className="flex gap-4 max-[359px]:gap-2.5">
+                              <span className="as-dash max-[359px]:w-3" aria-hidden="true" />
                               <span className="min-w-0">
                                 <LegalParts parts={parts} locale={locale} />
                               </span>

@@ -270,7 +270,9 @@ function CourseCard({ number, course, delay, onBook }) {
         {/* numer .as-num obok tytułu (wzorzec 01/02/03), rodzaj kursu jako kicker pod nim */}
         <div className="flex items-baseline gap-3">
           <span className="as-num">{number}</span>
-          <h3 className="as-title text-ink">{nbspBrand(course.title)}</h3>
+          {/* md–1365 px: długie nazwy („Basic Super Natural Brows”) łamią się na 2 linie – rezerwa
+              2 linii trzyma rodzaj kursu i cenę w jednej linii w całym rzędzie kart */}
+          <h3 className="as-title text-ink md:max-[1365px]:min-h-[2.3em]">{nbspBrand(course.title)}</h3>
         </div>
         <p className="as-kicker mt-3">{course.type}</p>
         <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">
@@ -345,8 +347,9 @@ function CoursesBand({ onBook }) {
           {/* Dofinansowanie – jedno zdanie; szczegóły w pytaniach (#pytania).
               RIS i BUR to rejestry, KFS to fundusz (audyt TRESC-6); bez „m.in.” (SZK-15). */}
           <Reveal delay={60} className="as-cell flex flex-col">
-            <p className="as-kicker">RIS · BUR · KFS</p>
-            <h3 className="as-title mt-3 text-ink">Dofinansowanie</h3>
+            {/* kolejność jak w kartach kursów: tytuł, pod nim kicker */}
+            <h3 className="as-title text-ink md:max-[1365px]:min-h-[2.3em]">Dofinansowanie</h3>
+            <p className="as-kicker mt-3">RIS · BUR · KFS</p>
             <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">
               Jesteśmy wpisani do RIS i BUR, a szkolenia mogą być finansowane ze środków KFS.
             </p>
@@ -406,7 +409,9 @@ function OfferDownloads({ course, afterMore = false }) {
         Oryginalne grafiki {BRAND.academy}. Kliknij grafikę, aby ją powiększyć; pełny plik JPG
         otwiera się w nowej karcie.
       </p>
-      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:max-w-[66rem] lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
+      {/* 3 kolumny od 480 px, 4 od sm (kurs od podstaw w jednym rzędzie, bez samotnej grafiki;
+          w telefonie w poziomie grafika nie jest wyższa od ekranu) */}
+      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-x-6 lg:max-w-[66rem] lg:gap-x-8 lg:gap-y-10">
         {posters.map((p) => (
           <OfferPoster key={p.index} poster={p} course={course} name={name} />
         ))}
@@ -439,14 +444,14 @@ function OfferPoster({ poster, course, name }) {
               image={image}
               alt={alt}
               ratio="9 / 16"
-              sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 46vw"
+              sizes="(min-width: 1024px) 240px, (min-width: 640px) 22vw, (min-width: 480px) 30vw, 46vw"
               className="border border-ink/10"
             />
           </button>
         </DialogTrigger>
         {/* hover: złote podkreślenie, tekst zostaje w ink (złoto tylko w linii);
             py-1.5 – pole dotyku ≥ 24 px przy etykiecie 11 px */}
-        <div className="mt-2 flex items-baseline justify-between gap-3">
+        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
           <span className="text-[0.875rem] leading-snug text-ink">{poster.caption}</span>
           <a
             href={image.src}
@@ -524,7 +529,7 @@ function ProgramArticle({ number, course, onBook }) {
       <Reveal className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between md:gap-8">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
           <span className="as-num">{number}</span>
-          <h3 className="as-title mr-2 text-ink">{course.title}</h3>
+          <h3 className="as-title mr-2 min-w-0 text-ink max-sm:flex-1">{course.title}</h3>
           <p className="as-kicker basis-full sm:basis-auto">
             {course.type} · {priceLabel(course)} ·{' '}
             <span className="inline-block">{course.format}</span>
@@ -555,7 +560,7 @@ function ProgramArticle({ number, course, onBook }) {
             open={open}
             onToggle={() => setOpen((v) => !v)}
             controls={listId}
-            label={`Pełny program (${total} ${plural(total, 'pozycja', 'pozycje', 'pozycji')})`}
+            label={`Pełny program (${total}${NBSP}${plural(total, 'pozycja', 'pozycje', 'pozycji')})`}
             openLabel="Zwiń program"
             className="mt-6"
           />
@@ -659,7 +664,7 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-3 short:grid-cols-3">
+              <div className="as-photo-frame grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
@@ -670,12 +675,12 @@ function GraduatesBand() {
                     tone="dark"
                     zoom={false}
                     className={
-                      ['col-span-2 sm:col-span-1 sm:order-2 short:col-span-1 short:order-2', 'sm:order-1 short:order-1', 'sm:order-3 short:order-3'][i]
+                      ['col-span-2 min-[480px]:col-span-1 min-[480px]:order-2', 'min-[480px]:order-1', 'min-[480px]:order-3'][i]
                     }
                     sizes={
                       i === 0
-                        ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 92vw'
-                        : '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 46vw'
+                        ? '(min-width: 1024px) 18vw, (min-width: 480px) 31vw, 92vw'
+                        : '(min-width: 1024px) 18vw, (min-width: 480px) 31vw, 46vw'
                     }
                   />
                 ))}
@@ -726,7 +731,7 @@ function IncludedBand() {
               {/* jedna kolumna < sm, dwie od sm; punkt tylko z karty kursu dla linergistek
                   oznaczony etykietą. < md: BENEFITS_PREVIEW pierwszych (sm–md: 4), reszta
                   za rozwinięciem. */}
-              <ol id="korzysci-lista" className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+              <ol id="korzysci-lista" className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {BENEFITS.map((benefit, i) => (
                   <li
                     key={benefit.text}

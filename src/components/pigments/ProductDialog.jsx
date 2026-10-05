@@ -171,9 +171,11 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
         </ArrowLink>
       )}
 
+      {/* od sm oba przyciski z węższym px-6 mieszczą się w jednym rzędzie (457 px przy 478 px
+          miejsca) – inaczej stopka w telefonie w poziomie zajmowała ok. 40% wysokości dialogu */}
       <DialogFooter>
         {canAdd && (
-          <button type="button" onClick={handleAdd} className="as-btn-solid">
+          <button type="button" onClick={handleAdd} className="as-btn-solid sm:px-6">
             {/* jeden element w przycisku (inline-flex z gap) – tekst bez dodatkowych odstępów */}
             <span>
               <span className="sm:hidden">Dodaj</span>
@@ -182,7 +184,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
             </span>
           </button>
         )}
-        <button type="button" onClick={onClose} className={cn('as-btn-ghost', canAdd && 'max-sm:hidden')}>
+        <button type="button" onClick={onClose} className={cn('as-btn-ghost sm:px-6', canAdd && 'max-sm:hidden')}>
           {canAdd ? 'Wróć do katalogu' : 'Zamknij'}
         </button>
       </DialogFooter>

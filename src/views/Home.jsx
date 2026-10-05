@@ -171,10 +171,15 @@ function Hero() {
       </h1>
 
       {/* pierwszy ekran: w pionie tekst na dole kadru, w poziomie na środku wysokości */}
-      <div className="relative flex min-h-[100svh] flex-col justify-end land:justify-center">
+      {/* od 2400 px (ultrawide) rozkładówka nie rozjeżdża się na całą szerokość: tekst i zdjęcie
+          w jednym bloku 2400 px, zewnętrzna krawędź zdjęcia wygaszona w krem */}
+      <div className="relative flex min-h-[100svh] flex-col justify-end land:justify-center min-[2400px]:mx-auto min-[2400px]:max-w-[2400px]">
         {/* zdjęcie: w pionie cały ekran, w poziomie spad od prawej (60%, maks. 1200 px);
             overflow-hidden przycina „oddech” as-breathe (1,06 → 1) */}
-        <div className="absolute inset-0 overflow-hidden land:left-auto land:w-[min(60%,75rem)]">
+        {/* poziom: lewa część zdjęcia przechodzi w krem MASKĄ (przezroczystość), nie kremową
+            nakładką – przy ułamkowej szerokości kontenera nakładka zostawiała ciemniejszą kreskę
+            1 px na krawędzi kadru */}
+        <div className="absolute inset-0 overflow-hidden land:left-auto land:w-[min(60%,75rem)] land:[-webkit-mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/0.45)_24%,#000_52%)] land:[mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/0.45)_24%,#000_52%)]">
           <HeroPicture />
           {/* pion: kremowe wygaszenie od dołu (pod tekstem krem, w połowie kadru już
               przezroczyste – twarz bez zmian) i górny pas pod nagłówkiem */}
@@ -189,9 +194,10 @@ function Hero() {
           {/* poziom: lewa część zdjęcia przechodzi w krem tła (na tym przejściu stoi hasło);
               u góry 80% kremu + nawigacja w pełnym ink (Layout, overPhoto) – „O nas”
               i „Kontakt” na włosach ≥ 5,4:1; dół kadru łagodnie w krem (fakty i kolofon) */}
+          {/* ultrawide: prawa krawędź zdjęcia w krem (blok 2400 px nie kończy się ostrą krawędzią) */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] land:block"
+            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 to-transparent to-[14%] min-[2400px]:land:block"
           />
           <div
             aria-hidden="true"
@@ -325,7 +331,7 @@ function AboutBand() {
 
         {/* liczby – najmocniejszy dowód marki, w pierwszych dwóch ekranach. Linię u góry ma
             każda liczba (Stat), więc rząd nie ma już własnej – bez podwójnej kreski. */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 lg:mt-16">
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 max-[319px]:grid-cols-1 md:grid-cols-4 lg:mt-16">
           {ACHIEVEMENTS.map((a, i) => (
             <Reveal key={a.label} delay={i * 60}>
               <Stat value={a.value} label={nbspShort(a.label)} tone="light" />
@@ -411,7 +417,7 @@ function TreatmentsBand() {
             {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
                 od md do lewej krawędzi (Figure bleed); wysokość 4:5 z kolumny. Telefon
                 w poziomie: kadr nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
-            <figure className="short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]">
+            <figure className="short:mx-auto short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:mx-0 short:md:max-w-[calc(80svh*4/5)]">
               <div className="relative" style={{ aspectRatio: '4 / 5' }}>
                 <Figure
                   image={portrait.image}
@@ -422,7 +428,7 @@ function TreatmentsBand() {
                   sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
                 />
               </div>
-              <figcaption className="as-caption mt-6 lg:mt-8">
+              <figcaption className="as-caption as-text-balance mt-6 lg:mt-8">
                 {FOUNDER.name} – {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
               </figcaption>
             </figure>
@@ -504,7 +510,7 @@ function TrainingBand() {
                   position={GROUPS.trainingHome.position}
                   tone="dark"
                   zoom={false}
-                  sizes="(min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
+                  sizes="(min-width: 1600px) 640px, (min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
                 />
               </div>
             </Reveal>
@@ -527,18 +533,23 @@ function TrainingBand() {
               {/* D4: pozostałe kursy z briefu – linkiem do ich programów na /szkolenia */}
               {OTHER_COURSES.length > 0 && (
                 /* na mocha cream-200/85 ma 4,4:1 – cream-100/85 (4,8:1) */
-                <p className="as-caption-invert mt-6 max-w-[36rem] text-cream-100/85">
+                <p className="as-caption-invert mt-6 max-w-[36rem] leading-[2] text-cream-100/85">
                   Pozostałe kursy:{' '}
                   {OTHER_COURSES.map((c, i) => (
                     <React.Fragment key={c.id}>
                       {i > 0 && (i === OTHER_COURSES.length - 1 ? ' i ' : ', ')}
                       <Link
                         href={`/szkolenia#program-${c.id}`}
-                        className="text-cream-50 underline decoration-cream-200/40 underline-offset-4 transition-colors hover:decoration-cream-50"
+                        className="py-1 text-cream-50 underline decoration-cream-200/40 underline-offset-4 transition-colors hover:decoration-cream-50"
                       >
                         {lowerFirst(c.fullTitle || c.title)}
                       </Link>
-                      {c.price && ` (${c.price})`}
+                      {c.price && (
+                        <>
+                          {' '}
+                          <span className="whitespace-nowrap">({c.price})</span>
+                        </>
+                      )}
                     </React.Fragment>
                   ))}
                   .
@@ -581,13 +592,17 @@ function TrainingBand() {
      stała przed wygaszeniem.
    data-sticky-hide: pasek CTA chowa się przy tej sekcji (ma własne przyciski). */
 const INVITATION_SIZES =
-  '(orientation: portrait) 132vh, (max-aspect-ratio: 9/5) 120vh, (min-width: 1940px) 1280px, 66vw';
+  '(orientation: portrait) calc((46vh + 5rem) * 1.5), (max-width: 1023px) and (max-height: 500px) 100vw, ' +
+  '(max-aspect-ratio: 9/5) 120vh, (min-width: 1940px) 1280px, 66vw';
 
 function InvitationBand() {
   return (
     <section data-sticky-hide className="relative overflow-hidden bg-cream-50">
-      <div className="relative flex min-h-[88svh] flex-col justify-end land:min-h-[min(80svh,52rem)] land:justify-center">
-        <div className="absolute inset-0 overflow-hidden land:right-auto land:w-[min(66%,80rem)]">
+      <div className="relative flex min-h-[88svh] flex-col justify-end land:min-h-[min(80svh,52rem)] land:justify-center min-[2400px]:mx-auto min-[2400px]:max-w-[2400px]">
+        {/* pion: zdjęcie tylko nad treścią (46svh + 5rem), więc twarz zostaje nad etykietą także
+            wtedy, gdy treść jest wyższa niż ekran (280–375 px) – wcześniej zdjęcie rosło z sekcją
+            i napis wchodził na brodę i dłoń. Poziom: wygaszenie prawej krawędzi maską (bez kreski). */}
+        <div className="absolute inset-x-0 top-0 h-[calc(46svh+5rem)] overflow-hidden land:inset-y-0 land:right-auto land:h-auto land:w-[min(66%,80rem)] short:land:w-1/2 land:[-webkit-mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)] land:[mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)]">
           <Figure
             fill
             image={ROLES.closingHome.image}
@@ -599,17 +614,17 @@ function InvitationBand() {
           {/* pion: krem od dołu pod treścią */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[34%] via-cream-50/70 via-[48%] to-transparent to-[66%] land:hidden"
+            className="absolute inset-0 bg-gradient-to-t from-cream-50 via-cream-50/70 via-[20%] to-transparent to-[45%] land:hidden"
           />
-          {/* poziom: prawa krawędź zdjęcia w krem (tekst po prawej) */}
+          {/* ultrawide: lewa (zewnętrzna) krawędź zdjęcia w krem */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 via-cream-50/55 via-[18%] to-transparent to-[42%] land:block"
+            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 to-transparent to-[14%] min-[2400px]:land:block"
           />
         </div>
 
         <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] land:py-[clamp(3rem,8svh,5rem)]">
-          <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)]">
+          <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)] short:land:max-w-[55%]">
             <SectionLabel number="06">Kontakt</SectionLabel>
             {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">

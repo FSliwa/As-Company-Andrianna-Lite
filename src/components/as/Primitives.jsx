@@ -41,10 +41,13 @@ export function SectionLabel({ number, children, tone = 'dark', line = true, cla
         </span>
       )}
       <span className={cn('as-label', isLight ? 'text-cream-100/85' : 'text-ink/70')}>{children}</span>
+      {/* linia ozdobna wypełnia tylko wolne miejsce (podstawa 0, maks. 64/112 px): w wąskiej
+          kolumnie ustępuje etykiecie – przy stałej szerokości kurczyła się razem z tekstem,
+          a etykieta łamała się na 2 linie („03 / JAK / OTRZYMAĆ” w kolumnie 4/12 przy 1024 px) */}
       {line && (
         <span
           className={cn(
-            'hidden h-px w-16 sm:block lg:w-28',
+            'hidden h-px min-w-0 flex-1 sm:block max-w-16 lg:max-w-28',
             isLight ? 'bg-cream-200/25' : 'bg-ink/15'
           )}
         />
@@ -395,12 +398,17 @@ export function PageHero({
   const isDark = kind === 'band';
 
   /* Telefon w poziomie (short:): lead stoi POD przyciskami (short:order-last) – w niskim
-     oknie długi lead w wąskiej kolumnie spychał główny przycisk pod pierwszy ekran. */
+     oknie długi lead w wąskiej kolumnie spychał główny przycisk pod pierwszy ekran. Okładka
+     ze zdjęciem na niskim telefonie w pionie (low:, < 720 px) – to samo: treść zaczyna się
+     niżej (pod twarzą), więc lead schodzi pod przyciski. */
   const heading = (
     <div className="flex flex-col [container-type:inline-size]">
       <SectionLabel number={number} tone={isDark ? 'light' : 'dark'}>
         {label}
       </SectionLabel>
+      {/* okładka od 1440 px w poziomie: H1 maks. 94 px (nie 104) – kolumna ma stałe 717 px,
+          a przy 104 px tytuły łamały się o linię więcej („Zabiegi / makijażu / permanentnego.”,
+          samotne „oparte” na /szkolenia); do ok. 1540 px rozmiar bez zmian (6,1vw) */}
       <h1
         className={cn(
           'as-display-lg as-display-fit as-text-balance mt-6 short:mt-4 short:text-[2.75rem]',
@@ -415,7 +423,11 @@ export function PageHero({
           </>
         )}
       </h1>
-      {lead && <p className={cn('mt-6 short:order-last short:mt-4', isDark ? 'as-body-invert' : 'as-body')}>{lead}</p>}
+      {lead && (
+        <p className={cn('mt-6 short:order-last short:mt-4', !isDark && 'low:order-last low:mt-5', isDark ? 'as-body-invert' : 'as-body')}>
+          {lead}
+        </p>
+      )}
       {children && <div className="mt-8 short:mt-5">{children}</div>}
     </div>
   );
@@ -435,14 +447,17 @@ export function PageHero({
       <section className="relative overflow-hidden bg-espresso text-cream-50">
         {/* Łuk narożny tylko w wolnym polu na prawo od H1 (max-w-4xl = 56 rem od
             lewego marginesu łamu): szerokość = to pole minus 2 rem. Od xl – węższe
-            ekrany nie mają obok H1 miejsca i łuk przecinałby tytuł. */}
+            ekrany nie mają obok H1 miejsca i łuk przecinałby tytuł. Od 1440 px kolumna
+            H1 ma 64 rem (przy H1 do 104 px w 56 rem „Karty / charakterystyki / pigmentów.”
+            miało samotne „Karty”, a /pigmenty 5 linii), więc pole liczy się od 67,5 rem
+            (poza łamem 1440 px: od połowy ekranu + 22,5 rem). */}
         <GoldArc
           variant="corner"
-          className="right-0 top-0 hidden h-[70%] w-[calc(min(100%-59.5rem,50%-14.5rem)-2rem)] xl:block"
+          className="right-0 top-0 hidden h-[70%] w-[calc(min(100%-59.5rem,50%-14.5rem)-2rem)] xl:block min-[1440px]:w-[calc(min(100%-67.5rem,50%-22.5rem)-2rem)]"
           opacity={0.28}
         />
         <div className="as-shell relative pb-[clamp(2.5rem,8svh,5rem)] pt-[clamp(2.5rem,12svh,8rem)]">
-          <Reveal className="min-w-0 max-w-4xl">{heading}</Reveal>
+          <Reveal className="min-w-0 max-w-4xl min-[1440px]:max-w-[64rem]">{heading}</Reveal>
           {stats && stats.length > 0 && (
             <div
               className={cn(
@@ -475,10 +490,16 @@ export function PageHero({
     <section className="relative mt-[calc(var(--as-header-h)*-1)] overflow-hidden bg-cream-50 text-ink">
       <div className="relative flex min-h-[100svh] flex-col justify-end land:min-h-[min(92svh,60rem)] land:justify-center">
         {image && (
+          /* pion: zdjęcie dokładnie na pierwszy ekran (100svh) – nie rośnie z wyższą treścią,
+             więc twarz nie zjeżdża pod etykietę i H1 (280–375 px); niżej krem sekcji.
+             Od 2100 px w poziomie: zdjęcie przy krawędzi łamu (90rem), nie ekranu – na ultrawide
+             między tekstem a postacią zostawało 700–1000 px pustego kremu. */
           <div
             className={cn(
-              'absolute inset-0 overflow-hidden land:w-[min(52%,68rem)]',
-              left ? 'land:right-auto' : 'land:left-auto'
+              'absolute inset-0 overflow-hidden port:bottom-auto port:h-[100svh] land:w-[min(52%,68rem)] min-[2100px]:land:w-[52rem]',
+              left
+                ? 'land:right-auto min-[2100px]:land:left-[calc((100%-90rem)/2)]'
+                : 'land:left-auto min-[2100px]:land:right-[calc((100%-90rem)/2)]'
             )}
           >
             <Figure
@@ -492,10 +513,15 @@ export function PageHero({
               className="as-enter-breathe"
               sizes={PAGE_HERO_SIZES}
             />
-            {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem */}
+            {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem.
+                low: (telefon < 720 px) treść zaczyna się na 36svh + 1rem, czyli ok. 38,5% od
+                góry – tam było ok. 45% kremu i etykieta leżała na włosach i ramieniu; teraz
+                krem 85% od 38%, pełny od 50% (od góry), podbródek (do ok. 28%) bez zmian.
+                Tablet w pionie (od 600 px): treść stoi niżej (60–67% od góry), więc zdjęcie
+                schodzi do etykiety – zamiast 120–300 px pustego kremu nad nią. */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[44%] via-cream-50/70 via-[56%] to-transparent to-[72%] land:hidden"
+              className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[44%] via-cream-50/70 via-[56%] to-transparent to-[72%] low:from-[50%] low:via-cream-50/85 low:via-[62%] min-[600px]:port:from-[34%] min-[600px]:port:via-[46%] min-[600px]:port:to-[64%] land:hidden"
             />
             <div
               aria-hidden="true"
@@ -517,6 +543,14 @@ export function PageHero({
               aria-hidden="true"
               className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent land:block"
             />
+            {/* od 2100 px: zewnętrzna krawędź zdjęcia (w łamie) też przechodzi w krem */}
+            <div
+              aria-hidden="true"
+              className={cn(
+                'absolute inset-0 hidden from-cream-50 via-cream-50/55 via-[12%] to-transparent to-[26%] min-[2100px]:land:block',
+                left ? 'bg-gradient-to-r' : 'bg-gradient-to-l'
+              )}
+            />
           </div>
         )}
 
@@ -525,12 +559,14 @@ export function PageHero({
             + dół = 25,5rem, więc główny przycisk zostaje w pierwszym ekranie; poziom –
             wysokość nagłówka + zapas zależny od wysokości ekranu (w telefonie w poziomie
             ok. 8 px – tam liczy się każdy piksel) */}
-        <div className="as-shell relative z-10 pb-[clamp(2.5rem,7svh,4rem)] pt-[min(42svh,calc(100svh-25.5rem))] land:pt-[calc(var(--as-header-h)+clamp(0.5rem,6svh-1rem,4rem))]">
+        <div className="as-shell relative z-10 pb-[clamp(2.5rem,7svh,4rem)] pt-[min(42svh,calc(100svh-25.5rem))] low:pt-[calc(36svh+1rem)] land:pt-[calc(var(--as-header-h)+clamp(0.5rem,6svh-1rem,4rem))]">
           {/* kolumna tekstu w poziomie: 46% (maks. 38rem); w telefonie w poziomie 60% – w niskim
               oknie tytuł w wąskiej kolumnie łamał się na 4 linie i spychał przycisk */}
           <Reveal
             className={cn(
-              'min-w-0 land:max-w-[min(46%,38rem)] short:land:max-w-[60%]',
+              /* od lg w poziomie szerzej (54%, maks. 46rem): przy 46% H1 łamał się na 4 linie
+                 z samotnym „oparte” (1024–1536 px) */
+              'min-w-0 land:max-w-[min(46%,38rem)] short:land:max-w-[60%] lg:land:max-w-[min(54%,46rem)]',
               left && 'land:ml-auto'
             )}
           >
@@ -548,7 +584,7 @@ export function PageHero({
    × min(92vh, 60rem), przy proporcji ekranu < 6:5 rysunek wyznacza wysokość. */
 const PAGE_HERO_SIZES =
   '(orientation: portrait) and (max-aspect-ratio: 2/3) 67vh, (orientation: portrait) 100vw, ' +
-  '(max-aspect-ratio: 6/5) 62vh, (min-width: 2100px) 1088px, 52vw';
+  '(max-aspect-ratio: 6/5) 62vh, (min-width: 2100px) 832px, 52vw';
 
 /* ------------------------------------------------------------------ */
 /*  Wiersz cennika                                                      */
@@ -562,16 +598,17 @@ export function PriceRow({ name, note, price, priceNote, tone = 'dark' }) {
   const isLight = tone === 'light';
   return (
     <div className={cn('border-b py-4 first:border-t sm:py-5', isLight ? 'border-cream-200/15' : 'border-ink/10')}>
-      <div className="flex items-baseline gap-4">
+      {/* poniżej 360 px nazwa nad ceną (obok ceny i kropek nazwa dostawała 80–110 px i 4 linie) */}
+      <div className="flex items-baseline gap-4 max-[359px]:flex-wrap max-[359px]:gap-y-1">
         <span className={cn('min-w-0 text-[0.9375rem] leading-[1.5]', isLight ? 'text-cream-50' : 'text-ink')}>{name}</span>
         <span
           className={cn(
-            'min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted',
+            'min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted max-[359px]:hidden',
             isLight ? 'border-cream-200/25' : 'border-ink/20'
           )}
           aria-hidden="true"
         />
-        <span className="shrink-0 text-right">
+        <span className="shrink-0 text-right max-[359px]:basis-full max-[359px]:text-left">
           <span className={cn('block whitespace-nowrap font-display text-[1.375rem]/7', isLight ? 'text-cream-50' : 'text-ink')}>
             {price}
           </span>
@@ -603,7 +640,7 @@ export function FactStrip({ items, tone = 'dark', className }) {
       className={cn(
         even
           ? 'grid grid-cols-2 gap-x-6 gap-y-3 max-[359px]:grid-cols-1'
-          : 'flex flex-wrap gap-x-6 gap-y-3',
+          : 'flex flex-wrap gap-x-4 gap-y-3 sm:gap-x-6',
         'lg:flex lg:flex-wrap lg:items-center lg:gap-x-5',
         className
       )}
@@ -667,7 +704,10 @@ export function Stat({ value, label, tone = 'dark', compact = false, inline = fa
         'border-t',
         isLight ? 'border-cream-200/15' : 'border-ink/15',
         compact ? 'pt-4' : 'h-full pr-5 pt-6',
-        inline && 'max-sm:grid max-sm:grid-cols-[minmax(7.5rem,auto)_1fr] max-sm:items-baseline max-sm:gap-x-4 max-sm:py-3',
+        /* poniżej 360 px węższa kolumna wartości (5,5 rem): przy 7,5 rem podpis dostawał
+           104 px i 6 linii (280 px) */
+        inline &&
+          'max-sm:grid max-sm:grid-cols-[minmax(7.5rem,auto)_1fr] max-sm:items-baseline max-sm:gap-x-4 max-sm:py-3 max-[359px]:grid-cols-[minmax(5.5rem,auto)_1fr] max-[359px]:gap-x-3',
         className
       )}
     >
@@ -686,7 +726,8 @@ export function Stat({ value, label, tone = 'dark', compact = false, inline = fa
         className={cn('mt-3 hyphens-manual break-words', inline && 'max-sm:mt-0', isLight ? 'as-caption-invert' : 'as-caption')}
         lang={locale}
       >
-        {label}
+        {/* twarde spacje po jednoliterowych spójnikach („odcienie w / katalogu”) */}
+        {nbspShort(label)}
       </p>
     </div>
   );
@@ -746,10 +787,15 @@ export function ClosingCta({
   const body = (
     <>
       {lead && <p className="as-body-invert">{nbspShort(lead)}</p>}
+      {/* przyciski na całą szerokość tylko na telefonie w pionie (< 480 px) – przy 568–639 px
+          robiły się z nich dwa paski po 530 px jeden pod drugim */}
+      {/* poniżej 480 px (przyciski na całą szerokość) napis może się złamać, a odstęp boczny
+          jest mniejszy: „ZOBACZ MASZYNKĘ AS PRINCESS” bez łamania miał 283 px przy łamie
+          240 px (280 px) i wychodził poza ekran */}
       {(primary || secondary) && (
-        <div className={cn('grid gap-3 sm:flex sm:flex-wrap sm:gap-4', lead && 'mt-8')}>
-          {button(primary, 'as-btn-invert')}
-          {button(secondary, 'as-btn-ghost-light')}
+        <div className={cn('grid gap-3 min-[480px]:flex min-[480px]:flex-wrap min-[480px]:gap-4', lead && 'mt-8')}>
+          {button(primary, 'as-btn-invert max-[479px]:whitespace-normal max-[479px]:px-5 max-[479px]:text-center')}
+          {button(secondary, 'as-btn-ghost-light max-[479px]:whitespace-normal max-[479px]:px-5 max-[479px]:text-center')}
         </div>
       )}
     </>
@@ -758,7 +804,11 @@ export function ClosingCta({
   return (
     <section data-sticky-hide className={cn('relative overflow-hidden bg-espresso text-cream-50', className)}>
       <div className="as-shell relative py-14 lg:py-20">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-16">
+        {/* do lg jedna kolumna minmax(0,1fr) – niejawna kolumna auto rosła do szerokości
+            najdłuższego przycisku (nowrap) i wypychała H2 i lead poza łam przy 280–320 px;
+            od lg odstęp 40 px, od xl 64 px – przy 1024 px w kolumnie 5/12 (342 px) przyciski
+            nie mieściły się w jednym rzędzie */}
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-12 lg:items-end lg:gap-10 xl:gap-16">
           {aside ? (
             <>
               <Reveal className="lg:col-span-7">
@@ -796,8 +846,10 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
   return (
     <div
       className={cn(
-        /* telefon: numerał | tytuł w jednym rzędzie (bez osobnego wiersza na numer) */
-        'grid grid-cols-[3.5rem_1fr] gap-4 border-t py-8 sm:grid-cols-[5rem_1fr] lg:grid-cols-[6rem_1fr_auto] lg:items-baseline lg:gap-8',
+        /* telefon: numerał | tytuł w jednym rzędzie (bez osobnego wiersza na numer); trzy kolumny
+           (z linkiem po prawej) od xl – przy 1024–1279 px w kolumnie 7/12 na tytuł i opis zostawało
+           ok. 200 px („Certyfikaty i / jakość”), więc link schodzi pod opis jak na tablecie */
+        'grid grid-cols-[3.5rem_1fr] gap-4 border-t py-8 sm:grid-cols-[5rem_1fr] xl:grid-cols-[6rem_1fr_auto] xl:items-baseline xl:gap-8',
         onDark ? 'border-cream-200/15' : 'border-ink/15',
         className
       )}
@@ -808,7 +860,7 @@ export function IndexRow({ number, title, desc, meta, href, cta, tone = 'dark', 
         {desc && <p className={cn('mt-3 max-w-[34rem] text-[0.9375rem] leading-[1.65]', onDark ? 'text-cream-200/85' : 'text-ink/75')}>{desc}</p>}
         {children}
       </div>
-      <div className="col-start-2 flex flex-wrap items-baseline gap-x-8 gap-y-3 lg:col-start-auto lg:justify-end">
+      <div className="col-start-2 flex flex-wrap items-baseline gap-x-8 gap-y-3 xl:col-start-auto xl:justify-end">
         {meta && <span className={cn('whitespace-nowrap font-display text-[1.375rem]', onDark ? 'text-cream-100' : 'text-ink')}>{meta}</span>}
         {href && cta && (
           <ArrowLink href={href} tone={onDark ? 'light' : 'dark'} className="w-fit">
@@ -920,13 +972,28 @@ export function RequiredLegend({ className }) {
 /* ------------------------------------------------------------------ */
 
 /* contentClassName – klasy treści rozwinięcia (np. 'max-w-none pr-0' dla
-   akordeonu z cennikiem, żeby ceny stały w jednej osi z cennikiem nad nim). */
+   akordeonu z cennikiem, żeby ceny stały w jednej osi z cennikiem nad nim).
+   item.kicker (opcjonalnie) – podtytuł w kapitalikach pod pytaniem, jak w PriceBlock:
+   długi tytuł cennika w Bodoni miał 4–6 linii. Kicker jest inline-block w osobnym
+   wierszu (leading-none), bo podkreślenie z hover:underline przycisku nie przechodzi
+   do wnętrza elementów inline-block – podkreśla się tylko pytanie. */
 export function Faq({ items, className, contentClassName }) {
   return (
     <Accordion type="single" collapsible className={cn('w-full border-t border-ink/10', className)}>
       {items.map((item, i) => (
         <AccordionItem key={item.q || i} value={`faq-${i}`}>
-          <AccordionTrigger>{nbspShort(item.q)}</AccordionTrigger>
+          <AccordionTrigger>
+            {item.kicker ? (
+              <span className="min-w-0">
+                <span className="block">{nbspShort(item.q)}</span>
+                <span className="mt-1.5 block text-[0.6875rem] leading-none">
+                  <span className="as-kicker inline-block leading-snug">{item.kicker}</span>
+                </span>
+              </span>
+            ) : (
+              nbspShort(item.q)
+            )}
+          </AccordionTrigger>
           <AccordionContent className={contentClassName}>{item.a}</AccordionContent>
         </AccordionItem>
       ))}
@@ -1005,15 +1072,23 @@ export function Statement({
   return (
     <section
       className={cn(
-        'relative flex flex-col overflow-hidden bg-espresso-900 text-cream-50 md:min-h-[70svh] md:flex-row md:items-end short:min-h-0',
+        /* wysokość od md: 70svh, ale maks. 46rem (na 1440 px wysokości pas miał 1008 px);
+           tablet w pionie: maks. 60svh / 40rem – przy 70svh (717–956 px) kadr połowy pasa
+           był wąski (ok. 0,55:1) i pokazywał tors, a połowa z tekstem była pusta */
+        'relative flex flex-col overflow-hidden bg-espresso-900 text-cream-50 md:min-h-[min(70svh,46rem)] md:flex-row md:items-end md:port:min-h-[min(60svh,40rem)] short:min-h-0',
         className
       )}
     >
       {/* Od md portret zajmuje połowę pasa (kadr ≈ 1:1 – cała głowa i dłonie, bez
           powiększania pliku 2:3 do pasa 2:1), a krawędź od strony tekstu wygasza maska.
           Poniżej md portret 4:5 NAD tekstem – tekst nigdy nie leży na twarzy ani dłoniach.
+          Tablet w pionie 480–767 px: kadr kwadratowy (4:5 na całą szerokość miał 750–930 px,
+          78–82% ekranu, i pokazywał cały tors; kwadrat przy Y 8% obejmuje głowę i dłonie).
           Telefon w poziomie (short:, 640–767 px) – kadr 4:5 nie wyższy niż 80% ekranu,
-          wyśrodkowany (jak portrety na stronie głównej), zamiast 2 ekranów zdjęcia. */}
+          wyśrodkowany (jak portrety na stronie głównej), zamiast 2 ekranów zdjęcia.
+          Od 2100 px portret stoi przy krawędzi łamu (90rem), nie ekranu, i wygasza się z obu
+          stron – jak zdjęcie PageHero 'cover': na 2560–3440 px leżał w całości poza łamem,
+          a między nagłówkiem a postacią zostawało ok. 1200 px pustego espresso. */}
       <Figure
         image={image}
         alt={alt}
@@ -1022,18 +1097,19 @@ export function Statement({
         zoom={false}
         fill
         className={cn(
-          'max-md:relative max-md:inset-auto max-md:aspect-[4/5] max-md:w-full short:max-md:mx-auto short:max-md:max-w-[calc(80svh*4/5)]',
+          'max-md:relative max-md:inset-auto max-md:aspect-[4/5] max-md:w-full min-[480px]:max-md:port:aspect-square short:max-md:mx-auto short:max-md:max-w-[calc(80svh*4/5)]',
           right
-            ? 'md:right-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%)] md:[mask-image:linear-gradient(to_left,transparent,#000_28%)]'
-            : 'md:left-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%)] md:[mask-image:linear-gradient(to_right,transparent,#000_28%)]'
+            ? 'md:right-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%)] md:[mask-image:linear-gradient(to_left,transparent,#000_28%)] min-[2100px]:left-[calc((100%-90rem)/2)] min-[2100px]:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_28%,#000_80%,transparent)] min-[2100px]:[mask-image:linear-gradient(to_left,transparent,#000_28%,#000_80%,transparent)]'
+            : 'md:left-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%)] md:[mask-image:linear-gradient(to_right,transparent,#000_28%)] min-[2100px]:right-[calc((100%-90rem)/2)] min-[2100px]:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_28%,#000_80%,transparent)] min-[2100px]:[mask-image:linear-gradient(to_right,transparent,#000_28%,#000_80%,transparent)]'
         )}
         sizes="(min-width: 1540px) 800px, (min-width: 768px) 52vw, 100vw"
       />
-      {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej (od md) */}
+      {/* gradient: czytelny tekst po stronie treści, portret oddycha po drugiej (od md);
+          od 2100 px tylko w łamie – tak samo względem portretu i tekstu jak przy 1440 px */}
       <div
         aria-hidden="true"
         className={cn(
-          'absolute inset-0 hidden md:block',
+          'absolute inset-0 hidden md:block min-[2100px]:inset-x-[calc((100%-90rem)/2)]',
           right
             ? 'bg-gradient-to-l from-espresso-900/85 via-espresso-900/40 to-transparent'
             : 'bg-gradient-to-r from-espresso-900/85 via-espresso-900/40 to-transparent'
@@ -1078,10 +1154,41 @@ export function Statement({
 /*  przy technikach na /uslugi – TechniquePhoto w Treatments.jsx).     */
 /* ------------------------------------------------------------------ */
 
+/* Szerokość kafelka paska dla `sizes`, od największego progu: [próg, szerokość]. Progi
+   odpowiadają klasom siatki w ResultStrip; od 1440 px łam ma stałe 1328 px treści, więc
+   kafelek ma stałą szerokość w px (wcześniej 22vw = 563–757 px przy kafelku ok. 330 px
+   na 2560–3440). 'short' = telefon w poziomie (4 kolumny także poniżej 640 px). */
+const RESULT_STRIP_TILE = {
+  3: [[1440, '440px'], [0, '34vw']],
+  4: [[1440, '330px'], [640, '25vw'], ['short', '25vw'], [0, '50vw']],
+  5: [[1440, '263px'], [768, '20vw'], [0, '34vw']],
+  6: [[1440, '219px'], [768, '17vw'], [0, '34vw']],
+};
+
+/* `sizes` = szerokość RYSOWANEGO obrazu, nie kafelka (jak coverWidth w Treatments.jsx):
+   plik szerszy niż kadr (lips-05 4:3 w kwadracie) wypełnia wysokość i wystaje w poziomie,
+   więc szerokość mnożymy przez nadmiar proporcji – inaczej przeglądarka brała za mały plik
+   (480 px przy potrzebnych ok. 600 px na 1024 px i DPR 2). */
+function resultStripSizes(cols, image, ratio) {
+  const [rw, rh] = String(ratio).split('/').map(Number);
+  const cover = image && rw && rh ? Math.max(1, image.w / image.h / (rw / rh)) : 1;
+  const tiles = RESULT_STRIP_TILE[cols] || RESULT_STRIP_TILE[6];
+  return tiles
+    .map(([min, width]) => {
+      const [, n, unit] = /^([\d.]+)(px|vw)$/.exec(width);
+      const value = `${Math.ceil(Number(n) * cover)}${unit}`;
+      if (min === 'short') return `(max-width: 1023px) and (max-height: 500px) ${value}`;
+      return min ? `(min-width: ${min}px) ${value}` : value;
+    })
+    .join(', ');
+}
+
 export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, caption, className }) {
-  /* tone = ton SEKCJI, w której stoi pasek: 'dark' (espresso/mocha) albo 'light' (krem) */
+  /* tone = ton SEKCJI, w której stoi pasek: 'dark' (espresso/mocha) albo 'light' (krem).
+     Cztery kafelki: telefon w pionie 2×2, telefon w poziomie (short:) od razu 4 w rzędzie –
+     przy 568×320 układ 2×2 miał 528 px wysokości (1,65 ekranu), a rząd ma ok. 130 px. */
   const onDark = tone === 'dark';
-  const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
+  const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 short:grid-cols-4 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
   return (
     <div className={className}>
       <ul className={cn('as-photo-frame grid gap-1', grid)}>
@@ -1094,7 +1201,7 @@ export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, c
               position={it.position || '50% 45%'}
               tone={onDark ? 'dark' : 'light'}
               zoom={false}
-              sizes="(min-width: 768px) 22vw, 45vw"
+              sizes={resultStripSizes(cols, it.image, ratio)}
             />
             {it.caption && (
               <p className={cn('mt-2 px-1 pb-1', onDark ? 'as-caption-invert' : 'as-caption')}>{it.caption}</p>

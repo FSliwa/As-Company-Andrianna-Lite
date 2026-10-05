@@ -69,6 +69,8 @@ export default function Logo({ size = 'md', tone = 'ink', className }) {
         </span>
         BUSHKINA
       </span>
+      {/* spacja między wierszami znaku: tekst linku to „BABUSHKINA ACADEMY” (WCAG 2.5.3 – nazwa
+          dostępna linku zawiera widoczny napis), w kolumnie flex nie zmienia układu */}{' '}
       <span className={cn('mt-[0.32em] block whitespace-nowrap pl-[0.42em] font-sans text-[0.4em] font-normal tracking-[0.42em]', c.sub)}>
         ACADEMY
       </span>

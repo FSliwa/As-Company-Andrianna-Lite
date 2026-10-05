@@ -13,6 +13,7 @@ import LocaleLink from '@/components/as/LocaleLink';
 import { localizeHref } from '@/i18n/routes';
 import { SITE_URL } from '@/lib/site';
 import { FIELD_LABELS, LEGAL_PUBLIC, displayValue, tokenize } from '@/lib/legal';
+import { nbspShort } from '@/lib/utils';
 
 const LINK = 'underline underline-offset-2 hover:text-ink';
 const HOST = SITE_URL.replace(/^https?:\/\//, '');
@@ -21,7 +22,8 @@ const HOST = SITE_URL.replace(/^https?:\/\//, '');
 export function LegalParts({ parts, locale = 'pl', linkClassName = LINK }) {
   const labels = FIELD_LABELS[locale] || FIELD_LABELS.pl;
   return parts.map((part, i) => {
-    if (part.text !== undefined) return part.text;
+    /* nbspShort: jednoliterowe „i”, „w”, „z”, „a” nie zostają na końcu wiersza (jak w PageHero) */
+    if (part.text !== undefined) return nbspShort(part.text);
     if (part.link) {
       const href = localizeHref(part.link, locale);
       return (

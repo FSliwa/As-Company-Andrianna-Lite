@@ -238,8 +238,8 @@ function StoryBand() {
           </Reveal>
 
           <div className="max-md:hidden md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
-            <Reveal className="tall:md:sticky md:top-28">
-              <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
+            <Reveal className="tall:md:sticky md:top-28 short:md:sticky short:md:top-[calc(var(--as-header-h)+1rem)]">
+              <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none short:md:mx-0 short:md:max-w-[calc((100svh-var(--as-header-h)-4.5rem)*4/5)]">
                 {/* ciasna ramka jak portret na espresso na stronie głównej */}
                 <div className="as-photo-frame">
                   <Figure
@@ -303,7 +303,7 @@ function NumbersBand() {
   return (
     <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-10 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <Reveal>
               <SectionLabel number="03">Osiągnięcia</SectionLabel>
@@ -426,17 +426,23 @@ function SalonBand() {
               599 px); od lg: kolumna nagłówka (361–535 px) */}
           <Reveal
             delay={120}
-            className="mt-4 max-w-[32rem] lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:max-w-none"
+            className="mt-4 max-w-[32rem] lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:max-w-none short:max-w-[calc((100svh-var(--as-header-h)-2rem)*5/4)]"
           >
             <SalonCollage />
           </Reveal>
         </div>
 
         {/* trzy specjalizacje (w tym technika combo – BIO-09) – komórki z hairline, bez zdjęć */}
-        <div className="mt-12 grid gap-8 md:grid-cols-3 lg:mt-16">
+        {/* tablet (md–lg): wiersz „tytuł | opis” jak w indeksie – w 3 kolumnach po ok. 200 px tytuły
+            łamały się na 2–3 linie; trzy kolumny od lg */}
+        <div className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-3">
           {SPECIALTIES.map((m, i) => (
             <Reveal key={m.number} delay={i * 60} className="as-cell">
-              <NumberedItem number={m.number} title={m.title}>
+              <NumberedItem
+                number={m.number}
+                title={m.title}
+                className="md:max-lg:grid md:max-lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:max-lg:gap-x-8 md:max-lg:[&>p]:mt-0"
+              >
                 {m.desc}
               </NumberedItem>
             </Reveal>

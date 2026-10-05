@@ -148,10 +148,17 @@ export function ProductTile({ product, sizes, className }) {
   const photo = productPhoto(product.id);
   if (photo) return <ProductPhoto product={product} sizes={sizes} className={className} />;
   return (
-    <div className={cn('relative flex aspect-square items-center justify-center bg-cream-100', className)}>
+    /* poniżej 340 px koło jest mniejsze i stoi wyżej – podpis łamie się tam na 2 linie
+       i inaczej nachodzi na złotą obwódkę */
+    <div
+      className={cn(
+        'relative flex aspect-square items-center justify-center bg-cream-100 max-[339px]:items-start max-[339px]:pt-[14%]',
+        className
+      )}
+    >
       <Swatch
         color={product.color}
-        className="aspect-square w-[42%] rounded-full outline outline-1 outline-offset-[6px] outline-gold/40"
+        className="aspect-square w-[34%] rounded-full outline outline-1 outline-offset-[6px] outline-gold/40 min-[340px]:w-[42%]"
       />
       <span
         aria-hidden={product.color ? 'true' : undefined}
@@ -211,8 +218,10 @@ export function PriceLine({ variants, showStock = false, className }) {
             </span>
             {v.label && <span className="mr-1.5 text-[0.8125rem] text-mocha">{formatCapacity(v.label)}</span>}
             <span className="font-display text-[1.375rem] leading-none">{formatPrice(v.price)}</span>
+            {/* poniżej 340 px (kolumna 110–130 px) „(brak)” schodzi pod parę – inaczej
+                overflow-hidden ucina go do „(b” */}
             {showStock && !v.inStock && (
-              <span className="ml-1.5 text-[0.8125rem] text-mocha">
+              <span className="ml-1.5 text-[0.8125rem] text-mocha max-[339px]:ml-0 max-[339px]:block">
                 <span aria-hidden="true">(brak)</span>
                 <span className="sr-only">brak w magazynie</span>
               </span>

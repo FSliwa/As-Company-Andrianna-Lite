@@ -24,6 +24,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import LocaleLink from '@/components/as/LocaleLink';
+import { cn } from '@/lib/utils';
 import { useLocale } from '@/i18n/client';
 import { ROUTES } from '@/i18n/routes';
 import BANNER from '@/content/legal/banner';
@@ -157,18 +158,40 @@ export default function CookieConsent() {
       role="region"
       aria-labelledby={titleId}
       data-consent-banner=""
-      className="fixed inset-x-3 z-[35] overflow-y-auto overscroll-contain border border-gold/40 bg-cream-50 p-4 text-ink sm:inset-x-auto sm:left-5 sm:max-w-[26rem] sm:p-6"
+      /* Telefon w pionie: baner przylega do paska CTA jako jedna dolna karta (index.css), tytuł
+         tylko dla czytników, link do polityki w rzędzie przycisku (pole 44 px). Niski ekran
+         (telefon w poziomie, short:): poziomy pasek – tekst obok przycisku, bez przewijania
+         w środku (karta zajmowała 54–62% wysokości ekranu). Panel ustawień zostaje kartą. */
+      className={cn(
+        'fixed inset-x-3 z-[35] overflow-y-auto overscroll-contain border border-gold/40 bg-cream-50 p-4 text-ink max-sm:inset-x-0 max-sm:border-x-0 sm:inset-x-auto sm:left-5 sm:max-w-[26rem] sm:p-6',
+        !showSettings && 'short:flex short:items-center short:gap-x-5 short:p-3 short:sm:inset-x-5 short:sm:max-w-[46rem] short:sm:p-4'
+      )}
     >
-      {/* <p>, nie nagłówek: baner stoi w DOM przed <h1> strony; region ma nazwę z aria-labelledby */}
-      <p id={titleId} ref={headingRef} tabIndex={-1} className="as-label text-gold-deep focus:outline-none">
-        {showSettings ? t.settingsTitle : t.title}
-      </p>
-      <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink/80 sm:mt-3 sm:text-[0.875rem]">
-        {t.text}{' '}
-        <LocaleLink href={ROUTES.cookies} className="underline underline-offset-2 hover:text-ink">
-          {t.policyLink}
-        </LocaleLink>
-      </p>
+      <div className={cn(!showSettings && 'short:min-w-0 short:flex-1')}>
+        {/* <p>, nie nagłówek: baner stoi w DOM przed <h1> strony; region ma nazwę z aria-labelledby */}
+        <p
+          id={titleId}
+          ref={headingRef}
+          tabIndex={-1}
+          className={cn('as-label text-gold-deep focus:outline-none', !showSettings && 'short:hidden')}
+        >
+          {showSettings ? t.settingsTitle : t.title}
+        </p>
+        <p
+          className={cn(
+            'mt-2 text-[0.8125rem] leading-relaxed text-ink/80 sm:mt-3 sm:text-[0.875rem]',
+            !showSettings && 'max-sm:mt-0 short:mt-0 short:sm:mt-0'
+          )}
+        >
+          {t.text}
+          <span className={cn(!showSettings && 'max-sm:hidden')}>
+            {' '}
+            <LocaleLink href={ROUTES.cookies} className="whitespace-nowrap underline underline-offset-2 hover:text-ink">
+              {t.policyLink}
+            </LocaleLink>
+          </span>
+        </p>
+      </div>
 
       {showSettings && (
         <ul className="mt-4 space-y-3 border-t border-ink/10 pt-4">
@@ -198,11 +221,25 @@ export default function CookieConsent() {
         </ul>
       )}
 
-      <div className="mt-3 flex flex-wrap items-center gap-3 sm:mt-5">
+      <div
+        className={cn(
+          'mt-3 flex flex-wrap items-center gap-3 sm:mt-5',
+          !showSettings && 'max-sm:justify-between short:mt-0 short:shrink-0 short:sm:mt-0'
+        )}
+      >
         {!choiceMode && (
           <button type="button" onClick={() => decide({})} className={BTN_SOLID}>
             {t.buttonOk}
           </button>
+        )}
+        {/* telefon w pionie: link do polityki tu, nie w zdaniu (w zdaniu miał 86 × 19 px) */}
+        {!showSettings && (
+          <LocaleLink
+            href={ROUTES.cookies}
+            className="inline-flex min-h-[44px] items-center text-[0.8125rem] underline underline-offset-2 hover:text-ink sm:hidden"
+          >
+            {t.policyLink}
+          </LocaleLink>
         )}
         {choiceMode && !settings && (
           <>

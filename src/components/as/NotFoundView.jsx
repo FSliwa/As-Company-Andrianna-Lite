@@ -12,7 +12,8 @@ import { ArrowLink, SectionLabel } from '@/components/as/Primitives';
 import { useContent } from '@/i18n/client';
 import common from '@/content/common';
 
-/* Twarda spacja przed ostatnim słowem akcentu – „ma.” / „exist.” nie zostaje samo w linii. */
+/* Twarda spacja przed ostatnim słowem akcentu i akapitu – „ma.” / „exist.” / „szukasz.”
+   nie zostaje samo w linii. */
 const keepLastWord = (text) => String(text).replace(/ (\S+)$/, ' $1');
 
 export default function NotFoundView() {
@@ -26,8 +27,10 @@ export default function NotFoundView() {
         <h1 className="as-display-lg as-text-balance mt-6 max-w-3xl text-ink">
           {t.title} <span className="italic text-gold-dark">{keepLastWord(t.accent)}</span>
         </h1>
-        <p className="as-body mt-6">{t.body}</p>
-        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+        {/* telefon w poziomie (short:): akapit pod przyciskami, jak lead w PageHero – przy
+            568 × 320 trzy linie akapitu spychały przycisk „Strona główna” pod pierwszy ekran */}
+        <p className="as-body mt-6 short:order-last short:mt-4">{keepLastWord(t.body)}</p>
+        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5 short:mt-5">
           <Link href="/" className="as-btn-solid">
             {t.home}
           </Link>

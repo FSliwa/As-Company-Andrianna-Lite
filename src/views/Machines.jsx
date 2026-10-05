@@ -53,7 +53,7 @@ import {
 import { BRAND, CONTACT } from '@/lib/site';
 import { PRODUCTS } from '@/lib/media';
 import { LEGAL_PUBLIC } from '@/lib/legal';
-import { cn } from '@/lib/utils';
+import { cn, nbspShort } from '@/lib/utils';
 import { enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import {
   Dialog,
@@ -149,7 +149,7 @@ const STROKE_STEPS = '2,1\u00a0· 2,2\u00a0· 2,4\u00a0· 2,55\u00a0· 2,7\u00a0
 const HERO_STATS = [
   { value: '7', label: 'prędkości, od 6\u00a0000 do 10\u00a0000\u00a0obr./min' },
   { value: '2,1–3,0\u00a0mm', label: 'skok igły, 7 stopni regulacji' },
-  { value: '107\u00a0g', label: 'waga, korpus z aluminium' },
+  { value: '107\u00a0g', label: 'waga, korpus z\u00a0aluminium' },
 ];
 
 const RENTAL_MONTHLY = 369;
@@ -196,8 +196,10 @@ const pad = (n) => String(n).padStart(2, '0');
    Plik jest kwadratem z wąskim, pionowym korpusem pośrodku (ok. 1/9 szerokości kadru),
    więc kadr ma stałą WYSOKOŚĆ, a nie proporcję: przy kadrze węższym niż wysoki
    object-cover skaluje plik do wysokości i przycina tylko białe boki – korpus zostaje
-   cały na każdej szerokości. Od md wysokość ogranicza też 72svh – w telefonie
-   w poziomie maszynka z podpisem mieści się w jednym ekranie pod nagłówkiem.
+   cały na każdej szerokości. Wysokość ogranicza też wysokość okna: poniżej md 62svh,
+   od md 72svh – w telefonie w poziomie (568 × 320, 667 × 375) maszynka z podpisem
+   mieści się w jednym ekranie pod nagłówkiem; telefony w pionie bez zmian (62svh
+   ≥ 18 rem od 465 px wysokości).
    Białe tło przechodzi w krem przez mix-blend-multiply. Tło kadru = tło sekcji
    (cream-50, zamiast cream-200 z .as-media): Reveal zostawia transform, czyli własny
    kontekst mieszania – bez tła kadru multiply nie miałby z czym się zmieszać i biel
@@ -215,7 +217,7 @@ function MachinePhotos({ machine, className }) {
       <div className="grid grid-cols-2 gap-4 sm:gap-6">
         {machine.photos.map((photo) => (
           <figure key={photo.color} className="min-w-0">
-            <div className="relative h-72 sm:h-80 md:h-[min(26rem,72svh)] lg:h-[min(28rem,72svh)]">
+            <div className="relative h-[min(18rem,62svh)] sm:h-[min(20rem,62svh)] md:h-[min(26rem,72svh)] lg:h-[min(28rem,72svh)]">
               <Figure
                 fill
                 image={photo.image}
@@ -299,12 +301,12 @@ function MachineRow({ machine, onRent }) {
         id={detailsId}
         className={cn('col-start-2 self-start md:col-start-3 md:row-start-1', !open && 'max-md:hidden')}
       >
-        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{machine.description}</p>
+        <p className="max-w-[34rem] text-[0.9375rem] leading-[1.65] text-ink/75">{nbspShort(machine.description)}</p>
         <ul className="mt-4 space-y-2" aria-label={`Cechy kluczowe – ${machine.name}`}>
           {machine.features.map((feat) => (
             <li key={feat} className="flex gap-4">
               <span aria-hidden="true" className="as-dash" />
-              <span className="text-[0.9375rem] leading-[1.65] text-ink/75">{feat}</span>
+              <span className="text-[0.9375rem] leading-[1.65] text-ink/75">{nbspShort(feat)}</span>
             </li>
           ))}
         </ul>
@@ -329,8 +331,9 @@ function MachineRow({ machine, onRent }) {
 
       {/* cena i akcje: odstęp 20 px między linkami – pola dotyku (::before) nie nachodzą;
           od ~390 px cena i pierwszy link w jednym rzędzie; od md pod parametrami,
-          oddzielone linią (jak wiersz cennika) */}
-      <div className="col-start-2 flex flex-wrap items-baseline gap-x-6 gap-y-5 md:col-start-3 md:row-start-2 md:self-start md:border-t md:border-ink/15 md:pt-6 lg:gap-x-8">
+          oddzielone linią (jak wiersz cennika). Poniżej 360 px pod numerałem na całej
+          szerokości – w kolumnie 168 px linki (nowrap) wychodziły w margines. */}
+      <div className="col-start-2 flex flex-wrap items-baseline gap-x-6 gap-y-5 max-[359px]:col-span-2 max-[359px]:col-start-1 md:col-start-3 md:row-start-2 md:self-start md:border-t md:border-ink/15 md:pt-6 lg:gap-x-8">
         <p className="whitespace-nowrap font-display text-[1.375rem] leading-[1.2] text-ink">{zl(machine.price)}</p>
         <ArrowLink href="/kontakt?temat=produkty" className="w-fit whitespace-nowrap">
           Zapytaj o dostępność
@@ -555,7 +558,7 @@ export default function Machines() {
                   {RENTAL_POINTS.map((point) => (
                     <li key={point} className="flex gap-4">
                       <span aria-hidden="true" className="as-dash" />
-                      <span className="text-[0.9375rem] leading-[1.65] text-ink/80">{point}</span>
+                      <span className="text-[0.9375rem] leading-[1.65] text-ink/80">{nbspShort(point)}</span>
                     </li>
                   ))}
                 </ul>

@@ -40,7 +40,7 @@ export const ROLES = {
   treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów
   heroAbout: { image: pick('studio-01'), position: '50% 18%' }, // dłoń na ramieniu, głowa przechylona; tło PageHero – w poziomie kadr szerszy niż 2:3, 18% trzyma głowę w kadrze (studio-11 = ta sama poza co studio-02)
   storyAbout: { image: pick('studio-08'), position: '50% 5%' },
-  heroTreatments: { image: pick('studio-15'), position: '50% 22%' }, // siedząca poza w tiulu – inna niż hero home (studio-05) i /o-nas (studio-01)
+  heroTreatments: { image: pick('studio-15'), position: '50% 6%' }, // siedząca poza w tiulu – inna niż hero home (studio-05) i /o-nas (studio-01); w poziomie kadr ok. 1:1 – 6% trzyma czubek głowy pod nagłówkiem (22% ucinało 36–71 px)
   heroTraining: { image: pick('studio-10'), position: '50% 30%' }, // marynarka, inna poza niż O nas na home (studio-04); tło PageHero – cała postać
   contactSection: { image: pick('studio-16'), position: '50% 30%' }, // /kontakt „Jak umówić wizytę" (zamiast sceny absolwentek)
   statementPackages: { image: pick('studio-12'), position: '50% 8%' }, // /pakiety – Statement: od lg prawa połowa pasa (≈1:1), poniżej lg pełny spad
