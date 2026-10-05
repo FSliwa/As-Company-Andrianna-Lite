@@ -466,10 +466,15 @@ const lowerFirst = (t) => t.charAt(0).toLowerCase() + t.slice(1);
 
 function TrainingBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
+    /* Propozycja H05-02: overflow-x-clip zamiast overflow-hidden – przycina spad zdjęcia
+       w poziomie, ale (inaczej niż hidden) nie tworzy kontenera przewijania, więc kolumna
+       tekstu może być sticky (Safari 16+, Chrome 90+, Firefox 81+) */
+    <section className="as-section relative overflow-x-clip bg-mocha text-cream-50">
       <div className="as-shell relative">
         <div className="grid gap-10 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
+          {/* Propozycja H05-02: od md kolumna tekstu stoi przy zdjęciu i cenach podczas
+              przewijania (pod tekstem było ok. 390 px pustego pasa przy 1440) */}
+          <div className="md:sticky md:top-[calc(var(--as-header-h)+2rem)] md:col-span-5 md:self-start">
             <Reveal>
               {/* na mocha złoty numer 11 px ma 4,05:1 – numer w kremie (4,8:1), jak etykieta */}
               <SectionLabel number={<span className="text-cream-100/85">05</span>} tone="light">
@@ -504,7 +509,9 @@ function TrainingBand() {
               {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
                   od md do prawej krawędzi (Figure bleed); wysokość 3:2 z kolumny. Telefon
                   w poziomie: kadr nie wyższy niż 80% ekranu (jak portrety, H8). */}
-              <div className="relative short:ml-auto short:max-w-[calc(80svh*3/2)]" style={{ aspectRatio: '3 / 2' }}>
+              {/* Propozycja H05-01: kadr 4:3 zamiast 3:2 – widać cały szyld z koroną, pięć twarzy
+                  i certyfikaty, o których mówi nagłówek (przy 3:2 ucięte dolną krawędzią) */}
+              <div className="relative short:ml-auto short:max-w-[calc(80svh*4/3)]" style={{ aspectRatio: '4 / 3' }}>
                 <Figure
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}
