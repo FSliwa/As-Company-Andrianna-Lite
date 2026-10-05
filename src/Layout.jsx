@@ -182,7 +182,8 @@ function NavDropdown({ item, links, canonical, label, className, strong }) {
       </button>
       {/* pt-4 = most nad szczeliną między nagłówkiem a listą (hover nie gaśnie w drodze) */}
       <div id={id} hidden={!shown} className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4">
-        <ul className="min-w-[16rem] border border-ink/10 bg-cream-50 py-2 shadow-[0_18px_40px_-24px_rgba(36,27,20,0.45)]">
+        {/* Propozycja STA-NAG-1: bez cienia (zasada „bez cieni”), linia ink/15 odcina panel od zdjęcia */}
+        <ul className="min-w-[16rem] border border-ink/15 bg-cream-50 py-2">
           {links.map((link) => {
             const current = canonical === link.href;
             return (
