@@ -26,4 +26,11 @@ export function nbspShort(value) {
 }
 
 
+/* Nazwy technik i kursów nie łamią się w środku znaku marki („Super Natural / Brows”
+   zostawiało samotne „Brows” w nagłówkach kart) – twarda spacja w „Natural Brows”. */
+export function nbspBrand(value) {
+  if (typeof value !== "string") return value
+  return nbspShort(value).replace(/Natural Brows/g, "Natural\u00a0Brows")
+}
+
 export const isIframe = typeof window !== 'undefined' ? window.self !== window.top : false;

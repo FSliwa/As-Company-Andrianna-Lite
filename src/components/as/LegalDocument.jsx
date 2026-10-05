@@ -120,7 +120,7 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
             {doc.sections.map((s) => (
               <section key={s.id} id={s.id} className="border-t border-ink/10 pt-8 [&:not(:first-child)]:mt-10 first:mt-10">
                 <h2 className="as-title text-ink">{s.heading}</h2>
-                <div className="mt-4 space-y-4 text-[0.9375rem] leading-[1.75] text-ink/80 sm:text-base">
+                <div className="mt-4 space-y-4 text-base leading-[1.75] text-ink/80">
                   {s.blocks.map((b, i) => {
                     if (b.list) {
                       const items = b.list.map((item) => partsOf(item, locale)).filter(Boolean);
@@ -141,7 +141,7 @@ export default function LegalDocument({ doc, locale = 'pl' }) {
                     const parts = partsOf(b.h3 || b.p, locale);
                     if (!parts) return null;
                     return b.h3 ? (
-                      <h3 key={i} className="pt-2 text-[0.9375rem] font-medium leading-snug text-ink sm:text-base">
+                      <h3 key={i} className="pt-2 text-base font-medium leading-snug text-ink">
                         <LegalParts parts={parts} locale={locale} />
                       </h3>
                     ) : (
