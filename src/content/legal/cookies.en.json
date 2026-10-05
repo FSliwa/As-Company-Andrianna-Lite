@@ -2,14 +2,14 @@
   "slug": "polityka-cookies",
   "title": "Cookie Policy",
   "updated": "2026-09-30",
-  "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. This policy explains what information the {siteUrl} website stores on or reads from your device, for what purpose and how you can manage it. In short: we use only what is necessary for the features you use. We do not use any analytics or advertising tools.",
+  "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. This policy explains what information the {siteUrl} website stores on or reads from your device, for what purpose and how you can manage it. In short: we use only what is necessary for the operation of the features you use. We do not use any analytics or advertising tools.",
   "sections": [
     {
       "id": "kto-odpowiada",
-      "heading": "1. Who runs the website",
+      "heading": "1. Who is responsible for the website",
       "blocks": [
         { "p": "The website is run by {company}, {seat}[[, Tax ID (NIP) {nip}]][[, {register}]]. We run a permanent make-up salon and academy in Warsaw[[{?entity} under the Babushkina Academy brand]] (“we”)." },
-        { "p": "For matters concerning this policy, write to us[[ at {privacyEmail} or]] on Instagram ({instagram}).[[ You can also {{or|use {email}|call us on {phone}}}.]]" }
+        { "p": "For matters concerning this policy, write to us[[ at {privacyEmail} or]] on Instagram ({instagram}).[[ You can also {{or|email us at {email}|call us on {phone}}}.]]" }
       ]
     },
     {
@@ -25,7 +25,7 @@
       "id": "co-zapisujemy",
       "heading": "3. What we store on your device",
       "blocks": [
-        { "p": "Below is the complete list. All items are strictly necessary for features you use, so they do not require consent. We do not use them to track you or for advertising." },
+        { "p": "Below is the complete list. All items are strictly necessary for the operation of the features you use, so they do not require consent. We do not use them to track you or for advertising." },
         { "h3": "as-order-v1 – pigment list for your enquiry" },
         { "list": [
           "Purpose: to remember the pigments you add to your enquiry list in the pigment catalogue, so that they do not disappear when you refresh the page or return to the catalogue.",
@@ -44,9 +44,9 @@
         { "h3": "Cloudflare Turnstile – booking form protection (only when enabled)" },
         { "list": [
           "Purpose: to tell humans apart from automated programs (bots) and to protect online booking against abuse, such as mass blocking of appointment times.",
-          "Type: third-party, provided by Cloudflare, Inc. (USA); necessary to accept the booking you request securely. The script is loaded from challenges.cloudflare.com only on the booking page – “Book a visit” (/en/book) and its Polish and Russian versions (/umow-wizyte, /ru/book) – and only once you start entering your details in the form (step 04) or submit it. It does not run on any other page.",
-          "Content: the script reads technical information about your browser and device (in the process Cloudflare receives, among other things, your IP address) and may store its own Cloudflare cookies in your browser (for example with names beginning with “cf_”) or other technical data needed for verification and for detecting faults in how it works. The result of the verification is a one-time token, valid for a few minutes, which our server checks with Cloudflare when you submit your booking.",
-          "Duration: token – a few minutes and a single use; cookies and data stored by Cloudflare – in accordance with Cloudflare’s rules for the Turnstile service (www.cloudflare.com/turnstile-privacy-policy). For the verification itself, Cloudflare acts on our behalf, while it processes the data used to improve Turnstile as a separate controller (details in the Privacy Policy, section 6)."
+          "Type: third-party, provided by Cloudflare, Inc. (USA); necessary to securely accept the booking you request. The script is loaded from challenges.cloudflare.com only on the booking page – “Book a visit” (/en/book) and its Polish and Russian versions (/umow-wizyte, /ru/book) – and only once you start entering your details in the form (step 04) or submit it. It does not run on any other page.",
+          "Content: the script reads technical information about your browser and device (in the process, Cloudflare receives, among other things, your IP address) and may store its own Cloudflare cookies in your browser (for example with names beginning with “cf_”) or other technical data needed for verification and for detecting faults in how the verification works. The result of the verification is a one-time token, valid for a few minutes, which our server checks with Cloudflare when you submit your booking.",
+          "Duration: token – a few minutes and a single use; cookies and data stored by Cloudflare – in accordance with Cloudflare’s rules for the Turnstile service (www.cloudflare.com/turnstile-privacy-policy). For the verification itself, Cloudflare acts on our behalf, while, as a separate controller, it processes the data used to improve Turnstile (details in the Privacy Policy, section 6)."
         ] },
         { "p": "If Turnstile protection is not enabled, the Cloudflare script is not loaded and nothing related to it is placed on your device." }
       ]
@@ -71,7 +71,7 @@
       "heading": "5. Legal basis",
       "blocks": [
         { "p": "We store information on your device and read it on the basis of the exemption in Article 399(3)(2) of the Electronic Communications Law: this is strictly necessary to provide a service you have requested, namely remembering your pigment list, remembering your choice in the banner and securely accepting your booking. Such storage is exempt from the consent requirement and from the information obligations of that provision, but we describe it in this policy nonetheless, so that it is clear what we store and why. The information stored does not change the configuration of your device or of the software installed on it." },
-        { "p": "The information saved in your browser’s storage does not contain your contact details and we do not use it to identify you. If we process your personal data in connection with your use of the website, for example your IP address in server logs kept by the hosting provider, the details you provide when booking or data processed by Cloudflare during verification, the rules, the legal bases under the General Data Protection Regulation (GDPR; in Polish “RODO”) and your rights are described in our Privacy Policy ({siteUrl}/polityka-prywatnosci)." }
+        { "p": "The information saved in your browser’s storage does not contain your contact details and we do not use it to identify you. If we process your personal data in connection with your use of the website, for example your IP address in server logs kept by the hosting provider, the details you provide when booking or data processed by Cloudflare during verification, our Privacy Policy ({siteUrl}/polityka-prywatnosci) sets out the rules for that processing, the legal bases for it under the General Data Protection Regulation (GDPR; in Polish “RODO”) and your rights." }
       ]
     },
     {
@@ -80,8 +80,8 @@
       "blocks": [
         { "list": [
           "Banner: click “Cookie settings” in the website footer at any time to display the cookie information again. If we introduce tools that require consent, you will be able to change or withdraw your consent in the same place.",
-          "Pigment list: remove all items or click “Clear list”, and the as-order-v1 entry will disappear from your browser.",
-          "Browser: you can delete data stored by our website, including Cloudflare cookies, or block it from being stored. In most browsers you will find these options in the privacy settings, in the section on cookies and site data. A private (incognito) window deletes such data when you close it."
+          "Pigment list: remove all items or click “Clear list” („Wyczyść listę”), and the as-order-v1 entry will disappear from your browser.",
+          "Browser: you can delete data stored by our website, as well as Cloudflare cookies, or block it from being stored. In most browsers you will find these options in the privacy settings, in the section on cookies and site data. A private (incognito) window deletes such data when you close it."
         ] },
         { "p": "If you block data storage, the website will still work, but your pigment list will not survive a page refresh and the banner may appear on every visit. Blocking the Cloudflare script may prevent online booking. In that case you can book an appointment {{or|by phone ({phone})|by email ({email})|via Instagram ({instagram})}}." }
       ]
@@ -90,8 +90,8 @@
       "id": "zmiany",
       "heading": "7. Changes to this policy",
       "blocks": [
-        { "p": "We update this policy when the way the website works changes. The current version is always available on this page, and the date of the latest change is shown at the top. If a change affects the scope of information stored on your device, the banner will be displayed again." },
-        { "p": "This policy applies to the entire website, including its English and Russian pages. We make it available in English and Russian translations, such as this one; in the event of any discrepancy, the Polish version prevails." }
+        { "p": "We update this policy when there are changes to how the website works. The current version is always available on this page, and the date of the latest change is shown at the top. If a change affects the scope of information stored on your device, the banner will be displayed again." },
+        { "p": "This policy applies to the entire website, including its English and Russian pages. We provide English and Russian translations of it; in the event of any discrepancy, the Polish version prevails." }
       ]
     }
   ],
