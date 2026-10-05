@@ -442,7 +442,6 @@ function TechniquePhoto({ photo, className }) {
         alt={alt}
         ratio={macro.ratio}
         position={macro.position}
-        tone="light"
         zoom={false}
         sizes={techniquePhotoSizes(macro)}
         imgClassName={macro.scale ? 'origin-[var(--as-crop-origin)] scale-[var(--as-crop-scale)]' : undefined}

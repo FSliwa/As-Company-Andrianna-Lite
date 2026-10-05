@@ -157,7 +157,6 @@ function SalonCollage() {
             fill
             position={c.position}
             imgClassName={c.imgClassName}
-            tone="light"
             zoom={false}
             sizes={c.sizes}
           />
