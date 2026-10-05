@@ -157,10 +157,13 @@ export const PRODUCTS = {
 
 /** Prace z 29.09.2026 – kadry przycięte bez doklejonej butelki (scripts/przygotuj-grafiki.py,
  *  NEW_WORKS): work-snb-01 (włos maszynowy, Super Natural Brows), work-powder-01 (technika
- *  pudrowa), work-eyes-01 (linia rzęs). */
+ *  pudrowa), work-eyes-01 (linia rzęs). work-powder-01-r – ten sam kadr obrócony o 90° w lewo
+ *  (brew poziomo nad okiem; propozycja usl-03-c), tylko wariant 960 – w kadrze 1:1 obraz
+ *  poziomy jest 1,6 × szerszy od kafla, więc wariant 480 byłby za mały. */
 export const WORKS = {
   'work-eyes-01': { src: '/graphics/work-eyes-01.jpg', w: 768, h: 615, webp: { '480': '/graphics/work-eyes-01-480.webp', '768': '/graphics/work-eyes-01.webp' } },
   'work-powder-01': { src: '/graphics/work-powder-01.jpg', w: 614, h: 960, webp: { '480': '/graphics/work-powder-01-480.webp', '614': '/graphics/work-powder-01.webp' } },
+  'work-powder-01-r': { src: '/graphics/work-powder-01-r.jpg', w: 960, h: 587, webp: { '960': '/graphics/work-powder-01-r.webp' } },
   'work-snb-01': { src: '/graphics/work-snb-01.jpg', w: 599, h: 797, webp: { '480': '/graphics/work-snb-01-480.webp', '599': '/graphics/work-snb-01.webp' } },
 };
 
@@ -284,6 +287,7 @@ export const BY_NAME = {
   'studio-16': { src: '/graphics/studio-16.jpg', w: 1068, h: 1600, webp: { '480': '/graphics/studio-16-480.webp', '960': '/graphics/studio-16-960.webp', '1068': '/graphics/studio-16.webp' } },
   'work-eyes-01': { src: '/graphics/work-eyes-01.jpg', w: 768, h: 615, webp: { '480': '/graphics/work-eyes-01-480.webp', '768': '/graphics/work-eyes-01.webp' } },
   'work-powder-01': { src: '/graphics/work-powder-01.jpg', w: 614, h: 960, webp: { '480': '/graphics/work-powder-01-480.webp', '614': '/graphics/work-powder-01.webp' } },
+  'work-powder-01-r': { src: '/graphics/work-powder-01-r.jpg', w: 960, h: 587, webp: { '960': '/graphics/work-powder-01-r.webp' } },
   'work-snb-01': { src: '/graphics/work-snb-01.jpg', w: 599, h: 797, webp: { '480': '/graphics/work-snb-01-480.webp', '599': '/graphics/work-snb-01.webp' } },
 };
 
