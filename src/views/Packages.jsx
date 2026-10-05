@@ -22,7 +22,7 @@
  * Sama podstrona nie ma odpowiednika w briefie – pytanie do klientki (Z13).
  *
  * Rytm tła: 01 hero band (cream-100) → 02 kroki (cream-50) → 03 Statement
- * (portret ROLES.statementPackages w ramce, cream-75) → 04 cennik (cream-100,
+ * (portret ROLES.statementPackages bez ramki, wygaszony w krem, cream-75) → 04 cennik (cream-100,
  * jasny oddech – Statement nie może stykać się z ClosingCta) → 05 ClosingCta
  * + stopka (cream-90 → cream-200).
  * Kroki 02 – wzorzec numerowanych pozycji serwisu: numer .as-num obok tytułu

@@ -987,9 +987,10 @@ export function MobileMore({ open, onToggle, controls, label, openLabel, tone = 
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pas „statement" – jeden duży portret w złotej ramce i jedno        */
-/*  zdanie. Moment strony; jeden na trasę. Lite: jasny papier          */
-/*  (cream-75) zamiast ciemnego spadu – tekst nigdy nie leży na twarzy. */
+/*  Pas „statement" – jeden duży portret i jedno zdanie. Moment        */
+/*  strony; jeden na trasę. Lite: jasny papier (cream-75) zamiast      */
+/*  ciemnego spadu; portret bez ramki (klientka 1.10: „nie w ramce”),  */
+/*  wygaszony w krem jak zdjęcia hero i pasa 06 na stronie głównej.    */
 /* ------------------------------------------------------------------ */
 
 export function Statement({
@@ -1008,14 +1009,33 @@ export function Statement({
   /* align = strona TEKSTU; portret stoi po przeciwnej. Na telefonie portret nad tekstem. */
   const right = align === 'right';
   return (
-    <section className={cn('as-section relative overflow-hidden border-y border-gold/25 bg-cream-75 text-ink', className)}>
-      <div className="as-shell relative grid gap-12 md:grid-cols-12 md:items-center md:gap-8">
-        <Reveal
-          className={cn(
-            'min-w-0 md:row-start-1 md:col-span-7 lg:col-span-6',
-            right ? 'md:col-start-6 lg:col-start-7' : 'md:col-start-1'
-          )}
-        >
+    <section
+      className={cn(
+        'relative flex flex-col overflow-hidden border-y border-gold/25 bg-cream-75 text-ink md:min-h-[70svh] md:flex-row md:items-center short:min-h-0',
+        className
+      )}
+    >
+      {/* Od md portret zajmuje połowę pasa (kadr ≈ 1:1 – głowa i dłonie, bez powiększania
+          pliku 2:3 do pasa 2:1), a krawędź od strony tekstu wygasza maska w krem – tekst
+          nigdy nie leży na twarzy. Poniżej md portret 4:5 na całą szerokość NAD tekstem
+          (jak portret w sekcji Zabiegi na home). Telefon w poziomie (short:) – kadr 4:5
+          nie wyższy niż 80% ekranu, wyśrodkowany. */}
+      <Figure
+        image={image}
+        alt={alt}
+        position={position}
+        zoom={false}
+        fill
+        className={cn(
+          'max-md:relative max-md:inset-auto max-md:aspect-[4/5] max-md:w-full short:max-md:mx-auto short:max-md:max-w-[calc(80svh*4/5)]',
+          right
+            ? 'md:right-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_32%)] md:[mask-image:linear-gradient(to_left,transparent,#000_32%)]'
+            : 'md:left-auto md:w-[52%] md:max-w-[50rem] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_32%)] md:[mask-image:linear-gradient(to_right,transparent,#000_32%)]'
+        )}
+        sizes="(min-width: 1540px) 800px, (min-width: 768px) 52vw, 100vw"
+      />
+      <div className="as-shell relative w-full pb-14 pt-10 md:py-24 lg:py-32 short:py-12">
+        <Reveal className={cn('max-w-xl md:max-w-[44%]', right && 'md:ml-auto')}>
           {label && <SectionLabel number={number}>{label}</SectionLabel>}
           {/* H2 w skali sekcji (jeden rozmiar H2 w serwisie), nie H1 */}
           <h2 className="as-display-section as-text-balance mt-6 text-ink">
@@ -1034,24 +1054,6 @@ export function Statement({
             </ArrowLink>
           )}
         </Reveal>
-        <div
-          className={cn(
-            'order-first min-w-0 md:order-none md:row-start-1 md:col-span-5 lg:col-span-4',
-            right ? 'md:col-start-1 lg:col-start-2' : 'md:col-start-8 lg:col-start-8'
-          )}
-        >
-          <div className="mx-auto max-w-[20rem] sm:max-w-[24rem] md:max-w-none">
-            <Figure
-              image={image}
-              alt={alt}
-              ratio="4 / 5"
-              position={position}
-              framed
-              zoom={false}
-              sizes="(min-width: 1440px) 432px, (min-width: 1024px) 30vw, (min-width: 768px) 38vw, 90vw"
-            />
-          </div>
-        </div>
       </div>
     </section>
   );
