@@ -698,6 +698,23 @@ export function CtaButton({ href, onClick, children, className = 'as-btn-solid',
    inline = poniżej sm układ listy „wartość | podpis” (PageHero statsLayout="list").
    Podpisy bez automatycznego dzielenia wyrazów (dzieliło nazwy, np. „PRIN-CESS”);
    break-words zostaje, żeby długie słowo nie wyszło poza kolumnę. */
+/* Znaki „×” i „+” w wartościach (5×, 100+) mają w Bodoni Moda przy automatycznym rozmiarze
+   optycznym (opsz = rozmiar pisma, 46–64 px) same włoskowe kreski – przy dpr 1 prawie znikały
+   na espresso i „5×” czytało się jak „5”. Sam znak dostaje opsz 18 (grubsza kreska); cyfry bez
+   zmian. Tekst i kolejność czytania bez zmian (zwykły <span>). */
+function statValue(value) {
+  if (typeof value !== 'string' || !/[+×]/.test(value)) return value;
+  return value.split(/([+×])/).map((part, i) =>
+    part === '+' || part === '×' ? (
+      <span key={i} className="[font-variation-settings:'opsz'_18]">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+}
+
 export function Stat({ value, label, tone = 'dark', compact = false, inline = false, className }) {
   const isLight = tone === 'light';
   const locale = useLocale();
@@ -723,7 +740,7 @@ export function Stat({ value, label, tone = 'dark', compact = false, inline = fa
           isLight ? 'text-cream-100' : 'text-ink'
         )}
       >
-        {value}
+        {statValue(value)}
       </p>
       <p
         className={cn('mt-3 hyphens-manual break-words', inline && 'max-sm:mt-0', isLight ? 'as-caption-invert' : 'as-caption')}
