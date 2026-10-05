@@ -78,7 +78,7 @@ import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { COURSE_ENQUIRY_OPTIONS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { LEGAL_PUBLIC } from '@/lib/legal';
-import { cn } from '@/lib/utils';
+import { cn, nbspBrand } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Dane pomocnicze                                                    */
@@ -270,7 +270,7 @@ function CourseCard({ number, course, delay, onBook }) {
         {/* numer .as-num obok tytułu (wzorzec 01/02/03), rodzaj kursu jako kicker pod nim */}
         <div className="flex items-baseline gap-3">
           <span className="as-num">{number}</span>
-          <h3 className="as-title text-ink">{course.title}</h3>
+          <h3 className="as-title text-ink">{nbspBrand(course.title)}</h3>
         </div>
         <p className="as-kicker mt-3">{course.type}</p>
         <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">
@@ -287,7 +287,7 @@ function CourseCard({ number, course, delay, onBook }) {
         <dl className="mt-5 max-w-[30rem] border-t border-ink/10">
           {specs.map(([term, value]) => (
             <div key={term} className="flex gap-4 border-b border-ink/10 py-2.5">
-              <dt className="as-label w-[5.75rem] shrink-0 pt-[0.2rem] text-ink/60">{term}</dt>
+              <dt className="as-label w-[5.75rem] shrink-0 pt-[0.2rem] text-ink/70">{term}</dt>
               <dd className="min-w-0 text-[0.875rem] leading-[1.55] text-ink/85">{value}</dd>
             </div>
           ))}

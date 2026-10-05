@@ -397,13 +397,13 @@ export function PageHero({
   /* Telefon w poziomie (short:): lead stoi POD przyciskami (short:order-last) – w niskim
      oknie długi lead w wąskiej kolumnie spychał główny przycisk pod pierwszy ekran. */
   const heading = (
-    <div className="flex flex-col">
+    <div className="flex flex-col [container-type:inline-size]">
       <SectionLabel number={number} tone={isDark ? 'light' : 'dark'}>
         {label}
       </SectionLabel>
       <h1
         className={cn(
-          'as-display-lg as-text-balance mt-6 short:mt-4 short:text-[2.75rem]',
+          'as-display-lg as-display-fit as-text-balance mt-6 short:mt-4 short:text-[2.75rem]',
           isDark ? 'text-cream-100' : 'text-ink'
         )}
       >

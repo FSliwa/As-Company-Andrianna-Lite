@@ -78,7 +78,7 @@ import {
 } from '@/lib/site';
 import { CENNIK } from '@/lib/media';
 import { MACROS, ROLES } from '@/lib/roles';
-import { cn, nbspShort } from '@/lib/utils';
+import { cn, nbspShort, nbspBrand } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Ceny – zawsze z cennika marki                                      */
@@ -487,7 +487,7 @@ function TechniqueRow({ t, last }) {
       />
       <div className="col-start-2 row-start-1 md:row-span-2 lg:row-span-1">
         <span className="as-num">{t.number}</span>
-        <h3 className="as-title mt-3 text-ink">{t.name}</h3>
+        <h3 className="as-title mt-3 text-ink">{nbspBrand(t.name)}</h3>
         <p className="as-kicker mt-2">{nbspShort(t.kind)}</p>
       </div>
       <div
@@ -640,7 +640,7 @@ function AftercareCard({ t }) {
         <span className="as-num">{t.number}</span>
         <p className="as-kicker">{t.tag}</p>
       </div>
-      <h3 className="as-title mt-3 text-ink">{t.name}</h3>
+      <h3 className="as-title mt-3 text-ink">{nbspBrand(t.name)}</h3>
       <p
         id={descId}
         ref={more.textRef}

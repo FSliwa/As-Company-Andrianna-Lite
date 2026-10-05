@@ -21,11 +21,13 @@ const AccordionTrigger = React.forwardRef(({ className, children, ...props }, re
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between gap-6 py-5 text-left font-display text-[1.375rem] font-normal leading-snug text-ink decoration-gold decoration-1 underline-offset-[0.3em] [text-wrap:pretty] hover:underline sm:text-2xl [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between gap-6 py-5 text-left font-display text-[1.375rem] font-normal leading-snug text-ink decoration-gold decoration-1 underline-offset-[0.3em] hover:underline sm:text-2xl [&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}>
-      {children}
+      {/* tekst w osobnym bloku – text-wrap: balance działa tylko w kontenerze blokowym
+          (w przycisku flex pytanie łamało się z wiszącym ostatnim wyrazem) */}
+      <span className="min-w-0 [text-wrap:balance]">{children}</span>
       <ChevronDown
         className="h-4 w-4 shrink-0 text-gold-dark transition-transform duration-300" />
     </AccordionPrimitive.Trigger>
