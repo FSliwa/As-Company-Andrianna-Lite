@@ -220,7 +220,7 @@ function Hero() {
             <HeroWords />
             {/* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza.
                 Claim na zdjęciu: ink/80 zamiast mocha (na wygaszeniu kontrast ≥ 7:1). */}
-            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(0.875rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
+            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(1rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
               {nbspShort(BRAND.claim)}
             </p>
             {/* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta
