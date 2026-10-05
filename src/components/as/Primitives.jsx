@@ -1133,7 +1133,8 @@ export function Statement({
         /* wysokość od md: 70svh, ale maks. 46rem (na 1440 px wysokości pas miał 1008 px);
            tablet w pionie: maks. 60svh / 40rem – przy 70svh (717–956 px) kadr połowy pasa
            był wąski (ok. 0,55:1) i pokazywał tors, a połowa z tekstem była pusta */
-        'relative flex flex-col overflow-hidden bg-espresso-900 text-cream-50 md:min-h-[min(70svh,46rem)] md:flex-row md:items-end md:port:min-h-[min(60svh,40rem)] short:min-h-0',
+        /* Propozycja SYS-1: espresso jak pozostałe ciemne pasy w treści (espresso-900 to ton stopki) */
+        'relative flex flex-col overflow-hidden bg-espresso text-cream-50 md:min-h-[min(70svh,46rem)] md:flex-row md:items-end md:port:min-h-[min(60svh,40rem)] short:min-h-0',
         className
       )}
     >
@@ -1169,13 +1170,13 @@ export function Statement({
         className={cn(
           'absolute inset-0 hidden md:block min-[2100px]:inset-x-[calc((100%-90rem)/2)]',
           right
-            ? 'bg-gradient-to-l from-espresso-900/85 via-espresso-900/40 to-transparent'
-            : 'bg-gradient-to-r from-espresso-900/85 via-espresso-900/40 to-transparent'
+            ? 'bg-gradient-to-l from-espresso/85 via-espresso/40 to-transparent'
+            : 'bg-gradient-to-r from-espresso/85 via-espresso/40 to-transparent'
         )}
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-espresso-900/70 via-transparent to-transparent md:block"
+        className="absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-espresso/70 via-transparent to-transparent md:block"
       />
       <div className="as-shell relative w-full pb-14 pt-8 md:pb-16 md:pt-40 lg:pb-24 lg:pt-56 short:pt-16">
         <Reveal className={cn('max-w-xl md:max-w-[44%]', right && 'md:ml-auto')}>
