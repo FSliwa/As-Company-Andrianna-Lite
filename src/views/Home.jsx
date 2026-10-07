@@ -114,14 +114,63 @@ function HeroPicture() {
   );
 }
 
+/* Warstwa „tekst za postacią” (od lg w poziomie, ekran ≥ 640 px wysokości): ta sama
+   postać wycięta z tła (scripts/wyciecie-postaci.swift + .py – maska Vision, piksele
+   identyczne z HERO_PHOTO, tylko kanał alfa) leży NAD hasłem, w tym samym pudełku, kadrze
+   i z tym samym „oddechem” as-breathe co zdjęcie – dłoń i włosy przechodzą przed literami
+   („precision.” chowa się za palcami). Wygaszenia zdjęcia (krem z lewej, u góry i u dołu)
+   są tu maską przezroczystości, nie kremową nakładką – inaczej przykryłyby tekst. Tylko
+   dekoracja: aria-hidden, bez zdarzeń wskaźnika (linki pod spodem klikalne), pobierana
+   z niskim priorytetem (LCP = zdjęcie i tekst). Technika z filmów referencyjnych 7.10. */
+const HERO_CUTOUT = {
+  src: '/graphics/studio-05-wyciecie.webp',
+  srcSet: '/graphics/studio-05-wyciecie-960.webp 960w, /graphics/studio-05-wyciecie.webp 1068w',
+};
+const HERO_CUTOUT_MASK =
+  'linear-gradient(to right, transparent, rgb(0 0 0 / 0.45) 24%, #000 52%), ' +
+  'linear-gradient(to bottom, rgb(0 0 0 / 0.2), #000 8rem), ' +
+  'linear-gradient(to top, rgb(0 0 0 / 0.3), #000 25%)';
+
+function HeroCutout() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-20 hidden overflow-hidden landscape:left-auto landscape:w-[min(60%,75rem)] lg:landscape:tall:block"
+      style={{
+        maskImage: HERO_CUTOUT_MASK,
+        WebkitMaskImage: HERO_CUTOUT_MASK,
+        maskComposite: 'intersect',
+        WebkitMaskComposite: 'source-in',
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={HERO_CUTOUT.src}
+        srcSet={HERO_CUTOUT.srcSet}
+        sizes={HERO_SIZES}
+        alt=""
+        width={HERO_PHOTO.w}
+        height={HERO_PHOTO.h}
+        loading="eager"
+        fetchPriority="low"
+        decoding="async"
+        className="as-enter-breathe absolute inset-0 h-full w-full object-cover object-[52%_0%] landscape:object-[50%_8%]"
+      />
+    </div>
+  );
+}
+
 /* Rozmiar hasła = zmienna --hw (wysokość „Beauty”) na bloku tekstu; z niej liczone są też
    „with precision.” (0,61 – proporcja z makiety: 7,46 / 12,2) i claim (0,1, 14–18 px),
    więc cały blok skaluje się razem. Od szerokości, ale nie więcej, niż pozwala wysokość:
    · pion: 21vw (telefon), do 13,5svh (tablet w pionie), maks. 11rem;
    · poziom: 10,2vw, do 16svh, od 3rem (telefon w poziomie 568 × 320 – tekst i przycisk
-     w pierwszym ekranie) do 14rem (monitor 2560 px – hasło nadal wchodzi na zdjęcie). */
+     w pierwszym ekranie) do 14rem (monitor 2560 px – hasło nadal wchodzi na zdjęcie);
+   · od lg w poziomie przy ekranie ≥ 640 px wysokości: 14,6vw, do 23svh, maks. 17rem – hasło
+     sięga dłoni i włosów, które leżą nad nim (HeroCutout). „!” – wariant złożony musi wygrać
+     z landscape:[--hw] niezależnie od kolejności wariantów w CSS. */
 const HERO_TYPE =
-  '[--hw:clamp(4rem,min(21vw,13.5svh),11rem)] landscape:[--hw:clamp(3rem,min(10.2vw,16svh),14rem)]';
+  '[--hw:clamp(4rem,min(21vw,13.5svh),11rem)] landscape:[--hw:clamp(3rem,min(10.2vw,16svh),14rem)] lg:landscape:tall:![--hw:clamp(3rem,min(14.6vw,23svh),17rem)]';
 
 /* Hasło „Beauty / with precision.” – wersja wizualna h1 (aria-hidden, h1 jest w sr-only). */
 function HeroWords() {
@@ -202,6 +251,7 @@ function Hero() {
             className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent landscape:block"
           />
         </div>
+        <HeroCutout />
 
         {/* Odstęp górny:
             · pion: połowa ekranu, ale na niskich telefonach (Safari z paskami ≈ 550 px)
