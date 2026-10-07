@@ -635,6 +635,44 @@
   }
 }
 
+/* ––– Ruch przy przewijaniu (PROPOZYCJA 7.10, techniki z filmów referencyjnych) –––
+   Zdjęcia na całą szerokość lub do krawędzi ekranu (spad .as-bleed-*, tło nagłówków podstron
+   i sekcji 06 – .as-kadr-ruch) przesuwają się wolniej niż strona i minimalnie przybliżają
+   (paralaksa 2 % przy skali 1,06 – kadr nigdy nie odsłania krawędzi pliku; przy 1,08 / 3 %
+   ciasny kadr grupy w sekcji 05 ucinał górę szyldu); złota linia przy
+   etykiecie sekcji rysuje się, gdy sekcja wchodzi w ekran. Tylko transform, bez zanikania
+   i bez zasłaniania treści – zrzut, crawler i przeglądarka bez obsługi widzą stan końcowy.
+   Wyłącznie przy animation-timeline (Chrome/Edge 115+, Safari 26+) i bez
+   prefers-reduced-motion; reszta przeglądarek – strona jak dotąd. Makra efektów i kolaże bez
+   ruchu (dokumentują wynik zabiegu). Hero strony głównej ma własne wejście (as-enter-*). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .as-bleed-start img,
+    .as-bleed-end img,
+    .as-kadr-ruch img {
+      animation: as-kadr linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .as-label-line {
+      transform-origin: left center;
+      animation: as-draw-x linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+@keyframes as-kadr {
+  from {
+    transform: scale(1.06) translateY(-2%);
+  }
+  to {
+    transform: scale(1.06) translateY(2%);
+  }
+}
+
 /* Mobilny pasek CTA znika pod każdym dialogiem Radix (Radix ustawia
    body[data-scroll-locked] przy otwartym dialogu – także w portalu,
    którego obserwator w Layout.jsx nie widzi). Poza @layer, żeby wygrać

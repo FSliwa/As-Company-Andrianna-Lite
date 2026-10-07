@@ -593,6 +593,7 @@ function InvitationBand() {
             image={ROLES.closingHome.image}
             alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
             zoom={false}
+            className="as-kadr-ruch"
             imgClassName="object-[50%_35%] landscape:object-[100%_40%]"
             sizes={INVITATION_SIZES}
           />

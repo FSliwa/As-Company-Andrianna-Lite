@@ -44,7 +44,7 @@ export function SectionLabel({ number, children, tone = 'dark', line = true, cla
       {line && (
         <span
           className={cn(
-            'hidden h-px w-16 sm:block lg:w-28',
+            'as-label-line hidden h-px w-16 sm:block lg:w-28',
             isLight ? 'bg-cream-200/25' : 'bg-ink/15'
           )}
         />
@@ -489,7 +489,7 @@ export function PageHero({
               tone={imageTone}
               zoom={false}
               priority
-              className="as-enter-breathe"
+              className="as-enter-breathe as-kadr-ruch"
               sizes={PAGE_HERO_SIZES}
             />
             {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem */}
