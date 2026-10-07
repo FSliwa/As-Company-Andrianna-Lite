@@ -105,63 +105,61 @@ const SPECIALTIES = [
 /* Kolaż w sekcji 05 (klientka 30.09: owal z krzyżem i „Kolaż” pod nagłówkiem) – po jednej
    pracy do każdej specjalizacji: włos maszynowy (work-snb-01, Super Natural Brows), technika
    pudrowa (work-powder-01), usta (lips-02-p2, panel „Healed” – kadr bez napisów).
-   Kadry w pudełku 5:4, pozycje w % – kompozycja skaluje się bez zmian; proporcja slotu
-   = szer. × 1,25 / wys.: włos 3:4 (plik 3:4, bez cięcia), puder 3:5 (od lewej – za
-   x ≈ 596 pliku jest rozmazany pas), usta 2,1:1. Bez ramek („nie w ramce”): usta nachodzą
-   na dolne rogi obu portretów, a obwódka w kolorze tła (ring cream-50) tylko oddziela kadry.
+   Siatka bez nachodzenia i bez obwódek, odstęp 4 px jak w pasie efektów (ResultStrip):
+   u góry włos 3:4 (plik 3:4, bez cięcia) i puder 3:5 (od lewej – za x ≈ 596 pliku jest
+   rozmazany pas), szerokości kolumn 0,75 : 0,6 = proporcje kadrów, więc oba mają tę samą
+   wysokość; pod nimi usta na całą szerokość, 2,1:1.
    Usta (plik 1204 × 729): kontur warg ok. y 152–668, nad nim napis „Healed” (do y ≈ 124),
-   pod nim szary pasek (od y ≈ 718). Przy 2,1:1 widać 573 px wysokości pliku, po scale 1,02
-   ok. 562; Y 82% = okno ok. 133–695 – ok. 20 px skóry nad łukiem Kupidyna i ok. 27 pod
-   dolną wargą, bez napisu i paska (przy 2,2:1 kontur górnej wargi dotykał krawędzi kadru;
-   Y < 80% zbliża okno do „Healed”, Y > 85% – usta do górnej krawędzi). scale 1,02 od
-   prawej chowa szary pasek 4 px przy lewej krawędzi pliku. Kadry od 1440 px: portrety
-   ≤ 300 px (pliki 599 / 614 px), usta ok. 330 px (plik 1204 px) – ostre przy 2×;
-   zoom={false} jak makra. Podpisy: brak – techniki nazywa lista 01–03 tuż pod kolażem;
-   alt – tylko to, co wiemy o kadrze. */
+   pod nim szary pasek (od y ≈ 718). Przy 2,1:1 widać 573 px wysokości pliku; Y 82% = okno
+   ok. 128–701 – bez napisu i paska (przy 2,2:1 kontur górnej wargi dotykał krawędzi kadru).
+   scale 1,02 od prawej chowa szary pasek 4 px przy lewej krawędzi pliku. zoom={false} jak
+   makra. Podpisy: brak – techniki nazywa lista 01–03 tuż pod kolażem; alt – tylko to, co
+   wiemy o kadrze. */
 const COLLAGE = [
   {
     key: 'snb',
     image: MACROS.snbCollage.image,
     alt: 'Brwi po makijażu permanentnym techniką włosa maszynowego Super Natural Brows – zbliżenie twarzy',
-    box: 'right-0 top-[7%] h-[93%] w-[56%]',
+    ratio: '3 / 4',
     position: MACROS.snbCollage.position,
-    sizes: '(min-width: 1024px) 300px, (min-width: 640px) 290px, 56vw',
+    sizes: '(min-width: 1024px) 290px, (min-width: 640px) 280px, 55vw',
   },
   {
     key: 'powder',
     image: MACROS.powderCollage.image,
     alt: 'Brew po makijażu permanentnym techniką pudrową – zbliżenie łuku brwi nad okiem',
-    box: 'left-0 top-0 h-[79%] w-[38%]',
+    ratio: '3 / 5',
     position: MACROS.powderCollage.position,
-    sizes: '(min-width: 1024px) 205px, (min-width: 640px) 195px, 38vw',
+    sizes: '(min-width: 1024px) 235px, (min-width: 640px) 225px, 45vw',
   },
   {
     key: 'lips',
     image: MACROS.lipsCollage.image,
     alt: 'Usta po makijażu permanentnym, wygojone – zbliżenie',
-    box: 'bottom-0 left-0 z-10 h-[36.9%] w-[62%] ring-[6px] ring-cream-50 lg:ring-8',
+    ratio: '2.1 / 1',
     position: MACROS.lipsCollage.position,
     imgClassName: 'origin-right scale-[1.02]',
-    sizes: '(min-width: 1024px) 335px, (min-width: 640px) 320px, 62vw',
+    className: 'col-span-2',
+    sizes: '(min-width: 1024px) 530px, (min-width: 640px) 510px, 100vw',
   },
 ];
 
 function SalonCollage() {
   return (
-    <div className="relative aspect-[5/4] w-full">
+    <div className="grid grid-cols-[0.75fr_0.6fr] gap-1">
       {COLLAGE.map((c) => (
-        <div key={c.key} className={cn('absolute', c.box)}>
-          <Figure
-            image={c.image}
-            alt={c.alt}
-            fill
-            position={c.position}
-            imgClassName={c.imgClassName}
-            tone="light"
-            zoom={false}
-            sizes={c.sizes}
-          />
-        </div>
+        <Figure
+          key={c.key}
+          image={c.image}
+          alt={c.alt}
+          ratio={c.ratio}
+          position={c.position}
+          imgClassName={c.imgClassName}
+          className={c.className}
+          tone="light"
+          zoom={false}
+          sizes={c.sizes}
+        />
       ))}
     </div>
   );
