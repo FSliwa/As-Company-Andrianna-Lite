@@ -136,10 +136,23 @@ module.exports = {
     require("tailwindcss-animate"),
     /* Warianty wysokości ekranu. NIE jako theme.screens: ekran typu { raw } wyłącza
        w Tailwind 3 wszystkie warianty max-* (max-sm:, max-md: …), których serwis używa.
-       short: telefon w poziomie (niski ekran < lg) · tall: ekran co najmniej 640 px wysokości. */
+       short: telefon w poziomie (niski ekran < lg) · tall: ekran co najmniej 640 px wysokości.
+       short i land tylko od 560 px szerokości: najwęższy telefon w poziomie ma 568 px,
+       a węższy „poziomy” widok to powiększenie 400 % (np. 1280×1024 → 320×256 CSS px) –
+       dostaje wtedy zwykły układ telefonu zamiast wąskiej kolumny tekstu (WCAG 1.4.10). */
     plugin(function ({ addVariant }) {
-      addVariant('short', '@media (max-width: 1023px) and (max-height: 500px)');
+      addVariant('short', '@media (max-width: 1023px) and (max-height: 500px) and (min-width: 560px)');
       addVariant('tall', '@media (min-height: 640px)');
+      /* port/land zamiast wbudowanych portrait/landscape (których nie da się nadpisać):
+         razem zawsze pokrywają cały zakres, a wąski „poziomy” widok (powiększenie 400 %)
+         trafia do układu pionowego. */
+      addVariant('port', ['@media (orientation: portrait)', '@media (max-width: 559.98px)']);
+      addVariant('land', '@media (orientation: landscape) and (min-width: 560px)');
+      // coarse: ekran dotykowy (tablety od lg dostają nawigację desktopową – większe pola dotyku)
+      addVariant('coarse', '@media (pointer: coarse)');
+      // low: niski widok pionowy (< 720 px wysokości; także wąski widok jak port) – PageHero 'cover':
+      // tekst nie może leżeć na twarzy
+      addVariant('low', ['@media (orientation: portrait) and (max-height: 719px)', '@media (max-width: 559.98px) and (max-height: 719px)']);
     }),
   ],
 }

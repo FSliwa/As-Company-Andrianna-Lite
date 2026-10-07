@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { formatDateLong } from './format';
 
 const Message = ({ children, className }) => (
-  <p className={cn('max-w-[36rem] text-[0.9375rem] leading-[1.65] text-ink/80', className)}>{children}</p>
+  <p className={cn('max-w-[36rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/80', className)}>{children}</p>
 );
 
 function NextFree({ nextFree, onPick, windowChecked }) {

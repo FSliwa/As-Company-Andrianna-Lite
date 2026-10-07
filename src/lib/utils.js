@@ -26,4 +26,18 @@ export function nbspShort(value) {
 }
 
 
+/* Nazwy technik i kursów nie łamią się w środku znaku marki („Super Natural / Brows”
+   zostawiało samotne „Brows” w nagłówkach kart) – twarda spacja w „Natural Brows”. */
+/* Ceny „1700 zł” → „1 700 zł” (twarda spacja tysięcy i przed „zł”) – ten sam zapis co cennik
+   /uslugi. Tylko dla tekstu; „1 700 zł” i „od 850 zł” zostają bez zmian. */
+export function groupPrice(value) {
+  if (typeof value !== "string") return value
+  return value.replace(/(\d)(\d{3})(?!\d)/g, "$1\u00a0$2").replace(/\s+zł/g, "\u00a0zł")
+}
+
+export function nbspBrand(value) {
+  if (typeof value !== "string") return value
+  return nbspShort(value).replace(/Natural Brows/g, "Natural\u00a0Brows")
+}
+
 export const isIframe = typeof window !== 'undefined' ? window.self !== window.top : false;

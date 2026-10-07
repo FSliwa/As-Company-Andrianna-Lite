@@ -61,7 +61,7 @@ import {
   zonesIn,
 } from '@/lib/pigments';
 import { CONTACT } from '@/lib/site';
-import { cn } from '@/lib/utils';
+import { cn, nbspShort } from '@/lib/utils';
 import { ProductCell, SetRow } from '@/components/pigments/ProductCell';
 import CatalogFilters from '@/components/pigments/CatalogFilters';
 import ProductDialog from '@/components/pigments/ProductDialog';
@@ -118,8 +118,9 @@ const CAPACITY_RANGE =
     ? `${ml(STATS.capacities[0])}–${ml(STATS.capacities[STATS.capacities.length - 1])}${NBSP}ml`
     : formatCapacity(STATS.capacities[0] || '');
 
+/* nbspShort: „w” nie zostaje na końcu wiersza podpisu („odcienie w / katalogu” przy 360–393 px) */
 const HERO_STATS = [
-  { value: String(STATS.shades), label: `${shadesWord(STATS.shades)} w katalogu` },
+  { value: String(STATS.shades), label: nbspShort(`${shadesWord(STATS.shades)} w katalogu`) },
   { value: String(STATS.collections), label: plural(STATS.collections, 'kolekcja', 'kolekcje', 'kolekcji') },
   { value: CAPACITY_RANGE, label: 'pojemność butelki' },
 ];
@@ -169,9 +170,10 @@ const prefersReducedMotion = () =>
    768–1440 px – 3 linie, od 1680 px – 4; zawsze większy niż H2 sekcji (.as-display-section).
    Telefon w poziomie (short:) – 1,875 rem (568 × 320: tytuł w 4 liniach, przycisk w ekranie). Poniżej 640 px lead stoi POD przyciskami
    (max-sm:[&_h1+p]:order-last – lead to akapit tuż po H1; PageHero robi to samo w short:),
-   więc przycisk zostaje w pierwszym ekranie. Wrapper `contents` nie tworzy boxu. */
+   więc przycisk zostaje w pierwszym ekranie. Wrapper jest zwykłym blokiem (nie `contents`):
+   Next 14 przy nawigacji linkiem pomija element bez boxu i przewijał stronę do #katalog. */
 const HERO_TITLE_SIZE =
-  'contents [&_h1]:[font-size:clamp(2rem,6.2vw,4.25rem)] min-[1440px]:[&_h1]:[font-size:clamp(4.25rem,4.7vw,5.5rem)] short:[&_h1]:[font-size:1.875rem] max-sm:[&_h1+p]:order-last';
+  'block [&_h1]:[font-size:clamp(2rem,6.2vw,4.25rem)] min-[1440px]:[&_h1]:[font-size:clamp(4.25rem,4.7vw,5.5rem)] short:[&_h1]:[font-size:1.875rem] max-sm:[&_h1+p]:order-last';
 
 function Hero() {
   return (
@@ -299,7 +301,7 @@ function Catalog({
           </Reveal>
           <Reveal delay={80} className="lg:col-span-5">
             <p className="as-body">
-              Wybierz kolekcję i strefę – pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
+              Wybierz kolekcję i&nbsp;strefę – pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
               pigmenty trafiają na listę „Twoje zamówienie”, którą wysyłasz jako zapytanie.
             </p>
           </Reveal>
@@ -331,7 +333,7 @@ function Catalog({
         </div>
 
         <div className="mt-8 flex min-h-[2.75rem] flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-ink/15 pt-4">
-          <p role="status" aria-live="polite" className="text-[0.9375rem] text-ink">
+          <p role="status" aria-live="polite" className="text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">
             {summary}
           </p>
           {filtered && (
@@ -351,7 +353,9 @@ function Catalog({
               ref={gridRef}
               id="katalog-odcienie"
               aria-label="Odcienie"
-              className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-4"
+              /* short: telefon w poziomie – 3 kolumny (przy 2 kafel z butelką był wyższy niż 3/4 okna);
+                 start 6 i porcje po 12 nadal dają pełne rzędy */
+              className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 short:grid-cols-3 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-4"
             >
               {visible.map((p, i) => (
                 <li
@@ -403,7 +407,9 @@ function Catalog({
                 <h3 className="as-title text-ink">Zestawy</h3>
                 <p className="as-caption max-w-none">Skład zestawu – po kliknięciu nazwy.</p>
               </div>
-              <div className="mt-6 grid gap-x-10 lg:grid-cols-2 xl:grid-cols-3">
+              {/* najwyżej 2 kolumny: przy 3 (od xl, ok. 355 px) nazwy i kickery stref łamały się
+                  na 2–4 linie, a kwoty nie trzymały jednej pionowej linii */}
+              <div className="mt-6 grid gap-x-10 lg:grid-cols-2">
                 {(setsCollapsible ? sets.slice(0, SETS_PREVIEW) : sets).map((p) => (
                   <SetRow key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
                 ))}
@@ -444,7 +450,7 @@ function Catalog({
           <p className="as-caption max-w-none">Kolory próbek są poglądowe – odcień na ekranie różni się od pigmentu.</p>
           <p className="as-caption max-w-none">
             {stale
-              ? `Ceny z ${SYNCED} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
+              ? `Ceny z${NBSP}${SYNCED} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
               : `Ceny aktualne na ${SYNCED}, bez kosztów dostawy.`}
           </p>
         </div>
@@ -471,7 +477,7 @@ function HowToOrder() {
               {/* D9/D10 (INNE-01): z dokumentów tylko to, co ma źródło – karty charakterystyki
                   pigmentów (sklep klientki, /certyfikaty), udostępniane na prośbę. */}
               <p className="as-body mt-6">
-                Zamówienie to zapytanie o listę odcieni – odpowiadamy z dostępnością i łączną kwotą.
+                Zamówienie to zapytanie o listę odcieni – odpowiadamy z&nbsp;dostępnością i&nbsp;łączną kwotą.
                 Karty charakterystyki pigmentów udostępniamy na prośbę.
               </p>
               <ArrowLink href="/certyfikaty" className="mt-8 w-fit">
@@ -480,11 +486,13 @@ function HowToOrder() {
             </Reveal>
           </div>
 
-          <ol className="grid gap-10 sm:grid-cols-3 sm:gap-8 lg:col-span-8 lg:col-start-5">
+          {/* 3 kolumny tylko tam, gdzie mają ≥ 210 px: md (pełna szerokość) i xl (8/12);
+              na lg (8/12 przy 1024–1279 px) kroki stoją jeden pod drugim obok nagłówka */}
+          <ol className="grid gap-10 md:grid-cols-3 md:gap-8 lg:col-span-8 lg:col-start-5 lg:grid-cols-1 xl:grid-cols-3">
             {STEPS.map((s, i) => (
               <Reveal as="li" key={s.number} delay={i * 80} className="as-cell">
                 <NumberedItem number={s.number} title={s.title}>
-                  {s.text}
+                  {nbspShort(s.text)}
                 </NumberedItem>
               </Reveal>
             ))}

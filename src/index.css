@@ -57,8 +57,10 @@
     }
   }
 
-  /* Telefon w poziomie (wariant short: z tailwind.config.js) – nagłówek h-16 */
-  @media (max-width: 1023px) and (max-height: 500px) {
+  /* Telefon w poziomie (wariant short: z tailwind.config.js) – nagłówek h-16. Warunek min-width:
+     560px jak w wariancie short – węższe niskie okno ma nagłówek h-20 (81 px), a zmienna 65 px
+     przesuwała hero i kotwice o 16 px. */
+  @media (min-width: 560px) and (max-width: 1023px) and (max-height: 500px) {
     :root {
       --as-header-h: calc(4rem + 1px);
     }
@@ -68,6 +70,20 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  /* Bez krótkiego wiszącego wyrazu w ostatniej linii: nagłówki rozkładają wyrazy
+     równo (balance – np. „12. Jak długo przechowujemy / dane” → dwie równe linie),
+     podpisy zdjęć i akapity-podpisy – pretty (etap 6, matryca 320–3840). */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  figcaption {
+    text-wrap: pretty;
   }
 
   html {
@@ -87,6 +103,18 @@
       /* od lg nie ma paska CTA */
       scroll-padding-bottom: 1rem;
     }
+  }
+
+  /* Elementy przyklejonego nagłówka leżą w strefie scroll-padding-top – bez tego każdy
+     Tab w nagłówku przewijał przewiniętą stronę o pół ekranu w górę (etap 5, grupa C). */
+  header :is(a, button) {
+    scroll-margin-top: calc(-1 * var(--as-header-h));
+  }
+
+  /* Otwarty baner cookies (199–254 px) + pływający przycisk zamówienia: element z fokusem
+     nie chowa się pod nimi (WCAG 2.4.11) – zapas przewijania od dołu, póki baner jest. */
+  html:has([data-consent-banner]) {
+    scroll-padding-bottom: 18rem;
   }
 
   body {
@@ -154,7 +182,7 @@
      Stat i numerały indeksu (64/40 px) · title = tytuły wierszy/kart (28/24 px)
      · numbered-title = 24/22 px italic · as-num = numery 01/02/03 (24 px)
      · ceny, pytania FAQ = 22–24 px. Bodoni nigdy poniżej 22 px i nigdy w tekście ciągłym. */
-  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi */
+  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi; poniżej 320 px – niżej */
   .as-display-lg {
     @apply as-display;
     font-size: clamp(2.4rem, 6.2vw, 5.5rem);
@@ -172,19 +200,53 @@
     font-size: clamp(2.25rem, 4.2vw, 3.75rem);
   }
 
-  /* Od 1440 px nagłówki rosną dalej z szerokością (do ok. 1920 px), żeby skala sekcji
-     nadążała za hasłem hero (--hw w Home.jsx rośnie do 14rem). Poniżej 1440 px bez zmian. */
-  @media (min-width: 1440px) {
+  /* Poniżej 320 px (Galaxy Fold złożony, łam 240 px): H1 2,125 rem – „permanentnego.”,
+     „charakterystyki” wychodziły o 22–28 px; H2 2 rem – przy 36 px „charakterystyki?”
+     wchodził 14 px w margines, a H2 był prawie tak duży jak H1. Blok stoi ZA definicjami
+     obu klas – wcześniej w kodzie przegrałby z nimi (ta sama specyficzność). */
+  @media (max-width: 319px) {
     .as-display-lg {
-      font-size: clamp(5.5rem, 6.1vw, 7.25rem);
-    }
-
-    .as-display-md {
-      font-size: clamp(4rem, 4.45vw, 5rem);
+      font-size: 2.125rem;
     }
 
     .as-display-section {
-      font-size: clamp(3.75rem, 4.17vw, 5rem);
+      font-size: 2rem;
+    }
+  }
+
+  /* Od 1440 px nagłówki rosną dalej z szerokością, żeby skala nadążała za hasłem hero
+     (--hw w Home.jsx rośnie do 14rem) – ale z limitem, bo łam ma stałe 1440 px i kolumny
+     od 1440 px już nie rosną (pomiar 5.10.2026 na 1728–3440 px): H1 podstron maks. 104 px
+     („permanentnego.” przy 116 px wychodziło z kolumny 717 px), liczby Stat bez wzrostu
+     (64 px – „100+” i „10 lat” przy 77–80 px nie mieściły się w kolumnach 155–176 px). */
+  @media (min-width: 1440px) {
+    .as-display-lg {
+      font-size: clamp(5.5rem, 6.1vw, 6.5rem);
+    }
+
+    .as-display-md {
+      font-size: 4rem;
+    }
+
+    /* H2 sekcji NIE rośnie powyżej 1440 px (zostaje 60 px): kontener ma stałe 1440 px,
+       więc kolumny się nie poszerzają. Przy 80 px (wcześniej) i nawet 68 px najdłuższe
+       wyrazy („permanentny.”, „do pobrania.”) wychodziły z wąskich kolumn, a hasła
+       z <br> łamały się na 3–4 linie z samotnym wyrazem (etap 6, matryca 1440–3840). */
+    .as-display-section {
+      font-size: 3.75rem;
+    }
+  }
+
+  /* H1 w PageHero: rozmiar nie większy niż 14 % szerokości kolumny (rodzic ma
+     container-type: inline-size) – najdłuższy wyraz („permanentnego.” ≈ 6,85 em) mieści
+     się w kolumnie na każdej szerokości (wcześniej wychodził przy 1280 i od 1500 px). */
+  .as-display-fit {
+    font-size: min(clamp(2.4rem, 6.2vw, 5.5rem), 14cqi);
+  }
+
+  @media (min-width: 1440px) {
+    .as-display-fit {
+      font-size: min(clamp(5.5rem, 6.1vw, 6.5rem), 14cqi);
     }
   }
 
@@ -211,12 +273,15 @@
   }
 
   /* Podpisy pod zdjęciami, opisy pozycji 01/02/03, noty cennika */
+  /* text-wrap: pretty – noty i podpisy nie kończą się samotnym wyrazem („w / cenniku.”) */
   .as-caption {
     @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha;
+    text-wrap: pretty;
   }
 
   .as-caption-invert {
     @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-cream-200/85;
+    text-wrap: pretty;
   }
 
   /* Numer + tytuł w jednej linii + drobny opis (pozycje 01/02/03 z makiety).
@@ -228,7 +293,8 @@
   /* Treść merytoryczna pozycji (kroki, korzyści, etapy) – 15 px, nie 13:
      13 px zostaje tylko dla podpisów pod zdjęciami i not cennika. */
   .as-numbered-desc {
-    @apply mt-2 max-w-[24rem] text-[0.9375rem] leading-[1.65];
+    /* telefon (pion < 640 px i wariant short): 16 px – tekst podstawowy (brief, lista etapu 6, pkt 4) */
+    @apply mt-2 max-w-[24rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem];
   }
 
   /* Komórka redakcyjna: hairline u góry, bez tła, bez cienia (Sashiko / Aesop). */
@@ -270,7 +336,7 @@
 
   /* Krótki cytat w karcie – Jost italic (Bodoni nie schodzi poniżej 22 px) */
   .as-quote {
-    @apply font-sans text-[0.9375rem] italic leading-[1.7];
+    @apply font-sans text-[0.9375rem] italic leading-[1.7] max-sm:text-[1rem] short:text-[1rem];
   }
 
   .as-quote-invert {
@@ -458,6 +524,18 @@
     .as-bleed-end {
       left: 0;
       right: calc(-1 * min(var(--as-gutter), var(--as-pad) + 20rem));
+    }
+  }
+
+  /* Od 1600 px bez spadu: kontener ma stałe 1440 px, a wysokość kadru liczy się z kolumny,
+     więc spad poszerzał zdjęcie (4:5 → 1,24:1, 3:2 → 2,19:1) i ucinał twarz i szyld. */
+  @media (min-width: 1600px) {
+    .as-bleed-start {
+      left: 0;
+    }
+
+    .as-bleed-end {
+      right: 0;
     }
   }
 
@@ -715,6 +793,14 @@ body[data-scroll-locked] #as-sticky {
 
   html:has(#as-sticky[aria-hidden='false']) [data-toast-viewport] {
     bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Telefon w pionie: baner na całą szerokość przylega do paska CTA – jedna dolna karta
+   zamiast dwóch warstw z 12 px przerwą (CookieConsent.jsx: max-sm:inset-x-0). */
+@media (max-width: 639px) {
+  html:has(#as-sticky[aria-hidden='false']) [data-consent-banner] {
+    --consent-bottom: calc(3.5rem + env(safe-area-inset-bottom));
   }
 }
 

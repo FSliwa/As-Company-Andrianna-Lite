@@ -185,14 +185,16 @@ export default function OrderFab({ count, onOpen }) {
           tabIndex={atEnd ? -1 : undefined}
           style={{ bottom }}
           className={cn(
-            'fixed right-4 z-30 inline-flex h-12 items-center gap-3 border border-gold/45 bg-espresso-900 pl-5 pr-2 text-cream-50 transition-[bottom,background-color,opacity,visibility,transform] duration-300 ease-as hover:bg-espresso-600 focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_#FBF8F3,0_0_0_4px_#241B14] motion-reduce:transition-none sm:right-8 lg:right-10',
+            'fixed right-4 z-30 inline-flex h-12 items-center gap-3 border border-gold/45 bg-espresso-900 pl-5 pr-2 short:pl-2 text-cream-50 transition-[bottom,background-color,opacity,visibility,transform] duration-300 ease-as hover:bg-espresso-600 focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_#FBF8F3,0_0_0_4px_#241B14] motion-reduce:transition-none sm:right-8 lg:right-10',
             /* visibility: hidden – poza kolejnością Tab i drzewem dostępności */
             atEnd && 'invisible pointer-events-none translate-y-3 opacity-0'
           )}
         >
-          {/* na wąskim telefonie krótsza etykieta (pełna nazwa w aria-label) */}
-          <span className="as-label sm:hidden">Zamówienie</span>
-          <span className="as-label hidden sm:inline">Twoje zamówienie</span>
+          {/* na wąskim telefonie krótsza etykieta (pełna nazwa w aria-label); telefon
+              w poziomie (short:) – sam kwadrat z liczbą, żeby nie zasłaniał „Dodaj” w prawej
+              kolumnie. short:sm:hidden – stos, bo short: stoi w CSS przed sm:inline */}
+          <span className="as-label sm:hidden short:hidden">Zamówienie</span>
+          <span className="as-label hidden sm:inline short:sm:hidden">Twoje zamówienie</span>
           <span className="grid h-8 min-w-[2rem] place-items-center bg-cream-100 px-2 text-[0.8125rem] font-medium tabular-nums text-ink">
             {count}
           </span>

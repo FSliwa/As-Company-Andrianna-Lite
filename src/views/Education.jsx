@@ -78,7 +78,7 @@ import { GROUPS, ROLES } from '@/lib/roles';
 import { COURSE } from '@/lib/media';
 import { COURSE_ENQUIRY_OPTIONS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { LEGAL_PUBLIC } from '@/lib/legal';
-import { cn } from '@/lib/utils';
+import { cn, nbspBrand, nbspShort } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Dane pomocnicze                                                    */
@@ -270,7 +270,9 @@ function CourseCard({ number, course, delay, onBook }) {
         {/* numer .as-num obok tytułu (wzorzec 01/02/03), rodzaj kursu jako kicker pod nim */}
         <div className="flex items-baseline gap-3">
           <span className="as-num">{number}</span>
-          <h3 className="as-title text-ink">{course.title}</h3>
+          {/* md–1365 px: długie nazwy („Basic Super Natural Brows”) łamią się na 2 linie – rezerwa
+              2 linii trzyma rodzaj kursu i cenę w jednej linii w całym rzędzie kart */}
+          <h3 className="as-title text-ink md:max-[1365px]:min-h-[2.3em]">{nbspBrand(course.title)}</h3>
         </div>
         <p className="as-kicker mt-3">{course.type}</p>
         <p className="mt-4 font-display text-[1.375rem] leading-none text-ink">
@@ -279,16 +281,16 @@ function CourseCard({ number, course, delay, onBook }) {
             <span className="as-label ml-2 align-middle text-mocha">{course.priceNote}</span>
           )}
         </p>
-        <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">{course.lead}</p>
+        <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75">{nbspShort(course.lead)}</p>
         {audience && (
-          <p className="mt-3 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">{audience}</p>
+          <p className="mt-3 max-w-[30rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75">{nbspShort(audience)}</p>
         )}
 
         <dl className="mt-5 max-w-[30rem] border-t border-ink/10">
           {specs.map(([term, value]) => (
             <div key={term} className="flex gap-4 border-b border-ink/10 py-2.5">
-              <dt className="as-label w-[5.75rem] shrink-0 pt-[0.2rem] text-ink/60">{term}</dt>
-              <dd className="min-w-0 text-[0.875rem] leading-[1.55] text-ink/85">{value}</dd>
+              <dt className="as-label w-[5.75rem] shrink-0 pt-[0.2rem] text-ink/70">{term}</dt>
+              <dd className="min-w-0 text-[0.875rem] leading-[1.55] text-ink/85 max-sm:text-[1rem] short:text-[1rem]">{value}</dd>
             </div>
           ))}
         </dl>
@@ -345,9 +347,10 @@ function CoursesBand({ onBook }) {
           {/* Dofinansowanie – jedno zdanie; szczegóły w pytaniach (#pytania).
               RIS i BUR to rejestry, KFS to fundusz (audyt TRESC-6); bez „m.in.” (SZK-15). */}
           <Reveal delay={60} className="as-cell flex flex-col">
-            <p className="as-kicker">RIS · BUR · KFS</p>
-            <h3 className="as-title mt-3 text-ink">Dofinansowanie</h3>
-            <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] text-ink/75">
+            {/* kolejność jak w kartach kursów: tytuł, pod nim kicker */}
+            <h3 className="as-title text-ink md:max-[1365px]:min-h-[2.3em]">Dofinansowanie</h3>
+            <p className="as-kicker mt-3">RIS · BUR · KFS</p>
+            <p className="mt-4 max-w-[30rem] text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75">
               Jesteśmy wpisani do RIS i BUR, a szkolenia mogą być finansowane ze środków KFS.
             </p>
             <div className="mt-auto pt-6">
@@ -406,7 +409,9 @@ function OfferDownloads({ course, afterMore = false }) {
         Oryginalne grafiki {BRAND.academy}. Kliknij grafikę, aby ją powiększyć; pełny plik JPG
         otwiera się w nowej karcie.
       </p>
-      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:max-w-[66rem] lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
+      {/* 3 kolumny od 480 px, 4 od sm (kurs od podstaw w jednym rzędzie, bez samotnej grafiki;
+          w telefonie w poziomie grafika nie jest wyższa od ekranu) */}
+      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-x-6 lg:max-w-[66rem] lg:gap-x-8 lg:gap-y-10">
         {posters.map((p) => (
           <OfferPoster key={p.index} poster={p} course={course} name={name} />
         ))}
@@ -439,20 +444,20 @@ function OfferPoster({ poster, course, name }) {
               image={image}
               alt={alt}
               ratio="9 / 16"
-              sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 46vw"
+              sizes="(min-width: 1024px) 240px, (min-width: 640px) 22vw, (min-width: 480px) 30vw, 46vw"
               className="border border-ink/10"
             />
           </button>
         </DialogTrigger>
         {/* hover: złote podkreślenie, tekst zostaje w ink (złoto tylko w linii);
-            py-1.5 – pole dotyku ≥ 24 px przy etykiecie 11 px */}
-        <div className="mt-2 flex items-baseline justify-between gap-3">
+            py-1.5 + ::before (4 px w bok, głównie w dół – nad linkiem jest grafika) – pole dotyku ok. 48 × 46 px przy etykiecie 11 px, bez zmiany wyglądu */}
+        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
           <span className="text-[0.875rem] leading-snug text-ink">{poster.caption}</span>
           <a
             href={image.src}
             target="_blank"
             rel="noopener noreferrer"
-            className="as-label -my-1.5 shrink-0 py-1.5 text-mocha decoration-gold underline-offset-4 transition-colors hover:text-ink hover:underline"
+            className="as-label relative -my-1.5 shrink-0 py-1.5 text-mocha decoration-gold underline-offset-4 transition-colors before:absolute before:-inset-x-1 before:-bottom-3.5 before:-top-0.5 before:content-[''] hover:text-ink hover:underline"
           >
             JPG <span aria-hidden="true">↗</span>
             <span className="sr-only">
@@ -524,7 +529,7 @@ function ProgramArticle({ number, course, onBook }) {
       <Reveal className="flex flex-col gap-5 md:flex-row md:items-baseline md:justify-between md:gap-8">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
           <span className="as-num">{number}</span>
-          <h3 className="as-title mr-2 text-ink">{course.title}</h3>
+          <h3 className="as-title mr-2 min-w-0 text-ink max-sm:flex-1">{course.title}</h3>
           <p className="as-kicker basis-full sm:basis-auto">
             {course.type} · {priceLabel(course)} ·{' '}
             <span className="inline-block">{course.format}</span>
@@ -545,7 +550,7 @@ function ProgramArticle({ number, course, onBook }) {
             >
               <dt className="as-numbered-title text-ink">{item.label}</dt>
               {item.detail && (
-                <dd className={cn('as-numbered-desc text-mocha', !open && 'max-sm:hidden')}>{item.detail}</dd>
+                <dd className={cn('as-numbered-desc text-mocha', !open && 'max-sm:hidden')}>{nbspShort(item.detail)}</dd>
               )}
             </div>
           ))}
@@ -555,7 +560,7 @@ function ProgramArticle({ number, course, onBook }) {
             open={open}
             onToggle={() => setOpen((v) => !v)}
             controls={listId}
-            label={`Pełny program (${total} ${plural(total, 'pozycja', 'pozycje', 'pozycji')})`}
+            label={`Pełny program (${total}${NBSP}${plural(total, 'pozycja', 'pozycje', 'pozycji')})`}
             openLabel="Zwiń program"
             className="mt-6"
           />
@@ -659,7 +664,7 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-2 gap-1 sm:grid-cols-3 short:grid-cols-3">
+              <div className="as-photo-frame grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
@@ -670,12 +675,12 @@ function GraduatesBand() {
                     tone="dark"
                     zoom={false}
                     className={
-                      ['col-span-2 sm:col-span-1 sm:order-2 short:col-span-1 short:order-2', 'sm:order-1 short:order-1', 'sm:order-3 short:order-3'][i]
+                      ['col-span-2 min-[480px]:col-span-1 min-[480px]:order-2', 'min-[480px]:order-1', 'min-[480px]:order-3'][i]
                     }
                     sizes={
                       i === 0
-                        ? '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 92vw'
-                        : '(min-width: 1024px) 18vw, (min-width: 640px) 31vw, 46vw'
+                        ? '(min-width: 1024px) 18vw, (min-width: 480px) 31vw, 92vw'
+                        : '(min-width: 1024px) 18vw, (min-width: 480px) 31vw, 46vw'
                     }
                   />
                 ))}
@@ -701,8 +706,8 @@ const SCHEDULE_ITEMS = COURSE_SCHEDULE.map((day) => ({
     <ul>
       {day.rows.map(([time, text]) => (
         <li key={`${day.day}-${time}-${text}`} className="flex gap-4 border-t border-ink/10 py-2.5 first:border-t-0">
-          <span className="w-12 shrink-0 text-[0.9375rem] font-medium tabular-nums leading-[1.6] text-gold-deep">{time}</span>
-          <span className="text-[0.9375rem] leading-[1.6] text-ink/80">{text}</span>
+          <span className="w-12 shrink-0 text-[0.9375rem] font-medium tabular-nums leading-[1.6] text-gold-deep max-sm:text-[1rem] short:text-[1rem]">{time}</span>
+          <span className="text-[0.9375rem] leading-[1.6] text-ink/80 max-sm:text-[1rem] short:text-[1rem]">{nbspShort(text)}</span>
         </li>
       ))}
     </ul>
@@ -726,7 +731,7 @@ function IncludedBand() {
               {/* jedna kolumna < sm, dwie od sm; punkt tylko z karty kursu dla linergistek
                   oznaczony etykietą. < md: BENEFITS_PREVIEW pierwszych (sm–md: 4), reszta
                   za rozwinięciem. */}
-              <ol id="korzysci-lista" className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+              <ol id="korzysci-lista" className="mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {BENEFITS.map((benefit, i) => (
                   <li
                     key={benefit.text}
@@ -737,8 +742,8 @@ function IncludedBand() {
                   >
                     {/* .as-num bez nadpisania rozmiaru (24 px, gold-deep); w-9 mieści „08” */}
                     <span className="as-num w-9 shrink-0">{pad(i + 1)}</span>
-                    <span className="text-[0.9375rem] leading-[1.65] text-ink/80">
-                      {benefit.text}
+                    <span className="text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/80">
+                      {nbspShort(benefit.text)}
                       {benefit.only && (
                         <span className="as-label mt-1.5 block text-gold-deep">Tylko {benefit.only}</span>
                       )}
@@ -761,10 +766,10 @@ function IncludedBand() {
             <Reveal delay={120} className="md:grid md:grid-cols-2 md:gap-x-8 lg:block">
               <div>
                 <p className="as-kicker">Harmonogram · kurs od podstaw</p>
-                <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink/75">
-                  Cztery dni stacjonarne, godzina po godzinie. W kursie dla linergistek część
+                <p className="mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75">
+                  Cztery dni stacjonarne, godzina po godzinie. W&nbsp;kursie dla linergistek część
                   stacjonarna trwa dwa dni: egzamin teoretyczny, praktyka na skórkach, pokaz
-                  i praktyka na modelkach.
+                  i&nbsp;praktyka na modelkach.
                 </p>
               </div>
               <Faq items={SCHEDULE_ITEMS} className="mt-6 md:mt-0 lg:mt-6" />
@@ -911,17 +916,17 @@ function BookingDialog({ course, onClose, returnFocusRef }) {
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="as-kicker">Szkolenie</dt>
-                  <dd className="mt-2 text-[0.9375rem] text-ink">{selected.value}</dd>
+                  <dd className="mt-2 text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">{selected.value}</dd>
                 </div>
                 {form.term && !online && (
                   <div>
                     <dt className="as-kicker">Preferowany termin</dt>
-                    <dd className="mt-2 text-[0.9375rem] text-ink">{form.term}</dd>
+                    <dd className="mt-2 text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">{form.term}</dd>
                   </div>
                 )}
                 <div>
                   <dt className="as-kicker">Kontakt</dt>
-                  <dd className="mt-2 text-[0.9375rem] text-ink">
+                  <dd className="mt-2 text-[0.9375rem] text-ink max-sm:text-[1rem] short:text-[1rem]">
                     {form.name}
                     {form.phone ? ` · ${form.phone}` : ''}
                   </dd>

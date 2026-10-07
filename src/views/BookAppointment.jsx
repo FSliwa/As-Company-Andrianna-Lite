@@ -827,7 +827,7 @@ export default function BookAppointment({ initialEnabled = true, formToken = nul
   return (
     <section className="bg-cream-50">
       {/* góra 96 px na telefonie i tablecie – jak PageHero podstron (pod nagłówkiem 80 px) */}
-      <div className="as-shell pb-16 pt-24 lg:pb-24 lg:pt-28">
+      <div className="as-shell pb-14 pt-24 lg:pb-20 lg:pt-28">
         <Reveal className="max-w-3xl">
           <SectionLabel number="01">Rezerwacja</SectionLabel>
           <h1 className="as-display-lg as-text-balance mt-6 text-ink">
