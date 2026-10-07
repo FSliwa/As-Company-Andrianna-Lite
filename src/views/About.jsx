@@ -156,7 +156,6 @@ function SalonCollage() {
           position={c.position}
           imgClassName={c.imgClassName}
           className={c.className}
-          tone="light"
           zoom={false}
           sizes={c.sizes}
         />

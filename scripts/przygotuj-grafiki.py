@@ -166,7 +166,22 @@ SEAM_JUMP = 8.0            # skok średniej jasności między sąsiednimi wiersz
 SEAM_RGB_DIFF = 12.0       # różnica koloru 60 px nad i pod szwem
 
 # --- siła gradingu per grupa --------------------------------------------------
-STRENGTH = {'studio': 1.0, 'academy': 1.0, 'brows': 1.0, 'lips': 1.0, 'work': 1.0, 'course': 0.45, 'cennik': 0.45}
+# PROPOZYCJA (gałąź propozycja-kolor-efektow): zdjęcia efektów zabiegów (brows, lips, work)
+# oraz plakaty kursów i cenniki (course, cennik) BEZ korekty barwnej – kolor skóry i pigmentu
+# jak w oryginałach klientki, pliki „do pobrania” 1:1 w kolorze. Zmierzone: korekta 1.0
+# przesuwała zdjęcia efektów o ΔE ≈ 6,7–6,9 (L* −4, b* +5), 0.45 plakaty i cenniki o ΔE ≈ 3,4–3,7.
+# Portrety sesji i zdjęcia akademii zostają z korektą (ton dopasowany do makiety).
+# Wcześniej: brows/lips/work 1.0, course/cennik 0.45.
+STRENGTH = {'studio': 1.0, 'academy': 1.0, 'brows': 0.0, 'lips': 0.0, 'work': 0.0, 'course': 0.0, 'cennik': 0.0}
+# Siłę gradingu można nadpisać z otoczenia, np. GRAPHICS_STRENGTH="brows=1,lips=1,work=1"
+# (grupy niewymienione zostają jak wyżej; „all=0” ustawia wszystkie naraz). Ta sama opcja
+# jest w skrypcie wersji Lite.
+for _pair in filter(None, os.environ.get('GRAPHICS_STRENGTH', '').split(',')):
+    _k, _v = _pair.split('=')
+    if _k.strip() == 'all':
+        STRENGTH = {g: float(_v) for g in STRENGTH}
+    else:
+        STRENGTH[_k.strip()] = float(_v)
 # 'product' celowo bez gradingu (wierna barwa pigmentu)
 SRC_MEAN = np.array([207.8, 172.0, 156.5], dtype=np.float32)
 DST_MEAN = np.array([200.2, 158.4, 132.6], dtype=np.float32)

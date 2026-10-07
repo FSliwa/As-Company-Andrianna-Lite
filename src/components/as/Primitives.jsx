@@ -1259,7 +1259,7 @@ export function ResultStrip({ items, tone = 'dark', ratio = '1 / 1', cols = 6, c
               alt={it.alt}
               ratio={ratio}
               position={it.position || '50% 45%'}
-              tone={onDark ? 'dark' : 'light'}
+              /* zdjęcia efektów bez filtra koloru (pigment i skóra jak w oryginale) */
               zoom={false}
               sizes={resultStripSizes(cols, it.image, ratio)}
             />
