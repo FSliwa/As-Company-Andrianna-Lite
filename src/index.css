@@ -571,6 +571,20 @@
      szerokość): do obu krawędzi. Od md: tylko po swojej stronie – do krawędzi ekranu, ale
      najwyżej 20rem poza margines łamu (na monitorach 2560 px pionowy portret w zbyt
      szerokim kadrze zostałby przycięty do paska). */
+  /* Sekcja ze spadem zdjęcia i kolumną sticky: przycina tylko w poziomie. overflow: hidden
+     robi z sekcji kontener przewijania i wyłącza position: sticky w środku; overflow-x: clip
+     nie (Safari 16+, Chrome 90+, Firefox 81+). Starsze przeglądarki: hidden (bez sticky). */
+  .as-clip-x {
+    overflow: hidden;
+  }
+
+  @supports (overflow: clip) {
+    .as-clip-x {
+      overflow: visible;
+      overflow-x: clip;
+    }
+  }
+
   .as-bleed-start,
   .as-bleed-end {
     left: calc(-1 * var(--as-pad));
@@ -623,6 +637,14 @@
   /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) – tylko lekkie
      zdjęcie nasycenia, żeby skóra nie była pomarańczowa na tle kremu
      (makra, panele, zdjęcia akademii; portrety STUDIO bez tonu). */
+  /* Zdjęcia z akademii (telefon, chłodne białe ściany) na mocha/espresso: lekko cieplej
+     i ciemniej, żeby biel ściany zbliżyła się do kremu palety (pomiar Lite: ściana #959C99,
+     ΔE ok. 41 do tła sekcji). Słaba sepia (0,1) – skóra nie szarzeje; do akceptacji klientki
+     (brief, zasada 4: korekta kolorów nie może zmieniać wyglądu skóry). */
+  .as-media-academy img {
+    filter: sepia(0.1) saturate(0.9) brightness(0.93) contrast(1.03);
+  }
+
   .as-media-light img {
     filter: saturate(0.85) brightness(1.02);
   }

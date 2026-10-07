@@ -316,9 +316,9 @@ function Header({ menuOpen, setMenuOpen }) {
         )}
       >
         {/* short: telefon w poziomie – nagłówek 64 px zamiast 80 (logo 48 px) */}
-        <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24 short:h-16">
+        <div className="as-shell flex h-20 items-center justify-between gap-6 lg:grid lg:h-24 lg:grid-cols-[1fr_auto_1fr] short:h-16">
           {/* Znak słowny Babushkina Academy (aria-hidden) – nazwę dostępną daje aria-label linku */}
-          <Link href="/" className="shrink-0" aria-label={t.homeAria}>
+          <Link href="/" className="shrink-0 lg:justify-self-start" aria-label={t.homeAria}>
             <Logo className="short:text-[1.1875rem]" />
           </Link>
 
@@ -371,7 +371,7 @@ function Header({ menuOpen, setMenuOpen }) {
             })}
           </nav>
 
-          <div className="flex items-center gap-4 sm:gap-5">
+          <div className="flex items-center gap-4 sm:gap-5 lg:justify-self-end">
             {/* przełącznik języka od lg – po nawigacji, przed pigułką; niżej w menu i stopce */}
             <LanguageSwitcher tone="dark" className="hidden lg:flex" />
             {/* Pigułka – jedyny zaokrąglony element (makieta). 44 px wysokości (pole dotyku
@@ -443,7 +443,7 @@ function Header({ menuOpen, setMenuOpen }) {
           </div>
         </div>
 
-        <div className="as-shell grid gap-x-10 gap-y-6 pb-8 pt-4 sm:grid-cols-12 sm:pt-8 short:grid-cols-2 short:gap-x-8 short:pb-5 short:pt-3 short:sm:grid-cols-12 short:sm:pt-3">
+        <div className="as-shell grid gap-x-10 gap-y-6 pb-8 pt-4 sm:grid-cols-12 sm:pt-8 short:grid-cols-2 short:gap-x-8 short:pb-5 short:pt-3 short:sm:grid-cols-12 short:sm:pt-3 md:tall:pt-16">
           {/* niski ekran (telefon w poziomie, short: od 560 px szerokości): dwie kolumny także przy 568 px,
               podkategorie przechodzą do prawej kolumny – całe menu w jednym–dwóch ekranach */}
           <nav className="sm:col-span-7 short:sm:col-span-5" aria-label={t.mainNavAria}>
@@ -457,7 +457,7 @@ function Header({ menuOpen, setMenuOpen }) {
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
                       onClick={() => closeMenu(false)}
-                      className="group flex min-h-[2.75rem] items-baseline gap-5 py-1.5"
+                      className="group flex min-h-[2.75rem] items-baseline gap-5 py-1.5 md:tall:py-2.5"
                     >
                       <span aria-hidden="true" className="as-label w-6 shrink-0 text-gold-light">
                         {String(i + 1).padStart(2, '0')}
@@ -468,7 +468,7 @@ function Header({ menuOpen, setMenuOpen }) {
                           i przechwytywało stuknięcia sąsiedniej pozycji – trafienie bierze cały wiersz (≥ 44 px) */}
                       <span
                         className={cn(
-                          'as-display-md pointer-events-none decoration-1 underline-offset-[0.14em]',
+                          'as-display-md pointer-events-none decoration-1 underline-offset-[0.14em] sm:tall:text-[clamp(2.75rem,7vw,4rem)]',
                           active ? 'underline decoration-gold-light' : 'decoration-cream-200/40 group-hover:underline'
                         )}
                       >
@@ -677,7 +677,9 @@ function Footer({ year }) {
         <div aria-hidden="true" className="mt-12 hidden border-t border-cream-200/10 pt-8 lg:block">
           <span
             className="as-display block select-none text-cream-200/[0.08] before:content-['BABUSHKINA']"
-            style={{ fontSize: 'clamp(2.5rem, 10vw, 9rem)', lineHeight: 0.85 }}
+            /* napis ≈ 6,2 em szerokości – od lewej do prawej krawędzi łamu (7rem = 2 × marginesy
+                as-shell od lg; 13,375 rem = łam 1440 px / 6,2) */
+            style={{ fontSize: 'min(calc((100vw - 7rem) / 6.2), 13.375rem)', lineHeight: 0.85 }}
           />
         </div>
 

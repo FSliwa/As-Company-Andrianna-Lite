@@ -484,7 +484,7 @@ function TreatmentsBand() {
   return (
     /* H14: linia na styku cream-100 → cream-50 (dwa jasne pasy z rzędu);
        overflow-hidden – portret wychodzi do lewej krawędzi ekranu (bleed) */
-    <section className="as-section overflow-hidden border-t border-ink/10 bg-cream-50">
+    <section className="as-section as-clip-x border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
         {/* telefon: nagłówek → portret → cennik; od lg: portret po lewej na całą wysokość */}
         <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 md:gap-y-10">
@@ -504,7 +504,11 @@ function TreatmentsBand() {
             </p>
           </Reveal>
 
-          <Reveal delay={60} className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start">
+          {/* od md portret „jedzie” obok cennika (sticky) – kolumny bez pustego pasa pod zdjęciem */}
+          <Reveal
+            delay={60}
+            className="md:sticky md:top-[calc(var(--as-header-h)+2rem)] md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start"
+          >
             {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
                 od md do lewej krawędzi (Figure bleed); wysokość 4:5 z kolumny. Telefon
                 w poziomie: kadr nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
@@ -514,6 +518,10 @@ function TreatmentsBand() {
                   image={portrait.image}
                   alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
                   bleed="start"
+                  /* Od md wewnętrzna (prawa) i dolna krawędź przechodzą maską w krem sekcji –
+                     różowobeżowe tło sesji nie stoi już twardym prostokątem na cream-50
+                     (jak zdjęcie hero; research 5.10.2026: Tina Davies, JP Studio). */
+                  className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
                   position={portrait.position}
                   zoom={false}
                   sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
@@ -605,8 +613,12 @@ function TrainingBand() {
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}
                   bleed="end"
+                  /* Od md lewa (wewnętrzna) i dolna krawędź przechodzą maską
+                     w mocha – białe ściany sali nie stoją twardym prostokątem na brązie. Ton
+                     „academy”: cieplejsza biel zdjęcia z telefonu bliżej palety sesji. */
+                  className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)]"
                   position={GROUPS.trainingHome.position}
-                  tone="dark"
+                  tone="academy"
                   zoom={false}
                   sizes="(min-width: 1600px) 640px, (min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
                 />

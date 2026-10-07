@@ -44,11 +44,15 @@ export function SectionLabel({ number, children, tone = 'dark', line = true, cla
       {/* linia ozdobna wypełnia tylko wolne miejsce (podstawa 0, maks. 64/112 px): w wąskiej
           kolumnie ustępuje etykiecie – przy stałej szerokości kurczyła się razem z tekstem,
           a etykieta łamała się na 2 linie („03 / JAK / OTRZYMAĆ” w kolumnie 4/12 przy 1024 px) */}
+      {/* Propozycja T5: linia w złocie, rysowana przy wejściu sekcji w kadr (as-label-rule,
+          index.css: CSS scroll-driven animation, bez JS); przy prefers-reduced-motion
+          i w przeglądarkach bez animation-timeline pełna od razu. */}
       {line && (
         <span
+          aria-hidden="true"
           className={cn(
             'as-label-line hidden h-px min-w-0 flex-1 sm:block max-w-16 lg:max-w-28',
-            isLight ? 'bg-cream-200/25' : 'bg-ink/15'
+            isLight ? 'bg-gold-light/45' : 'bg-gold-dark/45'
           )}
         />
       )}
@@ -160,7 +164,8 @@ export function Figure({
           filled && 'h-full w-full',
           zoom && 'as-media-zoom',
           tone === 'dark' && 'as-media-dark',
-          tone === 'light' && 'as-media-light'
+          tone === 'light' && 'as-media-light',
+          tone === 'academy' && 'as-media-academy'
         )}
         style={filled ? undefined : { aspectRatio: ratio }}
       >
