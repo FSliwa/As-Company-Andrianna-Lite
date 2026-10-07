@@ -220,7 +220,7 @@ function Hero() {
             <HeroWords />
             {/* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza.
                 Claim na zdjęciu: ink/80 zamiast mocha (na wygaszeniu kontrast ≥ 7:1). */}
-            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(0.875rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
+            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(1rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
               {nbspShort(BRAND.claim)}
             </p>
             {/* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta
@@ -253,91 +253,130 @@ function Hero() {
 
 /* Bez złotego łuku: przecinał etykietę „02 / O nas” i H2 (audyt AD4 / H12), a w tym pasie
    nie ma dla niego wolnego pola (kolumny tekstu, portret, filary i liczby).
-   Złącze z sekcją 03 (tekst – tekst): od lg 64 + 64 px zamiast 80 + 80. */
+   Złącze z sekcją 03 (tekst – tekst): od lg 64 + 64 px zamiast 80 + 80.
+
+   Propozycja H02-01 / H02-02 (runda 2, do akceptacji):
+   · od lg portret jest lewą połową pasa – panel na pełną wysokość sekcji, od lewej krawędzi
+     ekranu, szerokość = margines łamu + 40% łamu (≈ 576 px przy 1440); prawa krawędź twarda
+     (bez maski), na dole krótkie wygaszenie 17% pod cytatem. Tekst, filary i liczby
+     w kolumnach 6–12. Wcześniej portret 421 × 562 stał w środkowej kolumnie jako jasna
+     „karta” na espresso, a pod tekstem i filarami zostawało ok. 210–240 px pustki;
+   · telefon: portret 4:5 na całą szerokość ekranu (spad jak zdjęcia sekcji 04 i 05),
+     dalej po filarach; tablet 768–1023 bez zmian (portret 3:4 w kolumnie 6/12). */
+const ABOUT_PANEL_WIDTH = 'calc(var(--as-gutter) + 0.4 * (min(100vw, 1440px) - 2 * var(--as-pad)))';
+
+function AboutQuote({ className }) {
+  /* H5: Jost italic zamiast Bodoni 16 px (Bodoni nie schodzi poniżej 22 px) */
+  return <p className={cn('as-quote-invert as-text-balance', className)}>Narzędzia. Wiedza. Techniki. Realne efekty.</p>;
+}
+
 function AboutBand() {
+  const alt = `${FOUNDER.name} – ${FOUNDER.rolePl}`;
   return (
     <section id="o-nas" className="as-section as-section-tight-bottom relative overflow-hidden bg-espresso text-cream-50">
+      {/* lg+: panel portretu na pełną wysokość pasa (ten sam kadr co < lg – w DOM widoczny
+          zawsze tylko jeden z nich, drugi ma display: none i się nie pobiera) */}
+      <div className="absolute inset-y-0 left-0 hidden lg:block" style={{ width: ABOUT_PANEL_WIDTH }}>
+        <Figure
+          fill
+          image={ROLES.aboutHome.image}
+          alt={alt}
+          position={ROLES.aboutHome.position}
+          tone="dark"
+          zoom={false}
+          sizes="(min-width: 1440px) calc(50vw - 133px), 41vw"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-[17%] bg-gradient-to-t from-espresso via-espresso/70 via-[35%] to-transparent"
+        />
+        <AboutQuote className="absolute bottom-7 left-[var(--as-gutter)] right-6 max-w-[18rem]" />
+      </div>
+
       <div className="as-shell relative">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-          {/* kolumna 1 – zdanie */}
-          <div className="md:col-span-6 lg:col-span-4">
-            <Reveal>
-              <SectionLabel number="02" tone="light">
-                O nas
-              </SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
-                Więcej niż
-                <br />
-                makijaż
-                <br />
-                permanentny.
-              </h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <p className="as-body-invert mt-6">
-                {nbspShort(
-                  'Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości produkty, zaawansowaną edukację i realną praktykę.'
-                )}
-              </p>
-              <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
-                Poznaj nasze podejście
-              </ArrowLink>
-            </Reveal>
-          </div>
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-7 lg:col-start-6">
+            <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+              {/* kolumna 1 – zdanie */}
+              <div className="md:col-span-6 lg:col-span-12">
+                <Reveal>
+                  <SectionLabel number="02" tone="light">
+                    O nas
+                  </SectionLabel>
+                  <h2 className="as-display-section as-text-balance mt-6 text-cream-100">
+                    Więcej niż
+                    <br />
+                    makijaż
+                    <br />
+                    permanentny.
+                  </h2>
+                </Reveal>
+                <Reveal delay={80}>
+                  <p className="as-body-invert mt-6 lg:max-w-[34rem]">
+                    {nbspShort(
+                      'Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości produkty, zaawansowaną edukację i realną praktykę.'
+                    )}
+                  </p>
+                  <ArrowLink href="/o-nas" tone="light" className="mt-8 w-fit">
+                    Poznaj nasze podejście
+                  </ArrowLink>
+                </Reveal>
+              </div>
 
-          {/* kolumna 2 – jeden portret, inna poza niż w hero, bez ramki (jak zdjęcie hero –
-              prośba klientki „nie w ramce”). Telefon (H2): portret po filarach (order-last),
-              żeby dwa portrety założycielki nie stały ekran po ekranie; od md w siatce obok
-              zdania. Telefon w poziomie: portret nie wyższy niż 80% ekranu (H8) – short:sm: /
-              short:md:, bo w CSS warianty sm/md stoją po short i by go nadpisały. */}
-          <Reveal delay={60} className="order-last md:order-none md:col-span-6 lg:col-span-4">
-            <div className="mx-auto max-w-[16rem] sm:max-w-[20rem] md:max-w-none short:max-w-[calc(80svh*3/4)] short:sm:max-w-[calc(80svh*3/4)] short:md:max-w-[calc(80svh*3/4)]">
-              <Figure
-                image={ROLES.aboutHome.image}
-                alt={`${FOUNDER.name} – ${FOUNDER.rolePl}`}
-                ratio="3 / 4"
-                position={ROLES.aboutHome.position}
-                tone="dark"
-                sizes="(min-width: 1440px) 400px, (min-width: 1024px) 28vw, (min-width: 768px) 46vw, 320px"
-              />
-              {/* H5: Jost italic zamiast Bodoni 16 px (Bodoni nie schodzi poniżej 22 px) */}
-              <p className="as-quote-invert as-text-balance mt-4 text-right">
-                Narzędzia. Wiedza. Techniki. Realne efekty.
-              </p>
-            </div>
-          </Reveal>
-
-          {/* kolumna 3 – 01 / 02 / 03 jako komórki (tablet: trzy obok siebie pod spodem).
-              Telefon (H2): same linki „01 Produkty →” – opisy powtarzają sekcje 03–05. */}
-          <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6 lg:col-span-4 lg:block">
-            {PILLARS.map((p, i) => (
-              <Reveal key={p.number} delay={i * 80}>
-                <Link href={p.href} className="as-cell-invert group block pb-6">
-                  <div className="flex items-baseline gap-3">
-                    <span className="as-num-invert">{p.number}</span>
-                    <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
-                    <span
-                      aria-hidden="true"
-                      className="ml-auto text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
-                    >
-                      &#8594;
-                    </span>
+              {/* < lg: portret. Telefon (H2): po filarach (order-last), żeby dwa portrety
+                  założycielki nie stały ekran po ekranie; 4:5 na całą szerokość ekranu.
+                  Tablet: obok zdania, 3:4 w kolumnie 6/12. Telefon w poziomie: portret nie
+                  wyższy niż 80% ekranu (H8) – short:md:, bo w CSS short stoi przed md. */}
+              <Reveal delay={60} className="order-last md:order-none md:col-span-6 lg:hidden">
+                <div className="-mx-[var(--as-pad)] md:mx-0 short:mx-auto short:max-w-[calc(80svh*4/5)] short:md:mx-auto short:md:max-w-[calc(80svh*3/4)]">
+                  <div className="relative aspect-[4/5] md:aspect-[3/4]">
+                    <Figure
+                      fill
+                      image={ROLES.aboutHome.image}
+                      alt={alt}
+                      position={ROLES.aboutHome.position}
+                      tone="dark"
+                      sizes="(min-width: 768px) 46vw, 100vw"
+                    />
                   </div>
-                  <p className="as-numbered-desc hidden text-cream-200/85 sm:block">{nbspShort(p.desc)}</p>
-                </Link>
+                  <AboutQuote className="mt-4 px-[var(--as-pad)] text-right md:px-0 short:px-0" />
+                </div>
               </Reveal>
-            ))}
-          </div>
-        </div>
 
-        {/* liczby – najmocniejszy dowód marki, w pierwszych dwóch ekranach. Linię u góry ma
-            każda liczba (Stat), więc rząd nie ma już własnej – bez podwójnej kreski. */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 max-[319px]:grid-cols-1 md:grid-cols-4 lg:mt-16">
-          {ACHIEVEMENTS.map((a, i) => (
-            <Reveal key={a.label} delay={i * 60}>
-              <Stat value={a.value} label={nbspShort(a.label)} tone="light" />
-            </Reveal>
-          ))}
+              {/* 01 / 02 / 03 jako komórki: tablet i desktop – trzy obok siebie pod zdaniem.
+                  Telefon (H2): same linki „01 Produkty →” – opisy powtarzają sekcje 03–05. */}
+              <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6">
+                {PILLARS.map((p, i) => (
+                  <Reveal key={p.number} delay={i * 80}>
+                    <Link href={p.href} className="as-cell-invert group block pb-6">
+                      <div className="flex items-baseline gap-3">
+                        <span className="as-num-invert">{p.number}</span>
+                        <h3 className="as-numbered-title text-cream-100">{p.title}</h3>
+                        <span
+                          aria-hidden="true"
+                          className="ml-auto text-gold-light transition-transform duration-300 group-hover:translate-x-1.5"
+                        >
+                          &#8594;
+                        </span>
+                      </div>
+                      <p className="as-numbered-desc hidden text-cream-200/85 sm:block">{nbspShort(p.desc)}</p>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+
+            {/* liczby – najmocniejszy dowód marki, w pierwszych dwóch ekranach. Od lg obok panelu
+                portretu w 2 kolumnach (2 × 2): w 4 kolumnach 7/12 łamu „10 lat” łamało się na dwie
+                linie (kolumna ok. 150–175 px przy 1280–1920). Linię u góry ma każda liczba (Stat). */}
+            <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 max-[319px]:grid-cols-1 md:grid-cols-4 lg:mt-16 lg:grid-cols-2">
+              {ACHIEVEMENTS.map((a, i) => (
+                <Reveal key={a.label} delay={i * 60}>
+                  <Stat value={a.value} label={nbspShort(a.label)} tone="light" />
+                </Reveal>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -466,10 +505,15 @@ const lowerFirst = (t) => t.charAt(0).toLowerCase() + t.slice(1);
 
 function TrainingBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-mocha text-cream-50">
+    /* Propozycja H05-02: overflow-x-clip zamiast overflow-hidden – przycina spad zdjęcia
+       w poziomie, ale (inaczej niż hidden) nie tworzy kontenera przewijania, więc kolumna
+       tekstu może być sticky (Safari 16+, Chrome 90+, Firefox 81+) */
+    <section className="as-section relative overflow-x-clip bg-mocha text-cream-50">
       <div className="as-shell relative">
         <div className="grid gap-10 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
+          {/* Propozycja H05-02: od md kolumna tekstu stoi przy zdjęciu i cenach podczas
+              przewijania (pod tekstem było ok. 390 px pustego pasa przy 1440) */}
+          <div className="md:sticky md:top-[calc(var(--as-header-h)+2rem)] md:col-span-5 md:self-start">
             <Reveal>
               {/* na mocha złoty numer 11 px ma 4,05:1 – numer w kremie (4,8:1), jak etykieta */}
               <SectionLabel number={<span className="text-cream-100/85">05</span>} tone="light">
@@ -504,7 +548,9 @@ function TrainingBand() {
               {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
                   od md do prawej krawędzi (Figure bleed); wysokość 3:2 z kolumny. Telefon
                   w poziomie: kadr nie wyższy niż 80% ekranu (jak portrety, H8). */}
-              <div className="relative short:ml-auto short:max-w-[calc(80svh*3/2)]" style={{ aspectRatio: '3 / 2' }}>
+              {/* Propozycja H05-01: kadr 4:3 zamiast 3:2 – widać cały szyld z koroną, pięć twarzy
+                  i certyfikaty, o których mówi nagłówek (przy 3:2 ucięte dolną krawędzią) */}
+              <div className="relative short:ml-auto short:max-w-[calc(80svh*4/3)]" style={{ aspectRatio: '4 / 3' }}>
                 <Figure
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}

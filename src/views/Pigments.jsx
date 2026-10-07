@@ -172,8 +172,11 @@ const prefersReducedMotion = () =>
    (max-sm:[&_h1+p]:order-last – lead to akapit tuż po H1; PageHero robi to samo w short:),
    więc przycisk zostaje w pierwszym ekranie. Wrapper jest zwykłym blokiem (nie `contents`):
    Next 14 przy nawigacji linkiem pomija element bez boxu i przewijał stronę do #katalog. */
+/* Propozycja PIG-01-A: na telefonie od 720 px wysokości H1 2,4 rem (38,4 px – token as-display-lg,
+   jak H1 /szkolenia i /certyfikaty); przy 390 px było 32 px, mniej niż H2 „Katalog odcieni.” (36 px).
+   Telefony niższe niż 720 px zostają przy 2 rem (przycisk w pierwszym ekranie). */
 const HERO_TITLE_SIZE =
-  'block [&_h1]:[font-size:clamp(2rem,6.2vw,4.25rem)] min-[1440px]:[&_h1]:[font-size:clamp(4.25rem,4.7vw,5.5rem)] short:[&_h1]:[font-size:1.875rem] max-sm:[&_h1+p]:order-last';
+  'block [&_h1]:[font-size:clamp(2rem,6.2vw,4.25rem)] min-[1440px]:[&_h1]:[font-size:clamp(4.25rem,4.7vw,5.5rem)] [@media(max-width:639.98px)_and_(min-height:720px)]:[&_h1]:[font-size:2.4rem] short:[&_h1]:[font-size:1.875rem] max-sm:[&_h1+p]:order-last';
 
 function Hero() {
   return (

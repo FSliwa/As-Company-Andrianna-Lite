@@ -410,8 +410,10 @@ function OfferDownloads({ course, afterMore = false }) {
         otwiera się w nowej karcie.
       </p>
       {/* 3 kolumny od 480 px, 4 od sm (kurs od podstaw w jednym rzędzie, bez samotnej grafiki;
-          w telefonie w poziomie grafika nie jest wyższa od ekranu) */}
-      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-x-6 lg:max-w-[66rem] lg:gap-x-8 lg:gap-y-10">
+          w telefonie w poziomie grafika nie jest wyższa od ekranu). Propozycja SZK-03-A: od lg
+          na całą szerokość łamu (było maks. 66rem – rząd urywał się ok. 270 px przed linią
+          programu nad nim). */}
+      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-x-6 lg:gap-x-8 lg:gap-y-10">
         {posters.map((p) => (
           <OfferPoster key={p.index} poster={p} course={course} name={name} />
         ))}
@@ -444,7 +446,7 @@ function OfferPoster({ poster, course, name }) {
               image={image}
               alt={alt}
               ratio="9 / 16"
-              sizes="(min-width: 1024px) 240px, (min-width: 640px) 22vw, (min-width: 480px) 30vw, 46vw"
+              sizes="(min-width: 1440px) 310px, (min-width: 1024px) 22vw, (min-width: 640px) 22vw, (min-width: 480px) 30vw, 46vw"
               className="border border-ink/10"
             />
           </button>
@@ -467,15 +469,18 @@ function OfferPoster({ poster, course, name }) {
           </a>
         </div>
 
+        {/* Propozycja SZK-03-B: od 1024 px w poziomie plakat na wysokość panelu, opis
+            i przyciski w kolumnie obok (.as-poster-dialog w index.css) – przy 1440 × 900
+            widać 100% grafiki zamiast 58%; telefon i tablet w pionie bez zmian. */}
         <DialogContent
           ref={contentRef}
-          className="sm:max-w-[640px]"
+          className="as-poster-dialog sm:max-w-[640px]"
           onOpenAutoFocus={(e) => {
             e.preventDefault();
             contentRef.current?.focus();
           }}
         >
-          <DialogHeader>
+          <DialogHeader className="as-poster-head">
             {/* nazwa kursu jest w opisie (pełna) – kicker bez powtórzenia */}
             <span className="as-kicker">Pełna oferta kursu</span>
             <DialogTitle>{poster.caption}</DialogTitle>
@@ -490,9 +495,9 @@ function OfferPoster({ poster, course, name }) {
             zoom={false}
             priority
             sizes="(min-width: 640px) 560px, 100vw"
-            className="mt-6 border border-ink/10"
+            className="as-poster-figure mt-6 border border-ink/10"
           />
-          <DialogFooter>
+          <DialogFooter className="as-poster-foot">
             <a href={image.src} target="_blank" rel="noopener noreferrer" className="as-btn-solid">
               Otwórz JPG<span className="sr-only"> w nowej karcie</span>
             </a>
@@ -664,7 +669,8 @@ function GraduatesBand() {
 
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
-              <div className="as-photo-frame grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
+              {/* Propozycja SZK-04-A: kolaż bez złotej ramki (klientka: „nie w ramce”) */}
+              <div className="grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
@@ -796,7 +802,7 @@ function QuestionsBand() {
           <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
             <SectionLabel number="06">Pytania</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Zanim się zapiszesz.</h2>
-            <p className="as-body mt-6 hidden sm:block">
+            <p className="as-body mt-6">
               Najczęściej zadawane pytania – o pracę z klientkami, produkty, dofinansowanie i opiekę
               po szkoleniu.
             </p>

@@ -129,6 +129,11 @@ NEW_WORKS = {
     'work-powder-01': ('23.07.50', (0.20, 0.0, 1.0, 1.0)),  # technika pudrowa
     'work-eyes-01': ('23.09.45', (0.0, 0.02, 1.0, 0.66)),   # linia rzęs
 }
+# Obrócone kopie prac (propozycja usl-03-c): (plik, przycięcie, 'CW' | 'CCW'). Przycięcie przed
+# obrotem; prawa krawędź 0,965 odcina rozmazany pas pliku 23.07.50. Zapis tylko pełnej szerokości.
+ROTATED_WORKS = {
+    'work-powder-01-r': ('23.07.50', (0.20, 0.0, 0.965, 1.0), 'CCW'),  # brew poziomo nad okiem
+}
 NEW_SKIP = {
     '23.05.37', '23.05.37 (1)', '23.05.37 (2)', '23.05.38', '23.05.38 (3)', '23.05.38 (4)',
     '23.05.38 (5)', '23.05.38 (6)', '23.05.38 (7)', '23.05.38 (8)', '23.05.39', '23.05.39 (1)',
@@ -347,6 +352,16 @@ def main():
                 im = im.crop((round(im.width * l), round(im.height * t), round(im.width * r), round(im.height * b)))
             save_all(im, name, 'work', manifest)
             used.add(i)
+        for name, (suffix, box, rot) in ROTATED_WORKS.items():
+            im = load(by_suffix[suffix])
+            l, t, r, b = box
+            im = im.crop((round(im.width * l), round(im.height * t), round(im.width * r), round(im.height * b)))
+            im = im.rotate(90 if rot == 'CCW' else -90, expand=True)
+            save_all(im, name, 'work', manifest)
+            small = os.path.join(OUT_DIR, f'{name}-480.webp')
+            if os.path.exists(small):
+                os.remove(small)
+            manifest[name]['webp'] = {k: v for k, v in manifest[name]['webp'].items() if k != '480'}
     used |= {by_suffix[s] for s in NEW_SKIP if s in by_suffix}
     if only:
         used |= {i for i in range(1, len(files) + 1) if not os.path.basename(files[i - 1]).startswith(NEW_PREFIX)}

@@ -495,6 +495,68 @@
     @apply relative overflow-hidden bg-cream-200;
   }
 
+  /* Propozycja SZK-03-B – okno podglądu grafiki kursu (Education.jsx, OfferPoster) od 1024 px
+     w poziomie: plakat 9:16 na całą wysokość panelu (90svh − padding 2 × 40 px − obrys),
+     w kolumnie obok tytuł, opis i przyciski (stopka statyczna, przyciski na pełną szerokość
+     kolumny). Panel się nie przewija – cały plakat w kadrze (1366 × 768: 342 × 607,
+     1440 × 900: 408 × 726). Selektor z [role=dialog] przebija klasy bazowe DialogContent. */
+  @media (min-width: 1024px) and (orientation: landscape) {
+    [role='dialog'].as-poster-dialog {
+      display: grid;
+      grid-template-columns: auto 16rem;
+      grid-template-rows: auto auto 1fr auto;
+      column-gap: 2.5rem;
+      width: auto;
+      max-width: calc(100vw - 4rem);
+      overflow: hidden;
+    }
+
+    [role='dialog'].as-poster-dialog > [data-dialog-close] {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-head {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-figure {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      margin-top: 0;
+      height: calc(90svh - 5rem - 2px);
+      width: auto;
+      aspect-ratio: 9 / 16;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-figure > .as-media {
+      height: 100%;
+      width: 100%;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-figure img {
+      object-fit: contain;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-foot {
+      grid-column: 2;
+      grid-row: 4;
+      align-self: end;
+      position: static;
+      flex-direction: column;
+      margin: 0 !important;
+      border: 0;
+      background: none;
+      padding: 0;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-foot > * {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
   /* <picture> nie ma własnego boxu – img pozycjonuje się względem .as-media */
   .as-media picture {
     display: contents;
