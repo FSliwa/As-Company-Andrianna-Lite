@@ -105,63 +105,60 @@ const SPECIALTIES = [
 /* Kolaż w sekcji 05 (klientka 30.09: owal z krzyżem i „Kolaż” pod nagłówkiem) – po jednej
    pracy do każdej specjalizacji: włos maszynowy (work-snb-01, Super Natural Brows), technika
    pudrowa (work-powder-01), usta (lips-02-p2, panel „Healed” – kadr bez napisów).
-   Kadry w pudełku 5:4, pozycje w % – kompozycja skaluje się bez zmian; proporcja slotu
-   = szer. × 1,25 / wys.: włos 3:4 (plik 3:4, bez cięcia), puder 3:5 (od lewej – za
-   x ≈ 596 pliku jest rozmazany pas), usta 2,1:1. Bez ramek („nie w ramce”): usta nachodzą
-   na dolne rogi obu portretów, a obwódka w kolorze tła (ring cream-50) tylko oddziela kadry.
+   Siatka bez nachodzenia i bez obwódek, odstęp 4 px jak w pasie efektów (ResultStrip):
+   u góry włos 3:4 (plik 3:4, bez cięcia) i puder 3:5 (od lewej – za x ≈ 596 pliku jest
+   rozmazany pas), szerokości kolumn 0,75 : 0,6 = proporcje kadrów, więc oba mają tę samą
+   wysokość; pod nimi usta na całą szerokość, 2,1:1.
    Usta (plik 1204 × 729): kontur warg ok. y 152–668, nad nim napis „Healed” (do y ≈ 124),
-   pod nim szary pasek (od y ≈ 718). Przy 2,1:1 widać 573 px wysokości pliku, po scale 1,02
-   ok. 562; Y 82% = okno ok. 133–695 – ok. 20 px skóry nad łukiem Kupidyna i ok. 27 pod
-   dolną wargą, bez napisu i paska (przy 2,2:1 kontur górnej wargi dotykał krawędzi kadru;
-   Y < 80% zbliża okno do „Healed”, Y > 85% – usta do górnej krawędzi). scale 1,02 od
-   prawej chowa szary pasek 4 px przy lewej krawędzi pliku. Kadry od 1440 px: portrety
-   ≤ 300 px (pliki 599 / 614 px), usta ok. 330 px (plik 1204 px) – ostre przy 2×;
-   zoom={false} jak makra. Podpisy: brak – techniki nazywa lista 01–03 tuż pod kolażem;
-   alt – tylko to, co wiemy o kadrze. */
+   pod nim szary pasek (od y ≈ 718). Przy 2,1:1 widać 573 px wysokości pliku; Y 82% = okno
+   ok. 128–701 – bez napisu i paska (przy 2,2:1 kontur górnej wargi dotykał krawędzi kadru).
+   scale 1,02 od prawej chowa szary pasek 4 px przy lewej krawędzi pliku. zoom={false} jak
+   makra. Podpisy: brak – techniki nazywa lista 01–03 tuż pod kolażem; alt – tylko to, co
+   wiemy o kadrze. */
 const COLLAGE = [
   {
     key: 'snb',
     image: MACROS.snbCollage.image,
     alt: 'Brwi po makijażu permanentnym techniką włosa maszynowego Super Natural Brows – zbliżenie twarzy',
-    box: 'right-0 top-[7%] h-[93%] w-[56%]',
+    ratio: '3 / 4',
     position: MACROS.snbCollage.position,
-    sizes: '(min-width: 1024px) 300px, (min-width: 640px) 290px, 56vw',
+    sizes: '(min-width: 1024px) 290px, (min-width: 640px) 280px, 55vw',
   },
   {
     key: 'powder',
     image: MACROS.powderCollage.image,
     alt: 'Brew po makijażu permanentnym techniką pudrową – zbliżenie łuku brwi nad okiem',
-    box: 'left-0 top-0 h-[79%] w-[38%]',
+    ratio: '3 / 5',
     position: MACROS.powderCollage.position,
-    sizes: '(min-width: 1024px) 205px, (min-width: 640px) 195px, 38vw',
+    sizes: '(min-width: 1024px) 235px, (min-width: 640px) 225px, 45vw',
   },
   {
     key: 'lips',
     image: MACROS.lipsCollage.image,
     alt: 'Usta po makijażu permanentnym, wygojone – zbliżenie',
-    box: 'bottom-0 left-0 z-10 h-[36.9%] w-[62%] ring-[6px] ring-cream-50 lg:ring-8',
+    ratio: '2.1 / 1',
     position: MACROS.lipsCollage.position,
     imgClassName: 'origin-right scale-[1.02]',
-    sizes: '(min-width: 1024px) 335px, (min-width: 640px) 320px, 62vw',
+    className: 'col-span-2',
+    sizes: '(min-width: 1024px) 530px, (min-width: 640px) 510px, 100vw',
   },
 ];
 
 function SalonCollage() {
   return (
-    <div className="relative aspect-[5/4] w-full">
+    <div className="grid grid-cols-[0.75fr_0.6fr] gap-1">
       {COLLAGE.map((c) => (
-        <div key={c.key} className={cn('absolute', c.box)}>
-          <Figure
-            image={c.image}
-            alt={c.alt}
-            fill
-            position={c.position}
-            imgClassName={c.imgClassName}
-            tone="light"
-            zoom={false}
-            sizes={c.sizes}
-          />
-        </div>
+        <Figure
+          key={c.key}
+          image={c.image}
+          alt={c.alt}
+          ratio={c.ratio}
+          position={c.position}
+          imgClassName={c.imgClassName}
+          className={c.className}
+          zoom={false}
+          sizes={c.sizes}
+        />
       ))}
     </div>
   );
@@ -238,18 +235,21 @@ function StoryBand() {
           </Reveal>
 
           <div className="max-md:hidden md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1">
-            <Reveal className="tall:md:sticky md:top-28">
-              <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none">
-                {/* portret bez ramki (klientka: „portrety bez ramek”; ramka .as-photo-frame zostaje
-                    dla stykówek absolwentek i cenników) */}
-                <Figure
-                  image={ROLES.storyAbout.image}
-                  alt={`${FOUNDER.name} – portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
-                  ratio="4 / 5"
-                  position={ROLES.storyAbout.position}
-                  zoom={false}
-                  sizes="(min-width: 1024px) 36vw, (min-width: 768px) 40vw, 90vw"
-                />
+            <Reveal className="tall:md:sticky md:top-28 short:md:sticky short:md:top-[calc(var(--as-header-h)+1rem)]">
+              <figure className="mx-auto max-w-[18rem] sm:max-w-[24rem] md:max-w-none short:md:mx-0 short:md:max-w-[calc((100svh-var(--as-header-h)-4.5rem)*4/5)]">
+                {/* bez ramki – prośba klientki „nie w ramce” (jak portret na stronie głównej);
+                    lewa krawędź zdjęcia w osi łamu (ramka z paddingiem przesuwała ją o 5 px).
+                    Lite: bez tonu „dark” (portrety STUDIO bez filtra) i podpis .as-caption na cream-90. */}
+                <div>
+                  <Figure
+                    image={ROLES.storyAbout.image}
+                    alt={`${FOUNDER.name} – portret z przymkniętymi oczami, z sesji wizerunkowej marki`}
+                    ratio="4 / 5"
+                    position={ROLES.storyAbout.position}
+                    zoom={false}
+                    sizes="(min-width: 1024px) 36vw, (min-width: 768px) 40vw, 90vw"
+                  />
+                </div>
                 <figcaption className="as-caption mt-3">{FOUNDER.signature}</figcaption>
               </figure>
             </Reveal>
@@ -300,7 +300,7 @@ function NumbersBand() {
   return (
     <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-10 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <Reveal>
               <SectionLabel number="03">Osiągnięcia</SectionLabel>
@@ -423,17 +423,23 @@ function SalonBand() {
               599 px); od lg: kolumna nagłówka (361–535 px) */}
           <Reveal
             delay={120}
-            className="mt-4 max-w-[32rem] lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:max-w-none"
+            className="mt-4 max-w-[32rem] lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:max-w-none short:max-w-[calc((100svh-var(--as-header-h)-2rem)*5/4)]"
           >
             <SalonCollage />
           </Reveal>
         </div>
 
         {/* trzy specjalizacje (w tym technika combo – BIO-09) – komórki z hairline, bez zdjęć */}
-        <div className="mt-12 grid gap-8 md:grid-cols-3 lg:mt-16">
+        {/* tablet (md–lg): wiersz „tytuł | opis” jak w indeksie – w 3 kolumnach po ok. 200 px tytuły
+            łamały się na 2–3 linie; trzy kolumny od lg */}
+        <div className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-3">
           {SPECIALTIES.map((m, i) => (
             <Reveal key={m.number} delay={i * 60} className="as-cell">
-              <NumberedItem number={m.number} title={m.title}>
+              <NumberedItem
+                number={m.number}
+                title={m.title}
+                className="md:max-lg:grid md:max-lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:max-lg:gap-x-8 md:max-lg:[&>p]:mt-0"
+              >
                 {m.desc}
               </NumberedItem>
             </Reveal>

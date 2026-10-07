@@ -442,7 +442,6 @@ function TechniquePhoto({ photo, className }) {
         alt={alt}
         ratio={macro.ratio}
         position={macro.position}
-        tone="light"
         zoom={false}
         sizes={techniquePhotoSizes(macro)}
         imgClassName={macro.scale ? 'origin-[var(--as-crop-origin)] scale-[var(--as-crop-scale)]' : undefined}
@@ -508,9 +507,12 @@ function TechniqueRow({ t, last }) {
         <MoreButton more={more} controls={bodyId} name={t.name} className="mt-1.5" />
       </div>
       <div className="col-span-2 row-start-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:col-span-1 sm:col-start-2 md:col-start-3 md:row-start-2 lg:col-start-4 lg:row-start-1 lg:flex-col lg:flex-nowrap lg:items-end lg:justify-start lg:gap-4">
-        <p className="whitespace-nowrap">
-          {/* D6: czas tylko przy technice ze źródłem czasu (SNB) */}
-          {t.duration && <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>}
+        <p className="whitespace-nowrap lg:text-right">
+          {/* D6: czas tylko przy technice ze źródłem czasu (SNB); od lg czas nad ceną –
+              w jednej linii meta SNB miała 201 px zamiast 120 i zwężała opis */}
+          {t.duration && (
+            <span className="as-label mr-3 text-ink/70 sm:mr-4 lg:mb-2.5 lg:mr-0 lg:block">{t.duration}</span>
+          )}
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
         </p>
         <ArrowLink href={bookingHref(t.id)} className="w-fit">
@@ -635,21 +637,26 @@ function AftercareCard({ t }) {
   const descId = `${t.id}-opis`;
   const noteId = `${t.id}-nota`;
   return (
-    <article id={t.id} className="as-cell">
+    /* Propozycja usl-04-a: od md karty dzielą wiersze siatki (subgrid) – cena i „Umów wizytę”
+       stoją w jednej linii w obu kartach mimo opisów różnej długości (było Δ17–50 px).
+       Pięć dzieci = pięć wierszy: numer, tytuł, opis, cena, noty. */
+    <article id={t.id} className="as-cell md:row-span-5 md:grid md:grid-rows-subgrid">
       <div className="flex items-baseline gap-3">
         <span className="as-num">{t.number}</span>
         <p className="as-kicker">{t.tag}</p>
       </div>
       <h3 className="as-title mt-3 text-ink">{nbspBrand(t.name)}</h3>
-      <p
-        id={descId}
-        ref={more.textRef}
-        className={cn('mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
-      >
-        {nbspShort(t.description)}
-      </p>
-      <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:mt-6">
+      <div>
+        <p
+          id={descId}
+          ref={more.textRef}
+          className={cn('mt-3 text-[0.9375rem] leading-[1.65] max-sm:text-[1rem] short:text-[1rem] text-ink/75', more.clampClass)}
+        >
+          {nbspShort(t.description)}
+        </p>
+        <MoreButton more={more} controls={`${descId} ${noteId}`} name={t.name} className="mt-1.5" />
+      </div>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 self-start sm:mt-6">
         <p className="whitespace-nowrap">
           {t.duration && <span className="as-label mr-3 text-ink/70 sm:mr-4">{t.duration}</span>}
           <span className="font-display text-[1.375rem] leading-none text-ink">{t.price}</span>
@@ -659,10 +666,12 @@ function AftercareCard({ t }) {
         </ArrowLink>
       </div>
       {/* D5: warunek ceny stoi zawsze – także na telefonie, bez „Więcej” */}
-      {t.condition && <p className="as-caption mt-3">{t.condition}</p>}
-      <p id={noteId} className={cn('as-caption', t.condition ? 'mt-1' : 'mt-3', more.hiddenClass)}>
-        {t.priceNote}
-      </p>
+      <div>
+        {t.condition && <p className="as-caption mt-3">{t.condition}</p>}
+        <p id={noteId} className={cn('as-caption', t.condition ? 'mt-1' : 'mt-3', more.hiddenClass)}>
+          {t.priceNote}
+        </p>
+      </div>
     </article>
   );
 }
@@ -671,32 +680,33 @@ function AftercareBand() {
   return (
     <section className="as-section as-section-tight-bottom bg-cream-50">
       <div className="as-shell">
-        <div className="grid gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* tablet: etykieta nad całością, pod nią tytuł | wstęp + link obok
-              siebie (wyrównane do góry); desktop: jedna kolumna jak dotąd */}
-          <Reveal className="lg:col-span-5">
+        <div className="grid gap-10 sm:gap-12 xl:grid-cols-12 xl:gap-8">
+          {/* tablet i lg (do 1279 px): etykieta nad całością, pod nią tytuł | wstęp + link
+              obok siebie (wyrównane do góry), karty niżej po ok. 440 px; od xl jedna kolumna
+              4/12, karty 8/12 – w układzie 5|6 od lg karty miały 204–268 px i 8 linii opisu */}
+          <Reveal className="xl:col-span-4">
             <SectionLabel number="04">Odświeżenie i usuwanie</SectionLabel>
-            <div className="md:mt-6 md:grid md:grid-cols-2 md:items-start md:gap-8 lg:mt-0 lg:block">
-              <h2 className="as-display-section as-text-balance mt-6 text-ink md:mt-0 lg:mt-6">
+            <div className="md:mt-6 md:grid md:grid-cols-2 md:items-start md:gap-8 xl:mt-0 xl:block">
+              <h2 className="as-display-section as-text-balance mt-6 text-ink md:mt-0 xl:mt-6">
                 Odnowić albo zacząć od&nbsp;nowa.
               </h2>
               <div>
-                <p className="as-body mt-6 hidden sm:block md:mt-0 lg:mt-6">
+                <p className="as-body mt-6 md:mt-0 xl:mt-6">
                   Zabiegi uzupełniające prowadzimy w tym samym standardzie co pigmentację: zaczynamy od oceny
                   skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
                   makijażu permanentnego.
                 </p>
                 {/* telefon: cennik to następna sekcja – link od sm */}
-                <ArrowLink href="#cennik" className="mt-8 hidden w-fit sm:inline-flex md:mt-6 lg:mt-8">
+                <ArrowLink href="#cennik" className="mt-8 hidden w-fit sm:inline-flex md:mt-6 xl:mt-8">
                   Zobacz cennik
                 </ArrowLink>
               </div>
             </div>
           </Reveal>
 
-          <div className="grid gap-10 md:grid-cols-2 md:gap-8 lg:col-span-6 lg:col-start-7 lg:self-end">
+          <div className="grid gap-10 md:grid-cols-2 md:grid-rows-[auto_auto_1fr_auto_auto] md:gap-x-8 md:gap-y-0 xl:col-span-8 xl:col-start-5 xl:self-end">
             {AFTERCARE.map((t, i) => (
-              <Reveal key={t.id} delay={i * 80}>
+              <Reveal key={t.id} delay={i * 80} className="md:row-span-5 md:grid md:grid-rows-subgrid">
                 <AftercareCard t={t} />
               </Reveal>
             ))}
@@ -725,7 +735,7 @@ function PriceRows({ table }) {
         <PriceRow key={item.name} name={fmt(item.name)} note={noteOf(item)} price={fmt(item.price)} />
       ))}
       {(shared || table.footnote) && (
-        <p className="as-caption mt-4 max-w-[36rem]">{shared ? `${shared}.` : table.footnote}</p>
+        <p className="as-caption mt-4 max-w-[36rem]">{nbspShort(shared ? `${shared}.` : table.footnote)}</p>
       )}
     </>
   );
@@ -749,9 +759,12 @@ function PriceBlock({ table }) {
    siedem stawek usuwania) są zwinięte w akordeon – ten sam <Faq> co w pytaniach,
    ale treść rozwinięcia bez łamu i prawego odstępu odpowiedzi (contentClassName),
    żeby ceny stały w jednej osi z cennikiem PMU.
-   Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie. */
+   Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie.
+   Hierarchia jak w PriceBlock: tytuł w Bodoni, podtytuł jako kicker pod nim – cały
+   „Refresh – odświeżenie dla klientek…” w tytule dawał 4–6 linii przy 1–2 obok. */
 const faqOf = (table) => ({
-  q: `${table.title} – ${fmt(table.subtitle).toLowerCase()}`,
+  q: table.title,
+  kicker: fmt(table.subtitle),
   a: <PriceRows table={table} />,
 });
 const MOBILE_PRICE_FAQ = [faqOf(PRICING_REFRESH), faqOf(PRICING_REMOVAL)];
@@ -843,7 +856,7 @@ function FaqBand() {
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zanim usiądziesz w&nbsp;fotelu.
             </h2>
-            <p className="as-body mt-6 hidden sm:block">
+            <p className="as-body mt-6">
               Odpowiedzi na wątpliwości, które najczęściej słyszymy przed zabiegiem – o technikę,
               kolor, ból i usuwanie.
             </p>
@@ -908,13 +921,17 @@ function PriceSheetsBand() {
   return (
     <section id="cennik-do-pobrania" className="as-section border-t border-ink/10 bg-cream-100">
       <div className="as-shell">
+        {/* 5|7: od ok. 1800 px „Cennik do pobrania.” (80 px) nie mieścił się w 4/12;
+            miniatury (maks. 33rem) mieszczą się w 7/12 od 1024 px */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="lg:col-span-4">
+          <Reveal className="lg:col-span-5">
             <SectionLabel number="07">Do pobrania</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Cennik do&nbsp;pobrania.</h2>
             <p className="as-body mt-6">Grafiki cennika salonu w pełnym rozmiarze otwierają się w nowej karcie.</p>
           </Reveal>
-          <Reveal delay={80} className="lg:col-span-8 lg:col-start-5 lg:self-end">
+          {/* Propozycja usl-07-a / usl-07-b: miniatury bez złotej ramki, od lg przy prawej
+              krawędzi łamu (jak ceny w #cennik) – wcześniej 233 px pustego pola po prawej */}
+          <Reveal delay={80} className="lg:col-span-7 lg:col-start-6 lg:self-end lg:justify-self-end">
             <ul className="grid max-w-[33rem] grid-cols-3 gap-3 sm:gap-6">
               {PRICE_SHEETS.map((sheet) => (
                 <li key={sheet.key} className="min-w-0 max-w-[160px]">
@@ -930,10 +947,15 @@ function PriceSheetsBand() {
                       ratio="9 / 16"
                       zoom={false}
                       sizes="160px"
-                      className="as-photo-frame"
                     />
                     <span className="as-caption mt-2 block transition-colors group-hover:text-ink">
-                      {sheet.table.title} · {sheet.part}
+                      {/* telefon: numer części w osobnej linii (równa wysokość trzech podpisów,
+                          bez „·” na początku lub końcu linii); od sm jedna linia z kropką */}
+                      {sheet.table.title}
+                      <span className="block sm:inline">
+                        <span className="hidden sm:inline"> · </span>
+                        {sheet.part}
+                      </span>
                       <span className="sr-only"> (otwiera się w nowej karcie)</span>
                     </span>
                   </a>

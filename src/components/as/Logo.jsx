@@ -55,20 +55,22 @@ export default function Logo({ size = 'md', tone = 'ink', className }) {
       aria-hidden="true"
       className={cn('inline-flex shrink-0 select-none flex-col items-center leading-none', SIZES[size] || SIZES.md, className)}
     >
-      {/* Bodoni Moda 400 (najcieńsza odmiana fontu), lekko rozstrzelony; korona stoi nad
-          wierzchołkiem pierwszego „A” z małym odstępem (jak w logo klientki) – margines
-          górny 0,5 em rezerwuje na nią miejsce */}
+      {/* Bodoni Moda 400 (najcieńsza odmiana fontu), litery prawie bez rozstrzelenia; korona
+          osadzona na wierzchołku pierwszego „A” (jak w logo klientki, zrzut R1-5 z 30.09) –
+          margines górny 0,5 em rezerwuje na nią miejsce */}
       <span
-        className={cn('relative block whitespace-nowrap pt-[0.5em] font-display font-normal tracking-[0.045em]', c.word)}
+        className={cn('relative block whitespace-nowrap pt-[0.5em] font-display font-normal tracking-[0.015em]', c.word)}
         style={{ fontVariationSettings: '"opsz" 28' }}
       >
         B
         <span className="relative inline-block">
           A
-          <Crown className={cn('absolute bottom-[1.28em] left-1/2 h-[0.36em] w-[0.72em] -translate-x-1/2', c.crown)} />
+          <Crown className={cn('absolute bottom-[1.1em] left-1/2 h-[0.34em] w-[0.68em] -translate-x-1/2', c.crown)} />
         </span>
         BUSHKINA
       </span>
+      {/* spacja między wierszami znaku: tekst linku to „BABUSHKINA ACADEMY” (WCAG 2.5.3 – nazwa
+          dostępna linku zawiera widoczny napis), w kolumnie flex nie zmienia układu */}{' '}
       <span className={cn('mt-[0.32em] block whitespace-nowrap pl-[0.42em] font-sans text-[0.4em] font-normal tracking-[0.42em]', c.sub)}>
         ACADEMY
       </span>

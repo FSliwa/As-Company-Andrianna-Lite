@@ -182,7 +182,7 @@
      Stat i numerały indeksu (64/40 px) · title = tytuły wierszy/kart (28/24 px)
      · numbered-title = 24/22 px italic · as-num = numery 01/02/03 (24 px)
      · ceny, pytania FAQ = 22–24 px. Bodoni nigdy poniżej 22 px i nigdy w tekście ciągłym. */
-  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi */
+  /* dolny próg 2,4 rem: przy 320 px H1 nie dotyka krawędzi; poniżej 320 px – niżej */
   .as-display-lg {
     @apply as-display;
     font-size: clamp(2.4rem, 6.2vw, 5.5rem);
@@ -200,15 +200,32 @@
     font-size: clamp(2.25rem, 4.2vw, 3.75rem);
   }
 
-  /* Od 1440 px nagłówki rosną dalej z szerokością (do ok. 1920 px), żeby skala sekcji
-     nadążała za hasłem hero (--hw w Home.jsx rośnie do 14rem). Poniżej 1440 px bez zmian. */
+  /* Poniżej 320 px (Galaxy Fold złożony, łam 240 px): H1 2,125 rem – „permanentnego.”,
+     „charakterystyki” wychodziły o 22–28 px; H2 2 rem – przy 36 px „charakterystyki?”
+     wchodził 14 px w margines, a H2 był prawie tak duży jak H1. Blok stoi ZA definicjami
+     obu klas – wcześniej w kodzie przegrałby z nimi (ta sama specyficzność). */
+  @media (max-width: 319px) {
+    .as-display-lg {
+      font-size: 2.125rem;
+    }
+
+    .as-display-section {
+      font-size: 2rem;
+    }
+  }
+
+  /* Od 1440 px nagłówki rosną dalej z szerokością, żeby skala nadążała za hasłem hero
+     (--hw w Home.jsx rośnie do 14rem) – ale z limitem, bo łam ma stałe 1440 px i kolumny
+     od 1440 px już nie rosną (pomiar 5.10.2026 na 1728–3440 px): H1 podstron maks. 104 px
+     („permanentnego.” przy 116 px wychodziło z kolumny 717 px), liczby Stat bez wzrostu
+     (64 px – „100+” i „10 lat” przy 77–80 px nie mieściły się w kolumnach 155–176 px). */
   @media (min-width: 1440px) {
     .as-display-lg {
-      font-size: clamp(5.5rem, 6.1vw, 7.25rem);
+      font-size: clamp(5.5rem, 6.1vw, 6.5rem);
     }
 
     .as-display-md {
-      font-size: clamp(4rem, 4.45vw, 5rem);
+      font-size: 4rem;
     }
 
     /* H2 sekcji NIE rośnie powyżej 1440 px (zostaje 60 px): kontener ma stałe 1440 px,
@@ -229,7 +246,7 @@
 
   @media (min-width: 1440px) {
     .as-display-fit {
-      font-size: min(clamp(5.5rem, 6.1vw, 7.25rem), 14cqi);
+      font-size: min(clamp(5.5rem, 6.1vw, 6.5rem), 14cqi);
     }
   }
 
@@ -258,12 +275,16 @@
   }
 
   /* Podpisy pod zdjęciami, opisy pozycji 01/02/03, noty cennika */
+  /* text-wrap: pretty – noty i podpisy nie kończą się samotnym wyrazem („w / cenniku.”) */
   .as-caption {
     @apply max-w-[19rem] text-[0.8125rem] leading-[1.75] text-mocha;
+    text-wrap: pretty;
   }
 
+  /* Lite: alias jasnego podpisu (text-mocha) – w tym text-wrap: pretty z Dark. */
   .as-caption-invert {
     @apply as-caption;
+    text-wrap: pretty;
   }
 
   /* Numer + tytuł w jednej linii + drobny opis (pozycje 01/02/03 z makiety).
@@ -475,6 +496,68 @@
     @apply relative overflow-hidden bg-cream-200;
   }
 
+  /* Propozycja SZK-03-B – okno podglądu grafiki kursu (Education.jsx, OfferPoster) od 1024 px
+     w poziomie: plakat 9:16 na całą wysokość panelu (90svh − padding 2 × 40 px − obrys),
+     w kolumnie obok tytuł, opis i przyciski (stopka statyczna, przyciski na pełną szerokość
+     kolumny). Panel się nie przewija – cały plakat w kadrze (1366 × 768: 342 × 607,
+     1440 × 900: 408 × 726). Selektor z [role=dialog] przebija klasy bazowe DialogContent. */
+  @media (min-width: 1024px) and (orientation: landscape) {
+    [role='dialog'].as-poster-dialog {
+      display: grid;
+      grid-template-columns: auto 16rem;
+      grid-template-rows: auto auto 1fr auto;
+      column-gap: 2.5rem;
+      width: auto;
+      max-width: calc(100vw - 4rem);
+      overflow: hidden;
+    }
+
+    [role='dialog'].as-poster-dialog > [data-dialog-close] {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-head {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-figure {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      margin-top: 0;
+      height: calc(90svh - 5rem - 2px);
+      width: auto;
+      aspect-ratio: 9 / 16;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-figure > .as-media {
+      height: 100%;
+      width: 100%;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-figure img {
+      object-fit: contain;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-foot {
+      grid-column: 2;
+      grid-row: 4;
+      align-self: end;
+      position: static;
+      flex-direction: column;
+      margin: 0 !important;
+      border: 0;
+      background: none;
+      padding: 0;
+    }
+
+    [role='dialog'].as-poster-dialog > .as-poster-foot > * {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
   /* <picture> nie ma własnego boxu – img pozycjonuje się względem .as-media */
   .as-media picture {
     display: contents;
@@ -489,6 +572,20 @@
      szerokość): do obu krawędzi. Od md: tylko po swojej stronie – do krawędzi ekranu, ale
      najwyżej 20rem poza margines łamu (na monitorach 2560 px pionowy portret w zbyt
      szerokim kadrze zostałby przycięty do paska). */
+  /* Sekcja ze spadem zdjęcia i kolumną sticky: przycina tylko w poziomie. overflow: hidden
+     robi z sekcji kontener przewijania i wyłącza position: sticky w środku; overflow-x: clip
+     nie (Safari 16+, Chrome 90+, Firefox 81+). Starsze przeglądarki: hidden (bez sticky). */
+  .as-clip-x {
+    overflow: hidden;
+  }
+
+  @supports (overflow: clip) {
+    .as-clip-x {
+      overflow: visible;
+      overflow-x: clip;
+    }
+  }
+
   .as-bleed-start,
   .as-bleed-end {
     left: calc(-1 * var(--as-pad));
@@ -540,6 +637,14 @@
   /* Krem: bez mgiełki (robiła z kadrów „zakurzone" odbitki) – tylko lekkie
      zdjęcie nasycenia, żeby skóra nie była pomarańczowa na tle kremu
      (makra, panele, zdjęcia akademii; portrety STUDIO bez tonu). */
+  /* Zdjęcia z akademii (telefon, chłodne białe ściany) na mocha/espresso: lekko cieplej
+     i ciemniej, żeby biel ściany zbliżyła się do kremu palety (pomiar Lite: ściana #959C99,
+     ΔE ok. 41 do tła sekcji). Słaba sepia (0,1) – skóra nie szarzeje; do akceptacji klientki
+     (brief, zasada 4: korekta kolorów nie może zmieniać wyglądu skóry). */
+  .as-media-academy img {
+    filter: sepia(0.1) saturate(0.9) brightness(0.93) contrast(1.03);
+  }
+
   .as-media-light img {
     filter: saturate(0.85) brightness(1.02);
   }
@@ -693,6 +798,44 @@
   }
 }
 
+/* ––– Ruch przy przewijaniu (PROPOZYCJA 7.10, techniki z filmów referencyjnych) –––
+   Zdjęcia na całą szerokość lub do krawędzi ekranu (spad .as-bleed-*, tło nagłówków podstron
+   i sekcji 06 – .as-kadr-ruch) przesuwają się wolniej niż strona i minimalnie przybliżają
+   (paralaksa 2 % przy skali 1,06 – kadr nigdy nie odsłania krawędzi pliku; przy 1,08 / 3 %
+   ciasny kadr grupy w sekcji 05 ucinał górę szyldu); złota linia przy
+   etykiecie sekcji rysuje się, gdy sekcja wchodzi w ekran. Tylko transform, bez zanikania
+   i bez zasłaniania treści – zrzut, crawler i przeglądarka bez obsługi widzą stan końcowy.
+   Wyłącznie przy animation-timeline (Chrome/Edge 115+, Safari 26+) i bez
+   prefers-reduced-motion; reszta przeglądarek – strona jak dotąd. Makra efektów i kolaże bez
+   ruchu (dokumentują wynik zabiegu). Hero strony głównej ma własne wejście (as-enter-*). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .as-bleed-start img,
+    .as-bleed-end img,
+    .as-kadr-ruch img {
+      animation: as-kadr linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .as-label-line {
+      transform-origin: left center;
+      animation: as-draw-x linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+@keyframes as-kadr {
+  from {
+    transform: scale(1.06) translateY(-2%);
+  }
+  to {
+    transform: scale(1.06) translateY(2%);
+  }
+}
+
 /* Mobilny pasek CTA znika pod każdym dialogiem Radix (Radix ustawia
    body[data-scroll-locked] przy otwartym dialogu – także w portalu,
    którego obserwator w Layout.jsx nie widzi). Poza @layer, żeby wygrać
@@ -735,6 +878,14 @@ body[data-scroll-locked] #as-sticky {
 
   html:has(#as-sticky[aria-hidden='false']) [data-toast-viewport] {
     bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Telefon w pionie: baner na całą szerokość przylega do paska CTA – jedna dolna karta
+   zamiast dwóch warstw z 12 px przerwą (CookieConsent.jsx: max-sm:inset-x-0). */
+@media (max-width: 639px) {
+  html:has(#as-sticky[aria-hidden='false']) [data-consent-banner] {
+    --consent-bottom: calc(3.5rem + env(safe-area-inset-bottom));
   }
 }
 

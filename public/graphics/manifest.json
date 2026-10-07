@@ -1226,5 +1226,13 @@
    "480": "/graphics/work-eyes-01-480.webp",
    "768": "/graphics/work-eyes-01.webp"
   }
+ },
+ "work-powder-01-r": {
+  "src": "/graphics/work-powder-01-r.jpg",
+  "w": 960,
+  "h": 587,
+  "webp": {
+   "960": "/graphics/work-powder-01-r.webp"
+  }
  }
 }

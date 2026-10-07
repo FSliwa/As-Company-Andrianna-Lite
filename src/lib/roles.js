@@ -40,7 +40,7 @@ export const ROLES = {
   treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów
   heroAbout: { image: pick('studio-01'), position: '50% 18%' }, // dłoń na ramieniu, głowa przechylona; tło PageHero – w poziomie kadr szerszy niż 2:3, 18% trzyma głowę w kadrze (studio-11 = ta sama poza co studio-02)
   storyAbout: { image: pick('studio-08'), position: '50% 5%' },
-  heroTreatments: { image: pick('studio-15'), position: '50% 22%' }, // siedząca poza w tiulu – inna niż hero home (studio-05) i /o-nas (studio-01)
+  heroTreatments: { image: pick('studio-15'), position: '50% 6%' }, // siedząca poza w tiulu – inna niż hero home (studio-05) i /o-nas (studio-01); w poziomie kadr ok. 1:1 – 6% trzyma czubek głowy pod nagłówkiem (22% ucinało 36–71 px)
   heroTraining: { image: pick('studio-10'), position: '50% 30%' }, // marynarka, inna poza niż O nas na home (studio-04); tło PageHero – cała postać
   contactSection: { image: pick('studio-16'), position: '50% 30%' }, // /kontakt „Jak umówić wizytę" (zamiast sceny absolwentek)
   statementPackages: { image: pick('studio-12'), position: '50% 8%' }, // /pakiety – Statement: od lg prawa połowa pasa (≈1:1), poniżej lg pełny spad
@@ -118,7 +118,11 @@ export const MACROS = {
      kwadrat z całą brwią to prawie cała szerokość pliku – kadr różni się od powder01Wide
      (pas 03) tylko powiększeniem (× 1,1 wobec × 1) i niższym oknem; innej kompozycji z całą
      brwią ten plik nie daje. */
-  powder01: { image: pick('work-powder-01'), ratio: '1 / 1', position: '50% 72%', scale: 1.1, origin: '55% 50%',
+  /* Propozycja usl-03-c: work-powder-01-r – ten sam plik obrócony o 90° w lewo (zdjęcie
+     zrobiono przy kliencie w pozycji leżącej: brew stała pionowo, oko po lewej). W kadrze 1:1
+     (okno 587 px z 960) przy X 74% cała brew z marginesem po obu stronach i oko pod nią;
+     rozmazany pas z krawędzi pliku odcięty już w skrypcie, więc bez powiększenia. */
+  powder01: { image: pick('work-powder-01-r'), ratio: '1 / 1', position: '74% 50%',
     caption: 'Perfect Brows' },
   /* Perfect Lips – panel „After” (1206 × 494) w kwadracie: środek ust z łukiem Kupidyna.
      Przy X > 45% wchodzi znak „Perfect lips” (prawy górny róg), przy X < 40% napis „After”.
@@ -131,7 +135,7 @@ export const MACROS = {
      Cała szerokość pliku (okno y ≈ 215–829): brew z okiem, więcej skóry wokół niż powder01
      w wierszu techniki. Przy prawej krawędzi kadru zostaje wąski, ledwie widoczny rozmazany pas
      pliku (ok. 3,5 % szerokości) – ResultStrip nie skaluje, więc tu go nie schowamy. */
-  powder01Wide: { image: pick('work-powder-01'), ratio: '1 / 1', position: '50% 62%',
+  powder01Wide: { image: pick('work-powder-01-r'), ratio: '1 / 1', position: '74% 50%', // usl-03-c – patrz powder01
     caption: 'Brwi pudrowe – makijaż permanentny' },
   lips05: { image: pick('lips-05'), ratio: '1 / 1', position: '45% 50%', // przy 1:1 X ≤ 57% – dalej wchodzi pionowy znak wodny
     caption: 'Usta – makijaż permanentny' },

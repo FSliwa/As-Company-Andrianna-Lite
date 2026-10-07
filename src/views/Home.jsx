@@ -115,14 +115,63 @@ function HeroPicture() {
   );
 }
 
+/* Warstwa „tekst za postacią” (od lg w poziomie, ekran ≥ 640 px wysokości): ta sama
+   postać wycięta z tła (scripts/wyciecie-postaci.swift + .py – maska Vision, piksele
+   identyczne z HERO_PHOTO, tylko kanał alfa) leży NAD hasłem, w tym samym pudełku, kadrze
+   i z tym samym „oddechem” as-breathe co zdjęcie – dłoń i włosy przechodzą przed literami
+   („precision.” chowa się za palcami). Wygaszenia zdjęcia (krem z lewej, u góry i u dołu)
+   są tu maską przezroczystości, nie kremową nakładką – inaczej przykryłyby tekst. Tylko
+   dekoracja: aria-hidden, bez zdarzeń wskaźnika (linki pod spodem klikalne), pobierana
+   z niskim priorytetem (LCP = zdjęcie i tekst). Technika z filmów referencyjnych 7.10. */
+const HERO_CUTOUT = {
+  src: '/graphics/studio-05-wyciecie.webp',
+  srcSet: '/graphics/studio-05-wyciecie-960.webp 960w, /graphics/studio-05-wyciecie.webp 1068w',
+};
+const HERO_CUTOUT_MASK =
+  'linear-gradient(to right, transparent, rgb(0 0 0 / 0.45) 24%, #000 52%), ' +
+  'linear-gradient(to bottom, rgb(0 0 0 / 0.2), #000 8rem), ' +
+  'linear-gradient(to top, rgb(0 0 0 / 0.3), #000 25%)';
+
+function HeroCutout() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-20 hidden overflow-hidden land:left-auto land:w-[min(60%,75rem)] lg:land:tall:block min-[2400px]:hidden"
+      style={{
+        maskImage: HERO_CUTOUT_MASK,
+        WebkitMaskImage: HERO_CUTOUT_MASK,
+        maskComposite: 'intersect',
+        WebkitMaskComposite: 'source-in',
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={HERO_CUTOUT.src}
+        srcSet={HERO_CUTOUT.srcSet}
+        sizes={HERO_SIZES}
+        alt=""
+        width={HERO_PHOTO.w}
+        height={HERO_PHOTO.h}
+        loading="eager"
+        fetchPriority="low"
+        decoding="async"
+        className="as-enter-breathe absolute inset-0 h-full w-full object-cover object-[52%_0%] land:object-[50%_8%]"
+      />
+    </div>
+  );
+}
+
 /* Rozmiar hasła = zmienna --hw (wysokość „Beauty”) na bloku tekstu; z niej liczone są też
    „with precision.” (0,61 – proporcja z makiety: 7,46 / 12,2) i claim (0,1, 14–18 px),
    więc cały blok skaluje się razem. Od szerokości, ale nie więcej, niż pozwala wysokość:
    · pion: 21vw (telefon), do 13,5svh (tablet w pionie), maks. 11rem;
    · poziom: 10,2vw, do 16svh, od 3rem (telefon w poziomie 568 × 320 – tekst i przycisk
-     w pierwszym ekranie) do 14rem (monitor 2560 px – hasło nadal wchodzi na zdjęcie). */
+     w pierwszym ekranie) do 14rem (monitor 2560 px – hasło nadal wchodzi na zdjęcie);
+   · od lg w poziomie przy ekranie ≥ 640 px wysokości: 14,6vw, do 23svh, maks. 17rem – hasło
+     sięga dłoni i włosów, które leżą nad nim (HeroCutout). „!” – wariant złożony musi wygrać
+     z land:[--hw] niezależnie od kolejności wariantów w CSS. */
 const HERO_TYPE =
-  '[--hw:clamp(4rem,min(21vw,13.5svh),11rem)] land:[--hw:clamp(3rem,min(10.2vw,16svh),14rem)]';
+  '[--hw:clamp(4rem,min(21vw,13.5svh),11rem)] land:[--hw:clamp(3rem,min(10.2vw,16svh),14rem)] lg:land:tall:![--hw:clamp(3rem,min(14.6vw,23svh),17rem)]';
 
 /* Hasło „Beauty / with precision.” – wersja wizualna h1 (aria-hidden, h1 jest w sr-only). */
 function HeroWords() {
@@ -172,10 +221,15 @@ function Hero() {
       </h1>
 
       {/* pierwszy ekran: w pionie tekst na dole kadru, w poziomie na środku wysokości */}
-      <div className="relative flex min-h-[100svh] flex-col justify-end land:justify-center">
+      {/* od 2400 px (ultrawide) rozkładówka nie rozjeżdża się na całą szerokość: tekst i zdjęcie
+          w jednym bloku 2400 px, zewnętrzna krawędź zdjęcia wygaszona w krem */}
+      <div className="relative flex min-h-[100svh] flex-col justify-end land:justify-center min-[2400px]:mx-auto min-[2400px]:max-w-[2400px]">
         {/* zdjęcie: w pionie cały ekran, w poziomie spad od prawej (60%, maks. 1200 px);
             overflow-hidden przycina „oddech” as-breathe (1,06 → 1) */}
-        <div className="absolute inset-0 overflow-hidden land:left-auto land:w-[min(60%,75rem)]">
+        {/* poziom: lewa część zdjęcia przechodzi w krem MASKĄ (przezroczystość), nie kremową
+            nakładką – przy ułamkowej szerokości kontenera nakładka zostawiała ciemniejszą kreskę
+            1 px na krawędzi kadru */}
+        <div className="absolute inset-0 overflow-hidden land:left-auto land:w-[min(60%,75rem)] land:[-webkit-mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/0.45)_24%,#000_52%)] land:[mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/0.45)_24%,#000_52%)]">
           <HeroPicture />
           {/* pion: kremowe wygaszenie od dołu (pod tekstem krem, w połowie kadru już
               przezroczyste – twarz bez zmian) i górny pas pod nagłówkiem */}
@@ -190,9 +244,10 @@ function Hero() {
           {/* poziom: lewa część zdjęcia przechodzi w krem tła (na tym przejściu stoi hasło);
               u góry 80% kremu + nawigacja w pełnym ink (Layout, overPhoto) – „O nas”
               i „Kontakt” na włosach ≥ 5,4:1; dół kadru łagodnie w krem (fakty i kolofon) */}
+          {/* ultrawide: prawa krawędź zdjęcia w krem (blok 2400 px nie kończy się ostrą krawędzią) */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 via-cream-50/55 via-[24%] to-transparent to-[52%] land:block"
+            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 to-transparent to-[14%] min-[2400px]:land:block"
           />
           <div
             aria-hidden="true"
@@ -203,6 +258,7 @@ function Hero() {
             className="absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-cream-50/70 to-transparent land:block"
           />
         </div>
+        <HeroCutout />
 
         {/* Odstęp górny:
             · pion: połowa ekranu, ale na niskich telefonach (Safari z paskami ≈ 550 px)
@@ -215,7 +271,7 @@ function Hero() {
             <HeroWords />
             {/* nbspShort: jednoliterowe „i” / „w” nie zostają na końcu wiersza.
                 Claim na zdjęciu: ink/80 zamiast mocha (na wygaszeniu kontrast ≥ 7:1). */}
-            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(0.875rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
+            <p className={cn(GAP, 'max-w-[21.75em] text-[length:clamp(1rem,calc(var(--hw)*0.1),1.125rem)] leading-[1.75] text-ink/80 max-sm:text-[1rem] max-sm:leading-[1.6] short:text-[1rem] short:leading-[1.6]')}>
               {nbspShort(BRAND.claim)}
             </p>
             {/* H1: pierwszy przycisk w pierwszym ekranie (pigułka w nagłówku jest ukryta
@@ -248,89 +304,130 @@ function Hero() {
 
 /* Bez złotego łuku: przecinał etykietę „02 / O nas” i H2 (audyt AD4 / H12), a w tym pasie
    nie ma dla niego wolnego pola (kolumny tekstu, portret, filary i liczby).
-   Złącze z sekcją 03 (tekst – tekst): od lg 64 + 64 px zamiast 80 + 80. */
+   Złącze z sekcją 03 (tekst – tekst): od lg 64 + 64 px zamiast 80 + 80.
+
+   Propozycja H02-01 / H02-02 (runda 2, do akceptacji):
+   · od lg portret jest lewą połową pasa – panel na pełną wysokość sekcji, od lewej krawędzi
+     ekranu, szerokość = margines łamu + 40% łamu (≈ 576 px przy 1440); prawa krawędź twarda
+     (bez maski), na dole krótkie wygaszenie 17% w krem pasa (cream-90) pod cytatem. Tekst,
+     filary i liczby w kolumnach 6–12. Wcześniej portret 421 × 562 stał w środkowej kolumnie
+     jako „karta”, a pod tekstem i filarami zostawało ok. 210–240 px pustki;
+   · telefon: portret 4:5 na całą szerokość ekranu (spad jak zdjęcia sekcji 04 i 05),
+     dalej po filarach; tablet 768–1023 bez zmian (portret 3:4 w kolumnie 6/12). */
+const ABOUT_PANEL_WIDTH = 'calc(var(--as-gutter) + 0.4 * (min(100vw, 1440px) - 2 * var(--as-pad)))';
+
+function AboutQuote({ className }) {
+  /* H5: Jost italic zamiast Bodoni 16 px (Bodoni nie schodzi poniżej 22 px). Lite: ink/80 –
+     od lg cytat leży na kremowym wygaszeniu dołu zdjęcia (jak claim hero na wygaszeniu) */
+  return <p className={cn('as-quote as-text-balance text-ink/80', className)}>Narzędzia. Wiedza. Techniki. Realne efekty.</p>;
+}
+
 function AboutBand() {
+  const alt = `${FOUNDER.name} – ${FOUNDER.rolePl}`;
   return (
     <section id="o-nas" className="as-section as-section-tight-bottom relative overflow-hidden bg-cream-90 text-ink">
+      {/* lg+: panel portretu na pełną wysokość pasa (ten sam kadr co < lg – w DOM widoczny
+          zawsze tylko jeden z nich, drugi ma display: none i się nie pobiera) */}
+      <div className="absolute inset-y-0 left-0 hidden lg:block" style={{ width: ABOUT_PANEL_WIDTH }}>
+        <Figure
+          fill
+          image={ROLES.aboutHome.image}
+          alt={alt}
+          position={ROLES.aboutHome.position}
+          zoom={false}
+          sizes="(min-width: 1440px) calc(50vw - 133px), 41vw"
+        />
+        {/* Lite: dół kadru w krem pasa (cream-90) zamiast espresso */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-[17%] bg-gradient-to-t from-cream-90 via-cream-90/70 via-[35%] to-transparent"
+        />
+        <AboutQuote className="absolute bottom-7 left-[var(--as-gutter)] right-6 max-w-[18rem]" />
+      </div>
+
       <div className="as-shell relative">
-        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-          {/* kolumna 1 – zdanie */}
-          <div className="md:col-span-6 lg:col-span-4">
-            <Reveal>
-              <SectionLabel number="02">
-                O nas
-              </SectionLabel>
-              <h2 className="as-display-section as-text-balance mt-6 text-ink">
-                Więcej niż
-                <br />
-                makijaż
-                <br />
-                permanentny.
-              </h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <p className="as-body mt-6">
-                Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości
-                produkty, zaawansowaną edukację i realną praktykę.
-              </p>
-              <ArrowLink href="/o-nas" className="mt-8 w-fit">
-                Poznaj nasze podejście
-              </ArrowLink>
-            </Reveal>
-          </div>
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-7 lg:col-start-6">
+            <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+              {/* kolumna 1 – zdanie */}
+              <div className="md:col-span-6 lg:col-span-12">
+                <Reveal>
+                  <SectionLabel number="02">
+                    O nas
+                  </SectionLabel>
+                  <h2 className="as-display-section as-text-balance mt-6 text-ink">
+                    Więcej niż
+                    <br />
+                    makijaż
+                    <br />
+                    permanentny.
+                  </h2>
+                </Reveal>
+                <Reveal delay={80}>
+                  <p className="as-body mt-6 lg:max-w-[34rem]">
+                    {nbspShort(
+                      'Tworzymy kompleksowy ekosystem dla profesjonalistów PMU – łącząc najwyższej jakości produkty, zaawansowaną edukację i realną praktykę.'
+                    )}
+                  </p>
+                  <ArrowLink href="/o-nas" className="mt-8 w-fit">
+                    Poznaj nasze podejście
+                  </ArrowLink>
+                </Reveal>
+              </div>
 
-          {/* kolumna 2 – jeden portret, inna poza niż w hero, bez ramki (jak zdjęcie hero –
-              prośba klientki „nie w ramce”). Telefon (H2): portret po filarach (order-last),
-              żeby dwa portrety założycielki nie stały ekran po ekranie; od md w siatce obok
-              zdania. Telefon w poziomie: portret nie wyższy niż 80% ekranu (H8) – short:sm: /
-              short:md:, bo w CSS warianty sm/md stoją po short i by go nadpisały. */}
-          <Reveal delay={60} className="order-last md:order-none md:col-span-6 lg:col-span-4">
-            <div className="mx-auto max-w-[16rem] sm:max-w-[20rem] md:max-w-none short:max-w-[calc(80svh*3/4)] short:sm:max-w-[calc(80svh*3/4)] short:md:max-w-[calc(80svh*3/4)]">
-              <Figure
-                image={ROLES.aboutHome.image}
-                alt={`${FOUNDER.name} – ${FOUNDER.rolePl}`}
-                ratio="3 / 4"
-                position={ROLES.aboutHome.position}
-                sizes="(min-width: 1440px) 400px, (min-width: 1024px) 28vw, (min-width: 768px) 46vw, 320px"
-              />
-              {/* H5: Jost italic zamiast Bodoni 16 px (Bodoni nie schodzi poniżej 22 px) */}
-              <p className="as-quote as-text-balance mt-4 text-right text-ink/75">
-                Narzędzia. Wiedza. Techniki. Realne efekty.
-              </p>
-            </div>
-          </Reveal>
-
-          {/* kolumna 3 – 01 / 02 / 03 jako komórki (tablet: trzy obok siebie pod spodem).
-              Telefon (H2): same linki „01 Produkty →” – opisy powtarzają sekcje 03–05. */}
-          <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6 lg:col-span-4 lg:block">
-            {PILLARS.map((p, i) => (
-              <Reveal key={p.number} delay={i * 80}>
-                <Link href={p.href} className="as-cell group block pb-6">
-                  <div className="flex items-baseline gap-3">
-                    <span className="as-num">{p.number}</span>
-                    <h3 className="as-numbered-title text-ink">{p.title}</h3>
-                    <span
-                      aria-hidden="true"
-                      className="ml-auto text-gold-dark transition-transform duration-300 group-hover:translate-x-1.5"
-                    >
-                      &#8594;
-                    </span>
+              {/* < lg: portret. Telefon (H2): po filarach (order-last), żeby dwa portrety
+                  założycielki nie stały ekran po ekranie; 4:5 na całą szerokość ekranu.
+                  Tablet: obok zdania, 3:4 w kolumnie 6/12. Telefon w poziomie: portret nie
+                  wyższy niż 80% ekranu (H8) – short:md:, bo w CSS short stoi przed md. */}
+              <Reveal delay={60} className="order-last md:order-none md:col-span-6 lg:hidden">
+                <div className="-mx-[var(--as-pad)] md:mx-0 short:mx-auto short:max-w-[calc(80svh*4/5)] short:md:mx-auto short:md:max-w-[calc(80svh*3/4)]">
+                  <div className="relative aspect-[4/5] md:aspect-[3/4]">
+                    <Figure
+                      fill
+                      image={ROLES.aboutHome.image}
+                      alt={alt}
+                      position={ROLES.aboutHome.position}
+                      sizes="(min-width: 768px) 46vw, 100vw"
+                    />
                   </div>
-                  <p className="as-numbered-desc hidden text-mocha sm:block">{nbspShort(p.desc)}</p>
-                </Link>
+                  <AboutQuote className="mt-4 px-[var(--as-pad)] text-right md:px-0 short:px-0" />
+                </div>
               </Reveal>
-            ))}
-          </div>
-        </div>
 
-        {/* liczby – najmocniejszy dowód marki, w pierwszych dwóch ekranach. Linię u góry ma
-            każda liczba (Stat), więc rząd nie ma już własnej – bez podwójnej kreski. */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 lg:mt-16">
-          {ACHIEVEMENTS.map((a, i) => (
-            <Reveal key={a.label} delay={i * 60}>
-              <Stat value={a.value} label={nbspShort(a.label)} />
-            </Reveal>
-          ))}
+              {/* 01 / 02 / 03 jako komórki: tablet i desktop – trzy obok siebie pod zdaniem.
+                  Telefon (H2): same linki „01 Produkty →” – opisy powtarzają sekcje 03–05. */}
+              <div className="md:col-span-12 md:grid md:grid-cols-3 md:gap-6">
+                {PILLARS.map((p, i) => (
+                  <Reveal key={p.number} delay={i * 80}>
+                    <Link href={p.href} className="as-cell group block pb-6">
+                      <div className="flex items-baseline gap-3">
+                        <span className="as-num">{p.number}</span>
+                        <h3 className="as-numbered-title text-ink">{p.title}</h3>
+                        <span
+                          aria-hidden="true"
+                          className="ml-auto text-gold-dark transition-transform duration-300 group-hover:translate-x-1.5"
+                        >
+                          &#8594;
+                        </span>
+                      </div>
+                      <p className="as-numbered-desc hidden text-mocha sm:block">{nbspShort(p.desc)}</p>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+
+            {/* liczby – najmocniejszy dowód marki, w pierwszych dwóch ekranach. Od lg obok panelu
+                portretu w 2 kolumnach (2 × 2): w 4 kolumnach 7/12 łamu „10 lat” łamało się na dwie
+                linie (kolumna ok. 150–175 px przy 1280–1920). Linię u góry ma każda liczba (Stat). */}
+            <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 max-[319px]:grid-cols-1 md:grid-cols-4 lg:mt-16 lg:grid-cols-2">
+              {ACHIEVEMENTS.map((a, i) => (
+                <Reveal key={a.label} delay={i * 60}>
+                  <Stat value={a.value} label={nbspShort(a.label)} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -388,7 +485,7 @@ function TreatmentsBand() {
   return (
     /* H14: linia na styku cream-100 → cream-50 (dwa jasne pasy z rzędu);
        overflow-hidden – portret wychodzi do lewej krawędzi ekranu (bleed) */
-    <section className="as-section overflow-hidden border-t border-ink/10 bg-cream-50">
+    <section className="as-section as-clip-x border-t border-ink/10 bg-cream-50">
       <div className="as-shell">
         {/* telefon: nagłówek → portret → cennik; od lg: portret po lewej na całą wysokość */}
         <div className="grid gap-10 md:grid-cols-12 md:gap-x-8 md:gap-y-10">
@@ -402,27 +499,36 @@ function TreatmentsBand() {
             {/* Z15/BIO-14: „zabiegi zawierają konsultację” – bez źródła; brief (FAQ) potwierdza
                 rysunek wstępny dopasowany do architektury twarzy i poprawki według uwag klientki */}
             <p className="as-body mt-6">
-              Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury Twojej
-              twarzy i wprowadzamy w nim zmiany według Twoich uwag. Kolor dobieramy do karnacji.
+              {nbspShort(
+                'Przed każdą pigmentacją robimy rysunek wstępny dopasowany do architektury Twojej twarzy i wprowadzamy w nim zmiany według Twoich uwag. Kolor dobieramy do karnacji.'
+              )}
             </p>
           </Reveal>
 
-          <Reveal delay={60} className="md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start">
+          {/* od md portret „jedzie” obok cennika (sticky) – kolumny bez pustego pasa pod zdjęciem */}
+          <Reveal
+            delay={60}
+            className="md:sticky md:top-[calc(var(--as-header-h)+2rem)] md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start"
+          >
             {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
                 od md do lewej krawędzi (Figure bleed); wysokość 4:5 z kolumny. Telefon
                 w poziomie: kadr nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
-            <figure className="short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]">
+            <figure className="short:mx-auto short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:mx-0 short:md:max-w-[calc(80svh*4/5)]">
               <div className="relative" style={{ aspectRatio: '4 / 5' }}>
                 <Figure
                   image={portrait.image}
                   alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
                   bleed="start"
+                  /* Od md wewnętrzna (prawa) i dolna krawędź przechodzą maską w krem sekcji –
+                     różowobeżowe tło sesji nie stoi już twardym prostokątem na cream-50
+                     (jak zdjęcie hero; research 5.10.2026: Tina Davies, JP Studio). */
+                  className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
                   position={portrait.position}
                   zoom={false}
                   sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
                 />
               </div>
-              <figcaption className="as-caption mt-6 lg:mt-8">
+              <figcaption className="as-caption as-text-balance mt-6 lg:mt-8">
                 {FOUNDER.name} – {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
               </figcaption>
             </figure>
@@ -436,7 +542,7 @@ function TreatmentsBand() {
                 <PriceRow key={item.id || item.name} name={item.name} note={item.note || item.technique} price={item.price} />
               ))}
             </Reveal>
-            <p className="as-caption mt-6 max-w-[36rem]">{PRICING_PMU.footnote}</p>
+            <p className="as-caption mt-6 max-w-[36rem]">{nbspShort(PRICING_PMU.footnote)}</p>
             <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
               Zobacz cennik
             </ArrowLink>
@@ -448,7 +554,7 @@ function TreatmentsBand() {
 }
 
 /* ================================================================== */
-/*  05 – SZKOLENIA (mocha)                                             */
+/*  05 – SZKOLENIA (cream-75)                                          */
 /* ================================================================== */
 
 /* D4: na stronie głównej maks. 3 kursy w cenniku (COURSES[].home), reszta linkiem. */
@@ -458,10 +564,15 @@ const lowerFirst = (t) => t.charAt(0).toLowerCase() + t.slice(1);
 
 function TrainingBand() {
   return (
-    <section className="as-section relative overflow-hidden bg-cream-75 text-ink">
+    /* Propozycja H05-02: overflow-x-clip zamiast overflow-hidden – przycina spad zdjęcia
+       w poziomie, ale (inaczej niż hidden) nie tworzy kontenera przewijania, więc kolumna
+       tekstu może być sticky (Safari 16+, Chrome 90+, Firefox 81+) */
+    <section className="as-section relative overflow-x-clip bg-cream-75 text-ink">
       <div className="as-shell relative">
         <div className="grid gap-10 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
+          {/* Propozycja H05-02: od md kolumna tekstu stoi przy zdjęciu i cenach podczas
+              przewijania (pod tekstem było ok. 390 px pustego pasa przy 1440) */}
+          <div className="md:sticky md:top-[calc(var(--as-header-h)+2rem)] md:col-span-5 md:self-start">
             <Reveal>
               <SectionLabel number="05">
                 Szkolenia
@@ -478,9 +589,9 @@ function TrainingBand() {
               {/* Tekst makiety; D9: szkolenia pod nazwą akademii (brief, wszystkie plakaty kursów:
                   „Babushkina Academy”) zamiast „AS”. D4: zdanie o poziomach z briefu (TRAINING_INTRO) */}
               <p className="as-body mt-6 max-w-[26rem]">
-                Autorskie szkolenia {BRAND.academy} to połączenie zaawansowanej techniki,
-                wieloletniego doświadczenia i realnej praktyki. {TRAINING_INTRO.levels} Uczysz się od
-                ekspertów i dostajesz wsparcie na każdym etapie swojej drogi.
+                {nbspShort(
+                  `Autorskie szkolenia ${BRAND.academy} to połączenie zaawansowanej techniki, wieloletniego doświadczenia i realnej praktyki. ${TRAINING_INTRO.levels} Uczysz się od ekspertów i dostajesz wsparcie na każdym etapie swojej drogi.`
+                )}
               </p>
               {/* H3: na telefonie link stoi pod cenami kursów (niżej), tu od md */}
               <ArrowLink href="/szkolenia" className="mt-8 hidden w-fit md:inline-flex">
@@ -495,15 +606,23 @@ function TrainingBand() {
               {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
                   od md do prawej krawędzi (Figure bleed); wysokość 3:2 z kolumny. Telefon
                   w poziomie: kadr nie wyższy niż 80% ekranu (jak portrety, H8). */}
-              <div className="relative short:ml-auto short:max-w-[calc(80svh*3/2)]" style={{ aspectRatio: '3 / 2' }}>
+              {/* Propozycja H05-01: kadr 4:3 zamiast 3:2 – widać cały szyld z koroną, pięć twarzy
+                  i certyfikaty, o których mówi nagłówek (przy 3:2 ucięte dolną krawędzią) */}
+              <div className="relative short:ml-auto short:max-w-[calc(80svh*4/3)]" style={{ aspectRatio: '4 / 3' }}>
                 <Figure
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}
                   bleed="end"
+                  /* Od md lewa (wewnętrzna) i dolna krawędź przechodzą maską
+                     w krem pasa (cream-75) – białe ściany sali nie stoją twardym prostokątem na
+                     tle sekcji. Lite: ton „light” jak dotąd (odpowiednik „dark” z Dark): ton
+                     „academy” (sepia 0,1) zmieniał wygląd skóry – zasada 4 briefu, czeka na
+                     decyzję. */
+                  className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)]"
                   position={GROUPS.trainingHome.position}
                   tone="light"
                   zoom={false}
-                  sizes="(min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
+                  sizes="(min-width: 1600px) 640px, (min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
                 />
               </div>
             </Reveal>
@@ -524,18 +643,24 @@ function TrainingBand() {
               ))}
               {/* D4: pozostałe kursy z briefu – linkiem do ich programów na /szkolenia */}
               {OTHER_COURSES.length > 0 && (
-                <p className="as-caption mt-6 max-w-[36rem]">
+                /* leading-[2] + py-1 na linkach: cel dotyku linków „Pozostałe kursy” */
+                <p className="as-caption mt-6 max-w-[36rem] leading-[2]">
                   Pozostałe kursy:{' '}
                   {OTHER_COURSES.map((c, i) => (
                     <React.Fragment key={c.id}>
                       {i > 0 && (i === OTHER_COURSES.length - 1 ? ' i ' : ', ')}
                       <Link
                         href={`/szkolenia#program-${c.id}`}
-                        className="text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink"
+                        className="py-1 text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink"
                       >
                         {lowerFirst(c.fullTitle || c.title)}
                       </Link>
-                      {c.price && ` (${c.price})`}
+                      {c.price && (
+                        <>
+                          {' '}
+                          <span className="whitespace-nowrap">({c.price})</span>
+                        </>
+                      )}
                     </React.Fragment>
                   ))}
                   .
@@ -578,45 +703,49 @@ function TrainingBand() {
      stała przed wygaszeniem.
    data-sticky-hide: pasek CTA chowa się przy tej sekcji (ma własne przyciski). */
 const INVITATION_SIZES =
-  '(orientation: portrait) 132vh, (max-aspect-ratio: 9/5) 120vh, (min-width: 1940px) 1280px, 66vw';
+  '(orientation: portrait) calc((46vh + 5rem) * 1.5), (max-width: 1023px) and (max-height: 500px) 100vw, ' +
+  '(max-aspect-ratio: 9/5) 120vh, (min-width: 1940px) 1280px, 66vw';
 
 function InvitationBand() {
   return (
     <section data-sticky-hide className="relative overflow-hidden bg-cream-50">
-      <div className="relative flex min-h-[88svh] flex-col justify-end land:min-h-[min(80svh,52rem)] land:justify-center">
-        <div className="absolute inset-0 overflow-hidden land:right-auto land:w-[min(66%,80rem)]">
+      <div className="relative flex min-h-[88svh] flex-col justify-end land:min-h-[min(80svh,52rem)] land:justify-center min-[2400px]:mx-auto min-[2400px]:max-w-[2400px]">
+        {/* pion: zdjęcie tylko nad treścią (46svh + 5rem), więc twarz zostaje nad etykietą także
+            wtedy, gdy treść jest wyższa niż ekran (280–375 px) – wcześniej zdjęcie rosło z sekcją
+            i napis wchodził na brodę i dłoń. Poziom: wygaszenie prawej krawędzi maską (bez kreski). */}
+        <div className="absolute inset-x-0 top-0 h-[calc(46svh+5rem)] overflow-hidden land:inset-y-0 land:right-auto land:h-auto land:w-[min(66%,80rem)] short:land:w-1/2 land:[-webkit-mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)] land:[mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)]">
           <Figure
             fill
             image={ROLES.closingHome.image}
             alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
             zoom={false}
+            className="as-kadr-ruch"
             imgClassName="object-[50%_35%] land:object-[100%_40%]"
             sizes={INVITATION_SIZES}
           />
           {/* pion: krem od dołu pod treścią */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-cream-50 from-[34%] via-cream-50/70 via-[48%] to-transparent to-[66%] land:hidden"
+            className="absolute inset-0 bg-gradient-to-t from-cream-50 via-cream-50/70 via-[20%] to-transparent to-[45%] land:hidden"
           />
-          {/* poziom: prawa krawędź zdjęcia w krem (tekst po prawej) */}
+          {/* ultrawide: lewa (zewnętrzna) krawędź zdjęcia w krem */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-l from-cream-50 via-cream-50/55 via-[18%] to-transparent to-[42%] land:block"
+            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 to-transparent to-[14%] min-[2400px]:land:block"
           />
         </div>
 
         <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] land:py-[clamp(3rem,8svh,5rem)]">
-          {/* port: warstwa kremu przypięta do treści (4rem przejścia nad etykietą, pod nią pełny krem) –
-              gradient sekcji liczony od jej wysokości nie zawsze krył etykietę „06” (11 px): na 375×667
-              kontrast spadał do 1,70:1, „KONTAKT” do 3,18:1 (audyt rundy 2, home-b 06). */}
-          <Reveal className="relative land:ml-auto land:max-w-[min(40%,30rem)] port:before:pointer-events-none port:before:absolute port:before:-top-16 port:before:bottom-0 port:before:-z-10 port:before:inset-x-[calc(-1*var(--as-pad))] port:before:bg-gradient-to-b port:before:from-cream-50/0 port:before:to-cream-50 port:before:to-[4rem] port:before:content-['']">
-            <SectionLabel number="06">Kontakt</SectionLabel>
+          <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)] short:land:max-w-[55%]">
+            {/* numer 11 px na wygaszeniu zdjęcia: gold-deep miał 3,3–4,1:1 (telefon w pionie) –
+                w pionie ink/80 (≥ 7:1), w poziomie (tekst na kremie) gold-deep jak w innych sekcjach */}
+            <SectionLabel number={<span className="text-ink/80 land:text-gold-deep">06</span>}>Kontakt</SectionLabel>
             {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
             </h2>
             <p className="as-body mt-6">
-              Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.
+              {nbspShort('Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.')}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
               <Link href={BOOKING_URL} className="as-btn-solid">

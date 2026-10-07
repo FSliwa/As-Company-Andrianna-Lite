@@ -24,13 +24,13 @@
           "Website – the Babushkina Academy website available at {siteUrl}, together with its language versions.",
           "Service Provider, “we” – {company}; details and contact information are given in section 3.",
           "User, “you” – any person who uses the Website.",
-          "Consumer – a natural person who uses the Website or enters into a contract with us for a purpose not directly related to their business or professional activity (Article 22¹ of the Civil Code (Kodeks cywilny)).",
+          "Consumer – a natural person who uses the Website or enters into a contract with us for a purpose not directly related to their business or professional activity (Article 22¹ of the Civil Code, Kodeks cywilny).",
           "Services – the free services provided by electronic means on the Website, described in section 4.",
           "Salon – the Babushkina Academy permanent make-up salon and academy in Warsaw[[{?street}; the Salon’s address is given on the Contact page]].",
           "Treatment – a service from the Salon’s price list, performed at the Salon.",
           "Booking – saving a chosen appointment time in the Salon’s calendar using the form on the “Book a visit” page.",
           "Form – the contact form, the training date enquiry, the machine hire enquiry or the pigment enquiry.",
-          "Pigment List – the list of shades, bottle sizes and quantities that you create in the pigment catalogue, in the “Your order” window („Twoje zamówienie”), in order to send it as an enquiry.",
+          "Pigment List – the list of shades, bottle sizes and quantities that you create in the pigment catalogue, in the “Your order” window (“Twoje zamówienie”), in order to send it as an enquiry.",
           "Privacy Policy and Cookie Policy – the documents available at {siteUrl}/polityka-prywatnosci and {siteUrl}/polityka-cookies."
         ] }
       ]
@@ -50,7 +50,7 @@
           "Instagram: {instagram}",
           "[[personal data matters: {privacyEmail}]]"
         ] },
-        { "p": "We answer questions fastest {{and|{?phone}by phone|{?email}by email|on Instagram}}. Please send complaints and formal matters {{or|{?email}by email|{?address}by post|via Instagram}}." }
+        { "p": "We answer questions fastest {{and|{?phone}by phone|{?email}by email|on Instagram}}. Please raise complaints and formal matters {{or|{?email}by email|{?address}by post|via Instagram}}." }
       ]
     },
     {
@@ -61,10 +61,10 @@
         { "list": [
           "browsing content – information about treatments, price lists and the treatment journey, training courses and their funding, pigments, the machine and certificates, and contact details;",
           "Forms – preparing a message to us: a general question, or an enquiry about a training date, machine hire or pigments;",
-          "Pigment List – a selection of shades, bottle sizes and quantities that you can send as an enquiry;",
+          "Pigment List – a list of selected shades, bottle sizes and quantities that you can send as an enquiry;",
           "online appointment booking – choosing a Treatment, a day and a time and saving the appointment in the Salon’s calendar."
         ] },
-        { "p": "Online booking works when it is enabled. If the “Book a visit” page says it is temporarily unavailable, we will arrange your appointment {{or|{?phone}by phone|{?email}by email|via Instagram}}." },
+        { "p": "Online booking is available when it is enabled. If the “Book a visit” page says it is temporarily unavailable, we will arrange your appointment {{or|{?phone}by phone|{?email}by email|via Instagram}}." },
         { "p": "The Website does not sell anything or accept payments. You do not create an account on it or sign up for a newsletter. Buying products, taking part in a training course and hiring a machine require separate arrangements with us (section 11)." }
       ]
     },
@@ -81,10 +81,10 @@
           "to add an appointment to your own calendar – an application that supports .ics files, e.g. Apple Calendar, Google Calendar or Outlook;",
           "if online booking uses Cloudflare Turnstile verification – the ability to connect to Cloudflare’s servers; verification usually takes place without any action on your part."
         ] },
-        { "p": "You bear the cost of your internet connection under your agreement with your provider." },
+        { "p": "You bear the cost of your internet connection under your agreement with your internet provider." },
         { "p": "The Website does not install any software on your device. In your browser’s storage it saves only the information described in section 14 and in the Cookie Policy." },
-        { "p": "As with any online service, using the Website involves typical risks: malware, attempts to obtain data fraudulently (phishing), impersonation of well-known brands and interception of data on unsecured networks. The Website uses an encrypted connection (HTTPS). You send messages from the Forms from your own mailbox or via Instagram, so their security also depends on those services." },
-        { "p": "The Website does not send text messages or emails and does not accept payments. If you receive a message in our name asking you to pay for an online booking or to provide a password or card details, do not reply to it and let us know." },
+        { "p": "As with any online service, using the Website involves typical risks: malware, attempts to obtain data fraudulently (phishing), impersonation of well-known brands and interception of data on unsecured networks. The Website uses an encrypted connection (HTTPS). You send the messages you prepare in the Forms from your own mailbox or via Instagram, so their security also depends on those services." },
+        { "p": "The Website does not send text messages or emails and does not accept payments. If you receive a message claiming to be from us and asking you to pay for an online booking or to provide a password or card details, do not reply to it and let us know." },
         { "p": "We recommend keeping your operating system and browser up to date, using antivirus software and checking the website address before entering any data." }
       ]
     },
@@ -96,39 +96,39 @@
         { "list": [
           "provide unlawful content, including content that is offensive, infringes the rights of others or is misleading;",
           "give fictitious data or another person’s data without their consent;",
-          "book appointment times you do not intend to use or block the Salon’s calendar;",
+          "book appointment times you do not intend to use, or block the Salon’s calendar;",
           "use bots, scripts or other automated tools, circumvent safeguards or limits, or disrupt the operation of the Website."
         ] },
-        { "p": "Please do not enter information about your health in the Forms or in the “Notes” field („Uwagi”). We will discuss it at the Salon, during the consultation." },
+        { "p": "Please do not enter information about your health in the Forms or in the “Notes” field (“Uwagi”). We will discuss it at the Salon, during the consultation." },
         { "p": "The content of the Website – texts, photos, graphics, logos and product names – is protected by copyright and trade mark law. You may use it within the limits of permitted personal use. Copying and distributing it, e.g. photos of our work, requires our consent, unless the law provides otherwise." },
         { "p": "The Website contains links to external websites, e.g. to our Instagram profile ({instagram}). Once you go to them, their operators’ terms and policies apply – in the case of Instagram, those of Meta." },
-        { "p": "If someone breaches these rules, we may refuse to provide them with a Service, and we may cancel a Booking made in breach of the Terms, e.g. with fictitious data or by automated means, and remove it from the calendar. If genuine contact details were given in the Booking, we will inform that person of the cancellation." }
+        { "p": "If someone breaches these rules, we may refuse to provide them with a Service, and we may cancel a Booking made in breach of the Terms, e.g. with fictitious data or by automated means, and remove it from the calendar. If genuine contact details were given in the Booking, we will send notice of the cancellation to those contact details." }
       ]
     },
     {
       "id": "zawarcie-i-rozwiazanie-umowy",
       "heading": "7. Conclusion and termination of the contract",
       "blocks": [
-        { "p": "The contract for the provision of Services is free of charge. It is concluded for the time you use a given Service:" },
+        { "p": "The contract for the provision of Services is free of charge. It is concluded for the duration of your use of a given Service:" },
         { "list": [
           "browsing content – when you open the Website; the contract ends when you close the page;",
-          "Form – when you start filling it in; the contract ends when your email program opens with the ready message, when you copy its content or when you abandon the Form;",
+          "Form – when you start filling it in; the contract ends when your email program opens with the message ready to send, when you copy its content or when you abandon the Form;",
           "Pigment List – when you add the first item; the contract ends when you clear the list, remove all items from it or delete the site data in your browser;",
           "online booking – when you start filling in the booking form; the contract ends when the confirmation is displayed or when you abandon the form. The booked appointment remains valid on the terms set out in sections 9 and 10."
         ] },
         { "p": "You may stop using the Services at any time, without giving a reason and at no cost – simply close the page or abandon the form." },
-        { "p": "We may refuse to provide a Service or discontinue it if you use the Website in breach of the Terms. We may also temporarily disable or change individual features of the Website, e.g. because of technical work, a failure or when the safeguards detect an unusually high number of bookings. This does not affect appointments already booked." }
+        { "p": "We may refuse to provide a Service or discontinue it if you use the Website in breach of the Terms. We may also temporarily disable or change individual features of the Website, e.g. for maintenance, in the event of a failure or when the safeguards detect an unusually high number of bookings. This does not affect appointments already booked." }
       ]
     },
     {
       "id": "formularze-i-lista-pigmentow",
       "heading": "8. Forms and the Pigment List",
       "blocks": [
-        { "p": "Forms do not send data to our server. When you click the send button, the Website composes a ready message from the information you have entered and opens your email program[[ addressed to {email}]]. We receive the message only once you send it." },
+        { "p": "Forms do not send data to our server. When you click the send button, the Website composes a ready-to-send message from the information you have entered and opens your email program[[ with the message addressed to {email}]]. We receive the message only once you send it." },
         { "p": "If there is no email program on your device, you can copy or retype the content and send it to us as a message on Instagram ({instagram}). The message is delivered by your email provider or by Instagram, on the terms of those services." },
-        { "p": "Depending on the Form, the message contains: your first name or full name, phone number and email address (for the pigment enquiry, a phone number or an email address is enough) and, in addition, the subject and content of the message; the chosen training course, city, preferred date and your experience in permanent make-up; your salon’s name and the chosen device; or the Pigment List with an approximate total and comments. Provide only what we need to reply." },
+        { "p": "Depending on the Form, the message contains: your first name or full name, phone number and email address (for the pigment enquiry, a phone number or an email address is enough) and, in addition, the subject and content of the message; the chosen training course, city, preferred date and your experience in permanent make-up; or your salon’s name and either the chosen device or the Pigment List with an approximate total and comments. Provide only what we need to reply." },
         { "p": "Sending an enquiry does not mean that a sales contract, training contract or hire contract has been concluded. In our reply we will set out availability and terms, and a contract is concluded separately if both parties wish." },
-        { "p": "The Pigment List is saved only in the browser storage on your device and does not reach us until you send an enquiry. The prices in the catalogue are shown with the date on which they are valid. The total on the list is approximate, does not include delivery costs and is not the price payable – we will confirm the total amount in our reply. You can clear the list at any time in the “Your order” window or by deleting the site data in your browser." }
+        { "p": "The Pigment List is saved only in the browser storage on your device and does not reach us until you send an enquiry. The prices in the catalogue are shown with the date as of which they are current. The total on the list is approximate, does not include delivery costs and is not the price payable – we will confirm the total amount in our reply. You can clear the list at any time in the “Your order” window or by deleting the site data in your browser." }
       ]
     },
     {
@@ -140,13 +140,13 @@
           "treatment – you choose a Treatment; for each one you can see its duration and the price from the price list, and for refreshes and removals a “from” price that depends on the type of Treatment;",
           "day – you choose a day with available times;",
           "time – you choose one of the available times;",
-          "your details – you enter your full name, phone number and email address and, if you wish, a short note in the “Notes” field, e.g. whether this is your first treatment."
+          "your details – you enter your full name, phone number and email address and, if you wish, a short note in the “Notes” („Uwagi”) field, e.g. whether this is your first treatment."
         ] },
         { "p": "Finally, you click “Book appointment” („Zarezerwuj wizytę”). Please give genuine contact details – they are the only way we can contact you about your appointment." },
         { "p": "You can book an appointment online no later than 24 hours before it starts and no more than 60 days in advance. Times are given in Polish time (Warsaw). Available times depend on the Salon’s opening hours and its current calendar." },
         { "p": "The Booking is made when you see the “Appointment booked” screen („Wizyta zapisana”) with a booking number – at that point the appointment is already saved in the Salon’s calendar. If, instead of the confirmation, you see a message that the time is already taken, the Booking has not been made; please choose another time. If you see an error message, try again – a repeat attempt for the same time will not create a second appointment – or contact us. If, despite the error, the appointment was saved in the calendar, we will contact you to confirm or cancel it." },
         { "p": "The confirmation is shown only on screen. You can download an .ics file and add the appointment to your calendar. The Website does not send confirmation text messages or emails, so please make a note of your booking number." },
-        { "p": "A single phone number or email address may have no more than two future appointments booked online at any one time, e.g. a treatment and a touch-up. You can arrange further appointments by contacting us." },
+        { "p": "No more than two future appointments may be booked online under the same phone number or email address at any one time, e.g. a treatment and a touch-up. You can arrange further appointments by contacting us." },
         { "p": "To protect the calendar against abuse, the Website limits the number of attempts, checks how long the form takes to complete and – if enabled – uses Cloudflare Turnstile verification. If there is an unusually high number of bookings, online booking may be temporarily suspended; in that case, please book your appointment {{or|{?phone}by phone|{?email}by email|via Instagram}}." },
         { "p": "Online bookings may be made only by adults. You may book an appointment for another adult if they agree – in that case, enter their full name and contact details and pass on to them the information in the Privacy Policy. When we first contact that person (at the latest at the Salon), we will also provide them with information about the processing of their data ourselves." }
       ]
@@ -158,7 +158,7 @@
         { "p": "Every Treatment begins with a consultation, facial mapping and a preliminary drawing. During the consultation we discuss your expectations, the condition of your skin and any contraindications, and we confirm the scope and price of the Treatment." },
         { "p": "The contract for the Treatment is concluded at the Salon – after the consultation and before the Treatment begins. If, after the consultation, the Treatment cannot be performed that day, e.g. because of contraindications, or you decide not to go ahead, we will suggest another date or another solution. If you decide not to go ahead after the consultation, there is no charge. We perform Treatments only on adults." },
         { "p": "To reschedule or cancel an appointment, contact us {{or|by phone ({phone})|by email ({email})|via Instagram ({instagram})}}. Give your booking number, or your full name and the date and time of the appointment. Please contact us at least 24 hours before your appointment. Rescheduling and cancellation are always free of charge. The Website does not allow you to cancel an appointment online yourself." },
-        { "p": "If you are running late, we will try to see you on the same day. If you are more than 15 minutes late, we may offer you another appointment so that the Treatment is not rushed or carried out at the expense of other clients." },
+        { "p": "If you are running late, we will try to see you on the same day. If you are more than 15 minutes late, we may offer you another appointment so that the Treatment is not rushed or carried out at the expense of the clients booked after you." },
         { "p": "If, within 12 months, you twice fail to attend a booked appointment without cancelling it, we may arrange further appointments with you only by phone and not through online booking." },
         { "p": "In exceptional situations, e.g. if the specialist is ill or there is a breakdown, we may reschedule or cancel a booked appointment. In that case we will contact you as soon as possible, by phone or by email, and offer you a new date." }
       ]
@@ -185,9 +185,9 @@
           "[[by post to {address};]]",
           "by direct message on Instagram ({instagram})."
         ] },
-        { "p": "In your complaint, give your name and contact details and describe the problem – what happened, when, and on what device or in what browser – and, if it concerns a Booking, give its number or date and time. Please also tell us what you expect. If anything is missing, we will ask you to provide it." },
+        { "p": "In your complaint, give your name and contact details and describe the problem – what happened, when, and on what device or in what browser – and, if it concerns a Booking, give the booking number or the date and time of the appointment. Please also tell us what you would like us to do. If anything is missing, we will ask you to provide it." },
         { "p": "We will reply within 14 days of receiving your complaint – by the same means you used to submit it, unless you ask us to use another. If you are a consumer and we do not reply within that period, your complaint is deemed to have been accepted." },
-        { "p": "Complaints concerning a Treatment performed, products purchased or training are handled under the rules applicable to those contracts and in accordance with the law, in particular the Civil Code and the Act on Consumer Rights (ustawa o prawach konsumenta)." }
+        { "p": "Complaints concerning a Treatment performed, products purchased or a training course are handled under the rules applicable to those contracts and in accordance with the law, in particular the Civil Code and the Act on Consumer Rights (ustawa o prawach konsumenta)." }
       ]
     },
     {
@@ -196,15 +196,15 @@
       "blocks": [
         { "p": "The Services on the Website are free of charge and you may stop using them at any time, without giving a reason and at no cost (section 7)." },
         { "p": "An online Booking is not a purchase of a service and does not involve any payment. You can change or cancel it free of charge at any time (section 10), and the contract for the Treatment is concluded at the Salon, after the consultation." },
-        { "p": "No sales contracts are concluded on the Website. If, following an exchange of messages, we conclude a distance contract with you, e.g. for the sale of pigments or participation in a training course, before it is concluded we will give you the information required by the Act on Consumer Rights, including information about the right to withdraw from the contract, if you have that right." },
-        { "p": "Consumer protection provisions, to the extent specified in the Act on Consumer Rights and the Civil Code, also apply to a natural person running a sole proprietorship if the contract is not of a professional nature for them, as follows in particular from the business activity entered in CEIDG (Centralna Ewidencja i Informacja o Działalności Gospodarczej, the Central Register and Information on Economic Activity)." }
+        { "p": "No sales contracts are concluded on the Website. If, following an exchange of messages, we conclude a distance contract with you, e.g. for the sale of pigments or participation in a training course, before the contract is concluded we will give you the information required by the Act on Consumer Rights, including information about the right to withdraw from the contract, if you have that right." },
+        { "p": "Consumer protection provisions, to the extent specified in the Act on Consumer Rights and the Civil Code, also apply to a natural person running a sole proprietorship if the contract is not of a professional nature for them, as is apparent in particular from the scope of business activity entered in CEIDG (Centralna Ewidencja i Informacja o Działalności Gospodarczej, the Central Register and Information on Economic Activity)." }
       ]
     },
     {
       "id": "dane-osobowe",
       "heading": "14. Personal data and browser storage",
       "blocks": [
-        { "p": "The controller of the personal data provided on the Website is {company}, {seat}. What data we collect, for what purpose, how long we keep it, whom we entrust it to (e.g. the hosting provider and Google Calendar) and what rights you have are described in the Privacy Policy: {siteUrl}/polityka-prywatnosci. For personal data matters, write to us[[ at {privacyEmail} or]] on Instagram ({instagram})." },
+        { "p": "The controller of the personal data provided on the Website is {company}, {seat}. What data we collect, for what purpose, how long we keep it, whom we entrust it to (e.g. the hosting provider and the provider of Google Calendar) and what rights you have are described in the Privacy Policy: {siteUrl}/polityka-prywatnosci. For personal data matters, write to us[[ at {privacyEmail} or]] on Instagram ({instagram})." },
         { "p": "The Website does not use analytics or advertising tools and does not set any cookies of its own. In your browser’s storage it saves only the Pigment List, if you use it, and your choice in the cookie banner. If Cloudflare Turnstile verification is running on the booking pages, the Cloudflare script may store its own cookies and technical data in your browser. Details, including how to delete them, are given in the Cookie Policy: {siteUrl}/polityka-cookies." }
       ]
     },
@@ -219,7 +219,7 @@
           "our details change;",
           "it is necessary for security reasons."
         ] },
-        { "p": "We publish the new version on the Website, together with its effective date, at least 7 days in advance – unless the change results from the law or from security reasons and must take effect sooner. Appointments booked before the change are handled according to the version in force at the time of the Booking, unless the new version is more favourable to you." },
+        { "p": "We publish the new version on the Website, together with its effective date, at least 7 days in advance – unless the change is required by law or for security reasons and must take effect sooner. Appointments booked before the change are handled according to the version in force at the time of the Booking, unless the new version is more favourable to you." },
         { "p": "The date of the latest update is shown at the top of the Terms." }
       ]
     },
@@ -228,7 +228,7 @@
       "heading": "16. Governing law and dispute resolution",
       "blocks": [
         { "p": "The Terms and the contracts for the provision of Services are governed by Polish law. If you are a consumer living in another country, the choice of Polish law does not deprive you of the protection afforded to you by the mandatory provisions of the law of that country." },
-        { "p": "Disputes are resolved by the courts having jurisdiction under the Code of Civil Procedure (Kodeks postępowania cywilnego). Disputes with businesses that do not benefit from consumer protection are resolved by the court having jurisdiction over the Service Provider’s registered office." },
+        { "p": "Disputes are resolved by the courts having jurisdiction under the Code of Civil Procedure (Kodeks postępowania cywilnego). Disputes with businesses that do not benefit from consumer protection are resolved by the court having jurisdiction for the place where the Service Provider has its registered office." },
         { "p": "As a consumer, you may use out-of-court methods of resolving disputes; participation in them is voluntary for both parties. In particular, you may:" },
         { "list": [
           "seek free assistance from a municipal or district consumer ombudsman (miejski lub powiatowy rzecznik konsumentów);",

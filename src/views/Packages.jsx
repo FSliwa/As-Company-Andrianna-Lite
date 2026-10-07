@@ -36,7 +36,7 @@ import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, PageHero, Reveal, SectionLabel, Statement } from '@/components/as/Primitives';
 import { BOOKING_URL, FOUNDER, PRICING_PMU, PRICING_REFRESH } from '@/lib/site';
 import { ROLES } from '@/lib/roles';
-import { cn, nbspShort } from '@/lib/utils';
+import { cn, groupPrice, nbspShort } from '@/lib/utils';
 
 /* ------------------------------------------------------------------ */
 /*  Ceny – wyłącznie z cennika (site.js); PMU po stałym `id` (D2 zmienia */
@@ -47,7 +47,7 @@ const pick = (list, name) => list.items.find((item) => item.name === name) || { 
 const pickId = (list, id) => list.items.find((item) => item.id === id) || { id, name: '', price: '' };
 
 /** Twarda spacja przed „zł” – cena nie łamie się na końcu wiersza. */
-const zl = (price) => String(price || '').replace(/\s+zł$/, '\u00a0zł');
+const zl = (price) => groupPrice(String(price || ''));
 
 const SNB = pickId(PRICING_PMU, 'super-natural-brows');
 const EYES = pickId(PRICING_PMU, 'perfect-eyeliners'); // D2: „Perfect Eyes” (dawniej „Perfect Eyeliners”)
@@ -118,9 +118,18 @@ function Hero() {
       number="01"
       label="Ścieżka zabiegowa"
       title="Od zabiegu"
-      titleAccent="do odświeżenia."
-      /* Z12: bez „to nie jedna wizyta, tylko kilka kroków” – terminy z briefu */
-      lead={'Zabieg, w razie potrzeby korekta po 1–3 miesiącach i\u00a0odświeżenie raz na 1–3 lata.'}
+      /* twarda spacja: akcent nie rozpada się na „do” / „odświeżenia.” (przy 280 px ma
+         ok. 218 px w łamie 240 px) */
+      titleAccent={'do\u00a0odświeżenia.'}
+      /* Z12: bez „to nie jedna wizyta, tylko kilka kroków” – terminy z briefu. Zakresy
+         w nowrap (jak frazy z zakresami w About.jsx): bez „1–” / „3 lata.” przy 600 px
+         i bez samotnego „lata.” od 667 px. */
+      lead={
+        <>
+          Zabieg, w&nbsp;razie potrzeby korekta po <span className="whitespace-nowrap">1–3 miesiącach</span>{' '}
+          i&nbsp;odświeżenie raz na <span className="whitespace-nowrap">1–3 lata</span>.
+        </>
+      }
       stats={HERO_STATS}
       statsLayout="list"
     >
@@ -153,9 +162,12 @@ function StepsBand() {
 
         {/* trzy komórki redakcyjne: hairline u góry, numer + tytuł (+ cena na telefonie),
             kiedy, opis, cena (od sm); sm: 2 + 1 (ostatnia na całą szerokość łamu),
-            lg: trzy kolumny. Cena w wierszu numeru tylko poniżej sm – w węższych
-            kolumnach (sm–lg) tytuł obok ceny by się nie zmieścił. */}
-        <ol className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+            lg: trzy kolumny. Cena w wierszu numeru tylko w 360–639 px – w węższych
+            kolumnach (sm–lg) tytuł obok ceny by się nie zmieścił, a poniżej 360 px
+            wiersz „03 Odświeżenie od 850 zł” (259 px) jest szerszy niż łam (240 px), więc
+            cena stoi pod opisem jak od sm. grid-cols-1 = minmax(0,1fr): kolumna nie rośnie
+            ponad łam do min-content wiersza. */}
+        <ol className="mt-10 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
           {PATH.map((step, i) => (
             <Reveal
               as="li"
@@ -170,7 +182,7 @@ function StepsBand() {
                 <span className="as-num">{step.number}</span>
                 <h3 className="as-numbered-title flex-1 text-ink">{step.title}</h3>
                 {step.price && (
-                  <p className="whitespace-nowrap font-display text-[1.375rem] leading-none text-ink sm:hidden">
+                  <p className="whitespace-nowrap font-display text-[1.375rem] leading-none text-ink max-[359px]:hidden sm:hidden">
                     {step.price}
                   </p>
                 )}
@@ -178,7 +190,9 @@ function StepsBand() {
               <p className="as-kicker mt-3">{step.when}</p>
               <p className="as-numbered-desc mt-3 flex-1 text-mocha">{nbspShort(step.desc)}</p>
               {step.price && (
-                <p className="mt-5 hidden font-display text-[1.375rem] leading-none text-ink sm:block">{step.price}</p>
+                <p className="mt-5 hidden font-display text-[1.375rem] leading-none text-ink max-[359px]:block sm:block">
+                  {step.price}
+                </p>
               )}
             </Reveal>
           ))}
@@ -216,21 +230,18 @@ function PricingLinkBand() {
   return (
     <section className="as-section bg-cream-100">
       <div className="as-shell">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-8">
-          <Reveal className="lg:col-span-7">
-            <SectionLabel number="04">Cennik</SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">Wszystkie ceny w{'\u00a0'}jednym miejscu.</h2>
-            <p className="as-body mt-6 max-w-xl">
-              Makijaż permanentny, korekta, odświeżenie i{'\u00a0'}usuwanie – pełny cennik jest na stronie zabiegów.
-            </p>
-          </Reveal>
-
-          <Reveal delay={80} className="lg:col-span-4 lg:col-start-9 lg:justify-self-end">
-            <ArrowLink href="/uslugi#cennik" className="w-fit">
-              Zobacz cennik
-            </ArrowLink>
-          </Reveal>
-        </div>
+        {/* Propozycja pak-04-a: link 32 px pod leadem (jak w pozostałych pasach) – wcześniej stał
+            sam w prawym rogu łamu, ok. 620 px od tekstu przy 1440 */}
+        <Reveal className="lg:max-w-[calc((100%-11*2rem)*7/12+6*2rem)]">
+          <SectionLabel number="04">Cennik</SectionLabel>
+          <h2 className="as-display-section as-text-balance mt-6 text-ink">Wszystkie ceny w{'\u00a0'}jednym miejscu.</h2>
+          <p className="as-body mt-6 max-w-xl">
+            Makijaż permanentny, korekta, odświeżenie i{'\u00a0'}usuwanie – pełny cennik jest na stronie zabiegów.
+          </p>
+          <ArrowLink href="/uslugi#cennik" className="mt-8 w-fit">
+            Zobacz cennik
+          </ArrowLink>
+        </Reveal>
       </div>
     </section>
   );

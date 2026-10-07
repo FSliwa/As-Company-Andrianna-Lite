@@ -32,10 +32,13 @@ const LEGAL_LINKS = [
   { key: 'terms', route: ROUTES.terms },
 ];
 
-/* Telefon w poziomie od 640 px: pigułka „Umów wizytę” jest w nagłówku, więc pasek CTA
-   znika (nagłówek + pasek zabierały 138 z 390 px). Poniżej 640 px pigułki nie ma –
-   pasek zostaje. Wysokość jak w wariancie short: z tailwind.config.js. */
-const SHORT_WITH_PILL = '(min-width: 640px) and (max-width: 1023px) and (max-height: 500px)';
+/* Pasek CTA tylko tam, gdzie nagłówek NIE ma pigułki „Umów wizytę”: pigułka stoi w nagłówku
+   od 640 px (tablety, telefon w poziomie) i na każdym niskim ekranie (short: – od 560 px
+   szerokości, także 568 × 320, gdzie nagłówek 65 px + pasek 57 px zabierały 38% wysokości).
+   Na tablecie w pionie pasek dublował pigułkę (to samo wezwanie dwa razy, 138 px stałego
+   chromu). Zostaje na telefonie w pionie (< 640 px). Zapytanie = warunki klasy pigułki
+   (sm:, short: z tailwind.config.js). */
+const PILL_IN_HEADER = '(min-width: 640px), (min-width: 560px) and (max-width: 1023px) and (max-height: 500px)';
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(false);
@@ -179,7 +182,8 @@ function NavDropdown({ item, links, canonical, label, className, strong }) {
       </button>
       {/* pt-4 = most nad szczeliną między nagłówkiem a listą (hover nie gaśnie w drodze) */}
       <div id={id} hidden={!shown} className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4">
-        <ul className="min-w-[16rem] border border-ink/10 bg-cream-50 py-2 shadow-[0_18px_40px_-24px_rgba(36,27,20,0.45)]">
+        {/* Propozycja STA-NAG-1: bez cienia (zasada „bez cieni”), linia ink/15 odcina panel od zdjęcia */}
+        <ul className="min-w-[16rem] border border-ink/15 bg-cream-50 py-2">
           {links.map((link) => {
             const current = canonical === link.href;
             return (
@@ -312,9 +316,9 @@ function Header({ menuOpen, setMenuOpen }) {
         )}
       >
         {/* short: telefon w poziomie – nagłówek 64 px zamiast 80 (logo 48 px) */}
-        <div className="as-shell flex h-20 items-center justify-between gap-6 lg:h-24 short:h-16">
+        <div className="as-shell flex h-20 items-center justify-between gap-6 lg:grid lg:h-24 lg:grid-cols-[1fr_auto_1fr] short:h-16">
           {/* Znak słowny Babushkina Academy (aria-hidden) – nazwę dostępną daje aria-label linku */}
-          <Link href="/" className="shrink-0" aria-label={t.homeAria}>
+          <Link href="/" className="shrink-0 lg:justify-self-start" aria-label={t.homeAria}>
             <Logo className="short:text-[1.1875rem]" />
           </Link>
 
@@ -367,14 +371,14 @@ function Header({ menuOpen, setMenuOpen }) {
             })}
           </nav>
 
-          <div className="flex items-center gap-4 sm:gap-5">
+          <div className="flex items-center gap-4 sm:gap-5 lg:justify-self-end">
             {/* przełącznik języka od lg – po nawigacji, przed pigułką; niżej w menu i stopce */}
             <LanguageSwitcher tone="dark" className="hidden lg:flex" />
             {/* Pigułka – jedyny zaokrąglony element (makieta). 44 px wysokości (pole dotyku
                 na tablecie); po najechaniu wypełnia się ink, więc obrys fokusu też ink. */}
             <Link
               href={bookingHref}
-              className="as-focus-ink hidden h-11 items-center gap-2 rounded-full border border-ink/25 px-6 text-[0.75rem] transition-colors hover:border-ink hover:bg-ink hover:text-cream-50 sm:inline-flex"
+              className="as-focus-ink hidden h-11 items-center gap-2 rounded-full border border-ink/25 px-6 text-[0.75rem] transition-colors hover:border-ink hover:bg-ink hover:text-cream-50 sm:inline-flex short:inline-flex"
             >
               {t.book}
               <span aria-hidden="true" className="text-[0.7rem]">
@@ -439,8 +443,10 @@ function Header({ menuOpen, setMenuOpen }) {
           </div>
         </div>
 
-        <div className="as-shell grid gap-x-10 gap-y-6 pb-8 pt-4 sm:grid-cols-12 sm:pt-8 short:pb-5 short:pt-3 short:sm:pt-3">
-          <nav className="sm:col-span-7" aria-label={t.mainNavAria}>
+        <div className="as-shell grid gap-x-10 gap-y-6 pb-8 pt-4 sm:grid-cols-12 sm:pt-8 short:grid-cols-2 short:gap-x-8 short:pb-5 short:pt-3 short:sm:grid-cols-12 short:sm:pt-3 md:tall:pt-16">
+          {/* niski ekran (telefon w poziomie, short: od 560 px szerokości): dwie kolumny także przy 568 px,
+              podkategorie przechodzą do prawej kolumny – całe menu w jednym–dwóch ekranach */}
+          <nav className="sm:col-span-7 short:sm:col-span-5" aria-label={t.mainNavAria}>
             <ul>
               {NAV_MAIN.map((item, i) => {
                 const active = canonical === item.href;
@@ -451,7 +457,7 @@ function Header({ menuOpen, setMenuOpen }) {
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
                       onClick={() => closeMenu(false)}
-                      className="group flex min-h-[2.75rem] items-baseline gap-5 py-1.5"
+                      className="group flex min-h-[2.75rem] items-baseline gap-5 py-1.5 md:tall:py-2.5"
                     >
                       <span aria-hidden="true" className="as-label w-6 shrink-0 text-gold-deep">
                         {String(i + 1).padStart(2, '0')}
@@ -462,7 +468,7 @@ function Header({ menuOpen, setMenuOpen }) {
                           i przechwytywało stuknięcia sąsiedniej pozycji – trafienie bierze cały wiersz (≥ 44 px) */}
                       <span
                         className={cn(
-                          'as-display-md pointer-events-none decoration-1 underline-offset-[0.14em]',
+                          'as-display-md pointer-events-none decoration-1 underline-offset-[0.14em] sm:tall:text-[clamp(2.75rem,7vw,4rem)]',
                           active ? 'underline decoration-gold' : 'decoration-ink/30 group-hover:underline'
                         )}
                       >
@@ -472,7 +478,7 @@ function Header({ menuOpen, setMenuOpen }) {
                     {/* podkategorie (np. Produkty → pigmenty, maszynka, dokumentacja): wcięte pod
                         nazwą, drobniejsze – ta sama kolumna co tytuł pozycji */}
                     {links.length > 0 && (
-                      <ul className="mb-1.5 ml-11 border-l border-ink/10 pl-4 short:sm:hidden" aria-label={`${t.subnav}: ${item.label}`}>
+                      <ul className="mb-1.5 ml-11 border-l border-ink/10 pl-4 short:hidden" aria-label={`${t.subnav}: ${item.label}`}>
                         {links.map((link) => {
                           const current = canonical === link.href;
                           return (
@@ -499,7 +505,7 @@ function Header({ menuOpen, setMenuOpen }) {
             </ul>
           </nav>
 
-          <div className="flex flex-col gap-6 sm:col-span-5 sm:pt-2 short:gap-4">
+          <div className="flex flex-col gap-6 sm:col-span-5 sm:pt-2 short:gap-4 short:sm:col-span-7">
             <Link href={bookingHref} onClick={() => closeMenu(false)} className="as-btn-invert w-full sm:w-auto sm:self-start">
               {t.book}
             </Link>
@@ -509,7 +515,7 @@ function Header({ menuOpen, setMenuOpen }) {
                 {[...landscapeSub, ...extra].map((link) => {
                   const active = canonical === link.href;
                   return (
-                    <li key={link.href} className={link.landscapeOnly ? 'hidden short:sm:block' : undefined}>
+                    <li key={link.href} className={link.landscapeOnly ? 'hidden short:block' : undefined}>
                       <Link
                         href={link.href}
                         aria-current={active && !link.sameAsMain ? 'page' : undefined}
@@ -584,7 +590,7 @@ function FooterGroup({ group }) {
           <li key={link.label}>
             <Link
               href={link.href}
-              className="flex min-h-[2.75rem] items-center py-1 text-[0.8125rem] leading-snug text-ink/75 transition-colors hover:text-ink lg:min-h-0 lg:py-1.5"
+              className="flex min-h-[2.75rem] items-center py-1 text-[0.8125rem] leading-snug text-ink/75 transition-colors hover:text-ink lg:min-h-0 lg:py-1.5 coarse:lg:min-h-[2.75rem] coarse:lg:py-1"
             >
               {link.label}
             </Link>
@@ -612,16 +618,16 @@ function Footer({ year }) {
 
             {/* md (768–1023): wąska kolumna 4/12 – etykieta nad wartością, bez łamania w 3 wiersze */}
             <dl className="mt-5 max-w-sm lg:mt-8">
-              <div className="flex items-baseline justify-between gap-6 border-t border-ink/10 py-3 md:flex-col md:items-start md:gap-1 lg:flex-row lg:items-baseline lg:justify-between lg:gap-6">
+              <div className="flex items-baseline justify-between gap-6 border-t border-ink/10 py-3 max-[359px]:flex-col max-[359px]:items-start max-[359px]:gap-1 md:flex-col md:items-start md:gap-1 lg:flex-row lg:items-baseline lg:justify-between lg:gap-6">
                 <dt className="as-label text-ink/65">{CONTACT.venue}</dt>
-                <dd className="text-right text-[0.8125rem] text-ink md:text-left lg:text-right">
+                <dd className="text-right text-[0.8125rem] text-ink max-[359px]:text-left md:text-left lg:text-right">
                   {[CONTACT.street, CONTACT.postal, CONTACT.city].filter(Boolean).join(', ')}
                 </dd>
               </div>
               {CONTACT.hours.map((h) => (
-                <div key={h.day} className="flex items-baseline justify-between gap-6 border-t border-ink/10 py-3 md:flex-col md:items-start md:gap-1 lg:flex-row lg:items-baseline lg:justify-between lg:gap-6">
+                <div key={h.day} className="flex items-baseline justify-between gap-6 border-t border-ink/10 py-3 max-[359px]:flex-col max-[359px]:items-start max-[359px]:gap-1 md:flex-col md:items-start md:gap-1 lg:flex-row lg:items-baseline lg:justify-between lg:gap-6">
                   <dt className="as-label text-ink/65">{h.day}</dt>
-                  <dd className="text-right text-[0.8125rem] text-ink md:text-left lg:text-right">{h.value}</dd>
+                  <dd className="text-right text-[0.8125rem] text-ink max-[359px]:text-left md:text-left lg:text-right">{h.value}</dd>
                 </div>
               ))}
             </dl>
@@ -657,7 +663,7 @@ function Footer({ year }) {
 
           {/* Mapa serwisu: telefon – trzy zwinięte grupy (przycisk 48 px), od md trzy
               kolumny w 8/12 szerokości (nazwy bez łamania na 3 wiersze), od lg jak dotąd. */}
-          <div className="grid border-b border-ink/10 md:col-span-8 md:col-start-5 md:grid-cols-3 md:gap-x-6 md:border-b-0 lg:col-span-6 lg:col-start-7">
+          <div className="grid border-b border-ink/10 md:col-span-8 md:col-start-5 md:grid-cols-3 md:gap-x-6 md:border-b-0 lg:col-span-7 lg:col-start-6 xl:col-span-6 xl:col-start-7">
             {NAV_ALL.map((group) => (
               <FooterGroup key={group.title} group={group} />
             ))}
@@ -669,13 +675,15 @@ function Footer({ year }) {
         <div aria-hidden="true" className="mt-12 hidden border-t border-gold/30 pt-8 lg:block">
           <span
             className="as-display block select-none text-gold/[0.22] before:content-['BABUSHKINA']"
-            style={{ fontSize: 'clamp(2.5rem, 10vw, 9rem)', lineHeight: 0.85 }}
+            /* napis ≈ 6,2 em szerokości – od lewej do prawej krawędzi łamu (7rem = 2 × marginesy
+                as-shell od lg; 13,375 rem = łam 1440 px / 6,2) */
+            style={{ fontSize: 'min(calc((100vw - 7rem) / 6.2), 13.375rem)', lineHeight: 0.85 }}
           />
         </div>
 
         {/* Dokumenty zawsze (publiczne – LEGAL_PUBLIC); wiersz z danymi firmy – po uzupełnieniu
             LEGAL w site.js. Od lg dokumenty i prawa autorskie w jednym wierszu. */}
-        <div className="mt-6 flex flex-col gap-y-2 lg:mt-8 lg:flex-row lg:items-center lg:justify-between lg:gap-x-10">
+        <div className="mt-6 flex flex-col gap-y-2 lg:mt-8 xl:flex-row xl:items-center xl:justify-between xl:gap-x-10">
           <div className="flex flex-wrap items-center gap-x-6 text-[0.8125rem] text-ink/75">
             {LEGAL.company && (
               <span className="basis-full py-2 lg:basis-auto">
@@ -727,7 +735,7 @@ function StickyBar({ menuOpen }) {
   const [pastHero, setPastHero] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const dialogOpen = useDialogOpen();
-  const shortWithPill = useMediaQuery(SHORT_WITH_PILL);
+  const pillInHeader = useMediaQuery(PILL_IN_HEADER);
 
   useEffect(() => {
     const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.9);
@@ -754,7 +762,7 @@ function StickyBar({ menuOpen }) {
 
   /* trasy-formularze (w każdym języku): pasek dublowałby formularz */
   if (canonical === '/kontakt' || canonical === BOOKING_PAGE) return null;
-  const show = pastHero && !blocked && !menuOpen && !dialogOpen && !shortWithPill;
+  const show = pastHero && !blocked && !menuOpen && !dialogOpen && !pillInHeader;
 
   /* <nav> = landmark (axe: region). aria-hidden zawsze jako "true"/"false" – czytają
      go index.css (baner cookies, toast) i OrderFab. */
@@ -776,8 +784,10 @@ function StickyBar({ menuOpen }) {
       >
         {t.book}
       </Link>
+      {/* na samej stronie szkoleń „Szkolenia” prowadzi do listy kursów (#kursy), a nie przeładowuje
+          bieżącej strony */}
       <Link
-        href="/szkolenia"
+        href={canonical === '/szkolenia' ? '/szkolenia#kursy' : '/szkolenia'}
         tabIndex={show ? 0 : -1}
         className="as-label as-focus-inset m-1.5 flex h-11 items-center justify-center border border-ink/25 text-ink"
       >

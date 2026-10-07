@@ -120,8 +120,11 @@ export function Swatch({ color, className }) {
  * ucinał górę i dół packshotu.
  * Zdjęcie na czarnym tle (blend: false) dostaje czarne pole – przy proporcji innej
  * niż kwadrat (dialog) boki nie odcinają się kremem.
+ * `inset` (siatka katalogu): packshot mniejszy, z oddechem u góry, u dołu i z prawej –
+ * rozmaz koloru dalej dochodzi do lewej krawędzi pola, więc nie wygląda na ucięty,
+ * a butelka i pudełko nie dotykają krawędzi kafla (spokojniejszy rytm siatki).
  */
-export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', className }) {
+export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', className, inset = false }) {
   const photo = productPhoto(product.id);
   if (!photo) return null;
   return (
@@ -132,7 +135,7 @@ export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', classN
       sizes={sizes}
       zoom={false}
       className={cn(photo.blend ? '[&_.as-media]:bg-cream-100' : '[&_.as-media]:bg-black', className)}
-      imgClassName={cn('!object-contain', photo.blend && 'mix-blend-multiply')}
+      imgClassName={cn('!object-contain', photo.blend && 'mix-blend-multiply', inset && photo.blend && 'py-[9%] pr-[9%] !object-left')}
     />
   );
 }
@@ -140,18 +143,25 @@ export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', classN
 /**
  * Pole na górze komórki katalogu: zdjęcie butelki, a bez zdjęcia – w tym samym polu
  * i tej samej proporcji – próbka koloru: koło na środku (tam, gdzie na zdjęciu stoi
- * butelka) w złotej linii jak .as-photo-frame i podpis „próbka koloru” (bez koloru:
+ * butelka) w cienkiej złotej linii i podpis „próbka koloru” (bez koloru:
  * kreskowanie i „bez próbki” – ten podpis czyta też czytnik). Wysokość pola zależy
  * tylko od szerokości kolumny, więc rzędy siatki się nie rozjeżdżają.
  */
 export function ProductTile({ product, sizes, className }) {
   const photo = productPhoto(product.id);
-  if (photo) return <ProductPhoto product={product} sizes={sizes} className={className} />;
+  if (photo) return <ProductPhoto product={product} sizes={sizes} className={className} inset />;
   return (
-    <div className={cn('relative flex aspect-square items-center justify-center bg-cream-100', className)}>
+    /* poniżej 340 px koło jest mniejsze i stoi wyżej – podpis łamie się tam na 2 linie
+       i inaczej nachodzi na złotą obwódkę */
+    <div
+      className={cn(
+        'relative flex aspect-square items-center justify-center bg-cream-100 max-[339px]:items-start max-[339px]:pt-[14%]',
+        className
+      )}
+    >
       <Swatch
         color={product.color}
-        className="aspect-square w-[42%] rounded-full outline outline-1 outline-offset-[6px] outline-gold/40"
+        className="aspect-square w-[34%] rounded-full outline outline-1 outline-offset-[6px] outline-gold/40 min-[340px]:w-[42%]"
       />
       <span
         aria-hidden={product.color ? 'true' : undefined}
@@ -211,8 +221,10 @@ export function PriceLine({ variants, showStock = false, className }) {
             </span>
             {v.label && <span className="mr-1.5 text-[0.8125rem] text-mocha">{formatCapacity(v.label)}</span>}
             <span className="font-display text-[1.375rem] leading-none">{formatPrice(v.price)}</span>
+            {/* poniżej 340 px (kolumna 110–130 px) „(brak)” schodzi pod parę – inaczej
+                overflow-hidden ucina go do „(b” */}
             {showStock && !v.inStock && (
-              <span className="ml-1.5 text-[0.8125rem] text-mocha">
+              <span className="ml-1.5 text-[0.8125rem] text-mocha max-[339px]:ml-0 max-[339px]:block">
                 <span aria-hidden="true">(brak)</span>
                 <span className="sr-only">brak w magazynie</span>
               </span>

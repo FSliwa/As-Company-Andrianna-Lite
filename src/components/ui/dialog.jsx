@@ -89,7 +89,7 @@ const DialogContent = React.forwardRef(({ className, children, onFocus, ...props
           W DOM na końcu (kolejność Tab i fokus startowy jak dotąd), wizualnie
           pierwszy (order-first); zajmuje 0 px w przepływie (ujemne marginesy),
           więc tytuł stoi obok niego. */}
-      <div className="pointer-events-none sticky -top-4 z-20 order-first -mb-7 -mr-3 -mt-4 flex justify-end sm:-top-8 sm:-mb-3 sm:-mr-8 sm:-mt-8">
+      <div data-dialog-close className="pointer-events-none sticky -top-4 z-20 order-first -mb-7 -mr-3 -mt-4 flex justify-end sm:-top-8 sm:-mb-3 sm:-mr-8 sm:-mt-8">
         <DialogPrimitive.Close
           className="pointer-events-auto grid h-11 w-11 scroll-mt-[-3.25rem] place-items-center bg-cream-50 text-ink/70 transition-colors hover:text-ink disabled:pointer-events-none">
           <X className="h-4 w-4" aria-hidden="true" />
