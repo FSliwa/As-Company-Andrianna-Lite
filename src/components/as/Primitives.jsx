@@ -44,7 +44,7 @@ export function SectionLabel({ number, children, tone = 'dark', line = true, cla
       {/* linia ozdobna wypełnia tylko wolne miejsce (podstawa 0, maks. 64/112 px): w wąskiej
           kolumnie ustępuje etykiecie – przy stałej szerokości kurczyła się razem z tekstem,
           a etykieta łamała się na 2 linie („03 / JAK / OTRZYMAĆ” w kolumnie 4/12 przy 1024 px) */}
-      {/* Propozycja T5: linia w złocie, rysowana przy wejściu sekcji w kadr (as-label-rule,
+      {/* Propozycja T5: linia w złocie, rysowana przy wejściu sekcji w kadr (as-label-line,
           index.css: CSS scroll-driven animation, bez JS); przy prefers-reduced-motion
           i w przeglądarkach bez animation-timeline pełna od razu. */}
       {line && (

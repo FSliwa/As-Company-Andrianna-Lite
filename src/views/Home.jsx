@@ -615,10 +615,11 @@ function TrainingBand() {
                   bleed="end"
                   /* Od md lewa (wewnętrzna) i dolna krawędź przechodzą maską
                      w mocha – białe ściany sali nie stoją twardym prostokątem na brązie. Ton
-                     „academy”: cieplejsza biel zdjęcia z telefonu bliżej palety sesji. */
+                     „dark” jak dotąd: ton „academy” (sepia 0,1) zmieniał wygląd skóry – zasada 4
+                     briefu, czeka na decyzję. */
                   className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)]"
                   position={GROUPS.trainingHome.position}
-                  tone="academy"
+                  tone="dark"
                   zoom={false}
                   sizes="(min-width: 1600px) 640px, (min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
                 />
