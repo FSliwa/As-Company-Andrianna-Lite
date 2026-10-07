@@ -1247,8 +1247,10 @@ export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, 
   const grid = { 3: 'grid-cols-3', 4: 'grid-cols-2 short:grid-cols-4 sm:grid-cols-4', 5: 'grid-cols-3 md:grid-cols-5', 6: 'grid-cols-3 md:grid-cols-6' }[cols] || 'grid-cols-3 md:grid-cols-6';
   return (
     <div className={className}>
-      {/* Propozycja usl-03-a: bez złotej ramki – kafle w osi łamu (jak wiersze technik w 02) */}
-      <ul className={cn('grid gap-1', grid)}>
+      {/* Propozycja usl-03-a: bez złotej ramki – kafle w osi łamu (jak wiersze technik w 02).
+          as-feather (7.10): krawędzie kadrów rozpływają się w tle sekcji, bez odstępu – sąsiednie
+          zdjęcia przenikają się w jeden pas (index.css) */}
+      <ul className={cn('as-feather grid gap-0', grid)}>
         {items.map((it, i) => (
           <li key={(it.image && it.image.src) || i}>
             <Figure
