@@ -717,8 +717,11 @@ function InvitationBand() {
             image={cutoutFor(ROLES.closingHome.image)}
             alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
             zoom={false}
-            /* 7.10: bez szarobeżowego tła studia (#B39D88) – postać na kremie sekcji */
-            className="as-kadr-ruch as-kadr-gora [&_.as-media]:bg-transparent"
+            /* 7.10: bez szarobeżowego tła studia (#B39D88) – postać na kremie sekcji.
+               8.10: bottom-0.5 – zdjęcie kończy się 2 px nad krawędzią kadru, pod kremowym
+               przejściem; przy ułamkowej wysokości kadru animowana warstwa zostawiała na dole
+               linię 1 px z ostatniego wiersza pikseli (pion, telefon). */
+            className="as-kadr-ruch as-kadr-gora bottom-0.5 [&_.as-media]:bg-transparent"
             imgClassName="object-[50%_0%]"
             sizes={INVITATION_SIZES}
           />
