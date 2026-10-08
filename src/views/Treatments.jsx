@@ -214,8 +214,10 @@ const RESULTS = [
   { macro: MACROS.brows15, alt: 'Brwi po makijażu permanentnym – zbliżenie' },
   { macro: MACROS.brows08, alt: 'Brew i oko po makijażu permanentnym – zbliżenie' },
   { macro: MACROS.powder01Wide, alt: 'Brwi wykonane techniką pudrową – zbliżenie' },
-  { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym – zbliżenie' },
-].map(({ macro, alt }) => ({ image: macro.image, position: macro.position, alt }));
+  /* 8.10: w kwadracie dolne rogi pliku są czarne (tło zdjęcia) – przybliżenie × 1,15
+     od góry ust je ucina; barwa bez zmian */
+  { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym – zbliżenie', scale: 1.15, origin: '50% 30%' },
+].map(({ macro, alt, scale, origin }) => ({ image: macro.image, position: macro.position, alt, scale, origin }));
 
 /* D6 (Z15): źródła nie znają „konsultacji” jako osobnej usługi – krok 01 to rysunek
    wstępny (brief, FAQ). Zdanie „Zabieg trwa od 1 do 2 godzin” bez źródła – usunięte;
@@ -584,7 +586,7 @@ function ResultsBand() {
           <ResultStrip
             items={RESULTS}
             cols={4}
-            ratio="4 / 5"
+            tone="light"
             /* D10: źródła nie mówią, czyje to prace ani gdzie je wykonano (część ma znak
                akademii) – podpis bez „naszego gabinetu”. */
             caption="Brwi i usta po makijażu permanentnym."

@@ -610,21 +610,17 @@ function TrainingBand() {
                   w poziomie: kadr nie wyższy niż 80% ekranu (jak portrety, H8). */}
               {/* Propozycja H05-01: kadr 4:3 zamiast 3:2 – widać cały szyld z koroną, pięć twarzy
                   i certyfikaty, o których mówi nagłówek (przy 3:2 ucięte dolną krawędzią) */}
-              <div className="relative short:ml-auto short:max-w-[calc(80svh*4/3)]" style={{ aspectRatio: '4 / 3' }}>
+              {/* 8.10: ostra karta z małym zaokrągleniem jak efekty na /uslugi – bez maski
+                  wtapiającej krawędzie w tło (rozmyte brzegi wyglądały nieprofesjonalnie) */}
+              <div className="relative short:ml-auto short:max-w-[calc(80svh*4/3)] [&_.as-media]:rounded-md">
                 <Figure
                   image={GROUPS.trainingHome.image}
                   alt={`Absolwentki szkolenia Super Natural Brows z certyfikatami – ${BRAND.academy}`}
-                  bleed="end"
-                  /* Od md lewa (wewnętrzna) i dolna krawędź przechodzą maską
-                     w krem pasa (cream-75) – białe ściany sali nie stoją twardym prostokątem na
-                     tle sekcji. Lite: ton „light” jak dotąd (odpowiednik „dark” z Dark): ton
-                     „academy” (sepia 0,1) zmieniał wygląd skóry – zasada 4 briefu, czeka na
-                     decyzję. */
-                  className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_right,transparent,#000_18%),linear-gradient(to_top,transparent,#000_16%)]"
+                  ratio="4 / 3"
                   position={GROUPS.trainingHome.position}
                   tone="light"
                   zoom={false}
-                  sizes="(min-width: 1600px) 640px, (min-width: 1440px) 860px, (min-width: 1024px) 52vw, (min-width: 768px) 62vw, 100vw"
+                  sizes="(min-width: 1440px) 660px, (min-width: 1024px) 46vw, (min-width: 768px) 56vw, 100vw"
                 />
               </div>
             </Reveal>

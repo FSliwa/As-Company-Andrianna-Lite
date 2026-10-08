@@ -24,6 +24,7 @@ export const CUTOUTS = {
   'studio-10': cut('studio-10', 1068, 1600),
   'studio-14': cut('studio-14', 1600, 1068),
   'studio-15': cut('studio-15', 1068, 1600),
+  'studio-16': cut('studio-16', 1068, 1600),
 };
 
 /** Wycięcie dla zdjęcia z media.js albo to samo zdjęcie, gdy wycięcia nie ma. */

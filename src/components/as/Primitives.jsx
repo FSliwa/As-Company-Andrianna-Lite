@@ -1254,7 +1254,10 @@ export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, 
           branży (Tina Davies, Laura Kay, Daria Chuprys); na jasnym tle sekcji, bez wygaszania */}
       <ul className={cn('grid gap-3 sm:gap-5 [&_.as-media]:rounded-md', grid)}>
         {items.map((it, i) => (
-          <li key={(it.image && it.image.src) || i}>
+          <li
+            key={(it.image && it.image.src) || i}
+            style={it.scale ? { '--as-crop-scale': String(it.scale), '--as-crop-origin': it.origin || '50% 50%' } : undefined}
+          >
             <Figure
               image={it.image}
               alt={it.alt}
@@ -1262,6 +1265,8 @@ export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, 
               position={it.position || '50% 45%'}
               /* zdjęcia efektów bez filtra koloru (pigment i skóra jak w oryginale) */
               zoom={false}
+              /* przybliżenie kadru (np. ucięcie czarnych rogów pliku) – tylko skala, bez filtra */
+              imgClassName={it.scale ? 'origin-[var(--as-crop-origin)] scale-[var(--as-crop-scale)]' : undefined}
               sizes={resultStripSizes(cols, it.image, ratio)}
             />
             {it.caption && (
