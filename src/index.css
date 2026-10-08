@@ -818,12 +818,29 @@
       animation-range: cover 0% cover 100%;
     }
 
+    /* Wycięcia postaci (src/lib/cutouts.js): tło przezroczyste, więc ruch nie musi chować
+       krawędzi pliku – zaczepienie u góry i przesuw tylko w dół, żeby czubek głowy nigdy nie
+       wyjeżdżał za górną krawędź kadru (8.10: przy 1,06 od środka i −2 % ucinało włosy). */
+    .as-kadr-gora img {
+      transform-origin: 50% 0;
+      animation-name: as-kadr-gora;
+    }
+
     .as-label-line {
       transform-origin: left center;
       animation: as-draw-x linear both;
       animation-timeline: view();
       animation-range: entry 0% cover 30%;
     }
+  }
+}
+
+@keyframes as-kadr-gora {
+  from {
+    transform: scale(1.04) translateY(0);
+  }
+  to {
+    transform: scale(1.04) translateY(2.5%);
   }
 }
 

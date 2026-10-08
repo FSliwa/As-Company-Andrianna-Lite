@@ -20,9 +20,9 @@ const cut = (name, w, h) => ({
 
 export const CUTOUTS = {
   'studio-01': cut('studio-01', 1068, 1600),
-  'studio-02': cut('studio-02', 1068, 1600),
   'studio-10': cut('studio-10', 1068, 1600),
-  'studio-14': cut('studio-14', 1600, 1068),
+  'studio-11': cut('studio-11', 1068, 1600),
+  'studio-12': cut('studio-12', 1068, 1600),
   'studio-15': cut('studio-15', 1068, 1600),
   'studio-16': cut('studio-16', 1068, 1600),
 };

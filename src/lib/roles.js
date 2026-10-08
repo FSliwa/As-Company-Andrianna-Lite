@@ -6,7 +6,7 @@
  * sesji). Widoki importują portrety WYŁĄCZNIE przez ROLES, makra WYŁĄCZNIE
  * przez MACROS, grupy z akademii WYŁĄCZNIE przez GROUPS.
  *
- * Rezerwa (poza stroną): studio-03, -06, -07, -09, -11, -13 (studio-13 – ta sama poza co hero
+ * Rezerwa (poza stroną): studio-02, -03, -06, -07, -09, -13 (studio-13 – ta sama poza co hero
  * strony głównej, studio-05; klientka 30.09: „aby na każdej podstronie było inne”). Obraz OG: public/og.jpg.
  * Kolejne klatki tej samej serii (ta sama poza i mimika, np. studio-02 / -11) liczą
  * się jak jeden plik – w serwisie stoi tylko jedna z nich.
@@ -36,17 +36,17 @@ const pick = (name) => {
 export const ROLES = {
   heroHome: { image: pick('studio-05'), position: '50% 4%' }, // zdjęcie na tle hero (Home ustawia własne pozycje: ekran pionowy / poziomy)
   aboutHome: { image: pick('studio-04'), position: '50% 12%' }, // biała marynarka – „firma", inna poza niż hero
-  closingHome: { image: pick('studio-14'), position: '50% 50%' }, // jedyny poziomy kadr – tło sekcji 06 na home (Home ustawia pozycje: pion / poziom)
-  treatmentsHome: { image: pick('studio-02'), position: '50% 22%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów
+  closingHome: { image: pick('studio-12'), position: '50% 0%' }, // 8.10: sekcja 06 na home – wycięcie z zapasem nad głową (studio-14 miało włosy ucięte górną krawędzią pliku, na kremie widać było cięcie); uśmiech jak w studio-14
+  treatmentsHome: { image: pick('studio-11'), position: '50% 0%' }, // ciasno na twarz – brwi i usta, sekcja zabiegów; 8.10: studio-11 (ta sama poza co studio-02, ale z zapasem nad głową – w studio-02 włosy dotykały górnej krawędzi pliku)
   heroAbout: { image: pick('studio-01'), position: '50% 18%' }, // dłoń na ramieniu, głowa przechylona; tło PageHero – w poziomie kadr szerszy niż 2:3, 18% trzyma głowę w kadrze (studio-11 = ta sama poza co studio-02)
   storyAbout: { image: pick('studio-08'), position: '50% 5%' },
   heroTreatments: { image: pick('studio-15'), position: '50% 6%' }, // siedząca poza w tiulu – inna niż hero home (studio-05) i /o-nas (studio-01); w poziomie kadr ok. 1:1 – 6% trzyma czubek głowy pod nagłówkiem (22% ucinało 36–71 px)
   heroTraining: { image: pick('studio-10'), position: '50% 30%' }, // marynarka, inna poza niż O nas na home (studio-04); tło PageHero – cała postać
   contactSection: { image: pick('studio-16'), position: '50% 30%' }, // /kontakt „Jak umówić wizytę" (zamiast sceny absolwentek)
-  statementPackages: { image: pick('studio-12'), position: '50% 8%' }, // /pakiety – Statement: od lg prawa połowa pasa (≈1:1), poniżej lg pełny spad
+  statementPackages: { image: pick('studio-14'), position: '38% 40%' }, // /pakiety – Statement: od lg prawa połowa pasa (≈1:1), poniżej lg pełny spad; 8.10: studio-14 (poziomy, zdjęcie z tłem studia – ucięte włosy to zwykły kadr), studio-12 przeszło do sekcji 06 na home
 };
 
-export const OG_IMAGE = '/og.jpg'; // 1200×630, kadr ze studio-12 (ten sam plik co statementPackages – dozwolone, OG jest poza stroną)
+export const OG_IMAGE = '/og.jpg'; // 1200×630, kadr ze studio-12 (ten sam plik co closingHome – dozwolone, OG jest poza stroną)
 
 /* Zdjęcia grupowe z akademii – każdy plik raz w serwisie */
 export const GROUPS = {

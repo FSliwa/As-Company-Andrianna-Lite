@@ -519,7 +519,7 @@ export function PageHero({
               tone={imageTone}
               zoom={false}
               priority
-              className="as-enter-breathe as-kadr-ruch [&_.as-media]:bg-transparent"
+              className={cn('as-enter-breathe as-kadr-ruch [&_.as-media]:bg-transparent', cutoutFor(image) !== image && 'as-kadr-gora')}
               sizes={PAGE_HERO_SIZES}
             />
             {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem.

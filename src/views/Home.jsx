@@ -524,7 +524,7 @@ function TreatmentsBand() {
                   /* Od md wewnętrzna (prawa) i dolna krawędź przechodzą maską w krem sekcji –
                      różowobeżowe tło sesji nie stoi już twardym prostokątem na cream-50
                      (jak zdjęcie hero; research 5.10.2026: Tina Davies, JP Studio). */
-                  className="[&_.as-media]:bg-transparent md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
+                  className="as-kadr-gora [&_.as-media]:bg-transparent md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
                   position={portrait.position}
                   zoom={false}
                   sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
@@ -718,8 +718,8 @@ function InvitationBand() {
             alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
             zoom={false}
             /* 7.10: bez szarobeżowego tła studia (#B39D88) – postać na kremie sekcji */
-            className="as-kadr-ruch [&_.as-media]:bg-transparent"
-            imgClassName="object-[50%_35%] land:object-[100%_40%]"
+            className="as-kadr-ruch as-kadr-gora [&_.as-media]:bg-transparent"
+            imgClassName="object-[50%_0%]"
             sizes={INVITATION_SIZES}
           />
           {/* pion: krem od dołu pod treścią */}
