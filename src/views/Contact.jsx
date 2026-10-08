@@ -40,7 +40,7 @@ import { useEffect, useState } from 'react';
 import {
   ArrowLink,
   Field,
-  Figure,
+  ArchPortrait,
   FormNotice,
   NumberedItem,
   RequiredLegend,
@@ -460,16 +460,11 @@ function VisitBand() {
             delay={60}
             className="mx-auto w-full max-w-[17rem] max-md:order-first sm:max-w-[22rem] md:col-span-6 md:col-start-1 md:row-start-1 md:max-w-none lg:col-span-5 lg:col-start-2 short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]"
           >
-            {/* 8.10: portret bez tła studia (wycięcie, tylko kanał alfa) – postać na kremie sekcji.
-                Tkanina dochodzi do prawej i dolnej krawędzi pliku – tam (i tylko tam) przechodzi
-                w krem, jak portret w sekcji 04 strony głównej; prostokąt zdjęcia nie istnieje. */}
-            <Figure
+            {/* 8.10: portret w łuku (ArchPortrait) – postać bez tła studia w panelu, ostre krawędzie */}
+            <ArchPortrait
               image={cutoutFor(portrait?.image)}
               alt={`${FOUNDER.name} – portret z sesji wizerunkowej marki`}
-              className="[&_.as-media]:bg-transparent [-webkit-mask-composite:source-in] [-webkit-mask-image:linear-gradient(to_left,transparent,#000_16%),linear-gradient(to_top,transparent,#000_14%)] [mask-composite:intersect] [mask-image:linear-gradient(to_left,transparent,#000_16%),linear-gradient(to_top,transparent,#000_14%)]"
-              ratio="4 / 5"
               position={portrait?.position}
-              zoom={false}
               sizes="(min-width: 1024px) 37vw, (min-width: 768px) 44vw, 92vw"
             />
           </Reveal>

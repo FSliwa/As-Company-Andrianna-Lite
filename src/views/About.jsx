@@ -120,33 +120,33 @@ const COLLAGE = [
     key: 'snb',
     image: MACROS.snbCollage.image,
     alt: 'Brwi po makijażu permanentnym techniką włosa maszynowego Super Natural Brows – zbliżenie twarzy',
-    ratio: '3 / 4',
+    ratio: '4 / 5',
     position: MACROS.snbCollage.position,
-    sizes: '(min-width: 1024px) 290px, (min-width: 640px) 280px, 55vw',
+    sizes: '(min-width: 1440px) 320px, (min-width: 1024px) 24vw, 46vw',
   },
   {
     key: 'powder',
     image: MACROS.powderCollage.image,
     alt: 'Brew po makijażu permanentnym techniką pudrową – zbliżenie łuku brwi nad okiem',
-    ratio: '3 / 5',
+    ratio: '4 / 5',
     position: MACROS.powderCollage.position,
-    sizes: '(min-width: 1024px) 235px, (min-width: 640px) 225px, 45vw',
+    sizes: '(min-width: 1440px) 320px, (min-width: 1024px) 24vw, 46vw',
   },
   {
     key: 'lips',
     image: MACROS.lipsCollage.image,
     alt: 'Usta po makijażu permanentnym, wygojone – zbliżenie',
-    ratio: '2.1 / 1',
+    ratio: '2 / 1',
     position: MACROS.lipsCollage.position,
     imgClassName: 'origin-right scale-[1.02]',
     className: 'col-span-2',
-    sizes: '(min-width: 1024px) 530px, (min-width: 640px) 510px, 100vw',
+    sizes: '(min-width: 1440px) 650px, (min-width: 1024px) 48vw, 92vw',
   },
 ];
 
 function SalonCollage() {
   return (
-    <div className="grid grid-cols-[0.75fr_0.6fr] gap-1">
+    <div className="grid grid-cols-2 gap-3 [&_.as-media]:rounded-md">
       {COLLAGE.map((c) => (
         <Figure
           key={c.key}
@@ -386,10 +386,10 @@ function SalonBand() {
     /* #salon: odstęp kotwicy daje html { scroll-padding-top } – bez scroll-mt na celu */
     <section id="salon" className="as-section as-section-tight-top bg-cream-50">
       <div className="as-shell">
-        {/* Od lg: nagłówek (wiersz 1) i kolaż (wiersz 2) w lewej kolumnie, tekst po prawej
-            przez oba wiersze. Wiersz 2 = 1fr – nadmiar wysokości tekstu trafia pod kolaż,
-            nie między nagłówek a kolaż. Poniżej lg kolejność z DOM: nagłówek → tekst →
-            kolaż (zdjęcia tuż nad listą 01–03, którą ilustrują). */}
+        {/* 8.10: od lg nagłówek (wiersz 1) i tekst (wiersz 2) w lewej kolumnie, kolaż – trzy
+            ostre karty jak efekty na /uslugi – po prawej przez oba wiersze (wcześniej kolaż pod
+            nagłówkiem zostawiał pusty róg pod tekstem). Poniżej lg kolejność z DOM: nagłówek →
+            tekst → kolaż (zdjęcia tuż nad listą 01–03, którą ilustrują). */}
         <div className="grid gap-8 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-0">
           <Reveal className="lg:col-span-5 lg:row-start-1">
             <SectionLabel number="05">Salon i akademia</SectionLabel>
@@ -405,7 +405,7 @@ function SalonBand() {
               „Salon” (BIO-05, BIO-08, BIO-23, STR-14); D3: brzmienia ostrożne z SALON */}
           <Reveal
             delay={80}
-            className="lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:pt-10"
+            className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-10"
           >
             <div className="as-body space-y-5">
               <p>{SALON.intro}</p>
@@ -418,12 +418,11 @@ function SalonBand() {
               Zobacz zabiegi
             </ArrowLink>
           </Reveal>
-          {/* telefon: pełna szerokość łamu; tablet: najwyżej 32rem (kolaż 5:4 ≈ 410 px wysokości
-              zamiast ~560 przy pełnym łamie, portret SNB ≤ 290 px – ostry przy 2× z pliku
-              599 px); od lg: kolumna nagłówka (361–535 px) */}
+          {/* telefon: pełna szerokość łamu; tablet: najwyżej 32rem; od lg prawa kolumna
+              (karty 4:5 ≤ 320 px – ostre przy 2× z plików 599–768 px) */}
           <Reveal
             delay={120}
-            className="mt-4 max-w-[32rem] lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:max-w-none short:max-w-[calc((100svh-var(--as-header-h)-2rem)*5/4)]"
+            className="mt-4 max-w-[32rem] lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-none short:max-w-[calc((100svh-var(--as-header-h)-2rem)*5/4)]"
           >
             <SalonCollage />
           </Reveal>

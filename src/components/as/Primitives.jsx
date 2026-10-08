@@ -192,6 +192,38 @@ export function Figure({
 }
 
 /* ------------------------------------------------------------------ */
+/*  Portret w łuku – wycięta postać w panelu (8.10)                     */
+/* ------------------------------------------------------------------ */
+
+/* Wycięcie postaci (src/lib/cutouts.js) w panelu cream-200 z półkolistą górą: krawędzie
+   ostre, dół postaci = dół panelu, głowa z zapasem pod łukiem (top). Zastępuje wygaszanie
+   krawędzi zdjęcia maską – na szerokich ekranach rozmyte brzegi wyglądały jak plama
+   (8.10, sekcje 04 i 06 strony głównej, /kontakt). Barwa pliku bez zmian. */
+export function ArchPortrait({ image, alt, position = '50% 0%', top = '7%', sizes = DEFAULT_SIZES, priority = false, className }) {
+  if (!image) return null;
+  const srcSet = buildSrcSet(image.webp);
+  return (
+    <div className={cn('relative aspect-[4/5] overflow-hidden rounded-t-full bg-cream-200', className)}>
+      <picture>
+        {srcSet && <source type="image/webp" srcSet={srcSet} sizes={sizes} />}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image.src}
+          alt={alt}
+          width={image.w}
+          height={image.h}
+          sizes={sizes}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          className="absolute inset-x-0 w-full object-cover"
+          style={{ top, height: `calc(100% - ${top})`, objectPosition: position }}
+        />
+      </picture>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Numerowana pozycja pod kadrem (01 · Produkty · opis · →)           */
 /* ------------------------------------------------------------------ */
 

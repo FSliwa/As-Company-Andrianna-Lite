@@ -14,6 +14,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   ArrowLink,
+  ArchPortrait,
   Figure,
   IndexRow,
   PriceRow,
@@ -511,25 +512,16 @@ function TreatmentsBand() {
             delay={60}
             className="md:sticky md:top-[calc(var(--as-header-h)+2rem)] md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start"
           >
-            {/* Bez ramki, do krawędzi ekranu (jak zdjęcie hero): na telefonie na całą szerokość,
-                od md do lewej krawędzi (Figure bleed); wysokość 4:5 z kolumny. Telefon
-                w poziomie: kadr nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
+            {/* Portret w łuku 4:5 na szerokość kolumny. Telefon w poziomie: kadr nie wyższy
+                niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
             <figure className="short:mx-auto short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:mx-0 short:md:max-w-[calc(80svh*4/5)]">
-              <div className="relative" style={{ aspectRatio: '4 / 5' }}>
-                {/* 7.10: portret bez tła studia (src/lib/cutouts.js) – pod postacią krem sekcji */}
-                <Figure
-                  image={cutoutFor(portrait.image)}
-                  alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
-                  bleed="start"
-                  /* Od md wewnętrzna (prawa) i dolna krawędź przechodzą maską w krem sekcji –
-                     różowobeżowe tło sesji nie stoi już twardym prostokątem na cream-50
-                     (jak zdjęcie hero; research 5.10.2026: Tina Davies, JP Studio). */
-                  className="as-kadr-gora [&_.as-media]:bg-transparent md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
-                  position={portrait.position}
-                  zoom={false}
-                  sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
-                />
-              </div>
+              {/* 8.10: portret w łuku (ArchPortrait) – ostre krawędzie zamiast wygaszania maską */}
+              <ArchPortrait
+                image={cutoutFor(portrait.image)}
+                alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
+                position={portrait.position}
+                sizes="(min-width: 1440px) 540px, (min-width: 768px) 40vw, 92vw"
+              />
               <figcaption className="as-caption as-text-balance mt-6 lg:mt-8">
                 {FOUNDER.name} – {FOUNDER.signature.charAt(0).toLowerCase() + FOUNDER.signature.slice(1)}
               </figcaption>
@@ -700,63 +692,41 @@ function TrainingBand() {
      w krem, tekst po prawej; kadr przesunięty w prawo (object-position 100%), żeby twarz
      stała przed wygaszeniem.
    data-sticky-hide: pasek CTA chowa się przy tej sekcji (ma własne przyciski). */
-const INVITATION_SIZES =
-  '(orientation: portrait) calc((46vh + 5rem) * 1.5), (max-width: 1023px) and (max-height: 500px) 100vw, ' +
-  '(max-aspect-ratio: 9/5) 120vh, (min-width: 1940px) 1280px, 66vw';
+const INVITATION_SIZES = '(min-width: 1440px) 430px, (min-width: 1024px) 32vw, (min-width: 768px) 40vw, 22rem';
 
 function InvitationBand() {
   return (
-    <section data-sticky-hide className="relative overflow-hidden bg-cream-50">
-      <div className="relative flex min-h-[88svh] flex-col justify-end land:min-h-[min(80svh,52rem)] land:justify-center min-[2400px]:mx-auto min-[2400px]:max-w-[2400px]">
-        {/* pion: zdjęcie tylko nad treścią (46svh + 5rem), więc twarz zostaje nad etykietą także
-            wtedy, gdy treść jest wyższa niż ekran (280–375 px) – wcześniej zdjęcie rosło z sekcją
-            i napis wchodził na brodę i dłoń. Poziom: wygaszenie prawej krawędzi maską (bez kreski). */}
-        <div className="absolute inset-x-0 top-0 h-[calc(46svh+5rem)] overflow-hidden land:inset-y-0 land:right-auto land:h-auto land:w-[min(66%,80rem)] short:land:w-1/2 land:[-webkit-mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)] land:[mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)]">
-          <Figure
-            fill
-            image={cutoutFor(ROLES.closingHome.image)}
-            alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
-            zoom={false}
-            /* 7.10: bez szarobeżowego tła studia (#B39D88) – postać na kremie sekcji.
-               8.10: bottom-0.5 – zdjęcie kończy się 2 px nad krawędzią kadru, pod kremowym
-               przejściem; przy ułamkowej wysokości kadru animowana warstwa zostawiała na dole
-               linię 1 px z ostatniego wiersza pikseli (pion, telefon). */
-            className="as-kadr-ruch as-kadr-gora bottom-0.5 [&_.as-media]:bg-transparent"
-            imgClassName="object-[50%_0%]"
-            sizes={INVITATION_SIZES}
-          />
-          {/* pion: krem od dołu pod treścią */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-cream-50 via-cream-50/70 via-[20%] to-transparent to-[45%] land:hidden"
-          />
-          {/* ultrawide: lewa (zewnętrzna) krawędź zdjęcia w krem */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 hidden bg-gradient-to-r from-cream-50 to-transparent to-[14%] min-[2400px]:land:block"
-          />
-        </div>
-
-        <div className="as-shell relative z-10 pb-[clamp(3rem,8svh,5rem)] pt-[46svh] land:py-[clamp(3rem,8svh,5rem)]">
-          <Reveal className="land:ml-auto land:max-w-[min(40%,30rem)] short:land:max-w-[55%]">
-            {/* numer 11 px na wygaszeniu zdjęcia: gold-deep miał 3,3–4,1:1 (telefon w pionie) –
-                w pionie ink/80 (≥ 7:1), w poziomie (tekst na kremie) gold-deep jak w innych sekcjach */}
-            <SectionLabel number={<span className="text-ink/80 land:text-gold-deep">06</span>}>Kontakt</SectionLabel>
-            {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">
-              Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
-            </h2>
-            <p className="as-body mt-6">
-              {nbspShort('Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.')}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
-              <Link href={BOOKING_URL} className="as-btn-solid">
-                Umów wizytę
-              </Link>
-              <ArrowLink href="/szkolenia" className="w-fit">
-                Zapytaj o termin szkolenia
-              </ArrowLink>
-            </div>
+    <section data-sticky-hide className="as-section bg-cream-50">
+      <div className="as-shell">
+        {/* 8.10: portret w łuku obok treści (zamiast zdjęcia do krawędzi ekranu z maską) –
+            cała głowa z zapasem na każdej szerokości; telefon: łuk nad treścią (najwyżej
+            22 rem), w poziomie nie wyższy niż 80% ekranu */}
+        <div className="grid items-center gap-10 md:grid-cols-12 md:gap-8">
+          <Reveal className="mx-auto w-full max-w-[22rem] md:col-span-5 md:max-w-none lg:col-span-4 lg:col-start-2 short:max-w-[calc(80svh*4/5)] short:md:max-w-[calc(80svh*4/5)]">
+            <ArchPortrait
+              image={cutoutFor(ROLES.closingHome.image)}
+              alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
+              position={ROLES.closingHome.position}
+              sizes={INVITATION_SIZES}
+            />
+          </Reveal>
+          <Reveal delay={60} className="md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-7">
+          <SectionLabel number="06">Kontakt</SectionLabel>
+          {/* INNE-11/BIO-14: konsultacja jako „pierwszy krok każdego zabiegu” – bez źródła */}
+          <h2 className="as-display-section as-text-balance mt-6 text-ink">
+            Zacznijmy od <span className="italic text-gold-dark">rozmowy.</span>
+          </h2>
+          <p className="as-body mt-6">
+            {nbspShort('Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia.')}
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <Link href={BOOKING_URL} className="as-btn-solid">
+              Umów wizytę
+            </Link>
+            <ArrowLink href="/szkolenia" className="w-fit">
+              Zapytaj o termin szkolenia
+            </ArrowLink>
+          </div>
           </Reveal>
         </div>
       </div>
