@@ -436,7 +436,8 @@ function TechniquePhoto({ photo, className }) {
     ? { '--as-crop-scale': String(macro.scale), '--as-crop-origin': macro.origin || '50% 50%' }
     : undefined;
   return (
-    <div className={className} style={crop}>
+    /* 7.10: małe zaokrąglenie jak karty w pasie efektów */
+    <div className={cn(className, '[&_.as-media]:rounded-md')} style={crop}>
       <Figure
         image={macro.image}
         alt={alt}
@@ -583,7 +584,7 @@ function ResultsBand() {
           <ResultStrip
             items={RESULTS}
             cols={4}
-            ratio="1 / 1"
+            ratio="4 / 5"
             /* D10: źródła nie mówią, czyje to prace ani gdzie je wykonano (część ma znak
                akademii) – podpis bez „naszego gabinetu”. */
             caption="Brwi i usta po makijażu permanentnym."

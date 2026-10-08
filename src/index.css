@@ -496,37 +496,6 @@
     @apply relative overflow-hidden bg-cream-200;
   }
 
-  /* Zdjęcia efektów i grup „w tonie sekcji” (7.10.2026 – zdjęcia nie mogą odcinać się od tła
-     twardym prostokątem). Krawędzie kadru rozpływają się w kolorze sekcji MASKĄ przezroczystości:
-     barwa zdjęcia (skóra, pigment) bez zmian – zasada 4; zmienia się tylko to, co je otacza.
-     · .as-feather – każdy kadr osobno (pas efektów: sąsiednie kadry przenikają się w jeden pas;
-       brew i usta w środku kadru nietknięte – wygaszenie 14 % z boków, 10 % u góry i u dołu);
-     · .as-feather-group – cała grupa kadrów (kolaż /o-nas, absolwentki /szkolenia): wygaszona
-       tylko zewnętrzna krawędź grupy (7 %), środek bez zmian.
-     Tło .as-media przezroczyste, inaczej wygaszenie odsłaniałoby krem kafla zamiast tła sekcji. */
-  .as-feather img {
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
-      linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
-      linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-  }
-
-  .as-feather-group {
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent),
-      linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent),
-      linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-  }
-
-  .as-feather .as-media,
-  .as-feather-group .as-media {
-    background: transparent;
-  }
-
   /* Propozycja SZK-03-B – okno podglądu grafiki kursu (Education.jsx, OfferPoster) od 1024 px
      w poziomie: plakat 9:16 na całą wysokość panelu (90svh − padding 2 × 40 px − obrys),
      w kolumnie obok tytuł, opis i przyciski (stopka statyczna, przyciski na pełną szerokość

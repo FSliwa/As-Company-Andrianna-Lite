@@ -146,8 +146,7 @@ const COLLAGE = [
 
 function SalonCollage() {
   return (
-    /* as-feather-group (7.10): zewnętrzna krawędź kolażu rozpływa się w kremie sekcji */
-    <div className="as-feather-group grid grid-cols-[0.75fr_0.6fr] gap-1">
+    <div className="grid grid-cols-[0.75fr_0.6fr] gap-1">
       {COLLAGE.map((c) => (
         <Figure
           key={c.key}

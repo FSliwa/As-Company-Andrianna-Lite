@@ -33,6 +33,7 @@ import {
   TRAINING_INTRO,
   TRAINING_PILLARS,
 } from '@/lib/site';
+import { cutoutFor } from '@/lib/cutouts';
 import { GROUPS, ROLES } from '@/lib/roles';
 import { cn, nbspShort } from '@/lib/utils';
 
@@ -515,14 +516,15 @@ function TreatmentsBand() {
                 w poziomie: kadr nie wyższy niż 80% ekranu (H8; short:sm/md – jak w O nas). */}
             <figure className="short:mx-auto short:max-w-[calc(80svh*4/5)] short:sm:max-w-[calc(80svh*4/5)] short:md:mx-0 short:md:max-w-[calc(80svh*4/5)]">
               <div className="relative" style={{ aspectRatio: '4 / 5' }}>
+                {/* 7.10: portret bez tła studia (src/lib/cutouts.js) – pod postacią krem sekcji */}
                 <Figure
-                  image={portrait.image}
+                  image={cutoutFor(portrait.image)}
                   alt={`${FOUNDER.name} – ${FOUNDER.signature}`}
                   bleed="start"
                   /* Od md wewnętrzna (prawa) i dolna krawędź przechodzą maską w krem sekcji –
                      różowobeżowe tło sesji nie stoi już twardym prostokątem na cream-50
                      (jak zdjęcie hero; research 5.10.2026: Tina Davies, JP Studio). */
-                  className="md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
+                  className="[&_.as-media]:bg-transparent md:[-webkit-mask-composite:source-in] md:[-webkit-mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)] md:[mask-composite:intersect] md:[mask-image:linear-gradient(to_left,transparent,#000_22%),linear-gradient(to_top,transparent,#000_14%)]"
                   position={portrait.position}
                   zoom={false}
                   sizes="(min-width: 1440px) 720px, (min-width: 1024px) 46vw, (min-width: 768px) 48vw, 100vw"
@@ -716,10 +718,11 @@ function InvitationBand() {
         <div className="absolute inset-x-0 top-0 h-[calc(46svh+5rem)] overflow-hidden land:inset-y-0 land:right-auto land:h-auto land:w-[min(66%,80rem)] short:land:w-1/2 land:[-webkit-mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)] land:[mask-image:linear-gradient(to_left,transparent,rgb(0_0_0/0.45)_18%,#000_42%)]">
           <Figure
             fill
-            image={ROLES.closingHome.image}
+            image={cutoutFor(ROLES.closingHome.image)}
             alt={`${FOUNDER.name} – portret z sesji wizerunkowej`}
             zoom={false}
-            className="as-kadr-ruch"
+            /* 7.10: bez szarobeżowego tła studia (#B39D88) – postać na kremie sekcji */
+            className="as-kadr-ruch [&_.as-media]:bg-transparent"
             imgClassName="object-[50%_35%] land:object-[100%_40%]"
             sizes={INVITATION_SIZES}
           />

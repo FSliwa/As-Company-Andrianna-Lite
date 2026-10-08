@@ -3,7 +3,7 @@
 
 Wejście: zdjęcie z public/graphics (już po gradingu – piksele postaci identyczne jak w hero)
 i maska z scripts/wyciecie-postaci.swift. Wyjście: <nazwa>-wyciecie.webp (pełna szerokość)
-i <nazwa>-wyciecie-960.webp – te same szerokości co warianty zdjęcia, więc przeglądarka
+oraz -480 i -960 – te same szerokości co warianty zdjęcia, więc przeglądarka
 bierze parę o tej samej skali. Barwy bez zmian (tylko kanał alfa).
 """
 import os
@@ -18,5 +18,7 @@ alpha = Image.open(mask).convert('L').resize(img.size, Image.LANCZOS)
 cut = img.copy()
 cut.putalpha(alpha)
 cut.save(f'{base}-wyciecie.webp', 'WEBP', quality=84, method=6)
-cut.resize((960, round(img.height * 960 / img.width)), Image.LANCZOS).save(f'{base}-wyciecie-960.webp', 'WEBP', quality=84, method=6)
-print('zapisano', f'{base}-wyciecie.webp', f'{base}-wyciecie-960.webp')
+for vw in (480, 960):
+    if vw < img.width:
+        cut.resize((vw, round(img.height * vw / img.width)), Image.LANCZOS).save(f'{base}-wyciecie-{vw}.webp', 'WEBP', quality=84, method=6)
+print('zapisano', f'{base}-wyciecie.webp', '+ 480 / 960')

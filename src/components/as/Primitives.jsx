@@ -15,6 +15,7 @@ import { useContent, useLocale } from '@/i18n/client';
 import common from '@/content/common';
 import { LEGAL_PUBLIC } from '@/lib/legal';
 import LegalText from '@/components/as/LegalText';
+import { cutoutFor } from '@/lib/cutouts';
 import {
   Accordion,
   AccordionContent,
@@ -509,15 +510,16 @@ export function PageHero({
                 : 'land:left-auto min-[2100px]:land:right-[calc((100%-90rem)/2)]'
             )}
           >
+            {/* 7.10: portret z sesji bez tła studia (src/lib/cutouts.js), pod nim krem sekcji */}
             <Figure
               fill
-              image={image}
+              image={cutoutFor(image)}
               alt={imageAlt || title}
               position={imagePosition || '50% 20%'}
               tone={imageTone}
               zoom={false}
               priority
-              className="as-enter-breathe as-kadr-ruch"
+              className="as-enter-breathe as-kadr-ruch [&_.as-media]:bg-transparent"
               sizes={PAGE_HERO_SIZES}
             />
             {/* pion: krem od dołu (pod treścią pełny), u góry pas pod nagłówkiem.
@@ -1248,9 +1250,9 @@ export function ResultStrip({ items, tone = 'light', ratio = '1 / 1', cols = 6, 
   return (
     <div className={className}>
       {/* Propozycja usl-03-a: bez złotej ramki – kafle w osi łamu (jak wiersze technik w 02).
-          as-feather (7.10): krawędzie kadrów rozpływają się w tle sekcji, bez odstępu – sąsiednie
-          zdjęcia przenikają się w jeden pas (index.css) */}
-      <ul className={cn('as-feather grid gap-0', grid)}>
+          7.10: ostre karty z małym zaokrągleniem (6 px) i odstępem – jak efekty na stronach
+          branży (Tina Davies, Laura Kay, Daria Chuprys); na jasnym tle sekcji, bez wygaszania */}
+      <ul className={cn('grid gap-3 sm:gap-5 [&_.as-media]:rounded-md', grid)}>
         {items.map((it, i) => (
           <li key={(it.image && it.image.src) || i}>
             <Figure

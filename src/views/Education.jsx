@@ -669,8 +669,7 @@ function GraduatesBand() {
           <Reveal delay={80} className="lg:col-span-7">
             <figure>
               {/* Propozycja SZK-04-A: kolaż bez złotej ramki (klientka: „nie w ramce”) */}
-              {/* as-feather-group (7.10): zewnętrzna krawędź grupy zdjęć rozpływa się w tle sekcji */}
-              <div className="as-feather-group grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
+              <div className="grid grid-cols-2 gap-1 min-[480px]:grid-cols-3">
                 {GRADUATE_TILES.map(({ group, alt }, i) => (
                   <Figure
                     key={group.image.src}
