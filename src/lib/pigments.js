@@ -25,6 +25,7 @@
  */
 
 import raw from '@/data/pigments.json';
+import { shopCategoryById, shopProductById } from '@/lib/shop';
 
 /* Myślnik: w danych ze sklepu bywa długi (U+2014); na stronie zawsze półpauza „–” (decyzja Filipa
    z 29.09). Zamieniamy przy odczycie, nie w pliku – tłumaczenia opisów (pigments.i18n.json)
@@ -38,7 +39,40 @@ function withEnDash(value) {
   }
   return value;
 }
-const data = withEnDash(raw);
+/*
+ * Podział katalogu – prośba klientki z 18.10.2026: „Katalog pigmentów dzielimy na: pigmenty
+ * SUPERNATURAL BROWS, pigmenty AS opium (usta, brwi), pigmenty AS Classic (usta, brwi), pigmenty
+ * AS opium light”. Decyzja Filipa (18.10.2026): SUPERNATURAL BROWS = kolekcja Hairstrokes
+ * (pigmenty do włosa maszynowego), pozostałe kolekcje (Paradise, Harley Quinn, Areola/Camouflage,
+ * Trichopigmentation) ukryte do czasu listy Kariny „co usunąć i co dodać”. Dane sklepu zostają
+ * w pigments.json bez zmian – przywrócenie kolekcji = dopisanie jej tutaj.
+ * Kolejność grup jak u klientki; `name` – nazwa grupy na stronie (inna niż w sklepie).
+ */
+export const CLIENT_GROUPS = [
+  { id: 'hairstrokes', name: 'SUPERNATURAL BROWS' },
+  { id: 'as-opium' },
+  { id: 'as-classic' },
+  { id: 'as-opium-light-minerals' },
+];
+
+/** Strefy w filtrze katalogu – podział klientki: „usta, brwi” (reszta produktów widoczna w „Wszystkie”). */
+export const FILTER_ZONES = ['brwi', 'usta'];
+
+function clientCatalog(full) {
+  const byId = new Map(full.collections.map((c) => [c.id, c]));
+  const collections = CLIENT_GROUPS.filter((g) => byId.has(g.id)).map((g) => ({
+    ...byId.get(g.id),
+    ...(g.name ? { name: g.name } : {}),
+  }));
+  const order = new Map(collections.map((c, i) => [c.id, i]));
+  /* sortowanie stabilne – w obrębie kolekcji kolejność z danych (odcienie → zestawy) */
+  const products = full.products
+    .filter((p) => order.has(p.collection))
+    .sort((a, b) => order.get(a.collection) - order.get(b.collection));
+  return { ...full, collections, products };
+}
+
+const data = clientCatalog(withEnDash(raw));
 
 const NBSP = ' ';
 
@@ -70,8 +104,11 @@ export function collections(catalog = data) {
   return catalog.collections;
 }
 
+/* Lista „Twoje zamówienie” jest wspólna dla /pigmenty i /sklep (src/lib/shop.js – produkty
+   w tym samym kształcie): wyszukiwanie po id w domyślnym katalogu zagląda też do sklepu,
+   a „kolekcja” produktu sklepu to jego kategoria. */
 export function collectionById(id, catalog = data) {
-  return catalog.collections.find((c) => c.id === id) ?? null;
+  return catalog.collections.find((c) => c.id === id) ?? (catalog === data ? shopCategoryById(id) : null);
 }
 
 /** Wszystkie produkty (odcienie + zestawy), posortowane: kolekcja → odcienie → zestawy. */
@@ -81,7 +118,7 @@ export function products(catalog = data) {
 
 /** Produkt po `id` (slug ze sklepu) albo po `sourceId`. */
 export function productById(id, catalog = data) {
-  return catalog.products.find((p) => p.id === id || p.sourceId === id) ?? null;
+  return catalog.products.find((p) => p.id === id || p.sourceId === id) ?? (catalog === data ? shopProductById(id) : null);
 }
 
 export function zoneLabel(id, catalog = data) {

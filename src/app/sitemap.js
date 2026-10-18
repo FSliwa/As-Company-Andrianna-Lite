@@ -17,6 +17,7 @@ const KEYS = [
   'contact',
   'training',
   'machines',
+  'shop',
   'pigments',
   'certificates',
 ];

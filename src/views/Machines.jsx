@@ -71,14 +71,15 @@ import {
  * Źródła (karty produktów):
  *   AS PRINCESS  karty trzech kolorów (Champagne Gold, Gold, Pink) – te same
  *                parametry i cena. Karta podaje „poprzednią najniższą cenę”
- *                2 999 zł, więc „ceny regularnej” 3 500 zł tu nie pokazujemy.
+ *                2 999 zł; od 18.10.2026 strona podaje cenę standardową 3 500 zł
+ *                (klientka: „Cena standardowa jest 3500 zł”).
  *   Wynajem      karta wynajmu AS PRINCESS – 369 zł (300 zł netto) miesięcznie,
  *                zwrotna kaucja 500 zł, kolory Gold / Pink Gold / Champagne Gold.
  *                Warunki z dawnego sklepu – do potwierdzenia przez klientkę.
  * Gwarancji AS PRINCESS karta produktu nie podaje – nie wpisujemy jej.
  */
 
-/* 2999 → „2 999” (twarda spacja tysięcy) */
+/* 3500 → „3 500” (twarda spacja tysięcy) */
 const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
 const zl = (n) => `${fmt(n)}\u00a0zł`;
 
@@ -97,7 +98,9 @@ const PRINCESS = {
   number: '01',
   name: 'AS PRINCESS',
   subtitle: 'Bezprzewodowa',
-  price: 2999,
+  /* cena standardowa – klientka 18.10.2026: „Cena standardowa jest 3500 zł” (wcześniej 2 999 zł
+     z karty sklepu – cena akcyjna) */
+  price: 3500,
   description:
     'Bezprzewodowa maszynka z aluminium o wadze 107\u00a0g – minimalne wibracje i cicha praca, przy której dobrze czujesz skórę.',
   features: [

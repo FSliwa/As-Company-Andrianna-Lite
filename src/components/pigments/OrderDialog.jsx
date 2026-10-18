@@ -40,6 +40,7 @@ import { ArrowLink, Field, FormNotice } from '@/components/as/Primitives';
 import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { collectionLabel, formatCapacity, formatPrice, formatSyncedDate } from '@/lib/pigments';
 import { CONTACT } from '@/lib/site';
+import { isShopProduct } from '@/lib/shop';
 import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
@@ -71,18 +72,19 @@ function linesText(summary, stale) {
   return summary.lines.map((l, i) => `${i + 1}. ${stale ? l.item : l.text}`).join('\n');
 }
 
-function totalText(summary, stale) {
+/* `synced` – data cen strony, która otwiera listę (domyślnie pigmenty; /sklep – data sklepu) */
+function totalText(summary, stale, synced = SYNCED) {
   return stale
-    ? `do potwierdzenia (ceny z ${SYNCED} mogą być nieaktualne)`
-    : `${formatPrice(summary.total)} (ceny z ${SYNCED}, bez kosztów dostawy)`;
+    ? `do potwierdzenia (ceny z ${synced} mogą być nieaktualne)`
+    : `${formatPrice(summary.total)} (ceny z ${synced}, bez kosztów dostawy)`;
 }
 
 /** Tekst do schowka – tylko lista, suma i uwagi, bez danych osobowych. */
-function clipboardText(summary, stale, notes = '') {
+function clipboardText(summary, stale, notes = '', synced = SYNCED) {
   return [
-    'Zapytanie o pigmenty – lista odcieni:',
+    'Zapytanie o produkty – lista:',
     linesText(summary, stale),
-    `Suma orientacyjna: ${totalText(summary, stale)}`,
+    `Suma orientacyjna: ${totalText(summary, stale, synced)}`,
     notes.trim() ? `Uwagi: ${notes.trim()}` : null,
   ]
     .filter(Boolean)
@@ -132,7 +134,12 @@ function Line({ line, stale, onQty, onRemove }) {
   const what = lineName(line);
   return (
     <li className="grid grid-cols-[0.5rem_minmax(0,1fr)] gap-x-4 border-b border-ink/10 py-4 sm:py-5">
-      <Swatch color={product.color} className="h-full min-h-[3rem] w-2" />
+      {/* pigment – próbka koloru; produkt sklepu (bez koloru) – spokojny pasek zamiast kreskowania */}
+      {isShopProduct(product) ? (
+        <span aria-hidden="true" className="block h-full min-h-[3rem] w-2 bg-cream-200" />
+      ) : (
+        <Swatch color={product.color} className="h-full min-h-[3rem] w-2" />
+      )}
       <div className="min-w-0">
         <div className="flex items-baseline justify-between gap-4">
           <p className="min-w-0 text-base leading-snug text-ink">{product.name}</p>
@@ -184,7 +191,9 @@ function CopyFeedback({ copy, text }) {
 const TEXT_BTN =
   'as-label h-11 px-1 text-ink/70 underline decoration-ink/30 underline-offset-4 transition-colors hover:text-ink hover:decoration-ink';
 
-export default function OrderDialog({ open, onOpenChange, order, onBrowse, onCloseAutoFocus }) {
+/* `syncedAt` – data cen strony, która otwiera listę (domyślnie pigmenty; /sklep – data sklepu) */
+export default function OrderDialog({ open, onOpenChange, order, onBrowse, onCloseAutoFocus, syncedAt }) {
+  const synced = syncedAt ? formatSyncedDate(syncedAt) : SYNCED;
   const { summary, setQty, remove, clear } = order;
   const stale = usePricesStale();
   const [form, setForm] = useState(EMPTY_FORM);
@@ -243,7 +252,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
 
   const copyText = async () => {
     try {
-      await navigator.clipboard.writeText(clipboardText(summary, stale, form.notes));
+      await navigator.clipboard.writeText(clipboardText(summary, stale, form.notes, synced));
       setCopy('ok');
     } catch {
       setCopy('error');
@@ -260,14 +269,14 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
       return;
     }
     const { status } = sendEnquiry({
-      subject: 'Zapytanie o pigmenty',
+      subject: 'Zapytanie o produkty',
       fields: [
         ['Imię', form.name],
         ['Telefon', form.phone],
         ['E-mail', form.email],
         ['Salon', form.salon],
-        ['Lista odcieni', `\n${linesText(summary, stale)}`],
-        ['Suma orientacyjna', totalText(summary, stale)],
+        ['Lista produktów', `\n${linesText(summary, stale)}`],
+        ['Suma orientacyjna', totalText(summary, stale, synced)],
         ['Uwagi', form.notes],
       ],
     });
@@ -325,7 +334,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
                   : 'Twoja lista czeka tutaj – skopiuj ją i wklej w wiadomości.'}
               </p>
             </div>
-            <CopyFeedback copy={copy} text={clipboardText(summary, stale, form.notes)} />
+            <CopyFeedback copy={copy} text={clipboardText(summary, stale, form.notes, synced)} />
             <ArrowLink
               onClick={() => (sentToMail ? handleOpenChange(false) : setResult(null))}
               className="mt-8 w-fit"
@@ -348,7 +357,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
         ) : empty ? (
           <div className="mt-8 border-t border-ink/10 pt-6">
             <p className="as-body">
-              Lista jest pusta. Dodaj odcienie z katalogu – przycisk „Dodaj” jest przy każdym pigmencie.
+              Lista jest pusta. Dodaj produkty z katalogu – przycisk „Dodaj” jest przy każdym produkcie.
             </p>
             <ArrowLink onClick={onBrowse} data-empty-action="" className="mt-8 w-fit">
               Przejdź do katalogu
@@ -381,8 +390,8 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
             </div>
             <p className="as-caption mt-3 max-w-none">
               {stale
-                ? `Ceny z ${SYNCED} mogą być nieaktualne – kwotę potwierdzimy w odpowiedzi.`
-                : `Ceny z ${SYNCED}. Suma nie obejmuje kosztów dostawy – łączną kwotę potwierdzimy w${NBSP}odpowiedzi.`}
+                ? `Ceny z ${synced} mogą być nieaktualne – kwotę potwierdzimy w odpowiedzi.`
+                : `Ceny z ${synced}. Suma nie obejmuje kosztów dostawy – łączną kwotę potwierdzimy w${NBSP}odpowiedzi.`}
             </p>
 
             {FORM_LIVE ? (
@@ -445,7 +454,7 @@ export default function OrderDialog({ open, onOpenChange, order, onBrowse, onClo
                     w{NBSP}wiadomości do {CONTACT.instagramHandle} – odpowiemy z dostępnością i łączną kwotą.
                   </p>
                 </div>
-                <CopyFeedback copy={copy} text={clipboardText(summary, stale)} />
+                <CopyFeedback copy={copy} text={clipboardText(summary, stale, '', synced)} />
                 <div className="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
                   <ArrowLink onClick={() => handleOpenChange(false)} className="w-fit">
                     Wróć do katalogu

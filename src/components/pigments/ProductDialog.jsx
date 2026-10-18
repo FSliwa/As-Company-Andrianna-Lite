@@ -28,6 +28,7 @@ import {
 import { ArrowLink } from '@/components/as/Primitives';
 import { findVariant, formatCapacity, formatPrice, formatSyncedDate, productById } from '@/lib/pigments';
 import { productPhoto } from '@/lib/productPhotos';
+import { SHOP_SYNCED_AT, isShopProduct } from '@/lib/shop';
 import {
   DOT,
   Description,
@@ -44,6 +45,8 @@ import {
 } from './parts';
 
 const SYNCED = formatSyncedDate();
+/* data cen produktów sklepu (/sklep) – z danych sklepu */
+const SHOP_SYNCED = formatSyncedDate(SHOP_SYNCED_AT);
 
 /* Pole zdjęcia: 4:3 na szerokość treści panelu (od sm 560 px minus 2 × 40 px; telefon – arkusz
    na całą szerokość minus 2 × 20 px). Niski ekran (short:, telefon w poziomie): panel ma ok.
@@ -53,9 +56,13 @@ const SYNCED = formatSyncedDate();
 const PHOTO_FIELD = 'short:[&_.as-media]:!aspect-auto short:[&_.as-media]:h-36';
 const PHOTO_SIZES = '(max-width: 1023px) and (max-height: 500px) 170px, (min-width: 640px) 480px, calc(100vw - 2.5rem)';
 
-/* Na zdjęciach: odcień – butelka z opakowaniem; zestaw – pudełko i butelki. */
+/* Na zdjęciach: odcień – butelka z opakowaniem; zestaw – pudełko i butelki; produkt sklepu – sama nazwa. */
 const photoAlt = (product) =>
-  product.isSet ? `${product.name} – opakowanie i butelki zestawu` : `${product.name} – butelka i opakowanie`;
+  isShopProduct(product)
+    ? product.name
+    : product.isSet
+      ? `${product.name} – opakowanie i butelki zestawu`
+      : `${product.name} – butelka i opakowanie`;
 
 function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const [label, setLabel] = useState(() => defaultLabel(product));
@@ -66,6 +73,9 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const multi = product.variants.length > 1;
   const canAdd = Boolean(product.inStock && variant?.inStock);
   const hasPhoto = Boolean(productPhoto(product.id));
+  /* produkt sklepu (/sklep): bez stref i próbki koloru, data cen z danych sklepu */
+  const shop = isShopProduct(product);
+  const synced = shop ? SHOP_SYNCED : SYNCED;
   /* pojemność w przycisku tylko przy wyborze (kilka butelek) – wybór stoi wyżej w treści */
   const capLabel = multi && variant?.label ? formatCapacity(variant.label) : null;
 
@@ -82,10 +92,19 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
       <DialogHeader>
         <p className="as-kicker">{kickerFor(product)}</p>
         <DialogTitle>{displayName(product.name)}</DialogTitle>
-        <DialogDescription>
-          {product.zones.length > 1 ? 'Strefy' : 'Strefa'}: {zonesText(product)}
-          {!multi && product.variants[0]?.label ? `${DOT}${formatCapacity(product.variants[0].label)}` : ''}
-        </DialogDescription>
+        {shop ? (
+          /* sklep: warianty („1 szt. · 20 szt.”) albo pojemność; bez nich – opis tylko dla czytnika
+             (kategoria stoi już nad nazwą) */
+          (() => {
+            const variants = product.variants.map((v) => v.label).filter(Boolean).map((l) => formatCapacity(l)).join(DOT);
+            return <DialogDescription className={variants ? undefined : 'sr-only'}>{variants || kickerFor(product)}</DialogDescription>;
+          })()
+        ) : (
+          <DialogDescription>
+            {product.zones.length > 1 ? 'Strefy' : 'Strefa'}: {zonesText(product)}
+            {!multi && product.variants[0]?.label ? `${DOT}${formatCapacity(product.variants[0].label)}` : ''}
+          </DialogDescription>
+        )}
       </DialogHeader>
 
       {/* zdjęcie (4:3, na niskim ekranie niższe pole – PHOTO_FIELD; packshot w środku, białe
@@ -100,10 +119,10 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
             alt={photoAlt(product)}
             className={PHOTO_FIELD}
           />
-          <p className="as-caption mt-2 max-w-none">Kolor na zdjęciu i na ekranie może różnić się od pigmentu.</p>
+          {!shop && <p className="as-caption mt-2 max-w-none">Kolor na zdjęciu i na ekranie może różnić się od pigmentu.</p>}
         </div>
       ) : (
-        !product.isSet && (
+        !product.isSet && !shop && (
           <div className="mt-6">
             <Swatch color={product.color} className="h-10 w-full" />
             <p className="as-caption mt-2 max-w-none">
@@ -143,8 +162,8 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
         )}
         <p className="as-caption mt-3 max-w-none">
           {stale
-            ? `Ceny z ${SYNCED} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
-            : `Cena z ${SYNCED}.`}
+            ? `Ceny z ${synced} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
+            : `Cena z ${synced}.`}
         </p>
         {!product.inStock && <p className="as-badge mt-3">Brak w magazynie</p>}
       </div>

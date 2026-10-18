@@ -44,7 +44,8 @@ export const FOUNDER = {
     { category: 'Usta', result: '1. miejsce' },
   ],
   /* D7: fakty z briefu (sekcja „Opis”), zdania gotowe do /o-nas i skrótów na stronie głównej.
-     D3: „bez bólu, bez blizn i migracji pigmentu” → „z minimalnym dyskomfortem i dbałością…”;
+     D3: „bez bólu, bez blizn i migracji pigmentu” → „z dbałością…” (18.10.2026 klientka: „usuwamy
+     słowo dyskomfort” – wcześniej „z minimalnym dyskomfortem i dbałością…”);
      „80% wygojenia” → „ok. 80%”; superlatyw „najbardziej wybierany salon na Śląsku” złagodzony. */
   facts: {
     pigmentations: 'Wykonała tysiące pigmentacji dla klientek.',
@@ -52,7 +53,7 @@ export const FOUNDER = {
     techniques: 'Twórczyni szybkich, naturalnych technik makijażu permanentnego brwi i ust – z wygojeniem na poziomie ok. 80%.',
     snb: 'Autorka techniki Super Natural Brows – włosa maszynowego bez kompromisu między jakością a szybkością.',
     treatmentTime:
-      'Jej kursantki wykonują pigmentację na wysokim poziomie w 2–2,5 godziny, a ona sama wykonuje włos maszynowy w 1,5–2 godziny – z minimalnym dyskomfortem i z dbałością o to, by nie powstawały blizny, a pigment nie migrował z czasem.',
+      'Jej kursantki wykonują pigmentację na wysokim poziomie w 2–2,5 godziny, a ona sama wykonuje włos maszynowy w 1,5–2 godziny – z dbałością o to, by nie powstawały blizny, a pigment nie migrował z czasem.',
     katowice: 'Przez 7 lat prowadziła w Katowicach salon makijażu permanentnego, któremu zaufały klientki z całego Śląska – z listą oczekiwania na zabieg ponad pół roku.',
     warsaw: 'Od 3 lat prowadzi salon i akademię makijażu permanentnego w Warszawie, wykonując pigmentacje i szkoląc osoby z różnych zakątków Polski i świata.',
     abroad: 'Jest zapraszana za granicę na pokazy, master classy i kursy – ma już ponad 50 kursantek za granicą.',
@@ -159,9 +160,10 @@ export const LEGAL = {
 
 /** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA).
  * `group` – pozycja z podkategoriami (prośba klientki 30.09.2026: „podkategoria na produkty”):
- * menu rozwijane w nagłówku i podpozycje w menu na telefonie biorą linki z NAV_ALL[group]. */
+ * menu rozwijane w nagłówku i podpozycje w menu na telefonie biorą linki z NAV_ALL[group].
+ * 18.10.2026 (klientka): „Produkty zmieniamy na słowo sklep” – pozycja prowadzi na /sklep. */
 export const NAV_MAIN = [
-  { label: 'Produkty', href: '/pigmenty', group: 0 },
+  { label: 'Sklep', href: '/sklep', group: 0 },
   { label: 'Szkolenia', href: '/szkolenia' },
   { label: 'Zabiegi', href: '/uslugi' },
   { label: 'O nas', href: '/o-nas' },
@@ -171,12 +173,21 @@ export const NAV_MAIN = [
 /** Pełna mapa serwisu – menu rozwijane i stopka. */
 export const NAV_ALL = [
   {
-    title: 'Produkty',
+    /* Kategorie sklepu w kolejności klientki (18.10.2026). Pigmenty i maszynka (tylko AS PRINCESS,
+       30.09.2026) – własne strony; pozostałe – sekcje /sklep (kotwica = id kategorii w
+       src/data/shop.json). `footerOnly` – tylko stopka i dodatkowa lista menu na telefonie,
+       nie menu rozwijane „Sklep” (klientka wymieniła w sklepie 8 kategorii). */
+    title: 'Sklep',
     links: [
-      { label: 'Pigmenty AS OPIUM', href: '/pigmenty' },
-      /* Klientka sprzedaje tylko AS PRINCESS (30.09.2026). */
-      { label: 'Maszynka AS PRINCESS', href: '/maszynki' },
-      { label: 'Certyfikaty i zgodność REACH', href: '/certyfikaty' },
+      { label: 'Pigmenty', href: '/pigmenty' },
+      { label: 'Maszynki', href: '/maszynki' },
+      { label: 'Kartridże', href: '/sklep#kartridze' },
+      { label: 'Akcesoria do rysunku', href: '/sklep#akcesoria-do-rysunku' },
+      { label: 'Akcesoria do ćwiczeń', href: '/sklep#akcesoria-do-cwiczen' },
+      { label: 'Środki zabiegowe', href: '/sklep#srodki-zabiegowe' },
+      { label: 'Lampy', href: '/sklep#lampy' },
+      { label: 'Lasery', href: '/sklep#lasery' },
+      { label: 'Certyfikaty i zgodność REACH', href: '/certyfikaty', footerOnly: true },
     ],
   },
   {
@@ -446,7 +457,8 @@ export const COURSES = [
 
 /**
  * Wstęp do szkoleń – sekcja „Szkolenia” briefu po korekcie językowej (D4).
- * D3: „szybko, komfortowo, bezboleśnie i bezpiecznie” → „…z minimalnym dyskomfortem”.
+ * `how` – brzmienie klientki z 18.10.2026 („Usuwamy słowo dyskomfort”; wcześniej D3: „…szybko,
+ * komfortowo, bezpiecznie i z minimalnym dyskomfortem dla klientki”).
  * `booking` – informacja z briefu o rezerwacji po wstępnym kontakcie (przy kursach z requiresContact).
  */
 export const TRAINING_INTRO = {
@@ -454,7 +466,7 @@ export const TRAINING_INTRO = {
     'System szkoleniowy stworzony z dbałością o kursantki – ich karierę, aktywny rozwój w branży PMU, rzetelną naukę i praktyczne stosowanie nawyków w pracy z klientkami.',
   practice:
     'Nasze programy zawsze opierają się na dużej ilości praktyki: pomagają przełamać lęk przed pracą z klientkami, poszerzyć wiedzę i skutecznie wykorzystać ją w pracy.',
-  how: 'Uczymy nie tylko, jak wykonać jakościowy zabieg, ale też jak zrobić go szybko, komfortowo, bezpiecznie i z minimalnym dyskomfortem dla klientki.',
+  how: 'Uczymy wykonywać zabieg nie tylko jakościowo, ale też szybko, przyjemnie oraz bezpiecznie.',
   levels: 'Kursy są podzielone na poziomy zaawansowania, żeby każda osoba mogła dobrać ofertę idealną dla siebie.',
   booking: 'Na niektóre szkolenia wymagamy potwierdzenia umiejętności – rezerwacja odbywa się wtedy tylko po wstępnym kontakcie.',
   snbLine:
@@ -558,7 +570,8 @@ export const PILLARS = [
     number: '01',
     title: 'Produkty',
     desc: 'Profesjonalne narzędzia i pigmenty tworzone przez praktyków dla praktyków.',
-    href: '/pigmenty',
+    /* 18.10.2026: wszystkie kategorie produktów są na /sklep */
+    href: '/sklep',
   },
   {
     number: '02',

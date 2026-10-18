@@ -19,11 +19,21 @@ const site = {
     venueNote: 'A detached building with private parking for clients',
     hours: [{ day: 'Visits and training', value: 'By appointment' }],
   },
-  NAV_MAIN: [{ label: 'Products' }, { label: 'Training' }, { label: 'Treatments' }, { label: 'About' }, { label: 'Contact' }],
+  NAV_MAIN: [{ label: 'Shop' }, { label: 'Training' }, { label: 'Treatments' }, { label: 'About' }, { label: 'Contact' }],
   NAV_ALL: [
     {
-      title: 'Products',
-      links: [{ label: 'AS OPIUM pigments' }, { label: 'AS PRINCESS machine' }, { label: 'Certificates & REACH compliance' }],
+      title: 'Shop',
+      links: [
+        { label: 'Pigments' },
+        { label: 'Machines' },
+        { label: 'Cartridges' },
+        { label: 'Drawing accessories' },
+        { label: 'Practice accessories' },
+        { label: 'Treatment products' },
+        { label: 'Lamps' },
+        { label: 'Lasers' },
+        { label: 'Certificates & REACH compliance' },
+      ],
     },
     {
       title: 'Education',

@@ -50,6 +50,7 @@ import {
   collectionById,
   collectionLabel,
   collections as allCollections,
+  FILTER_ZONES,
   filterProducts,
   formatCapacity,
   formatSyncedDate,
@@ -109,7 +110,8 @@ const PALETTES = Object.fromEntries(
 
 /* Strefa zostaje przy zmianie kolekcji tylko wtedy, gdy nowa kolekcja ją ma. */
 const zoneFits = (zone, collection) =>
-  !zone || zonesIn(filterProducts(PRODUCTS, { collection })).some((z) => z.id === zone);
+  !zone ||
+  (FILTER_ZONES.includes(zone) && zonesIn(filterProducts(PRODUCTS, { collection })).some((z) => z.id === zone));
 
 /* „6–15 ml” z pojemności odcieni w danych */
 const ml = (label) => Number(String(label).replace(',', '.').replace(/\s*ml$/, ''));
@@ -191,7 +193,9 @@ function Hero() {
         titleAccent="których używam i które polecam z czystym sumieniem."
         /* D2 („linia rzęs” zamiast „kresek”) dotyczy zabiegu Perfect Eyes; tu „kreski” to kategoria
            pigmentów ze sklepu (strefa „Kreski” w danych i w filtrze) – zostaje (raport INNE-03). */
-        lead="Pigmenty do brwi, ust i kresek, modyfikatory oraz odcienie do areoli, kamuflażu i trychopigmentacji – AS OPIUM, Light Minerals, AS Classic i kolejne kolekcje. Wybierz odcienie i wyślij zapytanie."
+        /* podział klientki z 18.10.2026 (4 grupy – CLIENT_GROUPS w src/lib/pigments.js); areola, kamuflaż
+           i trychopigmentacja ukryte do listy Kariny */
+        lead="Pigmenty SUPERNATURAL BROWS do brwi, AS OPIUM i AS Classic do brwi i ust oraz AS OPIUM Light Minerals. Wybierz odcienie i wyślij zapytanie."
         stats={HERO_STATS}
       >
         <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
@@ -232,7 +236,7 @@ function Catalog({
   const [setsOpen, setSetsOpen] = useState(false);
 
   const base = useMemo(() => filterProducts(PRODUCTS, { collection }), [collection]);
-  const zones = useMemo(() => zonesIn(base), [base]);
+  const zones = useMemo(() => zonesIn(base).filter((z) => FILTER_ZONES.includes(z.id)), [base]);
   /* strefa, której nie ma w wybranej kolekcji, przestaje filtrować */
   const activeZone = zone && zones.some((z) => z.id === zone) ? zone : null;
   const q = fold(query.trim());

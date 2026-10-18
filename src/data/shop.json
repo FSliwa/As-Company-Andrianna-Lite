@@ -1,0 +1,1082 @@
+{
+  "syncedAt": "2026-10-18T10:16:41.097Z",
+  "currency": "PLN",
+  "categories": [
+    {
+      "id": "kartridze",
+      "name": "Kartridże",
+      "count": 20
+    },
+    {
+      "id": "akcesoria-do-rysunku",
+      "name": "Akcesoria do rysunku",
+      "count": 5
+    },
+    {
+      "id": "akcesoria-do-cwiczen",
+      "name": "Akcesoria do ćwiczeń",
+      "count": 5
+    },
+    {
+      "id": "srodki-zabiegowe",
+      "name": "Środki zabiegowe",
+      "count": 11
+    },
+    {
+      "id": "lampy",
+      "name": "Lampy",
+      "count": 1
+    },
+    {
+      "id": "lasery",
+      "name": "Lasery",
+      "count": 0
+    }
+  ],
+  "products": [
+    {
+      "id": "kartridz-satellite-25-1-rllt",
+      "sourceId": 4098,
+      "name": "SATELLITE 25/1 RLLT",
+      "fullName": "Kartridż SATELLITE 25/1 RLLT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5171
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5170
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nBrak literki H przy konfiguracji kartridża, wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wachadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel\n\n0.25 – mały piksel idealny do ust naturalnych lub cienkiej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-25-1-rllt-h",
+      "sourceId": 4100,
+      "name": "SATELLITE 25/1 RLLT-H",
+      "fullName": "Kartridż SATELLITE 25/1 RLLT-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5169
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5168
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel\n\n0.25 – mały piksel, idealny do powiększonych, dużych ust i jędrnej, twardej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-25-1-rlmt",
+      "sourceId": 4683,
+      "name": "SATELLITE 25/1 RLMT",
+      "fullName": "Kartridż SATELLITE 25/1 RLMT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5153
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5152
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nBrak literki H przy konfiguracji kartridża, wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wachadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki)\n\n0.25 – mały piksel idealny do ust naturalnych lub cienkiej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-25-1-rlmt-h",
+      "sourceId": 4684,
+      "name": "SATELLITE 25/1 RLMT-H",
+      "fullName": "Kartridż SATELLITE 25/1 RLMT-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5151
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5150
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki)\n\n0.25 – mały piksel, idealny do powiększonych, dużych ust i jędrnej, twardej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-25-1-rlst",
+      "sourceId": 5561,
+      "name": "SATELLITE 25/1 RLST",
+      "fullName": "Kartridż SATELLITE 25/1 RLST",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": false,
+          "sourceId": 5563
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5562
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nBrak literki H przy konfiguracji kartridża, wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wachadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nST | Krótkie zaostrzenie – duży piksel (odpowiedni do cienkiej skóry lub gęstego wypełnienia)\n\n0.25 – mały piksel, idealny do powiększonych, dużych ust i jędrnej, twardej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-25-1-rlst-h",
+      "sourceId": 5557,
+      "name": "SATELLITE 25/1 RLST-H",
+      "fullName": "Kartridż SATELLITE 25/1 RLST-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5559
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5558
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nST | Krótkie zaostrzenie – duży piksel (odpowiedni do cienkiej skóry lub gęstego wypełnienia)\n\n0.25 – mały piksel, idealny do powiększonych, dużych ust i jędrnej, twardej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-25-3-rllt",
+      "sourceId": 7035,
+      "name": "SATELLITE 25/3 RLLT",
+      "fullName": "Kartridż SATELLITE 25/3 RLLT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 7037
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 7036
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nIgła 3RL składa się z 3 igieł ułożonych w okrągłym wiązce (okrągły liner). Taka konfiguracja umożliwia tworzenie cienkich, precyzyjnych linii przy minimalnym urazie skóry.\n\n3RL jest idealny do szczegółowej pracy, rysowania cienkich linii i tworzenia efektów graficznych. Ze względu na mniejszą powierzchnię kontaktu ze skórą, ta konfiguracja igieł zapewnia dokładniejszą i równomierną aplikację pigmentu.\n\nŚrednica igły 3RL: Średnica wpływa na nasycenie, gęstość linii i poziom urazu skóry. Wybór średnicy igły zależy od rodzaju skóry klienta, techniki i pożądanego rezultatu.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-1-rllt",
+      "sourceId": 4102,
+      "name": "SATELLITE 30/1 RLLT",
+      "fullName": "Kartridż SATELLITE 30/1 RLLT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5167
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5166
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nBrak literki H przy konfiguracji kartridża, wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wachadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel\n\n0.30 – średni piksel idealny do brwi, normalnej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-1-rllt-h",
+      "sourceId": 4104,
+      "name": "SATELLITE 30/1 RLLT-H",
+      "fullName": "Kartridż SATELLITE 30/1 RLLT-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5165
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5164
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel\n\n0.30 – średni piksel idealny do pikselowych brwi, normalnej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-1-rlmt",
+      "sourceId": 4105,
+      "name": "SATELLITE 30/1 RLMT",
+      "fullName": "Kartridż SATELLITE 30/1 RLMT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5163
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5162
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nBrak literki H przy konfiguracji kartridża, wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wachadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki)\n\n0.30 – średni piksel, idealny do brwi pudrowych i miękkiego wykończenia",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-1-rlmt-h",
+      "sourceId": 4685,
+      "name": "SATELLITE 30/1 RLMT-H",
+      "fullName": "Kartridż SATELLITE 30/1 RLMT-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5149
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5148
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki)\n\n0.30 – średni piksel idealny do pikselowych brwi, normalnej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-1-rlst-h",
+      "sourceId": 10946,
+      "name": "SATELLITE 30/1 RLST-H",
+      "fullName": "Kartridż SATELLITE 30/1 RLST-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 10948
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 10947
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nST | Krótkie zaostrzenie – duży piksel (odpowiedni do cienkiej skóry lub gęstego wypełnienia)\n\n0.30 – średni piksel idealny do pikselowych brwi, normalnej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-3-rllt",
+      "sourceId": 7039,
+      "name": "SATELLITE 30/3 RLLT",
+      "fullName": "Kartridż SATELLITE 30/3 RLLT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 7041
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 7040
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nIgła 3RL składa się z 3 igieł ułożonych w okrągłym wiązce (okrągły liner). Taka konfiguracja umożliwia tworzenie cienkich, precyzyjnych linii przy minimalnym urazie skóry.\n\n3RL jest idealny do szczegółowej pracy, rysowania cienkich linii i tworzenia efektów graficznych. Ze względu na mniejszą powierzchnię kontaktu ze skórą, ta konfiguracja igieł zapewnia dokładniejszą i równomierną aplikację pigmentu.\n\nŚrednica igły 3RL: Średnica wpływa na nasycenie, gęstość linii i poziom urazu skóry. Wybór średnicy igły zależy od rodzaju skóry klienta, techniki i pożądanego rezultatu.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-5-fmt",
+      "sourceId": 7031,
+      "name": "SATELLITE 30/5 FMT",
+      "fullName": "Kartridż SATELLITE 30/5 FMT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 7033
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 7032
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nIgła 5F składa się z 5 igieł ułożonych w rzędzie. Zwiększa to powierzchnię styku ze skórą, co powoduje większy opór podczas pigmentacji.\n\nW rezultacie nadaje się do bardziej powierzchownej aplikacji pigmentu, tworzenia cienkich i miękkich linii oraz uzyskiwania lekkiego, zwiewnego efektu cieniowania.\n\nŚrednica igły w rozmiarze 5 Flat wpływa na nasycenie, gęstość i uraz skóry. Wybór średnicy zależy od rodzaju skóry klienta, zastosowanej techniki i pożądanego rezultatu. Cienkie igły są idealne do naturalnych efektów, podczas gdy grubsze są lepsze do nasyconej i gęstej pracy.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-30-11-cmlt",
+      "sourceId": 12480,
+      "name": "SATELLITE 30/11 CMLT",
+      "fullName": "Kartridż SATELLITE 30/11 CMLT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 12482
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 12481
+        }
+      ],
+      "shortDesc": null,
+      "description": "Igła 11 MAGNUM składa się z 11 igieł ułożonych w unikalny kształt litery „U”, zaprojektowany specjalnie z myślą o technikach imitujących włoski (hair stroke).\n\nTa zaawansowana konfiguracja obejmuje dwa rzędy igieł: wewnętrzny rząd jest krótszy, a zewnętrzny – dłuższy. Zwiększony nieco odstęp między rzędami zapewnia lepszą kontrolę i precyzję, przy jednoczesnym zachowaniu zwartego i kontrolowanego obszaru pracy.\n\nKonstrukcja w kształcie litery „U” umożliwia tworzenie delikatnych, cienkich i naturalnie wyglądających włosków z większą precyzją i powtarzalnością. Jej unikalna geometria pozwala na czyste wkłucie oraz płynne zwężanie każdego rysowanego włoska, przy jednoczesnym minimalizowaniu urazów skóry.\n\nDzięki zastosowaniu najnowocześniejszych technologii produkcji, igły te charakteryzują się wyjątkową precyzją, stabilnością i niezawodnością. 11 MAGNUM wprowadza na rynek zupełnie nowe rozwiązanie – obecnie żadna inna igła nie łączy w sobie takiej geometrii w kształcie litery „U”, zróżnicowanej długości rzędów oraz specyficznego odstępu między nimi.\n\nStworzona z myślą o profesjonalistach dążących do uzyskania jak najbardziej naturalnych efektów, 11 MAGNUM łączy w sobie innowacyjną geometrię, pełną kontrolę oraz precyzję.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-35-1-rllt-h",
+      "sourceId": 4109,
+      "name": "SATELLITE 35/1 RLLT-H",
+      "fullName": "Kartridż SATELLITE 35/1 RLLT-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5155
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5154
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel\n\n0.35 – tłusta, porowata, ale jędrna skóra",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-35-1-rlmt",
+      "sourceId": 4107,
+      "name": "SATELLITE 35/1 RLMT",
+      "fullName": "Kartridż SATELLITE 35/1 RLMT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5159
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5158
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nBrak literki H przy konfiguracji kartridża, wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wachadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki)\n\n0.35 – gruby piksel, idealny do tłustej, porowatej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-35-1-rlmt-h",
+      "sourceId": 4108,
+      "name": "SATELLITE 35/1 RLMT-H",
+      "fullName": "Kartridż SATELLITE 35/1 RLMT-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 5157
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5156
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki)\n\n0.35 – grubszy piksel, dla tłustej, porowatej, ale elastycznej skóry",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-35-1-rlst-h",
+      "sourceId": 4106,
+      "name": "SATELLITE 35/1 RLST-H",
+      "fullName": "Kartridż SATELLITE 35/1 RLST-H",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": false,
+          "sourceId": 5161
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 5160
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nLiterka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik.\n\nST | Krótkie zaostrzenie – duży piksel (odpowiedni do cienkiej skóry lub gęstego wypełnienia)\n\n0.35 – gruby piksel dla tłustej, porowatej, ale cienkiej skóry. Idealnie sprawdza się do linii zagęszczającej u starszych Pań.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "kartridz-satellite-35-3-rllt",
+      "sourceId": 7042,
+      "name": "SATELLITE 35/3 RLLT",
+      "fullName": "Kartridż SATELLITE 35/3 RLLT",
+      "collection": "kartridze",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "1 szt.",
+          "price": 1300,
+          "inStock": true,
+          "sourceId": 7044
+        },
+        {
+          "label": "20 szt.",
+          "price": 25500,
+          "inStock": true,
+          "sourceId": 7043
+        }
+      ],
+      "shortDesc": null,
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz „MERCEDESA” wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.\n\nIgła 3RL składa się z 3 igieł ułożonych w okrągłym wiązce (okrągły liner). Taka konfiguracja umożliwia tworzenie cienkich, precyzyjnych linii przy minimalnym urazie skóry.\n\n3RL jest idealny do szczegółowej pracy, rysowania cienkich linii i tworzenia efektów graficznych. Ze względu na mniejszą powierzchnię kontaktu ze skórą, ta konfiguracja igieł zapewnia dokładniejszą i równomierną aplikację pigmentu.\n\nŚrednica igły 3RL: Średnica wpływa na nasycenie, gęstość linii i poziom urazu skóry. Wybór średnicy igły zależy od rodzaju skóry klienta, techniki i pożądanego rezultatu.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "jasno-brazowa-kredka-do-rysunku-wstepnego",
+      "sourceId": 5849,
+      "name": "Beżowa kredka do rysunku wstępnego",
+      "fullName": "Beżowa kredka do rysunku wstępnego",
+      "collection": "akcesoria-do-rysunku",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 2000,
+          "inStock": true,
+          "sourceId": 5849
+        }
+      ],
+      "shortDesc": null,
+      "description": "Przeznaczona do rysowania szkicu w makijażu permanentnym. Posiada super ostre ostrze. Może być również stosowana jako klasyczna opcja do nakładania makijażu codziennego. Trwała. Miękka konsystencja pozwala delikatnie obrysować kontury oczu, ust i brwi. Linię kredki można łatwo regulować i cieniować. Równie wygodnie jest nimi wykonywać zarówno cieniowanie, jak i konturowanie. Matowa konsystencja kredki tworzy głęboki kolor. Kredka jest łatwa w aplikacji, delikatnie się rozprowadza, dzięki formule wzbogaconej woskiem.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "biala-kredka-do-rysunku-wstepnego",
+      "sourceId": 5843,
+      "name": "Biała kredka do rysunku wstępnego",
+      "fullName": "Biała kredka do rysunku wstępnego",
+      "collection": "akcesoria-do-rysunku",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 2000,
+          "inStock": true,
+          "sourceId": 5843
+        }
+      ],
+      "shortDesc": null,
+      "description": "Przeznaczona do rysowania szkicu w makijażu permanentnym. Posiada super ostre ostrze. Może być również stosowana jako klasyczna opcja do nakładania makijażu codziennego. Trwała. Miękka konsystencja pozwala delikatnie obrysować kontury oczu, ust i brwi. Linię kredki można łatwo regulować i cieniować. Równie wygodnie jest nimi wykonywać zarówno cieniowanie, jak i konturowanie. Matowa konsystencja kredki tworzy głęboki kolor. Kredka jest łatwa w aplikacji, delikatnie się rozprowadza, dzięki formule wzbogaconej woskiem.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "ciemno-brazowa-kredka-do-rysunku-wstepnego-kopia",
+      "sourceId": 5847,
+      "name": "Ciemno-brązowa kredka do rysunku wstępnego",
+      "fullName": "Ciemno-brązowa kredka do rysunku wstępnego",
+      "collection": "akcesoria-do-rysunku",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 2000,
+          "inStock": false,
+          "sourceId": 5847
+        }
+      ],
+      "shortDesc": null,
+      "description": "Przeznaczona do rysowania szkicu w makijażu permanentnym. Posiada super ostre ostrze. Może być również stosowana jako klasyczna opcja do nakładania makijażu codziennego. Trwała. Miękka konsystencja pozwala delikatnie obrysować kontury oczu, ust i brwi. Linię kredki można łatwo regulować i cieniować. Równie wygodnie jest nimi wykonywać zarówno cieniowanie, jak i konturowanie. Matowa konsystencja kredki tworzy głęboki kolor. Kredka jest łatwa w aplikacji, delikatnie się rozprowadza, dzięki formule wzbogaconej woskiem.",
+      "inStock": false,
+      "color": null
+    },
+    {
+      "id": "czerwona-kredka-do-rysunku-wstepnego",
+      "sourceId": 5841,
+      "name": "Czerwona kredka do rysunku wstępnego",
+      "fullName": "Czerwona kredka do rysunku wstępnego",
+      "collection": "akcesoria-do-rysunku",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 2000,
+          "inStock": false,
+          "sourceId": 5841
+        }
+      ],
+      "shortDesc": null,
+      "description": "Przeznaczona do rysowania szkicu w makijażu permanentnym. Posiada super ostre ostrze. Może być również stosowana jako klasyczna opcja do nakładania makijażu codziennego. Trwała. Miękka konsystencja pozwala delikatnie obrysować kontury oczu, ust i brwi. Linię kredki można łatwo regulować i cieniować. Równie wygodnie jest nimi wykonywać zarówno cieniowanie, jak i konturowanie. Matowa konsystencja kredki tworzy głęboki kolor. Kredka jest łatwa w aplikacji, delikatnie się rozprowadza, dzięki formule wzbogaconej woskiem.",
+      "inStock": false,
+      "color": null
+    },
+    {
+      "id": "marker-do-rysunku-wstepnego",
+      "sourceId": 10551,
+      "name": "Marker do rysunku wstępnego",
+      "fullName": "Marker do rysunku wstępnego",
+      "collection": "akcesoria-do-rysunku",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 3500,
+          "inStock": true,
+          "sourceId": 10551
+        }
+      ],
+      "shortDesc": null,
+      "description": "Biały marker przeznaczony do rysunku wstępnego\n\nGłówne cechy:\n\n• Precyzja: marker zapewnia wyraźną i schludną linię, umożliwiając szybkie i dokładne narysowanie konturów brwi i ust przed zabiegami.\n• Wszechstronny: nadaje się do stosowania zarówno w makijażu permanentnym, jak i chirurgii, a także do znakowania tatuaży.\n• Łatwe usuwanie: ślady markera można łatwo zetrzeć ze skóry zielonym mydłem lub wodą micelarną, co zapewnia wygodę i zapobiega powstawaniu niechcianych śladów po zabiegu.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "lateksowa-skorka-do-cwiczen",
+      "sourceId": 8727,
+      "name": "Lateksowa skórka do ćwiczeń",
+      "fullName": "Lateksowa skórka do ćwiczeń",
+      "collection": "akcesoria-do-cwiczen",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 1500,
+          "inStock": true,
+          "sourceId": 8727
+        }
+      ],
+      "shortDesc": null,
+      "description": null,
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "lateksowa-skorka-do-cwiczen-brwi",
+      "sourceId": 11783,
+      "name": "Lateksowa skórka do ćwiczeń (brwi)",
+      "fullName": "Lateksowa skórka do ćwiczeń (brwi)",
+      "collection": "akcesoria-do-cwiczen",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 1500,
+          "inStock": true,
+          "sourceId": 11783
+        }
+      ],
+      "shortDesc": null,
+      "description": null,
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "lateksowa-skorka-do-cwiczen-usta-3d",
+      "sourceId": 11777,
+      "name": "Lateksowa skórka do ćwiczeń (usta 3D)",
+      "fullName": "Lateksowa skórka do ćwiczeń (usta 3D)",
+      "collection": "akcesoria-do-cwiczen",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 1500,
+          "inStock": true,
+          "sourceId": 11777
+        }
+      ],
+      "shortDesc": null,
+      "description": null,
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "lateksowa-skorka-do-cwiczen-usta",
+      "sourceId": 11781,
+      "name": "Lateksowa skórka do ćwiczeń (usta)",
+      "fullName": "Lateksowa skórka do ćwiczeń (usta)",
+      "collection": "akcesoria-do-cwiczen",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 1500,
+          "inStock": true,
+          "sourceId": 11781
+        }
+      ],
+      "shortDesc": null,
+      "description": null,
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "silikonowe-usta-do-cwiczen",
+      "sourceId": 6481,
+      "name": "Silikonowe usta do ćwiczeń",
+      "fullName": "Silikonowe usta do ćwiczeń",
+      "collection": "akcesoria-do-cwiczen",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 2500,
+          "inStock": true,
+          "sourceId": 6481
+        }
+      ],
+      "shortDesc": null,
+      "description": "Silikonowe usta do ćwiczeń\n\nWykonane są z bardzo miękkiego i elastycznego silikonu, imitują prawdziwą skórę, co zapewnia łatwość w doskonaleniu technik makijażu permanentnego.\n\nRealistyczne\n\nRealistyczny kształt z uwidocznionymi zębami, idealnie odwzorowujący ludzkie usta. Tekstura produktu została zaprojektowana tak, by symulować prawdziwą ludzką skórę.\n\nPraktyczne zastosowanie\n\nUsta w kolorze skóry, ułatwiają praktykę różnych technik makijażu i wypełniania ust. Dzięki elastyczności i realistyczności pozwalają na realne symulowanie pracy na prawdziwych ustach.\n\nZastosowanie:\n\n• doskonałe narzędzie do nauki i ćwiczenia różnorodnych technik makijażu ust,\n• podstawowego konturowania,\n• zaawansowane techniki wypełniania.\n\nKonserwacja:\n\nAby zachować higienę i długotrwałość produktu, zaleca się regularne czyszczenie i dezynfekcję po każdym użyciu.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "gel-pro",
+      "sourceId": 2280,
+      "name": "Gel PRO",
+      "fullName": "Gel PRO",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 500,
+          "inStock": false,
+          "sourceId": 2280
+        }
+      ],
+      "shortDesc": null,
+      "description": "Gel PRO to nowa, skuteczna formuła.\n\nProfesjonalna maść do makijażu permanentnego i tatuaży. Stosuje się go po zabiegu, przyspiesza gojenie się powierzchni rany. Pozwala zachować nasycony odcień koloru. Wzbogacony w witaminy A i D, co jest bardzo ważne dla szybszej regeneracji uszkodzonej skóry.\n\nJest on w osobnym, wygodnym opakowaniu 5 gr.\n\nBezzapachowy.\n\nNaturalny skład.\n\nSzybkie gojenie.\n\nPolecany do stosowania bezpośrednio po zabiegu oraz w ciągu pierwszych 3-10 dni po zabiegu. Przeciwwskazania: indywidualna nietolerancja składników.",
+      "inStock": false,
+      "color": null
+    },
+    {
+      "id": "glow-oil-coconut-and-chocolate",
+      "sourceId": 2453,
+      "name": "Glow Oil Coconut And Chocolate",
+      "fullName": "Glow Oil Coconut And Chocolate",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 12500,
+          "inStock": true,
+          "sourceId": 2453
+        }
+      ],
+      "shortDesc": null,
+      "description": "Olejek o zapachu kokosowym i czekoladowym przeznaczony jest do aplikacji na otwartą skórę ust po zabiegu makijażu permanentnego.\n\nTworzy estetyczny i błyszczący efekt na Twoich zdjęciach. Kompozycja zawiera wosk pszczeli do szybkiego gojenia i nawilżania skóry.\n\nDziała uspokajająco.\n\n• C12-15 alkilowy benzoesan\n• Dimetylosililan krzemu\n• Kaprylowy\n• Glikolipidy oleju wazelinowego\n• Mika\n• Skład perfum\n\nProdukt prezentowany w wygodnym opakowaniu z dozownikiem.\n\nOkres przydatności wynosi 3 lata.\n\nObjętość 30 ml",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "glow-oil-white",
+      "sourceId": 2451,
+      "name": "Glow Oil Pineapple Scented",
+      "fullName": "Glow Oil Pineapple Scented",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 12500,
+          "inStock": true,
+          "sourceId": 2451
+        }
+      ],
+      "shortDesc": null,
+      "description": "Glow Oil Pineapple Scented\n\nOlejek o zapachu ananasa przeznaczony jest do aplikacji na otwartą skórę ust po zabiegu makijażu permanentnego. Tworzy estetyczny i błyszczący efekt na Twoich zdjęciach. Kompozycja zawiera wosk pszczeli do szybkiego gojenia i nawilżania skóry.\n\nDziała uspokajająco.\n\n• C12-15 alkilowy benzoesan\n• Dimetylosililan krzemu\n• Kaprylowy\n• Glikolipidy oleju wazelinowego\n• Mika\n• Skład perfum\n\nOkres przydatności wynosi 3 lata.\n\nObjętość 30 ml",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "glow-oil-stawberry-scented",
+      "sourceId": 2452,
+      "name": "Glow Oil Strawberry Scented",
+      "fullName": "Glow Oil Strawberry Scented",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 12500,
+          "inStock": true,
+          "sourceId": 2452
+        }
+      ],
+      "shortDesc": null,
+      "description": "Glow oil strawberries\n\nOlejek o zapachu truskawki przeznaczony jest do aplikacji na otwartą skórę ust po zabiegu makijażu permanentnego. Tworzy estetyczny i błyszczący efekt na Twoich zdjęciach.\n\nKompozycja zawiera wosk pszczeli do szybkiego gojenia i nawilżania skóry.\n\nDziała uspokajająco.\n\n• C12-15 alkilowy benzoesan\n• Dimetylosililan krzemu\n• Kaprylowy\n• Glikolipidy oleju wazelinowego\n• Mika\n• Skład perfum\n\nProdukt prezentowany w wygodnym opakowaniu z dozownikiem.\n\nOkres przydatności wynosi 3 lata.\n\nObjętość 30 ml",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "ice-gel-ltb-2w1",
+      "sourceId": 5568,
+      "name": "Ice Gel LTB NUMB Light Turquoise Pigment",
+      "fullName": "Ice Gel LTB NUMB Light Turquoise Pigment",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 27000,
+          "inStock": true,
+          "sourceId": 5568
+        }
+      ],
+      "shortDesc": null,
+      "description": "Light Turquoise Pigment – Pigment do treningu",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "ice-gel-for-lips",
+      "sourceId": 4130,
+      "name": "Ice Gel Red Turquoise Pigment",
+      "fullName": "Ice Gel Red Turquoise Pigment",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 27000,
+          "inStock": true,
+          "sourceId": 4130
+        }
+      ],
+      "shortDesc": null,
+      "description": "Red Turquoise Pigment – Pigment do treningu",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "ice-gel-for-brows",
+      "sourceId": 2447,
+      "name": "Ice Gel Turquoise Pigment",
+      "fullName": "Ice Gel Turquoise Pigment",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 27000,
+          "inStock": true,
+          "sourceId": 2447
+        }
+      ],
+      "shortDesc": null,
+      "description": "Dark Turquoise Pigment – Pigment do treningu",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "ice-gel-do-kresek",
+      "sourceId": 6781,
+      "name": "Ice Gel Turquoise Pigment 15 ml",
+      "fullName": "Ice Gel Turquoise Pigment 15 ml",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": "15 ml",
+          "price": 17000,
+          "inStock": true,
+          "sourceId": 6781
+        }
+      ],
+      "shortDesc": null,
+      "description": "Turquoise Pigment – Pigment do treningu",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "lip-balm-spf-50-aloe-vera",
+      "sourceId": 7612,
+      "name": "Lip Balm spf 50+ Aloe Vera",
+      "fullName": "Lip Balm spf 50+ Aloe Vera",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 2999,
+          "inStock": true,
+          "sourceId": 7612
+        }
+      ],
+      "shortDesc": null,
+      "description": "Teraz usta i brwi są chronione przez balsam Aloe Vera SPF 50. Unikalna formuła tego balsamu została specjalnie zaprojektowana nie tylko do pielęgnacji skóry po zabiegach PMU, ale zawiera również wysoki filtr przeciwsłoneczny SPF 50+\n\n• Chroni przed promieniowaniem UVA/UVB.\n• Chroni przed czynnikami środowiskowymi.\n• Balsam w sztyfcie jest doskonałym środkiem przeciwko fotostarzeniu.\n• Wygładza usta i brwi, sprawiając, że stają się gładkie i delikatne.\n• Balsam nawilża dzięki odżywczemu składowi olejków kokosowego i jojoba. Zmiękcza i eliminuje suchość ust.\n• Aktywne składniki wnikają w głębokie warstwy skóry z witaminami, wspomagając gojenie mikrouszkodzeń.\n• Niezawodna ochrona Twojego makijażu permanentnego na wakacjach!",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "peeling-gel-oxygen",
+      "sourceId": 6757,
+      "name": "Peeling Gel Oxygen",
+      "fullName": "Peeling Gel Oxygen",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 11000,
+          "inStock": false,
+          "sourceId": 6757
+        }
+      ],
+      "shortDesc": null,
+      "description": "ŻEL PEELINGUĄCY\n\nJest delikatnym środkiem czyszczącym skórę, który skutecznie usuwa martwe komórki naskórka bez uszkadzania naskórka. W przeciwieństwie do tradycyjnych peelingów, Peeling nie zawiera cząstek ściernych, co czyni go idealnym wyborem dla skóry wrażliwej.\n\nUnikalny skład produktu obejmuje aktywny tlen, który wnika głęboko w warstwy skóry, dostarczając środki lecznicze i cząsteczki tlenu. Pomaga to aktywować podział komórek, poprawia produkcję kolagenu i elastyny oraz pomaga w walce z wolnymi rodnikami. Regularne stosowanie peelingu spowalnia proces starzenia, poprawia krążenie krwi i pomaga w leczeniu trądziku.\n\nSkład:\n\n• Woda\n• Glikol propylenowy\n• Celuloza\n• Argentyna\n• Karbomer\n• Kwas mlekowy\n• Oligopeptyd\n• Aktywny tlen\n• Perfumy",
+      "inStock": false,
+      "color": null
+    },
+    {
+      "id": "scrub-for-eyebrows-and-lips",
+      "sourceId": 3280,
+      "name": "Scrub For Eyebrows And Lips",
+      "fullName": "Scrub For Eyebrows And Lips",
+      "collection": "srodki-zabiegowe",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 9900,
+          "inStock": true,
+          "sourceId": 3280
+        }
+      ],
+      "shortDesc": null,
+      "description": "Peeling do brwi i ust 25 ml.\n\nCząsteczki TMAS-Scrubbing mechanicznie złuszczają górną warstwę zrogowaciałych komórek nabłonka podczas masażu, dokładnie oczyszczając skórę z nadmiaru brudu gromadzącego się na powierzchni i zatykającego pory, ułatwia dostęp tlenu, sprzyja lepszej penetracji pigmentu barwiącego.\n\nZastosowanie: Peeling nanieść na brwi lub usta.\n\nWykonaj peeling wokół określonego obszaru, a następnie zejdź do miejsca pigmentacji. Masuj delikatnymi okrężnymi ruchami.\n\nNie trzeba mocno naciskać i pocierać. Oczyść peeling przez 2 minuty w każdej strefie, po czym spłucz peeling.",
+      "inStock": true,
+      "color": null
+    },
+    {
+      "id": "theone-white-ring",
+      "sourceId": 10318,
+      "name": "TheOne WHITE RING",
+      "fullName": "TheOne WHITE RING",
+      "collection": "lampy",
+      "series": null,
+      "isSet": false,
+      "zones": [],
+      "variants": [
+        {
+          "label": null,
+          "price": 169000,
+          "inStock": true,
+          "sourceId": 10318
+        }
+      ],
+      "shortDesc": null,
+      "description": "TheOne WHITE RING\n\nJeśli w pracy jest Ci potrzebne dobre oświetlenie – wybierz lekką i przenośną lampę TheOne. Stabilny statyw, wysokiej jakości LED i płynna regulacja mocy sprawiają, że jest to wygodny sprzęt do wielu zastosowań. Pozwala na zauważalne podniesienie komfortu pracy przy wykonywaniu makijażu oraz fotografowaniu jego efektów. Niekwestionowane zalety pierścieniowych lamp ledowych TheOne sprawiają, że są one bardzo chętnie wykorzystywane m.in. w gabinetach kosmetycznych.",
+      "inStock": true,
+      "color": null
+    }
+  ]
+}

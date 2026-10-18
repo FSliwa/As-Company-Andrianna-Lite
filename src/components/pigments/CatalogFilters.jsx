@@ -169,17 +169,20 @@ export default function CatalogFilters({
         ))}
       </Row>
 
-      {/* strefy: tylko te, które występują w wybranej kolekcji */}
-      <Row label="Strefa" scroll fadeRef={fadeZ.ref} fadeStyle={fadeZ.style}>
-        <Chip pressed={!zone} onClick={() => onZone(null)} controls={controls}>
-          Wszystkie<span className="sm:hidden">{'\u00a0'}strefy</span>
-        </Chip>
-        {zones.map((z) => (
-          <Chip key={z.id} pressed={zone === z.id} onClick={() => onZone(z.id)} controls={controls}>
-            {z.name}
+      {/* strefy: tylko te, które występują w wybranej kolekcji (podział klientki: usta, brwi –
+          FILTER_ZONES); kolekcja z jedną strefą (SUPERNATURAL BROWS, AS OPIUM Light) – bez rzędu */}
+      {zones.length > 1 && (
+        <Row label="Strefa" scroll fadeRef={fadeZ.ref} fadeStyle={fadeZ.style}>
+          <Chip pressed={!zone} onClick={() => onZone(null)} controls={controls}>
+            Wszystkie<span className="sm:hidden">{'\u00a0'}strefy</span>
           </Chip>
-        ))}
-      </Row>
+          {zones.map((z) => (
+            <Chip key={z.id} pressed={zone === z.id} onClick={() => onZone(z.id)} controls={controls}>
+              {z.name}
+            </Chip>
+          ))}
+        </Row>
+      )}
 
       <div className="grid gap-3 lg:grid-cols-[7rem_minmax(0,1fr)] lg:items-center lg:gap-6">
         <label htmlFor="pig-search" className="as-kicker max-sm:sr-only">

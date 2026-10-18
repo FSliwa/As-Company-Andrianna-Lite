@@ -1003,7 +1003,7 @@ export default function Treatments() {
         number="01"
         title="Zabiegi makijażu"
         titleAccent="permanentnego."
-        lead="Specjalizujemy się w uzyskaniu jak najbardziej realistycznego, subtelnego efektu – bez przerysowanych konturów i z minimalnym dyskomfortem."
+        lead="Specjalizujemy się w uzyskaniu jak najbardziej realistycznego, subtelnego efektu – bez przerysowanych konturów."
         image={ROLES.heroTreatments.image}
         imagePosition={ROLES.heroTreatments.position}
         imageAlt={`${FOUNDER.name} – ${FOUNDER.signature}`}

@@ -1,5 +1,5 @@
 /**
- * Zdjęcia produktów katalogu /pigmenty – packshoty od klientki (29.09.2026) z folderu
+ * Zdjęcia produktów katalogu /pigmenty i sklepu /sklep – packshoty od klientki (29.09.2026) z folderu
  * /Graphics, przez manifest src/lib/media.js (PRODUCTS, klucz 'product-' + id produktu
  * z src/data/pigments.json). Zdjęć ze sklepu nadal nie pokazujemy.
  *
@@ -14,7 +14,7 @@
 import { PRODUCTS } from './media';
 
 /* Packshoty, których tło nie jest białe – mnożenie nic by nie dało (czerń zostaje czernią). */
-const DARK_BACKGROUND = new Set(['set-harley-quinn-do-ust']);
+const DARK_BACKGROUND = new Set(['set-harley-quinn-do-ust', 'ice-gel-ltb-2w1']);
 
 /** { image, blend } dla produktu o danym `id` albo null, gdy zdjęcia nie ma. */
 export function productPhoto(id) {

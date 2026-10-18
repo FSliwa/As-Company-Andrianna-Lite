@@ -13,6 +13,7 @@ import { Figure } from '@/components/as/Primitives';
 import { cn } from '@/lib/utils';
 import { collectionLabel, formatCapacity, formatPrice, zoneLabel } from '@/lib/pigments';
 import { productPhoto } from '@/lib/productPhotos';
+import { isShopProduct } from '@/lib/shop';
 
 export const NBSP = '\u00a0';
 
@@ -247,7 +248,9 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
   const stale = usePricesStale();
   return (
     <fieldset className={className}>
-      <legend className="sr-only">Pojemność – {product.name}</legend>
+      <legend className="sr-only">
+        {isShopProduct(product) ? 'Wariant' : 'Pojemność'} – {product.name}
+      </legend>
       <div className="flex flex-wrap">
         {product.variants.map((v, i) => {
           const id = `${name}-${i}`;

@@ -76,9 +76,11 @@ function useDialogOpen() {
    z PageHero ze zdjęciem = dopisać ją tutaj (adres polski – canonical). */
 const PHOTO_HERO_ROUTES = new Set(['/', '/o-nas', '/uslugi', '/szkolenia']);
 
-/* Podkategorie pozycji głównej (NAV_MAIN[i].group → NAV_ALL[group].links) – „Produkty”:
-   pigmenty, maszynka, dokumentacja (prośba klientki: „podkategoria na produkty”). */
-const subLinks = (item, NAV_ALL) => (Number.isInteger(item.group) ? NAV_ALL[item.group]?.links || [] : []);
+/* Podkategorie pozycji głównej (NAV_MAIN[i].group → NAV_ALL[group].links) – „Sklep”: 8 kategorii
+   klientki (18.10.2026; wcześniej „Produkty” – prośba „podkategoria na produkty”). Linki `footerOnly`
+   (certyfikaty) – tylko stopka i dodatkowa lista menu na telefonie. */
+const subLinks = (item, NAV_ALL) =>
+  Number.isInteger(item.group) ? (NAV_ALL[item.group]?.links || []).filter((l) => !l.footerOnly) : [];
 
 /* Strony spoza nawigacji głównej (bez kotwic do sekcji) – druga, drobniejsza lista
    w menu. Pozycje główne, ich podkategorie i kursy (kotwice /szkolenia#…) się nie powtarzają. */
@@ -190,8 +192,8 @@ function NavDropdown({ item, links, canonical, label, className, strong }) {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  /* „Produkty” prowadzi tam co „Pigmenty” – bieżącą stronę oznacza wtedy tylko
-                     pozycja główna (jedno aria-current w nawigacji) */
+                  /* podkategoria prowadząca tam co pozycja główna – bieżącą stronę oznacza wtedy
+                     tylko pozycja główna (jedno aria-current w nawigacji) */
                   aria-current={current && link.href !== item.href ? 'page' : undefined}
                   onClick={close}
                   className={cn(
@@ -407,7 +409,7 @@ function Header({ menuOpen, setMenuOpen }) {
           ograniczony do dialogu ma je pod ręką).
           Kolejność: 5 pozycji głównych → „Umów wizytę” → strony spoza nawigacji głównej
           → salon i Instagram. Kursy (kotwice /szkolenia#…) są w stopce i na /szkolenia.
-          Podkategorie „Produkty” stoją wcięte pod nazwą; w telefonie w poziomie (short:sm)
+          Podkategorie „Sklep” stoją wcięte pod nazwą; w telefonie w poziomie (short:sm)
           przechodzą do prawej kolumny, przed strony spoza nawigacji (inaczej „O nas”
           i „Kontakt” spadały pod krawędź ekranu).
           Mieści się bez przewijania przy 390×844 i 844×390 (także 812×375); przy 375×667
@@ -475,10 +477,17 @@ function Header({ menuOpen, setMenuOpen }) {
                         {item.label}
                       </span>
                     </Link>
-                    {/* podkategorie (np. Produkty → pigmenty, maszynka, dokumentacja): wcięte pod
-                        nazwą, drobniejsze – ta sama kolumna co tytuł pozycji */}
+                    {/* podkategorie (Sklep → pigmenty, maszynki, kartridże…): wcięte pod nazwą,
+                        drobniejsze – ta sama kolumna co tytuł pozycji; ponad 4 – w dwóch kolumnach
+                        (8 kategorii sklepu w 4 rzędach zamiast 8, menu dalej w jednym–dwóch ekranach) */}
                     {links.length > 0 && (
-                      <ul className="mb-1.5 ml-11 border-l border-ink/10 pl-4 short:hidden" aria-label={`${t.subnav}: ${item.label}`}>
+                      <ul
+                        className={cn(
+                          'mb-1.5 ml-11 border-l border-ink/10 pl-4 short:hidden',
+                          links.length > 4 && 'grid grid-cols-2 gap-x-4'
+                        )}
+                        aria-label={`${t.subnav}: ${item.label}`}
+                      >
                         {links.map((link) => {
                           const current = canonical === link.href;
                           return (

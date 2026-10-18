@@ -122,6 +122,14 @@ NEW_PRODUCTS = {
     'product-as-classic-pigments-plum-dessert': '23.30.49 (2)',
     'product-as-classic-pigments-coral': '23.30.49 (3)',
     'product-as-classic-pigments-watermelon-ice': '23.30.49',
+    # Sklep (/sklep, src/data/shop.json – id ze sklepu) – prośba klientki z 18.10.2026: produkty
+    # ze zdjęć z 29.09, których dotąd nie było na stronie. Ice Gel LTB – packshot na czarnym tle.
+    'product-ice-gel-ltb-2w1': '23.05.37',
+    'product-ice-gel-for-lips': '23.05.37 (1)',   # różowy Ice Gel „cooling gel for lips” = Red Turquoise
+    'product-glow-oil-white': '23.05.37 (2)',     # Glow Oil Pineapple
+    'product-glow-oil-stawberry-scented': '23.05.38',  # Glow Oil Strawberry
+    'product-theone-white-ring': '23.05.38 (5)',  # lampa TheOne White Ring na statywie
+    'product-satellite': '23.05.38 (6)',          # opakowanie kartridży SATELLITE – zdjęcie kategorii
 }
 # work-<technika>-NN: (plik, przycięcie (l, t, r, b) w ułamkach – bez doklejonej butelki)
 NEW_WORKS = {
@@ -135,9 +143,9 @@ ROTATED_WORKS = {
     'work-powder-01-r': ('23.07.50', (0.20, 0.0, 0.965, 1.0), 'CCW'),  # brew poziomo nad okiem
 }
 NEW_SKIP = {
-    '23.05.37', '23.05.37 (1)', '23.05.37 (2)', '23.05.38', '23.05.38 (3)', '23.05.38 (4)',
-    '23.05.38 (5)', '23.05.38 (6)', '23.05.38 (7)', '23.05.38 (8)', '23.05.39', '23.05.39 (1)',
-    '23.05.39 (2)', '23.05.39 (3)',  # kosmetyki spoza katalogu, lampy, kartridże
+    '23.05.38 (3)', '23.05.38 (4)',  # lampa TheOne – inne ujęcia (na stronie 23.05.38 (5))
+    '23.05.38 (7)', '23.05.38 (8)', '23.05.39', '23.05.39 (1)',
+    '23.05.39 (2)', '23.05.39 (3)',  # kartridże SATELLITE – kolejne ujęcia opakowania
     '23.06.47',      # praca z logo innego studia („ART brows”)
     '23.07.24',      # praca – technika niepewna
     '23.09.22',      # praca z logo innego studia („Z”)

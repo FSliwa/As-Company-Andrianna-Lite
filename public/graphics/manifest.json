@@ -1234,5 +1234,67 @@
   "webp": {
    "960": "/graphics/work-powder-01-r.webp"
   }
+ },
+ "product-ice-gel-ltb-2w1": {
+  "src": "/graphics/product-ice-gel-ltb-2w1.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-ice-gel-ltb-2w1-480.webp",
+   "960": "/graphics/product-ice-gel-ltb-2w1-960.webp",
+   "1440": "/graphics/product-ice-gel-ltb-2w1-1440.webp",
+   "1536": "/graphics/product-ice-gel-ltb-2w1.webp"
+  }
+ },
+ "product-ice-gel-for-lips": {
+  "src": "/graphics/product-ice-gel-for-lips.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-ice-gel-for-lips-480.webp",
+   "960": "/graphics/product-ice-gel-for-lips-960.webp",
+   "1440": "/graphics/product-ice-gel-for-lips-1440.webp",
+   "1536": "/graphics/product-ice-gel-for-lips.webp"
+  }
+ },
+ "product-glow-oil-white": {
+  "src": "/graphics/product-glow-oil-white.jpg",
+  "w": 1292,
+  "h": 1292,
+  "webp": {
+   "480": "/graphics/product-glow-oil-white-480.webp",
+   "960": "/graphics/product-glow-oil-white-960.webp",
+   "1292": "/graphics/product-glow-oil-white.webp"
+  }
+ },
+ "product-glow-oil-stawberry-scented": {
+  "src": "/graphics/product-glow-oil-stawberry-scented.jpg",
+  "w": 1292,
+  "h": 1292,
+  "webp": {
+   "480": "/graphics/product-glow-oil-stawberry-scented-480.webp",
+   "960": "/graphics/product-glow-oil-stawberry-scented-960.webp",
+   "1292": "/graphics/product-glow-oil-stawberry-scented.webp"
+  }
+ },
+ "product-theone-white-ring": {
+  "src": "/graphics/product-theone-white-ring.jpg",
+  "w": 1372,
+  "h": 1920,
+  "webp": {
+   "480": "/graphics/product-theone-white-ring-480.webp",
+   "960": "/graphics/product-theone-white-ring-960.webp",
+   "1372": "/graphics/product-theone-white-ring.webp"
+  }
+ },
+ "product-satellite": {
+  "src": "/graphics/product-satellite.jpg",
+  "w": 1143,
+  "h": 1297,
+  "webp": {
+   "480": "/graphics/product-satellite-480.webp",
+   "960": "/graphics/product-satellite-960.webp",
+   "1143": "/graphics/product-satellite.webp"
+  }
  }
 }
