@@ -52,12 +52,12 @@ const PRODUCTS = shopProducts();
 const CATEGORIES = shopCategories();
 const PIGMENT_SHADES = pigmentStats().shades;
 
-/* Zdjęcie kategorii w lewej kolumnie bloku: opakowanie kartridży (jedno dla wszystkich
-   konfiguracji igieł) i lampa (jedyny produkt kategorii – wiersz jest wtedy bez miniatury). */
+/* Zdjęcie kategorii w lewej kolumnie bloku: lampa (jedyny produkt kategorii – wiersz jest
+   wtedy bez miniatury). */
 const CATEGORY_PHOTO = { lampy: 'lampa-pierscieniowa' };
 
-/* Długa lista (kartridże: 20 konfiguracji) – 8 wierszy od razu, reszta po „Pokaż wszystkie”;
-   krótsze kategorie (do 12) zawsze w całości. */
+/* Długa lista (od 13 pozycji) – 8 wierszy od razu, reszta po „Pokaż wszystkie”; krótsze
+   kategorie (do 12) zawsze w całości. */
 const ROWS_PREVIEW = 8;
 const ROWS_COLLAPSE_FROM = 13;
 

@@ -57,7 +57,7 @@ export const shopDict = {
         {
           number: '01',
           title: 'Wybierz produkty',
-          text: 'Dodaj produkty do listy „Twoje zamówienie”. Przy kartridżach wybierz sztukę albo opakowanie – ilość zmienisz na liście.',
+          text: 'Dodaj produkty do listy „Twoje zamówienie” – ilość zmienisz na liście.',
         },
         /* tekst kroku 02 – kanał, który naprawdę działa (jak na /pigmenty): sendForm / sendInstagram */
         { number: '02', title: 'Wyślij zapytanie' },
@@ -135,7 +135,7 @@ export const shopDict = {
       steps: [
         {
           title: 'Choose your products',
-          text: 'Add products to the “Your order” list. For cartridges, choose a single piece or a box – you can change the quantity on the list.',
+          text: 'Add products to the “Your order” list – you can change the quantity on the list.',
         },
         { title: 'Send an enquiry' },
         {
@@ -211,7 +211,7 @@ export const shopDict = {
       steps: [
         {
           title: 'Выберите товары',
-          text: 'Добавьте товары в список «Ваш заказ». Для картриджей выберите штуку или упаковку – количество можно изменить в списке.',
+          text: 'Добавьте товары в список «Ваш заказ» – количество можно изменить в списке.',
         },
         { title: 'Отправьте запрос' },
         {
