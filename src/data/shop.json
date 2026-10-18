@@ -1,5 +1,5 @@
 {
-  "source": "Wiadomości klientki (18.10.2026) i Kariny Lesiv (14.10.2026) przekazane przez Filipa oraz zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
+  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 przekazane przez Filipa 18.10.2026 oraz zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
   "priceDate": "2026-10-14",
   "currency": "PLN",
   "categories": [
@@ -30,7 +30,7 @@
       "variants": [{ "label": "20 szt.", "price": null, "inStock": true, "sourceId": "kartridze-satellite" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 18.10.2026: „Katalog kartridży: Supernatural brows, Satellite”; opakowanie na zdjęciu: „20 membrane cartridges”; cena – na zapytanie"
+      "_source": "klientka 14.10.2026: „Katalog kartridży: Supernatural brows, Satellite”; opakowanie na zdjęciu: „20 membrane cartridges”; cena – na zapytanie"
     },
     {
       "id": "kredka-czarna",
@@ -70,7 +70,7 @@
       "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ice-gel" }],
       "shortDesc": "„Cooling gel for lips” – napis na opakowaniu",
       "description": null,
-      "_source": "klientka 18.10.2026: „Ice Gel … idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania na zdjęciu"
+      "_source": "klientka 14.10.2026: „Ice Gel … idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania na zdjęciu"
     },
     {
       "id": "ltb-numb",
@@ -80,7 +80,7 @@
       "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ltb-numb" }],
       "shortDesc": "„Light turquoise pigment” – napis na opakowaniu",
       "description": null,
-      "_source": "klientka 18.10.2026 (Ice Gel – środki zabiegowe); nazwa i pojemność z opakowania na zdjęciu"
+      "_source": "klientka 14.10.2026 (Ice Gel – środki zabiegowe); nazwa i pojemność z opakowania na zdjęciu"
     },
     {
       "id": "glow-oil-pineapple",
@@ -90,7 +90,7 @@
       "variants": [{ "label": "30 ml", "price": null, "inStock": true, "sourceId": "glow-oil-pineapple" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 18.10.2026: „olejki do ust idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania"
+      "_source": "klientka 14.10.2026: „olejki do ust idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania"
     },
     {
       "id": "glow-oil-strawberries",
@@ -100,7 +100,7 @@
       "variants": [{ "label": "30 ml", "price": null, "inStock": true, "sourceId": "glow-oil-strawberries" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 18.10.2026; nazwa i pojemność z opakowania"
+      "_source": "klientka 14.10.2026; nazwa i pojemność z opakowania"
     },
     {
       "id": "lampa-pierscieniowa",
@@ -110,7 +110,7 @@
       "variants": [{ "label": null, "price": null, "inStock": true, "sourceId": "lampa-pierscieniowa" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 18.10.2026: kategoria „Lampy”; zdjęcie z 29.09 (bez nazwy marki na zdjęciu)"
+      "_source": "klientka 14.10.2026: kategoria „Lampy”; zdjęcie z 29.09 (bez nazwy marki na zdjęciu)"
     }
   ]
 }

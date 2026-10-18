@@ -98,7 +98,7 @@ const PRINCESS = {
   number: '01',
   name: 'AS PRINCESS',
   subtitle: 'Bezprzewodowa',
-  /* cena standardowa – klientka 18.10.2026: „Cena standardowa jest 3500 zł” (wcześniej 2 999 zł
+  /* cena standardowa – klientka 14.10.2026: „Cena standardowa jest 3500 zł” (wcześniej 2 999 zł
      z karty sklepu – cena akcyjna) */
   price: 3500,
   description:

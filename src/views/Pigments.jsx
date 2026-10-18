@@ -193,7 +193,7 @@ function Hero() {
         titleAccent="których używam i które polecam z czystym sumieniem."
         /* D2 („linia rzęs” zamiast „kresek”) dotyczy zabiegu Perfect Eyes; tu „kreski” to kategoria
            pigmentów ze sklepu (strefa „Kreski” w danych i w filtrze) – zostaje (raport INNE-03). */
-        /* podział klientki z 18.10.2026 (4 grupy – CLIENT_GROUPS w src/lib/pigments.js); areola, kamuflaż
+        /* podział klientki z 14.10.2026 (4 grupy – CLIENT_GROUPS w src/lib/pigments.js); areola, kamuflaż
            i trychopigmentacja usunięte wg listy Kariny z 14.10; Harley Quinn i Paradise – jej lista je zostawia */
         lead="Pigmenty SUPERNATURAL BROWS do brwi, AS OPIUM i AS Classic do brwi i ust, AS OPIUM Light Minerals oraz kolekcje do ust Harley Quinn i Paradise. Wybierz odcienie i wyślij zapytanie."
         stats={HERO_STATS}

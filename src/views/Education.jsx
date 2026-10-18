@@ -222,7 +222,7 @@ function Hero({ onBook }) {
       title="Szkolenia oparte na"
       titleAccent="realnej praktyce."
       /* SZK-16: zdanie z briefu („Uczymy nie tylko…”) zamiast parafrazy z „zero lęku”;
-         brzmienie klientki z 18.10.2026 (bez „dyskomfortu”) – TRAINING_INTRO.how w site.js. */
+         brzmienie klientki z 14.10.2026 (bez „dyskomfortu”) – TRAINING_INTRO.how w site.js. */
       lead={TRAINING_INTRO.how}
       image={ROLES.heroTraining.image}
       imagePosition={ROLES.heroTraining.position}

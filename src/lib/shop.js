@@ -2,7 +2,7 @@
  * Sklep (/sklep) – czyste funkcje nad src/data/shop.json.
  *
  * Dane: plik edytowany RĘCZNIE wyłącznie z materiałów przekazanych przez Filipa – wiadomości
- * klientki (18.10.2026) i Kariny Lesiv (14.10.2026) oraz zdjęć z /Graphics (nazwy i pojemności
+ * klientki i Kariny Lesiv (14.10.2026, przekazane 18.10.2026) oraz zdjęć z /Graphics (nazwy i pojemności
  * z opakowań). Decyzja Filipa z 18.10.2026: nic z dawnego sklepu klientki. Każdy produkt ma pole
  * `_source` (skąd pochodzi) – strona go nie pokazuje.
  *

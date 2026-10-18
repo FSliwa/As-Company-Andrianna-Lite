@@ -122,7 +122,7 @@ NEW_PRODUCTS = {
     'product-as-classic-pigments-plum-dessert': '23.30.49 (2)',
     'product-as-classic-pigments-coral': '23.30.49 (3)',
     'product-as-classic-pigments-watermelon-ice': '23.30.49',
-    # Sklep (/sklep, src/data/shop.json) – prośba klientki z 18.10.2026: produkty ze zdjęć z 29.09,
+    # Sklep (/sklep, src/data/shop.json) – prośba klientki z 14.10.2026: produkty ze zdjęć z 29.09,
     # których dotąd nie było na stronie; nazwy i pojemności z opakowań na zdjęciach.
     # LTB NUMB – packshot na czarnym tle.
     'product-ltb-numb': '23.05.37',

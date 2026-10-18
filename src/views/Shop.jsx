@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * SKLEP – /sklep (prośba klientki z 18.10.2026: „Produkty zmieniamy na słowo sklep. W sklepie:
+ * SKLEP – /sklep (prośba klientki z 14.10.2026: „Produkty zmieniamy na słowo sklep. W sklepie:
  * Pigmenty, Maszynki, Kartridże, Akcesoria do rysunku, Akcesoria do ćwiczeń, Środki zabiegowe,
  * Lampy, Lasery”).
  *
@@ -9,7 +9,7 @@
  * kafle kategorii. Pozostałe kategorie są sekcjami tej strony (kotwica = id kategorii, te same
  * linki co menu „Sklep” – NAV_ALL[0] w src/lib/site.js).
  *
- * Dane: WYŁĄCZNIE src/data/shop.json – plik ręczny z wiadomości klientki (18.10.2026) i Kariny
+ * Dane: WYŁĄCZNIE src/data/shop.json – plik ręczny z wiadomości klientki i Kariny
  * (14.10.2026) oraz napisów z opakowań na zdjęciach (decyzja Filipa: nic z dawnego sklepu).
  * Produkty bez ceny – „cena na zapytanie” i link do zapytania. Zdjęcia tylko z /Graphics
  * (src/lib/productPhotos.js). Etykieta przedsprzedaży i odblask kafli – Magic UI (CSS).

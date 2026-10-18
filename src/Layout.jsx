@@ -77,7 +77,7 @@ function useDialogOpen() {
 const PHOTO_HERO_ROUTES = new Set(['/', '/o-nas', '/uslugi', '/szkolenia']);
 
 /* Podkategorie pozycji głównej (NAV_MAIN[i].group → NAV_ALL[group].links) – „Sklep”: 8 kategorii
-   klientki (18.10.2026; wcześniej „Produkty” – prośba „podkategoria na produkty”). Linki `footerOnly`
+   klientki (14.10.2026; wcześniej „Produkty” – prośba „podkategoria na produkty”). Linki `footerOnly`
    (certyfikaty) – tylko stopka i dodatkowa lista menu na telefonie. */
 const subLinks = (item, NAV_ALL) =>
   Number.isInteger(item.group) ? (NAV_ALL[item.group]?.links || []).filter((l) => !l.footerOnly) : [];

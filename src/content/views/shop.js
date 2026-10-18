@@ -5,7 +5,7 @@
  *    produktu (src/components/shop/ShopRow.jsx). Klocki katalogu z src/components/pigments mają
  *    w wersji Lite teksty wpisane w komponentach (po polsku).
  *
- * Nazwy kategorii – słowa klientki z 18.10.2026 („W sklepie: Pigmenty, Maszynki, Kartridże,
+ * Nazwy kategorii – słowa klientki z 14.10.2026 („W sklepie: Pigmenty, Maszynki, Kartridże,
  * Akcesoria do rysunku, Akcesoria do ćwiczeń, Środki zabiegowe, Lampy, Lasery”); nagłówek
  * strony – zdanie filaru „Produkty” ze strony głównej (PILLARS[0].desc w site.js), bez nowych treści.
  * Nazwy produktów – z wiadomości klientki i Kariny oraz opakowań (src/data/shop.json, tylko po polsku).

@@ -44,7 +44,7 @@ export const FOUNDER = {
     { category: 'Usta', result: '1. miejsce' },
   ],
   /* D7: fakty z briefu (sekcja „Opis”), zdania gotowe do /o-nas i skrótów na stronie głównej.
-     D3: „bez bólu, bez blizn i migracji pigmentu” → „z dbałością…” (18.10.2026 klientka: „usuwamy
+     D3: „bez bólu, bez blizn i migracji pigmentu” → „z dbałością…” (14.10.2026 klientka: „usuwamy
      słowo dyskomfort” – wcześniej „z minimalnym dyskomfortem i dbałością…”);
      „80% wygojenia” → „ok. 80%”; superlatyw „najbardziej wybierany salon na Śląsku” złagodzony. */
   facts: {
@@ -161,7 +161,7 @@ export const LEGAL = {
 /** Nawigacja główna (układ jak w makiecie: 5 pozycji + CTA).
  * `group` – pozycja z podkategoriami (prośba klientki 30.09.2026: „podkategoria na produkty”):
  * menu rozwijane w nagłówku i podpozycje w menu na telefonie biorą linki z NAV_ALL[group].
- * 18.10.2026 (klientka): „Produkty zmieniamy na słowo sklep” – pozycja prowadzi na /sklep. */
+ * 14.10.2026 (klientka): „Produkty zmieniamy na słowo sklep” – pozycja prowadzi na /sklep. */
 export const NAV_MAIN = [
   { label: 'Sklep', href: '/sklep', group: 0 },
   { label: 'Szkolenia', href: '/szkolenia' },
@@ -173,7 +173,7 @@ export const NAV_MAIN = [
 /** Pełna mapa serwisu – menu rozwijane i stopka. */
 export const NAV_ALL = [
   {
-    /* Kategorie sklepu w kolejności klientki (18.10.2026). Pigmenty i maszynka (tylko AS PRINCESS,
+    /* Kategorie sklepu w kolejności klientki (14.10.2026). Pigmenty i maszynka (tylko AS PRINCESS,
        30.09.2026) – własne strony; pozostałe – sekcje /sklep (kotwica = id kategorii w
        src/data/shop.json). `footerOnly` – tylko stopka i dodatkowa lista menu na telefonie,
        nie menu rozwijane „Sklep” (klientka wymieniła w sklepie 8 kategorii). */
@@ -457,7 +457,7 @@ export const COURSES = [
 
 /**
  * Wstęp do szkoleń – sekcja „Szkolenia” briefu po korekcie językowej (D4).
- * `how` – brzmienie klientki z 18.10.2026 („Usuwamy słowo dyskomfort”; wcześniej D3: „…szybko,
+ * `how` – brzmienie klientki z 14.10.2026 („Usuwamy słowo dyskomfort”; wcześniej D3: „…szybko,
  * komfortowo, bezpiecznie i z minimalnym dyskomfortem dla klientki”).
  * `booking` – informacja z briefu o rezerwacji po wstępnym kontakcie (przy kursach z requiresContact).
  */

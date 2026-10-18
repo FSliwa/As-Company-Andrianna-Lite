@@ -43,7 +43,7 @@ function withEnDash(value) {
 /*
  * Katalog wg klientki i Kariny (decyzja Filipa z 18.10.2026: „wprowadź tak, jak prosiła klientka”).
  *
- * Grupy – klientka 18.10.2026: „Katalog pigmentów dzielimy na: pigmenty SUPERNATURAL BROWS, pigmenty
+ * Grupy – klientka 14.10.2026: „Katalog pigmentów dzielimy na: pigmenty SUPERNATURAL BROWS, pigmenty
  * AS opium (usta, brwi), pigmenty AS Classic (usta, brwi), pigmenty AS opium light”; SUPERNATURAL
  * BROWS = kolekcja Hairstrokes (decyzja Filipa). Lista Kariny z 14.10.2026 zostawia też kolekcje
  * Harley Quinn i Paradise (dodaje ich zestawy, usuwa część odcieni) – osobne grupy na końcu.
