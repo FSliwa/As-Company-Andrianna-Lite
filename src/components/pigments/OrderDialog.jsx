@@ -40,7 +40,7 @@ import { ArrowLink, Field, FormNotice } from '@/components/as/Primitives';
 import { ENQUIRY_LIVE, ENQUIRY_STATUS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { collectionLabel, formatCapacity, formatPrice, formatSyncedDate } from '@/lib/pigments';
 import { CONTACT } from '@/lib/site';
-import { isShopProduct } from '@/lib/shop';
+import { SHOP_PRICE_DATE, isShopProduct } from '@/lib/shop';
 import { NBSP, PRICE_TBC, Swatch, usePricesStale } from './parts';
 import { QTY_MAX, QTY_MIN } from './useOrder';
 
@@ -195,9 +195,12 @@ const TEXT_BTN =
 
 /* `syncedAt` – data cen strony, która otwiera listę (domyślnie pigmenty; /sklep – data sklepu) */
 export default function OrderDialog({ open, onOpenChange, order, onBrowse, onCloseAutoFocus, syncedAt }) {
-  const synced = syncedAt ? formatSyncedDate(syncedAt) : SYNCED;
   const { summary, setQty, remove, clear } = order;
-  const stale = usePricesStale();
+  /* lista wyłącznie z cenami od klientki (clientPrice) – kwoty aktualne, data jej wiadomości */
+  const onlyClient = summary.lines.length > 0 && summary.lines.every((l) => l.product.clientPrice);
+  const synced = onlyClient ? formatSyncedDate(SHOP_PRICE_DATE) : syncedAt ? formatSyncedDate(syncedAt) : SYNCED;
+  const pricesStale = usePricesStale();
+  const stale = pricesStale && !onlyClient;
   const [form, setForm] = useState(EMPTY_FORM);
   const [result, setResult] = useState(null); // { status }
   const [copy, setCopy] = useState(null); // 'ok' | 'error'

@@ -80,7 +80,8 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const hasPhoto = Boolean(productPhoto(product.id));
   /* produkt sklepu (/sklep): bez stref i próbki koloru, data cen z danych sklepu */
   const shop = isShopProduct(product);
-  const synced = shop ? SHOP_SYNCED : SYNCED;
+  /* cena od klientki (clientPrice, np. zestaw z listy Kariny) – data jej wiadomości, jak w sklepie */
+  const synced = shop || product.clientPrice ? SHOP_SYNCED : SYNCED;
   /* pojemność w przycisku tylko przy wyborze (kilka butelek) – wybór stoi wyżej w treści */
   const capLabel = multi && variant?.label ? formatCapacity(variant.label) : null;
 

@@ -155,6 +155,9 @@ NEW_WORKS = {
 ROTATED_WORKS = {
     'work-powder-01-r': ('23.07.50', (0.20, 0.0, 0.965, 1.0), 'CCW'),  # brew poziomo nad okiem
 }
+# Packshoty z czarnym paskiem po zrzucie WhatsApp (dół pliku) – przycinane trim_black_bars.
+# Tylko wskazane: zdjęcia na czarnym tle (LTB Numb, Set Harley Quinn) straciłyby kadr.
+PRODUCT_TRIM = {'product-as-opium-light-minerals-pigments-dark-brown'}
 NEW_SKIP = {
     '23.05.38 (3)', '23.05.38 (4)',  # lampa TheOne – inne ujęcia (na stronie 23.05.38 (5))
     '23.05.38 (7)', '23.05.38 (8)', '23.05.39', '23.05.39 (1)',
@@ -383,7 +386,8 @@ def main():
     if not only or 'product' in only:
         for name, suffix in NEW_PRODUCTS.items():
             i = by_suffix[suffix]
-            save_all(load(i), name, 'product', manifest)
+            im = load(i)
+            save_all(trim_black_bars(im) if name in PRODUCT_TRIM else im, name, 'product', manifest)
             used.add(i)
     if not only or 'work' in only:
         for name, (suffix, box) in NEW_WORKS.items():
