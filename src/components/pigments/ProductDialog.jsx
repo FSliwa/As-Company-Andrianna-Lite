@@ -28,7 +28,9 @@ import {
 import { ArrowLink } from '@/components/as/Primitives';
 import { findVariant, formatCapacity, formatPrice, formatSyncedDate, productById } from '@/lib/pigments';
 import { productPhoto } from '@/lib/productPhotos';
-import { SHOP_SYNCED_AT, isShopProduct } from '@/lib/shop';
+import { SHOP_PRICE_DATE, isShopProduct } from '@/lib/shop';
+import Lens from '@/components/magicui/Lens';
+import PresaleBadge from '@/components/magicui/PresaleBadge';
 import {
   DOT,
   Description,
@@ -46,7 +48,7 @@ import {
 
 const SYNCED = formatSyncedDate();
 /* data cen produktów sklepu (/sklep) – z danych sklepu */
-const SHOP_SYNCED = formatSyncedDate(SHOP_SYNCED_AT);
+const SHOP_SYNCED = formatSyncedDate(SHOP_PRICE_DATE);
 
 /* Pole zdjęcia: 4:3 na szerokość treści panelu (od sm 560 px minus 2 × 40 px; telefon – arkusz
    na całą szerokość minus 2 × 20 px). Niski ekran (short:, telefon w poziomie): panel ma ok.
@@ -67,11 +69,14 @@ const photoAlt = (product) =>
 function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   const [label, setLabel] = useState(() => defaultLabel(product));
   const [added, setAdded] = useState(false);
-  const stale = usePricesStale();
+  /* ceny od klientki (clientPrice) – zawsze aktualne */
+  const stale = usePricesStale() && !product.clientPrice;
   const statusRef = useRef(null);
   const variant = findVariant(product, label);
   const multi = product.variants.length > 1;
-  const canAdd = Boolean(product.inStock && variant?.inStock);
+  /* produkt sklepu bez ceny od klientki – „cena na zapytanie”, bez dodawania do listy */
+  const onRequest = Boolean(product.onRequest);
+  const canAdd = Boolean(!onRequest && product.inStock && variant?.inStock);
   const hasPhoto = Boolean(productPhoto(product.id));
   /* produkt sklepu (/sklep): bez stref i próbki koloru, data cen z danych sklepu */
   const shop = isShopProduct(product);
@@ -91,6 +96,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
     <>
       <DialogHeader>
         <p className="as-kicker">{kickerFor(product)}</p>
+        {product.presale && <PresaleBadge className="w-fit">Sprzedaż przedpremierowa</PresaleBadge>}
         <DialogTitle>{displayName(product.name)}</DialogTitle>
         {shop ? (
           /* sklep: warianty („1 szt. · 20 szt.”) albo pojemność; bez nich – opis tylko dla czytnika
@@ -112,13 +118,16 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
           tylko wydłużałby panel */}
       {hasPhoto ? (
         <div className="mt-6">
-          <ProductPhoto
-            product={product}
-            ratio="4 / 3"
-            sizes={PHOTO_SIZES}
-            alt={photoAlt(product)}
-            className={PHOTO_FIELD}
-          />
+          {/* Magic UI „lens”: lupa pod kursorem myszy – napisy na opakowaniu do przeczytania */}
+          <Lens zoom={2.2} size={170}>
+            <ProductPhoto
+              product={product}
+              ratio="4 / 3"
+              sizes={PHOTO_SIZES}
+              alt={photoAlt(product)}
+              className={PHOTO_FIELD}
+            />
+          </Lens>
           {!shop && <p className="as-caption mt-2 max-w-none">Kolor na zdjęciu i na ekranie może różnić się od pigmentu.</p>}
         </div>
       ) : (
@@ -153,18 +162,26 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
             {variant?.label && (
               <span className="mr-2 text-[0.8125rem] text-mocha">{formatCapacity(variant.label)}</span>
             )}
-            {stale ? (
+            {onRequest ? (
+              <span className="text-[0.9375rem] text-mocha">cena na zapytanie</span>
+            ) : stale ? (
               <span className="text-[0.9375rem] text-mocha">{PRICE_TBC}</span>
             ) : (
               <span className="font-display text-[1.375rem]">{formatPrice(variant?.price)}</span>
             )}
           </p>
         )}
-        <p className="as-caption mt-3 max-w-none">
-          {stale
-            ? `Ceny z ${synced} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
-            : `Cena z ${synced}.`}
-        </p>
+        {onRequest ? (
+          <ArrowLink href="/kontakt?temat=produkty" className="mt-4 w-fit">
+            Zapytaj<span className="sr-only">: {product.name}</span>
+          </ArrowLink>
+        ) : (
+          <p className="as-caption mt-3 max-w-none">
+            {stale
+              ? `Ceny z ${synced} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`
+              : `Cena z ${synced}.`}
+          </p>
+        )}
         {!product.inStock && <p className="as-badge mt-3">Brak w magazynie</p>}
       </div>
 

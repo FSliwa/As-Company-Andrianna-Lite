@@ -8,7 +8,7 @@
  * Nazwy kategorii – słowa klientki z 18.10.2026 („W sklepie: Pigmenty, Maszynki, Kartridże,
  * Akcesoria do rysunku, Akcesoria do ćwiczeń, Środki zabiegowe, Lampy, Lasery”); nagłówek
  * strony – zdanie filaru „Produkty” ze strony głównej (PILLARS[0].desc w site.js), bez nowych treści.
- * Nazwy i opisy produktów – z danych sklepu (src/data/shop.json, tylko po polsku).
+ * Nazwy produktów – z wiadomości klientki i Kariny oraz opakowań (src/data/shop.json, tylko po polsku).
  */
 
 import { plural } from '@/i18n/format';
@@ -45,11 +45,9 @@ export const shopDict = {
       listLabel: (name) => `Produkty: ${name}`,
       showAll: (n) => `Pokaż wszystkie (${n})`,
       showLess: 'Pokaż mniej',
-      satelliteAlt: 'Kartridże SATELLITE – opakowanie',
-      empty: 'Zapytaj o dostępne modele – odpowiemy z ofertą.',
+      empty: 'Asortyment tej kategorii podamy w odpowiedzi na zapytanie.',
       ask: 'Zapytaj o dostępność',
-      pricesAsOf: (date) => `Ceny standardowe na ${date}, bez kosztów dostawy.`,
-      pricesStale: (date) => `Ceny z${NBSP}${date} mogą być nieaktualne – potwierdzimy je w odpowiedzi na zapytanie.`,
+      pricesAsOf: (date) => `Ceny z${NBSP}${date}, bez kosztów dostawy. Produkty bez ceny – na zapytanie.`,
     },
     how: {
       label: 'Zamówienie',
@@ -86,6 +84,9 @@ export const shopDict = {
       addTo: (what) => `Dodaj do zamówienia: ${what}`,
       details: 'szczegóły',
       out: 'Brak w magazynie',
+      presale: 'Sprzedaż przedpremierowa',
+      priceOnRequest: 'cena na zapytanie',
+      ask: 'Zapytaj',
     },
     closing: {
       label: 'Zamówienie',
@@ -123,11 +124,9 @@ export const shopDict = {
       listLabel: (name) => `Products: ${name}`,
       showAll: (n) => `Show all (${n})`,
       showLess: 'Show fewer',
-      satelliteAlt: 'SATELLITE cartridges – packaging',
-      empty: 'Ask about the models available – we’ll reply with an offer.',
+      empty: 'We’ll share what’s available in this category in reply to your enquiry.',
       ask: 'Ask about availability',
-      pricesAsOf: (date) => `Standard prices as of ${date}, excluding delivery.`,
-      pricesStale: (date) => `Prices as of ${date} may be out of date – we’ll confirm them in our reply to your enquiry.`,
+      pricesAsOf: (date) => `Prices as of ${date}, excluding delivery. Products without a price – on request.`,
     },
     how: {
       label: 'Ordering',
@@ -161,6 +160,9 @@ export const shopDict = {
       addTo: (what) => `Add to order: ${what}`,
       details: 'details',
       out: 'Out of stock',
+      presale: 'Pre-sale',
+      priceOnRequest: 'price on request',
+      ask: 'Ask',
     },
     closing: {
       label: 'Ordering',
@@ -198,11 +200,9 @@ export const shopDict = {
       listLabel: (name) => `Товары: ${name}`,
       showAll: (n) => `Показать все (${n})`,
       showLess: 'Свернуть',
-      satelliteAlt: 'Картриджи SATELLITE – упаковка',
-      empty: 'Спросите о доступных моделях – мы ответим с предложением.',
+      empty: 'Ассортимент этой категории сообщим в ответ на запрос.',
       ask: 'Спросить о наличии',
-      pricesAsOf: (date) => `Стандартные цены на ${date}, без стоимости доставки.`,
-      pricesStale: (date) => `Цены на ${date} могут быть неактуальны – мы подтвердим их в ответе на запрос.`,
+      pricesAsOf: (date) => `Цены на ${date}, без стоимости доставки. Товары без цены – по запросу.`,
     },
     how: {
       label: 'Заказ',
@@ -236,6 +236,9 @@ export const shopDict = {
       addTo: (what) => `Добавить в заказ: ${what}`,
       details: 'подробнее',
       out: 'Нет в наличии',
+      presale: 'Предпродажа',
+      priceOnRequest: 'цена по запросу',
+      ask: 'Спросить',
     },
     closing: {
       label: 'Заказ',

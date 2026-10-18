@@ -24,6 +24,7 @@
 import React, { memo, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { ArrowLink } from '@/components/as/Primitives';
+import PresaleBadge from '@/components/magicui/PresaleBadge';
 import { cn } from '@/lib/utils';
 import { collectionLabel, findVariant, formatCapacity } from '@/lib/pigments';
 import {
@@ -90,7 +91,7 @@ function ProductCellBase({ product, qty, onAdd, onDetails }) {
           więc ceny i przyciski w rzędzie siatki zostają na jednej linii */}
       <div className="mt-auto pt-5">
         <InOrder qty={qty} />
-        <PriceLine variants={product.variants} showStock={product.inStock && multi} />
+        <PriceLine variants={product.variants} showStock={product.inStock && multi} stale={product.clientPrice ? false : undefined} />
         <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-3">
           {multi && product.inStock && (
             <VariantPicker product={product} value={label} onChange={setLabel} name={`cap-${product.id}`} note={false} />
@@ -153,6 +154,8 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
             ))}
           </p>
         </div>
+        {/* przedsprzedaż (lista Kariny z 14.10.2026, np. Hairstrokes Set Collaboration) */}
+        {product.presale && <PresaleBadge className="mt-2">Sprzedaż przedpremierowa</PresaleBadge>}
         {/* h4: zestawy stoją pod nagłówkiem „Zestawy” (h3) */}
         <h4 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">
           {/* pole dotyku ≥ 44 px także przy nazwie w jednej linii (23 + 2 × 12 px) */}
@@ -178,7 +181,7 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
         className="hidden min-w-[1.5rem] flex-1 translate-y-[-3px] self-center border-b border-dotted border-ink/20 sm:block lg:hidden"
       />
       <div className="flex items-center gap-x-4 sm:shrink-0 sm:gap-x-5">
-        <PriceLine variants={product.variants} className="shrink-0" />
+        <PriceLine variants={product.variants} className="shrink-0" stale={product.clientPrice ? false : undefined} />
         <span
           aria-hidden="true"
           className="min-w-[1.5rem] flex-1 translate-y-[-3px] border-b border-dotted border-ink/20 sm:hidden"

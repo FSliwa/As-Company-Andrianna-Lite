@@ -2,38 +2,35 @@
 
 /**
  * Wiersz produktu sklepu (/sklep) – układ cennika, jak wiersz zestawu na /pigmenty (SetRow):
- * nazwa otwiera „Szczegóły” (pełny opis ze sklepu, większe zdjęcie), po prawej cena albo wybór
- * wariantu z ceną („1 szt. · 13 zł”, „20 szt. · 255 zł”) i „Dodaj”. Opcjonalna miniatura po lewej
- * – packshot z /Graphics (src/lib/productPhotos.js); w kategorii, w której część produktów nie ma
- * zdjęcia, ich komórka miniatury zostaje pusta (bez zastępczych obrazów), więc nazwy trzymają pion.
+ * nazwa otwiera „Szczegóły” (większe zdjęcie z lupą), po prawej cena i „Dodaj”. Produkt bez ceny
+ * od klientki – „cena na zapytanie” i link do zapytania zamiast „Dodaj” (nie trafia na listę
+ * zamówienia, bo nie ma kwoty). Przedsprzedaż – etykieta „Sprzedaż przedpremierowa” (PresaleBadge,
+ * Magic UI). Miniatura po lewej – packshot z /Graphics; w kategorii, w której część produktów nie ma
+ * zdjęcia, ich komórka zostaje pusta (bez zastępczych obrazów), więc nazwy trzymają pion.
  *
- * Telefon: nazwa na całą szerokość, pod nią cena / wybór wariantu i „Dodaj”; od md – w jednym
- * rzędzie. React.memo jak komórki katalogu (stabilne onAdd / onDetails).
+ * Telefon: nazwa na całą szerokość, pod nią cena i akcja; od md – w jednym rzędzie.
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Plus } from 'lucide-react';
+import { ArrowLink } from '@/components/as/Primitives';
+import PresaleBadge from '@/components/magicui/PresaleBadge';
 import { cn } from '@/lib/utils';
-import { findVariant, formatCapacity } from '@/lib/pigments';
+import { formatCapacity } from '@/lib/pigments';
 import { productPhoto } from '@/lib/productPhotos';
 import { useContent } from '@/i18n/client';
 import { shopDict } from '@/content/views/shop';
-import { ADD_BTN, PriceLine, ProductPhoto, VariantPicker, defaultLabel, displayName } from '@/components/pigments/parts';
+import { ADD_BTN, PriceLine, ProductPhoto, displayName } from '@/components/pigments/parts';
 
 /* Miniatura: 56 px na telefonie, 72 px od sm. */
 const THUMB_SIZES = '(min-width: 640px) 72px, 56px';
 
 function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
   const t = useContent(shopDict);
-  const [label, setLabel] = useState(() => defaultLabel(product));
-  const variant = findVariant(product, label);
-  const multi = product.variants.length > 1;
-  const canAdd = Boolean(product.inStock && variant?.inStock);
+  const variant = product.variants[0];
+  const canAdd = Boolean(!product.onRequest && product.inStock && variant?.inStock);
   const hasPhoto = Boolean(productPhoto(product.id));
   const titleId = `shop-${product.id}`;
-  const addName = [product.name, multi && variant?.label ? formatCapacity(variant.label) : null]
-    .filter(Boolean)
-    .join(', ');
 
   return (
     <article
@@ -46,6 +43,7 @@ function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
       {thumbs && (hasPhoto ? <ProductPhoto product={product} sizes={THUMB_SIZES} className="self-start" /> : <span aria-hidden="true" />)}
       <div className="grid gap-y-3 md:flex md:items-center md:gap-x-6">
         <div className="min-w-0 md:flex-1">
+          {product.presale && <PresaleBadge className="mb-2">{t.cell.presale}</PresaleBadge>}
           <h4 id={titleId} className="text-[1.0625rem] leading-snug text-ink">
             {/* pole dotyku ≥ 44 px także przy nazwie w jednej linii (23 + 2 × 12 px) */}
             <button
@@ -65,24 +63,31 @@ function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3 md:shrink-0 md:flex-nowrap md:justify-end">
-          {/* kilka wariantów (sztuka / opakowanie) – wybór z ceną w segmencie; jeden – sama cena */}
-          {multi && product.inStock ? (
-            <VariantPicker product={product} value={label} onChange={setLabel} name={`shop-var-${product.id}`} showPrice note={false} />
+          {product.onRequest ? (
+            <p className="whitespace-nowrap text-[0.9375rem] text-mocha">
+              {variant?.label && <span className="mr-1.5 text-[0.8125rem]">{formatCapacity(variant.label)}</span>}
+              {t.cell.priceOnRequest}
+            </p>
           ) : (
             <PriceLine variants={product.variants} className="shrink-0" />
           )}
-          {/* stała szerokość komórki akcji: kwoty w jednym pionie przy „Dodaj” i „Brak” */}
+          {/* stała szerokość komórki akcji: kwoty w jednym pionie przy „Dodaj” i „Zapytaj” */}
           <div className="flex w-[6.125rem] shrink-0 md:justify-end">
             {canAdd ? (
               <button
                 type="button"
                 onClick={() => onAdd(product.id, variant.label ?? null)}
-                aria-label={t.cell.addTo(addName)}
+                aria-label={t.cell.addTo(product.name)}
                 className={ADD_BTN}
               >
                 <Plus aria-hidden="true" className="h-3.5 w-3.5" />
                 {t.cell.add}
               </button>
+            ) : product.onRequest ? (
+              <ArrowLink href="/kontakt?temat=produkty" className="w-fit">
+                {t.cell.ask}
+                <span className="sr-only">: {product.name}</span>
+              </ArrowLink>
             ) : (
               <p className="as-badge flex h-11 items-center leading-snug">{t.cell.out}</p>
             )}

@@ -1235,66 +1235,180 @@
    "960": "/graphics/work-powder-01-r.webp"
   }
  },
- "product-ice-gel-ltb-2w1": {
-  "src": "/graphics/product-ice-gel-ltb-2w1.jpg",
+ "product-ltb-numb": {
+  "src": "/graphics/product-ltb-numb.jpg",
   "w": 1536,
   "h": 1536,
   "webp": {
-   "480": "/graphics/product-ice-gel-ltb-2w1-480.webp",
-   "960": "/graphics/product-ice-gel-ltb-2w1-960.webp",
-   "1440": "/graphics/product-ice-gel-ltb-2w1-1440.webp",
-   "1536": "/graphics/product-ice-gel-ltb-2w1.webp"
+   "480": "/graphics/product-ltb-numb-480.webp",
+   "960": "/graphics/product-ltb-numb-960.webp",
+   "1440": "/graphics/product-ltb-numb-1440.webp",
+   "1536": "/graphics/product-ltb-numb.webp"
   }
  },
- "product-ice-gel-for-lips": {
-  "src": "/graphics/product-ice-gel-for-lips.jpg",
+ "product-ice-gel": {
+  "src": "/graphics/product-ice-gel.jpg",
   "w": 1536,
   "h": 1536,
   "webp": {
-   "480": "/graphics/product-ice-gel-for-lips-480.webp",
-   "960": "/graphics/product-ice-gel-for-lips-960.webp",
-   "1440": "/graphics/product-ice-gel-for-lips-1440.webp",
-   "1536": "/graphics/product-ice-gel-for-lips.webp"
+   "480": "/graphics/product-ice-gel-480.webp",
+   "960": "/graphics/product-ice-gel-960.webp",
+   "1440": "/graphics/product-ice-gel-1440.webp",
+   "1536": "/graphics/product-ice-gel.webp"
   }
  },
- "product-glow-oil-white": {
-  "src": "/graphics/product-glow-oil-white.jpg",
+ "product-glow-oil-pineapple": {
+  "src": "/graphics/product-glow-oil-pineapple.jpg",
   "w": 1292,
   "h": 1292,
   "webp": {
-   "480": "/graphics/product-glow-oil-white-480.webp",
-   "960": "/graphics/product-glow-oil-white-960.webp",
-   "1292": "/graphics/product-glow-oil-white.webp"
+   "480": "/graphics/product-glow-oil-pineapple-480.webp",
+   "960": "/graphics/product-glow-oil-pineapple-960.webp",
+   "1292": "/graphics/product-glow-oil-pineapple.webp"
   }
  },
- "product-glow-oil-stawberry-scented": {
-  "src": "/graphics/product-glow-oil-stawberry-scented.jpg",
+ "product-glow-oil-strawberries": {
+  "src": "/graphics/product-glow-oil-strawberries.jpg",
   "w": 1292,
   "h": 1292,
   "webp": {
-   "480": "/graphics/product-glow-oil-stawberry-scented-480.webp",
-   "960": "/graphics/product-glow-oil-stawberry-scented-960.webp",
-   "1292": "/graphics/product-glow-oil-stawberry-scented.webp"
+   "480": "/graphics/product-glow-oil-strawberries-480.webp",
+   "960": "/graphics/product-glow-oil-strawberries-960.webp",
+   "1292": "/graphics/product-glow-oil-strawberries.webp"
   }
  },
- "product-theone-white-ring": {
-  "src": "/graphics/product-theone-white-ring.jpg",
+ "product-lampa-pierscieniowa": {
+  "src": "/graphics/product-lampa-pierscieniowa.jpg",
   "w": 1372,
   "h": 1920,
   "webp": {
-   "480": "/graphics/product-theone-white-ring-480.webp",
-   "960": "/graphics/product-theone-white-ring-960.webp",
-   "1372": "/graphics/product-theone-white-ring.webp"
+   "480": "/graphics/product-lampa-pierscieniowa-480.webp",
+   "960": "/graphics/product-lampa-pierscieniowa-960.webp",
+   "1372": "/graphics/product-lampa-pierscieniowa.webp"
   }
  },
- "product-satellite": {
-  "src": "/graphics/product-satellite.jpg",
+ "product-kartridze-satellite": {
+  "src": "/graphics/product-kartridze-satellite.jpg",
   "w": 1143,
   "h": 1297,
   "webp": {
-   "480": "/graphics/product-satellite-480.webp",
-   "960": "/graphics/product-satellite-960.webp",
-   "1143": "/graphics/product-satellite.webp"
+   "480": "/graphics/product-kartridze-satellite-480.webp",
+   "960": "/graphics/product-kartridze-satellite-960.webp",
+   "1143": "/graphics/product-kartridze-satellite.webp"
+  }
+ },
+ "product-hairstrokes-h6-dark-brown": {
+  "src": "/graphics/product-hairstrokes-h6-dark-brown.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-hairstrokes-h6-dark-brown-480.webp",
+   "960": "/graphics/product-hairstrokes-h6-dark-brown-960.webp",
+   "1440": "/graphics/product-hairstrokes-h6-dark-brown-1440.webp",
+   "1536": "/graphics/product-hairstrokes-h6-dark-brown.webp"
+  }
+ },
+ "product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes": {
+  "src": "/graphics/product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes-480.webp",
+   "960": "/graphics/product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes-960.webp",
+   "1440": "/graphics/product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes-1440.webp",
+   "1536": "/graphics/product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes.webp"
+  }
+ },
+ "product-as-opium-light-minerals-pigments-dark-brown": {
+  "src": "/graphics/product-as-opium-light-minerals-pigments-dark-brown.jpg",
+  "w": 1170,
+  "h": 1179,
+  "webp": {
+   "480": "/graphics/product-as-opium-light-minerals-pigments-dark-brown-480.webp",
+   "960": "/graphics/product-as-opium-light-minerals-pigments-dark-brown-960.webp",
+   "1170": "/graphics/product-as-opium-light-minerals-pigments-dark-brown.webp"
+  }
+ },
+ "product-as-opium-light-minerals-pigments-black-brown": {
+  "src": "/graphics/product-as-opium-light-minerals-pigments-black-brown.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-as-opium-light-minerals-pigments-black-brown-480.webp",
+   "960": "/graphics/product-as-opium-light-minerals-pigments-black-brown-960.webp",
+   "1440": "/graphics/product-as-opium-light-minerals-pigments-black-brown-1440.webp",
+   "1536": "/graphics/product-as-opium-light-minerals-pigments-black-brown.webp"
+  }
+ },
+ "product-as-opium-pigments-horse": {
+  "src": "/graphics/product-as-opium-pigments-horse.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-as-opium-pigments-horse-480.webp",
+   "960": "/graphics/product-as-opium-pigments-horse-960.webp",
+   "1440": "/graphics/product-as-opium-pigments-horse-1440.webp",
+   "1536": "/graphics/product-as-opium-pigments-horse.webp"
+  }
+ },
+ "product-as-opium-pigments-brazil": {
+  "src": "/graphics/product-as-opium-pigments-brazil.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-as-opium-pigments-brazil-480.webp",
+   "960": "/graphics/product-as-opium-pigments-brazil-960.webp",
+   "1440": "/graphics/product-as-opium-pigments-brazil-1440.webp",
+   "1536": "/graphics/product-as-opium-pigments-brazil.webp"
+  }
+ },
+ "product-gotham-harley-quinn-6ml": {
+  "src": "/graphics/product-gotham-harley-quinn-6ml.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-gotham-harley-quinn-6ml-480.webp",
+   "960": "/graphics/product-gotham-harley-quinn-6ml-960.webp",
+   "1440": "/graphics/product-gotham-harley-quinn-6ml-1440.webp",
+   "1536": "/graphics/product-gotham-harley-quinn-6ml.webp"
+  }
+ },
+ "product-as-classic-pigments-amaranth": {
+  "src": "/graphics/product-as-classic-pigments-amaranth.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-as-classic-pigments-amaranth-480.webp",
+   "960": "/graphics/product-as-classic-pigments-amaranth-960.webp",
+   "1440": "/graphics/product-as-classic-pigments-amaranth-1440.webp",
+   "1536": "/graphics/product-as-classic-pigments-amaranth.webp"
+  }
+ },
+ "product-kredka-czarna": {
+  "src": "/graphics/product-kredka-czarna.jpg",
+  "w": 408,
+  "h": 860,
+  "webp": {
+   "408": "/graphics/product-kredka-czarna.webp",
+   "480": "/graphics/product-kredka-czarna-480.webp"
+  }
+ },
+ "product-kredka-brazowa": {
+  "src": "/graphics/product-kredka-brazowa.jpg",
+  "w": 320,
+  "h": 860,
+  "webp": {
+   "320": "/graphics/product-kredka-brazowa.webp",
+   "480": "/graphics/product-kredka-brazowa-480.webp"
+  }
+ },
+ "product-kredka-czerwona": {
+  "src": "/graphics/product-kredka-czerwona.jpg",
+  "w": 320,
+  "h": 860,
+  "webp": {
+   "320": "/graphics/product-kredka-czerwona.webp",
+   "480": "/graphics/product-kredka-czerwona-480.webp"
   }
  }
 }

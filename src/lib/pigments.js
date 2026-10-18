@@ -25,6 +25,7 @@
  */
 
 import raw from '@/data/pigments.json';
+import rawClient from '@/data/pigments-client.json';
 import { shopCategoryById, shopProductById } from '@/lib/shop';
 
 /* Myślnik: w danych ze sklepu bywa długi (U+2014); na stronie zawsze półpauza „–” (decyzja Filipa
@@ -40,35 +41,92 @@ function withEnDash(value) {
   return value;
 }
 /*
- * Podział katalogu – prośba klientki z 18.10.2026: „Katalog pigmentów dzielimy na: pigmenty
- * SUPERNATURAL BROWS, pigmenty AS opium (usta, brwi), pigmenty AS Classic (usta, brwi), pigmenty
- * AS opium light”. Decyzja Filipa (18.10.2026): SUPERNATURAL BROWS = kolekcja Hairstrokes
- * (pigmenty do włosa maszynowego), pozostałe kolekcje (Paradise, Harley Quinn, Areola/Camouflage,
- * Trichopigmentation) ukryte do czasu listy Kariny „co usunąć i co dodać”. Dane sklepu zostają
- * w pigments.json bez zmian – przywrócenie kolekcji = dopisanie jej tutaj.
- * Kolejność grup jak u klientki; `name` – nazwa grupy na stronie (inna niż w sklepie).
+ * Katalog wg klientki i Kariny (decyzja Filipa z 18.10.2026: „wprowadź tak, jak prosiła klientka”).
+ *
+ * Grupy – klientka 18.10.2026: „Katalog pigmentów dzielimy na: pigmenty SUPERNATURAL BROWS, pigmenty
+ * AS opium (usta, brwi), pigmenty AS Classic (usta, brwi), pigmenty AS opium light”; SUPERNATURAL
+ * BROWS = kolekcja Hairstrokes (decyzja Filipa). Lista Kariny z 14.10.2026 zostawia też kolekcje
+ * Harley Quinn i Paradise (dodaje ich zestawy, usuwa część odcieni) – osobne grupy na końcu.
+ * Areola/Camouflage i Trichopigmentation – „Należy zabrać wszystkie pigmenty z kolekcji”.
+ *
+ * CLIENT_REMOVED – pozycje, które Karina kazała „zabrać”; dane w src/data/pigments.json zostają
+ * bez zmian (to kopia danych z 29.09), filtr działa tutaj. CLIENT_EXTRA – nowe pozycje z listy
+ * Kariny (src/data/pigments-client.json, np. „Hairstrokes Set Collaboration”, przedsprzedaż).
+ * `name` w grupie – nazwa na stronie (inna niż w danych).
  */
 export const CLIENT_GROUPS = [
   { id: 'hairstrokes', name: 'SUPERNATURAL BROWS' },
   { id: 'as-opium' },
   { id: 'as-classic' },
   { id: 'as-opium-light-minerals' },
+  { id: 'harley-quinn' },
+  { id: 'paradise' },
 ];
 
 /** Strefy w filtrze katalogu – podział klientki: „usta, brwi” (reszta produktów widoczna w „Wszystkie”). */
 export const FILTER_ZONES = ['brwi', 'usta'];
 
+/* Lista Kariny z 14.10.2026 – „Na stronie nie powinno być…”, „Proszę zabrać…”, „Należy zabrać…”. */
+export const CLIENT_REMOVED = new Set([
+  // HAIRSTROKES: H1–H5
+  'hairstrokes-h1-brown-2',
+  'hairstrokes-h2-warm-brown',
+  'hairstrokes-h3-light-brown',
+  'hairstrokes-h4-warm-light-brown',
+  'hairstrokes-h5-neutral-brown',
+  // AS OPIUM LIGHT MINERALS: Dark Brown Haired, Dark Blonde, Brown Haired, Blonde; kreski E1–E5
+  'as-opium-light-minerals-pigments-dark-brown-haired',
+  'as-opium-light-minerals-pigments-dark-blonde',
+  'as-opium-light-minerals-pigments-brown-haired',
+  'as-opium-light-minerals-pigments-blonde',
+  'e1-black-6-ml-opium-light',
+  'e2-light-brown-6-ml-opium-light',
+  'e3-warm-brown-6-ml-opium-light',
+  'e4-yellow-golden-6-ml-opium-light',
+  'e5-dark-brown-6-ml-opium-light',
+  // HARLEY QUINN: Crazy, Pudding
+  'crazy-harley-quinn-6-ml',
+  'pudding-harley-quinn-6ml',
+  // PARADISE: Gabriella, Lilith, Madonna, Maria Magdalena
+  'gabrielle-6-ml-paradise',
+  'lilith-6-ml-paradise',
+  'madonna-6-ml-paradise',
+  'maria-magdalena-6-ml-paradise-2',
+  // AS CLASSIC: 11 odcieni ust, kreski Black Diamond i Deep Black, modyfikatory For Blue Gray i For Red
+  ...[
+    'apple-flirt', 'barbie', 'bloody-mary', 'bubble-gum', 'cherry', 'juicy-peach', 'nude', 'nut-pie',
+    'raspberry', 'red-queen', 'red-ruby', 'black-diamond', 'deep-black', 'for-blue-gray-eyebrows',
+    'for-red-eyebrows',
+  ].map((s) => `as-classic-pigments-${s}`),
+  // AS OPIUM USTA: 13 odcieni; kreski Ultra Black
+  ...[
+    'almonds', 'blood', 'chilli-peppers', 'dark-scarlet', 'ferrari', 'geisha', 'lychee', 'papaya',
+    'pink-peach', 'red-royal', 'salmon', 'skin', 'toffee',
+  ].map((s) => `as-opium-pigments-${s}`),
+  'ultra-black-6-ml-pigment-do-kresek',
+]);
+
+const CLIENT_EXTRA = rawClient.products;
+
 function clientCatalog(full) {
   const byId = new Map(full.collections.map((c) => [c.id, c]));
-  const collections = CLIENT_GROUPS.filter((g) => byId.has(g.id)).map((g) => ({
-    ...byId.get(g.id),
-    ...(g.name ? { name: g.name } : {}),
-  }));
-  const order = new Map(collections.map((c, i) => [c.id, i]));
-  /* sortowanie stabilne – w obrębie kolekcji kolejność z danych (odcienie → zestawy) */
-  const products = full.products
+  const order = new Map(CLIENT_GROUPS.map((g, i) => [g.id, i]));
+  /* sortowanie stabilne – w obrębie kolekcji kolejność z danych (odcienie → zestawy), nowe na końcu */
+  const products = [...full.products.filter((p) => !CLIENT_REMOVED.has(p.id)), ...CLIENT_EXTRA]
     .filter((p) => order.has(p.collection))
-    .sort((a, b) => order.get(a.collection) - order.get(b.collection));
+    .sort((a, b) => order.get(a.collection) - order.get(b.collection) || Number(a.isSet) - Number(b.isSet));
+  /* liczby kolekcji z pozycji, które zostały (w danych – stan sprzed listy Kariny) */
+  const collections = CLIENT_GROUPS.filter((g) => byId.has(g.id)).map((g) => {
+    const items = products.filter((p) => p.collection === g.id);
+    return {
+      ...byId.get(g.id),
+      ...(g.name ? { name: g.name } : {}),
+      count: items.length,
+      shades: items.filter((p) => !p.isSet).length,
+      sets: items.filter((p) => p.isSet).length,
+      zones: full.zones.map((z) => z.id).filter((z) => items.some((p) => p.zones.includes(z))),
+    };
+  });
   return { ...full, collections, products };
 }
 

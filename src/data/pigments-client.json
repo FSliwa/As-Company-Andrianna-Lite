@@ -1,0 +1,32 @@
+{
+  "source": "Lista Kariny Lesiv z 14.10.2026 przekazana przez Filipa (18.10.2026). Plik edytowany ręcznie – produkty spoza src/data/pigments.json.",
+  "products": [
+    {
+      "id": "hairstrokes-set-collaboration",
+      "sourceId": "hairstrokes-set-collaboration",
+      "name": "Hairstrokes Set Collaboration",
+      "fullName": "Hairstrokes Set Collaboration",
+      "collection": "hairstrokes",
+      "series": null,
+      "isSet": true,
+      "zones": [
+        "brwi"
+      ],
+      "variants": [
+        {
+          "label": null,
+          "price": 100000,
+          "inStock": true,
+          "sourceId": "hairstrokes-set-collaboration"
+        }
+      ],
+      "shortDesc": null,
+      "description": null,
+      "inStock": true,
+      "color": null,
+      "presale": true,
+      "_source": "Karina 14.10.2026: „+Hairstrokes Set Collaboration 1000 zl, Sprzedaż przedpremierowa”",
+      "clientPrice": true
+    }
+  ]
+}

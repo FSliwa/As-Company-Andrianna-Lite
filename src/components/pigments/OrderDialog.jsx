@@ -128,8 +128,10 @@ function Stepper({ qty, name, onChange }) {
 const lineName = (line) =>
   [line.product.name, line.variant.label ? formatCapacity(line.variant.label) : null].filter(Boolean).join(', ');
 
-function Line({ line, stale, onQty, onRemove }) {
+function Line({ line, stale: listStale, onQty, onRemove }) {
   const { product, variant, qty, total } = line;
+  /* cena od klientki (clientPrice) – kwota widoczna także przy przeterminowanych cenach pigmentów */
+  const stale = listStale && !product.clientPrice;
   const label = variant.label ?? null;
   const what = lineName(line);
   return (

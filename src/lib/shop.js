@@ -1,15 +1,15 @@
 /**
  * Sklep (/sklep) – czyste funkcje nad src/data/shop.json.
  *
- * Dane: WYŁĄCZNIE publiczne Store API dawnego sklepu klientki, odświeżane skryptem
+ * Dane: plik edytowany RĘCZNIE wyłącznie z materiałów przekazanych przez Filipa – wiadomości
+ * klientki (18.10.2026) i Kariny Lesiv (14.10.2026) oraz zdjęć z /Graphics (nazwy i pojemności
+ * z opakowań). Decyzja Filipa z 18.10.2026: nic z dawnego sklepu klientki. Każdy produkt ma pole
+ * `_source` (skąd pochodzi) – strona go nie pokazuje.
  *
- *   node scripts/sync-shop.mjs
- *
- * (kategorie i zakres – prośba klientki z 18.10.2026, opis w skrypcie). Nie dopisujemy tu
- * niczego ręcznie. Produkty mają ten sam kształt co pigmenty (src/lib/pigments.js), więc
- * korzystają z tej samej listy „Twoje zamówienie” i tych samych klocków katalogu:
- * `collection` = id kategorii sklepu, `zones` puste, `color` null. Ceny w groszach –
- * STANDARDOWE ze sklepu (bez promocji, Omnibus).
+ * Kształt produktu jak w pigmentach (src/lib/pigments.js) – ta sama lista „Twoje zamówienie”
+ * i te same klocki katalogu: `collection` = id kategorii sklepu. Cena `null` = „cena na
+ * zapytanie” (produkt bez ceny od klientki): bez „Dodaj”, z linkiem do zapytania. `presale` –
+ * „Sprzedaż przedpremierowa” (słowa Kariny). Ceny w groszach.
  *
  * Kategorie sklepu w menu „Sklep” (src/lib/site.js → NAV_ALL[0]): Pigmenty i Maszynki
  * mają własne strony, pozostałe – sekcje tej strony (kotwica = id kategorii).
@@ -27,20 +27,32 @@ function withEnDash(value) {
   }
   return value;
 }
-const data = withEnDash(raw);
-
-/** Ile dni po synchronizacji ceny uznajemy za aktualne – ta sama zasada co pigmenty. */
-export const SHOP_PRICE_MAX_AGE_DAYS = 14;
-
-/** Data synchronizacji z API sklepu (ISO). */
-export const SHOP_SYNCED_AT = data.syncedAt;
-
-/** Czy ceny sklepu są starsze niż SHOP_PRICE_MAX_AGE_DAYS (albo data jest nieczytelna). */
-export function shopPricesExpired(now = Date.now(), catalog = data) {
-  const synced = new Date(catalog.syncedAt).getTime();
-  if (!Number.isFinite(synced)) return true;
-  return now - synced > SHOP_PRICE_MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
+/* Uzupełnienie pól wspólnych z pigmentami (komponenty katalogu ich oczekują). */
+function normalize(catalog) {
+  const products = catalog.products.map((p) => {
+    const variants = p.variants.map((v) => ({ ...v, price: v.price ?? null }));
+    return {
+      series: null,
+      isSet: false,
+      zones: [],
+      color: null,
+      presale: false,
+      ...p,
+      variants,
+      onRequest: variants.some((v) => v.price === null),
+      /* cena od klientki – nie przeterminowuje się jak ceny pigmentów z 29.09 */
+      clientPrice: true,
+      inStock: variants.some((v) => v.inStock),
+    };
+  });
+  const categories = catalog.categories.map((c) => ({ ...c, count: products.filter((p) => p.collection === c.id).length }));
+  return { ...catalog, categories, products };
 }
+
+const data = normalize(withEnDash(raw));
+
+/** Data cen podanych przez klientkę (ISO) – do podpisu „Ceny z …”. */
+export const SHOP_PRICE_DATE = data.priceDate;
 
 /** Kategorie sklepu z danych (bez Pigmentów i Maszynek): [{ id, name, count }]. */
 export function shopCategories(catalog = data) {

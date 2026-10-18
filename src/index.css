@@ -931,3 +931,70 @@ html:has([role='alertdialog'][data-state='open']) [data-consent-banner],
 html:has(#as-menu:not([hidden])) [data-consent-banner] {
   visibility: hidden;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Magic UI – przeniesione do Tailwind 3 / CSS bez biblioteki „motion” */
+/*  (18.10.2026, decyzja Filipa: „użyj Magic UI”). Źródła: rejestr      */
+/*  magicui.design – animated-shiny-text, glare-hover (podgląd kodu     */
+/*  przez MCP Magic UI); kolory i czasy dopasowane do marki.            */
+/* ------------------------------------------------------------------ */
+
+/* animated-shiny-text: złoty połysk przesuwa się po napisie (etykieta „Sprzedaż przedpremierowa”).
+   Napis ink/80 (kontrast AA na kremie), połysk prześwituje przez częściowo przezroczyste litery.
+   Rytm z rejestru: przejście w 30–60% cyklu, 6 s, bez ruchu przy prefers-reduced-motion. */
+@keyframes as-shiny {
+  0%,
+  90%,
+  100% {
+    background-position: calc(-100% - var(--as-shiny-width)) 0;
+  }
+  30%,
+  60% {
+    background-position: calc(100% + var(--as-shiny-width)) 0;
+  }
+}
+.as-shiny {
+  --as-shiny-width: 5rem;
+  color: rgb(36 27 20 / 0.8);
+  background-image: linear-gradient(90deg, transparent, #b89768 50%, transparent);
+  background-size: var(--as-shiny-width) 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: as-shiny 6s cubic-bezier(0.6, 0.6, 0, 1) infinite;
+}
+
+/* glare-hover: ukośny odblask przechodzi po kaflu przy najechaniu (mysz). Złoto 28% zamiast bieli
+   z rejestru – na kremie biel byłaby niewidoczna; 650 ms, ease-in-out jak w rejestrze. */
+.as-glare {
+  position: relative;
+  overflow: hidden;
+}
+.as-glare::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: linear-gradient(-45deg, transparent 60%, rgb(184 151 104 / 0.28) 70%, transparent, transparent 100%);
+  background-size: 250% 250%;
+  background-repeat: no-repeat;
+  background-position: -100% -100%;
+  transition: background-position 650ms ease-in-out;
+}
+@media (hover: hover) {
+  .as-glare:hover::before {
+    background-position: 100% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .as-shiny {
+    animation: none;
+  }
+  .as-glare::before {
+    transition: none;
+    display: none;
+  }
+}

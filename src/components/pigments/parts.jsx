@@ -199,8 +199,10 @@ export function PaletteStrip({ colors, className }) {
  * Bez cen przekreślonych i bez „promocji”. Ceny przeterminowane → „cena do
  * potwierdzenia” (pojemności zostają).
  */
-export function PriceLine({ variants, showStock = false, className }) {
-  const stale = usePricesStale();
+/* `stale` – nadpisanie dla cen od klientki (clientPrice), które nie przeterminowują się. */
+export function PriceLine({ variants, showStock = false, className, stale: staleProp }) {
+  const ctxStale = usePricesStale();
+  const stale = staleProp ?? ctxStale;
   if (!variants?.length) return null;
   const labels = variants.filter((v) => v.label);
   if (stale) {

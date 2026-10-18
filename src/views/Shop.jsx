@@ -9,9 +9,10 @@
  * kafle kategorii. Pozostałe kategorie są sekcjami tej strony (kotwica = id kategorii, te same
  * linki co menu „Sklep” – NAV_ALL[0] w src/lib/site.js).
  *
- * Dane: WYŁĄCZNIE src/data/shop.json (publiczne Store API dawnego sklepu klientki, skrypt
- * scripts/sync-shop.mjs – zakres kategorii i ceny standardowe opisane tam). Zdjęcia tylko
- * z /Graphics (src/lib/productPhotos.js): Ice Gel, Glow Oil, lampa TheOne, opakowanie SATELLITE.
+ * Dane: WYŁĄCZNIE src/data/shop.json – plik ręczny z wiadomości klientki (18.10.2026) i Kariny
+ * (14.10.2026) oraz napisów z opakowań na zdjęciach (decyzja Filipa: nic z dawnego sklepu).
+ * Produkty bez ceny – „cena na zapytanie” i link do zapytania. Zdjęcia tylko z /Graphics
+ * (src/lib/productPhotos.js). Etykieta przedsprzedaży i odblask kafli – Magic UI (CSS).
  * Zakup = ta sama lista „Twoje zamówienie” co na /pigmenty (wspólna w localStorage), wysyłana
  * jako ZAPYTANIE – bez płatności. Klocki katalogu z src/components/pigments (dialogi, przycisk listy).
  *
@@ -19,18 +20,18 @@
  *   01 PageHero band (espresso) – zdanie filaru „Produkty” ze strony głównej
  *   02 Kategorie #kategorie (cream-50) – 8 kafli w kolejności klientki
  *   03 Produkty #produkty (cream-50, hairline) – blok na kategorię: nazwa, liczba, zdjęcie
- *      kategorii (opakowanie SATELLITE, lampa) | wiersze cennika (ShopRow); kategoria bez
- *      produktów (Lasery) – „zapytaj”
+ *      kategorii (lampa – jedyny produkt) | wiersze cennika (ShopRow); kategoria bez
+ *      produktów (Akcesoria do ćwiczeń, Lasery) – „zapytaj”
  *   04 Jak zamówić #zamowienie (cream-100)
  *   05 ClosingCta – „Twoje zamówienie” + kontakt
  *   + pływający przycisk listy i dwa dialogi (szczegóły, zamówienie)
  */
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, CtaButton, NumberedItem, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
 import { formatCapacity, formatSyncedDate, productById, stats as pigmentStats } from '@/lib/pigments';
-import { SHOP_SYNCED_AT, shopCategories, shopPricesExpired, shopProducts } from '@/lib/shop';
+import { SHOP_PRICE_DATE, shopCategories, shopProducts } from '@/lib/shop';
 import { productPhoto } from '@/lib/productPhotos';
 import { CONTACT } from '@/lib/site';
 import { cn, nbspShort } from '@/lib/utils';
@@ -53,7 +54,7 @@ const PIGMENT_SHADES = pigmentStats().shades;
 
 /* Zdjęcie kategorii w lewej kolumnie bloku: opakowanie kartridży (jedno dla wszystkich
    konfiguracji igieł) i lampa (jedyny produkt kategorii – wiersz jest wtedy bez miniatury). */
-const CATEGORY_PHOTO = { kartridze: 'satellite', lampy: 'theone-white-ring' };
+const CATEGORY_PHOTO = { lampy: 'lampa-pierscieniowa' };
 
 /* Długa lista (kartridże: 20 konfiguracji) – 8 wierszy od razu, reszta po „Pokaż wszystkie”;
    krótsze kategorie (do 12) zawsze w całości. */
@@ -114,7 +115,8 @@ function Categories({ links }) {
               <li key={link.href} className="border-b border-ink/15">
                 <Link
                   href={link.href}
-                  className="group flex min-h-[5.5rem] items-start gap-4 py-5 sm:min-h-[7.5rem] sm:flex-col sm:justify-between"
+                  /* as-glare – Magic UI „glare-hover” (CSS): złoty odblask przy najechaniu myszą */
+                  className="as-glare group flex min-h-[5.5rem] items-start gap-4 py-5 sm:min-h-[7.5rem] sm:flex-col sm:justify-between"
                 >
                   <span aria-hidden="true" className="as-label w-6 shrink-0 pt-1 text-gold-deep">
                     {String(i + 1).padStart(2, '0')}
@@ -159,7 +161,7 @@ function CategoryBlock({ category, label, qtyByProduct, onAdd, onDetails }) {
             product={{ id: photoId }}
             ratio="1 / 1"
             sizes="(min-width: 1024px) 28vw, 14rem"
-            alt={photoId === 'satellite' ? t.products.satelliteAlt : label}
+            alt={label}
             className="mt-6 max-w-[14rem] lg:max-w-[20rem]"
           />
         )}
@@ -197,10 +199,10 @@ function CategoryBlock({ category, label, qtyByProduct, onAdd, onDetails }) {
   );
 }
 
-function Products({ links, headingRef, qtyByProduct, onAdd, onDetails, stale }) {
+function Products({ links, headingRef, qtyByProduct, onAdd, onDetails }) {
   const t = useContent(shopDict);
   const locale = useLocale();
-  const synced = formatSyncedDate(SHOP_SYNCED_AT, locale);
+  const synced = formatSyncedDate(SHOP_PRICE_DATE, locale);
   /* nazwa kategorii w języku strony – z menu (te same etykiety co „Sklep” w nagłówku) */
   const labelOf = (id) => links.find((l) => anchorOf(l.href) === id)?.label ?? CATEGORIES.find((c) => c.id === id)?.name;
   return (
@@ -232,7 +234,7 @@ function Products({ links, headingRef, qtyByProduct, onAdd, onDetails, stale }) 
         </div>
 
         <div className="mt-14 border-t border-ink/15 pt-5">
-          <p className="as-caption max-w-none">{stale ? t.products.pricesStale(synced) : t.products.pricesAsOf(synced)}</p>
+          <p className="as-caption max-w-none">{t.products.pricesAsOf(synced)}</p>
         </div>
       </div>
     </section>
@@ -278,20 +280,13 @@ function HowToOrder() {
 
 /* ================================================================== */
 
-/**
- * @param {{ pricesStale?: boolean }} props – ceny sklepu przeterminowane w chwili renderu
- *   (build); przeglądarka sprawdza to ponownie po zamontowaniu.
- */
-export default function Shop({ pricesStale = false }) {
+/* Ceny sklepu podała klientka (bez synchronizacji ze sklepem) – nie przeterminowują się. */
+export default function Shop() {
   const t = useContent(shopDict);
   const locale = useLocale();
   const { NAV_ALL } = useSite();
   /* 8 kategorii z menu „Sklep” (bez linków tylko do stopki) – etykiety w języku strony */
   const links = useMemo(() => NAV_ALL[0].links.filter((l) => !l.footerOnly), [NAV_ALL]);
-  const [stale, setStale] = useState(pricesStale);
-  useEffect(() => {
-    setStale(shopPricesExpired());
-  }, []);
 
   const order = useOrder();
   const { add, qtyByProduct, summary } = order;
@@ -350,10 +345,10 @@ export default function Shop({ pricesStale = false }) {
   const closingLead = `${FORM_LIVE ? t.closing.leadForm : t.closing.leadInstagram(CONTACT.instagramHandle)}${t.closing.leadRest}`;
 
   return (
-    <PricesStaleContext.Provider value={stale}>
+    <PricesStaleContext.Provider value={false}>
       <Hero />
       <Categories links={links} />
-      <Products links={links} headingRef={headingRef} qtyByProduct={qtyByProduct} onAdd={onAdd} onDetails={onDetails} stale={stale} />
+      <Products links={links} headingRef={headingRef} qtyByProduct={qtyByProduct} onAdd={onAdd} onDetails={onDetails} />
       <HowToOrder />
 
       <ClosingCta
@@ -393,7 +388,7 @@ export default function Shop({ pricesStale = false }) {
         open={orderOpen}
         onOpenChange={setOrderOpen}
         order={order}
-        syncedAt={SHOP_SYNCED_AT}
+        syncedAt={SHOP_PRICE_DATE}
         onBrowse={() => {
           skipReturn.current = true;
           setOrderOpen(false);

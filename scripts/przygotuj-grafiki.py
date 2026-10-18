@@ -122,14 +122,27 @@ NEW_PRODUCTS = {
     'product-as-classic-pigments-plum-dessert': '23.30.49 (2)',
     'product-as-classic-pigments-coral': '23.30.49 (3)',
     'product-as-classic-pigments-watermelon-ice': '23.30.49',
-    # Sklep (/sklep, src/data/shop.json – id ze sklepu) – prośba klientki z 18.10.2026: produkty
-    # ze zdjęć z 29.09, których dotąd nie było na stronie. Ice Gel LTB – packshot na czarnym tle.
-    'product-ice-gel-ltb-2w1': '23.05.37',
-    'product-ice-gel-for-lips': '23.05.37 (1)',   # różowy Ice Gel „cooling gel for lips” = Red Turquoise
-    'product-glow-oil-white': '23.05.37 (2)',     # Glow Oil Pineapple
-    'product-glow-oil-stawberry-scented': '23.05.38',  # Glow Oil Strawberry
-    'product-theone-white-ring': '23.05.38 (5)',  # lampa TheOne White Ring na statywie
-    'product-satellite': '23.05.38 (6)',          # opakowanie kartridży SATELLITE – zdjęcie kategorii
+    # Sklep (/sklep, src/data/shop.json) – prośba klientki z 18.10.2026: produkty ze zdjęć z 29.09,
+    # których dotąd nie było na stronie; nazwy i pojemności z opakowań na zdjęciach.
+    # LTB NUMB – packshot na czarnym tle.
+    'product-ltb-numb': '23.05.37',
+    'product-ice-gel': '23.05.37 (1)',              # różowy ICE GEL „cooling gel for lips”
+    'product-glow-oil-pineapple': '23.05.37 (2)',
+    'product-glow-oil-strawberries': '23.05.38',
+    'product-lampa-pierscieniowa': '23.05.38 (5)',  # lampa pierścieniowa na statywie
+    'product-kartridze-satellite': '23.05.38 (6)',  # opakowanie kartridży SATELLITE
+    # Zdjęcia od Kariny z 14.10.2026 (pełny znacznik daty – inna data niż NEW_PREFIX).
+    'product-hairstrokes-h6-dark-brown': '2026-10-14 at 15.52.23 (1)',
+    'product-h7-dark-warm-brown-eyebrow-pigment-for-hair-strokes': '2026-10-14 at 15.52.23',
+    'product-as-opium-light-minerals-pigments-dark-brown': '2026-10-14 at 15.52.41 (1)',  # M6 Dark Brown
+    'product-as-opium-light-minerals-pigments-black-brown': '2026-10-14 at 15.52.41',     # M5 Black Brown
+    'product-as-opium-pigments-horse': '2026-10-14 at 15.52.42 (1)',
+    'product-as-opium-pigments-brazil': '2026-10-14 at 15.52.42',
+    'product-gotham-harley-quinn-6ml': '2026-10-14 at 16.04.21',
+    'product-as-classic-pigments-amaranth': '2026-10-14 at 16.27.34',
+    'product-kredka-czarna': '2026-10-14 at 16.53.15',
+    'product-kredka-brazowa': '2026-10-14 at 16.53.41',
+    'product-kredka-czerwona': '2026-10-14 at 16.54.08',
 }
 # work-<technika>-NN: (plik, przycięcie (l, t, r, b) w ułamkach – bez doklejonej butelki)
 NEW_WORKS = {
@@ -150,6 +163,8 @@ NEW_SKIP = {
     '23.07.24',      # praca – technika niepewna
     '23.09.22',      # praca z logo innego studia („Z”)
     '23.30.47 (1)',  # Joker – drugi packshot
+    # 14.10.2026 – te same pliki co z 29.09 (Brick, Devil, zestawy Harley Quinn i Paradise)
+    '2026-10-14 at 15.58.55', '2026-10-14 at 15.59.39', '2026-10-14 at 16.07.22', '2026-10-14 at 16.10.05',
 }
 
 # --- sklejki do rozcięcia (nazwy po przypisaniu do grup) ---------------------
@@ -331,6 +346,10 @@ def main():
     panel_report = {}
     by_suffix = {os.path.basename(p)[len(NEW_PREFIX):-len('.jpeg')]: i
                  for i, p in enumerate(files, 1) if os.path.basename(p).startswith(NEW_PREFIX)}
+    # pliki z innych dni – klucz z datą („2026-10-14 at 15.52.23”)
+    by_suffix.update({os.path.basename(p)[len('WhatsApp Image '):-len('.jpeg')]: i
+                      for i, p in enumerate(files, 1)
+                      if os.path.basename(p).startswith('WhatsApp Image ') and not os.path.basename(p).startswith(NEW_PREFIX)})
 
     def load(idx):
         im = Image.open(files[idx - 1]).convert('RGB')
