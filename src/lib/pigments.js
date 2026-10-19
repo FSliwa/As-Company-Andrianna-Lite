@@ -150,8 +150,18 @@ export const SYNCED_AT = data.syncedAt;
  */
 export const PRICE_MAX_AGE_DAYS = 14;
 
+/**
+ * 19.10.2026 – decyzja Filipa: ceny pigmentów z danych (stan z 29.09) obowiązują bez wygasania.
+ * Klientka widziała je na stronie 30.09 bez uwag, a Karina Lesiv (14.10) podała ceny tylko
+ * produktów spoza tych danych (Hairstrokes Set Collaboration, kartridże, kredki). Danych nie
+ * synchronizujemy już ze sklepem (decyzja Filipa z 18.10), więc wygasanie po PRICE_MAX_AGE_DAYS
+ * nie ma zastosowania; podpis „Ceny z 29.09.2026” zostaje. false → wraca wygasanie.
+ */
+export const PRICES_CONFIRMED = true;
+
 /** Czy ceny z danych są starsze niż PRICE_MAX_AGE_DAYS (albo data jest nieczytelna). */
 export function pricesExpired(now = Date.now(), catalog = data) {
+  if (PRICES_CONFIRMED && catalog === data) return false;
   const synced = new Date(catalog.syncedAt).getTime();
   if (!Number.isFinite(synced)) return true;
   return now - synced > PRICE_MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
