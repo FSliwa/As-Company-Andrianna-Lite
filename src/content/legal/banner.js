@@ -3,7 +3,7 @@
 const BANNER = {
   "pl": {
     "title": "Prywatność i cookies",
-    "text": "Zapisujemy w Twojej przeglądarce tylko to, co niezbędne do działania strony, na przykład listę pigmentów, którą tworzysz. Nie używamy narzędzi analitycznych ani reklamowych.",
+    "text": "Zapisujemy w Twojej przeglądarce tylko to, co niezbędne do działania strony, na przykład listę produktów, którą tworzysz. Nie używamy narzędzi analitycznych ani reklamowych.",
     "buttonOk": "Rozumiem",
     "buttonAccept": "Akceptuję wszystkie",
     "buttonReject": "Tylko niezbędne",
@@ -12,7 +12,7 @@ const BANNER = {
     "categories": {
       "necessary": {
         "name": "Niezbędne",
-        "desc": "Zapamiętują Twoją decyzję w tym banerze i listę pigmentów dodanych do zapytania, a przy rezerwacji online, jeśli ta ochrona jest włączona, chronią formularz przed botami. Bez nich te funkcje nie działają prawidłowo."
+        "desc": "Zapamiętują Twoją decyzję w tym banerze i listę produktów dodanych do zapytania, a przy rezerwacji online, jeśli ta ochrona jest włączona, chronią formularz przed botami. Bez nich te funkcje nie działają prawidłowo."
       },
       "analytics": {
         "name": "Analityczne",
@@ -31,7 +31,7 @@ const BANNER = {
   },
   "en": {
     "title": "Privacy and cookies",
-    "text": "We store in your browser only what is necessary for the website to work, such as the pigment list you create. We do not use any analytics or advertising tools.",
+    "text": "We store in your browser only what is necessary for the website to work, such as the product list you create. We do not use any analytics or advertising tools.",
     "buttonOk": "Got it",
     "buttonAccept": "Accept all",
     "buttonReject": "Necessary only",
@@ -40,7 +40,7 @@ const BANNER = {
     "categories": {
       "necessary": {
         "name": "Necessary",
-        "desc": "These remember your choice in this banner and the list of pigments added to your enquiry and, if this protection is enabled, protect the online booking form against bots. Without them these features do not work properly."
+        "desc": "These remember your choice in this banner and the list of products added to your enquiry and, if this protection is enabled, protect the online booking form against bots. Without them these features do not work properly."
       },
       "analytics": {
         "name": "Analytics",
@@ -59,7 +59,7 @@ const BANNER = {
   },
   "ru": {
     "title": "Конфиденциальность и cookie",
-    "text": "Мы сохраняем в вашем браузере только то, что необходимо для работы сайта, например составленный вами список пигментов. Мы не используем аналитические и рекламные инструменты.",
+    "text": "Мы сохраняем в вашем браузере только то, что необходимо для работы сайта, например составленный вами список товаров. Мы не используем аналитические и рекламные инструменты.",
     "buttonOk": "Понятно",
     "buttonAccept": "Принять все",
     "buttonReject": "Только необходимые",
@@ -68,7 +68,7 @@ const BANNER = {
     "categories": {
       "necessary": {
         "name": "Необходимые",
-        "desc": "Запоминают ваше решение в этом баннере и список пигментов, добавленных в запрос, а при онлайн-записи, если эта защита включена, защищают форму от ботов. Без них эти функции не работают должным образом."
+        "desc": "Запоминают ваше решение в этом баннере и список товаров, добавленных в запрос, а при онлайн-записи, если эта защита включена, защищают форму от ботов. Без них эти функции не работают должным образом."
       },
       "analytics": {
         "name": "Аналитические",

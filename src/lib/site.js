@@ -553,8 +553,17 @@ export const PRODUCT_LINES = [
     cta: 'Zobacz maszynkę',
   },
   {
-    id: 'certyfikaty',
+    id: 'akcesoria',
     number: '03',
+    title: 'Akcesoria i pielęgnacja',
+    href: '/sklep',
+    /* C-01 (19.10.2026): karta z makiety (26.09) – brzmienie z makiety; cel od 14.10 – /sklep */
+    desc: 'Wszystko, czego potrzebujesz do codziennej pracy – kartridże, preparaty i akcesoria najwyższej jakości.',
+    cta: 'Zobacz akcesoria',
+  },
+  {
+    id: 'certyfikaty',
+    number: '04',
     title: 'Certyfikaty i jakość',
     href: '/certyfikaty',
     /* D9: deklaracja REACH w brzmieniu sklepu klientki („pigmenty zgodne z rozporządzeniem REACH”),

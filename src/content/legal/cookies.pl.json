@@ -1,7 +1,7 @@
 {
   "slug": "polityka-cookies",
   "title": "Polityka cookies",
-  "updated": "2026-09-30",
+  "updated": "2026-10-19",
   "intro": "Ta polityka wyjaśnia, jakie informacje serwis {siteUrl} zapisuje w Twoim urządzeniu lub z niego odczytuje, w jakim celu i jak możesz tym zarządzać. W skrócie: korzystamy wyłącznie z tego, co niezbędne do działania funkcji, których używasz. Nie stosujemy narzędzi analitycznych ani reklamowych.",
   "sections": [
     {
@@ -26,12 +26,12 @@
       "heading": "3. Co zapisujemy w Twoim urządzeniu",
       "blocks": [
         { "p": "Poniżej znajdziesz pełną listę. Wszystkie pozycje są konieczne do działania funkcji, z których korzystasz, dlatego nie wymagają zgody. Nie używamy ich do śledzenia Cię ani do reklamy." },
-        { "h3": "as-order-v1 – lista pigmentów do zapytania" },
+        { "h3": "as-order-v1 – lista produktów do zapytania" },
         { "list": [
-          "Cel: zapamiętanie pigmentów, które dodajesz do listy zapytania w katalogu pigmentów, żeby nie zniknęły po odświeżeniu strony ani po powrocie do katalogu.",
+          "Cel: zapamiętanie produktów, które dodajesz do listy zapytania w katalogu pigmentów i w sklepie, żeby nie zniknęły po odświeżeniu strony ani po powrocie do katalogu.",
           "Rodzaj: własny, pamięć lokalna przeglądarki (localStorage), niezbędny.",
-          "Zawartość: oznaczenia wybranych produktów z katalogu, pojemności i ilości. Bez imienia, telefonu, adresu e-mail ani innych danych z formularza.",
-          "Kiedy: wpis powstaje dopiero wtedy, gdy dodasz pierwszy pigment, a strona katalogu odczytuje go przy otwarciu. Wpis nie jest wysyłany na nasz serwer.",
+          "Zawartość: oznaczenia wybranych produktów z katalogu pigmentów i sklepu, pojemności i ilości. Bez imienia, telefonu, adresu e-mail ani innych danych z formularza.",
+          "Kiedy: wpis powstaje dopiero wtedy, gdy dodasz pierwszy produkt, a strony katalogu pigmentów i sklepu odczytują go przy otwarciu. Wpis nie jest wysyłany na nasz serwer.",
           "Czas: do chwili, gdy usuniesz wszystkie pozycje, użyjesz przycisku „Wyczyść listę” albo usuniesz dane witryny w przeglądarce. Wpis nie wygasa samoczynnie."
         ] },
         { "h3": "as-consent-v1 – Twoja decyzja w banerze cookies" },
@@ -70,7 +70,7 @@
       "id": "podstawa-prawna",
       "heading": "5. Podstawa prawna",
       "blocks": [
-        { "p": "Zapis informacji w Twoim urządzeniu i ich odczyt opieramy na wyjątku z art. 399 ust. 3 pkt 2 ustawy Prawo komunikacji elektronicznej: są konieczne do dostarczenia usługi, o którą prosisz, czyli zapamiętania listy pigmentów, zapamiętania Twojej decyzji w banerze i bezpiecznego przyjęcia rezerwacji. Takie zapisy są zwolnione z wymogu zgody i z obowiązków informacyjnych tego przepisu, ale mimo to opisujemy je w tej polityce, żeby było jasne, co i po co zapisujemy. Zapisywane informacje nie zmieniają konfiguracji Twojego urządzenia ani zainstalowanego w nim oprogramowania." },
+        { "p": "Zapis informacji w Twoim urządzeniu i ich odczyt opieramy na wyjątku z art. 399 ust. 3 pkt 2 ustawy Prawo komunikacji elektronicznej: są konieczne do dostarczenia usługi, o którą prosisz, czyli zapamiętania listy produktów, zapamiętania Twojej decyzji w banerze i bezpiecznego przyjęcia rezerwacji. Takie zapisy są zwolnione z wymogu zgody i z obowiązków informacyjnych tego przepisu, ale mimo to opisujemy je w tej polityce, żeby było jasne, co i po co zapisujemy. Zapisywane informacje nie zmieniają konfiguracji Twojego urządzenia ani zainstalowanego w nim oprogramowania." },
         { "p": "Informacje zapisywane w pamięci przeglądarki nie zawierają Twoich danych kontaktowych i nie służą nam do rozpoznawania Cię. Jeśli w związku z korzystaniem z serwisu przetwarzamy Twoje dane osobowe, na przykład adres IP w logach serwera prowadzonych przez dostawcę hostingu, dane podane przy rezerwacji albo dane przetwarzane przez Cloudflare podczas weryfikacji, zasady, podstawy prawne z RODO i Twoje prawa opisujemy w Polityce prywatności ({siteUrl}/polityka-prywatnosci)." }
       ]
     },
@@ -80,10 +80,10 @@
       "blocks": [
         { "list": [
           "Baner: w każdej chwili kliknij „Ustawienia cookies” w stopce strony, aby ponownie wyświetlić informację o cookies. Jeśli wprowadzimy narzędzia wymagające zgody, w tym samym miejscu zmienisz lub wycofasz zgodę.",
-          "Lista pigmentów: usuń wszystkie pozycje albo kliknij „Wyczyść listę”, a wpis as-order-v1 zniknie z Twojej przeglądarki.",
+          "Lista produktów: usuń wszystkie pozycje albo kliknij „Wyczyść listę”, a wpis as-order-v1 zniknie z Twojej przeglądarki.",
           "Przeglądarka: możesz usunąć dane zapisane przez nasz serwis, także pliki cookies Cloudflare, albo zablokować ich zapisywanie. W większości przeglądarek znajdziesz te opcje w ustawieniach prywatności, w części dotyczącej plików cookies i danych witryn. Okno prywatne (incognito) usuwa takie dane po jego zamknięciu."
         ] },
-        { "p": "Jeśli zablokujesz zapisywanie danych, serwis nadal będzie działał, ale lista pigmentów nie przetrwa odświeżenia strony, a baner może pojawiać się przy każdej wizycie. Zablokowanie skryptu Cloudflare może uniemożliwić rezerwację online. Wtedy umówisz wizytę {{lub|telefonicznie ({phone})|e-mailem ({email})|przez Instagram ({instagram})}}." }
+        { "p": "Jeśli zablokujesz zapisywanie danych, serwis nadal będzie działał, ale lista produktów nie przetrwa odświeżenia strony, a baner może pojawiać się przy każdej wizycie. Zablokowanie skryptu Cloudflare może uniemożliwić rezerwację online. Wtedy umówisz wizytę {{lub|telefonicznie ({phone})|e-mailem ({email})|przez Instagram ({instagram})}}." }
       ]
     },
     {
@@ -97,7 +97,7 @@
   ],
   "banner": {
     "title": "Prywatność i cookies",
-    "text": "Zapisujemy w Twojej przeglądarce tylko to, co niezbędne do działania strony, na przykład listę pigmentów, którą tworzysz. Nie używamy narzędzi analitycznych ani reklamowych.",
+    "text": "Zapisujemy w Twojej przeglądarce tylko to, co niezbędne do działania strony, na przykład listę produktów, którą tworzysz. Nie używamy narzędzi analitycznych ani reklamowych.",
     "buttonOk": "Rozumiem",
     "buttonAccept": "Akceptuję wszystkie",
     "buttonReject": "Tylko niezbędne",
@@ -106,7 +106,7 @@
     "categories": {
       "necessary": {
         "name": "Niezbędne",
-        "desc": "Zapamiętują Twoją decyzję w tym banerze i listę pigmentów dodanych do zapytania, a przy rezerwacji online, jeśli ta ochrona jest włączona, chronią formularz przed botami. Bez nich te funkcje nie działają prawidłowo."
+        "desc": "Zapamiętują Twoją decyzję w tym banerze i listę produktów dodanych do zapytania, a przy rezerwacji online, jeśli ta ochrona jest włączona, chronią formularz przed botami. Bez nich te funkcje nie działają prawidłowo."
       },
       "analytics": {
         "name": "Analityczne",
@@ -135,7 +135,7 @@
       "why": "Przy samych niezbędnych zapisach roczny okres nie uciąża użytkownika; przy zgodach na narzędzia opcjonalne organy nadzorcze w UE zalecają częstsze ponawianie pytania. localStorage nie wygasa sam, więc termin musi egzekwować kod banera (patrz ostatnia pozycja)."
     },
     {
-      "what": "Automatyczne wygasanie listy pigmentów (as-order-v1)",
+      "what": "Automatyczne wygasanie listy produktów (as-order-v1)",
       "proposal": "Zostawić bez automatycznego wygasania – lista znika po „Wyczyść listę”, usunięciu wszystkich pozycji lub wyczyszczeniu danych przeglądarki (tak działa dziś kod).",
       "why": "Wpis zawiera tylko oznaczenia produktów i ilości, nie opuszcza urządzenia, powstaje na wyraźne działanie użytkownika i jest przez niego w pełni sterowany – jak koszyk w sklepie, powszechnie uznawany za zapis niezbędny. Ryzyko: część wytycznych uznaje za bezsprzecznie niezbędne głównie zapisy krótkotrwałe. Alternatywa ostrożniejsza: wygaszanie po 30 dniach bez zmian – wymaga drobnej zmiany w src/components/pigments/useOrder.js i poprawki punktu 3."
     },

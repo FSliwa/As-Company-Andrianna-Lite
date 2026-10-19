@@ -1,7 +1,7 @@
 {
   "slug": "regulamin",
   "title": "Regulamin serwisu",
-  "updated": "2026-09-30",
+  "updated": "2026-10-19",
   "effective": null,
   "intro": "Ten regulamin opisuje, jak działa strona {siteUrl}: co możesz na niej zrobić, jak przebiega rezerwacja wizyty online i jak zgłosić problem. Korzystanie ze strony jest bezpłatne i nie wymaga zakładania konta.",
   "sections": [
@@ -29,8 +29,8 @@
           "Salon – salon i akademia makijażu permanentnego Babushkina Academy w Warszawie[[{?street}; adres salonu podajemy na stronie Kontakt]].",
           "Zabieg – usługa z cennika Salonu, wykonywana w Salonie.",
           "Rezerwacja – zapisanie wybranego terminu wizyty w kalendarzu Salonu za pomocą formularza na stronie „Umów wizytę”.",
-          "Formularz – formularz kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki lub zapytanie o pigmenty.",
-          "Lista pigmentów – lista odcieni, pojemności i ilości, którą tworzysz w katalogu pigmentów, w oknie „Twoje zamówienie”, aby wysłać ją jako zapytanie.",
+          "Formularz – formularz kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki lub zapytanie o produkty.",
+          "Lista produktów – lista produktów i produktów ze sklepu, ich pojemności i ilości, którą tworzysz w katalogu pigmentów i w sklepie, w oknie „Twoje zamówienie”, aby wysłać ją jako zapytanie.",
           "Polityka prywatności i Polityka cookies – dokumenty dostępne pod adresami {siteUrl}/polityka-prywatnosci i {siteUrl}/polityka-cookies."
         ] }
       ]
@@ -59,9 +59,9 @@
       "blocks": [
         { "p": "W Serwisie bezpłatnie świadczymy następujące Usługi:" },
         { "list": [
-          "przeglądanie treści – informacji o zabiegach, cennikach i ścieżce zabiegowej, o szkoleniach i ich dofinansowaniu, o pigmentach, maszynce i certyfikatach oraz danych kontaktowych;",
-          "Formularze – przygotowanie wiadomości do nas: pytania ogólnego, zapytania o termin szkolenia, o wynajem maszynki albo o pigmenty;",
-          "Lista pigmentów – zestawienie wybranych odcieni, pojemności i ilości, które możesz wysłać jako zapytanie;",
+          "przeglądanie treści – informacji o zabiegach, cennikach i ścieżce zabiegowej, o szkoleniach i ich dofinansowaniu, o pigmentach, maszynce, produktach w sklepie i certyfikatach oraz danych kontaktowych;",
+          "Formularze – przygotowanie wiadomości do nas: pytania ogólnego, zapytania o termin szkolenia, o wynajem maszynki albo o produkty;",
+          "Lista produktów – zestawienie wybranych produktów, pojemności i ilości, które możesz wysłać jako zapytanie;",
           "rezerwacja wizyty online – wybór zabiegu, dnia i godziny oraz zapisanie wizyty w kalendarzu Salonu."
         ] },
         { "p": "Rezerwacja online działa, gdy jest włączona. Jeśli strona „Umów wizytę” informuje, że jest chwilowo niedostępna, umówimy wizytę {{lub|{?phone}telefonicznie|{?email}e-mailem|przez Instagram}}." },
@@ -75,9 +75,9 @@
         { "p": "Do korzystania z Serwisu potrzebujesz:" },
         { "list": [
           "urządzenia z dostępem do internetu – komputera, tabletu lub telefonu;",
-          "aktualnej przeglądarki, np. Chrome, Safari, Firefox lub Edge, z włączoną obsługą JavaScript – bez niej nie zadziałają Formularze, Lista pigmentów ani rezerwacja online;",
+          "aktualnej przeglądarki, np. Chrome, Safari, Firefox lub Edge, z włączoną obsługą JavaScript – bez niej nie zadziałają Formularze, Lista produktów ani rezerwacja online;",
           "do wysłania Formularza – programu pocztowego skonfigurowanego na urządzeniu albo konta na Instagramie, aby skopiować treść i wysłać ją nam w wiadomości;",
-          "aby Lista pigmentów pozostała zapisana po odświeżeniu lub zamknięciu strony – włączonej pamięci przeglądarki (localStorage);",
+          "aby Lista produktów pozostała zapisana po odświeżeniu lub zamknięciu strony – włączonej pamięci przeglądarki (localStorage);",
           "aby dodać wizytę do własnego kalendarza – aplikacji obsługującej pliki .ics, np. Kalendarza Apple, Google lub Outlooka;",
           "jeśli rezerwacja online korzysta z weryfikacji Cloudflare Turnstile – możliwości połączenia z serwerami Cloudflare; weryfikacja zwykle odbywa się bez Twojego udziału."
         ] },
@@ -113,7 +113,7 @@
         { "list": [
           "przeglądanie treści – z chwilą otwarcia Serwisu; umowa kończy się, gdy zamkniesz stronę;",
           "Formularz – z chwilą rozpoczęcia wypełniania; umowa kończy się, gdy otworzy się program pocztowy z gotową wiadomością, gdy skopiujesz jej treść albo gdy porzucisz Formularz;",
-          "Lista pigmentów – z chwilą dodania pierwszej pozycji; umowa kończy się, gdy wyczyścisz listę, usuniesz z niej wszystkie pozycje albo usuniesz dane strony w przeglądarce;",
+          "Lista produktów – z chwilą dodania pierwszej pozycji; umowa kończy się, gdy wyczyścisz listę, usuniesz z niej wszystkie pozycje albo usuniesz dane strony w przeglądarce;",
           "rezerwacja online – z chwilą rozpoczęcia wypełniania formularza rezerwacji; umowa kończy się z chwilą wyświetlenia potwierdzenia albo porzucenia formularza. Zapisana wizyta obowiązuje dalej na zasadach z pkt 9 i 10."
         ] },
         { "p": "W każdej chwili, bez podania przyczyny i bez kosztów, możesz zakończyć korzystanie z Usług – wystarczy zamknąć stronę lub porzucić formularz." },
@@ -122,13 +122,13 @@
     },
     {
       "id": "formularze-i-lista-pigmentow",
-      "heading": "8. Formularze i Lista pigmentów",
+      "heading": "8. Formularze i Lista produktów",
       "blocks": [
         { "p": "Formularze nie wysyłają danych na nasz serwer. Po kliknięciu przycisku wysyłki Serwis układa z wpisanych informacji gotową wiadomość i otwiera Twój program pocztowy[[ z adresem {email}]]. Wiadomość trafia do nas dopiero wtedy, gdy ją wyślesz." },
         { "p": "Jeśli na urządzeniu nie ma programu pocztowego, możesz skopiować lub przepisać treść i wysłać ją wiadomością na Instagramie ({instagram}). Wiadomość przesyła Twój dostawca poczty albo Instagram, na zasadach tych usług." },
-        { "p": "Zależnie od Formularza wiadomość zawiera: imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o pigmenty wystarczy telefon albo e-mail), a do tego temat i treść wiadomości, wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym, nazwę salonu i wybrane urządzenie albo Listę pigmentów z orientacyjną sumą i uwagami. Podaj tylko to, co jest potrzebne do odpowiedzi." },
+        { "p": "Zależnie od Formularza wiadomość zawiera: imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o produkty wystarczy telefon albo e-mail), a do tego temat i treść wiadomości, wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym, nazwę salonu i wybrane urządzenie albo Listę produktów z orientacyjną sumą i uwagami. Podaj tylko to, co jest potrzebne do odpowiedzi." },
         { "p": "Wysłanie zapytania nie oznacza zawarcia umowy sprzedaży, umowy o szkolenie ani umowy wynajmu. W odpowiedzi przedstawimy dostępność i warunki, a umowę zawieramy odrębnie, jeśli obie strony tego chcą." },
-        { "p": "Lista pigmentów jest zapisywana wyłącznie w pamięci przeglądarki na Twoim urządzeniu i nie trafia do nas, dopóki nie wyślesz zapytania. Przy cenach w katalogu podajemy datę, na którą są aktualne. Suma na liście jest orientacyjna, nie obejmuje kosztów dostawy i nie jest ceną do zapłaty – łączną kwotę potwierdzimy w odpowiedzi. Listę możesz w każdej chwili wyczyścić w oknie „Twoje zamówienie” albo usuwając dane strony w przeglądarce." }
+        { "p": "Lista produktów jest zapisywana wyłącznie w pamięci przeglądarki na Twoim urządzeniu i nie trafia do nas, dopóki nie wyślesz zapytania. Przy cenach w katalogu podajemy datę, na którą są aktualne. Suma na liście jest orientacyjna, nie obejmuje kosztów dostawy i nie jest ceną do zapłaty – łączną kwotę potwierdzimy w odpowiedzi. Listę możesz w każdej chwili wyczyścić w oknie „Twoje zamówienie” albo usuwając dane strony w przeglądarce." }
       ]
     },
     {
@@ -169,7 +169,7 @@
       "blocks": [
         { "p": "Ceny w Serwisie podajemy w złotych polskich. Ceny zabiegów są cenami końcowymi (brutto), płatnymi w Salonie." },
         { "p": "Cena zabiegu to cena z cennika, którą widzisz także przy Rezerwacji. Przy zabiegach z ceną „od” lub z wyceną indywidualną dokładną kwotę podajemy podczas konsultacji. Jeśli po konsultacji okaże się, że potrzebny jest inny zakres niż zarezerwowany, przedstawimy cenę przed rozpoczęciem zabiegu, a Ty zdecydujesz, czy się na niego zgadzasz. Korekta jest osobną pozycją cennika; w niektórych przypadkach, np. przy skórze tłustej lub porowatej albo po usuwaniu starego makijażu permanentnego, jest konieczna – powiemy Ci o tym podczas konsultacji." },
-        { "p": "Informacje o zabiegach, szkoleniach, pigmentach i maszynce oraz o jej wynajmie, w tym ceny, są zaproszeniem do kontaktu i do zawarcia umowy (art. 71 Kodeksu cywilnego), a nie ofertą w rozumieniu art. 66 Kodeksu cywilnego. Warunki zakupu, szkolenia lub wynajmu ustalamy indywidualnie przed zawarciem umowy." },
+        { "p": "Informacje o zabiegach, szkoleniach, pigmentach, produktach w sklepie i maszynce oraz o jej wynajmie, w tym ceny, są zaproszeniem do kontaktu i do zawarcia umowy (art. 71 Kodeksu cywilnego), a nie ofertą w rozumieniu art. 66 Kodeksu cywilnego. Warunki zakupu, szkolenia lub wynajmu ustalamy indywidualnie przed zawarciem umowy." },
         { "p": "Jeśli przy cenie zaznaczono, że jest to kwota netto (np. przy szkoleniach), doliczamy do niej podatek VAT według obowiązującej stawki, o ile jest należny. Przed zawarciem umowy zawsze podajemy cenę do zapłaty." },
         { "p": "Serwis nie przyjmuje płatności. Rezerwacja online jest bezpłatna i nie wymaga zadatku ani przedpłaty." },
         { "p": "Informacje o wpisie do Rejestru Instytucji Szkoleniowych (RIS) i Bazy Usług Rozwojowych (BUR) oraz o możliwości sfinansowania szkolenia m.in. ze środków Krajowego Funduszu Szkoleniowego (KFS) mają charakter informacyjny. O przyznaniu dofinansowania decyduje właściwy urząd lub operator według swoich zasad." }
@@ -196,7 +196,7 @@
       "blocks": [
         { "p": "Usługi w Serwisie są bezpłatne i możesz z nich zrezygnować w każdej chwili, bez podania przyczyny i bez kosztów (pkt 7)." },
         { "p": "Rezerwacja online nie jest zakupem usługi i nie wiąże się z żadną płatnością. Możesz ją w każdej chwili bezpłatnie zmienić lub odwołać (pkt 10), a umowę o wykonanie zabiegu zawieramy w Salonie, po konsultacji." },
-        { "p": "W Serwisie nie zawiera się umów sprzedaży. Jeśli po wymianie wiadomości zawrzemy umowę na odległość, np. sprzedaży pigmentów albo udziału w szkoleniu, przed jej zawarciem przekażemy Ci informacje wymagane przez ustawę o prawach konsumenta, w tym o prawie odstąpienia od umowy, jeśli Ci przysługuje." },
+        { "p": "W Serwisie nie zawiera się umów sprzedaży. Jeśli po wymianie wiadomości zawrzemy umowę na odległość, np. sprzedaży pigmentów lub innych produktów albo udziału w szkoleniu, przed jej zawarciem przekażemy Ci informacje wymagane przez ustawę o prawach konsumenta, w tym o prawie odstąpienia od umowy, jeśli Ci przysługuje." },
         { "p": "Przepisy o ochronie konsumenta, w zakresie wskazanym w ustawie o prawach konsumenta i w Kodeksie cywilnym, stosuje się także do osoby fizycznej prowadzącej jednoosobową działalność gospodarczą, jeśli umowa nie ma dla niej charakteru zawodowego, co wynika w szczególności z przedmiotu działalności wpisanego do CEIDG." }
       ]
     },
@@ -205,7 +205,7 @@
       "heading": "14. Dane osobowe i pamięć przeglądarki",
       "blocks": [
         { "p": "Administratorem danych osobowych podanych w Serwisie jest {company}, {seat}. Jakie dane zbieramy, w jakim celu, jak długo je przechowujemy, komu je powierzamy (np. dostawcy hostingu i Kalendarza Google) i jakie masz prawa – opisuje Polityka prywatności: {siteUrl}/polityka-prywatnosci. W sprawach danych osobowych napisz do nas[[ na adres {privacyEmail} albo]] na Instagramie ({instagram})." },
-        { "p": "Serwis nie korzysta z narzędzi analitycznych ani reklamowych i nie ustawia własnych plików cookies. W pamięci Twojej przeglądarki zapisuje tylko Listę pigmentów, jeśli z niej korzystasz, oraz Twoją decyzję w banerze cookies. Jeśli na stronach rezerwacji działa weryfikacja Cloudflare Turnstile, skrypt Cloudflare może zapisać w przeglądarce własne pliki cookies i dane techniczne. Szczegóły i sposób ich usunięcia opisuje Polityka cookies: {siteUrl}/polityka-cookies." }
+        { "p": "Serwis nie korzysta z narzędzi analitycznych ani reklamowych i nie ustawia własnych plików cookies. W pamięci Twojej przeglądarki zapisuje tylko Listę produktów, jeśli z niej korzystasz, oraz Twoją decyzję w banerze cookies. Jeśli na stronach rezerwacji działa weryfikacja Cloudflare Turnstile, skrypt Cloudflare może zapisać w przeglądarce własne pliki cookies i dane techniczne. Szczegóły i sposób ich usunięcia opisuje Polityka cookies: {siteUrl}/polityka-cookies." }
       ]
     },
     {
@@ -297,7 +297,7 @@
     },
     {
       "what": "Ceny pigmentów w katalogu",
-      "proposal": "Suma na Liście pigmentów jest orientacyjna, bez kosztów dostawy; ceny według cennika z datą podaną w katalogu, kwotę do zapłaty potwierdzamy w odpowiedzi.",
+      "proposal": "Suma na Liście produktów jest orientacyjna, bez kosztów dostawy; ceny według cennika z datą podaną w katalogu, kwotę do zapłaty potwierdzamy w odpowiedzi.",
       "why": "Tak działa kod (okno „Twoje zamówienie” pokazuje datę cennika i informację o dostawie). Przed zawarciem umowy z konsumentem trzeba podać łączną cenę z kosztami dostawy (ustawa o prawach konsumenta)."
     },
     {

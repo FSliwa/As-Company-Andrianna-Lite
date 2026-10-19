@@ -196,6 +196,11 @@ const site = {
       cta: 'See the machine',
     },
     {
+      title: 'Accessories and care',
+      desc: 'Everything you need for your everyday work – cartridges, treatment products and accessories of the highest quality.',
+      cta: 'See accessories',
+    },
+    {
       title: 'Certificates & quality',
       desc: 'EU REACH compliance, product sheets and the documentation a professional studio requires.',
       cta: 'See certificates',

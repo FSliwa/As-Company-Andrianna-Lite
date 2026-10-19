@@ -7,9 +7,10 @@
  * na WhatsAppie. Do czasu dostarczenia plików znak składamy z fontów serwisu (Bodoni Moda
  * + Jost) i korony w SVG, więc jest ostry w każdym rozmiarze i nie potrzebuje pobierania.
  * Po dostarczeniu plików wystarczy podmienić zawartość tego komponentu – nagłówek i menu
- * korzystają tylko z niego. Ikony (src/app/icon.png, apple-icon.png) i public/brand/
- * babushkina-academy-logo.png (logo w JSON-LD, src/lib/seo.jsx) to rendery tego znaku –
- * po zmianie znaku trzeba je odświeżyć.
+ * korzystają tylko z niego. public/brand/babushkina-academy-logo.png (logo w JSON-LD,
+ * src/lib/seo.jsx) to render tego znaku – po zmianie znaku trzeba go odświeżyć. Ikony
+ * (src/app/icon.png, apple-icon.png, favicon.ico) od 19.10.2026 to monogram klientki „AB”
+ * z koroną nad „A” z jej plakatów kursów w /Graphics (Bodoni Moda, złoto, krem).
  *
  * Znak jest dekoracją (aria-hidden): nazwę dostępną daje link, w którym stoi
  * (aria-label „Babushkina Academy – strona główna”).

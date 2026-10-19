@@ -18,7 +18,7 @@ import PresaleBadge from '@/components/magicui/PresaleBadge';
 import { cn } from '@/lib/utils';
 import { formatCapacity } from '@/lib/pigments';
 import { productPhoto } from '@/lib/productPhotos';
-import { useContent } from '@/i18n/client';
+import { useContent, useLocale } from '@/i18n/client';
 import { shopDict } from '@/content/views/shop';
 import { ADD_BTN, PriceLine, ProductPhoto, displayName } from '@/components/pigments/parts';
 
@@ -27,6 +27,7 @@ const THUMB_SIZES = '(min-width: 640px) 72px, 56px';
 
 function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
   const t = useContent(shopDict);
+  const locale = useLocale();
   const variant = product.variants[0];
   const canAdd = Boolean(!product.onRequest && product.inStock && variant?.inStock);
   const hasPhoto = Boolean(productPhoto(product.id));
@@ -65,7 +66,7 @@ function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3 md:shrink-0 md:flex-nowrap md:justify-end">
           {product.onRequest ? (
             <p className="whitespace-nowrap text-[0.9375rem] text-mocha">
-              {variant?.label && <span className="mr-1.5 text-[0.8125rem]">{formatCapacity(variant.label)}</span>}
+              {variant?.label && <span className="mr-1.5 text-[0.8125rem]">{formatCapacity(variant.label, locale)}</span>}
               {t.cell.priceOnRequest}
             </p>
           ) : (

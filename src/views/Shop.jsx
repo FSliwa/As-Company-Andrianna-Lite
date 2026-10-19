@@ -30,7 +30,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Link from '@/components/as/LocaleLink';
 import { ArrowLink, ClosingCta, CtaButton, NumberedItem, PageHero, Reveal, SectionLabel } from '@/components/as/Primitives';
-import { formatCapacity, formatSyncedDate, productById, stats as pigmentStats } from '@/lib/pigments';
+import { formatCapacity, formatSyncedDate, localizeProduct, productById, stats as pigmentStats } from '@/lib/pigments';
 import { SHOP_PRICE_DATE, shopCategories, shopProducts } from '@/lib/shop';
 import { productPhoto } from '@/lib/productPhotos';
 import { CONTACT } from '@/lib/site';
@@ -143,8 +143,13 @@ function Categories({ links }) {
 
 function CategoryBlock({ category, label, qtyByProduct, onAdd, onDetails }) {
   const t = useContent(shopDict);
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
-  const rows = PRODUCTS.filter((p) => p.collection === category.id);
+  /* nazwy i dopiski w języku strony (pole `i18n` w src/data/shop.json) */
+  const rows = useMemo(
+    () => PRODUCTS.filter((p) => p.collection === category.id).map((p) => localizeProduct(p, locale)),
+    [category.id, locale]
+  );
   const photoId = CATEGORY_PHOTO[category.id];
   /* miniatury w wierszach, gdy kategoria nie ma wspólnego zdjęcia, a choć jeden produkt ma packshot */
   const thumbs = !photoId && rows.some((p) => productPhoto(p.id));
@@ -325,7 +330,7 @@ export default function Shop() {
   const onAdd = useCallback(
     (id, label) => {
       add(id, label);
-      const p = productById(id);
+      const p = localizeProduct(productById(id), locale);
       const text = t.order.added(`${p?.name ?? ''}${label ? `, ${formatCapacity(label, locale)}` : ''}`);
       setAnnounce((prev) => (prev === text ? `${text} ` : text));
     },

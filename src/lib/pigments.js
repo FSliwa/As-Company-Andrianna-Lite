@@ -235,9 +235,20 @@ export function formatPrice(grosze) {
   return `${sign}${zl}${gr ? `,${String(gr).padStart(2, '0')}` : ''}${NBSP}zł`;
 }
 
-/** „6 ml” z twardą spacją (etykiety w danych mają zwykłą). */
-export function formatCapacity(label) {
-  return label ? String(label).replace(/\s+/g, NBSP) : '';
+/* Sztuki w opakowaniu (kartridże sklepu, „20 szt.”) na trasach /en i /ru: en „pcs”, ru „шт.”. */
+const PCS = { en: 'pcs', ru: 'шт.' };
+
+/** „6 ml” z twardą spacją (etykiety w danych mają zwykłą); „20 szt.” → en „20 pcs”, ru „20 шт.”. */
+export function formatCapacity(label, lang = 'pl') {
+  if (!label) return '';
+  const s = String(label).replace(/\s+/g, NBSP);
+  return PCS[lang] ? s.replace(/szt\.$/, PCS[lang]) : s;
+}
+
+/** Produkt sklepu w języku strony – pole `i18n` w src/data/shop.json (nazwy, dopiski); inaczej bez zmian. */
+export function localizeProduct(product, lang = 'pl') {
+  const o = product?.i18n?.[lang];
+  return o ? { ...product, ...withEnDash(o) } : product;
 }
 
 /**

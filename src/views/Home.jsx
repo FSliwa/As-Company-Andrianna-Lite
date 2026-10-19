@@ -456,6 +456,10 @@ function ProductsBand() {
               jakość, innowacyjne technologie i realne doświadczenie, aby wspierać Cię na każdym
               etapie pracy.
             </p>
+            {/* C-01: link z makiety („Zobacz wszystkie produkty →”) – od 14.10 cały sklep na /sklep */}
+            <ArrowLink href="/sklep" className="mt-8 w-fit">
+              Zobacz wszystkie produkty
+            </ArrowLink>
           </Reveal>
 
           <div className="md:col-span-7 md:col-start-6">
@@ -663,8 +667,9 @@ function TrainingBand() {
           </div>
         </div>
 
-        {/* H3: filary powtarzają akapit – na telefonie ukryte, od md trzy kolumny */}
-        <div className="mt-14 hidden gap-8 md:grid md:grid-cols-3 lg:mt-16">
+        {/* Filary z makiety – także na telefonie (C-02, 19.10.2026: zasada Filipa z 05.10 „nie ukrywaj
+            treści na telefonach”; wcześniej H3 je ukrywało), od md trzy kolumny */}
+        <div className="mt-14 grid gap-8 md:grid-cols-3 lg:mt-16">
           {TRAINING_PILLARS.map((p, i) => (
             <Reveal key={p.number} delay={i * 80}>
               <div className="flex items-baseline gap-3">

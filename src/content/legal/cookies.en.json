@@ -1,7 +1,7 @@
 {
   "slug": "polityka-cookies",
   "title": "Cookie Policy",
-  "updated": "2026-09-30",
+  "updated": "2026-10-19",
   "intro": "This is an English translation of the Polish original; in the event of any discrepancy, the Polish version prevails. This policy explains what information the {siteUrl} website stores on or reads from your device, for what purpose and how you can manage it. In short: we use only what is necessary for the operation of the features you use. We do not use any analytics or advertising tools.",
   "sections": [
     {
@@ -26,12 +26,12 @@
       "heading": "3. What we store on your device",
       "blocks": [
         { "p": "Below is the complete list. All items are strictly necessary for the operation of the features you use, so they do not require consent. We do not use them to track you or for advertising." },
-        { "h3": "as-order-v1 – pigment list for your enquiry" },
+        { "h3": "as-order-v1 – product list for your enquiry" },
         { "list": [
-          "Purpose: to remember the pigments you add to your enquiry list in the pigment catalogue, so that they do not disappear when you refresh the page or return to the catalogue.",
+          "Purpose: to remember the products you add to your enquiry list in the pigment catalogue and the shop, so that they do not disappear when you refresh the page or return to the catalogue.",
           "Type: first-party, browser local storage (localStorage), necessary.",
-          "Content: identifiers of the products selected from the catalogue, bottle sizes and quantities. No name, phone number, email address or other form data.",
-          "When: the entry is created only when you add your first pigment, and the catalogue page reads it when it opens. The entry is not sent to our server.",
+          "Content: identifiers of the products selected from the pigment catalogue and the shop, bottle sizes and quantities. No name, phone number, email address or other form data.",
+          "When: the entry is created only when you add your first product, and the pigment catalogue and shop pages read it when they open. The entry is not sent to our server.",
           "Duration: until you remove all items, use the “Clear list” button („Wyczyść listę”) or delete the site data in your browser. The entry does not expire automatically."
         ] },
         { "h3": "as-consent-v1 – your choice in the cookie banner" },
@@ -70,7 +70,7 @@
       "id": "podstawa-prawna",
       "heading": "5. Legal basis",
       "blocks": [
-        { "p": "We store information on your device and read it on the basis of the exemption in Article 399(3)(2) of the Electronic Communications Law: this is strictly necessary to provide a service you have requested, namely remembering your pigment list, remembering your choice in the banner and securely accepting your booking. Such storage is exempt from the consent requirement and from the information obligations of that provision, but we describe it in this policy nonetheless, so that it is clear what we store and why. The information stored does not change the configuration of your device or of the software installed on it." },
+        { "p": "We store information on your device and read it on the basis of the exemption in Article 399(3)(2) of the Electronic Communications Law: this is strictly necessary to provide a service you have requested, namely remembering your product list, remembering your choice in the banner and securely accepting your booking. Such storage is exempt from the consent requirement and from the information obligations of that provision, but we describe it in this policy nonetheless, so that it is clear what we store and why. The information stored does not change the configuration of your device or of the software installed on it." },
         { "p": "The information saved in your browser’s storage does not contain your contact details and we do not use it to identify you. If we process your personal data in connection with your use of the website, for example your IP address in server logs kept by the hosting provider, the details you provide when booking or data processed by Cloudflare during verification, our Privacy Policy ({siteUrl}/polityka-prywatnosci) sets out the rules for that processing, the legal bases for it under the General Data Protection Regulation (GDPR; in Polish “RODO”) and your rights." }
       ]
     },
@@ -80,10 +80,10 @@
       "blocks": [
         { "list": [
           "Banner: click “Cookie settings” in the website footer at any time to display the cookie information again. If we introduce tools that require consent, you will be able to change or withdraw your consent in the same place.",
-          "Pigment list: remove all items or click “Clear list” („Wyczyść listę”), and the as-order-v1 entry will disappear from your browser.",
+          "Product list: remove all items or click “Clear list” („Wyczyść listę”), and the as-order-v1 entry will disappear from your browser.",
           "Browser: you can delete data stored by our website, as well as Cloudflare cookies, or block it from being stored. In most browsers you will find these options in the privacy settings, in the section on cookies and site data. A private (incognito) window deletes such data when you close it."
         ] },
-        { "p": "If you block data storage, the website will still work, but your pigment list will not survive a page refresh and the banner may appear on every visit. Blocking the Cloudflare script may prevent online booking. In that case you can book an appointment {{or|by phone ({phone})|by email ({email})|via Instagram ({instagram})}}." }
+        { "p": "If you block data storage, the website will still work, but your product list will not survive a page refresh and the banner may appear on every visit. Blocking the Cloudflare script may prevent online booking. In that case you can book an appointment {{or|by phone ({phone})|by email ({email})|via Instagram ({instagram})}}." }
       ]
     },
     {
@@ -97,7 +97,7 @@
   ],
   "banner": {
     "title": "Privacy and cookies",
-    "text": "We store in your browser only what is necessary for the website to work, such as the pigment list you create. We do not use any analytics or advertising tools.",
+    "text": "We store in your browser only what is necessary for the website to work, such as the product list you create. We do not use any analytics or advertising tools.",
     "buttonOk": "Got it",
     "buttonAccept": "Accept all",
     "buttonReject": "Necessary only",
@@ -106,7 +106,7 @@
     "categories": {
       "necessary": {
         "name": "Necessary",
-        "desc": "These remember your choice in this banner and the list of pigments added to your enquiry and, if this protection is enabled, protect the online booking form against bots. Without them these features do not work properly."
+        "desc": "These remember your choice in this banner and the list of products added to your enquiry and, if this protection is enabled, protect the online booking form against bots. Without them these features do not work properly."
       },
       "analytics": {
         "name": "Analytics",
@@ -135,7 +135,7 @@
       "why": "With only necessary storage, a one-year period is no burden on the user; for consent to optional tools, EU supervisory authorities recommend asking again more often. localStorage does not expire by itself, so the period must be enforced by the banner code (see the last item)."
     },
     {
-      "what": "Automatic expiry of the pigment list (as-order-v1)",
+      "what": "Automatic expiry of the product list (as-order-v1)",
       "proposal": "Leave it without automatic expiry – the list disappears after “Clear list”, when all items are removed or when browser data is cleared (this is how the code works today).",
       "why": "The entry contains only product identifiers and quantities, never leaves the device, is created by a deliberate action of the user and is fully under their control – like a shopping basket in an online shop, which is widely regarded as necessary storage. Risk: some guidance treats mainly short-lived storage as unquestionably necessary. A more cautious alternative: expiry after 30 days without changes – this requires a minor change in src/components/pigments/useOrder.js and an update to section 3."
     },

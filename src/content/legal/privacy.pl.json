@@ -1,7 +1,7 @@
 {
   "slug": "polityka-prywatnosci",
   "title": "Polityka prywatności",
-  "updated": "2026-09-30",
+  "updated": "2026-10-19",
   "intro": "Ta polityka wyjaśnia, jakie dane osobowe zbieramy w serwisie {siteUrl} (także na podstronach w języku angielskim i rosyjskim), po co to robimy, komu je powierzamy i jakie masz prawa. Opisujemy wyłącznie to, co serwis faktycznie robi. Stosujemy rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO). Zasady korzystania z serwisu opisuje Regulamin ({siteUrl}/regulamin), a informacje zapisywane w Twojej przeglądarce – Polityka cookies ({siteUrl}/polityka-cookies).",
   "sections": [
     {
@@ -46,10 +46,10 @@
       "heading": "4. Formularze kontaktowe, e-mail i Instagram",
       "blocks": [
         {
-          "p": "W serwisie są cztery formularze: kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki oraz zapytanie o pigmenty (lista wybranych odcieni). Żaden z nich nie wysyła danych na nasz serwer. Po kliknięciu przycisku przeglądarka składa z wypełnionych pól gotową wiadomość i otwiera Twój program pocztowy[[ z naszym adresem {email}]]. Dane trafiają do nas dopiero wtedy, gdy sam wyślesz tę wiadomość. Możesz też napisać do nas na Instagramie, a listę pigmentów skopiować przyciskiem w oknie zamówienia i wkleić do wiadomości. Wiadomość przesyła Twój dostawca poczty albo Instagram, na swoich zasadach."
+          "p": "W serwisie są cztery formularze: kontaktowy, zapytanie o termin szkolenia, zapytanie o wynajem maszynki oraz zapytanie o produkty (lista wybranych pigmentów i produktów ze sklepu). Żaden z nich nie wysyła danych na nasz serwer. Po kliknięciu przycisku przeglądarka składa z wypełnionych pól gotową wiadomość i otwiera Twój program pocztowy[[ z naszym adresem {email}]]. Dane trafiają do nas dopiero wtedy, gdy sam wyślesz tę wiadomość. Możesz też napisać do nas na Instagramie, a listę produktów skopiować przyciskiem w oknie zamówienia i wkleić do wiadomości. Wiadomość przesyła Twój dostawca poczty albo Instagram, na swoich zasadach."
         },
         {
-          "p": "Zależnie od formularza wiadomość zawiera imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o pigmenty wystarczy telefon albo e-mail), a ponadto: w formularzu kontaktowym temat i treść wiadomości; w zapytaniu o szkolenie wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym; w zapytaniu o wynajem nazwę salonu i wybrane urządzenie; w zapytaniu o pigmenty nazwę salonu, listę odcieni z orientacyjną sumą i uwagi. Te same zasady dotyczą danych, które przekażesz nam, pisząc bezpośrednio e-mailem, dzwoniąc lub pisząc na Instagramie."
+          "p": "Zależnie od formularza wiadomość zawiera imię albo imię i nazwisko, telefon i adres e-mail (w zapytaniu o produkty wystarczy telefon albo e-mail), a ponadto: w formularzu kontaktowym temat i treść wiadomości; w zapytaniu o szkolenie wybrane szkolenie, miasto, preferowany termin i Twoje doświadczenie w makijażu permanentnym; w zapytaniu o wynajem nazwę salonu i wybrane urządzenie; w zapytaniu o produkty nazwę salonu, listę produktów z orientacyjną sumą i uwagi. Te same zasady dotyczą danych, które przekażesz nam, pisząc bezpośrednio e-mailem, dzwoniąc lub pisząc na Instagramie."
         },
         {
           "p": "Prosimy, nie przesyłaj w wiadomościach informacji o swoim zdrowiu – omówimy je podczas konsultacji w salonie. Jeśli mimo to je prześlesz, usuniemy je z korespondencji."
@@ -61,7 +61,7 @@
           "list": [
             "odpowiedź na wiadomość i dalsza korespondencja: nasz prawnie uzasadniony interes, czyli możliwość odpowiadania na kierowane do nas pytania (art. 6 ust. 1 lit. f RODO);",
             "przygotowanie oferty oraz ustalenie terminu szkolenia, wynajmu lub zakupu, gdy o to prosisz: działania na Twoje żądanie przed zawarciem umowy (art. 6 ust. 1 lit. b RODO);",
-            "wykonanie umowy, jeśli ją zawrzemy, na przykład udział w szkoleniu, wynajem maszynki lub zakup pigmentów (art. 6 ust. 1 lit. b RODO);",
+            "wykonanie umowy, jeśli ją zawrzemy, na przykład udział w szkoleniu, wynajem maszynki lub zakup pigmentów lub innych produktów (art. 6 ust. 1 lit. b RODO);",
             "rozliczenie dofinansowania szkolenia (np. KFS, BUR), jeśli z niego korzystasz: wykonanie umowy (art. 6 ust. 1 lit. b RODO), a gdy obowiązek przekazania lub przechowania danych wynika z przepisów – wypełnienie obowiązku prawnego (art. 6 ust. 1 lit. c RODO);",
             "rozpatrzenie reklamacji (punkt 12 Regulaminu): obowiązki wynikające z przepisów, w szczególności Kodeksu cywilnego i ustawy o prawach konsumenta (art. 6 ust. 1 lit. c RODO), a w sprawach nieobjętych takim obowiązkiem nasz prawnie uzasadniony interes, czyli rzetelne rozpatrzenie zgłoszenia (art. 6 ust. 1 lit. f RODO);",
             "wystawienie i przechowywanie dokumentów księgowych: obowiązek wynikający z przepisów podatkowych i o rachunkowości (art. 6 ust. 1 lit. c RODO);",
@@ -158,7 +158,7 @@
         },
         {
           "list": [
-            "listę pigmentów, którą tworzysz w katalogu (klucz „as-order-v1”): oznaczenia wybranych odcieni, pojemności i ilości, bez danych kontaktowych; wpis znika, gdy wyczyścisz listę albo usuniesz z niej wszystkie pozycje;",
+            "listę produktów, którą tworzysz w katalogu pigmentów i w sklepie (klucz „as-order-v1”): oznaczenia wybranych produktów, pojemności i ilości, bez danych kontaktowych; wpis znika, gdy wyczyścisz listę albo usuniesz z niej wszystkie pozycje;",
             "Twoją decyzję w banerze cookies (klucz „as-consent-v1”), żeby nie pokazywać go przy każdej wizycie; pamiętamy ją przez 12 miesięcy."
           ]
         },
@@ -211,7 +211,7 @@
             "wnioski dotyczące Twoich praw i nasze odpowiedzi: 3 lata od zakończenia sprawy;",
             "logi serwera: do 30 dni;",
             "licznik prób z adresu IP: wyłącznie w pamięci serwera, najdłużej do jego ponownego uruchomienia (sam limit obejmuje najwyżej ostatnie 10 minut);",
-            "informacje w Twojej przeglądarce: lista pigmentów do czasu, aż ją wyczyścisz, a zapis decyzji z banera 12 miesięcy; wcześniej usuniesz je, czyszcząc dane witryny (szczegóły w Polityce cookies)."
+            "informacje w Twojej przeglądarce: lista produktów do czasu, aż ją wyczyścisz, a zapis decyzji z banera 12 miesięcy; wcześniej usuniesz je, czyszcząc dane witryny (szczegóły w Polityce cookies)."
           ]
         },
         {

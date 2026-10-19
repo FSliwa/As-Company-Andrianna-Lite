@@ -40,6 +40,10 @@
       "variants": [{ "label": null, "price": 2000, "inStock": true, "sourceId": "kredka-czarna" }],
       "shortDesc": null,
       "description": null,
+      "i18n": {
+        "en": { "name": "Black pre-drawing pencil", "fullName": "Black pre-drawing pencil" },
+        "ru": { "name": "Чёрный карандаш для предварительного эскиза", "fullName": "Чёрный карандаш для предварительного эскиза" }
+      },
       "_source": "Karina 14.10.2026 (kredki: czerwona, czarna, brązowa; „Cena 20zł”)"
     },
     {
@@ -50,6 +54,10 @@
       "variants": [{ "label": null, "price": 2000, "inStock": true, "sourceId": "kredka-brazowa" }],
       "shortDesc": null,
       "description": null,
+      "i18n": {
+        "en": { "name": "Brown pre-drawing pencil", "fullName": "Brown pre-drawing pencil" },
+        "ru": { "name": "Коричневый карандаш для предварительного эскиза", "fullName": "Коричневый карандаш для предварительного эскиза" }
+      },
       "_source": "Karina 14.10.2026"
     },
     {
@@ -60,6 +68,10 @@
       "variants": [{ "label": null, "price": 2000, "inStock": true, "sourceId": "kredka-czerwona" }],
       "shortDesc": null,
       "description": null,
+      "i18n": {
+        "en": { "name": "Red pre-drawing pencil", "fullName": "Red pre-drawing pencil" },
+        "ru": { "name": "Красный карандаш для предварительного эскиза", "fullName": "Красный карандаш для предварительного эскиза" }
+      },
       "_source": "Karina 14.10.2026"
     },
     {
@@ -70,6 +82,10 @@
       "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ice-gel" }],
       "shortDesc": "„Cooling gel for lips” – napis na opakowaniu",
       "description": null,
+      "i18n": {
+        "en": { "shortDesc": "“Cooling gel for lips” – text on the packaging" },
+        "ru": { "shortDesc": "«Cooling gel for lips» – надпись на упаковке" }
+      },
       "_source": "klientka 14.10.2026: „Ice Gel … idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania na zdjęciu"
     },
     {
@@ -80,6 +96,10 @@
       "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ltb-numb" }],
       "shortDesc": "„Light turquoise pigment” – napis na opakowaniu",
       "description": null,
+      "i18n": {
+        "en": { "shortDesc": "“Light turquoise pigment” – text on the packaging" },
+        "ru": { "shortDesc": "«Light turquoise pigment» – надпись на упаковке" }
+      },
       "_source": "klientka 14.10.2026 (Ice Gel – środki zabiegowe); nazwa i pojemność z opakowania na zdjęciu"
     },
     {
@@ -110,6 +130,10 @@
       "variants": [{ "label": null, "price": null, "inStock": true, "sourceId": "lampa-pierscieniowa" }],
       "shortDesc": null,
       "description": null,
+      "i18n": {
+        "en": { "name": "Ring lamp", "fullName": "Ring lamp" },
+        "ru": { "name": "Кольцевая лампа", "fullName": "Кольцевая лампа" }
+      },
       "_source": "klientka 14.10.2026: kategoria „Lampy”; zdjęcie z 29.09 (bez nazwy marki na zdjęciu)"
     }
   ]
