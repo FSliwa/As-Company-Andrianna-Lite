@@ -2499,7 +2499,7 @@
       "variants": [
         {
           "label": null,
-          "price": 85000,
+          "price": 140000,
           "inStock": true,
           "sourceId": 8160
         }
@@ -2667,7 +2667,7 @@
       "variants": [
         {
           "label": null,
-          "price": 85000,
+          "price": 120000,
           "inStock": true,
           "sourceId": 6319
         }

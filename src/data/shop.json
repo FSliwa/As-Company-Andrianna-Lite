@@ -1,5 +1,5 @@
 {
-  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 (przekazane przez Filipa 18.10.2026) oraz z 26–27.10.2026 (czaty WhatsApp i grupa „Strona”), zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
+  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 (przekazane przez Filipa 18.10.2026) oraz z 29.09 i 26–27.10.2026 (czaty WhatsApp i grupa „Strona”), zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
   "priceDate": "2026-10-27",
   "currency": "PLN",
   "categories": [
@@ -33,8 +33,12 @@
       "collection": "kartridze",
       "variants": [{ "label": "20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite" }],
       "shortDesc": null,
-      "description": null,
-      "_source": "Karina 26.10.2026 (grupa „Strona”): „SATELLITE – proszę dodać cenę 255 zł”; opakowanie na zdjęciu: „20 membrane cartridges”"
+      "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz »MERCEDESA« wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.",
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „SATELLITE – proszę dodać cenę 255 zł”; opakowanie na zdjęciu: „20 membrane cartridges”; opis – Karina 29.09.2026 (czat): „Kartridż SATELLITE … Zakres cen: od 13,00 zł do 255,00 zł” – opis ogólny, bez konfiguracji igieł",
+      "i18n": {
+        "en": { "description": "“You can reach your destination in a Fiat or a Mercedes. When it comes to comfort, convenience and speed, the Mercedes does better. Choose the ‘Mercedes’ among cartridges – buy SATELLITES and feel true luxury.” Do your pigmentation quickly, to a high standard and evenly, using a single cartridge. Save on quantity so you don’t have to save on quality." },
+        "ru": { "description": "«До места назначения можно доехать на Fiat и на Mercedes. Если говорить о комфорте, удобстве и скорости – лучше справится Mercedes. Выберите „Mercedes“ среди картриджей – купите SATELLITES и почувствуйте настоящую роскошь». Выполняйте пигментацию быстро, качественно и равномерно одним картриджем. Экономьте на количестве, чтобы не экономить на качестве." }
+      }
     },
     {
       "id": "kredka-czarna",
@@ -135,10 +139,10 @@
       "name": "Ice Gel Lips",
       "fullName": "Ice Gel Lips",
       "collection": "srodki-zabiegowe",
-      "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ice-gel-lips" }],
+      "variants": [{ "label": "33 ml", "price": 27000, "inStock": true, "sourceId": "ice-gel-lips" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 26.10.2026: „ICE GEL LIPS – to na różowy” (opakowanie: „cooling gel for lips”); ceny nie podano – na zapytanie"
+      "_source": "klientka 26.10.2026: „ICE GEL LIPS – to na różowy”; cena – Karina 29.09.2026 podpisała dwa zdjęcia żeli (różowy i zielony) „Ice Gel Red Turquoise Pigment”, 26.10: „Ice Gel Red Turquoise Pigment 270,00 zł”"
     },
     {
       "id": "ice-ltb-gel",
@@ -152,37 +156,37 @@
     },
     {
       "id": "glow-oil-pineapple",
-      "name": "Glow Oil Pineapple",
-      "fullName": "Glow Oil Pineapple",
+      "name": "Glow Oil Pineapple Scented",
+      "fullName": "Glow Oil Pineapple Scented",
       "collection": "srodki-zabiegowe",
       "variants": [{ "label": "30 ml", "price": 12500, "inStock": true, "sourceId": "glow-oil-pineapple" }],
       "shortDesc": null,
       "description": null,
-      "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Pineapple Scented 125zł”"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Pineapple Scented 125zł”; nazwa – Karina 29.09 i 26.10: „Glow Oil Pineapple Scented”"
     },
     {
       "id": "glow-oil-strawberries",
-      "name": "Glow Oil Strawberries",
-      "fullName": "Glow Oil Strawberries",
+      "name": "Glow Oil Strawberry Scented",
+      "fullName": "Glow Oil Strawberry Scented",
       "collection": "srodki-zabiegowe",
       "variants": [{ "label": "30 ml", "price": 12500, "inStock": true, "sourceId": "glow-oil-strawberries" }],
       "shortDesc": null,
       "description": null,
-      "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Stawberry Scented 125zł”"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Stawberry Scented 125zł”; nazwa – Karina 29.09 i 26.10: „Glow Oil Stawberry Scented” (literówka poprawiona)"
     },
     {
       "id": "lampa-pierscieniowa",
-      "name": "Lampa pierścieniowa",
-      "fullName": "Lampa pierścieniowa",
+      "name": "Lampa TheOne White Ring",
+      "fullName": "Lampa pierścieniowa TheOne White Ring",
       "collection": "lampy",
       "variants": [{ "label": null, "price": 169000, "inStock": true, "sourceId": "lampa-pierscieniowa" }],
       "shortDesc": null,
-      "description": null,
+      "description": "Jeśli w pracy jest Ci potrzebne dobre oświetlenie – wybierz lekką i przenośną lampę TheOne. Stabilny statyw, wysokiej jakości LED i płynna regulacja mocy sprawiają, że jest to wygodny sprzęt do wielu zastosowań. Pozwala na zauważalne podniesienie komfortu pracy przy wykonywaniu makijażu oraz fotografowaniu jego efektów. Niekwestionowane zalety pierścieniowych lamp ledowych TheOne sprawiają, że są one bardzo chętnie wykorzystywane m.in. w gabinetach kosmetycznych.",
       "i18n": {
-        "en": { "name": "Ring lamp", "fullName": "Ring lamp" },
-        "ru": { "name": "Кольцевая лампа", "fullName": "Кольцевая лампа" }
+        "en": { "name": "TheOne White Ring lamp", "fullName": "TheOne White Ring ring lamp", "description": "If you need good lighting at work, choose the light and portable TheOne lamp. A stable stand, high-quality LEDs and smooth power adjustment make it convenient equipment for many uses. It noticeably improves comfort when doing make-up and photographing the results. The undisputed advantages of TheOne LED ring lamps make them very popular, among others, in beauty salons." },
+        "ru": { "name": "Лампа TheOne White Ring", "fullName": "Кольцевая лампа TheOne White Ring", "description": "Если в работе вам нужно хорошее освещение – выберите лёгкую и портативную лампу TheOne. Устойчивый штатив, качественные светодиоды и плавная регулировка мощности делают её удобным оборудованием для многих задач. Она заметно повышает комфорт при выполнении макияжа и фотографировании результата. Бесспорные преимущества кольцевых светодиодных ламп TheOne делают их очень популярными, в том числе в косметических кабинетах." }
       },
-      "_source": "Karina 26.10.2026 (grupa „Strona”): „Lampa 1690zł”; zdjęcie z 29.09"
+      "_source": "Karina 29.09.2026 (czat): „TheOne WHITE RING 1690,00 zł” + opis; 26.10.2026 (grupa „Strona”): „Lampa 1690zł”; zdjęcie z 29.09"
     }
   ]
 }
