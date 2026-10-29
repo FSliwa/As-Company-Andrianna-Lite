@@ -183,7 +183,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
               : `Cena z ${synced}.`}
           </p>
         )}
-        {!product.inStock && <p className="as-badge mt-3">Brak w magazynie</p>}
+        {!product.inStock && <p className="as-badge mt-3">Brak na stanie</p>}
       </div>
 
       {/* region stały (czytnik ogłasza zmianę), pusty nie zajmuje miejsca */}

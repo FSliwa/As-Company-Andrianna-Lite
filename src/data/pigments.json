@@ -294,7 +294,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5232
         }
       ],
@@ -324,7 +324,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3199
         }
       ],
@@ -384,7 +384,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3212
         }
       ],
@@ -414,7 +414,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3226
         }
       ],
@@ -444,7 +444,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3240
         }
       ],
@@ -474,13 +474,13 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3245
         }
       ],
       "shortDesc": "Intensywny, czerwony kolor",
       "description": "Intensywny, czerwony kolor na chłodnej bazie. Odpowiedni dla cery ciepłej. Można stosować samodzielnie. Najlepiej używać w połączeniu z ciepłymi, neutralnymi kolorami.\n\n• Pigment organiczny\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nPrzykłady mieszanek: Sindy, Red Royal, Toffee\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
-      "inStock": true,
+      "inStock": false,
       "color": "#c42033"
     },
     {
@@ -504,7 +504,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3202
         }
       ],
@@ -534,7 +534,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3230
         }
       ],
@@ -564,7 +564,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3195
         }
       ],
@@ -594,7 +594,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3236
         }
       ],
@@ -624,7 +624,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3206
         }
       ],
@@ -654,7 +654,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3223
         }
       ],
@@ -684,7 +684,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3228
         }
       ],
@@ -714,7 +714,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3238
         }
       ],
@@ -744,7 +744,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3233
         }
       ],
@@ -774,7 +774,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3204
         }
       ],
@@ -804,7 +804,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3242
         }
       ],
@@ -834,7 +834,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3217
         }
       ],
@@ -864,7 +864,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3209
         }
       ],
@@ -894,7 +894,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 3249
         }
       ],
@@ -948,13 +948,13 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5227
         }
       ],
       "shortDesc": "Modyfikator do ocieplenia innych pigmentów",
       "description": "Idealny do ocieplenia innych pigmentów i stworzenia ładnych, ciepłych miksów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
-      "inStock": true,
+      "inStock": false,
       "color": "#a03d1d"
     },
     {
@@ -1076,7 +1076,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5946
         }
       ],
@@ -1136,7 +1136,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5942
         }
       ],
@@ -1166,7 +1166,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5930
         }
       ],
@@ -1196,7 +1196,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5950
         }
       ],
@@ -1226,7 +1226,7 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 5934
         }
       ],
@@ -3196,13 +3196,13 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 11523
         }
       ],
       "shortDesc": "Czarny kolor z ciepłym odcieniem",
       "description": "Czarny kolor z ciepłym odcieniem, dając idealny, neutralny odcień\n\nIdealny zarówno dla mężczyzn, jak i kobiet o czystych czarnych włosach (bez dodatkowych tonów). Skuteczny w technikach puentylizmu, cienia i włoskowania\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
-      "inStock": true,
+      "inStock": false,
       "color": "#282828"
     },
     {
@@ -3220,13 +3220,13 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 11547
         }
       ],
       "shortDesc": "Korektor dla ocieplenie pigmentow z tej serii.",
       "description": "Korektor dla ocieplenie pigmentów z tej serii.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
-      "inStock": true,
+      "inStock": false,
       "color": "#c13e0b"
     },
     {
@@ -3244,13 +3244,13 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 11548
         }
       ],
       "shortDesc": "Czerwono-żółty kolor",
       "description": "Czerwono-żółty kolor i idealnie nadaje się dla mężczyzn o ciemnych włosach i ciepłym odcieniu włosów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
-      "inStock": true,
+      "inStock": false,
       "color": "#573831"
     },
     {
@@ -3268,13 +3268,13 @@
         {
           "label": "15 ml",
           "price": 21900,
-          "inStock": true,
+          "inStock": false,
           "sourceId": 11596
         }
       ],
       "shortDesc": "Baza czerwono-czarna",
       "description": "Ten hybrydowy pigment na czerwono-czarnej bazie doskonale sprawdzi się u mężczyzn o ciemnych włosach oraz kobiet o chłodnym odcieniu włosów.\n\n• Hybryda (obecność związków organicznych i nieorganicznych)\n• Po wygojeniu zostaje 60% do 90%\n• Konsystencja pigmentu: średnia\n\nData ważności pigmentu od daty produkcji: 4 lata\n\nData ważności pigmentu po otwarciu: 12 miesięcy",
-      "inStock": true,
+      "inStock": false,
       "color": "#3f3730"
     },
     {

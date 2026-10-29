@@ -83,7 +83,7 @@ export const shopDict = {
       add: 'Dodaj',
       addTo: (what) => `Dodaj do zamówienia: ${what}`,
       details: 'szczegóły',
-      out: 'Brak w magazynie',
+      out: 'Brak na stanie',
       presale: 'Sprzedaż przedpremierowa',
       priceOnRequest: 'cena na zapytanie',
       ask: 'Zapytaj',

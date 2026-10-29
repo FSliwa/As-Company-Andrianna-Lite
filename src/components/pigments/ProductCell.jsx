@@ -50,7 +50,7 @@ function InOrder({ qty }) {
 }
 
 function OutOfStock({ className }) {
-  return <p className={cn('as-badge flex h-11 items-center', className)}>Brak w magazynie</p>;
+  return <p className={cn('as-badge flex h-11 items-center', className)}>Brak na stanie</p>;
 }
 
 /* ================================================================== */
@@ -199,7 +199,7 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
               Dodaj
             </button>
           ) : (
-            <p className="as-badge flex h-11 items-center text-right leading-snug">Brak w magazynie</p>
+            <p className="as-badge flex h-11 items-center text-right leading-snug">Brak na stanie</p>
           )}
         </div>
       </div>

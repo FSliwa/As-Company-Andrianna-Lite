@@ -223,14 +223,12 @@ export function PriceLine({ variants, showStock = false, className, stale: stale
               ·
             </span>
             {v.label && <span className="mr-1.5 text-[0.8125rem] text-mocha">{formatCapacity(v.label)}</span>}
-            <span className="font-display text-[1.375rem] leading-none">{formatPrice(v.price)}</span>
-            {/* poniżej 340 px (kolumna 110–130 px) „(brak)” schodzi pod parę – inaczej
-                overflow-hidden ucina go do „(b” */}
-            {showStock && !v.inStock && (
-              <span className="ml-1.5 text-[0.8125rem] text-mocha max-[339px]:ml-0 max-[339px]:block">
-                <span aria-hidden="true">(brak)</span>
-                <span className="sr-only">brak w magazynie</span>
-              </span>
+            {/* pojemność bez stanu – zamiast kwoty „brak na stanie” (Filip 29.10.2026: „15 ml nie ma
+                na stanie, daj ten zapis na stronie i nie pokazuj ceny”) */}
+            {v.inStock ? (
+              <span className="font-display text-[1.375rem] leading-none">{formatPrice(v.price)}</span>
+            ) : (
+              <span className="text-[0.8125rem] text-mocha">brak na stanie</span>
             )}
           </span>
         ))}
@@ -279,8 +277,8 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
                 )}
               >
                 {formatCapacity(v.label)}
-                {showPrice && !stale && <span className="opacity-80">· {formatPrice(v.price)}</span>}
-                {!v.inStock && <span className="sr-only"> – brak w magazynie</span>}
+                {showPrice && !stale && v.inStock && <span className="opacity-80">· {formatPrice(v.price)}</span>}
+                {!v.inStock && <span className="sr-only"> – brak na stanie</span>}
               </span>
             </label>
           );
@@ -291,13 +289,13 @@ export function VariantPicker({ product, value, onChange, name, showPrice = fals
   );
 }
 
-/** „15 ml – brak w magazynie” dla pojemności bez stanu (gdy produkt jako całość jest dostępny). */
+/** „15 ml – brak na stanie” dla pojemności bez stanu (gdy produkt jako całość jest dostępny). */
 export function StockNote({ product, className }) {
   const out = product.variants.filter((v) => !v.inStock && v.label);
   if (!out.length || !product.inStock) return null;
   return (
     <p className={cn('text-[0.8125rem] leading-snug text-mocha', className)}>
-      {out.map((v) => formatCapacity(v.label)).join(', ')} – brak w{NBSP}magazynie
+      {out.map((v) => formatCapacity(v.label)).join(', ')} – brak na{NBSP}stanie
     </p>
   );
 }

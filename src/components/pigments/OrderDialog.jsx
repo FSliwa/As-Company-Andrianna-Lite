@@ -153,7 +153,7 @@ function Line({ line, stale: listStale, onQty, onRemove }) {
           {collectionLabel(product.collection)}
           {label ? ` · ${formatCapacity(label)}` : ''}
           {stale ? ` · ${PRICE_TBC}` : ` · ${formatPrice(variant.price)}${NBSP}/${NBSP}szt.`}
-          {!variant.inStock && ' · brak w magazynie'}
+          {!variant.inStock && ' · brak na stanie'}
         </p>
         <div className="mt-2 flex items-center justify-between gap-4">
           <Stepper qty={qty} name={what} onChange={(q) => onQty(product.id, label, q)} />
