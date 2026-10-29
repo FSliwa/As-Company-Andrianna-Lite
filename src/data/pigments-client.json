@@ -1,12 +1,24 @@
 {
-  "source": "Lista Kariny Lesiv z 14.10.2026 przekazana przez Filipa (18.10.2026). Plik edytowany ręcznie – produkty spoza src/data/pigments.json.",
+  "source": "Lista Kariny Lesiv z 14.10.2026 (przekazana przez Filipa 18.10.2026) i grupa WhatsApp „Strona” z 27.10.2026. Plik edytowany ręcznie – produkty spoza src/data/pigments.json.",
+  "collections": [
+    {
+      "id": "supernatural-brows",
+      "name": "SUPERNATURAL BROWS",
+      "count": 1,
+      "shades": 0,
+      "sets": 1,
+      "zones": [
+        "brwi"
+      ]
+    }
+  ],
   "products": [
     {
-      "id": "hairstrokes-set-collaboration",
-      "sourceId": "hairstrokes-set-collaboration",
-      "name": "Hairstrokes Set Collaboration",
-      "fullName": "Hairstrokes Set Collaboration",
-      "collection": "hairstrokes",
+      "id": "pigmenty-supernatural",
+      "sourceId": "pigmenty-supernatural",
+      "name": "Pigmenty Supernatural",
+      "fullName": "Pigmenty Supernatural – Supernatural Brows Set",
+      "collection": "supernatural-brows",
       "series": null,
       "isSet": true,
       "zones": [
@@ -17,7 +29,7 @@
           "label": null,
           "price": 100000,
           "inStock": true,
-          "sourceId": "hairstrokes-set-collaboration"
+          "sourceId": "pigmenty-supernatural"
         }
       ],
       "shortDesc": null,
@@ -25,7 +37,17 @@
       "inStock": true,
       "color": null,
       "presale": true,
-      "_source": "Karina 14.10.2026: „+Hairstrokes Set Collaboration 1000 zl, Sprzedaż przedpremierowa”",
+      "i18n": {
+        "en": {
+          "name": "Supernatural pigments",
+          "fullName": "Supernatural pigments – Supernatural Brows Set"
+        },
+        "ru": {
+          "name": "Пигменты Supernatural",
+          "fullName": "Пигменты Supernatural – Supernatural Brows Set"
+        }
+      },
+      "_source": "Karina 27.10.2026 (grupa „Strona”): „Proszę dodać nowe pigmenty do zakładki SUPER NATURAL BROWS. Set pigmentów Supernatural cena 1000zł” + zdjęcie; nazwa – klientka 27.10: „Pigmenty Supernatural”; klientka 26.10: „Supernatural Brows to jest jeden, jedyny set”. Wcześniej „Hairstrokes Set Collaboration” (Karina 14.10: 1000 zł, przedsprzedaż)",
       "clientPrice": true
     }
   ]

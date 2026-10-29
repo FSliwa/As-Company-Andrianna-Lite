@@ -122,6 +122,8 @@ const PRINCESS = {
      różowy = Pink); Champagne Gold bez zdjęcia – MachinePhotos dopisuje go
      w adnotacji pod zdjęciami. */
   photos: [
+    /* Champagne Gold – zdjęcie od Kariny Lesiv (26.10.2026: „AS PRINCESS Champagne Gold”) */
+    { image: PRODUCTS['product-as-princess-champagne-gold'], color: 'Champagne Gold' },
     { image: PRODUCTS['product-as-princess-gold'], color: 'Gold' },
     { image: PRODUCTS['product-as-princess-pink'], color: 'Pink' },
   ].filter((p) => p.image),
@@ -216,8 +218,8 @@ function MachinePhotos({ machine, className }) {
     withoutPhoto.map((c) => c.replace(/ /g, '\u00a0'))
   );
   return (
-    <div className={cn('max-w-[22rem]', className)}>
-      <div className="grid grid-cols-2 gap-4 sm:gap-6">
+    <div className={cn(machine.photos.length > 2 ? 'max-w-[30rem]' : 'max-w-[22rem]', className)}>
+      <div className={cn('grid gap-4 sm:gap-6', machine.photos.length > 2 ? 'grid-cols-3' : 'grid-cols-2')}>
         {machine.photos.map((photo) => (
           <figure key={photo.color} className="min-w-0">
             <div className="relative h-[min(18rem,62svh)] sm:h-[min(20rem,62svh)] md:h-[min(26rem,72svh)] lg:h-[min(28rem,72svh)]">

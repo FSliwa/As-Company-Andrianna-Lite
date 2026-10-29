@@ -1235,17 +1235,6 @@
    "960": "/graphics/work-powder-01-r.webp"
   }
  },
- "product-ltb-numb": {
-  "src": "/graphics/product-ltb-numb.jpg",
-  "w": 1536,
-  "h": 1536,
-  "webp": {
-   "480": "/graphics/product-ltb-numb-480.webp",
-   "960": "/graphics/product-ltb-numb-960.webp",
-   "1440": "/graphics/product-ltb-numb-1440.webp",
-   "1536": "/graphics/product-ltb-numb.webp"
-  }
- },
  "product-ice-gel": {
   "src": "/graphics/product-ice-gel.jpg",
   "w": 1536,
@@ -1409,6 +1398,97 @@
   "webp": {
    "320": "/graphics/product-kredka-czerwona.webp",
    "480": "/graphics/product-kredka-czerwona-480.webp"
+  }
+ },
+ "product-ice-ltb-gel": {
+  "src": "/graphics/product-ice-ltb-gel.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-ice-ltb-gel-480.webp",
+   "960": "/graphics/product-ice-ltb-gel-960.webp",
+   "1440": "/graphics/product-ice-ltb-gel-1440.webp",
+   "1536": "/graphics/product-ice-ltb-gel.webp"
+  }
+ },
+ "product-ice-gel-lips": {
+  "src": "/graphics/product-ice-gel-lips.jpg",
+  "w": 1536,
+  "h": 1536,
+  "webp": {
+   "480": "/graphics/product-ice-gel-lips-480.webp",
+   "960": "/graphics/product-ice-gel-lips-960.webp",
+   "1440": "/graphics/product-ice-gel-lips-1440.webp",
+   "1536": "/graphics/product-ice-gel-lips.webp"
+  }
+ },
+ "product-as-princess-champagne-gold": {
+  "src": "/graphics/product-as-princess-champagne-gold.jpg",
+  "w": 1080,
+  "h": 1080,
+  "webp": {
+   "480": "/graphics/product-as-princess-champagne-gold-480.webp",
+   "960": "/graphics/product-as-princess-champagne-gold-960.webp",
+   "1080": "/graphics/product-as-princess-champagne-gold.webp"
+  }
+ },
+ "product-pigmenty-supernatural": {
+  "src": "/graphics/product-pigmenty-supernatural.jpg",
+  "w": 1713,
+  "h": 1713,
+  "webp": {
+   "480": "/graphics/product-pigmenty-supernatural-480.webp",
+   "960": "/graphics/product-pigmenty-supernatural-960.webp",
+   "1440": "/graphics/product-pigmenty-supernatural-1440.webp",
+   "1713": "/graphics/product-pigmenty-supernatural.webp"
+  }
+ },
+ "product-kartridze-flat-supernatural": {
+  "src": "/graphics/product-kartridze-flat-supernatural.jpg",
+  "w": 930,
+  "h": 930,
+  "webp": {
+   "480": "/graphics/product-kartridze-flat-supernatural-480.webp",
+   "930": "/graphics/product-kartridze-flat-supernatural.webp"
+  }
+ },
+ "product-sztuczna-skorka-do-cwiczen": {
+  "src": "/graphics/product-sztuczna-skorka-do-cwiczen.jpg",
+  "w": 1023,
+  "h": 1023,
+  "webp": {
+   "480": "/graphics/product-sztuczna-skorka-do-cwiczen-480.webp",
+   "960": "/graphics/product-sztuczna-skorka-do-cwiczen-960.webp",
+   "1023": "/graphics/product-sztuczna-skorka-do-cwiczen.webp"
+  }
+ },
+ "product-pedzel-do-brwi": {
+  "src": "/graphics/product-pedzel-do-brwi.jpg",
+  "w": 1158,
+  "h": 1158,
+  "webp": {
+   "480": "/graphics/product-pedzel-do-brwi-480.webp",
+   "960": "/graphics/product-pedzel-do-brwi-960.webp",
+   "1158": "/graphics/product-pedzel-do-brwi.webp"
+  }
+ },
+ "product-pilot-czerwony": {
+  "src": "/graphics/product-pilot-czerwony.jpg",
+  "w": 902,
+  "h": 902,
+  "webp": {
+   "480": "/graphics/product-pilot-czerwony-480.webp",
+   "902": "/graphics/product-pilot-czerwony.webp"
+  }
+ },
+ "course-08": {
+  "src": "/graphics/course-08.jpg",
+  "w": 1086,
+  "h": 1920,
+  "webp": {
+   "480": "/graphics/course-08-480.webp",
+   "960": "/graphics/course-08-960.webp",
+   "1086": "/graphics/course-08.webp"
   }
  }
 }

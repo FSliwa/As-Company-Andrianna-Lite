@@ -339,6 +339,8 @@ export const COURSES = [
       { index: 1, caption: 'Plakat' },
       { index: 0, caption: 'Program' },
       { index: 2, caption: 'Zakres i cena' },
+      /* Karina Lesiv 26.10.2026: „dodanie harmonogramu do tego kursu za 7 tysięcy” (course-08) */
+      { index: 7, caption: 'Harmonogram' },
     ],
     cta: 'Zapytaj o termin',
     requiresContact: false,

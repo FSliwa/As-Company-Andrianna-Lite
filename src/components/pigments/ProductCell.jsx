@@ -154,7 +154,7 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
             ))}
           </p>
         </div>
-        {/* przedsprzedaż (lista Kariny z 14.10.2026, np. Hairstrokes Set Collaboration) */}
+        {/* przedsprzedaż (lista Kariny z 14.10.2026, np. zestaw Pigmenty Supernatural) */}
         {product.presale && <PresaleBadge className="mt-2">Sprzedaż przedpremierowa</PresaleBadge>}
         {/* h4: zestawy stoją pod nagłówkiem „Zestawy” (h3) */}
         <h4 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">

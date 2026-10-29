@@ -125,8 +125,9 @@ NEW_PRODUCTS = {
     # Sklep (/sklep, src/data/shop.json) – prośba klientki z 14.10.2026: produkty ze zdjęć z 29.09,
     # których dotąd nie było na stronie; nazwy i pojemności z opakowań na zdjęciach.
     # LTB NUMB – packshot na czarnym tle.
-    'product-ltb-numb': '23.05.37',
-    'product-ice-gel': '23.05.37 (1)',              # różowy ICE GEL „cooling gel for lips”
+    # nazwy żeli – klientka 26.10.2026: „ICE GEL – zielony, ICE GEL LIPS – różowy, ICE LTB GEL – matowy zielony”
+    'product-ice-ltb-gel': '23.05.37',              # ICE LTB GEL (dawniej „LTB Numb”)
+    'product-ice-gel-lips': '23.05.37 (1)',         # ICE GEL LIPS – różowy „cooling gel for lips”
     'product-glow-oil-pineapple': '23.05.37 (2)',
     'product-glow-oil-strawberries': '23.05.38',
     'product-lampa-pierscieniowa': '23.05.38 (5)',  # lampa pierścieniowa na statywie
@@ -143,7 +144,24 @@ NEW_PRODUCTS = {
     'product-kredka-czarna': '2026-10-14 at 16.53.15',
     'product-kredka-brazowa': '2026-10-14 at 16.53.41',
     'product-kredka-czerwona': '2026-10-14 at 16.54.08',
+    # 26–27.10.2026 – Karina Lesiv (czat i grupa „Strona”)
+    'product-as-princess-champagne-gold': '2026-10-26 at 12.39.26',
+    'product-ice-gel': '2026-10-26 at 12.54.36',      # ICE GEL – zielony „turquoise pigment”
+    'product-pigmenty-supernatural': '2026-10-27 at 17.44.35',
+    'product-kartridze-flat-supernatural': '2026-10-27 at 17.45.41',
+    'product-sztuczna-skorka-do-cwiczen': '2026-10-27 at 17.46.23',
+    'product-pedzel-do-brwi': '2026-10-27 at 17.52.03',
+    'product-pilot-czerwony': '2026-10-27 at 17.52.35',
 }
+# Zdjęcia 16:9 z dużym białym marginesem (27.10) – kadr przycięty do produktu i dopełniony
+# bielą do kwadratu, jak pozostałe packshoty (miniatura w sklepie nie zostaje kropką).
+PRODUCT_FIT_WHITE = {
+    'product-pigmenty-supernatural', 'product-kartridze-flat-supernatural',
+    'product-sztuczna-skorka-do-cwiczen', 'product-pedzel-do-brwi', 'product-pilot-czerwony',
+}
+# Plakaty kursów spoza listy GROUPS (po nazwie pliku): course-08 – harmonogram kursu
+# dla linergistek Super Natural Brows (Karina Lesiv, 26.10.2026: „harmonogram do kursu za 7 tysięcy”).
+NEW_COURSE = {'course-08': '2026-10-26 at 12.34.28'}
 # work-<technika>-NN: (plik, przycięcie (l, t, r, b) w ułamkach – bez doklejonej butelki)
 NEW_WORKS = {
     'work-snb-01': ('23.07.06', (0.0, 0.05, 0.78, 0.88)),   # włos maszynowy, znak Super Natural Brows / BABUSHKINA
@@ -240,6 +258,21 @@ def apply_grade(img, group):
 
 
 # --- rozcinanie sklejek -------------------------------------------------------
+
+def fit_white(img, pad=0.10, thresh=242):
+    """Kadr do produktu (piksele ciemniejsze niż `thresh`) z marginesem, dopełniony bielą do kwadratu."""
+    a = np.asarray(img.convert('L'))
+    ys, xs = np.where(a < thresh)
+    if len(xs) == 0:
+        return img
+    l, t, r, b = xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
+    side = int(max(r - l, b - t) * (1 + 2 * pad))
+    cx, cy = (l + r) // 2, (t + b) // 2
+    out = Image.new('RGB', (side, side), (255, 255, 255))
+    crop = img.crop((max(0, cx - side // 2), max(0, cy - side // 2), min(img.width, cx + side // 2), min(img.height, cy + side // 2)))
+    out.paste(crop, ((side - crop.width) // 2, (side - crop.height) // 2))
+    return out
+
 
 def trim_black_bars(img, thresh=12):
     a = np.asarray(img.convert('L')).astype(np.float32)
@@ -387,7 +420,16 @@ def main():
         for name, suffix in NEW_PRODUCTS.items():
             i = by_suffix[suffix]
             im = load(i)
-            save_all(trim_black_bars(im) if name in PRODUCT_TRIM else im, name, 'product', manifest)
+            if name in PRODUCT_TRIM:
+                im = trim_black_bars(im)
+            if name in PRODUCT_FIT_WHITE:
+                im = fit_white(im)
+            save_all(im, name, 'product', manifest)
+            used.add(i)
+    if not only or 'course' in only:
+        for name, suffix in NEW_COURSE.items():
+            i = by_suffix[suffix]
+            save_all(load(i), name, 'course', manifest)
             used.add(i)
     if not only or 'work' in only:
         for name, (suffix, box) in NEW_WORKS.items():

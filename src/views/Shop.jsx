@@ -93,6 +93,18 @@ function Hero() {
 /*  02 – KATEGORIE                                                     */
 /* ================================================================== */
 
+/* Zdjęcie na kaflu kategorii – packshot z /Graphics (klientka 26.10.2026: „bardzo dużo tekstów,
+   bardzo mało obrazków, po których nie mogę od razu poznać produkty”). Lasery – bez produktu. */
+const TILE_PHOTO = {
+  '/pigmenty': 'as-opium-pigments-brazil',
+  '/maszynki': 'as-princess-gold',
+  kartridze: 'kartridze-flat-supernatural',
+  'akcesoria-do-rysunku': 'kredka-czarna',
+  'akcesoria-do-cwiczen': 'sztuczna-skorka-do-cwiczen',
+  'srodki-zabiegowe': 'ice-gel',
+  lampy: 'lampa-pierscieniowa',
+};
+
 function Categories({ links }) {
   const t = useContent(shopDict);
   const meta = (link) => {
@@ -116,11 +128,19 @@ function Categories({ links }) {
                 <Link
                   href={link.href}
                   /* as-glare – Magic UI „glare-hover” (CSS): złoty odblask przy najechaniu myszą */
-                  className="as-glare group flex min-h-[5.5rem] items-start gap-4 py-5 sm:min-h-[7.5rem] sm:flex-col sm:justify-between"
+                  className="as-glare group flex min-h-[5.5rem] items-center gap-4 py-4 sm:min-h-[7.5rem] sm:flex-col sm:items-start sm:justify-between sm:py-5"
                 >
-                  <span aria-hidden="true" className="as-label w-6 shrink-0 pt-1 text-gold-deep">
+                  <span aria-hidden="true" className="as-label w-6 shrink-0 text-gold-deep sm:pt-1">
                     {String(i + 1).padStart(2, '0')}
                   </span>
+                  {/* telefon: miniatura 64 px obok nazwy; od sm – kwadrat nad nazwą */}
+                  {(TILE_PHOTO[link.href] || TILE_PHOTO[anchorOf(link.href)]) && (
+                    <ProductPhoto
+                      product={{ id: TILE_PHOTO[link.href] || TILE_PHOTO[anchorOf(link.href)] }}
+                      sizes="(min-width: 640px) 112px, 64px"
+                      className="w-16 shrink-0 sm:w-28"
+                    />
+                  )}
                   <span className="min-w-0">
                     <span className="as-title block text-ink decoration-1 underline-offset-4 group-hover:underline">
                       {link.label}

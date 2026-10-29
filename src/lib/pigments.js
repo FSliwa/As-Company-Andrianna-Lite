@@ -44,18 +44,21 @@ function withEnDash(value) {
  * Katalog wg klientki i Kariny (decyzja Filipa z 18.10.2026: „wprowadź tak, jak prosiła klientka”).
  *
  * Grupy – klientka 14.10.2026: „Katalog pigmentów dzielimy na: pigmenty SUPERNATURAL BROWS, pigmenty
- * AS opium (usta, brwi), pigmenty AS Classic (usta, brwi), pigmenty AS opium light”; SUPERNATURAL
- * BROWS = kolekcja Hairstrokes (decyzja Filipa). Lista Kariny z 14.10.2026 zostawia też kolekcje
+ * AS opium (usta, brwi), pigmenty AS Classic (usta, brwi), pigmenty AS opium light”. Klientka
+ * 26.10.2026: „Supernatural Brows to jest jeden, jedyny set aktualnie … pigmenty Hair Strokes to jest
+ * kolekcja Opium” – SUPERNATURAL BROWS = jeden zestaw z pigments-client.json (Karina 27.10: „Set
+ * pigmentów Supernatural cena 1000zł”), Hairstrokes przeniesione do AS OPIUM (CLIENT_MOVED).
+ * Lista Kariny z 14.10.2026 zostawia też kolekcje
  * Harley Quinn i Paradise (dodaje ich zestawy, usuwa część odcieni) – osobne grupy na końcu.
  * Areola/Camouflage i Trichopigmentation – „Należy zabrać wszystkie pigmenty z kolekcji”.
  *
  * CLIENT_REMOVED – pozycje, które Karina kazała „zabrać”; dane w src/data/pigments.json zostają
  * bez zmian (to kopia danych z 29.09), filtr działa tutaj. CLIENT_EXTRA – nowe pozycje z listy
- * Kariny (src/data/pigments-client.json, np. „Hairstrokes Set Collaboration”, przedsprzedaż).
+ * Kariny (src/data/pigments-client.json, np. zestaw „Pigmenty Supernatural”, przedsprzedaż).
  * `name` w grupie – nazwa na stronie (inna niż w danych).
  */
 export const CLIENT_GROUPS = [
-  { id: 'hairstrokes', name: 'SUPERNATURAL BROWS' },
+  { id: 'supernatural-brows' },
   { id: 'as-opium' },
   { id: 'as-classic' },
   { id: 'as-opium-light-minerals' },
@@ -104,15 +107,23 @@ export const CLIENT_REMOVED = new Set([
     'pink-peach', 'red-royal', 'salmon', 'skin', 'toffee',
   ].map((s) => `as-opium-pigments-${s}`),
   'ultra-black-6-ml-pigment-do-kresek',
+  // Karina 26.10.2026: „Pigment C1 Orange nie jest dostępny w naszej sprzedaży” (C1 Orange / Mineral)
+  'hairstrokes-h1-brown',
 ]);
+
+/* Klientka 26.10.2026: „pigmenty Hair Strokes to jest kolekcja Opium” – pozycje Hairstrokes
+   (H6, H7, Eyebrow Set Hair Strokes) pokazujemy w AS OPIUM. */
+export const CLIENT_MOVED = { hairstrokes: 'as-opium' };
 
 const CLIENT_EXTRA = rawClient.products;
 
 function clientCatalog(full) {
-  const byId = new Map(full.collections.map((c) => [c.id, c]));
+  /* kolekcje z danych + nowe od klientki (SUPERNATURAL BROWS – pigments-client.json) */
+  const byId = new Map([...full.collections, ...(rawClient.collections ?? [])].map((c) => [c.id, c]));
   const order = new Map(CLIENT_GROUPS.map((g, i) => [g.id, i]));
   /* sortowanie stabilne – w obrębie kolekcji kolejność z danych (odcienie → zestawy), nowe na końcu */
   const products = [...full.products.filter((p) => !CLIENT_REMOVED.has(p.id)), ...CLIENT_EXTRA]
+    .map((p) => (CLIENT_MOVED[p.collection] ? { ...p, collection: CLIENT_MOVED[p.collection] } : p))
     .filter((p) => order.has(p.collection))
     .sort((a, b) => order.get(a.collection) - order.get(b.collection) || Number(a.isSet) - Number(b.isSet));
   /* liczby kolekcji z pozycji, które zostały (w danych – stan sprzed listy Kariny) */
@@ -153,7 +164,7 @@ export const PRICE_MAX_AGE_DAYS = 14;
 /**
  * 19.10.2026 – decyzja Filipa: ceny pigmentów z danych (stan z 29.09) obowiązują bez wygasania.
  * Klientka widziała je na stronie 30.09 bez uwag, a Karina Lesiv (14.10) podała ceny tylko
- * produktów spoza tych danych (Hairstrokes Set Collaboration, kartridże, kredki). Danych nie
+ * produktów spoza tych danych (zestaw Supernatural Brows, kartridże, kredki). Danych nie
  * synchronizujemy już ze sklepem (decyzja Filipa z 18.10), więc wygasanie po PRICE_MAX_AGE_DAYS
  * nie ma zastosowania; podpis „Ceny z 29.09.2026” zostaje. false → wraca wygasanie.
  */

@@ -1,6 +1,6 @@
 {
-  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 przekazane przez Filipa 18.10.2026 oraz zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
-  "priceDate": "2026-10-14",
+  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 (przekazane przez Filipa 18.10.2026) oraz z 26–27.10.2026 (czaty WhatsApp i grupa „Strona”), zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
+  "priceDate": "2026-10-27",
   "currency": "PLN",
   "categories": [
     { "id": "kartridze", "name": "Kartridże" },
@@ -12,25 +12,29 @@
   ],
   "products": [
     {
-      "id": "kartridze-specially-collaboration",
-      "name": "Specially Collaboration",
-      "fullName": "Kartridże Specially Collaboration",
+      "id": "kartridze-flat-supernatural",
+      "name": "Kartridże FLAT Supernatural",
+      "fullName": "Kartridże FLAT Supernatural",
       "collection": "kartridze",
       "presale": true,
-      "variants": [{ "label": null, "price": 20000, "inStock": true, "sourceId": "kartridze-specially-collaboration" }],
+      "variants": [{ "label": null, "price": 25000, "inStock": true, "sourceId": "kartridze-flat-supernatural" }],
       "shortDesc": null,
       "description": null,
-      "_source": "Karina 14.10.2026: „kartridze Specially Collaboration 200 zl, Sprzedaż przedpremierowa”"
+      "i18n": {
+        "en": { "name": "FLAT Supernatural cartridges", "fullName": "FLAT Supernatural cartridges" },
+        "ru": { "name": "Картриджи FLAT Supernatural", "fullName": "Картриджи FLAT Supernatural" }
+      },
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „Specially Collaboration – cena 250 zł”; 27.10.2026: „Kartridże FLAT Supernatural cena 250zł” + zdjęcie; klientka 27.10: „Kartridże FLAT Supernatural”. Wcześniej „Specially Collaboration” (Karina 14.10: 200 zł, przedsprzedaż)"
     },
     {
       "id": "kartridze-satellite",
       "name": "SATELLITE",
       "fullName": "Kartridże SATELLITE",
       "collection": "kartridze",
-      "variants": [{ "label": "20 szt.", "price": null, "inStock": true, "sourceId": "kartridze-satellite" }],
+      "variants": [{ "label": "20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 14.10.2026: „Katalog kartridży: Supernatural brows, Satellite”; opakowanie na zdjęciu: „20 membrane cartridges”; cena – na zapytanie"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „SATELLITE – proszę dodać cenę 255 zł”; opakowanie na zdjęciu: „20 membrane cartridges”"
     },
     {
       "id": "kredka-czarna",
@@ -75,66 +79,110 @@
       "_source": "Karina 14.10.2026"
     },
     {
-      "id": "ice-gel",
-      "name": "Ice Gel",
-      "fullName": "Ice Gel – cooling gel for lips",
-      "collection": "srodki-zabiegowe",
-      "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ice-gel" }],
-      "shortDesc": "„Cooling gel for lips” – napis na opakowaniu",
+      "id": "pedzel-do-brwi",
+      "name": "Pędzel do brwi",
+      "fullName": "Pędzel do brwi",
+      "collection": "akcesoria-do-rysunku",
+      "variants": [{ "label": null, "price": 1500, "inStock": true, "sourceId": "pedzel-do-brwi" }],
+      "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "shortDesc": "“Cooling gel for lips” – text on the packaging" },
-        "ru": { "shortDesc": "«Cooling gel for lips» – надпись на упаковке" }
+        "en": { "name": "Eyebrow brush", "fullName": "Eyebrow brush" },
+        "ru": { "name": "Кисть для бровей", "fullName": "Кисть для бровей" }
       },
-      "_source": "klientka 14.10.2026: „Ice Gel … idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania na zdjęciu"
+      "_source": "Karina 27.10.2026 (grupa „Strona”): „Pedzel do brwi 15zł” + zdjęcie; kategoria – klientka 14.10: „Kredki, pędzle w akcesoria do rysunku”"
     },
     {
-      "id": "ltb-numb",
-      "name": "LTB Numb",
-      "fullName": "LTB Numb – light turquoise pigment",
-      "collection": "srodki-zabiegowe",
-      "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ltb-numb" }],
-      "shortDesc": "„Light turquoise pigment” – napis na opakowaniu",
+      "id": "sztuczna-skorka-do-cwiczen",
+      "name": "Sztuczna skórka do ćwiczeń",
+      "fullName": "Sztuczna skórka do ćwiczeń",
+      "collection": "akcesoria-do-cwiczen",
+      "variants": [{ "label": null, "price": 5000, "inStock": true, "sourceId": "sztuczna-skorka-do-cwiczen" }],
+      "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "shortDesc": "“Light turquoise pigment” – text on the packaging" },
-        "ru": { "shortDesc": "«Light turquoise pigment» – надпись на упаковке" }
+        "en": { "name": "Artificial practice skin", "fullName": "Artificial practice skin" },
+        "ru": { "name": "Искусственная кожа для тренировок", "fullName": "Искусственная кожа для тренировок" }
       },
-      "_source": "klientka 14.10.2026 (Ice Gel – środki zabiegowe); nazwa i pojemność z opakowania na zdjęciu"
+      "_source": "Karina 27.10.2026 (grupa „Strona”): „Dodać do zakładki Akcesoria do ćwiczeń: … Sztuczna skórka do ćwiczeń 50zł” + zdjęcie"
+    },
+    {
+      "id": "pilot-czerwony",
+      "name": "Pilot czerwony",
+      "fullName": "Pilot czerwony",
+      "collection": "akcesoria-do-cwiczen",
+      "variants": [{ "label": null, "price": 1000, "inStock": true, "sourceId": "pilot-czerwony" }],
+      "shortDesc": null,
+      "description": null,
+      "i18n": {
+        "en": { "name": "Red Pilot pen", "fullName": "Red Pilot pen" },
+        "ru": { "name": "Красная ручка Pilot", "fullName": "Красная ручка Pilot" }
+      },
+      "_source": "Karina 27.10.2026 (grupa „Strona”, po „Dodać do zakładki Akcesoria do ćwiczeń”): „Pilot czerwony – cena 10zł” + zdjęcie (długopis żelowy Pilot)"
+    },
+    {
+      "id": "ice-gel",
+      "name": "Ice Gel",
+      "fullName": "Ice Gel",
+      "collection": "srodki-zabiegowe",
+      "variants": [{ "label": "33 ml", "price": 27000, "inStock": true, "sourceId": "ice-gel" }],
+      "shortDesc": null,
+      "description": null,
+      "_source": "Karina 26.10.2026 (grupa „Strona”): zdjęcie „ICE turquoise pigment” + „Ice Gel … Turquoise Pigment 270,00 zł”; nazwa – klientka 26.10: „ICE GEL – to na zielony”"
+    },
+    {
+      "id": "ice-gel-lips",
+      "name": "Ice Gel Lips",
+      "fullName": "Ice Gel Lips",
+      "collection": "srodki-zabiegowe",
+      "variants": [{ "label": "33 ml", "price": null, "inStock": true, "sourceId": "ice-gel-lips" }],
+      "shortDesc": null,
+      "description": null,
+      "_source": "klientka 26.10.2026: „ICE GEL LIPS – to na różowy” (opakowanie: „cooling gel for lips”); ceny nie podano – na zapytanie"
+    },
+    {
+      "id": "ice-ltb-gel",
+      "name": "Ice LTB Gel",
+      "fullName": "Ice LTB Gel",
+      "collection": "srodki-zabiegowe",
+      "variants": [{ "label": "33 ml", "price": 27000, "inStock": true, "sourceId": "ice-ltb-gel" }],
+      "shortDesc": null,
+      "description": null,
+      "_source": "klientka 26.10.2026: „ICE LTB GEL – to na ten matowy zielony”; Karina 26.10: „Ice Gel LTB NUMB Light Turquoise Pigment 270,00 zł”"
     },
     {
       "id": "glow-oil-pineapple",
       "name": "Glow Oil Pineapple",
       "fullName": "Glow Oil Pineapple",
       "collection": "srodki-zabiegowe",
-      "variants": [{ "label": "30 ml", "price": null, "inStock": true, "sourceId": "glow-oil-pineapple" }],
+      "variants": [{ "label": "30 ml", "price": 12500, "inStock": true, "sourceId": "glow-oil-pineapple" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 14.10.2026: „olejki do ust idą w kategorię Środki zabiegowe”; nazwa i pojemność z opakowania"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Pineapple Scented 125zł”"
     },
     {
       "id": "glow-oil-strawberries",
       "name": "Glow Oil Strawberries",
       "fullName": "Glow Oil Strawberries",
       "collection": "srodki-zabiegowe",
-      "variants": [{ "label": "30 ml", "price": null, "inStock": true, "sourceId": "glow-oil-strawberries" }],
+      "variants": [{ "label": "30 ml", "price": 12500, "inStock": true, "sourceId": "glow-oil-strawberries" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 14.10.2026; nazwa i pojemność z opakowania"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Stawberry Scented 125zł”"
     },
     {
       "id": "lampa-pierscieniowa",
       "name": "Lampa pierścieniowa",
       "fullName": "Lampa pierścieniowa",
       "collection": "lampy",
-      "variants": [{ "label": null, "price": null, "inStock": true, "sourceId": "lampa-pierscieniowa" }],
+      "variants": [{ "label": null, "price": 169000, "inStock": true, "sourceId": "lampa-pierscieniowa" }],
       "shortDesc": null,
       "description": null,
       "i18n": {
         "en": { "name": "Ring lamp", "fullName": "Ring lamp" },
         "ru": { "name": "Кольцевая лампа", "fullName": "Кольцевая лампа" }
       },
-      "_source": "klientka 14.10.2026: kategoria „Lampy”; zdjęcie z 29.09 (bez nazwy marki na zdjęciu)"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): „Lampa 1690zł”; zdjęcie z 29.09"
     }
   ]
 }

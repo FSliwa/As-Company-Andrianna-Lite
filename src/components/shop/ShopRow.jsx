@@ -22,8 +22,8 @@ import { useContent, useLocale } from '@/i18n/client';
 import { shopDict } from '@/content/views/shop';
 import { ADD_BTN, PriceLine, ProductPhoto, displayName } from '@/components/pigments/parts';
 
-/* Miniatura: 56 px na telefonie, 72 px od sm. */
-const THUMB_SIZES = '(min-width: 640px) 72px, 56px';
+/* Miniatura: 72 px na telefonie, 88 px od sm (klientka 26.10: „mało obrazków”). */
+const THUMB_SIZES = '(min-width: 640px) 88px, 72px';
 
 function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
   const t = useContent(shopDict);
@@ -38,7 +38,7 @@ function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
       aria-labelledby={titleId}
       className={cn(
         'grid gap-x-4 border-t border-ink/15 py-4 sm:gap-x-5',
-        thumbs ? 'grid-cols-[3.5rem_minmax(0,1fr)] sm:grid-cols-[4.5rem_minmax(0,1fr)]' : 'grid-cols-[minmax(0,1fr)]'
+        thumbs ? 'grid-cols-[4.5rem_minmax(0,1fr)] sm:grid-cols-[5.5rem_minmax(0,1fr)]' : 'grid-cols-[minmax(0,1fr)]'
       )}
     >
       {thumbs && (hasPhoto ? <ProductPhoto product={product} sizes={THUMB_SIZES} className="self-start" /> : <span aria-hidden="true" />)}
