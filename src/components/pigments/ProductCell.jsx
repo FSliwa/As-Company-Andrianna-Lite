@@ -29,13 +29,14 @@ import { cn } from '@/lib/utils';
 import { collectionLabel, findVariant, formatCapacity } from '@/lib/pigments';
 import {
   ADD_BTN,
-  NBSP,
-  PriceLine,
-  ProductTile,
-  VariantPicker,
   defaultLabel,
   displayName,
   kickerFor,
+  NBSP,
+  PriceLine,
+  ProductPhoto,
+  ProductTile,
+  VariantPicker,
   zonesText,
 } from './parts';
 
@@ -136,45 +137,49 @@ function SetRowBase({ product, qty, onAdd, onDetails }) {
     >
       {/* nazwa: na telefonie cała szerokość; sm–lg kurczy się do treści, a kropki
           prowadzą wzrok do ceny; od lg zajmuje wolne miejsce kolumny */}
-      <div className="min-w-0 sm:shrink lg:flex-1">
-        {/* -ml-4 + overflow-hidden (wzorzec PriceLine): kropka segmentu, który zaczyna wiersz,
-            wypada poza kadr – kicker nie wystaje z wąskiej kolumny (1280 px) i nie łamie się
-            w środku wyrazu („Trichopigmentation”). */}
-        <div className="overflow-hidden">
-          <p className="as-kicker -ml-4 flex flex-wrap">
-            {[collectionLabel(product.collection), ...String(zonesText(product) || '').split(/\u00a0· /)]
-              .filter(Boolean)
-              .map((seg, i) => (
-              <span key={i} className="relative pl-4">
-                <span aria-hidden="true" className="absolute left-[0.3rem]">
-                  ·
+      {/* miniatura zestawu (Filip 30.10.2026: „Do wszystkich setów … dodaj zdjęcia”) */}
+      <div className="flex min-w-0 gap-4 sm:shrink lg:flex-1">
+        <ProductPhoto product={product} sizes="(min-width: 640px) 88px, 72px" className="w-[4.5rem] shrink-0 self-start sm:w-[5.5rem]" />
+        <div className="min-w-0 flex-1">
+          {/* -ml-4 + overflow-hidden (wzorzec PriceLine): kropka segmentu, który zaczyna wiersz,
+              wypada poza kadr – kicker nie wystaje z wąskiej kolumny (1280 px) i nie łamie się
+              w środku wyrazu („Trichopigmentation”). */}
+          <div className="overflow-hidden">
+            <p className="as-kicker -ml-4 flex flex-wrap">
+              {[collectionLabel(product.collection), ...String(zonesText(product) || '').split(/\u00a0· /)]
+                .filter(Boolean)
+                .map((seg, i) => (
+                <span key={i} className="relative pl-4">
+                  <span aria-hidden="true" className="absolute left-[0.3rem]">
+                    ·
+                  </span>
+                  {seg}
                 </span>
-                {seg}
-              </span>
-            ))}
-          </p>
+              ))}
+            </p>
+          </div>
+          {/* przedsprzedaż (lista Kariny z 14.10.2026, np. zestaw Pigmenty Supernatural) */}
+          {product.presale && <PresaleBadge className="mt-2">Sprzedaż przedpremierowa</PresaleBadge>}
+          {/* h4: zestawy stoją pod nagłówkiem „Zestawy” (h3) */}
+          <h4 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">
+            {/* pole dotyku ≥ 44 px także przy nazwie w jednej linii (23 + 2 × 12 px) */}
+            <button
+              type="button"
+              onClick={() => onDetails(product.id)}
+              aria-haspopup="dialog"
+              className="relative text-left underline decoration-ink/30 underline-offset-4 transition-colors before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] hover:decoration-ink"
+            >
+              {displayName(product.name)}
+              <span className="sr-only"> – skład zestawu</span>
+            </button>
+          </h4>
+          {qty > 0 && (
+            <p className="mt-1.5 text-[0.8125rem] text-gold-deep">
+              W zamówieniu: {qty}
+              {NBSP}szt.
+            </p>
+          )}
         </div>
-        {/* przedsprzedaż (lista Kariny z 14.10.2026, np. zestaw Pigmenty Supernatural) */}
-        {product.presale && <PresaleBadge className="mt-2">Sprzedaż przedpremierowa</PresaleBadge>}
-        {/* h4: zestawy stoją pod nagłówkiem „Zestawy” (h3) */}
-        <h4 id={titleId} className="mt-1.5 text-[1.0625rem] leading-snug text-ink">
-          {/* pole dotyku ≥ 44 px także przy nazwie w jednej linii (23 + 2 × 12 px) */}
-          <button
-            type="button"
-            onClick={() => onDetails(product.id)}
-            aria-haspopup="dialog"
-            className="relative text-left underline decoration-ink/30 underline-offset-4 transition-colors before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] hover:decoration-ink"
-          >
-            {displayName(product.name)}
-            <span className="sr-only"> – skład zestawu</span>
-          </button>
-        </h4>
-        {qty > 0 && (
-          <p className="mt-1.5 text-[0.8125rem] text-gold-deep">
-            W zamówieniu: {qty}
-            {NBSP}szt.
-          </p>
-        )}
       </div>
       <span
         aria-hidden="true"

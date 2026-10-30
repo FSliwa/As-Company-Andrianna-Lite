@@ -1044,23 +1044,20 @@
  },
  "product-set-harley-quinn-do-ust": {
   "src": "/graphics/product-set-harley-quinn-do-ust.jpg",
-  "w": 1536,
-  "h": 1536,
+  "w": 774,
+  "h": 774,
   "webp": {
    "480": "/graphics/product-set-harley-quinn-do-ust-480.webp",
-   "960": "/graphics/product-set-harley-quinn-do-ust-960.webp",
-   "1440": "/graphics/product-set-harley-quinn-do-ust-1440.webp",
-   "1536": "/graphics/product-set-harley-quinn-do-ust.webp"
+   "774": "/graphics/product-set-harley-quinn-do-ust.webp"
   }
  },
  "product-set-paradise-do-ust": {
   "src": "/graphics/product-set-paradise-do-ust.jpg",
-  "w": 1079,
-  "h": 946,
+  "w": 948,
+  "h": 948,
   "webp": {
    "480": "/graphics/product-set-paradise-do-ust-480.webp",
-   "960": "/graphics/product-set-paradise-do-ust-960.webp",
-   "1079": "/graphics/product-set-paradise-do-ust.webp"
+   "948": "/graphics/product-set-paradise-do-ust.webp"
   }
  },
  "product-maria-magdalena-6-ml-paradise": {
@@ -1402,13 +1399,12 @@
  },
  "product-ice-ltb-gel": {
   "src": "/graphics/product-ice-ltb-gel.jpg",
-  "w": 1536,
-  "h": 1536,
+  "w": 1054,
+  "h": 1054,
   "webp": {
    "480": "/graphics/product-ice-ltb-gel-480.webp",
    "960": "/graphics/product-ice-ltb-gel-960.webp",
-   "1440": "/graphics/product-ice-ltb-gel-1440.webp",
-   "1536": "/graphics/product-ice-ltb-gel.webp"
+   "1054": "/graphics/product-ice-ltb-gel.webp"
   }
  },
  "product-ice-gel-lips": {
@@ -1489,6 +1485,265 @@
    "480": "/graphics/course-08-480.webp",
    "960": "/graphics/course-08-960.webp",
    "1086": "/graphics/course-08.webp"
+  }
+ },
+ "product-glow-oil-coconut-chocolate": {
+  "src": "/graphics/product-glow-oil-coconut-chocolate.jpg",
+  "w": 1323,
+  "h": 1323,
+  "webp": {
+   "480": "/graphics/product-glow-oil-coconut-chocolate-480.webp",
+   "960": "/graphics/product-glow-oil-coconut-chocolate-960.webp",
+   "1323": "/graphics/product-glow-oil-coconut-chocolate.webp"
+  }
+ },
+ "product-laser-q-switch-ultra": {
+  "src": "/graphics/product-laser-q-switch-ultra.jpg",
+  "w": 494,
+  "h": 494,
+  "webp": {
+   "480": "/graphics/product-laser-q-switch-ultra-480.webp",
+   "494": "/graphics/product-laser-q-switch-ultra.webp"
+  }
+ },
+ "kursantki-basic-01": {
+  "src": "/graphics/kursantki-basic-01.jpg",
+  "w": 1206,
+  "h": 1578,
+  "webp": {
+   "480": "/graphics/kursantki-basic-01-480.webp",
+   "960": "/graphics/kursantki-basic-01-960.webp",
+   "1206": "/graphics/kursantki-basic-01.webp"
+  }
+ },
+ "kursantki-basic-02": {
+  "src": "/graphics/kursantki-basic-02.jpg",
+  "w": 1206,
+  "h": 1761,
+  "webp": {
+   "480": "/graphics/kursantki-basic-02-480.webp",
+   "960": "/graphics/kursantki-basic-02-960.webp",
+   "1206": "/graphics/kursantki-basic-02.webp"
+  }
+ },
+ "kursantki-basic-03": {
+  "src": "/graphics/kursantki-basic-03.jpg",
+  "w": 1206,
+  "h": 1614,
+  "webp": {
+   "480": "/graphics/kursantki-basic-03-480.webp",
+   "960": "/graphics/kursantki-basic-03-960.webp",
+   "1206": "/graphics/kursantki-basic-03.webp"
+  }
+ },
+ "kursantki-basic-04": {
+  "src": "/graphics/kursantki-basic-04.jpg",
+  "w": 1206,
+  "h": 1605,
+  "webp": {
+   "480": "/graphics/kursantki-basic-04-480.webp",
+   "960": "/graphics/kursantki-basic-04-960.webp",
+   "1206": "/graphics/kursantki-basic-04.webp"
+  }
+ },
+ "kursantki-basic-05": {
+  "src": "/graphics/kursantki-basic-05.jpg",
+  "w": 1206,
+  "h": 1655,
+  "webp": {
+   "480": "/graphics/kursantki-basic-05-480.webp",
+   "960": "/graphics/kursantki-basic-05-960.webp",
+   "1206": "/graphics/kursantki-basic-05.webp"
+  }
+ },
+ "kursantki-basic-06": {
+  "src": "/graphics/kursantki-basic-06.jpg",
+  "w": 1206,
+  "h": 1682,
+  "webp": {
+   "480": "/graphics/kursantki-basic-06-480.webp",
+   "960": "/graphics/kursantki-basic-06-960.webp",
+   "1206": "/graphics/kursantki-basic-06.webp"
+  }
+ },
+ "kursantki-snb-01": {
+  "src": "/graphics/kursantki-snb-01.jpg",
+  "w": 1206,
+  "h": 1592,
+  "webp": {
+   "480": "/graphics/kursantki-snb-01-480.webp",
+   "960": "/graphics/kursantki-snb-01-960.webp",
+   "1206": "/graphics/kursantki-snb-01.webp"
+  }
+ },
+ "kursantki-snb-02": {
+  "src": "/graphics/kursantki-snb-02.jpg",
+  "w": 1205,
+  "h": 1586,
+  "webp": {
+   "480": "/graphics/kursantki-snb-02-480.webp",
+   "960": "/graphics/kursantki-snb-02-960.webp",
+   "1205": "/graphics/kursantki-snb-02.webp"
+  }
+ },
+ "kursantki-snb-03": {
+  "src": "/graphics/kursantki-snb-03.jpg",
+  "w": 1206,
+  "h": 1575,
+  "webp": {
+   "480": "/graphics/kursantki-snb-03-480.webp",
+   "960": "/graphics/kursantki-snb-03-960.webp",
+   "1206": "/graphics/kursantki-snb-03.webp"
+  }
+ },
+ "kursantki-snb-04": {
+  "src": "/graphics/kursantki-snb-04.jpg",
+  "w": 1206,
+  "h": 1582,
+  "webp": {
+   "480": "/graphics/kursantki-snb-04-480.webp",
+   "960": "/graphics/kursantki-snb-04-960.webp",
+   "1206": "/graphics/kursantki-snb-04.webp"
+  }
+ },
+ "kursantki-snb-05": {
+  "src": "/graphics/kursantki-snb-05.jpg",
+  "w": 1206,
+  "h": 1595,
+  "webp": {
+   "480": "/graphics/kursantki-snb-05-480.webp",
+   "960": "/graphics/kursantki-snb-05-960.webp",
+   "1206": "/graphics/kursantki-snb-05.webp"
+  }
+ },
+ "kursantki-snb-06": {
+  "src": "/graphics/kursantki-snb-06.jpg",
+  "w": 1177,
+  "h": 1483,
+  "webp": {
+   "480": "/graphics/kursantki-snb-06-480.webp",
+   "960": "/graphics/kursantki-snb-06-960.webp",
+   "1177": "/graphics/kursantki-snb-06.webp"
+  }
+ },
+ "kursantki-snb-07": {
+  "src": "/graphics/kursantki-snb-07.jpg",
+  "w": 1206,
+  "h": 1480,
+  "webp": {
+   "480": "/graphics/kursantki-snb-07-480.webp",
+   "960": "/graphics/kursantki-snb-07-960.webp",
+   "1206": "/graphics/kursantki-snb-07.webp"
+  }
+ },
+ "kursantki-snb-08": {
+  "src": "/graphics/kursantki-snb-08.jpg",
+  "w": 1206,
+  "h": 1600,
+  "webp": {
+   "480": "/graphics/kursantki-snb-08-480.webp",
+   "960": "/graphics/kursantki-snb-08-960.webp",
+   "1206": "/graphics/kursantki-snb-08.webp"
+  }
+ },
+ "kursantki-snb-09": {
+  "src": "/graphics/kursantki-snb-09.jpg",
+  "w": 1206,
+  "h": 1600,
+  "webp": {
+   "480": "/graphics/kursantki-snb-09-480.webp",
+   "960": "/graphics/kursantki-snb-09-960.webp",
+   "1206": "/graphics/kursantki-snb-09.webp"
+  }
+ },
+ "kursantki-snb-10": {
+  "src": "/graphics/kursantki-snb-10.jpg",
+  "w": 1206,
+  "h": 1490,
+  "webp": {
+   "480": "/graphics/kursantki-snb-10-480.webp",
+   "960": "/graphics/kursantki-snb-10-960.webp",
+   "1206": "/graphics/kursantki-snb-10.webp"
+  }
+ },
+ "kursantki-snb-11": {
+  "src": "/graphics/kursantki-snb-11.jpg",
+  "w": 1206,
+  "h": 1495,
+  "webp": {
+   "480": "/graphics/kursantki-snb-11-480.webp",
+   "960": "/graphics/kursantki-snb-11-960.webp",
+   "1206": "/graphics/kursantki-snb-11.webp"
+  }
+ },
+ "tech-snb": {
+  "src": "/graphics/tech-snb.jpg",
+  "w": 1536,
+  "h": 1920,
+  "webp": {
+   "480": "/graphics/tech-snb-480.webp",
+   "960": "/graphics/tech-snb-960.webp",
+   "1440": "/graphics/tech-snb-1440.webp",
+   "1536": "/graphics/tech-snb.webp"
+  }
+ },
+ "tech-powder": {
+  "src": "/graphics/tech-powder.jpg",
+  "w": 589,
+  "h": 723,
+  "webp": {
+   "480": "/graphics/tech-powder-480.webp",
+   "589": "/graphics/tech-powder.webp"
+  }
+ },
+ "tech-lips": {
+  "src": "/graphics/tech-lips.jpg",
+  "w": 1054,
+  "h": 1280,
+  "webp": {
+   "480": "/graphics/tech-lips-480.webp",
+   "960": "/graphics/tech-lips-960.webp",
+   "1054": "/graphics/tech-lips.webp"
+  }
+ },
+ "tech-eyes": {
+  "src": "/graphics/tech-eyes.jpg",
+  "w": 1269,
+  "h": 1283,
+  "webp": {
+   "480": "/graphics/tech-eyes-480.webp",
+   "960": "/graphics/tech-eyes-960.webp",
+   "1269": "/graphics/tech-eyes.webp"
+  }
+ },
+ "kolaz-01": {
+  "src": "/graphics/kolaz-01.jpg",
+  "w": 1200,
+  "h": 1600,
+  "webp": {
+   "480": "/graphics/kolaz-01-480.webp",
+   "960": "/graphics/kolaz-01-960.webp",
+   "1200": "/graphics/kolaz-01.webp"
+  }
+ },
+ "kolaz-02": {
+  "src": "/graphics/kolaz-02.jpg",
+  "w": 1200,
+  "h": 1600,
+  "webp": {
+   "480": "/graphics/kolaz-02-480.webp",
+   "960": "/graphics/kolaz-02-960.webp",
+   "1200": "/graphics/kolaz-02.webp"
+  }
+ },
+ "kolaz-03": {
+  "src": "/graphics/kolaz-03.jpg",
+  "w": 1200,
+  "h": 1600,
+  "webp": {
+   "480": "/graphics/kolaz-03-480.webp",
+   "960": "/graphics/kolaz-03-960.webp",
+   "1200": "/graphics/kolaz-03.webp"
   }
  }
 }

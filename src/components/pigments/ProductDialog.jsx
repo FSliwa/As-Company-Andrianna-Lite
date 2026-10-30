@@ -66,8 +66,53 @@ const photoAlt = (product) =>
       ? `${product.name} – opakowanie i butelki zestawu`
       : `${product.name} – butelka i opakowanie`;
 
+/* Wybór wariantu po osiach (konfiguracja igły, opakowanie) – segmenty jak VariantPicker,
+   pod nimi opis wybranej konfiguracji (product.notes, słowa Kariny z 29.09.2026) i cena. */
+const AXIS_NAMES = { config: 'Konfiguracja igły', pack: 'Opakowanie' };
+function AxesPicker({ product, value, onChange, variant }) {
+  const note = product.notes?.[value[0]];
+  return (
+    <div className="grid gap-5">
+      {product.axes.map((axis, ai) => (
+        <fieldset key={axis.id}>
+          <legend className="as-label mb-2 text-ink/70">{AXIS_NAMES[axis.id] ?? axis.id}</legend>
+          <div className="flex flex-wrap gap-2">
+            {axis.values.map((val) => {
+              const id = `ax-${product.id}-${axis.id}-${val}`.replace(/[^a-z0-9-]/gi, '-');
+              return (
+                <label key={val} htmlFor={id} className="relative">
+                  <input
+                    id={id}
+                    type="radio"
+                    name={`ax-${product.id}-${axis.id}`}
+                    checked={value[ai] === val}
+                    onChange={() => onChange(value.map((v, i) => (i === ai ? val : v)))}
+                    className="peer sr-only"
+                  />
+                  <span className="flex h-11 min-w-[3.75rem] cursor-pointer items-center justify-center whitespace-nowrap border border-ink/25 px-3 text-[0.8125rem] text-ink transition-colors hover:border-ink peer-checked:border-ink peer-checked:bg-ink peer-checked:text-cream-50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink">
+                    {formatCapacity(val)}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+      ))}
+      {note && <Description text={note} />}
+      <p className="text-ink">
+        <span className="mr-2 text-[0.8125rem] text-mocha">{formatCapacity(variant?.label)}</span>
+        <span className="font-display text-[1.375rem]">{formatPrice(variant?.price)}</span>
+      </p>
+    </div>
+  );
+}
+
 function Body({ product, onAdd, onClose, qty, onShowOrder }) {
-  const [label, setLabel] = useState(() => defaultLabel(product));
+  /* produkt z osiami wariantów (SATELLITE: konfiguracja igły × opakowanie) */
+  const axes = product.axes ?? null;
+  const [axisSel, setAxisSel] = useState(() => (axes ? axes.map((a) => a.values[0]) : null));
+  const [plainLabel, setLabel] = useState(() => defaultLabel(product));
+  const label = axes ? axisSel.join(' · ') : plainLabel;
   const [added, setAdded] = useState(false);
   /* ceny od klientki (clientPrice) – zawsze aktualne */
   const stale = usePricesStale() && !product.clientPrice;
@@ -103,7 +148,9 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
           /* sklep: warianty („1 szt. · 20 szt.”) albo pojemność; bez nich – opis tylko dla czytnika
              (kategoria stoi już nad nazwą) */
           (() => {
-            const variants = product.variants.map((v) => v.label).filter(Boolean).map((l) => formatCapacity(l)).join(DOT);
+            const variants = axes
+              ? axes[axes.length - 1].values.map((l) => formatCapacity(l)).join(DOT)
+              : product.variants.map((v) => v.label).filter(Boolean).map((l) => formatCapacity(l)).join(DOT);
             return <DialogDescription className={variants ? undefined : 'sr-only'}>{variants || kickerFor(product)}</DialogDescription>;
           })()
         ) : (
@@ -147,7 +194,17 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
       <Description text={product.description || product.shortDesc} className="mt-6" />
 
       <div className="mt-8 border-t border-ink/15 pt-6">
-        {multi && product.inStock ? (
+        {axes ? (
+          <AxesPicker
+            product={product}
+            value={axisSel}
+            onChange={(next) => {
+              setAxisSel(next);
+              setAdded(false);
+            }}
+            variant={variant}
+          />
+        ) : multi && product.inStock ? (
           <VariantPicker
             product={product}
             value={label}

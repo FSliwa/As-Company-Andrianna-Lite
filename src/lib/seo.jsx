@@ -104,13 +104,14 @@ export function siteJsonLd(locale = DEFAULT_LOCALE) {
  *    (dawne `category: 'netto'` nie było dla wyszukiwarek informacją o podatku),
  *  - courseMode z pola `mode` ('blended' | 'online'); brak trybu w źródle → bez courseMode.
  */
-export function coursesJsonLd(locale = DEFAULT_LOCALE) {
+/* id – tylko jeden kurs (podstrona /szkolenia/<id>); bez id – wszystkie (/szkolenia). */
+export function coursesJsonLd(locale = DEFAULT_LOCALE, id = null) {
   const price = (p) => String(p).replace(/[^0-9]/g, '');
   const plCourses = getSite(DEFAULT_LOCALE).COURSES;
   const { COURSES } = getSite(locale);
   return {
     '@context': 'https://schema.org',
-    '@graph': COURSES.map((c, i) => ({
+    '@graph': COURSES.flatMap((c, i) => (id && plCourses[i].id !== id ? [] : [{
       '@type': 'Course',
       name: c.fullTitle || c.title,
       description: c.lead,
@@ -135,7 +136,7 @@ export function coursesJsonLd(locale = DEFAULT_LOCALE) {
                     },
                   }
                 : {}),
-              url: `${SITE_URL}${localePath('/szkolenia', locale)}#program-${plCourses[i].id}`,
+              url: `${SITE_URL}${localePath(`/szkolenia/${plCourses[i].id}`, locale)}`,
             },
           }
         : {}),
@@ -144,7 +145,7 @@ export function coursesJsonLd(locale = DEFAULT_LOCALE) {
         ...(plCourses[i].mode ? { courseMode: plCourses[i].mode } : {}),
         description: c.format,
       },
-    })),
+    }])),
   };
 }
 
@@ -152,7 +153,7 @@ export function coursesJsonLd(locale = DEFAULT_LOCALE) {
  * Okruszki (BreadcrumbList) podstron: strona główna → podstrona. `name` = krótka nazwa
  * z menu/stopki, nie tytuł SEO.
  */
-export function breadcrumbJsonLd({ locale = DEFAULT_LOCALE, path, name }) {
+export function breadcrumbJsonLd({ locale = DEFAULT_LOCALE, path, name, parent = null }) {
   const { BRAND } = getSite(locale);
   const home = localePath('/', locale);
   return {
@@ -160,7 +161,10 @@ export function breadcrumbJsonLd({ locale = DEFAULT_LOCALE, path, name }) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: BRAND.full, item: `${SITE_URL}${home === '/' ? '' : home}` },
-      { '@type': 'ListItem', position: 2, name, item: `${SITE_URL}${localePath(path, locale)}` },
+      ...(parent
+        ? [{ '@type': 'ListItem', position: 2, name: parent.name, item: `${SITE_URL}${localePath(parent.path, locale)}` }]
+        : []),
+      { '@type': 'ListItem', position: parent ? 3 : 2, name, item: `${SITE_URL}${localePath(path, locale)}` },
     ],
   };
 }

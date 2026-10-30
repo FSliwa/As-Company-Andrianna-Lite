@@ -1,6 +1,6 @@
 {
-  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 (przekazane przez Filipa 18.10.2026) oraz z 29.09 i 26–27.10.2026 (czaty WhatsApp i grupa „Strona”), zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
-  "priceDate": "2026-10-27",
+  "source": "Wiadomości klientki i Kariny Lesiv z 14.10.2026 (przekazane przez Filipa 18.10.2026) oraz z 29.09, 26–27.10 i 29.10.2026 (czaty WhatsApp i grupa „Strona”), zdjęcia z /Graphics (nazwy i pojemności z opakowań). Bez danych dawnego sklepu. Plik edytowany ręcznie.",
+  "priceDate": "2026-10-29",
   "currency": "PLN",
   "categories": [
     { "id": "kartridze", "name": "Kartridże" },
@@ -21,8 +21,8 @@
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "FLAT Supernatural cartridges", "fullName": "FLAT Supernatural cartridges" },
-        "ru": { "name": "Картриджи FLAT Supernatural", "fullName": "Картриджи FLAT Supernatural" }
+        "en": {"name": "FLAT Supernatural cartridges", "fullName": "FLAT Supernatural cartridges"},
+        "ru": {"name": "Картриджи FLAT Supernatural", "fullName": "Картриджи FLAT Supernatural"}
       },
       "_source": "Karina 26.10.2026 (grupa „Strona”): „Specially Collaboration – cena 250 zł”; 27.10.2026: „Kartridże FLAT Supernatural cena 250zł” + zdjęcie; klientka 27.10: „Kartridże FLAT Supernatural”. Wcześniej „Specially Collaboration” (Karina 14.10: 200 zł, przedsprzedaż)"
     },
@@ -31,14 +31,31 @@
       "name": "SATELLITE",
       "fullName": "Kartridże SATELLITE",
       "collection": "kartridze",
-      "variants": [{ "label": "20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite" }],
+      "variants": [
+        { "label": "25/1 RLLT · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-25-1 rllt-1" },
+        { "label": "25/1 RLLT · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-25-1 rllt-20" },
+        { "label": "30/1 RLLT · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-30-1 rllt-1" },
+        { "label": "30/1 RLLT · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-30-1 rllt-20" },
+        { "label": "25/1 RLLT-H · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-25-1 rllt-h-1" },
+        { "label": "25/1 RLLT-H · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-25-1 rllt-h-20" },
+        { "label": "35/1 RLLT-H · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-35-1 rllt-h-1" },
+        { "label": "35/1 RLLT-H · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-35-1 rllt-h-20" },
+        { "label": "25/1 RLMT-H · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-25-1 rlmt-h-1" },
+        { "label": "25/1 RLMT-H · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-25-1 rlmt-h-20" },
+        { "label": "30/1 RLMT-H · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-30-1 rlmt-h-1" },
+        { "label": "30/1 RLMT-H · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-30-1 rlmt-h-20" },
+        { "label": "35/1 RLMT-H · 1 szt.", "price": 1300, "inStock": true, "sourceId": "kartridze-satellite-35-1 rlmt-h-1" },
+        { "label": "35/1 RLMT-H · 20 szt.", "price": 25500, "inStock": true, "sourceId": "kartridze-satellite-35-1 rlmt-h-20" }
+      ],
       "shortDesc": null,
       "description": "„Do miejsca docelowego można dojechać Fiatem i Mercedesem. Jeśli chodzi o komfort, wygodę i szybkość – lepiej sprawdzi się Mercedes. Wybierz »MERCEDESA« wśród kartridży – kup SATELLITES i odczuj prawdziwy luksus”. Zrób pigmentację szybko, jakościowo, równomiernie, używając jednego kartridża. Oszczędzaj na ich ilości, aby nie oszczędzać na ich jakości.",
-      "_source": "Karina 26.10.2026 (grupa „Strona”): „SATELLITE – proszę dodać cenę 255 zł”; opakowanie na zdjęciu: „20 membrane cartridges”; opis – Karina 29.09.2026 (czat): „Kartridż SATELLITE … Zakres cen: od 13,00 zł do 255,00 zł” – opis ogólny, bez konfiguracji igieł",
+      "_source": "Karina 29.09.2026 (czat): 7 konfiguracji „Kartridż SATELLITE … 13,00 zł – 255,00 zł” z opisami igieł; 26.10: „SATELLITE – proszę dodać cenę 255 zł”; Filip 30.10: wybór wariacji po kliknięciu. 1 szt. 13 zł / 20 szt. 255 zł – dolna i górna granica zakresu Kariny",
       "i18n": {
-        "en": { "description": "“You can reach your destination in a Fiat or a Mercedes. When it comes to comfort, convenience and speed, the Mercedes does better. Choose the ‘Mercedes’ among cartridges – buy SATELLITES and feel true luxury.” Do your pigmentation quickly, to a high standard and evenly, using a single cartridge. Save on quantity so you don’t have to save on quality." },
-        "ru": { "description": "«До места назначения можно доехать на Fiat и на Mercedes. Если говорить о комфорте, удобстве и скорости – лучше справится Mercedes. Выберите „Mercedes“ среди картриджей – купите SATELLITES и почувствуйте настоящую роскошь». Выполняйте пигментацию быстро, качественно и равномерно одним картриджем. Экономьте на количестве, чтобы не экономить на качестве." }
-      }
+        "en": {"description": "“You can reach your destination in a Fiat or a Mercedes. When it comes to comfort, convenience and speed, the Mercedes does better. Choose the ‘Mercedes’ among cartridges – buy SATELLITES and feel true luxury.” Do your pigmentation quickly, to a high standard and evenly, using a single cartridge. Save on quantity so you don’t have to save on quality.", "notes": {"25/1 RLLT": "No letter H in the configuration means a SOFT needle. The flexible needle is ideal for powder techniques. A pendulum movement is preferred, but it also works with a one-directional movement. Ideal for lips, eyeliner and powder brows.\n\nLT | Long taper – small, sharp, satin pixel.\n\n0.25 – a small pixel, ideal for natural lips or thin skin", "30/1 RLLT": "No letter H in the configuration means a SOFT needle. The flexible needle is ideal for powder techniques. A pendulum movement is preferred, but it also works with a one-directional movement. Ideal for lips, eyeliner and powder brows.\n\nLT | Long taper – small, sharp, satin pixel.\n\n0.30 – a medium pixel, ideal for brows and normal skin", "25/1 RLLT-H": "The letter H in the configuration means the cartridge has extra stiffening. A flexible needle with extra stiffening is ideal for linear and shaded techniques – machine hair strokes, taut, firm skin, e.g. enlarged lips, firm, young skin.\n\nLT | Long taper – small, sharp, satin pixel.\n\n0.25 – a small pixel, ideal for enlarged, full lips and firm, tough skin", "35/1 RLLT-H": "The letter H in the configuration means the cartridge has extra stiffening. A flexible needle with extra stiffening is ideal for linear and shaded techniques – machine hair strokes, taut, firm skin, e.g. enlarged lips, firm, young skin.\n\nLT | Long taper – small, sharp, satin pixel.\n\n0.35 – oily, porous but firm skin", "25/1 RLMT-H": "The letter H in the configuration means the cartridge has extra stiffening. A flexible needle with extra stiffening is ideal for linear and shaded techniques – machine hair strokes, taut, firm skin, e.g. enlarged lips, firm, young skin.\n\nMT | Medium taper – medium pixel (suits every skin type and technique).\n\n0.25 – a small pixel, ideal for enlarged, full lips and firm, tough skin", "30/1 RLMT-H": "The letter H in the configuration means the cartridge has extra stiffening. A flexible needle with extra stiffening is ideal for linear and shaded techniques – machine hair strokes, taut, firm skin, e.g. enlarged lips, firm, young skin.\n\nMT | Medium taper – medium pixel (suits every skin type and technique).\n\n0.30 – a medium pixel, ideal for pixel brows and normal skin", "35/1 RLMT-H": "The letter H in the configuration means the cartridge has extra stiffening. A flexible needle with extra stiffening is ideal for linear and shaded techniques – machine hair strokes, taut, firm skin, e.g. enlarged lips, firm, young skin.\n\nMT | Medium taper – medium pixel (suits every skin type and technique).\n\n0.35 – a thicker pixel for oily, porous but elastic skin"}},
+        "ru": {"description": "«До места назначения можно доехать на Fiat и на Mercedes. Если говорить о комфорте, удобстве и скорости – лучше справится Mercedes. Выберите „Mercedes“ среди картриджей – купите SATELLITES и почувствуйте настоящую роскошь». Выполняйте пигментацию быстро, качественно и равномерно одним картриджем. Экономьте на количестве, чтобы не экономить на качестве.", "notes": {"25/1 RLLT": "Отсутствие буквы H в конфигурации означает иглу SOFT. Эластичная игла отлично подходит для пудровых техник. Предпочтительно маятниковое движение, но подойдёт и одностороннее. Идеально для губ, стрелок и пудровых бровей.\n\nLT | Длинная заточка – маленький, острый, сатиновый пиксель.\n\n0.25 – маленький пиксель, идеален для натуральных губ или тонкой кожи", "30/1 RLLT": "Отсутствие буквы H в конфигурации означает иглу SOFT. Эластичная игла отлично подходит для пудровых техник. Предпочтительно маятниковое движение, но подойдёт и одностороннее. Идеально для губ, стрелок и пудровых бровей.\n\nLT | Длинная заточка – маленький, острый, сатиновый пиксель.\n\n0.30 – средний пиксель, идеален для бровей и нормальной кожи", "25/1 RLLT-H": "Буква H в конфигурации означает, что картридж имеет дополнительное усиление. Эластичная игла с дополнительным усилением отлично подходит для линейных и теневых техник – машинный волосок, натянутая, плотная кожа, например увеличенные губы, упругая молодая кожа.\n\nLT | Длинная заточка – маленький, острый, сатиновый пиксель.\n\n0.25 – маленький пиксель, идеален для увеличенных, крупных губ и упругой, плотной кожи", "35/1 RLLT-H": "Буква H в конфигурации означает, что картридж имеет дополнительное усиление. Эластичная игла с дополнительным усилением отлично подходит для линейных и теневых техник – машинный волосок, натянутая, плотная кожа, например увеличенные губы, упругая молодая кожа.\n\nLT | Длинная заточка – маленький, острый, сатиновый пиксель.\n\n0.35 – жирная, пористая, но упругая кожа", "25/1 RLMT-H": "Буква H в конфигурации означает, что картридж имеет дополнительное усиление. Эластичная игла с дополнительным усилением отлично подходит для линейных и теневых техник – машинный волосок, натянутая, плотная кожа, например увеличенные губы, упругая молодая кожа.\n\nMT | Средняя заточка – средний пиксель (подходит для любого типа кожи и техники).\n\n0.25 – маленький пиксель, идеален для увеличенных, крупных губ и упругой, плотной кожи", "30/1 RLMT-H": "Буква H в конфигурации означает, что картридж имеет дополнительное усиление. Эластичная игла с дополнительным усилением отлично подходит для линейных и теневых техник – машинный волосок, натянутая, плотная кожа, например увеличенные губы, упругая молодая кожа.\n\nMT | Средняя заточка – средний пиксель (подходит для любого типа кожи и техники).\n\n0.30 – средний пиксель, идеален для пиксельных бровей и нормальной кожи", "35/1 RLMT-H": "Буква H в конфигурации означает, что картридж имеет дополнительное усиление. Эластичная игла с дополнительным усилением отлично подходит для линейных и теневых техник – машинный волосок, натянутая, плотная кожа, например увеличенные губы, упругая молодая кожа.\n\nMT | Средняя заточка – средний пиксель (подходит для любого типа кожи и техники).\n\n0.35 – более крупный пиксель для жирной, пористой, но эластичной кожи"}}
+      },
+      "axes": [{"id": "config", "values": ["25/1 RLLT", "30/1 RLLT", "25/1 RLLT-H", "35/1 RLLT-H", "25/1 RLMT-H", "30/1 RLMT-H", "35/1 RLMT-H"]}, {"id": "pack", "values": ["1 szt.", "20 szt."]}],
+      "notes": {"25/1 RLLT": "Brak literki H przy konfiguracji kartridża wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wahadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel.\n\n0.25 – mały piksel idealny do ust naturalnych lub cienkiej skóry", "30/1 RLLT": "Brak literki H przy konfiguracji kartridża wskazuje, że jest to igła SOFT. Elastyczna igła doskonale pasuje do pudrowych technik. Preferowany ruch wahadłowy, ale również sprawdzi się przy ruchu jednostronnym. Idealne dla ust, kresek i brwi pudrowych.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel.\n\n0.30 – średni piksel idealny do brwi, normalnej skóry", "25/1 RLLT-H": "Literka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel.\n\n0.25 – mały piksel, idealny do powiększonych, dużych ust i jędrnej, twardej skóry", "35/1 RLLT-H": "Literka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nLT | Długie zaostrzenie – mały, ostry, satynowy piksel.\n\n0.35 – tłusta, porowata, ale jędrna skóra", "25/1 RLMT-H": "Literka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki).\n\n0.25 – mały piksel, idealny do powiększonych, dużych ust i jędrnej, twardej skóry", "30/1 RLMT-H": "Literka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki).\n\n0.30 – średni piksel idealny do pikselowych brwi, normalnej skóry", "35/1 RLMT-H": "Literka H przy konfiguracji wskazuje na to, że kartridż posiada dodatkowe usztywnienie. Elastyczna igła z dodatkowym usztywnieniem doskonale pasuje do liniowych i cieniowanych technik. Idealne dla maszynowego włosa, napiętej, twardej skóry np. powiększone usta, jędrna, młoda skóra.\n\nMT | Średnie zaostrzenie – średni piksel (pasują do każdego rodzaju skóry i techniki).\n\n0.35 – grubszy piksel, dla tłustej, porowatej, ale elastycznej skóry"}
     },
     {
       "id": "kredka-czarna",
@@ -49,8 +66,8 @@
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "Black pre-drawing pencil", "fullName": "Black pre-drawing pencil" },
-        "ru": { "name": "Чёрный карандаш для предварительного эскиза", "fullName": "Чёрный карандаш для предварительного эскиза" }
+        "en": {"name": "Black pre-drawing pencil", "fullName": "Black pre-drawing pencil"},
+        "ru": {"name": "Чёрный карандаш для предварительного эскиза", "fullName": "Чёрный карандаш для предварительного эскиза"}
       },
       "_source": "Karina 14.10.2026 (kredki: czerwona, czarna, brązowa; „Cena 20zł”)"
     },
@@ -63,8 +80,8 @@
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "Brown pre-drawing pencil", "fullName": "Brown pre-drawing pencil" },
-        "ru": { "name": "Коричневый карандаш для предварительного эскиза", "fullName": "Коричневый карандаш для предварительного эскиза" }
+        "en": {"name": "Brown pre-drawing pencil", "fullName": "Brown pre-drawing pencil"},
+        "ru": {"name": "Коричневый карандаш для предварительного эскиза", "fullName": "Коричневый карандаш для предварительного эскиза"}
       },
       "_source": "Karina 14.10.2026"
     },
@@ -77,8 +94,8 @@
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "Red pre-drawing pencil", "fullName": "Red pre-drawing pencil" },
-        "ru": { "name": "Красный карандаш для предварительного эскиза", "fullName": "Красный карандаш для предварительного эскиза" }
+        "en": {"name": "Red pre-drawing pencil", "fullName": "Red pre-drawing pencil"},
+        "ru": {"name": "Красный карандаш для предварительного эскиза", "fullName": "Красный карандаш для предварительного эскиза"}
       },
       "_source": "Karina 14.10.2026"
     },
@@ -91,38 +108,38 @@
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "Eyebrow brush", "fullName": "Eyebrow brush" },
-        "ru": { "name": "Кисть для бровей", "fullName": "Кисть для бровей" }
+        "en": {"name": "Eyebrow brush", "fullName": "Eyebrow brush"},
+        "ru": {"name": "Кисть для бровей", "fullName": "Кисть для бровей"}
       },
       "_source": "Karina 27.10.2026 (grupa „Strona”): „Pedzel do brwi 15zł” + zdjęcie; kategoria – klientka 14.10: „Kredki, pędzle w akcesoria do rysunku”"
     },
     {
       "id": "sztuczna-skorka-do-cwiczen",
-      "name": "Sztuczna skórka do ćwiczeń",
-      "fullName": "Sztuczna skórka do ćwiczeń",
+      "name": "Sztuczna skóra do ćwiczeń",
+      "fullName": "Sztuczna skóra do ćwiczeń",
       "collection": "akcesoria-do-cwiczen",
       "variants": [{ "label": null, "price": 5000, "inStock": true, "sourceId": "sztuczna-skorka-do-cwiczen" }],
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "Artificial practice skin", "fullName": "Artificial practice skin" },
-        "ru": { "name": "Искусственная кожа для тренировок", "fullName": "Искусственная кожа для тренировок" }
+        "en": {"name": "Artificial practice skin", "fullName": "Artificial practice skin"},
+        "ru": {"name": "Искусственная кожа для тренировок", "fullName": "Искусственная кожа для тренировок"}
       },
-      "_source": "Karina 27.10.2026 (grupa „Strona”): „Dodać do zakładki Akcesoria do ćwiczeń: … Sztuczna skórka do ćwiczeń 50zł” + zdjęcie"
+      "_source": "Karina 27.10.2026 (grupa „Strona”): „Dodać do zakładki Akcesoria do ćwiczeń: … Sztuczna skórka do ćwiczeń 50zł” + zdjęcie; Karina 29.10: „W zakładce AKCESORIA DO ĆWICZEŃ powinna być tylko „sztuczna skóra do ćwiczeń””"
     },
     {
       "id": "pilot-czerwony",
       "name": "Pilot czerwony",
       "fullName": "Pilot czerwony",
-      "collection": "akcesoria-do-cwiczen",
+      "collection": "akcesoria-do-rysunku",
       "variants": [{ "label": null, "price": 1000, "inStock": true, "sourceId": "pilot-czerwony" }],
       "shortDesc": null,
       "description": null,
       "i18n": {
-        "en": { "name": "Red Pilot pen", "fullName": "Red Pilot pen" },
-        "ru": { "name": "Красная ручка Pilot", "fullName": "Красная ручка Pilot" }
+        "en": {"name": "Red Pilot pen", "fullName": "Red Pilot pen"},
+        "ru": {"name": "Красная ручка Pilot", "fullName": "Красная ручка Pilot"}
       },
-      "_source": "Karina 27.10.2026 (grupa „Strona”, po „Dodać do zakładki Akcesoria do ćwiczeń”): „Pilot czerwony – cena 10zł” + zdjęcie (długopis żelowy Pilot)"
+      "_source": "Karina 27.10.2026 (grupa „Strona”, po „Dodać do zakładki Akcesoria do ćwiczeń”): „Pilot czerwony – cena 10zł” + zdjęcie (długopis żelowy Pilot); Karina 29.10: „Do wkładki akcesoria rysunku proszę dodać PILOT CZERWONY”"
     },
     {
       "id": "ice-gel",
@@ -132,7 +149,7 @@
       "variants": [{ "label": "33 ml", "price": 27000, "inStock": true, "sourceId": "ice-gel" }],
       "shortDesc": null,
       "description": null,
-      "_source": "Karina 26.10.2026 (grupa „Strona”): zdjęcie „ICE turquoise pigment” + „Ice Gel … Turquoise Pigment 270,00 zł”; nazwa – klientka 26.10: „ICE GEL – to na zielony”"
+      "_source": "Karina 26.10.2026 (grupa „Strona”): zdjęcie „ICE turquoise pigment” + „Ice Gel … Turquoise Pigment 270,00 zł”; nazwa – klientka 26.10: „ICE GEL – to na zielony”; zdjęcie turkusowej butelki – Karina 29.10: „Proszę dodać zdjęcie 1.Ice Gel”"
     },
     {
       "id": "ice-gel-lips",
@@ -152,7 +169,7 @@
       "variants": [{ "label": "33 ml", "price": 27000, "inStock": true, "sourceId": "ice-ltb-gel" }],
       "shortDesc": null,
       "description": null,
-      "_source": "klientka 26.10.2026: „ICE LTB GEL – to na ten matowy zielony”; Karina 26.10: „Ice Gel LTB NUMB Light Turquoise Pigment 270,00 zł”"
+      "_source": "klientka 26.10.2026: „ICE LTB GEL – to na ten matowy zielony”; Karina 26.10: „Ice Gel LTB NUMB Light Turquoise Pigment 270,00 zł”; zdjęcie – Karina 29.10 („Ice LTB Gel”)"
     },
     {
       "id": "glow-oil-pineapple",
@@ -175,6 +192,16 @@
       "_source": "Karina 26.10.2026 (grupa „Strona”): „Glow Oil Stawberry Scented 125zł”; nazwa – Karina 29.09 i 26.10: „Glow Oil Stawberry Scented” (literówka poprawiona)"
     },
     {
+      "id": "glow-oil-coconut-chocolate",
+      "name": "Glow Oil Coconut And Chocolate",
+      "fullName": "Glow Oil Coconut And Chocolate",
+      "collection": "srodki-zabiegowe",
+      "variants": [{ "label": "30 ml", "price": 12500, "inStock": true, "sourceId": "glow-oil-coconut-chocolate" }],
+      "shortDesc": null,
+      "description": null,
+      "_source": "Karina 29.10.2026 (grupa „Strona”): zdjęcie + „Glow Oil Coconut And Chocolate - 125zł”; pojemność z opakowania (E 30 ML)"
+    },
+    {
       "id": "lampa-pierscieniowa",
       "name": "Lampa TheOne White Ring",
       "fullName": "Lampa pierścieniowa TheOne White Ring",
@@ -183,10 +210,24 @@
       "shortDesc": null,
       "description": "Jeśli w pracy jest Ci potrzebne dobre oświetlenie – wybierz lekką i przenośną lampę TheOne. Stabilny statyw, wysokiej jakości LED i płynna regulacja mocy sprawiają, że jest to wygodny sprzęt do wielu zastosowań. Pozwala na zauważalne podniesienie komfortu pracy przy wykonywaniu makijażu oraz fotografowaniu jego efektów. Niekwestionowane zalety pierścieniowych lamp ledowych TheOne sprawiają, że są one bardzo chętnie wykorzystywane m.in. w gabinetach kosmetycznych.",
       "i18n": {
-        "en": { "name": "TheOne White Ring lamp", "fullName": "TheOne White Ring ring lamp", "description": "If you need good lighting at work, choose the light and portable TheOne lamp. A stable stand, high-quality LEDs and smooth power adjustment make it convenient equipment for many uses. It noticeably improves comfort when doing make-up and photographing the results. The undisputed advantages of TheOne LED ring lamps make them very popular, among others, in beauty salons." },
-        "ru": { "name": "Лампа TheOne White Ring", "fullName": "Кольцевая лампа TheOne White Ring", "description": "Если в работе вам нужно хорошее освещение – выберите лёгкую и портативную лампу TheOne. Устойчивый штатив, качественные светодиоды и плавная регулировка мощности делают её удобным оборудованием для многих задач. Она заметно повышает комфорт при выполнении макияжа и фотографировании результата. Бесспорные преимущества кольцевых светодиодных ламп TheOne делают их очень популярными, в том числе в косметических кабинетах." }
+        "en": {"name": "TheOne White Ring lamp", "fullName": "TheOne White Ring ring lamp", "description": "If you need good lighting at work, choose the light and portable TheOne lamp. A stable stand, high-quality LEDs and smooth power adjustment make it convenient equipment for many uses. It noticeably improves comfort when doing make-up and photographing the results. The undisputed advantages of TheOne LED ring lamps make them very popular, among others, in beauty salons."},
+        "ru": {"name": "Лампа TheOne White Ring", "fullName": "Кольцевая лампа TheOne White Ring", "description": "Если в работе вам нужно хорошее освещение – выберите лёгкую и портативную лампу TheOne. Устойчивый штатив, качественные светодиоды и плавная регулировка мощности делают её удобным оборудованием для многих задач. Она заметно повышает комфорт при выполнении макияжа и фотографировании результата. Бесспорные преимущества кольцевых светодиодных ламп TheOne делают их очень популярными, в том числе в косметических кабинетах."}
       },
       "_source": "Karina 29.09.2026 (czat): „TheOne WHITE RING 1690,00 zł” + opis; 26.10.2026 (grupa „Strona”): „Lampa 1690zł”; zdjęcie z 29.09"
+    },
+    {
+      "id": "laser-q-switch-ultra",
+      "name": "Laser Q-Switch Ultra",
+      "fullName": "Laser Q-Switch Ultra",
+      "collection": "lasery",
+      "variants": [{ "label": null, "price": null, "inStock": true, "sourceId": "laser-q-switch-ultra" }],
+      "shortDesc": null,
+      "description": "Nowoczesny laser Q-Switch z podwójnym systemem optycznym do usuwania makijażu permanentnego oraz tatuaży. Sprawdzona technologia, wysoka skuteczność zabiegów, międzynarodowe certyfikaty oraz wysoka jakość kryształu zapewniają długą żywotność lasera.\n\nW przypadku usuwania makijażu permanentnego i tatuaży wiązka lasera przenika w głąb skóry i jest absorbowana przez pigment, który zostaje rozbity na mikroskopijne drobiny, a następnie bezpiecznie usuwany z organizmu.\n\nLaser wykonuje także nieinwazyjny i bezbolesny peeling węglowy (black doll), który odmładza i rozświetla skórę. Wiązka lasera oddziałuje na skórę twarzy lub dekoltu pokrytą pastą węglową, usuwając preparat wraz z zanieczyszczeniami.\n\nZastosowanie:\n\n* Usuwanie barwnika\n* Usuwanie makijażu permanentnego\n* Usuwanie tatuaży czarnych i w odcieniach szarości\n* Ocieplanie pigmentu\n* Ochładzanie pigmentu\n\nInwestycja w laser Q-Switch zapewni Ci szybki zwrot i znacznie wzbogaci ofertę Twojego gabinetu.",
+      "i18n": {
+        "en": {"description": "A modern Q-Switch laser with a dual optical system for removing permanent make-up and tattoos. Proven technology, high treatment effectiveness, international certificates and a high-quality crystal ensure a long laser life.\n\nWhen removing permanent make-up and tattoos, the laser beam penetrates deep into the skin and is absorbed by the pigment, which is broken down into microscopic particles and then safely removed from the body.\n\nThe laser also performs a non-invasive and painless carbon peel (black doll) that rejuvenates and brightens the skin. The laser beam acts on the skin of the face or décolleté covered with carbon paste, removing the product together with impurities.\n\nApplications:\n\n* Pigment removal\n* Permanent make-up removal\n* Removal of black and grey tattoos\n* Warming the pigment\n* Cooling the pigment\n\nInvesting in a Q-Switch laser will pay off quickly and significantly enrich your studio’s offer."},
+        "ru": {"description": "Современный лазер Q-Switch с двойной оптической системой для удаления перманентного макияжа и татуировок. Проверенная технология, высокая эффективность процедур, международные сертификаты и качественный кристалл обеспечивают долгий срок службы лазера.\n\nПри удалении перманентного макияжа и татуировок лазерный луч проникает вглубь кожи и поглощается пигментом, который разбивается на микроскопические частицы, а затем безопасно выводится из организма.\n\nЛазер также выполняет неинвазивный и безболезненный карбоновый пилинг (black doll), который омолаживает кожу и придаёт ей сияние. Лазерный луч воздействует на кожу лица или декольте, покрытую карбоновой пастой, удаляя средство вместе с загрязнениями.\n\nПрименение:\n\n* Удаление пигмента\n* Удаление перманентного макияжа\n* Удаление чёрных и серых татуировок\n* Утепление пигмента\n* Охлаждение пигмента\n\nИнвестиция в лазер Q-Switch быстро окупится и значительно расширит предложение вашего кабинета."}
+      },
+      "_source": "Karina 29.10.2026 (grupa „Strona”): zdjęcie „Laser Q-Switch Ultra” + opis; ceny nie podano – na zapytanie"
     }
   ]
 }

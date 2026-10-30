@@ -77,6 +77,7 @@ import {
   SALON,
 } from '@/lib/site';
 import { CENNIK } from '@/lib/media';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { MACROS, ROLES } from '@/lib/roles';
 import { cn, nbspShort, nbspBrand } from '@/lib/utils';
 
@@ -140,7 +141,7 @@ const TECHNIQUES = [
     quote:
       'Idealnie nadaje się dla klientek z życzeniem: „Nie chcę, aby ktoś wiedział, że mam zrobione brwi – mają wyglądać jak moje”.',
     photo: {
-      macro: MACROS.snb01,
+      macro: MACROS.techSnb, // Karina 29.10.2026 – nowe zdjęcia technik
       alt: 'Brew i oko po makijażu permanentnym techniką Super Natural Brows – widoczne pojedyncze włoski',
     },
   },
@@ -157,7 +158,7 @@ const TECHNIQUES = [
        combo źródła nie podają, więc nie stawiamy go przy wierszu z ceną (D10, pytanie do klientki). */
     quote: 'Dla osób, które chcą mocniej podkreślić kształt brwi, ale nadal w naturalnej wersji.',
     photo: {
-      macro: MACROS.powder01,
+      macro: MACROS.techPowder,
       alt: 'Brew po makijażu permanentnym techniką pudrową – miękki efekt cienia, obok rzęsy',
     },
   },
@@ -170,7 +171,7 @@ const TECHNIQUES = [
     description:
       'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
     photo: {
-      macro: MACROS.lips03p3,
+      macro: MACROS.techLips,
       alt: 'Usta po makijażu permanentnym Perfect Lips – efekt po zabiegu',
     },
   },
@@ -183,7 +184,7 @@ const TECHNIQUES = [
     description:
       'Efekt zagęszczenia rzęs, pogrubienia górnej linii wodnej oka i uwydatnienia koloru tęczówki – bez kreski, bez ogonka i bez cienia na powiece.',
     photo: {
-      macro: MACROS.eyes01,
+      macro: MACROS.techEyes,
       alt: 'Oko po pigmentacji linii rzęs Perfect Eyes – zbliżenie górnej linii rzęs i tęczówki',
     },
   },
@@ -206,17 +207,13 @@ const HERO_FACTS = [
 /*  03 – efekty (makra z białej listy) i przebieg wizyty               */
 /* ------------------------------------------------------------------ */
 
-/* Trzecie zdjęcie: technika pudrowa (klientka 1.10.2026 – w miejscu brows17: „Na miejscu
-   tego zdjęcia zdjęcie techniki pudrowej”); ten sam plik co w wierszu Perfect Brows (02),
-   w szerszym kadrze (MACROS.powder01Wide: cała szerokość pliku, w 02 × 1,1). Plik nie daje
-   wyraźnie innej kompozycji z całą brwią – drugie zdjęcie techniki pudrowej od klientki. */
+/* Filip 30.10.2026: „W sekcji Realne efekty, nie renderowane mają być supernatural brows” –
+   cztery prace Super Natural Brows (zdjęcia z podpisem techniki w /Graphics i od Kariny). */
 const RESULTS = [
-  { macro: MACROS.brows15, alt: 'Brwi po makijażu permanentnym – zbliżenie' },
-  { macro: MACROS.brows08, alt: 'Brew i oko po makijażu permanentnym – zbliżenie' },
-  { macro: MACROS.powder01Wide, alt: 'Brwi wykonane techniką pudrową – zbliżenie' },
-  /* 8.10: w kwadracie dolne rogi pliku są czarne (tło zdjęcia) – przybliżenie × 1,15
-     od góry ust je ucina; barwa bez zmian */
-  { macro: MACROS.lips05, alt: 'Usta po makijażu permanentnym – zbliżenie', scale: 1.15, origin: '50% 30%' },
+  { macro: MACROS.snbBrows10, alt: 'Brwi po makijażu permanentnym techniką Super Natural Brows – zbliżenie' },
+  { macro: MACROS.snb01, alt: 'Brew i oko po zabiegu Super Natural Brows – zbliżenie', scale: 1.45, origin: '62% 45%' },
+  { macro: MACROS.snbBrows13, alt: 'Brwi wykonane techniką Super Natural Brows – widoczne pojedyncze włoski' },
+  { macro: MACROS.techSnb, alt: 'Brew po makijażu permanentnym Super Natural Brows – efekt po zabiegu' },
 ].map(({ macro, alt, scale, origin }) => ({ image: macro.image, position: macro.position, alt, scale, origin }));
 
 /* D6 (Z15): źródła nie znają „konsultacji” jako osobnej usługi – krok 01 to rysunek
@@ -485,10 +482,8 @@ function TechniqueRow({ t, last }) {
         last && 'border-b'
       )}
     >
-      <TechniquePhoto
-        photo={t.photo}
-        className="col-start-1 row-start-1 sm:row-span-3 md:row-span-2 lg:row-span-1"
-      />
+      {/* Filip 30.10.2026: „po kliknięciu każdego ze zdjęć w ofercie ma się wyświetlać cennik” */}
+      <TechniquePriceButton t={t} className="col-start-1 row-start-1 sm:row-span-3 md:row-span-2 lg:row-span-1" />
       <div className="col-start-2 row-start-1 md:row-span-2 lg:row-span-1">
         <span className="as-num">{t.number}</span>
         <h3 className="as-title mt-3 text-ink">{nbspBrand(t.name)}</h3>
@@ -523,6 +518,41 @@ function TechniqueRow({ t, last }) {
         </ArrowLink>
       </div>
     </article>
+  );
+}
+
+/* Zdjęcie techniki jako przycisk: okno z cennikiem PMU (tabela + grafika cennika klientki). */
+function TechniquePriceButton({ t, className }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
+        aria-label={`Cennik zabiegu ${t.name}`}
+        className={cn('group relative block w-full text-left focus-visible:outline-ink', className)}
+      >
+        <TechniquePhoto photo={t.photo} className="transition-opacity group-hover:opacity-90" />
+        <span className="as-label mt-2 block text-ink/70 underline decoration-ink/30 underline-offset-4 group-hover:decoration-ink">
+          Zobacz cennik
+        </span>
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t.name}</DialogTitle>
+            <DialogDescription className="sr-only">{`Cennik zabiegu ${t.name}`}</DialogDescription>
+          </DialogHeader>
+          <div className="mt-6">
+            <PriceBlock table={PRICING_PMU} />
+          </div>
+          <div className="mx-auto mt-8 max-w-[18rem] [&_.as-media]:rounded-md">
+            <Figure image={CENNIK.pmu} alt={PRICE_SHEETS[0].alt} ratio="9 / 16" zoom={false} sizes="288px" />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
@@ -589,7 +619,7 @@ function ResultsBand() {
             tone="light"
             /* D10: źródła nie mówią, czyje to prace ani gdzie je wykonano (część ma znak
                akademii) – podpis bez „naszego gabinetu”. */
-            caption="Brwi i usta po makijażu permanentnym."
+            caption="Brwi po makijażu permanentnym techniką Super Natural Brows."
           />
           <ArrowLink
             href={CONTACT.instagram}
@@ -640,15 +670,10 @@ function AftercareCard({ t }) {
   const descId = `${t.id}-opis`;
   const noteId = `${t.id}-nota`;
   return (
-    /* Propozycja usl-04-a: od md karty dzielą wiersze siatki (subgrid) – cena i „Umów wizytę”
-       stoją w jednej linii w obu kartach mimo opisów różnej długości (było Δ17–50 px).
-       Pięć dzieci = pięć wierszy: numer, tytuł, opis, cena, noty. */
-    <article id={t.id} className="as-cell md:row-span-5 md:grid md:grid-rows-subgrid">
-      <div className="flex items-baseline gap-3">
-        <span className="as-num">{t.number}</span>
-        <p className="as-kicker">{t.tag}</p>
-      </div>
-      <h3 className="as-title mt-3 text-ink">{nbspBrand(t.name)}</h3>
+    /* 30.10.2026: karta stoi sama w swojej sekcji (Refresh / Usuwanie) – kotwica na sekcji */
+    <article className="as-cell">
+      {t.tag && <p className="as-kicker">{t.tag}</p>}
+      <h3 className={cn('as-title text-ink', t.tag && 'mt-3')}>{nbspBrand(t.name)}</h3>
       <div>
         <p
           id={descId}
@@ -679,44 +704,45 @@ function AftercareCard({ t }) {
   );
 }
 
-function AftercareBand() {
+/* Filip 30.10.2026: „Dodaj sekcje usuwanie jako osobną sekcje”, „Dodaj sekcje refresh jako osobną
+   sekcje” (schemat Kariny z 29.10: Zabiegi PMU / Refresh / Usuwanie – każdy ze swoim cennikiem).
+   Sekcja: opis i cena „od” (karta z dawnego pasa 04) | pełny cennik + grafika cennika. */
+function AftercareSection({ id, item, table, number, sheet, tone }) {
   return (
-    <section className="as-section as-section-tight-bottom bg-cream-50">
+    <section id={id} className={cn('as-section border-t border-ink/10', tone)}>
       <div className="as-shell">
-        <div className="grid gap-10 sm:gap-12 xl:grid-cols-12 xl:gap-8">
-          {/* tablet i lg (do 1279 px): etykieta nad całością, pod nią tytuł | wstęp + link
-              obok siebie (wyrównane do góry), karty niżej po ok. 440 px; od xl jedna kolumna
-              4/12, karty 8/12 – w układzie 5|6 od lg karty miały 204–268 px i 8 linii opisu */}
-          <Reveal className="xl:col-span-4">
-            <SectionLabel number="04">Odświeżenie i usuwanie</SectionLabel>
-            <div className="md:mt-6 md:grid md:grid-cols-2 md:items-start md:gap-8 xl:mt-0 xl:block">
-              <h2 className="as-display-section as-text-balance mt-6 text-ink md:mt-0 xl:mt-6">
-                Odnowić albo zacząć od&nbsp;nowa.
-              </h2>
-              <div>
-                <p className="as-body mt-6 md:mt-0 xl:mt-6">
-                  Zabiegi uzupełniające prowadzimy w tym samym standardzie co pigmentację: zaczynamy od oceny
-                  skóry i doboru metody. Część z nich wykonujemy dopiero po obejrzeniu zdjęć obecnego
-                  makijażu permanentnego.
-                </p>
-                {/* telefon: cennik to następna sekcja – link od sm */}
-                <ArrowLink href="#cennik" className="mt-8 hidden w-fit sm:inline-flex md:mt-6 xl:mt-8">
-                  Zobacz cennik
-                </ArrowLink>
-              </div>
+        <div className="grid gap-10 md:grid-cols-2 md:gap-x-10 lg:gap-x-16">
+          <Reveal>
+            <SectionLabel number={number}>{item.tag}</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">{table.title}.</h2>
+            <div className="mt-8">
+              <AftercareCard t={{ ...item, tag: null }} />
             </div>
           </Reveal>
-
-          <div className="grid gap-10 md:grid-cols-2 md:grid-rows-[auto_auto_1fr_auto_auto] md:gap-x-8 md:gap-y-0 xl:col-span-8 xl:col-start-5 xl:self-end">
-            {AFTERCARE.map((t, i) => (
-              <Reveal key={t.id} delay={i * 80} className="md:row-span-5 md:grid md:grid-rows-subgrid">
-                <AftercareCard t={t} />
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={60}>
+            <PriceBlock table={table} />
+            <div className="mt-8 max-w-[11rem] [&_.as-media]:rounded-md">
+              <a href={CENNIK[sheet.key].src} target="_blank" rel="noopener noreferrer" className="block">
+                <Figure image={CENNIK[sheet.key]} alt={sheet.alt} ratio="9 / 16" zoom={false} sizes="176px" />
+                <span className="sr-only"> (otwiera się w nowej karcie)</span>
+              </a>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
+  );
+}
+
+function RefreshBand() {
+  return (
+    <AftercareSection id="refresh" item={AFTERCARE[0]} table={PRICING_REFRESH} number="04" sheet={PRICE_SHEETS[1]} tone="bg-cream-50" />
+  );
+}
+
+function RemovalBand() {
+  return (
+    <AftercareSection id="usuwanie" item={AFTERCARE[1]} table={PRICING_REMOVAL} number="05" sheet={PRICE_SHEETS[2]} tone="bg-cream-100" />
   );
 }
 
@@ -758,20 +784,8 @@ function PriceBlock({ table }) {
   );
 }
 
-/* Telefon: cennik PMU zostaje otwarty, a tabele uzupełniające (refresh,
-   siedem stawek usuwania) są zwinięte w akordeon – ten sam <Faq> co w pytaniach,
-   ale treść rozwinięcia bez łamu i prawego odstępu odpowiedzi (contentClassName),
-   żeby ceny stały w jednej osi z cennikiem PMU.
-   Od lg obie tabele stoją w pełni: refresh pod PMU, usuwanie w lewej kolumnie.
-   Hierarchia jak w PriceBlock: tytuł w Bodoni, podtytuł jako kicker pod nim – cały
-   „Refresh – odświeżenie dla klientek…” w tytule dawał 4–6 linii przy 1–2 obok. */
-const faqOf = (table) => ({
-  q: table.title,
-  kicker: fmt(table.subtitle),
-  a: <PriceRows table={table} />,
-});
-const MOBILE_PRICE_FAQ = [faqOf(PRICING_REFRESH), faqOf(PRICING_REMOVAL)];
-
+/* Filip 30.10.2026: cennik PMU w tym pasie, Refresh i Usuwanie mają własne sekcje (04, 05) –
+   tu tylko odnośniki do nich (schemat Kariny: Zabiegi PMU / Refresh / Usuwanie → cennik). */
 function PricingBand() {
   return (
     <section id="cennik" className="as-section-tight border-t border-ink/10 bg-cream-100">
@@ -781,7 +795,7 @@ function PricingBand() {
             telefon: nagłówek → PMU → nota → akordeon (refresh, usuwanie) */}
         <div className="grid gap-12 md:grid-cols-2 md:gap-x-10 md:gap-y-10 lg:gap-x-16 lg:gap-y-12">
           <Reveal className="md:col-start-1 md:row-start-1">
-            <SectionLabel number="05">Cennik</SectionLabel>
+            <SectionLabel number="06">Cennik</SectionLabel>
             {/* „bez gwiazdek” obiecywało brak zastrzeżeń, a cennik ma warunki (dla naszych
                 klientek, wycena indywidualna) – stoją jawnie przy pozycjach */}
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
@@ -801,9 +815,6 @@ function PricingBand() {
               <PriceBlock table={PRICING_PMU} />
             </Reveal>
             <Reveal>
-              <div className="mb-6 hidden lg:block">
-                <PriceBlock table={PRICING_REFRESH} />
-              </div>
               {/* D6 (Z14): „darmowa konsultacja” bez źródła → zdanie z briefu („Salon”) + „Napisz do nas” */}
               <p className="as-caption max-w-[30rem]">
                 {SALON.charity}{' '}
@@ -815,11 +826,20 @@ function PricingBand() {
             </Reveal>
           </div>
 
+          {/* schemat Kariny: Zabiegi PMU → cennik, Refresh → cennik, Usuwanie → cennik */}
           <Reveal delay={60} className="md:col-start-1 md:row-start-2">
-            <div className="hidden lg:block">
-              <PriceBlock table={PRICING_REMOVAL} />
-            </div>
-            <Faq items={MOBILE_PRICE_FAQ} contentClassName="max-w-none pr-0" className="lg:hidden" />
+            <ul className="grid gap-4">
+              <li>
+                <ArrowLink href="#refresh" className="w-fit">
+                  {PRICING_REFRESH.title} – cennik
+                </ArrowLink>
+              </li>
+              <li>
+                <ArrowLink href="#usuwanie" className="w-fit">
+                  {PRICING_REMOVAL.title} – cennik
+                </ArrowLink>
+              </li>
+            </ul>
           </Reveal>
         </div>
       </div>
@@ -855,7 +875,7 @@ function FaqBand() {
       <div className="as-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
-            <SectionLabel number="06">Pytania</SectionLabel>
+            <SectionLabel number="07">Pytania</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">
               Zanim usiądziesz w&nbsp;fotelu.
             </h2>
@@ -928,7 +948,7 @@ function PriceSheetsBand() {
             miniatury (maks. 33rem) mieszczą się w 7/12 od 1024 px */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
-            <SectionLabel number="07">Do pobrania</SectionLabel>
+            <SectionLabel number="08">Do pobrania</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Cennik do&nbsp;pobrania.</h2>
             <p className="as-body mt-6">Grafiki cennika salonu w pełnym rozmiarze otwierają się w nowej karcie.</p>
           </Reveal>
@@ -1023,7 +1043,8 @@ export default function Treatments() {
 
       <TechniquesBand />
       <ResultsBand />
-      <AftercareBand />
+      <RefreshBand />
+      <RemovalBand />
       <PricingBand />
       <FaqBand />
       <PriceSheetsBand />

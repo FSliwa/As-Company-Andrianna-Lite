@@ -141,7 +141,23 @@ export const MACROS = {
     caption: 'Usta – makijaż permanentny' },
   /* /o-nas 05 – kolaż prac (SalonCollage w About.jsx; proporcje kafli tam). Bez podpisów –
      techniki nazywa lista 01–03 pod kolażem. */
+  /* /uslugi 02 – zdjęcia technik od Kariny (29.10.2026: „Proszę o zastąpienie obecnego zdjęcia
+     tym, które przesłałam”). Kwadraty bez napisów i znaków wodnych: SNB i puder – okno poniżej
+     podpisu w lewym górnym rogu; oko – × 1,3 od lewego dołu, znak „AS” z prawego górnego rogu
+     za kadrem. */
+  techSnb: { image: pick('tech-snb'), ratio: '1 / 1', position: '50% 62%', caption: 'Super Natural Brows' },
+  techPowder: { image: pick('tech-powder'), ratio: '1 / 1', position: '50% 70%', caption: 'Perfect Brows' },
+  techLips: { image: pick('tech-lips'), ratio: '1 / 1', position: '50% 55%', caption: 'Perfect Lips' },
+  techEyes: { image: pick('tech-eyes'), ratio: '1 / 1', position: '50% 50%', scale: 1.3, origin: '20% 85%', caption: 'Perfect Eyes' },
+  /* /uslugi 03 – „Realne efekty” tylko Super Natural Brows (Filip 30.10.2026) */
+  snbBrows10: { image: pick('brows-10-p1'), ratio: '1 / 1', position: '50% 40%', caption: 'Super Natural Brows' },
+  snbBrows13: { image: pick('brows-13-p3'), ratio: '1 / 1', position: '64% 50%', caption: 'Super Natural Brows' },
   snbCollage: { image: pick('work-snb-01'), position: '50% 50%' },
   powderCollage: { image: pick('work-powder-01'), position: '0% 50%' },
+  /* Karina 29.10.2026 (grupa „Strona”, zrzut sekcji „Subtelnie, naturalnie…”): „W tym miejscu proszę też
+     zmienić zdjęcia” – trzy pionowe zdjęcia (3:4): usta, brwi, brew z okiem. */
+  kolaz01: { image: pick('kolaz-01'), position: '50% 50%' },
+  kolaz02: { image: pick('kolaz-02'), position: '50% 45%' },
+  kolaz03: { image: pick('kolaz-03'), position: '50% 50%' },
   lipsCollage: { image: pick('lips-02-p2'), position: '50% 82%' }, // Y 82%: bez napisu „Healed” i szarego paska (opis w About.jsx)
 };

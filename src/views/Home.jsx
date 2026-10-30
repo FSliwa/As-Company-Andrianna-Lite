@@ -644,7 +644,7 @@ function TrainingBand() {
                     <React.Fragment key={c.id}>
                       {i > 0 && (i === OTHER_COURSES.length - 1 ? ' i ' : ', ')}
                       <Link
-                        href={`/szkolenia#program-${c.id}`}
+                        href={`/szkolenia/${c.id}`}
                         className="py-1 text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink"
                       >
                         {lowerFirst(c.fullTitle || c.title)}

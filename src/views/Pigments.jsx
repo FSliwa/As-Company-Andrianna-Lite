@@ -109,6 +109,12 @@ const PALETTES = Object.fromEntries(
 );
 
 /* Strefa zostaje przy zmianie kolekcji tylko wtedy, gdy nowa kolekcja ją ma. */
+/* Drzewko wyboru (Karina 29.10.2026): strefa → marka → kolekcje w kolejności schematu. */
+const ZONE_TREE = {
+  usta: { 'as-pigments': ['as-opium', 'as-classic', 'harley-quinn', 'paradise'] },
+  brwi: { babushkina: ['supernatural-brows'], 'as-pigments': ['as-opium', 'as-classic', 'as-opium-light-minerals'] },
+};
+
 const zoneFits = (zone, collection) =>
   !zone ||
   (FILTER_ZONES.includes(zone) && zonesIn(filterProducts(PRODUCTS, { collection })).some((z) => z.id === zone));
@@ -235,19 +241,48 @@ function Catalog({
   const stale = React.useContext(PricesStaleContext);
   const [setsOpen, setSetsOpen] = useState(false);
 
-  const base = useMemo(() => filterProducts(PRODUCTS, { collection }), [collection]);
-  const zones = useMemo(() => zonesIn(base).filter((z) => FILTER_ZONES.includes(z.id)), [base]);
-  /* strefa, której nie ma w wybranej kolekcji, przestaje filtrować */
+  /* Drzewko Kariny (29.10.2026): strefa → marka → kolekcja (ZONE_TREE). */
+  const [brand, setBrand] = useState(null);
+  const zones = useMemo(
+    () => zonesIn(PRODUCTS).filter((z) => FILTER_ZONES.includes(z.id)).sort((a, b) => ['usta', 'brwi'].indexOf(a.id) - ['usta', 'brwi'].indexOf(b.id)),
+    []
+  );
   const activeZone = zone && zones.some((z) => z.id === zone) ? zone : null;
+  const inZone = (p, z) => !z || p.zones.includes(z);
+  const brands = useMemo(
+    () =>
+      activeZone
+        ? Object.keys(ZONE_TREE[activeZone]).filter((b) =>
+            ZONE_TREE[activeZone][b].some((c) => PRODUCTS.some((p) => p.collection === c && inZone(p, activeZone)))
+          )
+        : [],
+    [activeZone]
+  );
+  const activeBrand = brand && brands.includes(brand) ? brand : null;
+  const brandCollections = activeZone && activeBrand ? ZONE_TREE[activeZone][activeBrand] : null;
+  const collectionOptions = useMemo(
+    () =>
+      brandCollections
+        ? brandCollections
+            .map((id) => COLLECTIONS.find((c) => c.id === id))
+            .filter((c) => c && PRODUCTS.some((p) => p.collection === c.id && inZone(p, activeZone)))
+        : COLLECTIONS,
+    [brandCollections, activeZone]
+  );
+  const base = useMemo(() => {
+    let list = activeZone ? filterProducts(PRODUCTS, { zone: activeZone }) : PRODUCTS;
+    if (brandCollections) list = list.filter((p) => brandCollections.includes(p.collection));
+    return collection ? filterProducts(list, { collection }) : list;
+  }, [activeZone, brandCollections, collection]);
   const q = fold(query.trim());
 
   const results = useMemo(() => {
-    const list = filterProducts(base, { zone: activeZone });
+    const list = base;
     if (!q) return list;
     return list.filter((p) =>
       fold(`${p.name} ${p.fullName} ${collectionLabel(p.collection)} ${p.series || ''}`).includes(q)
     );
-  }, [base, activeZone, q]);
+  }, [base, q]);
 
   const shades = useMemo(() => results.filter((p) => !p.isSet), [results]);
   const sets = useMemo(() => results.filter((p) => p.isSet), [results]);
@@ -278,6 +313,7 @@ function Catalog({
   const reset = () => {
     setCollection(null);
     setZone(null);
+    setBrand(null);
     setQuery('');
     setExtra(0);
     /* przycisk, który to wywołał, znika – fokus na „Wszystkie” w rzędzie kolekcji */
@@ -308,7 +344,7 @@ function Catalog({
           </Reveal>
           <Reveal delay={80} className="lg:col-span-5">
             <p className="as-body">
-              Wybierz kolekcję i&nbsp;strefę – pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
+              Wybierz strefę (usta albo brwi), markę i&nbsp;kolekcję – pasek pod nazwą kolekcji to jej odcienie, poglądowo. Dodane
               pigmenty trafiają na listę „Twoje zamówienie”, którą wysyłasz jako zapytanie.
             </p>
           </Reveal>
@@ -316,18 +352,28 @@ function Catalog({
 
         <div ref={filtersRef} className="mt-10 lg:mt-12">
           <CatalogFilters
-            collections={COLLECTIONS}
+            collections={collectionOptions}
             palettes={PALETTES}
             collection={collection}
             onCollection={(id) => {
               setCollection(id);
-              if (!zoneFits(zone, id)) setZone(null);
               setExtra(0);
             }}
             zones={zones}
             zone={activeZone}
             onZone={(id) => {
               setZone(id);
+              /* usta – jedna marka (AS PIGMENTS), od razu wybrana; brwi – wybór marki */
+              setBrand(id === 'usta' ? 'as-pigments' : null);
+              setCollection(null);
+              setExtra(0);
+            }}
+            brands={brands}
+            brand={activeBrand}
+            onBrand={(b) => {
+              setBrand(b);
+              /* BABUSHKINA ACADEMY – od razu Pigmenty Supernatural (jedyna pozycja marki) */
+              setCollection(b === 'babushkina' ? 'supernatural-brows' : null);
               setExtra(0);
             }}
             query={query}

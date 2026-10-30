@@ -107,8 +107,8 @@ NEW_PRODUCTS = {
     'product-e5-dark-brown-6-ml-opium-light': '23.10.25',
     'product-joker-harley-quinn-6ml': '23.30.46 (1)',
     'product-doll-harley-quinn-6ml': '23.30.46 (2)',
-    'product-set-harley-quinn-do-ust': '23.30.46',
-    'product-set-paradise-do-ust': '23.30.47 (2)',
+    'product-set-harley-quinn-do-ust': '2026-10-29 at 20.57.19',  # Karina 29.10 („Set Harley Quinn do ust -1200zł”)
+    'product-set-paradise-do-ust': '2026-10-29 at 20.58.16',      # Karina 29.10 („Set Paradise do ust - 1400zł”)
     'product-maria-magdalena-6-ml-paradise': '23.30.47 (3)',  # Mona Liza (id ze sklepu)
     'product-deva-maria-6-ml-paradise': '23.30.47 (4)',
     'product-harley-harley-quinn-6ml-kopia': '23.30.47',
@@ -126,7 +126,7 @@ NEW_PRODUCTS = {
     # których dotąd nie było na stronie; nazwy i pojemności z opakowań na zdjęciach.
     # LTB NUMB – packshot na czarnym tle.
     # nazwy żeli – klientka 26.10.2026: „ICE GEL – zielony, ICE GEL LIPS – różowy, ICE LTB GEL – matowy zielony”
-    'product-ice-ltb-gel': '23.05.37',              # ICE LTB GEL (dawniej „LTB Numb”)
+    'product-ice-ltb-gel': '2026-10-29 at 22.29.58',  # ICE LTB GEL – zdjęcie od Kariny 29.10 (na białym tle)
     'product-ice-gel-lips': '23.05.37 (1)',         # ICE GEL LIPS – różowy „cooling gel for lips”
     'product-glow-oil-pineapple': '23.05.37 (2)',
     'product-glow-oil-strawberries': '23.05.38',
@@ -146,7 +146,9 @@ NEW_PRODUCTS = {
     'product-kredka-czerwona': '2026-10-14 at 16.54.08',
     # 26–27.10.2026 – Karina Lesiv (czat i grupa „Strona”)
     'product-as-princess-champagne-gold': '2026-10-26 at 12.39.26',
-    'product-ice-gel': '2026-10-26 at 12.54.36',      # ICE GEL – zielony „turquoise pigment”
+    'product-ice-gel': '2026-10-29 at 22.26.01',      # ICE GEL – turkusowa butelka (Karina 29.10: „Proszę dodać zdjęcie 1.Ice Gel”)
+    'product-glow-oil-coconut-chocolate': '2026-10-29 at 22.32.21',  # Karina 29.10: „Glow Oil Coconut And Chocolate - 125zł”
+    'product-laser-q-switch-ultra': '2026-10-29 at 22.44.04',        # Karina 29.10: „Laser Q-Switch Ultra”
     'product-pigmenty-supernatural': '2026-10-27 at 17.44.35',
     'product-kartridze-flat-supernatural': '2026-10-27 at 17.45.41',
     'product-sztuczna-skorka-do-cwiczen': '2026-10-27 at 17.46.23',
@@ -156,12 +158,34 @@ NEW_PRODUCTS = {
 # Zdjęcia 16:9 z dużym białym marginesem (27.10) – kadr przycięty do produktu i dopełniony
 # bielą do kwadratu, jak pozostałe packshoty (miniatura w sklepie nie zostaje kropką).
 PRODUCT_FIT_WHITE = {
-    'product-pigmenty-supernatural', 'product-kartridze-flat-supernatural',
+    'product-pigmenty-supernatural', 'product-kartridze-flat-supernatural', 'product-set-harley-quinn-do-ust',
+    'product-set-paradise-do-ust', 'product-ice-ltb-gel', 'product-glow-oil-coconut-chocolate', 'product-laser-q-switch-ultra',
     'product-sztuczna-skorka-do-cwiczen', 'product-pedzel-do-brwi', 'product-pilot-czerwony',
 }
 # Plakaty kursów spoza listy GROUPS (po nazwie pliku): course-08 – harmonogram kursu
 # dla linergistek Super Natural Brows (Karina Lesiv, 26.10.2026: „harmonogram do kursu za 7 tysięcy”).
 NEW_COURSE = {'course-08': '2026-10-26 at 12.34.28'}
+# Karina 29.10.2026 (grupa „Strona”): zdjęcia z kursantkami do podstron kursów, nowe zdjęcia technik
+# na /uslugi („Proszę o zastąpienie obecnego zdjęcia”) i kolaż „Subtelnie, naturalnie…” na /o-nas.
+NEW_ACADEMY = {
+    **{f'kursantki-basic-{n:02d}': s for n, s in enumerate([
+        '2026-10-29 at 16.47.35', '2026-10-29 at 16.47.35 (24289)', '2026-10-29 at 16.47.35 (24290)',
+        '2026-10-29 at 16.47.35 (24291)', '2026-10-29 at 16.47.35 (24292)', '2026-10-29 at 16.47.36'], 1)},
+    **{f'kursantki-snb-{n:02d}': s for n, s in enumerate([
+        '2026-10-29 at 16.52.33', '2026-10-29 at 16.52.34', '2026-10-29 at 16.52.35', '2026-10-29 at 16.52.35 (24299)',
+        '2026-10-29 at 16.52.35 (24300)', '2026-10-29 at 16.52.36', '2026-10-29 at 16.52.36 (24302)',
+        '2026-10-29 at 16.52.36 (24303)', '2026-10-29 at 16.52.36 (24304)', '2026-10-29 at 16.52.36 (24305)',
+        '2026-10-29 at 16.52.37'], 1)},
+}
+NEW_PHOTOS = {
+    'tech-snb': '2026-10-29 at 22.57.16',            # Super Natural Brows
+    'tech-powder': '2026-10-29 at 22.57.16 (24414)', # Perfect Brows – „Healed Powder Brows”
+    'tech-lips': '2026-10-29 at 22.57.17',           # Perfect Lips
+    'tech-eyes': '2026-10-29 at 22.57.17 (24416)',   # Perfect Eyes
+    'kolaz-01': '2026-10-29 at 23.23.12',            # usta
+    'kolaz-02': '2026-10-29 at 23.23.12 (24421)',    # brwi (rękawiczki)
+    'kolaz-03': '2026-10-29 at 23.23.12 (24422)',    # brew z okiem
+}
 # work-<technika>-NN: (plik, przycięcie (l, t, r, b) w ułamkach – bez doklejonej butelki)
 NEW_WORKS = {
     'work-snb-01': ('23.07.06', (0.0, 0.05, 0.78, 0.88)),   # włos maszynowy, znak Super Natural Brows / BABUSHKINA
@@ -177,6 +201,8 @@ ROTATED_WORKS = {
 # Tylko wskazane: zdjęcia na czarnym tle (LTB Numb, Set Harley Quinn) straciłyby kadr.
 PRODUCT_TRIM = {'product-as-opium-light-minerals-pigments-dark-brown'}
 NEW_SKIP = {
+    '2026-10-29 at 16.33.17', '2026-10-29 at 20.37.00', '2026-10-29 at 21.00.16', '2026-10-29 at 22.58.38',  # schematy / zrzut
+    '2026-10-29 at 20.49.20',  # Pigmenty Supernatural – to samo zdjęcie co 27.10
     '23.05.38 (3)', '23.05.38 (4)',  # lampa TheOne – inne ujęcia (na stronie 23.05.38 (5))
     '23.05.38 (7)', '23.05.38 (8)', '23.05.39', '23.05.39 (1)',
     '23.05.39 (2)', '23.05.39 (3)',  # kartridże SATELLITE – kolejne ujęcia opakowania
@@ -425,6 +451,16 @@ def main():
             if name in PRODUCT_FIT_WHITE:
                 im = fit_white(im)
             save_all(im, name, 'product', manifest)
+            used.add(i)
+    if not only or 'academy' in only:
+        for name, suffix in NEW_ACADEMY.items():
+            i = by_suffix[suffix]
+            save_all(load(i), name, 'academy', manifest)
+            used.add(i)
+    if not only or 'work' in only:
+        for name, suffix in NEW_PHOTOS.items():
+            i = by_suffix[suffix]
+            save_all(load(i), name, 'work', manifest)
             used.add(i)
     if not only or 'course' in only:
         for name, suffix in NEW_COURSE.items():

@@ -94,7 +94,7 @@ function Hero() {
 /* ================================================================== */
 
 /* Zdjęcie na kaflu kategorii – packshot z /Graphics (klientka 26.10.2026: „bardzo dużo tekstów,
-   bardzo mało obrazków, po których nie mogę od razu poznać produkty”). Lasery – bez produktu. */
+   bardzo mało obrazków, po których nie mogę od razu poznać produkty”). */
 const TILE_PHOTO = {
   '/pigmenty': 'as-opium-pigments-brazil',
   '/maszynki': 'as-princess-gold',
@@ -103,6 +103,7 @@ const TILE_PHOTO = {
   'akcesoria-do-cwiczen': 'sztuczna-skorka-do-cwiczen',
   'srodki-zabiegowe': 'ice-gel',
   lampy: 'lampa-pierscieniowa',
+  lasery: 'laser-q-switch-ultra',
 };
 
 function Categories({ links }) {

@@ -16,7 +16,7 @@ import { Plus } from 'lucide-react';
 import { ArrowLink } from '@/components/as/Primitives';
 import PresaleBadge from '@/components/magicui/PresaleBadge';
 import { cn } from '@/lib/utils';
-import { formatCapacity } from '@/lib/pigments';
+import { formatCapacity, priceFromLabel } from '@/lib/pigments';
 import { productPhoto } from '@/lib/productPhotos';
 import { useContent, useLocale } from '@/i18n/client';
 import { shopDict } from '@/content/views/shop';
@@ -29,7 +29,9 @@ function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
   const t = useContent(shopDict);
   const locale = useLocale();
   const variant = product.variants[0];
-  const canAdd = Boolean(!product.onRequest && product.inStock && variant?.inStock);
+  /* kilka wariantów (SATELLITE) – wybór w oknie „Szczegóły”, w wierszu cena „od …” */
+  const choose = product.variants.length > 1;
+  const canAdd = Boolean(!choose && !product.onRequest && product.inStock && variant?.inStock);
   const hasPhoto = Boolean(productPhoto(product.id));
   const titleId = `shop-${product.id}`;
 
@@ -70,11 +72,25 @@ function ShopRowBase({ product, qty, onAdd, onDetails, thumbs = false }) {
               {t.cell.priceOnRequest}
             </p>
           ) : (
-            <PriceLine variants={product.variants} className="shrink-0" />
+            choose ? (
+              <p className="whitespace-nowrap font-display text-[1.375rem] leading-none text-ink">{priceFromLabel(product.variants)}</p>
+            ) : (
+              <PriceLine variants={product.variants} className="shrink-0" />
+            )
           )}
           {/* stała szerokość komórki akcji: kwoty w jednym pionie przy „Dodaj” i „Zapytaj” */}
           <div className="flex w-[6.125rem] shrink-0 md:justify-end">
-            {canAdd ? (
+            {choose ? (
+              <button
+                type="button"
+                onClick={() => onDetails(product.id)}
+                aria-haspopup="dialog"
+                aria-label={`Wybierz wariant: ${product.name}`}
+                className={ADD_BTN}
+              >
+                Wybierz
+              </button>
+            ) : canAdd ? (
               <button
                 type="button"
                 onClick={() => onAdd(product.id, variant.label ?? null)}

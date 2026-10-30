@@ -30,7 +30,7 @@ import {
   SectionLabel,
   Stat,
 } from '@/components/as/Primitives';
-import { ACHIEVEMENTS, BOOKING_URL, BRAND, FOUNDER, SALON } from '@/lib/site';
+import { ACHIEVEMENTS, BOOKING_URL, BRAND, CONTACT, FOUNDER, SALON } from '@/lib/site';
 import { MACROS, ROLES } from '@/lib/roles';
 import { cn } from '@/lib/utils';
 
@@ -116,37 +116,14 @@ const SPECIALTIES = [
    makra. Podpisy: brak – techniki nazywa lista 01–03 tuż pod kolażem; alt – tylko to, co
    wiemy o kadrze. */
 const COLLAGE = [
-  {
-    key: 'snb',
-    image: MACROS.snbCollage.image,
-    alt: 'Brwi po makijażu permanentnym techniką włosa maszynowego Super Natural Brows – zbliżenie twarzy',
-    ratio: '4 / 5',
-    position: MACROS.snbCollage.position,
-    sizes: '(min-width: 1440px) 320px, (min-width: 1024px) 24vw, 46vw',
-  },
-  {
-    key: 'powder',
-    image: MACROS.powderCollage.image,
-    alt: 'Brew po makijażu permanentnym techniką pudrową – zbliżenie łuku brwi nad okiem',
-    ratio: '4 / 5',
-    position: MACROS.powderCollage.position,
-    sizes: '(min-width: 1440px) 320px, (min-width: 1024px) 24vw, 46vw',
-  },
-  {
-    key: 'lips',
-    image: MACROS.lipsCollage.image,
-    alt: 'Usta po makijażu permanentnym, wygojone – zbliżenie',
-    ratio: '2 / 1',
-    position: MACROS.lipsCollage.position,
-    imgClassName: 'origin-right scale-[1.02]',
-    className: 'col-span-2',
-    sizes: '(min-width: 1440px) 650px, (min-width: 1024px) 48vw, 92vw',
-  },
-];
+  { key: 'lips', image: MACROS.kolaz01.image, position: MACROS.kolaz01.position, alt: 'Usta po makijażu permanentnym – zbliżenie' },
+  { key: 'brows', image: MACROS.kolaz02.image, position: MACROS.kolaz02.position, alt: 'Brwi po makijażu permanentnym – zbliżenie twarzy' },
+  { key: 'brow', image: MACROS.kolaz03.image, position: MACROS.kolaz03.position, alt: 'Brew po makijażu permanentnym nad okiem – zbliżenie' },
+].map((c) => ({ ...c, ratio: '3 / 4', sizes: '(min-width: 1440px) 215px, (min-width: 1024px) 16vw, 31vw' }));
 
 function SalonCollage() {
   return (
-    <div className="grid grid-cols-2 gap-3 [&_.as-media]:rounded-md">
+    <div className="grid grid-cols-3 gap-3 [&_.as-media]:rounded-md">
       {COLLAGE.map((c) => (
         <Figure
           key={c.key}
@@ -463,6 +440,21 @@ function ClosingBand() {
       lead="Salon i akademia w Warszawie. Umów wizytę albo zapytaj o najbliższy termin szkolenia."
       primary={{ href: BOOKING_URL, label: 'Umów wizytę' }}
       secondary={{ href: '/szkolenia', label: 'Zapytaj o termin' }}
+      /* telefon i e-mail akademii (Filip 30.10.2026: „O nas: dodać nr tel i mail Kariny”) */
+      aside={
+        <ul className="grid gap-3 text-ink">
+          <li>
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="as-title underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+              {CONTACT.phone}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${CONTACT.email}`} className="as-title break-all underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+              {CONTACT.email}
+            </a>
+          </li>
+        </ul>
+      }
     />
   );
 }

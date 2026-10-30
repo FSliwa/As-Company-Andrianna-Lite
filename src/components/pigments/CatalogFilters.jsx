@@ -22,7 +22,7 @@ import { Search } from 'lucide-react';
 import { FIELD_CLASS } from '@/components/as/Primitives';
 import { cn } from '@/lib/utils';
 
-function Chip({ pressed, onClick, children, controls, palette }) {
+function Chip({ pressed, onClick, children, controls, palette, accent = false }) {
   return (
     <button
       type="button"
@@ -33,7 +33,9 @@ function Chip({ pressed, onClick, children, controls, palette }) {
         'as-label relative inline-flex h-11 shrink-0 items-center overflow-hidden whitespace-nowrap border px-4 transition-colors focus-visible:outline-ink',
         pressed
           ? 'border-ink bg-ink text-cream-50'
-          : 'border-ink/20 text-ink/80 hover:border-ink hover:text-ink'
+          : accent
+            ? 'border-gold-deep text-gold-deep hover:border-ink hover:text-ink'
+            : 'border-ink/20 text-ink/80 hover:border-ink hover:text-ink'
       )}
     >
       {children}
@@ -133,6 +135,16 @@ function useKeepActiveInView(ref, dep) {
   }, [ref, dep]);
 }
 
+/* Nazwy marek w drzewku wyboru (Karina 29.10.2026, schemat „Wybór pigmentów”) – nazwy handlowe. */
+export const BRAND_NAMES = { babushkina: 'BABUSHKINA ACADEMY', 'as-pigments': 'AS PIGMENTS' };
+
+/**
+ * Drzewko wyboru wg schematu Kariny z 29.10.2026: Strefa (Usta / Brwi) → Marka → Kolekcja.
+ * Usta: AS PIGMENTS → Wszystkie, AS OPIUM, AS Classic, Harley Quinn, Paradise.
+ * Brwi: BABUSHKINA ACADEMY („zawsze pierwsza i najbardziej widoczna”) → Pigmenty Supernatural;
+ * AS PIGMENTS → AS OPIUM, AS Classic, AS OPIUM Light Minerals.
+ * Bez strefy (wejście z sekcji „Kolekcje” albo z adresu ?kolekcja=) – rząd wszystkich kolekcji.
+ */
 export default function CatalogFilters({
   collections,
   palettes = {},
@@ -141,44 +153,61 @@ export default function CatalogFilters({
   zones,
   zone,
   onZone,
+  brands = [],
+  brand,
+  onBrand,
   query,
   onQuery,
   controls,
 }) {
   const fadeC = useEdgeFade();
   const fadeZ = useEdgeFade();
+  const fadeB = useEdgeFade();
   useKeepActiveInView(fadeC.ref, collection);
   useKeepActiveInView(fadeZ.ref, `${zone}|${zones.length}`);
+  useKeepActiveInView(fadeB.ref, brand);
+  const showCollections = zone ? Boolean(brand) && collections.length > 1 : Boolean(collection);
+  const allChip = !zone || zone === 'usta';
 
   return (
     <div className="space-y-5">
-      <Row label="Kolekcja" scroll fadeRef={fadeC.ref} fadeStyle={fadeC.style}>
-        <Chip pressed={!collection} onClick={() => onCollection(null)} controls={controls}>
-          Wszystkie<span className="sm:hidden">{'\u00a0'}kolekcje</span>
+      <Row label="Strefa" scroll fadeRef={fadeZ.ref} fadeStyle={fadeZ.style}>
+        <Chip pressed={!zone} onClick={() => onZone(null)} controls={controls}>
+          Wszystkie<span className="sm:hidden">{'\u00a0'}strefy</span>
         </Chip>
-        {collections.map((c) => (
-          <Chip
-            key={c.id}
-            pressed={collection === c.id}
-            onClick={() => onCollection(c.id)}
-            controls={controls}
-            palette={palettes[c.id]}
-          >
-            {c.name}
+        {zones.map((z) => (
+          <Chip key={z.id} pressed={zone === z.id} onClick={() => onZone(z.id)} controls={controls}>
+            {z.name}
           </Chip>
         ))}
       </Row>
 
-      {/* strefy: tylko te, które występują w wybranej kolekcji (podział klientki: usta, brwi –
-          FILTER_ZONES); kolekcja z jedną strefą (SUPERNATURAL BROWS, AS OPIUM Light) – bez rzędu */}
-      {zones.length > 1 && (
-        <Row label="Strefa" scroll fadeRef={fadeZ.ref} fadeStyle={fadeZ.style}>
-          <Chip pressed={!zone} onClick={() => onZone(null)} controls={controls}>
-            Wszystkie<span className="sm:hidden">{'\u00a0'}strefy</span>
-          </Chip>
-          {zones.map((z) => (
-            <Chip key={z.id} pressed={zone === z.id} onClick={() => onZone(z.id)} controls={controls}>
-              {z.name}
+      {zone && brands.length > 0 && (
+        <Row label="Marka" scroll fadeRef={fadeB.ref} fadeStyle={fadeB.style}>
+          {brands.map((b) => (
+            <Chip key={b} pressed={brand === b} onClick={() => onBrand(b)} controls={controls} accent={b === 'babushkina'}>
+              {BRAND_NAMES[b]}
+            </Chip>
+          ))}
+        </Row>
+      )}
+
+      {showCollections && (
+        <Row label="Kolekcja" scroll fadeRef={fadeC.ref} fadeStyle={fadeC.style}>
+          {allChip && (
+            <Chip pressed={!collection} onClick={() => onCollection(null)} controls={controls}>
+              Wszystkie<span className="sm:hidden">{'\u00a0'}kolekcje</span>
+            </Chip>
+          )}
+          {collections.map((c) => (
+            <Chip
+              key={c.id}
+              pressed={collection === c.id}
+              onClick={() => onCollection(c.id)}
+              controls={controls}
+              palette={palettes[c.id]}
+            >
+              {c.name}
             </Chip>
           ))}
         </Row>

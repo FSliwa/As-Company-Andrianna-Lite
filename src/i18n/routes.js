@@ -54,6 +54,14 @@ export const ROUTES = {
 export const HREFLANG = { pl: 'pl-PL', en: 'en', ru: 'ru' };
 
 const CANONICAL_BY_SLUG = Object.fromEntries(Object.entries(SLUGS).map(([pl, slug]) => [slug, pl]));
+
+/* Podstrony tras (30.10.2026: /szkolenia/<kurs>): pierwszy człon tłumaczony jak trasa
+   ('/szkolenia/kurs-podstawowy' → '/en/training/kurs-podstawowy'), reszta adresu bez zmian. */
+const SUB_RE = /^(\/[^/]+)(\/.+)$/;
+const splitSub = (path, table) => {
+  const m = typeof path === 'string' ? path.match(SUB_RE) : null;
+  return m && Object.prototype.hasOwnProperty.call(table, m[1]) && table[m[1]] !== '' ? [m[1], m[2]] : null;
+};
 const PREFIXED = LOCALES.filter((l) => l !== DEFAULT_LOCALE);
 const PREFIX_RE = new RegExp(`^/(${PREFIXED.join('|')})(?=/|$)`);
 
@@ -61,6 +69,8 @@ const PREFIX_RE = new RegExp(`^/(${PREFIXED.join('|')})(?=/|$)`);
 export function localePath(canonical, locale) {
   const path = canonical || '/';
   if (!locale || locale === DEFAULT_LOCALE) return path;
+  const sub = splitSub(path, SLUGS);
+  if (sub) return `/${locale}${SLUGS[sub[0]]}${sub[1]}`;
   const slug = Object.prototype.hasOwnProperty.call(SLUGS, path) ? SLUGS[path] : path === '/' ? '' : path;
   return `/${locale}${slug}`;
 }
@@ -81,8 +91,9 @@ export function parsePath(pathname) {
   const match = path.match(PREFIX_RE);
   if (!match) return { locale: DEFAULT_LOCALE, canonical: path };
   const slug = path.slice(match[0].length).replace(/\/$/, '');
-  const canonical = Object.prototype.hasOwnProperty.call(CANONICAL_BY_SLUG, slug) ? CANONICAL_BY_SLUG[slug] : null;
-  return { locale: match[1], canonical };
+  if (Object.prototype.hasOwnProperty.call(CANONICAL_BY_SLUG, slug)) return { locale: match[1], canonical: CANONICAL_BY_SLUG[slug] };
+  const sub = splitSub(slug, CANONICAL_BY_SLUG);
+  return { locale: match[1], canonical: sub ? CANONICAL_BY_SLUG[sub[0]] + sub[1] : null };
 }
 
 /** Wszystkie wersje językowe jednej strony: { pl: '/uslugi', en: '/en/treatments', ru: '/ru/treatments' }. */
@@ -98,7 +109,8 @@ export function routePath(key, locale = DEFAULT_LOCALE) {
 
 /** Czy polska ścieżka to znana trasa (ma odpowiedniki EN/RU). */
 export const isKnownPath = (canonical) =>
-  typeof canonical === 'string' && Object.prototype.hasOwnProperty.call(SLUGS, canonical);
+  typeof canonical === 'string' &&
+  (Object.prototype.hasOwnProperty.call(SLUGS, canonical) || Boolean(splitSub(canonical, SLUGS)));
 
 /**
  * hreflang dla metadanych i sitemap: { 'pl-PL': '/uslugi', en: '/en/treatments',

@@ -115,6 +115,9 @@ export const CLIENT_REMOVED = new Set([
    (H6, H7, Eyebrow Set Hair Strokes) pokazujemy w AS OPIUM. */
 export const CLIENT_MOVED = { hairstrokes: 'as-opium' };
 
+/* Zestawy w sprzedaży (Karina 29.10.2026: „Mamy tylko trzy zestawy”). */
+export const CLIENT_SET_COLLECTIONS = new Set(['supernatural-brows', 'harley-quinn', 'paradise']);
+
 const CLIENT_EXTRA = rawClient.products;
 
 function clientCatalog(full) {
@@ -124,6 +127,8 @@ function clientCatalog(full) {
   /* sortowanie stabilne – w obrębie kolekcji kolejność z danych (odcienie → zestawy), nowe na końcu */
   const products = [...full.products.filter((p) => !CLIENT_REMOVED.has(p.id)), ...CLIENT_EXTRA]
     .map((p) => (CLIENT_MOVED[p.collection] ? { ...p, collection: CLIENT_MOVED[p.collection] } : p))
+    /* Karina 29.10.2026: „Mamy tylko trzy zestawy” – SUPERNATURAL BROWS, Harley Quinn, Paradise */
+    .filter((p) => !p.isSet || CLIENT_SET_COLLECTIONS.has(p.collection))
     .filter((p) => order.has(p.collection))
     .sort((a, b) => order.get(a.collection) - order.get(b.collection) || Number(a.isSet) - Number(b.isSet));
   /* liczby kolekcji z pozycji, które zostały (w danych – stan sprzed listy Kariny) */

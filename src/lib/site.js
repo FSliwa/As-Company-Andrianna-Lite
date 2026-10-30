@@ -92,8 +92,10 @@ export const CONTACT = {
   venueNote: 'Wolnostojący budynek z prywatnym parkingiem dla klientów',
   street: null, // TODO: dokładny adres (ulica i numer)
   postal: null, // TODO: kod pocztowy
-  phone: null, // TODO: numer telefonu w formacie +48 XXX XXX XXX
-  email: null, // TODO: adres e-mail
+  /* Karina Lesiv 29.10.2026 (grupa „Strona”): „Do zakładki KONTAKTY należy dodać: Email:
+     babushkina.academy@gmail.com, Numer telefonu: +48 889 083 520” */
+  phone: '+48 889 083 520',
+  email: 'babushkina.academy@gmail.com',
   instagram: 'https://www.instagram.com/andriana_babushkina/',
   instagramHandle: '@andriana_babushkina',
   /* Godziny 10–19 nie mają źródła (obecny serwis klienta podaje 10–18).
@@ -194,13 +196,13 @@ export const NAV_ALL = [
     title: 'Edukacja',
     links: [
       { label: 'Szkolenia', href: '/szkolenia' },
-      /* D4: nazwy kursów wg briefu; kotwice program-<id> z COURSES (id bez zmian). */
-      { label: 'Kurs dla linergistek', href: '/szkolenia#program-super-natural-brows' },
-      { label: 'Kurs od podstaw', href: '/szkolenia#program-kurs-podstawowy' },
+      /* D4: nazwy kursów wg briefu; 30.10.2026: każdy kurs ma podstronę /szkolenia/<id> z COURSES. */
+      { label: 'Kurs dla linergistek', href: '/szkolenia/super-natural-brows' },
+      { label: 'Kurs od podstaw', href: '/szkolenia/kurs-podstawowy' },
       /* D4: nowe kursy z briefu – na końcu listy (tłumaczenia EN/RU nakładają się po indeksie). */
-      { label: 'Master Class SNB Expert', href: '/szkolenia#program-snb-expert' },
-      { label: 'Kurs online Perfect Lips', href: '/szkolenia#program-perfect-lips-online' },
-      { label: 'Kurs szyty na miarę', href: '/szkolenia#program-szyty-na-miare' },
+      { label: 'Master Class SNB Expert', href: '/szkolenia/snb-expert' },
+      { label: 'Kurs online Perfect Lips', href: '/szkolenia/perfect-lips-online' },
+      { label: 'Kurs szyty na miarę', href: '/szkolenia/szyty-na-miare' },
     ],
   },
   {
@@ -291,7 +293,7 @@ export const PRICING_REMOVAL = {
 /**
  * SZKOLENIA – kursy wg briefu (D4), program i ceny netto z grafik kursowych Babushkina Academy.
  * Kolejność: istniejące pozycje bez zmian, nowe z briefu na końcu (tłumaczenia nakładają się
- * po indeksie). `id` stałe – kotwice #program-<id> i linki w menu.
+ * po indeksie). `id` stałe – adres podstrony /szkolenia/<id> i linki w menu.
  *
  * Pola (wszystkie kursy):
  *  title       – krótka nazwa (wiersze cennika, formularz),

@@ -1,4 +1,4 @@
-import { BOOKING_ENABLED, SITE_URL } from '@/lib/site';
+import { BOOKING_ENABLED, COURSES, SITE_URL } from '@/lib/site';
 import { LEGAL_PUBLIC } from '@/lib/legal';
 import { PUBLIC_LOCALES } from '@/i18n/config';
 import { ROUTES, languageAlternates, localePath } from '@/i18n/routes';
@@ -27,8 +27,9 @@ const absolute = (path) => `${SITE_URL}${path === '/' ? '' : path}`;
 
 export default function sitemap() {
   const keys = LEGAL_PUBLIC ? [...KEYS, 'privacy', 'cookies', 'terms'] : KEYS;
-  return keys.flatMap((key) => {
-    const canonical = ROUTES[key];
+  // 30.10.2026: podstrony kursów /szkolenia/<id>
+  const pages = [...keys.map((key) => [key, ROUTES[key]]), ...COURSES.map((c) => ['course', `/szkolenia/${c.id}`])];
+  return pages.flatMap(([key, canonical]) => {
     const alt = languageAlternates(canonical);
     const languages = alt ? Object.fromEntries(Object.entries(alt).map(([lang, path]) => [lang, absolute(path)])) : null;
     // tylko języki publiczne (PUBLIC_LOCALES) – /en i /ru dołączą po przetłumaczeniu treści

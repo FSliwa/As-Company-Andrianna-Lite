@@ -75,7 +75,7 @@ import {
   TRAINING_INTRO,
 } from '@/lib/site';
 import { GROUPS, ROLES } from '@/lib/roles';
-import { COURSE } from '@/lib/media';
+import { BY_NAME, COURSE } from '@/lib/media';
 import { COURSE_ENQUIRY_OPTIONS, enquiryMessage, sendEnquiry } from '@/lib/enquiry';
 import { LEGAL_PUBLIC } from '@/lib/legal';
 import { cn, nbspBrand, nbspShort } from '@/lib/utils';
@@ -104,11 +104,11 @@ const COURSE_LIST = [...FIRST.map(byId), ...COURSES.filter((c) => !FIRST.include
   .filter(Boolean)
   .map((course, i) => ({ number: pad(i + 1), course }));
 
-/* Krótka nazwa kursu – ta sama co w menu (NAV_ALL › Edukacja, link #program-<id>);
+/* Krótka nazwa kursu – ta sama co w menu (NAV_ALL › Edukacja, link /szkolenia/<id>);
    pole wyboru w formularzu nie ucina jej na telefonie. */
 const NAV_LINKS = NAV_ALL.flatMap((group) => group.links);
 const shortName = (c) =>
-  NAV_LINKS.find((l) => l.href.endsWith(`#program-${c.id}`))?.label || c.fullTitle || c.title;
+  NAV_LINKS.find((l) => l.href === `/szkolenia/${c.id}`)?.label || c.fullTitle || c.title;
 
 /* D4: kurs online Perfect Lips – link do sklepu dopiero, gdy klientka poda adres produktu
    (SHOP.perfectLipsCourse); do tego czasu przycisk otwiera zapytanie „Zapytaj o dostęp”. */
@@ -247,11 +247,10 @@ function Hero({ onBook }) {
 /* ================================================================== */
 
 /* Karta kursu – wszystko z COURSES (brief i plakaty): rodzaj, nazwa, cena, opis, format,
-   poziom, grupa, warunki. Kursy bez programu (D4: źródła go nie podają) mają kotwicę
-   #program-<id> na karcie – prowadzą do niej menu i JSON-LD. */
+   poziom, grupa, warunki. Filip 30.10.2026: „każda z ofert ma mieć osobną podstronę a nie
+   przekierowywać na dół” – „Szczegóły kursu” prowadzą do /szkolenia/<id> (CoursePage). */
 function CourseCard({ number, course, delay, onBook }) {
   const url = COURSE_URL[course.id];
-  const hasProgram = course.program.length > 0;
   /* Format tylko dla kursów online + stacjonarnie: przy kursie online i „szytym na miarę”
      opis formatu powtarza lead. */
   const specs = [
@@ -265,7 +264,7 @@ function CourseCard({ number, course, delay, onBook }) {
   const audience = !course.requirements && course.id !== 'kurs-podstawowy' ? course.audience : null;
 
   return (
-    <div id={hasProgram ? undefined : `program-${course.id}`}>
+    <div>
       <Reveal delay={delay} className="as-cell flex h-full flex-col">
         {/* numer .as-num obok tytułu (wzorzec 01/02/03), rodzaj kursu jako kicker pod nim */}
         <div className="flex items-baseline gap-3">
@@ -309,11 +308,9 @@ function CourseCard({ number, course, delay, onBook }) {
               <span className="sr-only"> – {shortName(course)}</span>
             </ArrowLink>
           )}
-          {hasProgram && (
-            <ArrowLink href={`#program-${course.id}`} className="w-fit">
-              Program<span className="sr-only"> – {shortName(course)}</span>
-            </ArrowLink>
-          )}
+          <ArrowLink href={`/szkolenia/${course.id}`} className="w-fit">
+            Szczegóły kursu<span className="sr-only"> – {shortName(course)}</span>
+          </ArrowLink>
         </div>
       </Reveal>
     </div>
@@ -520,7 +517,7 @@ function OfferPoster({ poster, course, name }) {
    inline-block – przechodzi do nowej linii w całości, a zawija się w środku tylko
    wtedy, gdy sam jest szerszy niż łam.
    Pod programem „Pełna oferta kursu” – wszystkie grafiki kursu (D8). */
-function ProgramArticle({ number, course, onBook }) {
+function ProgramArticle({ number, course, onBook, withPosters = true }) {
   const [open, setOpen] = useState(false);
   const listId = `program-lista-${course.id}`;
   const total = course.program.length;
@@ -570,43 +567,14 @@ function ProgramArticle({ number, course, onBook }) {
             className="mt-6"
           />
         )}
-        <OfferDownloads course={course} afterMore={total > PROGRAM_PREVIEW} />
+        {withPosters && <OfferDownloads course={course} afterMore={total > PROGRAM_PREVIEW} />}
       </Reveal>
     </article>
   );
 }
 
-function ProgramBand({ onBook }) {
-  /* Tylko kursy z programem w źródłach (plakaty): od podstaw i dla linergistek. */
-  const withProgram = COURSE_LIST.filter(({ course }) => course.program.length > 0);
-  return (
-    <section id="program" className="as-section as-section-tight-top border-t border-ink/10 bg-cream-50">
-      <div className="as-shell">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
-          <Reveal className="lg:col-span-7">
-            <SectionLabel number="03">Program</SectionLabel>
-            <h2 className="as-display-section as-text-balance mt-6 text-ink">Program krok po kroku.</h2>
-          </Reveal>
-          <Reveal delay={60} className="lg:col-span-5 lg:col-start-8">
-            {/* Brief: opis linii Super Natural Brows. SZK-14: bez „Terminy części stacjonarnej
-                ustalamy indywidualnie” – źródła tego nie mówią. */}
-            <p className="as-body">{TRAINING_INTRO.snbLine}</p>
-            <p className="as-body mt-4">
-              Teorię przerabiasz online, we własnym tempie. Dni stacjonarne to skórki i żywe modelki.
-            </p>
-          </Reveal>
-        </div>
-
-        {withProgram.map(({ number, course }) => (
-          <ProgramArticle key={course.id} number={number} course={course} onBook={onBook} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
 /* ================================================================== */
-/*  04 – ABSOLWENTKI (cream-90)                                        */
+/*  03 – ABSOLWENTKI (cream-90)                                        */
 /* ================================================================== */
 
 /* Stykówka: trzy kadry 4:5 w jednej złotej ramce (bez mieszania proporcji).
@@ -638,7 +606,7 @@ function GraduatesBand() {
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
           <div className="lg:col-span-5">
             <Reveal>
-              <SectionLabel number="04">
+              <SectionLabel number="03">
                 Absolwentki
               </SectionLabel>
               {/* SZK-13: certyfikat ma źródło tylko dla kursów Super Natural Brows z grafik
@@ -727,7 +695,7 @@ function IncludedBand() {
         <div className="grid gap-10 md:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <Reveal>
-              <SectionLabel number="05">Korzyści</SectionLabel>
+              <SectionLabel number="04">Korzyści</SectionLabel>
               <h2 className="as-display-section as-text-balance mt-6 text-ink">Co dostajesz na kursie.</h2>
               {/* Lista z kart „zakres i cena” dwóch kursów – nie dotyczy wszystkich pięciu (D4). */}
               <p className="as-kicker mt-4">Kurs od podstaw · Kurs dla linergistek</p>
@@ -799,7 +767,7 @@ function QuestionsBand() {
       <div className="as-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:sticky lg:top-32 lg:col-span-4 lg:self-start">
-            <SectionLabel number="06">Pytania</SectionLabel>
+            <SectionLabel number="05">Pytania</SectionLabel>
             <h2 className="as-display-section as-text-balance mt-6 text-ink">Zanim się zapiszesz.</h2>
             <p className="as-body mt-6">
               Najczęściej zadawane pytania – o pracę z klientkami, produkty, dofinansowanie i opiekę
@@ -819,10 +787,10 @@ function QuestionsBand() {
 /*  07 – KONTAKT (pas zamykający)                                      */
 /* ================================================================== */
 
-function ClosingBand({ onBook }) {
+function ClosingBand({ onBook, number = '06' }) {
   return (
     <ClosingCta
-      number="07"
+      number={number}
       label="Zapisy"
       title="Zapytaj o miejsce"
       titleAccent="w grupie."
@@ -1095,7 +1063,7 @@ export default function Education() {
     <>
       <Hero onBook={openBooking} />
       <CoursesBand onBook={openBooking} />
-      <ProgramBand onBook={openBooking} />
+      {/* 30.10.2026: program i plakaty każdego kursu – na jego podstronie (CoursePage) */}
       <GraduatesBand />
       <IncludedBand />
       <QuestionsBand />
@@ -1106,6 +1074,199 @@ export default function Education() {
           key={booking.course?.id || 'ogolne'}
           course={booking.course}
           onClose={closeBooking}
+          returnFocusRef={triggerRef}
+        />
+      )}
+    </>
+  );
+}
+
+/* ================================================================== */
+/*  PODSTRONA KURSU (/szkolenia/<id>)                                  */
+/*  Filip 30.10.2026: „każda z ofert ma mieć osobną podstronę a nie     */
+/*  przekierowywać na dół”, „Do każdego szkolenia ma być osobna         */
+/*  podstrona”, „Plakaty przenieś na dół strony”.                       */
+/*  Rytm: hero (espresso) → o kursie (cream-100) → program (cream-50)   */
+/*  → absolwentki (cream-100) → plakaty (cream-50) → ClosingCta.        */
+/*  Sekcje bez treści w źródłach (program, zdjęcia, plakaty) nie stoją. */
+/* ================================================================== */
+
+/* Zdjęcia absolwentek od Kariny (WhatsApp 29.10.2026): kurs od podstaw – grupy z plakatami
+   kursu, kurs dla linergistek – grupy z certyfikatami „Supernatural Brows”. */
+const STUDENTS = {
+  'kurs-podstawowy': Array.from({ length: 6 }, (_, i) => BY_NAME[`kursantki-basic-${pad(i + 1)}`]),
+  'super-natural-brows': Array.from({ length: 11 }, (_, i) => BY_NAME[`kursantki-snb-${pad(i + 1)}`]),
+};
+
+function CourseAboutBand({ number, course, onBook }) {
+  const url = COURSE_URL[course.id];
+  const specs = [
+    course.format && ['Format', course.format],
+    course.level && ['Poziom', levelText(course.level)],
+    course.group && ['Grupa', course.group],
+    course.requirements && ['Wymagania', course.requirements],
+  ].filter(Boolean);
+  return (
+    <section className="as-section border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
+            <SectionLabel number={number}>O kursie</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">{nbspBrand(course.fullTitle || course.title)}</h2>
+            <p className="mt-6 font-display text-[1.75rem] leading-none text-ink">
+              {course.price ? nb(course.price) : NO_PRICE}
+              {course.price && course.priceNote && (
+                <span className="as-label ml-2 align-middle text-mocha">{course.priceNote}</span>
+              )}
+            </p>
+          </Reveal>
+          <Reveal delay={60} className="lg:col-span-6 lg:col-start-7">
+            {course.audience && <p className="as-body">{nbspShort(course.audience)}</p>}
+            <dl className="mt-6 border-t border-ink/10">
+              {specs.map(([term, value]) => (
+                <div key={term} className="flex gap-4 border-b border-ink/10 py-3">
+                  <dt className="as-label w-[6.5rem] shrink-0 pt-[0.2rem] text-ink/70">{term}</dt>
+                  <dd className="min-w-0 text-[0.9375rem] leading-[1.6] text-ink/85 max-sm:text-[1rem]">{value}</dd>
+                </div>
+              ))}
+            </dl>
+            {course.requiresContact && <p className="as-badge mt-4">Rezerwacja po wstępnym kontakcie</p>}
+            <div className="mt-8">
+              {url ? (
+                <CtaButton href={url} target="_blank" rel="noopener noreferrer" className="as-btn-solid">
+                  Przejdź do sklepu
+                </CtaButton>
+              ) : (
+                <CtaButton onClick={(e) => onBook(course, e)} className="as-btn-solid">
+                  {course.cta}
+                  <span className="sr-only"> – {shortName(course)}</span>
+                </CtaButton>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CourseProgramBand({ number, course, onBook }) {
+  const courseNumber = COURSE_LIST.find((x) => x.course.id === course.id)?.number;
+  return (
+    <section id="program" className="as-section border-t border-ink/10 bg-cream-50">
+      <div className="as-shell">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <Reveal className="lg:col-span-7">
+            <SectionLabel number={number}>Program</SectionLabel>
+            <h2 className="as-display-section as-text-balance mt-6 text-ink">Program krok po kroku.</h2>
+          </Reveal>
+          <Reveal delay={60} className="lg:col-span-5 lg:col-start-8">
+            <p className="as-body">{TRAINING_INTRO.snbLine}</p>
+            <p className="as-body mt-4">
+              Teorię przerabiasz online, we własnym tempie. Dni stacjonarne to skórki i żywe modelki.
+            </p>
+          </Reveal>
+        </div>
+        <ProgramArticle number={courseNumber} course={course} onBook={onBook} withPosters={false} />
+      </div>
+    </section>
+  );
+}
+
+function CourseStudentsBand({ number, course, photos }) {
+  return (
+    <section className="as-section border-t border-ink/10 bg-cream-100">
+      <div className="as-shell">
+        <Reveal>
+          <SectionLabel number={number}>Absolwentki</SectionLabel>
+          <h2 className="as-display-section as-text-balance mt-6 text-ink">Absolwentki tego kursu.</h2>
+        </Reveal>
+        <Reveal delay={60} className="mt-10">
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-6">
+            {photos.map((image, i) => (
+              <li key={image.src}>
+                <Figure
+                  image={image}
+                  alt={`Absolwentki kursu ${course.title} z certyfikatami w ${BRAND.academy} – zdjęcie ${i + 1}`}
+                  ratio="4 / 5"
+                  position="50% 45%"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                />
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function CoursePostersBand({ number, course }) {
+  return (
+    <section id="oferta" className="as-section border-t border-ink/10 bg-cream-50">
+      <div className="as-shell">
+        <Reveal>
+          <SectionLabel number={number}>Pełna oferta</SectionLabel>
+          <h2 className="as-display-section as-text-balance mt-6 text-ink">Plakaty kursu.</h2>
+        </Reveal>
+        <OfferDownloads course={course} />
+      </div>
+    </section>
+  );
+}
+
+export function CoursePage({ id }) {
+  const [booking, setBooking] = useState(null); // { course } | null
+  const triggerRef = useRef(null);
+  const course = byId(id);
+  if (!course) return null;
+
+  const openBooking = (c, event) => {
+    triggerRef.current =
+      event?.currentTarget ?? (typeof document !== 'undefined' ? document.activeElement : null);
+    setBooking({ course: c });
+  };
+  const url = COURSE_URL[course.id];
+  const photos = (STUDENTS[course.id] || []).filter(Boolean);
+  const hasPosters = (course.posters || []).some((p) => COURSE[p.index]);
+  /* numery sekcji po kolei – tylko sekcje, które mają treść */
+  let n = 1;
+  const next = () => pad(++n);
+  const about = next();
+  const program = course.program.length > 0 ? next() : null;
+  const students = photos.length > 0 ? next() : null;
+  const posters = hasPosters ? next() : null;
+  const closing = next();
+
+  return (
+    <>
+      <PageHero variant="band" number="01" label={course.type} title={course.title} lead={course.lead}>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+          {url ? (
+            <CtaButton href={url} target="_blank" rel="noopener noreferrer" className="as-btn-invert">
+              Przejdź do sklepu
+            </CtaButton>
+          ) : (
+            <CtaButton onClick={(e) => openBooking(course, e)} className="as-btn-invert">
+              {course.cta}
+            </CtaButton>
+          )}
+          <ArrowLink href="/szkolenia#kursy" tone="light" className="w-fit">
+            Wszystkie szkolenia
+          </ArrowLink>
+        </div>
+      </PageHero>
+      <CourseAboutBand number={about} course={course} onBook={openBooking} />
+      {program && <CourseProgramBand number={program} course={course} onBook={openBooking} />}
+      {students && <CourseStudentsBand number={students} course={course} photos={photos} />}
+      {posters && <CoursePostersBand number={posters} course={course} />}
+      <ClosingBand onBook={openBooking} number={closing} />
+
+      {booking && (
+        <BookingDialog
+          key={booking.course?.id || 'ogolne'}
+          course={booking.course}
+          onClose={() => setBooking(null)}
           returnFocusRef={triggerRef}
         />
       )}
