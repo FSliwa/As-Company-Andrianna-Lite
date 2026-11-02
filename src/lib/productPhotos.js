@@ -25,12 +25,16 @@ const PLAIN = new Set([
   'pigmenty-supernatural-4',
 ]);
 
-/** { image, blend, dark } dla produktu o danym `id` albo null, gdy zdjęcia nie ma. */
+/* Zdjęcia, nie packshoty (lampa na statywie, szare tło) – na karcie sklepu na całe pole (object-cover). */
+const COVER = new Set(['lampa-pierscieniowa']);
+
+/** { image, blend, dark, cover } dla produktu o danym `id` albo null, gdy zdjęcia nie ma. */
 export function productPhoto(id) {
   const image = PRODUCTS[`product-${id}`];
   if (!image) return null;
   const dark = DARK_BACKGROUND.has(id);
-  return { image, blend: !dark && !PLAIN.has(id), dark };
+  const cover = COVER.has(id);
+  return { image, blend: !dark && !PLAIN.has(id) && !cover, dark, cover };
 }
 
 /**

@@ -2,7 +2,7 @@
  * Sklep /sklep (src/views/Shop.jsx) – PL = źródło, en/ru – tłumaczenia w tej samej strukturze.
  *
  *  - shopDict – teksty strony (hero, kategorie, produkty, zamówienie, pas zamykający) i wiersza
- *    produktu (src/components/shop/ShopRow.jsx). Klocki katalogu z src/components/pigments mają
+ *    produktu (src/components/shop/ProductCard.jsx). Klocki katalogu z src/components/pigments mają
  *    w wersji Lite teksty wpisane w komponentach (po polsku).
  *
  * Nazwy kategorii – słowa klientki z 14.10.2026 („W sklepie: Pigmenty, Maszynki, Kartridże,
@@ -80,6 +80,9 @@ export const shopDict = {
       inOrder: (n) => `W zamówieniu: ${n}`,
     },
     cell: {
+      choose: 'Wybierz',
+      chooseFor: (name) => `Wybierz wariant: ${name}`,
+      configs: (n) => `${n}${NBSP}${n === 1 ? 'konfiguracja' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'konfiguracje' : 'konfiguracji'} igły`,
       add: 'Dodaj',
       addTo: (what) => `Dodaj do zamówienia: ${what}`,
       details: 'szczegóły',
@@ -156,6 +159,9 @@ export const shopDict = {
       inOrder: (n) => `In your order: ${n}`,
     },
     cell: {
+      choose: 'Choose',
+      chooseFor: (name) => `Choose an option: ${name}`,
+      configs: (n) => `${n}${NBSP}needle configuration${n === 1 ? '' : 's'}`,
       add: 'Add',
       addTo: (what) => `Add to order: ${what}`,
       details: 'details',
@@ -232,6 +238,9 @@ export const shopDict = {
       inOrder: (n) => `В заказе: ${n}${NBSP}шт.`,
     },
     cell: {
+      choose: 'Выбрать',
+      chooseFor: (name) => `Выбрать вариант: ${name}`,
+      configs: (n) => `${n}${NBSP}${n % 10 === 1 && n % 100 !== 11 ? 'конфигурация' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'конфигурации' : 'конфигураций'} иглы`,
       add: 'В заказ',
       addTo: (what) => `Добавить в заказ: ${what}`,
       details: 'подробнее',
