@@ -29,6 +29,7 @@ export const CUTOUTS = {
 
 /** Wycięcie dla zdjęcia z media.js albo to samo zdjęcie, gdy wycięcia nie ma. */
 export function cutoutFor(image) {
-  const name = image?.src?.split('/').pop().replace(/\.(jpg|webp)$/, '');
+  /* adres z wersją (?v=… – scripts/wersje-grafik.mjs) → sama nazwa pliku */
+  const name = image?.src?.split('?')[0].split('/').pop().replace(/\.(jpg|webp)$/, '');
   return (name && CUTOUTS[name]) || image;
 }
