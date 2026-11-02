@@ -152,6 +152,8 @@ export const MACROS = {
   /* /uslugi 03 – „Realne efekty” tylko Super Natural Brows (Filip 30.10.2026) */
   snbBrows10: { image: pick('brows-10-p1'), ratio: '1 / 1', position: '50% 40%', caption: 'Super Natural Brows' },
   snbBrows13: { image: pick('brows-13-p3'), ratio: '1 / 1', position: '64% 50%', caption: 'Super Natural Brows' },
+  /* Karina 30.10.2026: „Poproszę to zdjęcie zmienić na:” – 4. zdjęcie „Realne efekty” (brew i oko) */
+  snbEfekt01: { image: pick('efekt-snb-01'), ratio: '1 / 1', position: '50% 36%', caption: 'Super Natural Brows' },
   snbCollage: { image: pick('work-snb-01'), position: '50% 50%' },
   powderCollage: { image: pick('work-powder-01'), position: '0% 50%' },
   /* Karina 29.10.2026 (grupa „Strona”, zrzut sekcji „Subtelnie, naturalnie…”): „W tym miejscu proszę też

@@ -125,8 +125,9 @@ export function Swatch({ color, className }) {
  * rozmaz koloru dalej dochodzi do lewej krawędzi pola, więc nie wygląda na ucięty,
  * a butelka i pudełko nie dotykają krawędzi kafla (spokojniejszy rytm siatki).
  */
-export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', className, inset = false }) {
-  const photo = productPhoto(product.id);
+export function ProductPhoto({ product, photo: chosen, ratio = '1 / 1', sizes, alt = '', className, inset = false }) {
+  /* `photo` – zdjęcie z galerii (productPhotos); bez niego – główne zdjęcie produktu */
+  const photo = chosen ?? productPhoto(product.id);
   if (!photo) return null;
   return (
     <Figure
@@ -135,7 +136,7 @@ export function ProductPhoto({ product, ratio = '1 / 1', sizes, alt = '', classN
       ratio={ratio}
       sizes={sizes}
       zoom={false}
-      className={cn(photo.blend ? '[&_.as-media]:bg-cream-100' : '[&_.as-media]:bg-black', className)}
+      className={cn(photo.dark ? '[&_.as-media]:bg-black' : '[&_.as-media]:bg-cream-100', className)}
       imgClassName={cn('!object-contain', photo.blend && 'mix-blend-multiply', inset && photo.blend && 'py-[9%] pr-[9%] !object-left')}
     />
   );

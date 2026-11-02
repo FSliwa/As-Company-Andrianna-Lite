@@ -264,9 +264,13 @@ export function formatPrice(grosze) {
 /* Sztuki w opakowaniu (kartridże sklepu, „20 szt.”) na trasach /en i /ru: en „pcs”, ru „шт.”. */
 const PCS = { en: 'pcs', ru: 'шт.' };
 
+/* Kolor wariantu (pędzel do brwi: „czarny” / „biały” – Karina 30.10.2026) w EN/RU. */
+const COLORS = { en: { czarny: 'black', biały: 'white' }, ru: { czarny: 'чёрный', biały: 'белый' } };
+
 /** „6 ml” z twardą spacją (etykiety w danych mają zwykłą); „20 szt.” → en „20 pcs”, ru „20 шт.”. */
 export function formatCapacity(label, lang = 'pl') {
   if (!label) return '';
+  if (COLORS[lang]?.[label]) return COLORS[lang][label];
   const s = String(label).replace(/\s+/g, NBSP);
   return PCS[lang] ? s.replace(/szt\.$/, PCS[lang]) : s;
 }

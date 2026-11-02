@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/dialog';
 import { ArrowLink } from '@/components/as/Primitives';
 import { findVariant, formatCapacity, formatPrice, formatSyncedDate, productById } from '@/lib/pigments';
-import { productPhoto } from '@/lib/productPhotos';
+import { productPhotos } from '@/lib/productPhotos';
 import { SHOP_PRICE_DATE, isShopProduct } from '@/lib/shop';
 import Lens from '@/components/magicui/Lens';
 import PresaleBadge from '@/components/magicui/PresaleBadge';
@@ -65,6 +65,46 @@ const photoAlt = (product) =>
     : product.isSet
       ? `${product.name} – opakowanie i butelki zestawu`
       : `${product.name} – butelka i opakowanie`;
+
+/* Galeria (Karina 30.10.2026): kilka zdjęć produktu – duże zdjęcie z lupą i rząd miniatur
+   (przyciski, aria-pressed). Jedno zdjęcie – bez miniatur, jak dotąd. */
+function PhotoGallery({ product, photos, index, onSelect, note }) {
+  const photo = photos[index] ?? photos[0];
+  const total = photos.length;
+  const alt = total > 1 ? `${photoAlt(product)} – zdjęcie ${photo.n} z ${total}` : photoAlt(product);
+  return (
+    <div className="mt-6">
+      {/* Magic UI „lens”: lupa pod kursorem myszy – napisy na opakowaniu do przeczytania */}
+      <Lens zoom={2.2} size={170}>
+        <ProductPhoto product={product} photo={photo} ratio="4 / 3" sizes={PHOTO_SIZES} alt={alt} className={PHOTO_FIELD} />
+      </Lens>
+      {total > 1 && (
+        <ul className="mt-3 flex flex-wrap gap-2" aria-label="Zdjęcia produktu">
+          {photos.map((ph, i) => (
+            <li key={ph.key}>
+              <button
+                type="button"
+                onClick={() => onSelect(i)}
+                aria-pressed={i === index}
+                aria-label={`Zdjęcie ${ph.n} z ${total}`}
+                className={cn(
+                  'block w-14 border transition-colors sm:w-16',
+                  i === index ? 'border-ink' : 'border-ink/15 hover:border-ink/50'
+                )}
+              >
+                <ProductPhoto product={product} photo={ph} ratio="1 / 1" sizes="64px" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {note && <p className="as-caption mt-2 max-w-none">{note}</p>}
+    </div>
+  );
+}
+
+/* Zdjęcie wariantu (pędzel czarny / biały): `photo` w wariancie = numer zdjęcia w galerii. */
+const photoIndexFor = (photos, variant) => Math.max(0, photos.findIndex((ph) => ph.n === (variant?.photo ?? 1)));
 
 /* Wybór wariantu po osiach (konfiguracja igły, opakowanie) – segmenty jak VariantPicker,
    pod nimi opis wybranej konfiguracji (product.notes, słowa Kariny z 29.09.2026) i cena. */
@@ -122,7 +162,9 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
   /* produkt sklepu bez ceny od klientki – „cena na zapytanie”, bez dodawania do listy */
   const onRequest = Boolean(product.onRequest);
   const canAdd = Boolean(!onRequest && product.inStock && variant?.inStock);
-  const hasPhoto = Boolean(productPhoto(product.id));
+  const photos = productPhotos(product.id);
+  const hasPhoto = photos.length > 0;
+  const [photoIdx, setPhotoIdx] = useState(() => photoIndexFor(photos, findVariant(product, defaultLabel(product))));
   /* produkt sklepu (/sklep): bez stref i próbki koloru, data cen z danych sklepu */
   const shop = isShopProduct(product);
   /* cena od klientki (clientPrice, np. zestaw z listy Kariny) – data jej wiadomości, jak w sklepie */
@@ -145,7 +187,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
         {product.presale && <PresaleBadge className="w-fit">Sprzedaż przedpremierowa</PresaleBadge>}
         <DialogTitle>{displayName(product.name)}</DialogTitle>
         {shop ? (
-          /* sklep: warianty („1 szt. · 20 szt.”) albo pojemność; bez nich – opis tylko dla czytnika
+          /* sklep: warianty (opakowanie „20 szt.”) albo pojemność; bez nich – opis tylko dla czytnika
              (kategoria stoi już nad nazwą) */
           (() => {
             const variants = axes
@@ -165,19 +207,13 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
           tło znika w kremie) albo, bez zdjęcia, pasek próbki jak dotąd – pusty duży kadr
           tylko wydłużałby panel */}
       {hasPhoto ? (
-        <div className="mt-6">
-          {/* Magic UI „lens”: lupa pod kursorem myszy – napisy na opakowaniu do przeczytania */}
-          <Lens zoom={2.2} size={170}>
-            <ProductPhoto
-              product={product}
-              ratio="4 / 3"
-              sizes={PHOTO_SIZES}
-              alt={photoAlt(product)}
-              className={PHOTO_FIELD}
-            />
-          </Lens>
-          {!shop && <p className="as-caption mt-2 max-w-none">Kolor na zdjęciu i na ekranie może różnić się od pigmentu.</p>}
-        </div>
+        <PhotoGallery
+          product={product}
+          photos={photos}
+          index={photoIdx}
+          onSelect={setPhotoIdx}
+          note={shop ? null : 'Kolor na zdjęciu i na ekranie może różnić się od pigmentu.'}
+        />
       ) : (
         !product.isSet && !shop && (
           <div className="mt-6">
@@ -211,6 +247,7 @@ function Body({ product, onAdd, onClose, qty, onShowOrder }) {
             onChange={(l) => {
               setLabel(l);
               setAdded(false);
+              if (photos.length > 1) setPhotoIdx(photoIndexFor(photos, findVariant(product, l)));
             }}
             name={`dlg-cap-${product.id}`}
             showPrice

@@ -1245,22 +1245,22 @@
  },
  "product-glow-oil-pineapple": {
   "src": "/graphics/product-glow-oil-pineapple.jpg",
-  "w": 1292,
-  "h": 1292,
+  "w": 1326,
+  "h": 1326,
   "webp": {
    "480": "/graphics/product-glow-oil-pineapple-480.webp",
    "960": "/graphics/product-glow-oil-pineapple-960.webp",
-   "1292": "/graphics/product-glow-oil-pineapple.webp"
+   "1326": "/graphics/product-glow-oil-pineapple.webp"
   }
  },
  "product-glow-oil-strawberries": {
   "src": "/graphics/product-glow-oil-strawberries.jpg",
-  "w": 1292,
-  "h": 1292,
+  "w": 1323,
+  "h": 1323,
   "webp": {
    "480": "/graphics/product-glow-oil-strawberries-480.webp",
    "960": "/graphics/product-glow-oil-strawberries-960.webp",
-   "1292": "/graphics/product-glow-oil-strawberries.webp"
+   "1323": "/graphics/product-glow-oil-strawberries.webp"
   }
  },
  "product-lampa-pierscieniowa": {
@@ -1441,21 +1441,22 @@
  },
  "product-kartridze-flat-supernatural": {
   "src": "/graphics/product-kartridze-flat-supernatural.jpg",
-  "w": 930,
-  "h": 930,
+  "w": 1291,
+  "h": 1291,
   "webp": {
    "480": "/graphics/product-kartridze-flat-supernatural-480.webp",
-   "930": "/graphics/product-kartridze-flat-supernatural.webp"
+   "960": "/graphics/product-kartridze-flat-supernatural-960.webp",
+   "1291": "/graphics/product-kartridze-flat-supernatural.webp"
   }
  },
  "product-sztuczna-skorka-do-cwiczen": {
   "src": "/graphics/product-sztuczna-skorka-do-cwiczen.jpg",
-  "w": 1023,
-  "h": 1023,
+  "w": 1200,
+  "h": 1200,
   "webp": {
    "480": "/graphics/product-sztuczna-skorka-do-cwiczen-480.webp",
    "960": "/graphics/product-sztuczna-skorka-do-cwiczen-960.webp",
-   "1023": "/graphics/product-sztuczna-skorka-do-cwiczen.webp"
+   "1200": "/graphics/product-sztuczna-skorka-do-cwiczen.webp"
   }
  },
  "product-pedzel-do-brwi": {
@@ -1499,11 +1500,12 @@
  },
  "product-laser-q-switch-ultra": {
   "src": "/graphics/product-laser-q-switch-ultra.jpg",
-  "w": 494,
-  "h": 494,
+  "w": 1008,
+  "h": 1008,
   "webp": {
    "480": "/graphics/product-laser-q-switch-ultra-480.webp",
-   "494": "/graphics/product-laser-q-switch-ultra.webp"
+   "960": "/graphics/product-laser-q-switch-ultra-960.webp",
+   "1008": "/graphics/product-laser-q-switch-ultra.webp"
   }
  },
  "kursantki-basic-01": {
@@ -1744,6 +1746,78 @@
    "480": "/graphics/kolaz-03-480.webp",
    "960": "/graphics/kolaz-03-960.webp",
    "1200": "/graphics/kolaz-03.webp"
+  }
+ },
+ "product-sztuczna-skorka-do-cwiczen-2": {
+  "src": "/graphics/product-sztuczna-skorka-do-cwiczen-2.jpg",
+  "w": 1164,
+  "h": 1164,
+  "webp": {
+   "480": "/graphics/product-sztuczna-skorka-do-cwiczen-2-480.webp",
+   "960": "/graphics/product-sztuczna-skorka-do-cwiczen-2-960.webp",
+   "1164": "/graphics/product-sztuczna-skorka-do-cwiczen-2.webp"
+  }
+ },
+ "product-kartridze-flat-supernatural-2": {
+  "src": "/graphics/product-kartridze-flat-supernatural-2.jpg",
+  "w": 1024,
+  "h": 768,
+  "webp": {
+   "480": "/graphics/product-kartridze-flat-supernatural-2-480.webp",
+   "960": "/graphics/product-kartridze-flat-supernatural-2-960.webp",
+   "1024": "/graphics/product-kartridze-flat-supernatural-2.webp"
+  }
+ },
+ "product-pigmenty-supernatural-2": {
+  "src": "/graphics/product-pigmenty-supernatural-2.jpg",
+  "w": 1600,
+  "h": 1131,
+  "webp": {
+   "480": "/graphics/product-pigmenty-supernatural-2-480.webp",
+   "960": "/graphics/product-pigmenty-supernatural-2-960.webp",
+   "1440": "/graphics/product-pigmenty-supernatural-2-1440.webp",
+   "1600": "/graphics/product-pigmenty-supernatural-2.webp"
+  }
+ },
+ "product-pigmenty-supernatural-3": {
+  "src": "/graphics/product-pigmenty-supernatural-3.jpg",
+  "w": 1600,
+  "h": 1131,
+  "webp": {
+   "480": "/graphics/product-pigmenty-supernatural-3-480.webp",
+   "960": "/graphics/product-pigmenty-supernatural-3-960.webp",
+   "1440": "/graphics/product-pigmenty-supernatural-3-1440.webp",
+   "1600": "/graphics/product-pigmenty-supernatural-3.webp"
+  }
+ },
+ "product-pigmenty-supernatural-4": {
+  "src": "/graphics/product-pigmenty-supernatural-4.jpg",
+  "w": 1600,
+  "h": 1131,
+  "webp": {
+   "480": "/graphics/product-pigmenty-supernatural-4-480.webp",
+   "960": "/graphics/product-pigmenty-supernatural-4-960.webp",
+   "1440": "/graphics/product-pigmenty-supernatural-4-1440.webp",
+   "1600": "/graphics/product-pigmenty-supernatural-4.webp"
+  }
+ },
+ "product-pedzel-do-brwi-2": {
+  "src": "/graphics/product-pedzel-do-brwi-2.jpg",
+  "w": 939,
+  "h": 939,
+  "webp": {
+   "480": "/graphics/product-pedzel-do-brwi-2-480.webp",
+   "939": "/graphics/product-pedzel-do-brwi-2.webp"
+  }
+ },
+ "efekt-snb-01": {
+  "src": "/graphics/efekt-snb-01.jpg",
+  "w": 1200,
+  "h": 1600,
+  "webp": {
+   "480": "/graphics/efekt-snb-01-480.webp",
+   "960": "/graphics/efekt-snb-01-960.webp",
+   "1200": "/graphics/efekt-snb-01.webp"
   }
  }
 }

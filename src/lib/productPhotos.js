@@ -16,9 +16,32 @@ import { PRODUCTS } from './media';
 /* Packshoty, których tło nie jest białe – mnożenie nic by nie dało (czerń zostaje czernią). */
 const DARK_BACKGROUND = new Set(['set-harley-quinn-do-ust', 'ice-gel-ltb-2w1']);
 
-/** { image, blend } dla produktu o danym `id` albo null, gdy zdjęcia nie ma. */
+/* Dodatkowe zdjęcia, które nie są packshotem na białym tle (grafiki z własnym tłem, kolaże –
+   Karina 30.10.2026): bez mnożenia, na kremowym polu. */
+const PLAIN = new Set([
+  'kartridze-flat-supernatural-2',
+  'pigmenty-supernatural-2',
+  'pigmenty-supernatural-3',
+  'pigmenty-supernatural-4',
+]);
+
+/** { image, blend, dark } dla produktu o danym `id` albo null, gdy zdjęcia nie ma. */
 export function productPhoto(id) {
   const image = PRODUCTS[`product-${id}`];
   if (!image) return null;
-  return { image, blend: !DARK_BACKGROUND.has(id) };
+  const dark = DARK_BACKGROUND.has(id);
+  return { image, blend: !dark && !PLAIN.has(id), dark };
+}
+
+/**
+ * Wszystkie zdjęcia produktu do galerii w oknie: główne (product-<id>) i kolejne
+ * product-<id>-2, -3… (Karina 30.10.2026: drugie zdjęcie skóry, kartridży, pędzla w innym
+ * kolorze, grafiki Pigmentów Supernatural). `key` – id zdjęcia (wariant wskazuje je numerem).
+ */
+export function productPhotos(id) {
+  const main = productPhoto(id);
+  if (!main) return [];
+  const out = [{ key: id, n: 1, ...main }];
+  for (let n = 2; PRODUCTS[`product-${id}-${n}`]; n += 1) out.push({ key: `${id}-${n}`, n, ...productPhoto(`${id}-${n}`) });
+  return out;
 }

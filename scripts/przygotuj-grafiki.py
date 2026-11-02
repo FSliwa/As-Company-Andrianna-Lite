@@ -128,8 +128,8 @@ NEW_PRODUCTS = {
     # nazwy żeli – klientka 26.10.2026: „ICE GEL – zielony, ICE GEL LIPS – różowy, ICE LTB GEL – matowy zielony”
     'product-ice-ltb-gel': '2026-10-29 at 22.29.58',  # ICE LTB GEL – zdjęcie od Kariny 29.10 (na białym tle)
     'product-ice-gel-lips': '23.05.37 (1)',         # ICE GEL LIPS – różowy „cooling gel for lips”
-    'product-glow-oil-pineapple': '23.05.37 (2)',
-    'product-glow-oil-strawberries': '23.05.38',
+    'product-glow-oil-pineapple': '2026-10-30 at 14.27.37',     # Karina 30.10 (grupa) – zdjęcie z opisem
+    'product-glow-oil-strawberries': '2026-10-30 at 14.27.17',  # Karina 30.10 (grupa) – zdjęcie z opisem
     'product-lampa-pierscieniowa': '23.05.38 (5)',  # lampa pierścieniowa na statywie
     'product-kartridze-satellite': '23.05.38 (6)',  # opakowanie kartridży SATELLITE
     # Zdjęcia od Kariny z 14.10.2026 (pełny znacznik daty – inna data niż NEW_PREFIX).
@@ -147,11 +147,18 @@ NEW_PRODUCTS = {
     # 26–27.10.2026 – Karina Lesiv (czat i grupa „Strona”)
     'product-as-princess-champagne-gold': '2026-10-26 at 12.39.26',
     'product-ice-gel': '2026-10-29 at 22.26.01',      # ICE GEL – turkusowa butelka (Karina 29.10: „Proszę dodać zdjęcie 1.Ice Gel”)
-    'product-glow-oil-coconut-chocolate': '2026-10-29 at 22.32.21',  # Karina 29.10: „Glow Oil Coconut And Chocolate - 125zł”
-    'product-laser-q-switch-ultra': '2026-10-29 at 22.44.04',        # Karina 29.10: „Laser Q-Switch Ultra”
+    'product-glow-oil-coconut-chocolate': '2026-10-30 at 14.26.51',  # Karina 30.10 – zdjęcie z opisem (wcześniej 29.10 22.32.21)
+    'product-laser-q-switch-ultra': '2026-10-31 at 14.14.58',        # Karina 31.10: „Proszę zmienić laser” (wcześniej 29.10 22.44.04)
     'product-pigmenty-supernatural': '2026-10-27 at 17.44.35',
-    'product-kartridze-flat-supernatural': '2026-10-27 at 17.45.41',
-    'product-sztuczna-skorka-do-cwiczen': '2026-10-27 at 17.46.23',
+    'product-kartridze-flat-supernatural': '2026-10-30 at 14.50.36',  # Karina 30.10: „Proszę zmienić zdjęcia kartridży.”
+    'product-sztuczna-skorka-do-cwiczen': '2026-10-30 at 14.49.09',   # Karina 30.10: „Proszę zmienić zdjęcia sztucznej skóry.”
+    # Dodatkowe zdjęcia w oknie produktu (galeria: product-<id>-2, -3…) – Karina 30.10.2026 (grupa „Strona”)
+    'product-sztuczna-skorka-do-cwiczen-2': '2026-10-30 at 14.49.10',
+    'product-kartridze-flat-supernatural-2': '2026-10-30 at 15.55.30',  # „Oraz dodać zdjęcie do kartridży BABUSHKINA ACADEMY.”
+    'product-pigmenty-supernatural-2': '2026-10-30 at 15.58.17 (24533)',  # „Do pigmentów Supernatural proszę dodać zdjęcie.”
+    'product-pigmenty-supernatural-3': '2026-10-30 at 15.58.17 (24534)',
+    'product-pigmenty-supernatural-4': '2026-10-30 at 15.58.17 (24535)',
+    'product-pedzel-do-brwi-2': '2026-10-30 at 15.59.22',  # „Proszę dodać jeszcze pędzelek w innym kolorze.” (jasny)
     'product-pedzel-do-brwi': '2026-10-27 at 17.52.03',
     'product-pilot-czerwony': '2026-10-27 at 17.52.35',
 }
@@ -161,6 +168,8 @@ PRODUCT_FIT_WHITE = {
     'product-pigmenty-supernatural', 'product-kartridze-flat-supernatural', 'product-set-harley-quinn-do-ust',
     'product-set-paradise-do-ust', 'product-ice-ltb-gel', 'product-glow-oil-coconut-chocolate', 'product-laser-q-switch-ultra',
     'product-sztuczna-skorka-do-cwiczen', 'product-pedzel-do-brwi', 'product-pilot-czerwony',
+    'product-glow-oil-pineapple', 'product-glow-oil-strawberries', 'product-sztuczna-skorka-do-cwiczen-2',
+    'product-pedzel-do-brwi-2',
 }
 # Plakaty kursów spoza listy GROUPS (po nazwie pliku): course-08 – harmonogram kursu
 # dla linergistek Super Natural Brows (Karina Lesiv, 26.10.2026: „harmonogram do kursu za 7 tysięcy”).
@@ -185,6 +194,7 @@ NEW_PHOTOS = {
     'kolaz-01': '2026-10-29 at 23.23.12',            # usta
     'kolaz-02': '2026-10-29 at 23.23.12 (24421)',    # brwi (rękawiczki)
     'kolaz-03': '2026-10-29 at 23.23.12 (24422)',    # brew z okiem
+    'efekt-snb-01': '2026-10-30 at 16.15.14',        # Karina 30.10: „Poproszę to zdjęcie zmienić na:” (4. zdjęcie „Realne efekty”)
 }
 # work-<technika>-NN: (plik, przycięcie (l, t, r, b) w ułamkach – bez doklejonej butelki)
 NEW_WORKS = {

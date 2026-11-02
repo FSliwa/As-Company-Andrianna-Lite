@@ -208,12 +208,13 @@ const HERO_FACTS = [
 /* ------------------------------------------------------------------ */
 
 /* Filip 30.10.2026: „W sekcji Realne efekty, nie renderowane mają być supernatural brows” –
-   cztery prace Super Natural Brows (zdjęcia z podpisem techniki w /Graphics i od Kariny). */
+   cztery prace Super Natural Brows (zdjęcia z podpisem techniki w /Graphics i od Kariny);
+   czwarte – Karina 30.10.2026: „Poproszę to zdjęcie zmienić na:”. */
 const RESULTS = [
   { macro: MACROS.snbBrows10, alt: 'Brwi po makijażu permanentnym techniką Super Natural Brows – zbliżenie' },
   { macro: MACROS.snb01, alt: 'Brew i oko po zabiegu Super Natural Brows – zbliżenie', scale: 1.45, origin: '62% 45%' },
   { macro: MACROS.snbBrows13, alt: 'Brwi wykonane techniką Super Natural Brows – widoczne pojedyncze włoski' },
-  { macro: MACROS.techSnb, alt: 'Brew po makijażu permanentnym Super Natural Brows – efekt po zabiegu' },
+  { macro: MACROS.snbEfekt01, alt: 'Brew po makijażu permanentnym Super Natural Brows – efekt po zabiegu' },
 ].map(({ macro, alt, scale, origin }) => ({ image: macro.image, position: macro.position, alt, scale, origin }));
 
 /* D6 (Z15): źródła nie znają „konsultacji” jako osobnej usługi – krok 01 to rysunek
