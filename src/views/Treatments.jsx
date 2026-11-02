@@ -162,22 +162,10 @@ const TECHNIQUES = [
       alt: 'Brew po makijażu permanentnym techniką pudrową – miękki efekt cienia, obok rzęsy',
     },
   },
-  {
-    id: 'perfect-lips',
-    number: '03',
-    name: 'Perfect Lips',
-    kind: 'Usta permanentne · subtelność i świeżość',
-    price: pmuPrice('perfect-lips'),
-    description:
-      'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
-    photo: {
-      macro: MACROS.techLips,
-      alt: 'Usta po makijażu permanentnym Perfect Lips – efekt po zabiegu',
-    },
-  },
+  /* Karina 29.10.2026 (schemat „ZABIEGI”): Super Natural Brows, Perfect Brows, Perfect Eyes, Perfect Lips */
   {
     id: 'perfect-eyes',
-    number: '04',
+    number: '03',
     name: 'Perfect Eyes', // D2: nazwa wg briefu („Pigmentacja linii „Perfect eyes””)
     kind: 'Pigmentacja linii rzęs · efekt zagęszczenia', // D2: „linia rzęs”, nie „kreska”
     price: pmuPrice('perfect-eyeliners'), // D2: id stałe (dawniej „Perfect Eyeliners”)
@@ -186,6 +174,19 @@ const TECHNIQUES = [
     photo: {
       macro: MACROS.techEyes,
       alt: 'Oko po pigmentacji linii rzęs Perfect Eyes – zbliżenie górnej linii rzęs i tęczówki',
+    },
+  },
+  {
+    id: 'perfect-lips',
+    number: '04',
+    name: 'Perfect Lips',
+    kind: 'Usta permanentne · subtelność i świeżość',
+    price: pmuPrice('perfect-lips'),
+    description:
+      'Efekt zdrowych, równomiernych, naturalnych ust, bez wyraźnych odcieni, bez przerysowanych konturów oraz bez „sztucznego efektu”.',
+    photo: {
+      macro: MACROS.techLips,
+      alt: 'Usta po makijażu permanentnym Perfect Lips – efekt po zabiegu',
     },
   },
 ];
