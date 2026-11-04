@@ -63,7 +63,7 @@ import {
 } from '@/lib/pigments';
 import { CONTACT } from '@/lib/site';
 import { cn, nbspShort } from '@/lib/utils';
-import { ProductCell, SetRow } from '@/components/pigments/ProductCell';
+import { ProductCell } from '@/components/pigments/ProductCell';
 import CatalogFilters from '@/components/pigments/CatalogFilters';
 import ProductDialog from '@/components/pigments/ProductDialog';
 import OrderDialog, { FORM_LIVE } from '@/components/pigments/OrderDialog';
@@ -460,18 +460,19 @@ function Catalog({
                 <h3 className="as-title text-ink">Zestawy</h3>
                 <p className="as-caption max-w-none">Skład zestawu – po kliknięciu nazwy.</p>
               </div>
-              {/* najwyżej 2 kolumny: przy 3 (od xl, ok. 355 px) nazwy i kickery stref łamały się
-                  na 2–4 linie, a kwoty nie trzymały jednej pionowej linii */}
-              <div className="mt-6 grid gap-x-10 lg:grid-cols-2">
+              {/* Karina 4.11.2026: „powiększenia zdjęć zestawów … tak aby były bardziej widoczne,
+                  mniej więcej tak jak zestawy pigmentów” (odcieni) – zestawy jako karty tej samej
+                  siatki co odcienie (duże zdjęcie, nazwa, cena, „Dodaj”, „Szczegóły” = skład) */}
+              <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 short:grid-cols-3 sm:gap-x-8 md:grid-cols-3 xl:grid-cols-4">
                 {(setsCollapsible ? sets.slice(0, SETS_PREVIEW) : sets).map((p) => (
-                  <SetRow key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
+                  <ProductCell key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} heading="h4" />
                 ))}
                 {/* reszta zestawów: poniżej lg zwinięta (MobileMore), od lg w tej samej siatce
                     (display: contents – wiersze wchodzą w kolumny rodzica) */}
                 {setsCollapsible && (
                   <div id="pig-sets-more" className={cn('contents', !setsOpen && 'max-lg:hidden')}>
                     {sets.slice(SETS_PREVIEW).map((p) => (
-                      <SetRow key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} />
+                      <ProductCell key={p.id} product={p} qty={qtyByProduct.get(p.id) || 0} onAdd={onAdd} onDetails={onDetails} heading="h4" />
                     ))}
                   </div>
                 )}

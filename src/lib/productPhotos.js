@@ -14,7 +14,8 @@
 import { PRODUCTS } from './media';
 
 /* Packshoty, których tło nie jest białe – mnożenie nic by nie dało (czerń zostaje czernią). */
-const DARK_BACKGROUND = new Set(['set-harley-quinn-do-ust', 'ice-gel-ltb-2w1']);
+/* Set Harley Quinn – od 29.10.2026 zdjęcie Kariny na białym tle (mnożenie jak inne packshoty). */
+const DARK_BACKGROUND = new Set(['ice-gel-ltb-2w1']);
 
 /* Dodatkowe zdjęcia, które nie są packshotem na białym tle (grafiki z własnym tłem, kolaże –
    Karina 30.10.2026): bez mnożenia, na kremowym polu. */
